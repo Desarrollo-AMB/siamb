@@ -20,7 +20,7 @@ class PermissionController extends Controller
         if (request()->ajax()) {
             
             $permissions = Permission::all();
-            return Datatables::eloquent($permissions)
+            return Datatables::of($permissions)
                 ->addColumn('show_link', '{{ route("permissions.show", $id) }}')
                 ->addColumn('is_private_route', function ($permission) { return Helper::isPrivateRoute($permission->route_name) ? 'Si' : 'No'; })
                 ->addColumn('actions', 'permissions._actions')

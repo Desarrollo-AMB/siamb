@@ -30,8 +30,6 @@
                     @method('DELETE')
                 </form>
             @endif
-
-            
             <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm">Crear</a>
         </div>
     </div>
@@ -81,26 +79,6 @@
 
 @stop
 
-@php
-    $route = route('permissions.index');
-    $options = <<<JAVASCRIPT
-        {
-            ajax: "$route",
-            procesing: true,
-            serverSide: true,
-            columns: [
-                {
-                    data: 'name',
-                    render: (data, type, row) => `<a href='\${row.show_link}'>\${data}</a>`
-                },
-                {data: 'route_name'},
-                {data: 'group'},
-                {data: 'is_private_route'},
-                {data: 'actions'},
-            ],
-        }
-JAVASCRIPT;
-@endphp
 
 @section('scripts')
 <script type="text/javascript">
@@ -110,13 +88,9 @@ JAVASCRIPT;
         serverSide: true,
         ajax: "{{ route('permissions.index') }}",
         columns: [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
             {
                 data: 'name',
-                render: (data, type, row) => `<a href='\${row.show_link}'>\${data}</a>`
+                render: (data, type, row) => `<a href='\${row.show_link}'>`+data+`</a>`
             },
             {data: 'route_name'},
             {data: 'group'},
