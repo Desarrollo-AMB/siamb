@@ -14,6 +14,14 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
+    {{--<script src="{{ asset('js/app.js') }}" defer></script>
+    @vite(['resources/js/app.js']) --}}
+    <!-- Styles CSS -->
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
+
+    @yield('styles')
+    @stack('plugins-css')
     
 </head>
 <body>
@@ -76,5 +84,8 @@
             @yield('content')
         </main>
     </div>
+    @include('layouts.partials.footer-scripts')
+    @yield('scripts')
+    @stack('plugins-js')
 </body>
 </html>
