@@ -1,5 +1,4 @@
-{{-- @extends('layouts.admin.app') --}}
-@extends('adminlte::page')
+@extends('layouts.user_type.auth')
 
 @section('title', 'Permisos')
 
