@@ -1,49 +1,61 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Nuevo Rol</h2>
+@if (count($errors) > 0)
+<div class="alert alert-danger mx-4" role="alert">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+<div class="row">
+    <div class="col-10">
+        <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Nuevo Rol</h5>
+                    </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('roles.index') }}">Volver</a>
+                </div>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('roles.index') }}"> Volver</a>
+            <hr class="horizontal dark my-0">
+            <div class="card-body px-2 pt-2 pb-2">
+                {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Nombre Rol:</strong>
+                            {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Permisos: </strong>
+                            <div class="row"> 
+                                <div class="col-4">
+                                @foreach($permission as $value)
+                                    <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
+                                    {{ $value->name }}</label>
+                                    <br>
+                                    @if ($loop->iteration % 9 ==0)
+                                        </div>
+                                        <div class="col-4">
+                                    @endif
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Nombre Rol:</strong>
-                {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Permisos:</strong>
-                <br/>
-                @foreach($permission as $value)
-                    <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                    {{ $value->name }}</label>
-                <br/>
-                @endforeach
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-    </div>
-    {!! Form::close() !!}
-    <p class="text-center text-primary"><small>...</small></p>
+</div>
 @endsection

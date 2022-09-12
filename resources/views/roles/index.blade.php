@@ -14,7 +14,7 @@
                     <div>
                         <h5 class="mb-0">Administración de Roles</h5>
                     </div>
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0" href="{{ route('roles.create') }}">+&nbsp;Crear Rol</a>
+                    <a class="btn btn-primary btn-sm mb-0" href="{{ route('roles.create') }}">+&nbsp;Crear Rol</a>
                 </div>
             </div>
             <div class="card-body px-2 pt-2 pb-2">
@@ -30,15 +30,24 @@
                             <td class="text-center">{{ ++$i }}</td>
                             <td>{{ $role->name }}</td>
                             <td>
-                                <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}">Show</a>
+                                <a href="{{ route('roles.show',$role->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Mostrar Rol">
+                                    <i class="fas fa-address-book text-secondary" aria-hidden="true"></i>
+                                </a>
                                 @can('Editar Roles')
-                                    <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
+                                <a href="{{ route('roles.edit',$role->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Rol">
+                                    <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                </a>
                                 @endcan
-
-                                @can('role-delete')
-                                    {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
+                                @can('Eliminar Roles')
+                                <a href="#" class="confirm-delete" form-target="delete-form-{{  $role->id }}"
+                                    title="Eliminar" onclick="event.preventDefault();" >
+                                    <i class="cursor-pointer fas fa-trash text-secondary" aria-hidden="true"></i>
+                                </a>
+                                <form id="delete-form-{{  $role->id }}" action="{{ route('roles.destroy',  $role->id) }}"
+                                    method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                                 @endcan
                             </td>
                         </tr>

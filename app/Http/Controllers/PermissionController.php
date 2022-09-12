@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Support\Helper;
 use App\Models\Permission;
 use App\Http\Requests\PermissionRequest;
-use RealRashid\SweetAlert\Facades\Alert;
 use DataTables;
 
 class PermissionController extends Controller
@@ -45,7 +44,7 @@ class PermissionController extends Controller
     public function create()
     {
         $permission = new Permission();
-        $privateRoutesWithoutPermission = Helper::getPrivateRoutesWithoutPermission();
+        $privateRoutesWithoutPermission = Helper::getRoutesWithoutPermission();
         $permissionsGroups = Permission::all()
             ->groupBy('group')
             ->keys();
@@ -68,9 +67,8 @@ class PermissionController extends Controller
     {
         Permission::create($request->validated());
 
-        Alert::toast('Permiso creado exitosamente', 'success');
-
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')
+            ->with('success','Permiso creado satisfactoriamente');
     }
 
     /**
@@ -94,9 +92,8 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        $this->authorize('manage', $permission);
-        
-        $privateRoutesWithoutPermission = Helper::getPrivateRoutesWithoutPermission();
+            
+        $privateRoutesWithoutPermission = Helper::getRoutesWithoutPermission();
         $permissionsGroups = Permission::all()
             ->groupBy('group')
             ->keys();
@@ -118,15 +115,10 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, Permission $permission)
     {
-        $this->authorize('manage', $permission);
-        
         $permission->update($request->validated());
-
         app()['cache']->forget('spatie.permission.cache');
-
-        Alert::toast('Permiso editado exitosamente', 'success');
-
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')
+            ->with('success','Permiso editado satisfactoriamente');
     }
 
     /**
@@ -138,15 +130,12 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        $this->authorize('manage', $permission);
-
         $permission->delete();
 
         app()['cache']->forget('spatie.permission.cache');
 
-        Alert::toast('Permisso eliminado exitosamente', 'success');
-
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')
+            ->with('success','Permiso eliminado satisfactoriamente');
     }
 
     /**
@@ -163,8 +152,7 @@ class PermissionController extends Controller
 
         app()['cache']->forget('spatie.permission.cache');
 
-        Alert::toast('Permissos innecesarios eliminados exitosamente', 'success');
-
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')
+            ->with('success','Permisos innecesarios eliminados exitosamente');
     }
 }
