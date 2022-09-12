@@ -40,3 +40,7 @@ Route::group(['middleware' => ['auth']], function() {
 		return view('home');
 	})->name('dashboard');
 });
+
+Route::get('no_authorize', function () {
+    return view('no_authorize');
+})->name('no_authorize');
