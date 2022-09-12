@@ -1,49 +1,62 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Editar Rol</h3>
-        <div class="float-right">
-   
-                <a class="btn btn-primary" href="{{ route('roles.index') }}"> Volver</a>
-        </div>
-    </div>
-    <div class="card-body">
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-        @endif
-        {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nombre Rol:</strong>
-                    {!! Form::text('name', null, array('placeholder' => 'Rol','class' => 'form-control')) !!}
+@if (count($errors) > 0)
+<div class="alert alert-danger mx-4" role="alert">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+<div class="row">
+    <div class="col-10">
+        <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Editar Rol</h5>
+                    </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('roles.index') }}">Volver</a>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Permisos:</strong>
-                    <br/>
-                    @foreach($permission as $value)
-                        <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                        {{ $value->name }}</label>
-                    <br/>
-                    @endforeach
+            <hr class="horizontal dark my-0">
+            <div class="card-body px-2 pt-2 pb-2">
+                {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Nombre Rol:</strong>
+                            {!! Form::text('name', null, array('placeholder' => 'Rol','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Permisos:</strong>
+                            <div class="row"> 
+                                <div class="col-4">
+                                @foreach($permission as $value)
+                                    <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
+                                    {{ $value->name }}</label>
+                                    <br/>
+                                    @if ($loop->iteration % 9 ==0)
+                                        </div>
+                                        <div class="col-4">
+                                    @endif
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Actualizar</button>
+                {!! Form::close() !!}
             </div>
         </div>
-        {!! Form::close() !!}
     </div>
 </div>
-    <p class="text-center text-primary"><small>...</small></p>
+    
 @endsection
