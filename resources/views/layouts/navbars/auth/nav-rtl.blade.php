@@ -16,15 +16,15 @@
             </div>
           </div>
           <ul class="navbar-nav me-auto ms-0 justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                {{ __('Salir') }}
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
-                <a href="" class="nav-link text-body font-weight-bold px-0">
-                    <i class="fa fa-user me-sm-1"></i>
-                    <span class="d-sm-inline ">Salir</span>
-                </a>
             </form>
-            </li>
             <li class="nav-item d-xl-none pe-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">

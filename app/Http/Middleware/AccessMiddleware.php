@@ -20,12 +20,13 @@ class AccessMiddleware
         $user = $request->user();
         $routeName = $request->route()->getName();
         $permission = Permission::where('route_name', $routeName)->first();
-
-        // dd($user, $routeName, $permission, $user->can($permission->name));
+        
+        //dd($user, $routeName, $permission, $user->can($permission->name));
         if ($permission && $user->can($permission->name)) {
             return $next($request);
         } else {
-            abort(403);
+            return redirect('/no_authorize');
+            //abort(403);
         }
     }
 }
