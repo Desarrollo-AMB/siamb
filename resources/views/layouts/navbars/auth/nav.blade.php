@@ -22,13 +22,14 @@
             </div>
             <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
-                
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
+                    <i class="fa fa-user me-sm-1"></i>
+                    {{ __('Salir') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
-                    <a href="" class="nav-link text-body font-weight-bold px-0">
-                        <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline ">Salir</span>
-                    </a>
                 </form>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
