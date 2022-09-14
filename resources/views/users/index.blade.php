@@ -23,6 +23,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nro.</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roles</th>
@@ -33,6 +34,7 @@
                             @foreach ($data as $key => $user)
                             <tr>
                                 <td class="text-center">{{ ++$i }}</td>
+                                <td>{{ $user->username }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>

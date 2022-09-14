@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProfilesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +40,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('dashboard', function () {
 		return view('home');
 	})->name('dashboard');
+    Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
+    Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
 });
 
 Route::get('no_authorize', function () {

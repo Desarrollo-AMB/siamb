@@ -27,3 +27,4 @@ Homestead.json
 /public/build
 /storage/*.key
 /public/storage
+/public/uploads
