@@ -23,8 +23,8 @@
             <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
                 <a class="dropdown-item" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
+                    <i class="fa fa-user me-sm-1"></i>
                     {{ __('Salir') }}
                 </a>
 

@@ -34,10 +34,10 @@
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu del Sistema</h6>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ (Request::is('user-profile') ? 'active' : '') }} " href="{{ url('user-profile') }}">
+        <a class="nav-link {{ (Request::is('profile') ? 'active' : '') }} " href="{{ url('profile') }}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <title>Datos Usuario</title>
+                    <title>Perfil Usuario</title>
                     <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Rounded-Icons" transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
                             <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
@@ -51,7 +51,7 @@
                     </g>
                 </svg>
             </div>
-            <span class="nav-link-text ms-1">Datos de Usuario</span>
+            <span class="nav-link-text ms-1">Perfil Usuario</span>
         </a>
       </li>
       @role('Admin')

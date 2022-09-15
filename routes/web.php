@@ -6,7 +6,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\FormController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProfilesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,11 +26,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-Route::group(['middleware' => ['auth']], function() {
-    Route::get('dashboard', function () {
-		return view('home');
-	})->name('dashboard');
+Route::get('/logout', [LoginController::class, 'logout']);
+Route::group(['middleware' => ['auth','access']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
@@ -37,3 +35,15 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('form', [FormController::class, 'index'])->name('form');
 });
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('dashboard', function () {
+		return view('home');
+	})->name('dashboard');
+    Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
+    Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
+});
+
+Route::get('no_authorize', function () {
+    return view('no_authorize');
+})->name('no_authorize');

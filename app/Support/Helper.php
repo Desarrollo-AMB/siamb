@@ -173,17 +173,31 @@ HTML;
      * @return \Illuminate\Support\Collection
      */
     public static function getPrivateRoutesWithoutPermission()
-    {
+    { 
         $routes = collect(Route::getRoutes()->getRoutes())
             ->filter(function ($route){
                 $permissionExists = Permission::where('route_name', $route->getName())->get()->count();
                 // Check and Return if is a private route and don't have any permission
                 return in_array('access', $route->gatherMiddleware()) && !$permissionExists;
             });
-        
         return $routes;
     }
 
+/**
+     * Returns all routes without permission
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getRoutesWithoutPermission()
+    { 
+        $routes = collect(Route::getRoutes()->getRoutes())
+            ->filter(function ($route){
+                $permissionExists = Permission::where('route_name', $route->getName())->get()->count();
+                // Check and Return if don't have any permission
+                return !$permissionExists;
+            });
+return $routes;
+    }
     /**
      * Returns the total permissions notifications, counting both 
      * unnecessary permissions and private routes without permission

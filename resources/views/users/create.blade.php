@@ -2,7 +2,7 @@
 @section('title', 'Usuarios')
 @section('content')
 @if (count($errors) > 0)
-<div class="alert alert-danger">
+<div class="alert alert-danger mx-4" role="alert">
     <ul>
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -18,7 +18,7 @@
                     <div>
                         <h5 class="mb-0">Nuevo Usuario</h5>
                     </div>
-                    <a class="btn btn-primary" href="{{ route('users.index') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('users.index') }}">Volver</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -29,6 +29,12 @@
                         <div class="form-group">
                             <strong>Nombre:</strong>
                             {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Usuario:</strong>
+                            {!! Form::text('username', null, array('placeholder' => 'Usuario','class' => 'form-control')) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
