@@ -76,7 +76,7 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
 
 .form-control {
   background-color: #F3F2EE;
-  border: 1px solid #e8e7e3;
+  border: 1px solid #1417277a;
   border-radius: 4px;
   color: #66615b;
   font-size: 14px;
@@ -86,7 +86,7 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
   box-shadow: none;
 }
 .form-control:focus {
-  border: 1px solid #e8e7e3;
+  border: 1px solid #1417273d;
   background-color: #FFFFFF;
   -webkit-box-shadow: none;
   box-shadow: none;

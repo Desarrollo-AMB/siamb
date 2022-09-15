@@ -57,24 +57,73 @@
                                         <div class="tab-pane" id="about">
                                             <div class="row">
                                                 <br>
-                                                <div class="col-sm-12">
+                                                <div style="padding-top: 30px;" class="col-sm-12">
                                                     <h5 style="float: left" class="info-text"> Detalles del vuelo </h5>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <h6>First Name <small>(required)</small></h6>
-                                                        <input name="firstname" type="text" class="form-control" placeholder="Andrew...">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>Fecha <small>(requerido)</small></h6>
+                                                            <input name="date" type="date" class="form-control" required>
+                                                        </div>
                                                     </div>
-                                                    <hr>
-                                                    <div class="form-group">
-                                                        <h6>Last Name <small>(required)</small></h6>
-                                                        <input name="lastname" type="text" class="form-control" placeholder="Smith...">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>OV / OTA / OM <small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>AERONAVE / MODELO<small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>SERIAL<small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-10 col-sm-offset-1">
-                                                    <div class="form-group">
-                                                        <h6>Email <small>(required)</small></h6>
-                                                        <input name="email" type="email" class="form-control" placeholder="andrew@creative-tim.com">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>MATRICULA <small>(requerido)</small></h6>
+                                                            <input name="date" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>COMPONENTE / ORGANISMO <small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>UNIDAD<small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-sm-offset-1">
+                                                        <div class="form-group">
+                                                            <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
+                                                            <input name="text" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="form-group">
+                                                            <h6>CEDULA<small></small></h6>
+                                                            <input name="text" type="text" class="form-control">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
