@@ -18,18 +18,21 @@
     <div class="col-12">
         <div class="card mb-4 mx-4">
             <div class="card-header pb-0 mb-2">
-                <div class="d-flex flex-row justify-content-between">
-                    <div>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <div class="mr-auto p-1">
                         <h5 class="mb-0">Administracion de Permisos</h5>
                     </div>
                     @if ($privateRoutesWithoutPermission->count())
-                        <button type="button" class="btn btn-secondary btn-sm mb-0" data-toggle="modal" 
+                    <div class="p-2">
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" 
                             data-target="#modal-private-routes-without-permission">
-                            Mostrar Rutas Privadas sin Permisos ({{ $privateRoutesWithoutPermission->count() }})
+                            Rutas Privadas sin Permisos ({{ $privateRoutesWithoutPermission->count() }})
                         </button>
+                    </div>
                     @endif
                     @if ($unnecessaryPermissions->count())
-                        <a href="#" class="btn btn-danger btn-sm mb-0"
+                    <div class="p-2">
+                        <a href="#" class="btn btn-danger btn-sm"
                             onclick="event.preventDefault();
                             document.getElementById('clean-permissions-form').submit();"
                             >Eliminar Permisos Innecesarios ({{ $unnecessaryPermissions->count() }})</a>
@@ -37,8 +40,11 @@
                             @csrf
                             @method('DELETE')
                         </form>
+                    </div>
                     @endif
-                    <a href="{{ route('permissions.create') }}" class="btn btn-bg-gradient-primary btn-sm mb-0">+&nbsp;Crear</a>
+                    <div class="p-2">
+                        <a href="{{ route('permissions.create') }}" class="btn btn-bg-gradient-primary btn-sm">+&nbsp;Crear</a>
+                    </div>
                 </div>
             </div>
             <div class="card-body px-2 pt-2 pb-2">
