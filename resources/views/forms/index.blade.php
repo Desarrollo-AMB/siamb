@@ -20,7 +20,7 @@
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
                                         <h3 class="wizard-title">Formulario Orden de Vuelo</h3>
-                                        <p class="category">This information will let us know more about you.</p>
+                                        <p class="category">Generar Ordenes de Vuelo.</p>
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
@@ -32,7 +32,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-user"></i>
                                                     </div>
-                                                    About
+                                                    <p style="color: #707885">Paso numero uno</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -40,7 +40,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-settings"></i>
                                                     </div>
-                                                    Work
+                                                    <p style="color: #707885">Paso numero dos</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -48,7 +48,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-map"></i>
                                                     </div>
-                                                    Address
+                                                    <p style="color: #707885">Paso numero tres</p>
                                                 </a>
                                             </li>
                                         </ul>
@@ -56,19 +56,24 @@
                                     <div class="tab-content">
                                         <div class="tab-pane" id="about">
                                             <div class="row">
+                                                <br>
+                                                <div class="col-sm-12">
+                                                    <h5 style="float: left" class="info-text"> Detalles del vuelo </h5>
+                                                </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <label>First Name <small>(required)</small></label>
+                                                        <h6>First Name <small>(required)</small></h6>
                                                         <input name="firstname" type="text" class="form-control" placeholder="Andrew...">
                                                     </div>
+                                                    <hr>
                                                     <div class="form-group">
-                                                        <label>Last Name <small>(required)</small></label>
+                                                        <h6>Last Name <small>(required)</small></h6>
                                                         <input name="lastname" type="text" class="form-control" placeholder="Smith...">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-10 col-sm-offset-1">
                                                     <div class="form-group">
-                                                        <label>Email <small>(required)</small></label>
+                                                        <h6>Email <small>(required)</small></h6>
                                                         <input name="email" type="email" class="form-control" placeholder="andrew@creative-tim.com">
                                                     </div>
                                                 </div>
@@ -152,12 +157,12 @@
                                     </div>
                                     <div class="wizard-footer">
                                         <div class="pull-right">
-                                            <input type='button' class='btn btn-next btn-fill btn-warning btn-wd' name='next' value='Next' />
-                                            <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd' name='finish' value='Finish' />
+                                            <input type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente' />
+                                            <input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Terminar' />
                                         </div>
     
                                         <div class="pull-left">
-                                            <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Previous' />
+                                            <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Atras' />
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
