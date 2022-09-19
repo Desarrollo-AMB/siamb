@@ -43,7 +43,9 @@ class RoleController extends Controller
     public function create()
     {
         $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $permissionsGrouped = Permission::orderBy('group')->get()
+            ->groupBy('group');
+        return view('roles.create',compact('permissionsGrouped'));
     }
   
     /**
@@ -78,7 +80,8 @@ class RoleController extends Controller
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
             ->where("role_has_permissions.role_id",$id)
             ->get();
-    
+        $permissionsGrouped = Permission::orderBy('group','ASC')->get()
+            ->groupBy('group');
         return view('roles.show',compact('role','rolePermissions'));
     }
     
@@ -92,11 +95,13 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $permission = Permission::get();
+        $permissionsGrouped = Permission::orderBy('group','ASC')->get()
+            ->groupBy('group');
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
     
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        return view('roles.edit',compact('role','permissionsGrouped','rolePermissions'));
     }
    
     /**

@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <strong>Permisos: </strong>
                             <div class="row"> 
-                                <div class="col-4">
+                                {{--<div class="col-4">
                                 @foreach($permission as $value)
                                     <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
                                     {{ $value->name }}</label>
@@ -45,7 +45,32 @@
                                         <div class="col-4">
                                     @endif
                                 @endforeach
+                                </div>--}}
+                                @foreach ($permissionsGrouped as $permissionGroup => $permissions)
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
+                                            <h5 class="card-title">{{ "$permissionGroup" }}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                @foreach ($permissions as $permission)
+                                                    <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" 
+                                                        id="permission-{{ $permission->id }}"
+                                                        name="permission[]"
+                                                        value="{{ $permission->id }}"
+                                                       >
+                                                    <label for="permission-{{ $permission->id }}" class="custom-control-label">
+                                                        {{ "$permission->name"  }}
+                                                    </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
