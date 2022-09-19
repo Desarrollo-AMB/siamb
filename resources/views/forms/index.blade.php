@@ -19,7 +19,7 @@
                             <div class="card wizard-card" data-color="orange" id="wizardProfile">
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
-                                        <h3 class="wizard-title">Formulario Orden de Vuelo</h3>
+                                        <h3 class="wizard-title">FAM-0002A</h3>
                                         <p class="category">Generar Ordenes de Vuelo.</p>
                                     </div>
                                     <div class="wizard-navigation">
@@ -32,7 +32,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-user"></i>
                                                     </div>
-                                                    <p style="color: #707885">Paso numero uno</p>
+                                                    <p style="font-size:11px; color: #707885">Datos</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -40,7 +40,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-settings"></i>
                                                     </div>
-                                                    <p style="color: #707885">Paso numero dos</p>
+                                                    <p style="font-size:11px; color: #707885">A1 - DATOS DE LA MISIÓN</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -48,7 +48,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-map"></i>
                                                     </div>
-                                                    <p style="color: #707885">Paso numero tres</p>
+                                                    <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
                                                 </a>
                                             </li>
                                         </ul>
