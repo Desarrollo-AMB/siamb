@@ -19,8 +19,8 @@
                             <div class="card wizard-card" data-color="orange" id="wizardProfile">
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
-                                        <h3 class="wizard-title">Formulario Orden de Vuelo</h3>
-                                        <p class="category">This information will let us know more about you.</p>
+                                        <h3 class="wizard-title">FAM-0002A</h3>
+                                        <p class="category">Generar Ordenes de Vuelo.</p>
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
@@ -32,7 +32,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-user"></i>
                                                     </div>
-                                                    About
+                                                    <p style="font-size:11px; color: #707885">Datos</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -40,7 +40,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-settings"></i>
                                                     </div>
-                                                    Work
+                                                    <p style="font-size:11px; color: #707885">A1 - DATOS DE LA MISIÓN</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -48,7 +48,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-map"></i>
                                                     </div>
-                                                    Address
+                                                    <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
                                                 </a>
                                             </li>
                                         </ul>
@@ -56,20 +56,74 @@
                                     <div class="tab-content">
                                         <div class="tab-pane" id="about">
                                             <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label>First Name <small>(required)</small></label>
-                                                        <input name="firstname" type="text" class="form-control" placeholder="Andrew...">
+                                                <br>
+                                                <div style="padding-top: 30px;" class="col-sm-12">
+                                                    <h5 style="float: left" class="info-text"> Detalles del vuelo </h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>Fecha <small>(requerido)</small></h6>
+                                                            <input name="date" type="date" class="form-control" required>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Last Name <small>(required)</small></label>
-                                                        <input name="lastname" type="text" class="form-control" placeholder="Smith...">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>OV / OTA / OM <small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>AERONAVE / MODELO<small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>SERIAL<small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-10 col-sm-offset-1">
-                                                    <div class="form-group">
-                                                        <label>Email <small>(required)</small></label>
-                                                        <input name="email" type="email" class="form-control" placeholder="andrew@creative-tim.com">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>MATRICULA <small>(requerido)</small></h6>
+                                                            <input name="date" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>COMPONENTE / ORGANISMO <small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <h6>UNIDAD<small>(requerido)</small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-sm-offset-1">
+                                                        <div class="form-group">
+                                                            <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
+                                                            <input name="text" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                        <div class="form-group">
+                                                            <h6>CEDULA<small></small></h6>
+                                                            <input name="text" type="text" class="form-control">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,12 +206,12 @@
                                     </div>
                                     <div class="wizard-footer">
                                         <div class="pull-right">
-                                            <input type='button' class='btn btn-next btn-fill btn-warning btn-wd' name='next' value='Next' />
-                                            <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd' name='finish' value='Finish' />
+                                            <input type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente' />
+                                            <input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Terminar' />
                                         </div>
     
                                         <div class="pull-left">
-                                            <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Previous' />
+                                            <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Atras' />
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>

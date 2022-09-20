@@ -31,9 +31,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
-    Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean');
-
-    Route::get('form', [FormController::class, 'index'])->name('form');
+    Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean'); 
 });
 
 Route::group(['middleware' => ['auth']], function() {
@@ -42,6 +40,7 @@ Route::group(['middleware' => ['auth']], function() {
 	})->name('dashboard');
     Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
+    Route::get('form', [FormController::class, 'index'])->name('form');
 });
 
 Route::get('no_authorize', function () {
