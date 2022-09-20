@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\FormController;
+use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
 /*
@@ -40,7 +40,11 @@ Route::group(['middleware' => ['auth']], function() {
 	})->name('dashboard');
     Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
-    Route::get('form', [FormController::class, 'index'])->name('form');
+});
+
+//RUTA FORMULARIO FAM002A - B 
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('FormaFAM', [FormaFAMController::class, 'index'])->name('FormaFAM');
 });
 
 Route::get('no_authorize', function () {

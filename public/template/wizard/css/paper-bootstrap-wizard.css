@@ -103,7 +103,7 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
 }
 .has-success .form-control, .form-control.valid {
   color: #66615b;
-  border-color: #e8e7e3;
+  border-color: #66b700c4;
 }
 .has-error .form-control:focus, .form-control.error:focus {
   background-color: #FFFFFF;
