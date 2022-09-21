@@ -66,10 +66,10 @@
                                             <div class="row">
                                                 <br>
                                                 <div style="padding-top: 30px;" class="col-sm-12">
-                                                    <h5 style="float: left" class="info-text"> Detalles del vuelo </h5>
+                                                    <h5 style="float: left" class="info-text">FAM-0002A</h5>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>1. FECHA <small></small></h6>
                                                             <input name="date" type="date" class="form-control" required>
@@ -81,14 +81,14 @@
                                                             <input name="lastname" type="text" class="form-control" placeholder="">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>3. AERONAVE / MODELO</h6>
                                                             <select name="country" class="form-control">
-                                                                <option >Seleccionar.. </option>
-                                                                <option value="Afghanistan"> AVION </option>
-                                                                <option value="Albania"> Helicoptero </option>
-                                                                <option value="Algeria"> Avioneta </option>
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($aeronaveModelos as $naves) 
+                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -109,17 +109,22 @@
                                                         <div class="form-group">
                                                             <h6>5. MATRICULA <small></small></h6>
                                                             <select name="country" class="form-control">
-                                                                <option >Seleccionar.. </option>
-                                                                <option value="Afghanistan"> AMB-1741 (FF-16A) </option>
-                                                                <option value="Albania"> AMB-44r (F-6A) </option>
-                                                                <option value="Algeria"> ACC-12ss (D-1A) </option>
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($matriculas as $data) 
+                                                                    <option value="{{$data->id}}">{{$data->matricula}}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>6. COMPONENTE / ORGANISMO <small></small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                            <select name="country" class="form-control">
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($componentes as $data) 
+                                                                    <option value="{{$data->id}}">{{$data->componente}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -127,7 +132,12 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>7. UNIDAD<small></small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                            <select name="country" class="form-control">
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($unidad as $data) 
+                                                                    <option value="{{$data->id}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -142,12 +152,12 @@
                                                             <input name="text" type="text" class="form-control">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3 col-sm-offset-1">
+                                                    {{-- <div class="col-sm-3 col-sm-offset-1">
                                                         <div class="form-group">
                                                             <h6>CEDULA<small></small></h6>
                                                             <input name="text" type="text" class="form-control">
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -284,5 +294,9 @@
 @endsection
 
 @section('scripts')
- 
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
 @endsection

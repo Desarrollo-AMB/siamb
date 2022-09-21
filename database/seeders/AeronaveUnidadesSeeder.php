@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\AeronaveUnidades;
+use App\Models\AeronaveModelo;
+use App\Models\AeronaveMatricula;
+use App\Models\ComponenteOrganismo;
+use App\Models\VueloEnApoyo;
+use App\Models\VueloOrdenadaPor;
+use App\Models\FuncionTripulante;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +21,7 @@ class AeronaveUnidadesSeeder extends Seeder
      */
     public function run()
     {
-        $items = [            
+        $items = [
             ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº4', 'codigos' => 'G-4'],
             ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº5', 'codigos' => 'G-5'],
             ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº6', 'codigos' => 'G-6'],
@@ -33,28 +39,402 @@ class AeronaveUnidadesSeeder extends Seeder
             ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº18', 'codigos' => 'G-18'],
             ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº19', 'codigos' => 'G-19'],
         ];
-    
+
         foreach ($items as $item) {
             AeronaveUnidades::create($item);
         }
 
-        
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        
+        $aeronaves = [
+            ['aeronave' => 'AIRBUS A319',                          'modelo' => 'A319CJ'],
+            ['aeronave' => 'AS532 COUGAR',                         'modelo' => 'AS_532'],
+            ['aeronave' => 'BOEING 707-320C',                      'modelo' => 'B_737'],
+            ['aeronave' => 'EMBRAER 190',                          'modelo' => 'EMB190'],
+            ['aeronave' => 'DASSAULT FALCON 900EX',                'modelo' => 'F_900EX'],
+            ['aeronave' => 'MI17',                                 'modelo' => 'MI17'],
+            ['aeronave' => 'BERIEV BE-200',                        'modelo' => 'BE_200'],
+            ['aeronave' => 'BEECHCRAFT SUPER KING AIR',            'modelo' => 'B_350'],
+            ['aeronave' => 'CESSNA 550 CITATION II',               'modelo' => 'C_550'],
+            ['aeronave' => 'SHAANXI Y-8 F-200W',                   'modelo' => 'Y8F200W'],
+            ['aeronave' => 'LOCKHEED C-130 HERCULES',              'modelo' => 'C_130HV'],
+            ['aeronave' => 'SHORTS 360',                           'modelo' => 'SD_360'],
+            ['aeronave' => 'FAIRCHILD C-26 METROLINER',            'modelo' => 'C_26'],
+            ['aeronave' => 'CESSNA SKYLANE 182',                   'modelo' => 'C_182S'],
+            ['aeronave' => 'CESSNA 206',                           'modelo' => 'C_206H'],
+            ['aeronave' => 'CESSNA 208 CARAVAN',                   'modelo' => 'C_208B'],
+            ['aeronave' => 'DORNIER DO 228',                       'modelo' => 'DO_228'],
+            ['aeronave' => 'EUROCOPTER AS332 SUPER PUMA',          'modelo' => 'AS332B1'],
+            ['aeronave' => 'AS532 COUGAR',                         'modelo' => 'AS532AC'],
+            ['aeronave' => 'SUKHOI SU-30MK2',                      'modelo' => 'SU30MK2'],
+            ['aeronave' => 'HONGDU K-8W KARAKORUM',                'modelo' => 'K8_W'],
+            ['aeronave' => 'CESSNA 421',                           'modelo' => 'C_421'],
+            ['aeronave' => 'SUKHOI SU-30MK2',                      'modelo' => 'SU30MK2'],
+            ['aeronave' => 'EMBRAER EMB 312 TUCANO',               'modelo' => 'T_27'],
+            ['aeronave' => 'AERMACCHI SF.260',                     'modelo' => 'F_260'],
+            ['aeronave' => 'HONGDU K-8W KARAKORUM',                'modelo' => 'k8_W'],
+            ['aeronave' => 'F-16 FIGHTING FALCON',                 'modelo' => 'F_16'],
+            ['aeronave' => 'MIL MI-17V5',                          'modelo' => 'MI17V5'],
+            ['aeronave' => 'DIAMOND AIRCRAFT DA-40 DIAMOND STAR',  'modelo' => 'DA40NG'],
+            ['aeronave' => 'DIAMOND AIRCRAFT DA-42 TWIN STAR',     'modelo' => 'DA42VI'],
+            ['aeronave' => 'ENSTROM 480',                          'modelo' => 'EN480B'],
+            ['aeronave' => 'ENSTROM 280FX',                        'modelo' => 'EN280FX'],
+        ];
+
+        foreach ($aeronaves as $modelos) {
+            AeronaveModelo::create($modelos);
+        }
+
+        $matriculas = [
+            ['matricula' => '0001',          'aeronave_id' => 1],
+            ['matricula' => '59089',         'aeronave_id' => 2],
+            ['matricula' => 'FANB-50200',    'aeronave_id' => 2],
+            ['matricula' => '59180',         'aeronave_id' => 2],
+            ['matricula' => '50109',         'aeronave_id' => 2],
+            ['matricula' => '50201',         'aeronave_id' => 2],
+            ['matricula' => '59194',         'aeronave_id' => 2],
+            ['matricula' => '59195',         'aeronave_id' => 2],
+            ['matricula' => '50202',         'aeronave_id' => 2],
+            ['matricula' => '50203',         'aeronave_id' => 2],
+            ['matricula' => '0207',          'aeronave_id' => 3],
+            ['matricula' => 'YV3016',        'aeronave_id' => 4],
+            ['matricula' => 'YV2486',        'aeronave_id' => 5],
+            ['matricula' => 'YV2485',        'aeronave_id' => 5],
+            ['matricula' => '61120 ',        'aeronave_id' => 6],
+            ['matricula' => '61029',         'aeronave_id' => 6],
+            ['matricula' => '0501',          'aeronave_id' => 6],
+            ['matricula' => '2909',          'aeronave_id' => 6],
+            ['matricula' => '1607',          'aeronave_id' => 6],
+            ['matricula' => '1811',          'aeronave_id' => 6],
+            ['matricula' => '0804',          'aeronave_id' => 6],
+            ['matricula' => '0705',          'aeronave_id' => 6],
+            ['matricula' => '0764',          'aeronave_id' => 6],
+            ['matricula' => '5134',          'aeronave_id' => 7],
+            ['matricula' => '1112',          'aeronave_id' => 7],
+            ['matricula' => '1111',          'aeronave_id' => 8],
+            ['matricula' => '2836',          'aeronave_id' => 8],
+            ['matricula' => '1603',          'aeronave_id' => 9],
+            ['matricula' => '0403',          'aeronave_id' => 9],
+            ['matricula' => '0102',          'aeronave_id' => 10],
+            ['matricula' => '1909',          'aeronave_id' => 10],
+            ['matricula' => '2509',          'aeronave_id' => 10],
+            ['matricula' => '2810',          'aeronave_id' => 10],
+            ['matricula' => '2803',          'aeronave_id' => 10],
+            ['matricula' => '2410',          'aeronave_id' => 10],
+            ['matricula' => '1192',          'aeronave_id' => 10],
+            ['matricula' => '2703',          'aeronave_id' => 10],
+            ['matricula' => '9508',          'aeronave_id' => 11],
+            ['matricula' => '3134',          'aeronave_id' => 11],
+            ['matricula' => '4951',          'aeronave_id' => 11],
+            ['matricula' => '5320',          'aeronave_id' => 11],
+            ['matricula' => '2358',          'aeronave_id' => 12],
+            ['matricula' => '0009',          'aeronave_id' => 13],
+            ['matricula' => '1964',          'aeronave_id' => 13],
+            ['matricula' => '1778',          'aeronave_id' => 14],
+            ['matricula' => '1501',          'aeronave_id' => 14],
+            ['matricula' => '4283',          'aeronave_id' => 14],
+            ['matricula' => '1836',          'aeronave_id' => 14],
+            ['matricula' => '0505',          'aeronave_id' => 15],
+            ['matricula' => '0506',          'aeronave_id' => 15],
+            ['matricula' => '1235',          'aeronave_id' => 15],
+            ['matricula' => '1257',          'aeronave_id' => 15],
+            ['matricula' => '1328',          'aeronave_id' => 15],
+            ['matricula' => '1565',          'aeronave_id' => 15],
+            ['matricula' => '1810',          'aeronave_id' => 15],
+            ['matricula' => '2104',          'aeronave_id' => 15],
+            ['matricula' => '2154',          'aeronave_id' => 15],
+            ['matricula' => '2602',          'aeronave_id' => 15],
+            ['matricula' => '2709',          'aeronave_id' => 15],
+            ['matricula' => '2964',          'aeronave_id' => 15],
+            ['matricula' => '3110',          'aeronave_id' => 15],
+            ['matricula' => '0956',          'aeronave_id' => 16],
+            ['matricula' => '1708',          'aeronave_id' => 16],
+            ['matricula' => '2406',          'aeronave_id' => 16],
+            ['matricula' => '4292',          'aeronave_id' => 16],
+            ['matricula' => 'YV-2980',       'aeronave_id' => 17],
+            ['matricula' => 'YV-3000',       'aeronave_id' => 17],
+            ['matricula' => 'YV-3083',       'aeronave_id' => 17],
+            ['matricula' => '49614',         'aeronave_id' => 18],
+            ['matricula' => '0121',          'aeronave_id' => 18],
+            ['matricula' => '5110',          'aeronave_id' => 18],
+            ['matricula' => '50109',         'aeronave_id' => 19],
+            ['matricula' => '50201',         'aeronave_id' => 19],
+            ['matricula' => '59194',         'aeronave_id' => 19],
+            ['matricula' => '59195',         'aeronave_id' => 19],
+            ['matricula' => '50202',         'aeronave_id' => 19],
+            ['matricula' => '50203',         'aeronave_id' => 19],
+            ['matricula' => '59089',         'aeronave_id' => 19],
+            ['matricula' => 'FANB-50200',    'aeronave_id' => 19],
+            ['matricula' => '59180',         'aeronave_id' => 19],
+            ['matricula' => '0460',         'aeronave_id' =>20],
+            ['matricula' => '1259',         'aeronave_id' =>20],
+            ['matricula' => '1265',         'aeronave_id' =>20],
+            ['matricula' => '8963',         'aeronave_id' =>20],
+            ['matricula' => '0962',         'aeronave_id' =>20],
+            ['matricula' => '0167',         'aeronave_id' =>20],
+            ['matricula' => '1075',         'aeronave_id' =>20],
+            ['matricula' => '0457',         'aeronave_id' =>20],
+            ['matricula' => '9959',         'aeronave_id' =>20],
+            ['matricula' => '1175',         'aeronave_id' =>20],
+            ['matricula' => '1161',         'aeronave_id' =>20],
+            ['matricula' => '5812',         'aeronave_id' =>20],
+            ['matricula' => '2912',         'aeronave_id' =>21],
+            ['matricula' => '9998',         'aeronave_id' =>21],
+            ['matricula' => '1904',         'aeronave_id' =>21],
+            ['matricula' => '0507',         'aeronave_id' =>21],
+            ['matricula' => '0402',         'aeronave_id' =>21],
+            ['matricula' => '2707',         'aeronave_id' =>21],
+            ['matricula' => '2002',         'aeronave_id' =>21],
+            ['matricula' => '61864',        'aeronave_id' =>21],
+            ['matricula' => '61866',        'aeronave_id' =>21],
+            ['matricula' => '61868',        'aeronave_id' =>21],
+            ['matricula' => '0611',         'aeronave_id' =>21],
+            ['matricula' => '1303',         'aeronave_id' =>21],
+            ['matricula' => '1504',         'aeronave_id' =>21],
+            ['matricula' => '8774',         'aeronave_id' =>22],
+            ['matricula' => '2711',         'aeronave_id' =>23],
+            ['matricula' => '0462',         'aeronave_id' =>23],
+            ['matricula' => '0564',         'aeronave_id' =>23],
+            ['matricula' => '3564',         'aeronave_id' =>23],
+            ['matricula' => '1168',         'aeronave_id' =>23],
+            ['matricula' => '1169',         'aeronave_id' =>23],
+            ['matricula' => '9463',         'aeronave_id' =>23],
+            ['matricula' => '5965',         'aeronave_id' =>23],
+            ['matricula' => '5790',         'aeronave_id' =>23],
+            ['matricula' => '3363',         'aeronave_id' =>23],
+            ['matricula' => '1157',         'aeronave_id' =>23],
+            ['matricula' => '1783',         'aeronave_id' =>23],
+            ['matricula' => '0040',         'aeronave_id' =>24],
+            ['matricula' => '0086',         'aeronave_id' =>24],
+            ['matricula' => '0150',         'aeronave_id' =>24],
+            ['matricula' => '0175',         'aeronave_id' =>24],
+            ['matricula' => '0260',         'aeronave_id' =>24],
+            ['matricula' => '1405',         'aeronave_id' =>24],
+            ['matricula' => '2280',         'aeronave_id' =>24],
+            ['matricula' => '2460',         'aeronave_id' =>24],
+            ['matricula' => '3050',         'aeronave_id' =>24],
+            ['matricula' => '4000',         'aeronave_id' =>24],
+            ['matricula' => '4180',         'aeronave_id' =>24],
+            ['matricula' => '5050',         'aeronave_id' =>24],
+            ['matricula' => '7101',         'aeronave_id' =>24],
+            ['matricula' => '7321',         'aeronave_id' =>24],
+            ['matricula' => '8247',         'aeronave_id' =>24],
+            ['matricula' => '9244',         'aeronave_id' =>24],
+            ['matricula' => '0027',         'aeronave_id' =>25],
+            ['matricula' => '1248',         'aeronave_id' =>25],
+            ['matricula' => '3199',         'aeronave_id' =>25],
+            ['matricula' => '3220',         'aeronave_id' =>25],
+            ['matricula' => '4524',         'aeronave_id' =>25],
+            ['matricula' => '5356',         'aeronave_id' =>25],
+            ['matricula' => '6344',         'aeronave_id' =>25],
+            ['matricula' => '6500',         'aeronave_id' =>25],
+            ['matricula' => '7072',         'aeronave_id' =>25],
+            ['matricula' => '8216',         'aeronave_id' =>25],
+            ['matricula' => '9673',         'aeronave_id' =>25],
+            ['matricula' => '1602',         'aeronave_id' =>26],
+            ['matricula' => '2510',         'aeronave_id' =>26],
+            ['matricula' => '2712',         'aeronave_id' =>26],
+            ['matricula' => '2908',         'aeronave_id' =>26],
+            ['matricula' => '0410',         'aeronave_id' =>26],
+            ['matricula' => '2210',         'aeronave_id' =>26],
+            ['matricula' => '2702',         'aeronave_id' =>26],
+            ['matricula' => '61862',        'aeronave_id' =>26],
+            ['matricula' => '61863',        'aeronave_id' =>26],
+            ['matricula' => '61865',        'aeronave_id' =>26],
+            ['matricula' => '61867',        'aeronave_id' =>26],
+            ['matricula' => '61869',        'aeronave_id' =>26],
+            ['matricula' => '61960',        'aeronave_id' =>26],
+            ['matricula' => '0094',         'aeronave_id' =>27],
+            ['matricula' => '0220',         'aeronave_id' =>27],
+            ['matricula' => '0678',         'aeronave_id' =>27],
+            ['matricula' => '1041',         'aeronave_id' =>27],
+            ['matricula' => '1715',         'aeronave_id' =>27],
+            ['matricula' => '2337',         'aeronave_id' =>27],
+            ['matricula' => '3260',         'aeronave_id' =>27],
+            ['matricula' => '3648',         'aeronave_id' =>27],
+            ['matricula' => '9583',         'aeronave_id' =>27],
+            ['matricula' => '9864',         'aeronave_id' =>27],
+            ['matricula' => '7268',         'aeronave_id' =>27],
+            ['matricula' => '7635',         'aeronave_id' =>27],
+            ['matricula' => '8924',         'aeronave_id' =>27],
+            ['matricula' => '5422',         'aeronave_id' =>27],
+            ['matricula' => '4226',         'aeronave_id' =>27],
+            ['matricula' => '0501',         'aeronave_id' =>28],
+            ['matricula' => '2909',         'aeronave_id' =>28],
+            ['matricula' => '1607',         'aeronave_id' =>28],
+            ['matricula' => '1811',         'aeronave_id' =>28],
+            ['matricula' => '0804',         'aeronave_id' =>28],
+            ['matricula' => '0705',         'aeronave_id' =>28],
+            ['matricula' => '0764',         'aeronave_id' =>28],
+            ['matricula' => '61121',        'aeronave_id' =>28],
+            ['matricula' => '61029',        'aeronave_id' =>28],
+            ['matricula' => '61346',         'aeronave_id' =>29],
+            ['matricula' => '61347',         'aeronave_id' =>29],
+            ['matricula' => '61348',         'aeronave_id' =>29],
+            ['matricula' => '61349',         'aeronave_id' =>29],
+            ['matricula' => '61440',         'aeronave_id' =>29],
+            ['matricula' => '61441',         'aeronave_id' =>29],
+            ['matricula' => '61442',         'aeronave_id' =>29],
+            ['matricula' => '61443',         'aeronave_id' =>29],
+            ['matricula' => '61444',         'aeronave_id' =>29],
+            ['matricula' => '61445',         'aeronave_id' =>29],
+            ['matricula' => '61446',         'aeronave_id' =>29],
+            ['matricula' => '61447',         'aeronave_id' =>29],
+            ['matricula' => '61448',         'aeronave_id' =>29],
+            ['matricula' => '61449',         'aeronave_id' =>29],
+            ['matricula' => '61540',         'aeronave_id' =>29],
+            ['matricula' => '61541',         'aeronave_id' =>29],
+            ['matricula' => '61552',         'aeronave_id' =>29],
+            ['matricula' => '61553',         'aeronave_id' =>29],
+            ['matricula' => '61554',         'aeronave_id' =>29],
+            ['matricula' => '61555',         'aeronave_id' =>29],
+            ['matricula' => '61556',         'aeronave_id' =>29],
+            ['matricula' => '61557',         'aeronave_id' =>29],
+            ['matricula' => '61558',         'aeronave_id' =>29],
+            ['matricula' => '61559',         'aeronave_id' =>29],
+            ['matricula' => '61650',         'aeronave_id' =>30],
+            ['matricula' => '61651',         'aeronave_id' =>30],
+            ['matricula' => '61652',         'aeronave_id' =>30],
+            ['matricula' => '61653',         'aeronave_id' =>30],
+            ['matricula' => '61654',         'aeronave_id' =>30],
+            ['matricula' => '61655',         'aeronave_id' =>30],
+            ['matricula' => '61646',         'aeronave_id' =>31],
+            ['matricula' => '61647',         'aeronave_id' =>31],
+            ['matricula' => '61648',         'aeronave_id' =>31],
+            ['matricula' => '61649',         'aeronave_id' =>31],
+            ['matricula' => '61750',         'aeronave_id' =>31],
+            ['matricula' => '61751',         'aeronave_id' =>31],
+            ['matricula' => '61752',         'aeronave_id' =>31],
+            ['matricula' => '61753',         'aeronave_id' =>31],
+            ['matricula' => '1805',          'aeronave_id' =>32],
+            ['matricula' => '3009',          'aeronave_id' =>32],
+
+        ];
+
+        foreach ($matriculas as $item) {
+            AeronaveMatricula::create($item);
+        }
+
+        $componentes = [
+            ['componente' => 'AVIACION MILITAR BOLIVARIANA',                 'organismo' => null],
+            ['componente' => 'EJERCITO BOLIVARIANO',                         'organismo' => null],
+            ['componente' => 'ARMADA BOLIVARIANA',                           'organismo' => null],
+            ['componente' => 'GUARDIA NACIONAL BOLIVARIANA',                 'organismo' => null],
+            ['componente' => 'MINISTERIO DEL PODER POPULAR PARA LA DEFENSA', 'organismo' => null],
+        ];
+
+        foreach ($componentes as $item) {
+            ComponenteOrganismo::create($item);
+        }
+
+        $enApoyo = [
+            ['nombre_apoyo' => 'GUARDIA DE HONOR PRESIDENCIAL',                                 'codigo' => 'GHP'],
+            ['nombre_apoyo' => 'CEO',                                                           'codigo' => 'CEO'],
+            ['nombre_apoyo' => 'COMANDANCIA GENERAL DE LA AVICION MILITAR BOLIVARIANA',         'codigo' => 'AMB'],
+            ['nombre_apoyo' => 'COMANDANCIA GENERAL DEL EJERCITO',                              'codigo' => 'EJB'],
+            ['nombre_apoyo' => 'COMANDANCIA GENERAL DE LA ARMADA NACIONAL BOLIVARIANA',         'codigo' => 'ARMB'],
+            ['nombre_apoyo' => 'COMANDANCIA GENERAL DE LA GUARDIA NACIONAL BOLIVARIANA',        'codigo' => 'GNB'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA DEFENSA',                  'codigo' => 'MPPD'],
+            ['nombre_apoyo' => 'MILICIA BOLIVARIANA',                                           'codigo' => 'MB'],
+            ['nombre_apoyo' => 'REDI',                                                          'codigo' => 'REDI'],
+            ['nombre_apoyo' => 'ZODI',                                                          'codigo' => 'ZODI'],
+            ['nombre_apoyo' => 'ADI',                                                           'codigo' => 'ADI'],
+            ['nombre_apoyo' => 'BAEL',                                                          'codigo' => 'BAEL'],
+            ['nombre_apoyo' => 'BASUCRE',                                                       'codigo' => 'BASUCRE'],
+            ['nombre_apoyo' => 'BAGFM',                                                         'codigo' => 'BAGFM'],
+            ['nombre_apoyo' => 'BARU',                                                          'codigo' => 'BARU'],
+            ['nombre_apoyo' => 'BALANDA',                                                       'codigo' => 'BALANDA'],
+            ['nombre_apoyo' => 'BARAGUA',                                                       'codigo' => 'BARAGUA'],
+            ['nombre_apoyo' => 'BAEMARI',                                                       'codigo' => 'BAEMARI'],
+            ['nombre_apoyo' => 'BAVIVAS',                                                       'codigo' => 'BAVIVAS'],
+            ['nombre_apoyo' => 'BAMEMDEZ',                                                      'codigo' => 'BAMEMDEZ'],
+            ['nombre_apoyo' => 'BAVALLES',                                                      'codigo' => 'BAVALLES'],
+            ['nombre_apoyo' => 'BAPAEZ',                                                        'codigo' => 'BAPAEZ'],
+            ['nombre_apoyo' => 'BATAVI',                                                        'codigo' => 'BATAVI'],
+            ['nombre_apoyo' => 'BAORI',                                                         'codigo' => 'BAORI'],
+            ['nombre_apoyo' => 'BACASERES',                                                     'codigo' => 'BACASERES'],
+            ['nombre_apoyo' => 'GRUPABAEL',                                                     'codigo' => 'GRUPABAEL'],
+            ['nombre_apoyo' => 'GRUPABASUCRE',                                                  'codigo' => 'GRUPABASUCRE'],
+            ['nombre_apoyo' => 'GRUPABAGFM',                                                    'codigo' => 'GRUPABAGFM'],
+            ['nombre_apoyo' => 'EPABARU',                                                       'codigo' => 'EPABARU'],
+            ['nombre_apoyo' => 'EPABALANDA',                                                    'codigo' => 'EPABALANDA'],
+            ['nombre_apoyo' => 'EPABARAGUA',                                                    'codigo' => 'EPABARAGUA'],
+            ['nombre_apoyo' => 'EPABAEMARI',                                                    'codigo' => 'EPABAEMARI'],
+            ['nombre_apoyo' => 'EPABAVIVAS',                                                    'codigo' => 'EPABAVIVAS'],
+            ['nombre_apoyo' => 'EPABAMENDEZ',                                                   'codigo' => 'EPABAMENDEZ'],
+            ['nombre_apoyo' => 'EPABAVALLE',                                                    'codigo' => 'EPABAVALLE'],
+            ['nombre_apoyo' => 'EPABAPAEZ',                                                     'codigo' => 'EPABAPAEZ'],
+            ['nombre_apoyo' => 'GRUPO AEREO PRESIDENCIAL Nº 4',                                 'codigo' => 'GAC4'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE TRANSPORTE Nº 5',                                'codigo' => 'GAC5'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE TRANSPORTE Nº 6',                                'codigo' => 'GAC6'],
+            ['nombre_apoyo' => 'GRUPO  AEREO DE ENTRENAMINTO INSTRUMENTAL  Nº 7',               'codigo' => 'GC7'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE RECONOCIMIENTO VIGILANCIA Y CONTROL Nº 8',       'codigo' => 'GAC8'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE TRANSPORTE Nº 9',                                'codigo' => 'GAC9'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE OERACINES ESPECIALES Nº10',                      'codigo' => 'GAC10'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE CAZA Nº11',                                      'codigo' => 'GAC11'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE CAZA Nº12',                                      'codigo' => 'GAC12'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE CAZA Nº13',                                      'codigo' => 'GAC13'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº14',                             'codigo' => 'GAC14'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE CAZA Nº15',                                      'codigo' => 'GAC15'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE CAZA Nº16',                                      'codigo' => 'GAC16'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE OPERACIONES ESPECIALES  Nº17',                   'codigo' => 'GAC17'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº18',                             'codigo' => 'GAC18'],
+            ['nombre_apoyo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº19',                             'codigo' => 'GAC19'],
+            ['nombre_apoyo' => 'GRUPO  DE OPERACIONES ESPECIALES  Nº20',                        'codigo' => 'GC20'],
+            ['nombre_apoyo' => 'GRUPO AEREO º21',                                               'codigo' => 'GAC21'],
+            ['nombre_apoyo' => 'GOBERNACION',                                                   'codigo' => 'GOBERNACION'],
+            ['nombre_apoyo' => 'ALCALDIA',                                                      'codigo' => 'ACALDIA'],
+            ['nombre_apoyo' => 'DIRECCION REGIONAL DE SALUD',                                   'codigo' => 'DIGSALUD'],
+            ['nombre_apoyo' => 'MISION MEDICA CUBANA',                                          'codigo' => 'MMC'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA HABITAD Y VIVIENDA.',         'codigo' => 'MIHVI'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA ECONOMÍA Y FINANZAS.',     'codigo' => 'MPPEFC'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA AGRICULTURA Y TIERRAS.',   'codigo' => 'MPPAT'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR DE ENERGÍA Y PETRÓLEO.',           'codigo' => 'MINPET'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA ALIMENTACIÓN.',            'codigo' => 'MINPAL'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA PLANIFICACIÓN Y DESARROLLO','codigo' => 'MPPP'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA ECONOMÍA',                 'codigo' => 'MPPEFC'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LAS RELACIONES INTERIORES JUSTICIA Y PAZ','codigo' => 'MPPRIJP '],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA CIENCIA Y TECNOLOGÍA',                 'codigo' => 'MINCYT'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA COMUNICACIÓN Y LA INFORMACIÓN',        'codigo' => 'MPPCI '],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA EL ECOSOCIALISMO',                        'codigo' => 'MINEC'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA EL TURISMO',                              'codigo' => 'MINTUR'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LA CULTURA',                              'codigo' => 'MINCULTURA'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA LAS OBRAS PÚBLICAS Y VIVIENDAMINISTERIO DEL PODER POPULAR PARA VIVIENDA Y HÁBITAT.','codigo' => 'MINHVI'],
+            ['nombre_apoyo' => 'MINISTERIO DEL PODER POPULAR PARA EL PROCESO SOCIAL DEL TRABAJO',           'codigo' => 'MPPPST'],
+            ['nombre_apoyo' => 'MINISTERIO DE RELACIONES EXTERIORES',                                       'codigo' => 'MPPRE'],
+        ];
+
+        foreach ($enApoyo as $item) {
+            VueloEnApoyo::create($item);
+        }
+
+        $ordenadaPor = [
+            ['autoridad_orden_vuelo' => 'PRESIDENCIAL',                                  'codigo' => 'G-4'],
+            ['autoridad_orden_vuelo' => 'MINISTERIO DEL PODER POPULAR PARA LA DEFENSA ', 'codigo' => 'G-5'],
+            ['autoridad_orden_vuelo' => 'COMANDO ESTRATEGICO OPERACIONAL ',              'codigo' => 'G-6'],
+            ['autoridad_orden_vuelo' => 'AVIACION MILITAR BOLIVARIANA',                  'codigo' => 'G-7'],
+            ['autoridad_orden_vuelo' => 'CODAI',                                         'codigo' => 'G-8'],
+            ['autoridad_orden_vuelo' => 'COMANDANTE DE UNIDAD',                          'codigo' => 'G-9'],
+        ];
+
+        foreach ($ordenadaPor as $item) {
+            VueloOrdenadaPor::create($item);
+        }
+
+        $funcionTripulante = [
+            ['funcion' => 'ALUMNO PILOTO',                   'codigo' => 'AP'],
+            ['funcion' => 'CO-PILOTO',                       'codigo' => 'CP'],
+            ['funcion' => 'PILOTO O CAPITÁN DE NAVE',        'codigo' => 'P'],
+            ['funcion' => 'PILOTO INSTRUCTOR',               'codigo' => 'PI'],
+            ['funcion' => 'OPERADOR REMOTO INTERNO',         'codigo' => 'ORI'],
+            ['funcion' => 'OPERADOR REMOTO EXTERNO',         'codigo' => 'ORE'],
+            ['funcion' => 'ALUMNO OPERADOR REMOTO INTERNO',  'codigo' => 'AORI'],
+            ['funcion' => 'ALUMNO OPERADOR REMOTO EXTERNO',  'codigo' => 'AORE'],
+            ['funcion' => 'OBSERVADOR',                      'codigo' => 'OB'],
+        ];
+
+        foreach ($funcionTripulante as $item) {
+            FuncionTripulante::create($item);
+        }
+
+
     }
 }
