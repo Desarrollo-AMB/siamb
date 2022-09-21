@@ -10,4 +10,5 @@ class TiposEmpleado extends Model
     use HasFactory;
 
     protected $primaryKey = 'tipo_emp';
+    public $timestamps = false;
 }

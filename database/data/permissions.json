@@ -49,5 +49,11 @@
 			{ "name": "Eliminar Usuarios",   "route_name": "users.destroy" },
 			{ "name": "Restaurar Usuarios",  "route_name": "users.restore" }
 		]
+	},
+	{
+		"group": "SIREH",
+		"labels": [
+			{ "name": "Ingreso de Personal",     "route_name": "sireh.ingreso-personal" }
+		]
 	}
 ]

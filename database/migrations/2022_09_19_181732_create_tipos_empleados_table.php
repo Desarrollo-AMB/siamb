@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('codigo_presupuestario',2)->nullable();
             $table->string('aplicacion_nomina',1)->nullable();
             $table->string('requiere_puesto',1)->nullable();
-            $table->timestamps();
         });
     }
 

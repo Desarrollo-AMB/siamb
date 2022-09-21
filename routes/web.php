@@ -8,6 +8,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\PersonalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,9 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
     Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean'); 
+    
+    Route::get('/sireh/ingreso_personal', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal');
+    Route::post('/sireh/ingreso_personal', [PersonalController::class, 'registraPersonal'])->name('sireh.registra-personal');
 });
 
 Route::group(['middleware' => ['auth']], function() {

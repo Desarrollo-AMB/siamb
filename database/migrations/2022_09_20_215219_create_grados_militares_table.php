@@ -19,11 +19,9 @@ return new class extends Migration
             $table->string('siglas',4)->nullable();
             $table->string('descripcion',70)->nullable();
             $table->integer('años_grado')->nullable();
-            $table->string('grado_ascender',3)->nullable();
+            $table->string('grado_a_ascender',3)->nullable();
             $table->string('tipo_emp',3)->nullable();
             $table->string('grado_tentativo',3)->nullable();
-            $table->index(['tipo_emp']);
-            $table->timestamps();
         });
     }
 

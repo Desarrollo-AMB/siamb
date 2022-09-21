@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('codigo_ubicacion',12)->unique()->nullable();
             $table->string('descripcion',90)->nullable();
             $table->string('tipo_unidad_organizacional',30)->nullable();
-            $table->string('ubiccion_contable',10)->nullable();
+            $table->string('ubicacion_contable',10)->nullable();
             $table->string('adscrita_a',12)->nullable();
             $table->date('fecha_creacion')->nullable();
             $table->date('fecha_eliminacion')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('codigo_estado',2)->nullable();
             $table->string('ubicaciones_de_nomina',1)->nullable();
             $table->string('cod_programa',2)->nullable();
-            $table->string('subprg_actv',4)->nullable();
+            $table->string('subprg_activ',4)->nullable();
             $table->string('tipo_unidad',1)->nullable();
             $table->string('tipo_unidad_md',1)->nullable();
             $table->string('guarnicion',2)->nullable();

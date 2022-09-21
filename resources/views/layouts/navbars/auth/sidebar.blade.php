@@ -169,11 +169,11 @@
             <i style="color:#3a416f" class="fa fa-shield"><title>SIREH</title></i>
             
           </div>
-          <span class="nav-link-text ms-1">SIREH</span>
+          <span class="nav-link-text ms-1">SIREH </span>
         </a>
-        <div class="panel-collapse collapse"  id="collapseListGroup2" >
+        <div class="panel-collapse collapse {{ ((Request::is('sireh/ingreso_personal') ) ? 'show' : '') }}"  id="collapseListGroup2" >
           <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }}" href="{{ url('/') }}">Ingreso de Personal</a></li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('sireh/ingreso_personal') ? 'active' : '') }}" href="{{ route('sireh.ingreso-personal') }}">Ingreso de Personal</a></li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }} " href="{{ url('/') }}">Personal Militar</a></li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }}" href="{{ url('/') }}">Personal Civil</a></li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }}" href="{{ url('/') }}">Personal Militar No Profesional</a></li>

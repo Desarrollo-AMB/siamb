@@ -10,4 +10,5 @@ class Base extends Model
     use HasFactory;
     
     protected $primaryKey = 'codigo_base';
+    public $timestamps = false;
 }

@@ -35,17 +35,6 @@
                         <div class="form-group">
                             <strong>Permisos:</strong>
                             <div class="row"> 
-                                {{--<div class="col-4">
-                                @foreach($permission as $value)
-                                    <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                                    {{ $value->name }}</label>
-                                    <br/>
-                                    @if ($loop->iteration % 9 ==0)
-                                        </div>
-                                        <div class="col-4">
-                                    @endif
-                                @endforeach
-                                </div>--}}
                                 @foreach ($permissionsGrouped as $permissionGroup => $permissions)
                                 <div class="col-md-4">
                                     <div class="card">
