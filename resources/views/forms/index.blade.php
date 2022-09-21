@@ -44,11 +44,19 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#address" data-toggle="tab">
+                                                <a href="#dddd" data-toggle="tab">
                                                     <div class="icon-circle">
                                                         <i class="ti-map"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#address" data-toggle="tab">
+                                                    <div class="icon-circle">
+                                                        <i class="ti-map"></i>
+                                                    </div>
+                                                    <p style="font-size:11px; color: #707885">A3 - DATOS DE CARGA Y PASAJEROS</p>
                                                 </a>
                                             </li>
                                         </ul>
@@ -63,59 +71,74 @@
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
-                                                            <h6>Fecha <small>(requerido)</small></h6>
+                                                            <h6>1. FECHA <small></small></h6>
                                                             <input name="date" type="date" class="form-control" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <h6>OV / OTA / OM <small>(requerido)</small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <h6>AERONAVE / MODELO<small></small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <h6>SERIAL<small>(requerido)</small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <h6>MATRICULA <small>(requerido)</small></h6>
-                                                            <input name="date" type="text" class="form-control" required>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>COMPONENTE / ORGANISMO <small></small></h6>
+                                                            <h6>2. OV / OTA / OM <small>(requerido)</small></h6>
                                                             <input name="lastname" type="text" class="form-control" placeholder="">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-5">
                                                         <div class="form-group">
-                                                            <h6>UNIDAD<small>(requerido)</small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                            <h6>3. AERONAVE / MODELO</h6>
+                                                            <select name="country" class="form-control">
+                                                                <option >Seleccionar.. </option>
+                                                                <option value="Afghanistan"> AVION </option>
+                                                                <option value="Albania"> Helicoptero </option>
+                                                                <option value="Algeria"> Avioneta </option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
+                                                            <h6>4. SERIAL</h6>
+                                                            <select name="country" class="form-control">
+                                                                <option >Seleccionar.. </option>
+                                                                <option value="Afghanistan"> DF/002 </option>
+                                                                <option value="Albania"> UIUD-33 </option>
+                                                                <option value="Algeria"> 23CDW </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>5. MATRICULA <small></small></h6>
+                                                            <select name="country" class="form-control">
+                                                                <option >Seleccionar.. </option>
+                                                                <option value="Afghanistan"> AMB-1741 (FF-16A) </option>
+                                                                <option value="Albania"> AMB-44r (F-6A) </option>
+                                                                <option value="Algeria"> ACC-12ss (D-1A) </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>6. COMPONENTE / ORGANISMO <small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>7. UNIDAD<small></small></h6>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>8. BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                                             <input name="lastname" type="text" class="form-control" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
                                                         <div class="form-group">
-                                                            <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
+                                                            <h6>9. JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
                                                             <input name="text" type="text" class="form-control">
                                                         </div>
                                                     </div>
@@ -129,6 +152,40 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="account">
+                                            <h5 class="info-text"> What are you doing? (checkboxes) </h5>
+                                            <div class="row">
+                                                <div class="col-sm-8 col-sm-offset-2">
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-checkbox">
+                                                            <input type="checkbox" name="jobb" value="Design">
+                                                            <div class="card card-checkboxes card-hover-effect">
+                                                                <i class="ti-paint-roller"></i>
+                                                                <p>Design</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-checkbox">
+                                                            <input type="checkbox" name="jobb" value="Code">
+                                                            <div class="card card-checkboxes card-hover-effect">
+                                                                <i class="ti-pencil-alt"></i>
+                                                                <p>Code</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="choice" data-toggle="wizard-checkbox">
+                                                            <input type="checkbox" name="jobb" value="Develop">
+                                                            <div class="card card-checkboxes card-hover-effect">
+                                                                <i class="ti-star"></i>
+                                                                <p>Develop</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="dddd">
                                             <h5 class="info-text"> What are you doing? (checkboxes) </h5>
                                             <div class="row">
                                                 <div class="col-sm-8 col-sm-offset-2">
