@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('ciudades', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('id_estado')->nullable();
+            $table->string('ciudad',200)->nullable();
+            $table->index(['id_estado']);
         });
     }
 

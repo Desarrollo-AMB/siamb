@@ -39,7 +39,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
 	<link href="template/wizard/css/themify-icons.css" rel="stylesheet">
 
-
+    <link href="{{ asset('css/siamb.css') }}" rel="stylesheet">
     @yield('styles')
     @stack('plugins-css')
 </head>

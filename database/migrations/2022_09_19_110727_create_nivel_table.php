@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('codigo',2)->unique()->nullable();
             $table->string('descripcion',35)->nullable();
-            $table->string('2',8)->nullable();
+            $table->string('nivel_instruccion',2)->nullable();
         });
     }
 
