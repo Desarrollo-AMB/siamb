@@ -84,8 +84,13 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>3. AERONAVE / MODELO</h6>
-                                                            <select name="country" class="form-control">
+                                                            {{-- <select name="country" class="form-control">
                                                                 <option>Seleccionar..</option>
+                                                                @foreach($aeronaveModelos as $naves) 
+                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @endforeach
+                                                            </select> --}}
+                                                            <select class="aeronaves form-control" name="aeronaves">
                                                                 @foreach($aeronaveModelos as $naves) 
                                                                     <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
                                                                 @endforeach
@@ -296,7 +301,7 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
+        $('.aeronaves').select2();
     });
 </script>
 @endsection
