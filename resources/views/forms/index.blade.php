@@ -30,7 +30,7 @@
                                             <li>
                                                 <a href="#about" data-toggle="tab">
                                                     <div class="icon-circle">
-                                                        <i class="ti-user"></i>
+                                                        <i class="ti-files" ></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">Datos</p>
                                                 </a>
@@ -38,7 +38,7 @@
                                             <li>
                                                 <a href="#account" data-toggle="tab">
                                                     <div class="icon-circle">
-                                                        <i class="ti-settings"></i>
+                                                        <i class="ti-flag-alt-2"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">A1 - DATOS DE LA MISIÓN</p>
                                                 </a>
@@ -46,7 +46,7 @@
                                             <li>
                                                 <a href="#dddd" data-toggle="tab">
                                                     <div class="icon-circle">
-                                                        <i class="ti-map"></i>
+                                                        <i class="ti-user"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
                                                 </a>
@@ -54,7 +54,7 @@
                                             <li>
                                                 <a href="#address" data-toggle="tab">
                                                     <div class="icon-circle">
-                                                        <i class="ti-map"></i>
+                                                        <i class="ti-package    "></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">A3 - DATOS DE CARGA Y PASAJEROS</p>
                                                 </a>
@@ -72,13 +72,13 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>1. FECHA <small></small></h6>
-                                                            <input name="date" type="date" class="form-control" required>
+                                                            <input name="date" type="date" class="form-control" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>2. OV / OTA / OM <small>(requerido)</small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                            <h6>2. OV / OTA / OM <small></small></h6>
+                                                            <input type="text" class="form-control" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -90,11 +90,19 @@
                                                                     <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
                                                                 @endforeach
                                                             </select> --}}
-                                                            <select class="aeronaves form-control" name="aeronaves">
+                                                            {{-- <select class="aeronaves form-control" name="aeronaves">
+                                                                @foreach($aeronaveModelos as $naves) 
+                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @endforeach
+                                                            </select> --}}
+
+                                                            <select class="selectpicker form-control" id="naves" name="selectpicker">
+                                                                <option>Seleccionar..</option>
                                                                 @foreach($aeronaveModelos as $naves) 
                                                                     <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
                                                                 @endforeach
                                                             </select>
+                                                              
                                                         </div>
                                                     </div>
                                                 </div>
@@ -113,11 +121,11 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>5. MATRICULA <small></small></h6>
-                                                            <select name="country" class="form-control">
-                                                                <option>Seleccionar..</option>
+                                                            <select name="country" id="matricula" class="form-control">
+                                                                {{-- <option>Seleccionar..</option>
                                                                 @foreach($matriculas as $data) 
                                                                     <option value="{{$data->id}}">{{$data->matricula}}</option>
-                                                                @endforeach
+                                                                @endforeach --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -148,7 +156,12 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>8. BASE / ESTACION / PAIS / LUGAR<small></small></h6>
-                                                            <input name="lastname" type="text" class="form-control" placeholder="">
+                                                            <select name="country" class="form-control">
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($bases as $data) 
+                                                                    <option value="{{$data->id}}">{{$data->siglas}} - {{$data->descripcion}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
@@ -167,118 +180,28 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="account">
-                                            <h5 class="info-text"> What are you doing? (checkboxes) </h5>
-                                            <div class="row">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Design">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-paint-roller"></i>
-                                                                <p>Design</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Code">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-pencil-alt"></i>
-                                                                <p>Code</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Develop">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-star"></i>
-                                                                <p>Develop</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <h5 class="info-text">paso dos</h5>
+                                            {{-- <div class="form-group">
+                                                <label for="country">Country:</label>
+                                                <select name="country" id="country" class="form-control">
+                                                    @foreach($aeronaveModelos as $naves) 
+                                                        <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div> --}}
                                         </div>
                                         <div class="tab-pane" id="dddd">
-                                            <h5 class="info-text"> What are you doing? (checkboxes) </h5>
-                                            <div class="row">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Design">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-paint-roller"></i>
-                                                                <p>Design</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Code">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-pencil-alt"></i>
-                                                                <p>Code</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="choice" data-toggle="wizard-checkbox">
-                                                            <input type="checkbox" name="jobb" value="Develop">
-                                                            <div class="card card-checkboxes card-hover-effect">
-                                                                <i class="ti-star"></i>
-                                                                <p>Develop</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <h5 class="info-text">paso tres</h5>
+                                            
                                         </div>
                                         <div class="tab-pane" id="address">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <h5 class="info-text"> Are you living in a nice area? </h5>
-                                                </div>
-                                                <div class="col-sm-7 col-sm-offset-1">
-                                                    <div class="form-group">
-                                                        <label>Street Name</label>
-                                                        <input type="text" class="form-control" placeholder="5h Avenue">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>Street Number</label>
-                                                        <input type="text" class="form-control" placeholder="242">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-5 col-sm-offset-1">
-                                                    <div class="form-group">
-                                                        <label>City</label>
-                                                        <input type="text" class="form-control" placeholder="New York...">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <div class="form-group">
-                                                        <label>Country</label><br>
-                                                        <select name="country" class="form-control">
-                                                            <option value="Afghanistan"> Afghanistan </option>
-                                                            <option value="Albania"> Albania </option>
-                                                            <option value="Algeria"> Algeria </option>
-                                                            <option value="American Samoa"> American Samoa </option>
-                                                            <option value="Andorra"> Andorra </option>
-                                                            <option value="Angola"> Angola </option>
-                                                            <option value="Anguilla"> Anguilla </option>
-                                                            <option value="Antarctica"> Antarctica </option>
-                                                            <option value="...">...</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                     </div>
+                                    <br>
                                     <div class="wizard-footer">
                                         <div class="pull-right">
-                                            <input type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente' />
+                                            <input style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente' />
                                             <input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Terminar' />
                                         </div>
     
@@ -300,8 +223,28 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function() {
-        $('.aeronaves').select2();
+    // $(document).ready(function() {
+    //     $('.aeronaves').select2();
+    // });
+    $(document).ready(function () {
+        $("#naves").change(function(){
+            var id = $(this).val();
+            if(id){
+                $.ajax({
+                    type:'GET',
+                    url:'{{ route("matriculas") }}',
+                    data:{"id" : id },
+                    success:function(res){
+                        $("#matricula").empty();
+                        $("#matricula").append('<option>Seleccionar..</option>');
+                        $.each(res,function(key,value){
+                            $("#matricula").append('<option value="'+value.id+'">'+value.matricula+'</option>');
+                        });
+                    }
+                }); 
+            }
+        });
     });
+    
 </script>
 @endsection

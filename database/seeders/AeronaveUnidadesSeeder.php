@@ -9,6 +9,9 @@ use App\Models\ComponenteOrganismo;
 use App\Models\VueloEnApoyo;
 use App\Models\VueloOrdenadaPor;
 use App\Models\FuncionTripulante;
+use App\Models\CodigoTipoMision;
+use App\Models\CodigoDespegue;
+use App\Models\CodigoSensores;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,22 +25,22 @@ class AeronaveUnidadesSeeder extends Seeder
     public function run()
     {
         $items = [
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº4', 'codigos' => 'G-4'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº5', 'codigos' => 'G-5'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº6', 'codigos' => 'G-6'],
-            ['unidad' => 'GRUPO AÉREO DE VUELO INSTRUMENTAL Nº7', 'codigos' => 'G-7'],
-            ['unidad' => 'GRUPO AÉREO DE INTELIGENCIA, VIGILANCIA Y RECONOCIMIENTO ELECTRÓNICO Nº8', 'codigos' => 'G-8'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº9', 'codigos' => 'G-9'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15', 'codigos' => 'G-10'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº11', 'codigos' => 'G-11'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº12', 'codigos' => 'G-12'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº13', 'codigos' => 'G-13'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº14', 'codigos' => 'G-14'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15', 'codigos' => 'G-15'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº16', 'codigos' => 'G-16'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº17', 'codigos' => 'G-17'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº18', 'codigos' => 'G-18'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº19', 'codigos' => 'G-19'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº4', 'codigos' => 'G-4',                                               'aeronave_id' => 'G-4'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº5', 'codigos' => 'G-5',                                               'aeronave_id' => 'G-5'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº6', 'codigos' => 'G-6',                                               'aeronave_id' => 'G-6'],
+            ['unidad' => 'GRUPO AÉREO DE VUELO INSTRUMENTAL Nº7', 'codigos' => 'G-7',                                       'aeronave_id' => 'G-7'],
+            ['unidad' => 'GRUPO AÉREO DE INTELIGENCIA, VIGILANCIA Y RECONOCIMIENTO ELECTRÓNICO Nº8', 'codigos' => 'G-8',    'aeronave_id' => 'G-8'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº9', 'codigos' => 'G-9',                                               'aeronave_id' => 'G-9'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15', 'codigos' => 'G-10',                                 'aeronave_id' => 'G-10'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº11', 'codigos' => 'G-11',                                                   'aeronave_id' => 'G-11'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº12', 'codigos' => 'G-12',                                                   'aeronave_id' => 'G-12'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº13', 'codigos' => 'G-13',                                                   'aeronave_id' => 'G-13'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº14', 'codigos' => 'G-14',                                          'aeronave_id' => 'G-14'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15', 'codigos' => 'G-15',                                 'aeronave_id' => 'G-15'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº16', 'codigos' => 'G-16',                                                   'aeronave_id' => 'G-16'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº17', 'codigos' => 'G-17',                                 'aeronave_id' => 'G-17'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº18', 'codigos' => 'G-18',                                          'aeronave_id' => 'G-18'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº19', 'codigos' => 'G-19',                                          'aeronave_id' => 'G-19'],
         ];
 
         foreach ($items as $item) {
@@ -433,6 +436,120 @@ class AeronaveUnidadesSeeder extends Seeder
 
         foreach ($funcionTripulante as $item) {
             FuncionTripulante::create($item);
+        }
+
+        $codigoTipoMision = [
+            ['codigo' => 'C-1111'],
+            ['codigo' => 'C-1112'],
+            ['codigo' => 'C-1113'],
+            ['codigo' => 'C-1114'],
+            ['codigo' => 'C-1115'],
+            ['codigo' => 'C-1116'],
+            ['codigo' => 'C-11211'],
+            ['codigo' => 'C-11222'],
+            ['codigo' => 'C-1123'],
+            ['codigo' => 'C-1211'],
+            ['codigo' => 'C-1212'],
+            ['codigo' => 'C-1213'],
+            ['codigo' => 'C-1221'],
+            ['codigo' => 'C-1222'],
+            ['codigo' => 'C-1223'],
+            ['codigo' => 'C-12311'],
+            ['codigo' => 'C-12312'],
+            ['codigo' => 'C-12313'],
+            ['codigo' => 'C-12314'],
+            ['codigo' => 'C-12321'],
+            ['codigo' => 'C-12322'],
+            ['codigo' => 'C-12323'],
+            ['codigo' => 'C-12324'],
+            ['codigo' => 'C-12331'],
+            ['codigo' => 'C-12332'],
+            ['codigo' => 'C-12333'],
+            ['codigo' => 'C-12334'],
+            ['codigo' => 'C-12341'],
+            ['codigo' => 'C-12342'],
+            ['codigo' => 'C-12343'],
+            ['codigo' => 'C-12344'],
+            ['codigo' => 'C-12345'],
+            ['codigo' => 'C-12346'],
+            ['codigo' => 'C-1241'],
+            ['codigo' => 'C-1242'],
+            ['codigo' => 'C-1243'],
+            ['codigo' => 'C-12441'],
+            ['codigo' => 'C-12442'],
+            ['codigo' => 'C-12443'],
+            ['codigo' => 'C-1245'],
+            ['codigo' => 'C-1251'],
+            ['codigo' => 'C-1252'],
+            ['codigo' => 'C-1253'],
+            ['codigo' => 'C-1254'],
+            ['codigo' => 'C-1255'],
+            ['codigo' => 'C-1261'],
+            ['codigo' => 'C-1262'],
+            ['codigo' => 'C-1263'],
+            ['codigo' => 'C-1270'],
+            ['codigo' => 'C-1280'],
+            ['codigo' => 'C-1310'],
+            ['codigo' => 'C-1311'],
+            ['codigo' => 'C-1312'],
+            ['codigo' => 'C-2110'],
+            ['codigo' => 'C-2120'],
+            ['codigo' => 'C-2120'],
+            ['codigo' => 'C-2200'],
+            ['codigo' => 'C-2310'],
+            ['codigo' => 'C-2320'],
+            ['codigo' => 'C-2330'],
+            ['codigo' => 'C-2400'],
+            ['codigo' => 'C-2500'],
+            ['codigo' => 'C-2600'],
+            ['codigo' => 'C-2710'],
+            ['codigo' => 'C-2720'],
+            ['codigo' => 'C-2730'],
+            ['codigo' => 'C-2740'],
+            ['codigo' => 'C-2750'],
+            ['codigo' => 'C-2760'],
+            ['codigo' => 'C-2770'],
+            ['codigo' => 'C-2810'],
+            ['codigo' => 'C-2820'],
+            ['codigo' => 'C-3100'],
+            ['codigo' => 'C-3200'],
+            ['codigo' => 'C-3300'],
+            ['codigo' => 'C-3400'],
+            ['codigo' => 'C-3500'],
+        ];
+
+        foreach ($codigoTipoMision as $item) {
+            CodigoTipoMision::create($item);
+        }
+
+        $codigoDespegue = [
+            ['tipo_despegue' => 'NORMAL',                                                                                                        'codigo' => 'L'],
+            ['tipo_despegue' => 'CON SALIDA INSTRUMENTAL',                                                                                       'codigo' => 'A'],
+            ['tipo_despegue' => 'DESPEGUE DESDE ÁREAS CONFINADAS Y MONTAÑA ACM (SÓLO HELICÓPTERO)',                                              'codigo' => 'C'],
+            ['tipo_despegue' => 'DESPEGUE DESDE BUQUES O PLATAFORMAS OCEÁNICAS, MARINAS, LACUSTRES O FLUVIALES (ANAVIAJE) (SÓLO HELICÓPTERO)',   'codigo' => 'H'],
+            ['tipo_despegue' => 'DESDE SUPERFICIES ACUÁTICAS (HIDROAVIÓN / AVIÓN ANFIBIO / HELICÓPTERO)',                                        'codigo' => 'I'],
+            ['tipo_despegue' => 'DESDE PISTAS NO PREPARADAS',                                                                                    'codigo' => 'J'],
+            ['tipo_despegue' => 'DESDE PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 4',                                                              'codigo' => 'K'],
+            ['tipo_despegue' => 'DESDE PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 5',                                                              'codigo' => 'M'],
+            ['tipo_despegue' => 'DESDE PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 6 (SÓLO HELICÓPTERO)',                                           'codigo' => 'N'],
+            ['tipo_despegue' => 'DESDE PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 7',                                                              'codigo' => 'O'],
+        ];
+
+        foreach ($codigoDespegue as $item) {
+            CodigoDespegue::create($item);
+        }
+
+        $codigoSensores = [
+            ['sensores' => 'RADAR ABORDO ACTIVO MULTIFUNCIÓN',                              'codigo' => 'RDR'],
+            ['sensores' => 'RADAR ABORDO ACTIVO MULTIFUNCIÓN DE APERTURA SINTÉTICA',        'codigo' => 'RDRS'],
+            ['sensores' => 'RADAR ABORDO PASIVO (SIGINT)',                                  'codigo' => 'RDRP'],
+            ['sensores' => 'BUSCADOR INFRARROJO FRONTAL (FLIR) O DE CUALQUIER OTRO TIPO',   'codigo' => 'FLIR'],
+            ['sensores' => 'CÁMARA FOTOGRÁFICA',                                            'codigo' => 'CAMF'],
+            ['sensores' => 'CÁMARA DE VIDEO',                                               'codigo' => 'CAMV'],
+        ];
+
+        foreach ($codigoSensores as $item) {
+            CodigoSensores::create($item);
         }
 
 

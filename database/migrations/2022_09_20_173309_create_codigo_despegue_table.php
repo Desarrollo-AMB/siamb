@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('codigo_despegue', function (Blueprint $table) {
             $table->id();
             $table->string('tipo_despegue');
+            $table->string('codigo');
             $table->timestamps();
         });
     }
