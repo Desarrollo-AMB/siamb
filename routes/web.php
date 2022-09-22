@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function() {
 //RUTA FORMULARIO FAM002A - B 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('FormaFAM', [FormaFAMController::class, 'index'])->name('FormaFAM');
+    //Route::get('matriculas', [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
 });
 
 Route::get('no_authorize', function () {

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('vuelo_ordenada_por', function (Blueprint $table) {
             $table->id();
             $table->string('autoridad_orden_vuelo');
+            $table->string('codigo');
             $table->timestamps();
         });
     }

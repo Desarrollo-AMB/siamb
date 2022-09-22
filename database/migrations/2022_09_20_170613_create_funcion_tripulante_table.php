@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('funcion_tripulante', function (Blueprint $table) {
             $table->id();
             $table->string('funcion');
+            $table->string('codigo');
             $table->timestamps();
         });
     }
