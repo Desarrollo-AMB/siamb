@@ -31,4 +31,13 @@ class FormaFAMController extends Controller
         $id = AeronaveMatricula::where('aeronave_id', $request->id)->get();
         return response()->json($id);
     }
+
+    public function grupos_unidades(Request $request)
+    {
+        $codigo = AeronaveModelo::select('codigo_unidad')->where('id', $request->id)->get();
+        $unidadSelected = AeronaveUnidades::where('codigos', $codigo[0]['codigo_unidad'])->get();
+        return response()->json($unidadSelected);
+    }
+
+    
 }

@@ -19,7 +19,7 @@
                             <div class="card wizard-card" data-color="orange" id="wizardProfile">
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
-                                        <h3 class="wizard-title">FAM-0002A</h3>
+                                        <h3 class="wizard-title">FAM-0002</h3>
                                         <p class="category">Generar Ordenes de Vuelo.</p>
                                     </div>
                                     <div class="wizard-navigation">
@@ -110,11 +110,14 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>4. SERIAL</h6>
-                                                            <select name="country" class="form-control">
-                                                                <option >Seleccionar.. </option>
-                                                                <option value="Afghanistan"> DF/002 </option>
-                                                                <option value="Albania"> UIUD-33 </option>
-                                                                <option value="Algeria"> 23CDW </option>
+                                                            <select name="country" id="serial" class="form-control">
+                                                                <option>Seleccionar..</option>
+                                                                @foreach($matriculas as $data) 
+                                                                    @if ($data->serial==null)
+                                                                    @else
+                                                                    <option value="{{$data->id}}">{{$data->serial}}</option>
+                                                                    @endif
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -145,11 +148,11 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>7. UNIDAD<small></small></h6>
-                                                            <select name="country" class="form-control">
-                                                                <option>Seleccionar..</option>
+                                                            <select name="country" class="form-control" id="grupos_unidades">
+                                                                {{-- <option>Seleccionar..</option>
                                                                 @foreach($unidad as $data) 
                                                                     <option value="{{$data->id}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
-                                                                @endforeach
+                                                                @endforeach --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -242,9 +245,23 @@
                         });
                     }
                 }); 
+                $.ajax({
+                    type:'GET',
+                    url:'{{ route("grupos_unidades") }}',
+                    data:{"id" : id },
+                    success:function(res){
+                        console.log(res);
+                        $("#grupos_unidades").empty();
+                        $("#grupos_unidades").append('<option>Seleccionar..</option>');
+                        $.each(res,function(key,value){
+                            $("#grupos_unidades").append('<option value="'+value.id+'">'+value.unidad+'</option>');
+                        });
+                    }
+                }); 
             }
         });
     });
-    
+
+
 </script>
 @endsection

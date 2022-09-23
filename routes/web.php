@@ -46,10 +46,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
 });
 
-//RUTA FORMULARIO FAM002A - B 
+//RUTA FORMULARIO FAM002 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('FormaFAM', [FormaFAMController::class, 'index'])->name('FormaFAM');
     Route::get('matriculas', [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
+    Route::get('grupos_unidades', [FormaFAMController::class, 'grupos_unidades'])->name('grupos_unidades'); 
 });
 
 Route::get('no_authorize', function () {
