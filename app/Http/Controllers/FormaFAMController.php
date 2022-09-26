@@ -26,17 +26,22 @@ class FormaFAMController extends Controller
         return view('forms.index', compact('aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
-    public function matriculas(Request $request)
+    public function aeronaves_grupos(Request $request)
     {
-        $id = AeronaveMatricula::where('aeronave_id', $request->id)->get();
-        return response()->json($id);
+        $aeronaves = AeronaveModelo::where('codigo_unidad', $request->unidad)->get();
+        return response()->json($aeronaves);
     }
 
-    public function grupos_unidades(Request $request)
+    public function seriales(Request $request)
     {
-        $codigo = AeronaveModelo::select('codigo_unidad')->where('id', $request->id)->get();
-        $unidadSelected = AeronaveUnidades::where('codigos', $codigo[0]['codigo_unidad'])->get();
-        return response()->json($unidadSelected);
+        $selectedUnidad = AeronaveMatricula::where('aeronave_id', $request->id)->whereNotNull('serial')->get();
+        return response()->json($selectedUnidad);
+    }
+
+    public function matriculas(Request $request)
+    {
+        $selectedMatricula = AeronaveMatricula::where('aeronave_id', $request->id)->get();
+        return response()->json($selectedMatricula);
     }
 
     
