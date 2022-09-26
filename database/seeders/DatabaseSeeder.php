@@ -21,11 +21,13 @@ class DatabaseSeeder extends Seeder
             CreateAdminUserSeeder::class,
             AeronaveUnidadesSeeder::class,
             NivelSeeder::class,
-            BasesSeeder::class
+            BasesSeeder::class,
+            TiposEmpleadoSeeder::class,
         ]);
         $this->command->info('Seeder ejecutados!');
 
         //Para insertar por medio de archivos sQL
+        $this->command->info('Iniciando Insercion de Datos por SQL!');
         $path = 'database/sql/ubicaciones.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "ubicaciones" ejecutado!');
@@ -57,5 +59,15 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/universidades.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "universidades" ejecutado!');
+
+        $this->command->info('Tabla "empleados", por favor espere...');
+        $path = 'database/sql/empleados.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "empleados" ejecutado!');
+
+        $this->command->info('Tabla "nomina", por favor espere...');
+        $path = 'database/sql/nomina.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "nomina" ejecutado!');
     }
 }

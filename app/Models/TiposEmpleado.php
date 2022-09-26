@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class TiposEmpleado extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'tipo_emp';
+    protected $table = 'tipos_empleados';
+    //protected $primaryKey = 'tipo_emp';
     public $timestamps = false;
+
+    public function nomina()
+    {
+        return $this->belongsTo(Nomina::class, 'tipo_emp', 'tipo_emp');
+    }
 }

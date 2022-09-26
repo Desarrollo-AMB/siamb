@@ -28,7 +28,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Nombre Rol:</strong>
-                            {!! Form::text('name', null, array('placeholder' => 'Rol','class' => 'form-control')) !!}
+                            {!! Form::text('name', null, array('placeholder' => 'Rol','class' => 'form-control', 'onblur'=>'lowerCase()', 'id'=>'name')) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -74,4 +74,17 @@
     </div>
 </div>
     
+@endsection
+
+@section('scripts')
+<script>
+    $(function (){
+        
+    });
+
+    function lowerCase() {
+        var x=$("#name").val();
+        $("#name").val(x.toLowerCase());
+    }
+</script>
 @endsection

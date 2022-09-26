@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     
     Route::get('/sireh/ingreso_personal', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal');
     Route::post('/sireh/ingreso_personal', [PersonalController::class, 'registraPersonal'])->name('sireh.registra-personal');
+    
 });
 
 Route::group(['middleware' => ['auth']], function() {
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth']], function() {
 	})->name('dashboard');
     Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
+     
 });
 
 //RUTA FORMULARIO FAM002 
