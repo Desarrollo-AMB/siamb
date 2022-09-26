@@ -20,7 +20,7 @@
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
                                         <h3 class="wizard-title">FAM-0002</h3>
-                                        <p class="category">Generar Ordenes de Vuelo.</p>
+                                        <p class="category">Generar Nueva FAM-0002.</p>
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
@@ -32,7 +32,7 @@
                                                     <div class="icon-circle">
                                                         <i class="ti-files" ></i>
                                                     </div>
-                                                    <p style="font-size:11px; color: #707885">Datos</p>
+                                                    <p style="font-size:11px; color: #707885">DATOS AERONAVE</p>
                                                 </a>
                                             </li>
                                             <li>
@@ -71,61 +71,78 @@
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>1. FECHA <small></small></h6>
+                                                            <h6>FECHA <small></small></h6>
                                                             <input name="date" type="date" class="form-control" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>2. OV / OTA / OM <small></small></h6>
-                                                            <input type="text" class="form-control" placeholder="">
+                                                            <h6>OV / OTA / OM <small></small></h6>
+                                                            <input style="text-transform: uppercase" type="text" class="form-control" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>3. AERONAVE / MODELO</h6>
-                                                            {{-- <select name="country" class="form-control">
+                                                            <h6>COMPONENTE / ORGANISMO <small></small></h6>
+                                                            <select name="country" class="form-control">
                                                                 <option>Seleccionar..</option>
-                                                                @foreach($aeronaveModelos as $naves) 
-                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                                @endforeach
-                                                            </select> --}}
-                                                            {{-- <select class="aeronaves form-control" name="aeronaves">
-                                                                @foreach($aeronaveModelos as $naves) 
-                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                                @endforeach
-                                                            </select> --}}
-
-                                                            <select class="selectpicker form-control" id="naves" name="selectpicker">
-                                                                <option>Seleccionar..</option>
-                                                                @foreach($aeronaveModelos as $naves) 
-                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @foreach($componentes as $data) 
+                                                                    <option value="{{$data->id}}">{{$data->componente}} - {{$data->organismo}}</option>
                                                                 @endforeach
                                                             </select>
-                                                              
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>4. SERIAL</h6>
-                                                            <select name="country" id="serial" class="form-control">
+                                                            <h6>UNIDAD<small></small></h6>
+                                                            <select name="grupos" class="form-control" id="grupos">
                                                                 <option>Seleccionar..</option>
-                                                                @foreach($matriculas as $data) 
-                                                                    @if ($data->serial==null)
-                                                                    @else
-                                                                    <option value="{{$data->id}}">{{$data->serial}}</option>
-                                                                    @endif
+                                                                @foreach($unidad as $data) 
+                                                                    <option value="{{$data->codigos}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>5. MATRICULA <small></small></h6>
-                                                            <select name="country" id="matricula" class="form-control">
+                                                            <h6>AERONAVE / MODELO</h6>
+                                                            {{-- <select class="aeronaves form-control" name="aeronaves">
+                                                                @foreach($aeronaveModelos as $naves) 
+                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @endforeach
+                                                            </select> --}}
+
+                                                            <select class="selectpicker form-control" id="naves" name="naves">
                                                                 {{-- <option>Seleccionar..</option>
+                                                                @foreach($aeronaveModelos as $naves) 
+                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                @endforeach --}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>SERIAL</h6>
+                                                            <select name="serial" id="serial" class="form-control">
+                                                                {{-- <option>Seleccionar..</option>
+                                                                @foreach($matriculas as $data) 
+                                                                    @if ($data->serial==null)
+                                                                    @else
+                                                                    <option value="{{$data->id}}">{{$data->serial}}</option>
+                                                                    @endif
+                                                                @endforeach --}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <h6>MATRICULA <small></small></h6>
+                                                            <select name="matricula" id="matricula" class="form-control">
+                                                            {{-- <option>Seleccionar..</option>
                                                                 @foreach($matriculas as $data) 
                                                                     <option value="{{$data->id}}">{{$data->matricula}}</option>
                                                                 @endforeach --}}
@@ -134,42 +151,18 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>6. COMPONENTE / ORGANISMO <small></small></h6>
-                                                            <select name="country" class="form-control">
-                                                                <option>Seleccionar..</option>
-                                                                @foreach($componentes as $data) 
-                                                                    <option value="{{$data->id}}">{{$data->componente}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <h6>7. UNIDAD<small></small></h6>
-                                                            <select name="country" class="form-control" id="grupos_unidades">
-                                                                {{-- <option>Seleccionar..</option>
-                                                                @foreach($unidad as $data) 
-                                                                    <option value="{{$data->id}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
-                                                                @endforeach --}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <h6>8. BASE / ESTACION / PAIS / LUGAR<small></small></h6>
+                                                            <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                                             <select name="country" class="form-control">
                                                                 <option>Seleccionar..</option>
                                                                 @foreach($bases as $data) 
-                                                                    <option value="{{$data->id}}">{{$data->siglas}} - {{$data->descripcion}}</option>
+                                                                    <option value="{{$data->id}}">{{$data->descripcion}} - {{$data->siglas}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
                                                         <div class="form-group">
-                                                            <h6>9. JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
+                                                            <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
                                                             <input name="text" type="text" class="form-control">
                                                         </div>
                                                     </div>
@@ -183,15 +176,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="account">
-                                            <h5 class="info-text">paso dos</h5>
-                                            {{-- <div class="form-group">
-                                                <label for="country">Country:</label>
-                                                <select name="country" id="country" class="form-control">
-                                                    @foreach($aeronaveModelos as $naves) 
-                                                        <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div> --}}
+                                            <h5 class="info-text">A1 - DATOS DE LA MISIÓN</h5>
+                                            @include('forms.A1')
                                         </div>
                                         <div class="tab-pane" id="dddd">
                                             <h5 class="info-text">paso tres</h5>
@@ -230,34 +216,56 @@
     //     $('.aeronaves').select2();
     // });
     $(document).ready(function () {
-        $("#naves").change(function(){
+        $("#grupos").change(function(){
             var id = $(this).val();
             if(id){
                 $.ajax({
                     type:'GET',
-                    url:'{{ route("matriculas") }}',
-                    data:{"id" : id },
-                    success:function(res){
-                        $("#matricula").empty();
-                        $("#matricula").append('<option>Seleccionar..</option>');
-                        $.each(res,function(key,value){
-                            $("#matricula").append('<option value="'+value.id+'">'+value.matricula+'</option>');
-                        });
-                    }
-                }); 
-                $.ajax({
-                    type:'GET',
-                    url:'{{ route("grupos_unidades") }}',
-                    data:{"id" : id },
+                    url:'{{ route("aeronaves_grupos") }}',
+                    data:{"unidad" : id },
                     success:function(res){
                         console.log(res);
-                        $("#grupos_unidades").empty();
-                        $("#grupos_unidades").append('<option>Seleccionar..</option>');
+                        $("#naves").empty();
+                        $("#naves").append('<option>Seleccionar..</option>');
                         $.each(res,function(key,value){
-                            $("#grupos_unidades").append('<option value="'+value.id+'">'+value.unidad+'</option>');
+                            $("#naves").append('<option value="'+value.id+'">'+value.aeronave+'-'+value.modelo+'</option>');
                         });
                     }
                 }); 
+                
+            }
+        });
+        $('#naves').on('change',function(){
+            var naveId = $(this).val();  
+            if(naveId){
+                $.ajax({
+                    type:"GET",
+                    url:"{{ route('seriales') }}",
+                    data : { "id" : naveId },
+                    success:function(res){        
+                        if(res){
+                            $("#serial").empty();
+                            $("#serial").append('<option>Seleccionar..</option>');
+                            $.each(res,function(key,value){
+                                $("#serial").append('<option value="'+key.serial+'">'+value.serial+'</option>');
+                            });
+                        }
+                    }
+                });
+                $.ajax({
+                    type:"GET",
+                    url:"{{ route('matriculas') }}",
+                    data : { "id" : naveId },
+                    success:function(res){        
+                        if(res){
+                            $("#matricula").empty();
+                            $("#matricula").append('<option>Seleccionar..</option>');
+                            $.each(res,function(key,value){
+                                $("#matricula").append('<option value="'+key.matricula+'">'+value.matricula+'</option>');
+                            });
+                        }
+                    }
+                });
             }
         });
     });

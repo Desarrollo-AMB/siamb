@@ -1398,24 +1398,6 @@ input[type="button"]:focus {
   font-size: 14px;
 }
 
-.footer {
-  position: relative;
-  bottom: 20px;
-  right: 0px;
-  width: 100%;
-  color: #FFFFFF;
-  z-index: 4;
-  text-align: right;
-  margin-top: 60px;
-  text-shadow: 0 1px 3px black;
-}
-.footer a {
-  color: #FFFFFF;
-}
-.footer .heart {
-  color: #FF3B30;
-}
-
 @media (max-width: 768px) {
   .main .container {
     margin-bottom: 50px;
