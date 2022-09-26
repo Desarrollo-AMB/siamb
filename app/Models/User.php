@@ -58,4 +58,8 @@ class User extends Authenticatable
         ->useLogName('Actividad BD')
         ->logOnly(['name', 'email']);
     }
+
+    public function empleado() {
+        return $this->hasOne(Empleado::class);
+    }
 }

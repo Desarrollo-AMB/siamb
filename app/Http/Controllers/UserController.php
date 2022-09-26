@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use App\Models\Empleado;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -44,6 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $codigo_empleado = $request->codigo_empleado;
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -51,11 +54,15 @@ class UserController extends Controller
             'roles' => 'required'
         ]);
 
-        $input = $request->all();
+        $input = $request->except(['codigo_empleado']);
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-
+        if ($codigo_empleado){
+            $empleado = Empleado::where('codigo_empleado', $codigo_empleado)->first();
+            $empleado->user_id = $user->id;
+            $empleado->update();
+        }
         return redirect()->route('users.index')
             ->with('success','Usuario creado satisfactoriamente');
     }
