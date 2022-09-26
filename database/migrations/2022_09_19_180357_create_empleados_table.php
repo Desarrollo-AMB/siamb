@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
             $table->integer('codigo_empleado')->nullable();
-            $table->integer('cedula')->unique()->nullable();
+            $table->integer('cedula')->nullable();
             $table->string('nombre1',50)->nullable();
             $table->string('nombre2',50)->nullable();
             $table->string('apellido1',50)->nullable();
             $table->string('apellido2',50)->nullable();
             $table->string('situacion',1)->nullable();
-            $table->date('f_nacimiento')->nullable();
+            $table->date('fecha_nacim')->nullable();
             $table->string('sexo',1)->nullable();
             $table->string('edo_civil',2)->nullable();
             $table->string('telefono',25)->nullable();
@@ -62,14 +62,11 @@ return new class extends Migration
             $table->string('telefono_cel',15)->nullable();
             $table->string('telefono_ofi',15)->nullable();
             $table->string('persona_contacto',60)->nullable();
-            $table->string('telefono_e',20)->nullable();
             $table->string('talla_gorra',3)->nullable();
-            $table->string('nro_historia_clinica',20)->nullable();
+            $table->string('ubicacion_admpub',20)->nullable();
             $table->string('discapacidad',100)->nullable();
             $table->string('tipo_discapacidad',100)->nullable();
             $table->string('alergias',100)->nullable();
-            $table->string('ubiccion_admpub',20)->nullable();
-            $table->string('telefono_admpub',255)->nullable();
             $table->string('seid_foto_militar',255)->nullable();
             $table->string('seid_grado_militar',4)->nullable();
             $table->string('seid_especialidad',255)->nullable();
@@ -79,6 +76,7 @@ return new class extends Migration
             $table->string('seid_comandante_unidad',255)->nullable();
             $table->string('seid_evaluado',4)->nullable();
             $table->string('seid_motivo_evaluacion',255)->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }
