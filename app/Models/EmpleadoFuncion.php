@@ -11,7 +11,12 @@ class EmpleadoFuncion extends Model
     protected $table = 'empleado_funcion';
     protected $fillable = [
         'codigo_empleado',
-        'id_funcion',
-        'flag_jefe_maquina'
+        'id_funcion'
     ];
+
+    public function empleado()
+    {
+        return $this->belongsTo(Empleado::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
 }
