@@ -102,6 +102,7 @@
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
             ajax: "{{ route('permissions.index') }}",
             columns: [
                 {

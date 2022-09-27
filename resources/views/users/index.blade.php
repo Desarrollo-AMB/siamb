@@ -35,12 +35,16 @@
                             <tr>
                                 <td class="text-center">{{ ++$i }}</td>
                                 <td>{{ $user->username }}</td>
-                                <td>{{ $user->name }}</td>
+                                <td>
+                                    @if ($user->empleado) 
+                                    {{ $user->empleado->nombre1 }} {{ $user->empleado->apellido1}}
+                                    @endif
+                                </td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @if(!empty($user->getRoleNames()))
                                         @foreach($user->getRoleNames() as $v)
-                                            <label class="badge badge-success">{{ $v }}</label>
+                                            <label class="badge bg-secondary">{{ $v }}</label>
                                         @endforeach
                                     @endif
                                 </td>

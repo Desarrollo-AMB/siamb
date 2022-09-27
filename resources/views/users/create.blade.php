@@ -28,10 +28,10 @@
                             <div class="card-header p-0 pt-1 border-bottom-0">
                                 <ul class="nav nav-tabs" id="custom-tabs-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-form-tab" data-toggle="pill" href="#custom-tabs-form" role="tab" aria-controls="custom-tabs-form" aria-selected="false">Creacion Usuario</a>
+                                        <a class="nav-link active" id="custom-tabs-form-tab" data-bs-toggle="tab" href="#custom-tabs-form" role="tab" aria-controls="custom-tabs-form" aria-selected="false">Creacion Usuario</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="custom-tabs-empleados-tab" data-toggle="pill" href="#custom-tabs-empleados" role="tab" aria-controls="custom-tabs-empleados" aria-selected="false">Lista Empleados</a>
+                                        <a class="nav-link " id="custom-tabs-empleados-tab" data-bs-toggle="tab" href="#custom-tabs-empleados" role="tab" aria-controls="custom-tabs-empleados" aria-selected="false">Lista Empleados</a>
                                     </li>
                                 </ul>
                             </div>
@@ -40,40 +40,49 @@
                                     <div class="tab-pane fade active show" id="custom-tabs-form" role="tabpanel" aria-labelledby="custom-tabs-form-tab">
                                         {!! Form::open(array('route' => 'users.store','method'=>'POST', 'id'=>'crear_usuario')) !!}
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Nombre:</strong>
-                                                    {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="row">
+                                                    {{--<div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Nombre:</strong>
+                                                            {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>--}}
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Usuario:</strong>
+                                                            {!! Form::text('username', null, array('placeholder' => 'Usuario','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Email:</strong>
+                                                            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Password:</strong>
+                                                            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Confirmar Password:</strong>
+                                                            {!! Form::password('confirm-password', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Usuario:</strong>
-                                                    {!! Form::text('username', null, array('placeholder' => 'Usuario','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Email:</strong>
-                                                    {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Password:</strong>
-                                                    {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Confirmar Password:</strong>
-                                                    {!! Form::password('confirm-password', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="form-group">
-                                                    <strong>Roles:</strong>
-                                                    {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Roles:</strong>
+                                                            <br>
+                                                            {!! Form::select('roles[]', $roles,[], array('id'=>'roles','class' => 'form-control','multiple','size'=>'10')) !!}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -83,7 +92,7 @@
                                         </div>
                                         {!! Form::close() !!}
                                     </div>
-                                    <div class="tab-pane fade" id="custom-tabs-empleados" role="tabpanel" aria-labelledby="custom-tabs-empleados-tab">
+                                    <div class="tab-pane fade " id="custom-tabs-empleados" role="tabpanel" aria-labelledby="custom-tabs-empleados-tab">
                                         <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
                                             <thead>
                                                 <tr>
@@ -110,33 +119,39 @@
 @endsection
 
 @section('scripts')
+@parent
 <script>
     $(function () {
-        
+        $('#roles').select2({
+                allowClear: true,
+                minimumResultsForSearch: -1,
+                width: 300
+             });
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
+            pageLength: 25,
             ajax: "{{ route('personal.empleados.notuser') }}",
             columns: [
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
-                {
-                    data: 'cedula',
-                },
+                {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
-                {data: 'nomina.tipo_empleado.descripcion'},
-                {data: 'nomina.cargo.nombre_cargo'},
-                {data: 'nomina.ubicacion.descripcion'},
-            ]
+                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion'},
+                {data: 'cargo', name: 'cargos.nombre_cargo'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion'},
+            ],
+            search: {
+                return: true,
+            },
         });
         new $.fn.dataTable.FixedHeader( table );
         $('#table').on('click', '.confirm-asociar', function (event) {
             event.preventDefault();
             var codigo_empleado= $(this).data('id');
-            console.log(codigo_empleado);
             Swal.fire({
-                title: 'Empleado Seleccinado!',
+                title: 'Empleado Seleccionado!',
                 text: "Esta seguro de asociarlo al usuario?",
                 icon: 'warning',
                 showCancelButton: true,
@@ -146,7 +161,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#codigo_empleado').val(codigo_empleado);
-                    $('#custom-tabs-form').tab('show');
+                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });
            

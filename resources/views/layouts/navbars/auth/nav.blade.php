@@ -20,7 +20,7 @@
             <li class="nav-item d-flex align-items-center">
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
-                    <i class="fa fa-user me-sm-1"></i>
+                    <i class="fa fa-sign-out me-sm-1"></i>
                     {{ __('Salir') }}
                 </a>
 

@@ -10,6 +10,14 @@ class TiposEmpleado extends Model
     use HasFactory;
     protected $table = 'tipos_empleados';
     //protected $primaryKey = 'tipo_emp';
+    protected $fillable = [
+        'tipo_emp',
+        'descripcion',
+        'clasificacion',
+        'codigo_cia',
+        'aplicacion_nomina',
+        'requiere_puesto',
+    ];
     public $timestamps = false;
 
     public function nomina()
