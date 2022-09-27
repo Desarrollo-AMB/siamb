@@ -6,6 +6,9 @@ use App\Models\AeronaveModelo;
 use App\Models\AeronaveMatricula;
 use App\Models\ComponenteOrganismo;
 use App\Models\Base;
+use App\Models\EmpleadoFuncion;
+use App\Models\Empleado;
+
 
 use Illuminate\Http\Request;
 
@@ -23,7 +26,14 @@ class FormaFAMController extends Controller
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
-        return view('forms.index', compact('aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+
+        $empleados = Empleado::select('empleados.id','empleados.nombre1','empleados.cedula')
+        ->join('empleado_funcion','empleados.codigo_empleado','=','empleados.codigo_empleado')
+        ->distinct()
+        ->get();
+
+        //dd($empleados);
+        return view('forms.index', compact('empleados', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)

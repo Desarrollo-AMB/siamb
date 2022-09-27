@@ -163,7 +163,12 @@
                                                     <div class="col-sm-4 col-sm-offset-1">
                                                         <div class="form-group">
                                                             <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
-                                                            <input name="text" type="text" class="form-control">
+                                                            <select name="country" class="form-control">
+                                                            <option>Seleccionar..</option>
+                                                                @foreach($empleados as $data) 
+                                                                    <option value="{{$data->id}}">{{$data->nombre1}} - {{$data->cedula}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     {{-- <div class="col-sm-3 col-sm-offset-1">

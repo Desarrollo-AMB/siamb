@@ -13,6 +13,7 @@ use App\Models\CodigoTipoMision;
 use App\Models\CodigoDespegue;
 use App\Models\CodigoSensores;
 use App\Models\UnidadesConsumible;
+use App\Models\EmpleadoFuncion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -432,10 +433,46 @@ class AeronaveUnidadesSeeder extends Seeder
             ['funcion' => 'ALUMNO OPERADOR REMOTO INTERNO',  'codigo' => 'AORI'],
             ['funcion' => 'ALUMNO OPERADOR REMOTO EXTERNO',  'codigo' => 'AORE'],
             ['funcion' => 'OBSERVADOR',                      'codigo' => 'OB'],
+            ['funcion' => 'OSANGE',                          'codigo' => 'AP'],
+            ['funcion' => 'OFICIAL DE SOPORTE ELECTRÓNICO ', 'codigo' => 'CP'],
+            ['funcion' => 'OFICIAL DE SOPORTE ELECTRÓNICO MAGINT ', 'codigo' => 'P'],
+            ['funcion' => 'OFICIAL DE SOPORTE ELECTRÓNICO COMINT ', 'codigo' => 'PI'],
+            ['funcion' => 'OFICIAL DE SOPORTE ELECTRÓNICO SIGINT ', 'codigo' => 'ORI'],
+            ['funcion' => 'JEFE DE MÁQUINA ', 'codigo' => 'ORE'],
+            ['funcion' => 'INGENIERO DE VUELO ', 'codigo' => 'AORI'],
+            ['funcion' => 'NAVEGANTE ', 'codigo' => 'AORE'],
+            ['funcion' => 'RADIO OPERADOR ', 'codigo' => 'OB'],
+            ['funcion' => 'MAESTRO DE CARGA ', 'codigo' => 'OB'],
+            ['funcion' => 'MAESTRO DE SALTO ', 'codigo' => 'AORI'],
+            ['funcion' => 'OPERADOR DE BOOM ', 'codigo' => 'AORE'],
+            ['funcion' => 'OPERADOR DE CESTA ', 'codigo' => 'OB'],
+            ['funcion' => 'ARTILLERO ', 'codigo' => 'OB'],
+            ['funcion' => 'FOTÓGRAFO AÉREO ', 'codigo' => 'OB'],
+            ['funcion' => 'SEGURIDAD ABORDO ', 'codigo' => 'ORE'],
+            ['funcion' => 'ENFERMERO AERONÁUTICO ', 'codigo' => 'AORI'],
+            ['funcion' => 'MÉDICO AERONÁUTICO ', 'codigo' => 'AORE'],
+            ['funcion' => 'AUXILIAR DE JEFE DE MÁQUINA ', 'codigo' => 'OB'],
+            ['funcion' => 'AUXILIAR DE INGENIERO DE VUELO ', 'codigo' => 'OB'],
+            ['funcion' => 'AUXILIAR DE MAESTRO DE CARGA ', 'codigo' => 'AORI'],
+            ['funcion' => 'AUXILIAR DE MAESTRO DE SALTO ', 'codigo' => 'AORE'],
+            ['funcion' => 'AUXILIAR ABORDO (SOBRE CARGO) ', 'codigo' => 'OB'],
+            ['funcion' => 'OPERADOR DE GRÚA ', 'codigo' => 'OB'],
+            ['funcion' => 'OPERADOR DE ESLINGA', 'codigo' => 'OB'],
         ];
 
         foreach ($funcionTripulante as $item) {
             FuncionTripulante::create($item);
+        }
+
+        $jefeCargaTripulante = [
+            ['codigo_empleado' => '30284', 'id_funcion' => '15', 'flag_jefe_maquina' => true],
+            ['codigo_empleado' => '30285', 'id_funcion' => '15', 'flag_jefe_maquina' => true],
+            ['codigo_empleado' => '30286', 'id_funcion' => '15', 'flag_jefe_maquina' => true],
+            ['codigo_empleado' => '4731', 'id_funcion' => '15', 'flag_jefe_maquina' => true],
+        ];
+
+        foreach ($jefeCargaTripulante as $item) {
+            EmpleadoFuncion::create($item);
         }
 
         $codigoTipoMision = [
