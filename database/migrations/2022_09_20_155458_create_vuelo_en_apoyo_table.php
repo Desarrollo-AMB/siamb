@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('vuelo_en_apoyo', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_apoyo');
+            $table->string('codigo');
             $table->timestamps();
         });
     }
