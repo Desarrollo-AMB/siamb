@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Empleado;
 use DataTables;
+use Illuminate\Support\Str;
 
 class PersonalController extends Controller
 {
@@ -21,22 +22,27 @@ class PersonalController extends Controller
 
 
     public function empleadosSinUser(Request $request){
-        //dd($request->query());
-        $start=$request->query()['start'];
-        $length=$request->query()['length'];
-        $count_empleados = Empleado::with(['nomina', 'nomina.cargo','nomina.ubicacion','nomina.tipo_empleado'])
-        ->whereNull('user_id')
-        ->count();
-        $empleados = Empleado::with(['nomina', 'nomina.cargo','nomina.ubicacion','nomina.tipo_empleado'])
-        ->whereNull('user_id')
-        ->offset($start)->limit($length+$start)
-        ->get();
-
-        return Datatables::of($empleados)
+       
+        $empleados = Empleado::whereNull('user_id'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
+        $empleados->select(
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'tipos_empleados.descripcion as tipo_empleado',
+            'cargos.nombre_cargo as cargo',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
             ->addColumn('actions', 'users._actions')
-            ->rawColumns(['actions'])
-            ->setTotalRecords($count_empleados)
-            ->toJson();
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
     }
 
 }

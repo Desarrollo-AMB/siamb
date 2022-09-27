@@ -25,12 +25,12 @@
             <div class="card-body px-2 pt-2 pb-2">
                 {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    {{--<div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Nombre:</strong>
                             {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
                         </div>
-                    </div>
+                    </div>--}}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Usuario:</strong>
@@ -59,6 +59,16 @@
                         <div class="form-group">
                             <strong>Roles:</strong>
                             {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            @if ($user->empleado)
+                            <strong>Empleado:</strong>
+                            <span> 
+                                {{ $user->empleado->cedula }} - {{ $user->empleado->nombre1 }} {{ $user->empleado->nombre2 }}, {{ $user->empleado->apellido1 }} {{ $user->empleado->apellido2 }}
+                            </span>
+                            @endif
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
