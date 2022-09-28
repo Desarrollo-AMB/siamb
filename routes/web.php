@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('seriales', [FormaFAMController::class, 'seriales'])->name('seriales'); 
     Route::get('matriculas', [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
 
+    Route::post('steps', [FormaFAMController::class, 'steps'])->name('steps'); 
     Route::post('store', [FormaFAMController::class, 'store'])->name('store'); 
 });
 
