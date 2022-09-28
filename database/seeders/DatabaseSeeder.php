@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
 
         //Para insertar por medio de archivos sQL
         $this->command->info('Iniciando Insercion de Datos por SQL!');
+        
         $path = 'database/sql/ubicaciones.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "ubicaciones" ejecutado!');
@@ -69,5 +70,9 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/nomina.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "nomina" ejecutado!');
+
+        $path = 'database/sql/aparte_nieto.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "aparte_nieto" (SEID) ejecutado!');
     }
 }

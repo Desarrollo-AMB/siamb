@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
-            $table->integer('codigo_empleado')->nullable();
+            $table->integer('codigo_empleado')->unique()->nullable();
             $table->integer('cedula')->nullable();
             $table->string('nombre1',50)->nullable();
             $table->string('nombre2',50)->nullable();
