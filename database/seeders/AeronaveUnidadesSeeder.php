@@ -12,6 +12,8 @@ use App\Models\FuncionTripulante;
 use App\Models\CodigoTipoMision;
 use App\Models\CodigoDespegue;
 use App\Models\CodigoSensores;
+use App\Models\UnidadesConsumible;
+use App\Models\EmpleadoFuncion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

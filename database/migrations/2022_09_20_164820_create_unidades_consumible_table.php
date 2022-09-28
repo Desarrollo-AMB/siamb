@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('unidades_combustible', function (Blueprint $table) {
+        Schema::create('unidades_consumible', function (Blueprint $table) {
             $table->id();
-            $table->string('combustible');
-            $table->string('unidad')->nullable();
+            $table->string('consumible');
             $table->string('tipo')->nullable();
+            $table->string('unidad')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('unidades_combustible');
+        Schema::dropIfExists('unidades_consumible');
     }
 };
