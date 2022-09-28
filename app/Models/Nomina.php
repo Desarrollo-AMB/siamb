@@ -24,6 +24,6 @@ class Nomina extends Model
     }
 
     public function tipo_empleado() {
-        return $this->hasOne(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
+        return $this->belongsTo(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
     }
 }

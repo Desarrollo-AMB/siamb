@@ -33,7 +33,7 @@
     <link href="../template/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../template/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    {{-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> --}}
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{ asset('template/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('template/assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
@@ -68,7 +68,7 @@
     <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" ></script>
     <!--   Core JS Files   -->
     <script src="{{ asset('template/assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('template/assets/js/core/bootstrap.min.js') }}"></script>
+    {{--<script src="{{ asset('template/assets/js/core/bootstrap.min.js') }}"></script>--}}
     <script src="{{ asset('template/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/plugins/fullcalendar.min.js') }}"></script>
@@ -85,6 +85,7 @@
         }
     </script>
 
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
@@ -101,7 +102,7 @@
     <script src="{{ asset('vendor/datatables/dataTables.fixedHeader.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/dataTables.responsive.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/responsive.bootstrap.min.js') }}" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    {{--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
 
 
     {{-- wizard  --}}

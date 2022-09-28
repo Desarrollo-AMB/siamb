@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $data = User::orderBy('name','ASC')->paginate(10);
+        $data = User::with(['empleado'])->orderBy('name','ASC')->paginate(10);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
     }
@@ -48,7 +48,6 @@ class UserController extends Controller
     {
         $codigo_empleado = $request->codigo_empleado;
         $this->validate($request, [
-            'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
@@ -87,7 +86,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::with(['empleado'])->find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
 
@@ -104,7 +103,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
