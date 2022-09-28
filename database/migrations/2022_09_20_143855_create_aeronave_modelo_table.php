@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('aeronave')->nullable();
             $table->string('modelo')->nullable();
+            $table->string('codigo_unidad')->nullable();
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('aeronave_matricula', function (Blueprint $table) {
             $table->id();
             $table->string('matricula')->nullable();
+            $table->string('serial')->nullable();
             $table->foreignId('aeronave_id')->constrained('aeronave_modelo');
             $table->timestamps();
         });

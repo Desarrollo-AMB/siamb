@@ -58,8 +58,8 @@ class User extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->useLogName('Actividad BD')
-        ->logOnly(['name', 'email']);
+        ->useLogName('Actividad tabla users')
+        ->logOnly(['username', 'email']);
     }
 
     public function empleado() {
