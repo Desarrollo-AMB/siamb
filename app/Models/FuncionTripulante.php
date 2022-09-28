@@ -11,7 +11,8 @@ class FuncionTripulante extends Model
     protected $table = 'funcion_tripulante';
     protected $fillable = [
         'funcion',
-        'codigo'
+        'codigo',
+        'flag_jefe_maquina'
     ];
 
 }
