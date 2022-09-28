@@ -54,6 +54,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('aeronaves_grupos', [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales', [FormaFAMController::class, 'seriales'])->name('seriales'); 
     Route::get('matriculas', [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
+
+    Route::post('steps', [FormaFAMController::class, 'steps'])->name('steps'); 
+    Route::post('store', [FormaFAMController::class, 'store'])->name('store'); 
 });
 
 Route::get('no_authorize', function () {

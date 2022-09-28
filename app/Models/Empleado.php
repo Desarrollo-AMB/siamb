@@ -23,5 +23,9 @@ class Empleado extends Model
     public function nomina() {
         return $this->hasOne(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
+
+    public function funcion() {
+        return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado');
+    }
     
 }
