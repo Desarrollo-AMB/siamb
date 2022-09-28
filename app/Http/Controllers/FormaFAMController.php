@@ -57,6 +57,12 @@ class FormaFAMController extends Controller
         return response()->json($selectedMatricula);
     }
 
+    public function steps()
+    {
+        $pasosCompletados = Fam0001::get();
+        return response()->json($pasosCompletados);
+    }
+
     public function store(Request $request)
     {
         $fam0001 = new Fam0001;
@@ -69,6 +75,7 @@ class FormaFAMController extends Controller
         $fam0001->matricula = $request->matricula;
         $fam0001->base_estacion = $request->base_estacion;
         $fam0001->jefe_maquina = $request->jefe_maquina;
+        $fam0001->completado = $request->completado;
         $fam0001->save();
 
         $fecha = $request->ov_ota_om;

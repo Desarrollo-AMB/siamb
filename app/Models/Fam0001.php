@@ -19,5 +19,6 @@ class Fam0001 extends Model
         'matricula',
         'base_estacion',
         'jefe_maquina',
+        'completado',
     ];
 }

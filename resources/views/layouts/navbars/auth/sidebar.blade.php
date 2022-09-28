@@ -41,6 +41,7 @@
             <span class="nav-link-text ms-1">Perfil</span>
         </a>
       </li>
+
       @role('administrador')
       
       <li class="nav-item">
