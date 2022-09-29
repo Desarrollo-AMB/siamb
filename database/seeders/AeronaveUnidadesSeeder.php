@@ -411,12 +411,30 @@ class AeronaveUnidadesSeeder extends Seeder
         }
 
         $ordenadaPor = [
-            ['autoridad_orden_vuelo' => 'PRESIDENCIAL',                                  'codigo' => 'G-4'],
-            ['autoridad_orden_vuelo' => 'MINISTERIO DEL PODER POPULAR PARA LA DEFENSA ', 'codigo' => 'G-5'],
-            ['autoridad_orden_vuelo' => 'COMANDO ESTRATEGICO OPERACIONAL ',              'codigo' => 'G-6'],
-            ['autoridad_orden_vuelo' => 'AVIACION MILITAR BOLIVARIANA',                  'codigo' => 'G-7'],
-            ['autoridad_orden_vuelo' => 'CODAI',                                         'codigo' => 'G-8'],
-            ['autoridad_orden_vuelo' => 'COMANDANTE DE UNIDAD',                          'codigo' => 'G-9'],
+            ['autoridad_orden_vuelo' => 'PRESIDENCIAL',                                                         'codigo' => 'GPH'],                                                     
+            ['autoridad_orden_vuelo' => 'MINISTERIO DEL PODER POPULAR PARA LA DEFENSA ',                        'codigo' => 'MPPD'],                    
+            ['autoridad_orden_vuelo' => 'COMANDO ESTRATÉGICO OPERACIONAL – DIRECTOR DE MEDIOS AÉREOS ',         'codigo' => 'CEO-DMA'],     
+            ['autoridad_orden_vuelo' => 'COMANDANTE GENERAL AMB',                                               'codigo' => 'COMGRAL'],                                           
+            ['autoridad_orden_vuelo' => 'COMANDO DE DEFENSA AÉREO ESPACIAL INTEGRAL – CENTRO DE DIRECCIÓN ',    'codigo' => 'CODAI - CDDAI'], 
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO PRESIDENCIAL Nº 4',                                        'codigo' => 'GAC4'],                                   
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE TRANSPORTE Nº 5',                                       'codigo' => 'GAC5'],                                  
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE TRANSPORTE Nº 6',                                       'codigo' => 'GAC6'],                                  
+            ['autoridad_orden_vuelo' => 'GRUPO  AEREO DE ENTRENAMINTO INSTRUMENTAL  Nº 7',                      'codigo' => 'GAC7'],                 
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE RECONOCIMIENTO VIGILANCIA Y CONTROL Nº 8',              'codigo' => 'GAC8'],         
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE TRANSPORTE Nº 9',                                       'codigo' => 'GAC9'],                                  
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE OERACINES ESPECIALES Nº10',                             'codigo' => 'GAC10'],                       
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE CAZA Nº11',                                             'codigo' => 'GAC11'],                                        
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE CAZA Nº12',                                             'codigo' => 'GAC12'],                                        
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE CAZA Nº13',                                             'codigo' => 'GAC13'],                                        
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº14',                                    'codigo' => 'GAC14'],                               
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE CAZA Nº15',                                             'codigo' => 'GAC15'],                                        
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE CAZA Nº16',                                             'codigo' => 'GAC16'],                                       
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE OPERACIONES ESPECIALES  Nº17',                          'codigo' => 'GAC17'],                    
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº18',                                    'codigo' => 'GAC18'],                               
+            ['autoridad_orden_vuelo' => 'GRUPO AEREO DE ENTRENAMIENTO Nº19',                                    'codigo' => 'GAC19'],                              
+            ['autoridad_orden_vuelo' => 'OMANDO AÉREO DE OPERACIONES VÍA OCATA',                                'codigo' => 'CAO-OCATA'],                           
+            ['autoridad_orden_vuelo' => 'COMANDO AÉREO DE OPERACIONES VÍA DIROPECAO',                           'codigo' => 'CAO-OPNES'],                    
+            ['autoridad_orden_vuelo' => 'FUERZA DE TAREA',                                                      'codigo' => 'FTA'],                                                        
         ];
 
         foreach ($ordenadaPor as $item) {

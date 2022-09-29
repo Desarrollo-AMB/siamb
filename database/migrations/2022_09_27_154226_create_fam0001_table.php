@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('matricula')->nullable();
             $table->string('base_estacion')->nullable();
             $table->string('jefe_maquina')->nullable();
+            $table->string('completado')->nullable();
             $table->timestamps();
         });
     }
