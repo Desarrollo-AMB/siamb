@@ -74,13 +74,13 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>FECHA <small></small></h6>
-                                                            <input name="fecha" type="date" class="form-control fecha load_fecha">
+                                                            <input name="fecha" type="date" class="form-control fecha" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>OV / OTA / OM <small></small></h6>
-                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om load_ov_ota_om" placeholder="">
+                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
