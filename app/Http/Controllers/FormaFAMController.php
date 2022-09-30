@@ -9,6 +9,11 @@ use App\Models\Base;
 use App\Models\EmpleadoFuncion;
 use App\Models\Empleado;
 use App\Models\Fam0001;
+use App\Models\VueloOrdenadaPor;
+use App\Models\VueloEnApoyo;
+use App\Models\UnidadesConsumible;
+use App\Models\UnidadesMedidas;
+use App\Models\A1Mision;
 
 
 use Illuminate\Http\Request;
@@ -22,21 +27,21 @@ class FormaFAMController extends Controller
 
     public function index()
     {
+        //HEADER
         $aeronaveModelos = AeronaveModelo::get();
         $matriculas = AeronaveMatricula::get();
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
-
-        // $empleados = Empleado::select('empleados.id','empleados.nombre1','empleados.cedula')
-        // ->join('empleado_funcion','empleados.codigo_empleado','=','empleados.codigo_empleado')
-        // ->distinct()
-        // ->get();
-
         $jefeMaquina = EmpleadoFuncion::with('empleado')->get();
+        //A1-MISION
+        $vueloOrdenadaPor = VueloOrdenadaPor::get();
+        $enApoyo = VueloEnApoyo::get();
+        $consumibles = UnidadesConsumible::get();
+        $unidadesMedida = UnidadesMedidas::get();
 
         //dd($jefeMaquina);
-        return view('forms.index', compact('jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('forms.index', compact('consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)
@@ -78,16 +83,56 @@ class FormaFAMController extends Controller
         $fam0001->completado = $request->completado;
         $fam0001->save();
 
-        $fecha = $request->ov_ota_om;
-
+        $dataFam001 = [
+            "id" => $fam0001->id,
+            "ov_ota_om" => $request->ov_ota_om, 
+        ];
+            
         //return response()->json($request);
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $fecha
+                'data' => $dataFam001
             ]
         );
+    }
+
+    public function store_a1(Request $request)
+    {
+        $A1 = new A1Mision;
+        $A1->ordenada_por = $request->ordenada_por;
+        $A1->en_apoyo = $request->en_apoyo;
+        $A1->codigo = $request->codigo;
+        $A1->ruta_desde = $request->ruta_desde;
+        $A1->ruta_hasta = $request->ruta_hasta;
+        $A1->encend = $request->encend;
+        $A1->despeg = $request->despeg;
+        $A1->aterriz = $request->aterriz;
+        $A1->apag = $request->apag;
+        $A1->registro_manual = $request->registro_manual;
+        $A1->horometro = $request->horometro;
+        $A1->ind_vuelo = $request->ind_vuelo;
+        $A1->toque_desp = $request->toque_desp;
+        $A1->low_go = $request->low_go;
+        $A1->total = $request->total;
+        $A1->ciclos_tren = $request->ciclos_tren;
+        $A1->ov_ota_om = $request->ov_ota_om;
+        $A1->fam0001_id = $request->fam0001_id;
+        $A1->completado = $request->completado;
+        $A1->save();
+
+        
+        $A1_data = A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $A1_data
+            ]
+        );
+
     }
 
     

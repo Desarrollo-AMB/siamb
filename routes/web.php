@@ -56,7 +56,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('matriculas', [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
 
     Route::post('steps', [FormaFAMController::class, 'steps'])->name('steps'); 
-    Route::post('store', [FormaFAMController::class, 'store'])->name('store'); 
+    Route::post('store_header', [FormaFAMController::class, 'store'])->name('store_header'); 
+    Route::post('store_a1', [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
 });
 
 Route::get('no_authorize', function () {

@@ -74,13 +74,13 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>FECHA <small></small></h6>
-                                                            <input name="fecha" type="date" class="form-control fecha" >
+                                                            <input name="fecha" type="date" class="form-control fecha load_fecha" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>OV / OTA / OM <small></small></h6>
-                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om" placeholder="">
+                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om load_ov_ota_om" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -224,6 +224,7 @@
     //     $('.aeronaves').select2();
     // });
     $(document).ready(function () {
+        var id_fam0001;
         $("#grupos").change(function(){
             var id = $(this).val();
             if(id){
@@ -276,7 +277,7 @@
                 });
             }
         });
-
+        //TRAER DATA DEL PRIMER STEP
         $.ajax({
             url:"{{ route('steps') }}",
             method:'POST',
@@ -289,6 +290,7 @@
                 if(response.length>0){
                     console.log(response[0]);
                     let famSteps = response[0]
+                    id_fam0001 = famSteps.id;
                     if (famSteps.completado === "completado") {
                         //completado
                     }else{
@@ -345,28 +347,13 @@
             var base_estacion = $('.base_estacion').find(":selected").text();
             var jefe_maquina = $('.jefe_maquina').find(":selected").val();
             
-            //PRIMER PASO
-            // var dataHeader = [
-            //     {
-            //         fecha: fecha,
-            //         ov_ota_om: ov_ota_om.toUpperCase(),
-            //         componente_organismo: componente_organismo,
-            //         unidad: unidad,
-            //         aeronave_modelo: aeronave_modelo,
-            //         serial: serial,
-            //         matricula: matricula,
-            //         base_estacion: base_estacion,
-            //         jefe_maquina: jefe_maquina,
-            //         completado: "paso1",
-            //     }
-            // ]
-            //VALIDAR
+            //VALIDAR PASO UNO HEADER
             if(ov_ota_om===""){
                 console.log('no puedes guardar datos vacios')
             }else{
                 //ENVIAR
                 $.ajax({
-                url:"{{ route('store') }}",
+                url:"{{ route('store_header') }}",
                 method:'POST',
                 data:{
                     fecha: fecha,
@@ -383,6 +370,7 @@
                     success:function(response){
                         if(response.success){
                             console.log(response)
+                            id_fam0001 = response.data.id;
                         }
                     },
                     error:function(error){
@@ -392,7 +380,84 @@
             }
             
         });
-        
+
+        //VALIDAR GUARDAR A1 MISION
+        $(".enviar_a1_mision").click(function(e){
+            e.preventDefault();
+            var ordenada_por = $('.ordenada_por').find(":selected").text();
+            var en_apoyo = $('.en_apoyo').find(":selected").text();
+            var codigo = $('.codigo').val();
+            var ruta_desde = $('.ruta_desde').text();
+            var ruta_hasta = $('.ruta_hasta').text();
+            var encend = $('.encend').val();
+            var despeg = $('.despeg').val();
+            var aterriz = $('.aterriz').val();
+            var apag = $('.apag').val();
+            var registro_manual = $('.registro_manual').val();
+            var horometro = $('.horometro').val();
+            var ind_vuelo = $('.ind_vuelo').val();
+            var toque_desp = $('.toque_desp').val();
+            var low_go = $('.low_go').val();
+            var total = $('.total').val();
+            var ciclos_tren = $('.ciclos_tren').val();
+            
+            console.log($('.ov_ota_om').val());
+            console.log(id_fam0001);
+            //VALIDAR PASO UNO HEADER
+            
+            if(ordenada_por===""){
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('store_a1') }}",
+                method:'POST',
+                data:{
+                    ordenada_por:ordenada_por,
+                    en_apoyo:en_apoyo,
+                    codigo:codigo.toUpperCase(),
+                    ruta_desde:ruta_desde,
+                    ruta_hasta:ruta_hasta,
+                    encend:encend.toUpperCase(),
+                    despeg:despeg.toUpperCase(),
+                    aterriz:aterriz.toUpperCase(),
+                    apag:apag.toUpperCase(),
+                    registro_manual: registro_manual.toUpperCase(),
+                    horometro:horometro.toUpperCase(),
+                    ind_vuelo:ind_vuelo.toUpperCase(),
+                    toque_desp:toque_desp,
+                    low_go:low_go,
+                    total:total,
+                    ciclos_tren:ciclos_tren,
+                    ov_ota_om:$('.ov_ota_om').val(),
+                    fam0001_id: id_fam0001,
+                    completado: "paso2",
+                    },
+                    success:function(response){
+                        if(response.success){
+                            console.log(response.data)
+                            let res = response.data;
+                            $.each(res, function (key, value){
+                            $('#A1_data').append(
+                                "<tr>\
+                                <td>V</td>\
+                                <td>"+value.ordenada_por+"</td>\
+                                <td>"+value.en_apoyo+"</td>\
+                                <td>"+value.ruta_desde+"</td>\
+                                <td>"+value.ruta_hasta+"</td>\
+                                <td></td>\
+                                </tr>");
+                            })
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+            
+        });
+            
         //AGREGAR CONSUMIBLES
         $("#rowAdder").click(function () {
             newRowAdd =
