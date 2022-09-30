@@ -37,7 +37,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#account" data-toggle="tab">
+                                                <a href="#a1" data-toggle="tab">
                                                     <div class="icon-circle">
                                                         <i class="ti-flag-alt-2"></i>
                                                     </div>
@@ -74,13 +74,13 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>FECHA <small></small></h6>
-                                                            <input name="fecha" type="date" class="form-control fecha load_fecha" required>
+                                                            <input name="fecha" type="date" class="form-control fecha" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>OV / OTA / OM <small></small></h6>
-                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om load_ov_ota_om" placeholder="" required>
+                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -185,7 +185,7 @@
                                                 </div> --}}
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="account">
+                                        <div class="tab-pane" id="a1">
                                             @include('forms.A1')
                                         </div>
                                         <div class="tab-pane" id="dddd">
@@ -392,6 +392,21 @@
             }
             
         });
+        
+        //AGREGAR CONSUMIBLES
+        $("#rowAdder").click(function () {
+            newRowAdd =
+            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small><input name="consumibles" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small><input name="unidades" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#newinput').append(newRowAdd);
+        });
+
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
 
     });
 
