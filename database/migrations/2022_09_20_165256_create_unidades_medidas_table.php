@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('unidades_medidas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
             $table->string('unidad')->nullable();
-            $table->string('tipo')->nullable();
+            //$table->string('tipo')->nullable();
             $table->timestamps();
         });
     }
