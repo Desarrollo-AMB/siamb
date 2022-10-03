@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class A1Mision extends Model
+class Fam0001A1Mision extends Model
 {
     use HasFactory;
-    protected $table = 'a1_mision';
+    protected $table = 'fam0001_a1_mision';
     protected $fillable = [
         'ordenada_por',
         'en_apoyo',

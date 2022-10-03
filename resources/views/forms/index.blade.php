@@ -30,15 +30,15 @@
                                         <ul>
                                             <li>
                                                 <a href="#about" data-toggle="tab">
-                                                    <div class="icon-circle">
-                                                        <i class="ti-files" ></i>
+                                                    <div class="icon-circle step_one_color">
+                                                        <i class="ti-files"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">DATOS AERONAVE</p>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#a1" data-toggle="tab">
-                                                    <div class="icon-circle">
+                                                    <div class="icon-circle step_two_color">
                                                         <i class="ti-flag-alt-2"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">A1 - DATOS DE LA MISIÓN</p>
@@ -80,7 +80,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>OV / OTA / OM <small></small></h6>
-                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om load_ov_ota_om" placeholder="">
+                                                            <input name="ov_ota_om" style="text-transform: uppercase" type="text" class="form-control ov_ota_om load_ov_ota_om" placeholder="" required="true">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -116,7 +116,7 @@
                                                                 @endforeach
                                                             </select> --}}
 
-                                                            <select class="selectpicker form-control aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
+                                                            <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
                                                                 <option value=""></option>
                                                                 {{-- <option>Seleccionar..</option>
                                                                 @foreach($aeronaveModelos as $naves) 
@@ -198,7 +198,9 @@
                                     <br>
                                     <div class="wizard-footer">
                                         <div class="pull-right">
-                                            <input style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Siguiente' />
+                                            <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
+                                            <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
+                                            
                                             <input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Terminar' />
                                         </div>
     
@@ -222,8 +224,15 @@
 <script>
     // $(document).ready(function() {
     //     $('.aeronaves').select2();
+        //     $( "#dropdown" ).select2({
+        //     theme: "bootstrap"
+        // });
     // });
     $(document).ready(function () {
+        $('.aeronaves').select2();
+            $( "#dropdown" ).select2({
+            theme: "bootstrap"
+        });
         var id_fam0001;
         $("#grupos").change(function(){
             var id = $(this).val();
@@ -287,17 +296,18 @@
             cache: false,
             dataType: 'json',
             success: function(response){
-                if(response.length>0){
-                    console.log(response[0]);
-                    let famSteps = response[0]
+                if(response.headerData.length>0){
+                    let famSteps = response.headerData[0]
                     id_fam0001 = famSteps.id;
                     if (famSteps.completado === "completado") {
                         //completado
-                    }else{
+                    }
+                    if (famSteps.completado === "paso1") {
                         var dataHeader = 1;
                         //PASOS COMPLETADOS
                         if(dataHeader>0){
                             $('#step_one').prop('hidden', false);
+
                             //$('#step_save').prop('hidden', true);
                             $("#ov_ota_om").text(famSteps.ov_ota_om);
                             $("#aeronave_modelo").text(famSteps.aeronave_modelo);
@@ -305,9 +315,11 @@
 
                             //CARGAR DATOS DE PASOS 
                             $(".loadSteps").click(function(e){
-                                console.log(famSteps.base_estacion)
                                 e.preventDefault();
                                 //$("#collapseStepOne").collapse({toggle: false});
+                                $('#stepInputData').prop('hidden', true);
+                                $('#stepInputDataNext').prop('hidden', false);
+                                $(".step_one_color").css('background','rgb(225 225 224)');
 
                                 $(".load_fecha").val(famSteps.fecha).css('border-color','#66b700c4');
                                 $(".load_ov_ota_om").val(famSteps.ov_ota_om).css('border-color','#66b700c4');
@@ -320,8 +332,27 @@
 
                                 $(".load_estacion").css('border-color','#66b700c4').find(":selected").text(famSteps.base_estacion)
                                 $(".load_jefe_maquina").val(famSteps.jefe_maquina).css('border-color','#66b700c4');
+                                
+                                //CARGAR PASO 2
+                                let A1Steps = response.A1_data
+                                if (A1Steps.length>0) {
+                                    $(".step_two_color").css('background','rgb(225 225 224)');
+                                    $.each(A1Steps, function (key, value){
+                                    $('#A1_data').append(
+                                        "<tr>\
+                                        <td>V</td>\
+                                        <td>"+value.ordenada_por+"</td>\
+                                        <td>"+value.en_apoyo+"</td>\
+                                        <td>"+value.ruta_desde+"</td>\
+                                        <td>"+value.ruta_hasta+"</td>\
+                                        <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                        </tr>");
+                                    })
+                                }
                             })
                         }
+                    }
+                    else{
                     }
                 }
                 
@@ -385,10 +416,10 @@
         $(".enviar_a1_mision").click(function(e){
             e.preventDefault();
             var ordenada_por = $('.ordenada_por').find(":selected").text();
-            var en_apoyo = $('.en_apoyo').find(":selected").text();
+            var en_apoyo = $('.en_apoyo').find(":selected").val();
             var codigo = $('.codigo').val();
-            var ruta_desde = $('.ruta_desde').text();
-            var ruta_hasta = $('.ruta_hasta').text();
+            var ruta_desde = $('.ruta_desde').val();
+            var ruta_hasta = $('.ruta_hasta').val();
             var encend = $('.encend').val();
             var despeg = $('.despeg').val();
             var aterriz = $('.aterriz').val();
@@ -403,6 +434,7 @@
             
             console.log($('.ov_ota_om').val());
             console.log(id_fam0001);
+            console.log(ruta_desde);
             //VALIDAR PASO UNO HEADER
             
             if(ordenada_por===""){
@@ -435,6 +467,25 @@
                     },
                     success:function(response){
                         if(response.success){
+                            //limpiar
+                            $('.ordenada_por').val('');
+                            $('.en_apoyo').val('');
+                            $('.codigo').val('');
+                            $('.ruta_desde').val('');
+                            $('.ruta_hasta').val('');
+                            $('.encend').val('');
+                            $('.despeg').val('');
+                            $('.aterriz').val('');
+                            $('.apag').val('');
+                            $('.registro_manual').val('');
+                            $('.horometro').val('');
+                            $('.ind_vuelo').val('');
+                            $('.toque_desp').val('');
+                            $('.low_go').val('');
+                            $('.total').val('');
+                            $('.ciclos_tren').val('');
+                            $("#A1_data tr").remove();
+                            //$('#A1_data tbody').empty();
                             console.log(response.data)
                             let res = response.data;
                             $.each(res, function (key, value){
@@ -445,7 +496,7 @@
                                 <td>"+value.en_apoyo+"</td>\
                                 <td>"+value.ruta_desde+"</td>\
                                 <td>"+value.ruta_hasta+"</td>\
-                                <td></td>\
+                                <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                 </tr>");
                             })
                         }
@@ -457,13 +508,36 @@
             }
             
         });
-            
-        //AGREGAR CONSUMIBLES
+        
         $("#rowAdder").click(function () {
+            //AGREGAR CONSUMIBLES
+            $.ajax({
+                url:"{{ route('consumibles') }}",
+                method:'POST',
+                data:{ 
+                    _token:'{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        // $("#consumibles").empty();
+                        // $("#consumibles").append('<option>Seleccionar..</option>');
+                        $.each(response.consumibles ,function(key,value){
+                            console.log(value.consumible)
+                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
+                        });
+                        $.each(response.unidades ,function(key,value){
+                            console.log(value.consumible)
+                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
+                        });
+                    }
+                }
+            });
             newRowAdd =
-            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small><input name="consumibles" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small><input name="unidades" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad" type="text" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
             '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
 
             $('#newinput').append(newRowAdd);

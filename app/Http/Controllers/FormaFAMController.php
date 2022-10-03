@@ -13,8 +13,9 @@ use App\Models\VueloOrdenadaPor;
 use App\Models\VueloEnApoyo;
 use App\Models\UnidadesConsumible;
 use App\Models\UnidadesMedidas;
-use App\Models\A1Mision;
-
+use App\Models\Fam0001A1Mision;
+use App\Models\CodigoTipoMision;
+use App\Models\Fam0001A1MisionConsumible;
 
 use Illuminate\Http\Request;
 
@@ -39,9 +40,10 @@ class FormaFAMController extends Controller
         $enApoyo = VueloEnApoyo::get();
         $consumibles = UnidadesConsumible::get();
         $unidadesMedida = UnidadesMedidas::get();
+        $codigoMision = CodigoTipoMision::get();
 
         //dd($jefeMaquina);
-        return view('forms.index', compact('consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('forms.index', compact('codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)
@@ -64,8 +66,9 @@ class FormaFAMController extends Controller
 
     public function steps()
     {
-        $pasosCompletados = Fam0001::get();
-        return response()->json($pasosCompletados);
+        $headerData = Fam0001::get();
+        $A1_data = Fam0001A1Mision::where('completado',"paso2")->get();
+        return response()->json(["headerData"=>$headerData, "A1_data"=>$A1_data]);
     }
 
     public function store(Request $request)
@@ -100,7 +103,7 @@ class FormaFAMController extends Controller
 
     public function store_a1(Request $request)
     {
-        $A1 = new A1Mision;
+        $A1 = new Fam0001A1Mision;
         $A1->ordenada_por = $request->ordenada_por;
         $A1->en_apoyo = $request->en_apoyo;
         $A1->codigo = $request->codigo;
@@ -122,8 +125,7 @@ class FormaFAMController extends Controller
         $A1->completado = $request->completado;
         $A1->save();
 
-        
-        $A1_data = A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
 
         return response()->json(
             [
@@ -133,6 +135,39 @@ class FormaFAMController extends Controller
             ]
         );
 
+    }
+
+    public function consumibles()
+    {
+        $consumibles = UnidadesConsumible::get();
+        $unidades = UnidadesMedidas::get();
+        return response()->json(["consumibles"=>$consumibles, "unidades"=>$unidades]);
+    }
+
+    public function store_a1_consumibles(Request $request)
+    {
+        $A1_cosumibles = new Fam0001A1MisionConsumible;
+
+        $A1_cosumibles->ov_ota_om = $request->ov_ota_om;
+        $A1_cosumibles->fam0001_id = $request->fam0001_id;
+        $A1_cosumibles->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+
+        $A1_cosumibles->consumible = $request->consumible;
+        $A1_cosumibles->unidad = $request->unidad;
+        $A1_cosumibles->cantidad = $request->cantidad;
+
+        $A1_cosumibles->save();
+
+        // $dataFam001 = [
+        // ];
+            
+        // return response()->json(
+        //     [
+        //         'success' => true,
+        //         'message' => 'Data inserted successfully',
+        //         'data' => $dataFam001
+        //     ]
+        // );
     }
 
     

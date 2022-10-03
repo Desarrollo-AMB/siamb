@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('a1_mision', function (Blueprint $table) {
+        Schema::create('fam0001_a1_mision', function (Blueprint $table) {
             $table->id();
+
+            $table->string('ov_ota_om')->nullable();
+            $table->foreignId('fam0001_id')->constrained('fam0001');
 
             $table->string('ordenada_por')->nullable();
             $table->string('en_apoyo')->nullable();
@@ -32,8 +35,7 @@ return new class extends Migration
             $table->string('low_go')->nullable();
             $table->string('total')->nullable();
             $table->string('ciclos_tren')->nullable();
-            $table->string('ov_ota_om')->nullable();
-            $table->foreignId('fam0001_id')->constrained('fam0001');
+
             $table->string('completado')->nullable();
 
             $table->timestamps();
@@ -47,6 +49,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a1_mision');
+        Schema::dropIfExists('fam0001_a1_mision');
     }
 };

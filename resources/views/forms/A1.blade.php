@@ -22,7 +22,7 @@
                         <select name="en_apoyo" class="form-control en_apoyo">
                             <option value=""></option>
                             @foreach($enApoyo as $data) 
-                                <option value="{{$data->id}}">{{$data->nombre_apoyo}} - {{$data->codigo}}</option>
+                                <option value="{{$data->codigo}}">{{$data->nombre_apoyo}} - {{$data->codigo}}</option>
                             @endforeach
                         </select> 
                     </div>
@@ -30,7 +30,13 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO<small></small></small>
-                        <input name="codigo" style="text-transform: uppercase" type="text" class="form-control codigo"> 
+                        {{-- <input name="codigo" style="text-transform: uppercase" type="text" class="form-control codigo"> --}}
+                        <select name="codigo" class="form-control codigo">
+                        <option value=""></option>
+                            @foreach($codigoMision as $data) 
+                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
+                            @endforeach
+                        </select>  
                     </div>
                 </div>
             </div>
@@ -46,7 +52,7 @@
                         <select name="ruta_desde" class="form-control ruta_desde">
                             <option value=""></option>
                             @foreach($bases as $data) 
-                                <option value="{{$data->id}}">{{$data->descripcion}} - {{$data->siglas}}</option>
+                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -57,7 +63,7 @@
                         <select name="ruta_hasta" class="form-control ruta_hasta">
                             <option value=""></option>
                             @foreach($bases as $data) 
-                                <option value="{{$data->id}}">{{$data->descripcion}} - {{$data->siglas}}</option>
+                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -72,25 +78,25 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">ENCEND<small></small></small>
-                        <input name="encend" type="text" class="form-control encend" style="text-transform: uppercase"> 
+                        <input name="encend" type="time" class="form-control encend" style="text-transform: uppercase"> 
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">DESPEG<small></small></small>
-                        <input name="despeg" type="text" class="form-control despeg" style="text-transform: uppercase"> 
+                        <input name="despeg" type="time" class="form-control despeg" style="text-transform: uppercase"> 
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">ATERRIZ<small></small></small>
-                        <input name="aterriz" type="text" class="form-control aterriz" style="text-transform: uppercase"> 
+                        <input name="aterriz" type="time" class="form-control aterriz" style="text-transform: uppercase"> 
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">APAG<small></small></small>
-                        <input name="apag" type="text" class="form-control apag" style="text-transform: uppercase"> 
+                        <input name="apag" type="time" class="form-control apag" style="text-transform: uppercase"> 
                     </div>
                 </div>
             </div>
@@ -198,7 +204,7 @@
                         <th class="text-uppercase font-weight-bolder"><h6>EN APOYO</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
-                        <th class="text-uppercase font-weight-bolder">ACCIONES</th>
+                        <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                     </tr>
                 </thead>
                 <tbody id="A1_data">
