@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('consumible');
             $table->string('tipo')->nullable();
-            $table->string('unidad')->nullable();
+            //$table->string('unidad')->nullable();
             $table->timestamps();
         });
     }
