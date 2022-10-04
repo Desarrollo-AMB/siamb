@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('grados_militares', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo_grado',3)->nullable();
+            $table->string('codigo_grado',3)->unique()->nullable();
             $table->string('siglas',4)->nullable();
             $table->string('descripcion',70)->nullable();
             $table->integer('años_grado')->nullable();

@@ -10,6 +10,7 @@ use DB;
 use Hash;
 use Illuminate\Support\Arr;
 use App\Models\Empleado;
+use App\Models\EmpleadosOtroComponente;
 use DataTables;
 
 class UserController extends Controller
@@ -22,10 +23,12 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $data = User::with(['empleado'])->orderBy('name','ASC')->paginate(10);
+        $data = User::with(['empleado','notempleado'])->orderBy('name','ASC')->get();//->paginate(2);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -47,6 +50,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $codigo_empleado = $request->codigo_empleado;
+        $componente_aviacion = $request->componente_aviacion;
         $this->validate($request, [
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
@@ -58,9 +62,15 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
         if ($codigo_empleado){
-            $empleado = Empleado::where('codigo_empleado', $codigo_empleado)->first();
-            $empleado->user_id = $user->id;
-            $empleado->update();
+            if($componente_aviacion==1){
+                $empleado = Empleado::where('codigo_empleado', $codigo_empleado)->first();
+                $empleado->user_id = $user->id;
+                $empleado->update();
+            }else{
+                $notempleado = EmpleadosOtroComponente::where('id', $codigo_empleado)->first();
+                $notempleado->user_id = $user->id;
+                $notempleado->update();
+            }
         }
         return redirect()->route('users.index')
             ->with('success','Usuario creado satisfactoriamente');
@@ -88,7 +98,7 @@ class UserController extends Controller
     {
         $user = User::with(['empleado'])->find($id);
         $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        $userRole =$user->roles->pluck('name','name')->all() ;
 
         return view('users.edit',compact('user','roles','userRole'));
     }
