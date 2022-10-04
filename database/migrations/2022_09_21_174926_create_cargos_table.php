@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cargos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('codigo_cargo')->nullable();
+            $table->bigInteger('codigo_cargo')->unique()->nullable();
             $table->string('tipo_cargo',1)->nullable();
             $table->string('nombre_cargo',70)->nullable();
             $table->enum('situacion',['ACTIVO','INACTIVO'])->default('ACTIVO');

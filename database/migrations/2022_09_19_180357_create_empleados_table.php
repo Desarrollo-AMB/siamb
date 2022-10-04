@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
-            $table->integer('codigo_empleado')->nullable();
+            $table->integer('codigo_empleado')->unique()->nullable();
             $table->integer('cedula')->nullable();
             $table->string('nombre1',50)->nullable();
             $table->string('nombre2',50)->nullable();
@@ -67,13 +67,9 @@ return new class extends Migration
             $table->string('discapacidad',100)->nullable();
             $table->string('tipo_discapacidad',100)->nullable();
             $table->string('alergias',100)->nullable();
-            $table->string('seid_foto_militar',255)->nullable();
-            $table->string('seid_grado_militar',4)->nullable();
-            $table->string('seid_especialidad',255)->nullable();
-            $table->string('seid_categoria1',255)->nullable();
+            $table->string('foto',255)->nullable();
             $table->date('seid_ultimo_ascenso')->nullable();
             $table->date('seid_fecha_presentacion')->nullable();
-            $table->string('seid_comandante_unidad',255)->nullable();
             $table->string('seid_evaluado',4)->nullable();
             $table->string('seid_motivo_evaluacion',255)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

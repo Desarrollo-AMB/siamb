@@ -41,7 +41,8 @@
             <span class="nav-link-text ms-1">Perfil</span>
         </a>
       </li>
-      @role('admin')
+
+      @role('administrador')
       
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-expanded="false" aria-controls="collapseExample" >

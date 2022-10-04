@@ -23,11 +23,13 @@ class DatabaseSeeder extends Seeder
             NivelSeeder::class,
             BasesSeeder::class,
             TiposEmpleadoSeeder::class,
+            CategoriasMilitaresSeeder::class,
         ]);
         $this->command->info('Seeder ejecutados!');
 
-        //Para insertar por medio de archivos sQL
+        //Para insertar datos por medio de archivos SQL
         $this->command->info('Iniciando Insercion de Datos por SQL!');
+        
         $path = 'database/sql/ubicaciones.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "ubicaciones" ejecutado!');
@@ -69,5 +71,21 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/nomina.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "nomina" ejecutado!');
+
+        $path = 'database/sql/articulo_hijo.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "articulo_hijo" (SEID) ejecutado!');
+
+        $path = 'database/sql/aparte_nieto.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "aparte_nieto" (SEID) ejecutado!');
+
+        $path = 'database/sql/especialidades_militares.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "especialidades_militares" (SEID) ejecutado!');
+
+        $path = 'database/sql/notempleados.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "empleados_otro_componente" (SEID) ejecutado!');
     }
 }
