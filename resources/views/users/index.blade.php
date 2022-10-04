@@ -19,7 +19,7 @@
             </div>
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table id="table" class="table align-items-center mb-0">
                         <thead>
                             <tr>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nro.</th>
@@ -38,6 +38,8 @@
                                 <td>
                                     @if ($user->empleado) 
                                     {{ $user->empleado->nombre1 }} {{ $user->empleado->apellido1}}
+                                    @elseif ($user->notempleado) 
+                                    {{ $user->notempleado->nombre1 }} {{ $user->notempleado->apellido1}}
                                     @endif
                                 </td>
                                 <td>{{ $user->email }}</td>
@@ -69,7 +71,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {!! $data->render() !!}
+                    {{--!! $data->render() !!--}}
                 </div>
             </div>
         </div>
@@ -80,6 +82,35 @@
 @section('scripts')
 <script>
     $(function (){
+        var table = $('#table').DataTable({
+            responsive: true,
+            pageLength: 25,
+            deferRender: true,
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
         $('.confirm-delete').on('click', function (event) {
             event.preventDefault();
             var idForm= $(this).attr('form-target');

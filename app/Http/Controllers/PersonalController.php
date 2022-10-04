@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Empleado;
+use App\Models\EmpleadosOtroComponente;
 use DataTables;
 use Illuminate\Support\Str;
 
@@ -41,6 +42,25 @@ class PersonalController extends Controller
         );
         $datatable= Datatables::of($empleados)
             ->addColumn('actions', 'users._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function notEmpleadosSinUser(Request $request){
+       
+        $empleados = EmpleadosOtroComponente::whereNull('user_id'); 
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','empleados_otro_componente.codigo_ubicacion');
+        $empleados->select(
+            'empleados_otro_componente.id',
+            'empleados_otro_componente.cedula',
+            'empleados_otro_componente.nombre1',
+            'empleados_otro_componente.nombre2',
+            'empleados_otro_componente.apellido1',
+            'empleados_otro_componente.apellido2',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'users._actions2')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }

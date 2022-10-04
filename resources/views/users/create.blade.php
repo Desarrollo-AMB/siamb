@@ -31,7 +31,10 @@
                                         <a class="nav-link active" id="custom-tabs-form-tab" data-bs-toggle="tab" href="#custom-tabs-form" role="tab" aria-controls="custom-tabs-form" aria-selected="false">Creacion Usuario</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " id="custom-tabs-empleados-tab" data-bs-toggle="tab" href="#custom-tabs-empleados" role="tab" aria-controls="custom-tabs-empleados" aria-selected="false">Lista Empleados</a>
+                                        <a class="nav-link " id="custom-tabs-empleados-tab" data-bs-toggle="tab" href="#custom-tabs-empleados" role="tab" aria-controls="custom-tabs-empleados" aria-selected="false">Empleados Aviación</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="custom-tabs-empleados2-tab" data-bs-toggle="tab" href="#custom-tabs-empleados2" role="tab" aria-controls="custom-tabs-empleados2" aria-selected="false">Empleados Otro Componente</a>
                                     </li>
                                 </ul>
                             </div>
@@ -87,6 +90,7 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                                 <input  type="hidden" id="codigo_empleado" name="codigo_empleado" value="">
+                                                <input  type="hidden" id="componente_aviacion" name="componente_aviacion" value="true">
                                                 <button id="btn-submit" type="submit" class="btn btn-primary">Guardar</button>
                                             </div>
                                         </div>
@@ -102,6 +106,19 @@
                                                     <th>Apellido</th>
                                                     <th>Tipo Empleado</th>
                                                     <th>Cargo</th>
+                                                    <th>Ubicacion</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade " id="custom-tabs-empleados2" role="tabpanel" aria-labelledby="custom-tabs-empleados2-tab">
+                                        <table id="table2" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="false">Asociar</th>
+                                                    <th>Cedula</th>
+                                                    <th>Nombre </th>
+                                                    <th>Apellido</th>
                                                     <th>Ubicacion</th>
                                                 </tr>
                                             </thead>
@@ -138,13 +155,37 @@
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
-                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion'},
+                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
                 {data: 'cargo', name: 'cargos.nombre_cargo'},
-                {data: 'ubicacion', name: 'ubicaciones.descripcion'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
             ],
             search: {
                 return: true,
             },
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         new $.fn.dataTable.FixedHeader( table );
         $('#table').on('click', '.confirm-asociar', function (event) {
@@ -161,6 +202,72 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#codigo_empleado').val(codigo_empleado);
+                    $('#componente_aviacion').val(1);
+                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
+                }
+            });
+           
+            return false;
+            
+        });
+
+        var table2 = $('#table2').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            pageLength: 25,
+            ajax: "{{ route('personal.not-empleados.notuser') }}",
+            columns: [
+                {data: 'actions', name: 'action', orderable: false, searchable: false},
+                {data: 'cedula',},
+                {data: 'nombre1'},
+                {data: 'apellido1'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+            ],
+            search: {
+                return: true,
+            },
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+        new $.fn.dataTable.FixedHeader( table2 );
+        $('#table2').on('click', '.confirm-asociar2', function (event) {
+            event.preventDefault();
+            var codigo_empleado= $(this).data('id');
+            Swal.fire({
+                title: 'Empleado Otro componente Seleccionado!',
+                text: "Esta seguro de asociarlo al usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#codigo_empleado').val(codigo_empleado);
+                    $('#componente_aviacion').val(0);
                     $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });
