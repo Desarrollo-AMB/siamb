@@ -229,11 +229,32 @@
         // });
     // });
     $(document).ready(function () {
-        $('.aeronaves').select2();
-            $( "#dropdown" ).select2({
-            theme: "bootstrap"
-        });
+        // $('.aeronaves').select2();
+        //     $( "#dropdown" ).select2({
+        //     theme: "bootstrap"
+        // });
+
+        function cleanA1() {
+            $('.ordenada_por').val('');
+            $('.en_apoyo').val('');
+            $('.codigo').val('');
+            $('.ruta_desde').val('');
+            $('.ruta_hasta').val('');
+            $('.encend').val('');
+            $('.despeg').val('');
+            $('.aterriz').val('');
+            $('.apag').val('');
+            $('.registro_manual').val('');
+            $('.horometro').val('');
+            $('.ind_vuelo').val('');
+            $('.toque_desp').val('');
+            $('.low_go').val('');
+            $('.total').val('');
+            $('.ciclos_tren').val('');
+        }
+        
         var id_fam0001;
+        var fam0001_a1_mision_id;
         $("#grupos").change(function(){
             var id = $(this).val();
             if(id){
@@ -339,15 +360,118 @@
                                     $(".step_two_color").css('background','rgb(225 225 224)');
                                     $.each(A1Steps, function (key, value){
                                     $('#A1_data').append(
-                                        "<tr>\
+                                        "<tr id='delete_a1_mision"+value.id+"'>\
                                         <td>V</td>\
                                         <td>"+value.ordenada_por+"</td>\
                                         <td>"+value.en_apoyo+"</td>\
                                         <td>"+value.ruta_desde+"</td>\
                                         <td>"+value.ruta_hasta+"</td>\
-                                        <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                        <td><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                         </tr>");
                                     })
+
+                                    //ELIMINAR MISION (METER EN HELPER)
+                                    $(".delete_a1_mision").click(function() {
+                                        var id = $(this).val();
+                                        console.log(id)
+                                        $.ajax({
+                                            url:"{{ route('delete_a1_mision') }}",
+                                            method:'POST',
+                                            data:{id:id},
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    $("#delete_a1_mision"+id+"").remove();
+                                                    alert('eliminacion correcta')
+                                                }
+                                            }
+                                        });
+                                    });
+
+                                    //EDITAR MISION (METER EN HELPER)
+                                    $(".editar_a1_mision").click(function() {
+                                        var id_edit = $(this).val();
+                                        console.log(id_edit)
+                                        $.ajax({
+                                            url:"{{ route('editar_a1_mision') }}",
+                                            method:'POST',
+                                            data:{id:id_edit},
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    let res = response.data[0]
+                                                    $(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
+                                                    $('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
+                                                    $('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
+                                                    $('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
+                                                    $('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                                    $('.load_encend').css('border-color','#66b700c4').val(res.encend)
+                                                    $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
+                                                    $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
+                                                    $('.load_apag').css('border-color','#66b700c4').val(res.apag)
+                                                    $('.load_registro_manual').css('border-color','#66b700c4').val(res.registro_manual)
+                                                    $('.load_horometro').css('border-color','#66b700c4').val(res.horometro)
+                                                    $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
+                                                    $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
+                                                    $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
+                                                    $('.load_total').css('border-color','#66b700c4').val(res.total)
+                                                    $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
+                                                    $('.load_id_mision').val(res.id)
+
+                                                    $('.edit_input').prop('hidden', false);
+                                                    $('.add_edit_input').prop('hidden', true);
+                                                    
+                                                }
+                                                else{
+                                                    alert('Fallo en la peticion con el servidor')
+                                                }
+                                            }
+                                        });
+                                        
+                                    });
+                                    //ACTUALIZAR MISION (METER EN HELPER)
+                                    $(".actualizar_a1_mision").click(function() {
+
+                                        console.log(id_fam0001)
+                                        console.log($(".load_ordenado_por").find(":selected").text())
+                                        $.ajax({
+                                            url:"{{ route('actualizar_a1_mision') }}",
+                                            method:'POST',
+                                            data:{
+                                                id:$(".load_id_mision").val(),
+                                                ordenada_por:$(".load_ordenado_por").find(":selected").text(),
+                                                en_apoyo:$('.load_en_apoyo').find(":selected").text(),
+                                                codigo:$('.load_codigo').find(":selected").text(),
+                                                ruta_desde:$('.load_ruta_desde').find(":selected").text(),
+                                                ruta_hasta:$('.load_ruta_hasta').find(":selected").text(),
+                                                encend:$('.load_encend').val(),
+                                                despeg:$('.load_despeg').val(),
+                                                aterriz:$('.load_aterriz').val(),
+                                                apag:$('.load_apag').val(),
+                                                registro_manual:$('.load_registro_manual').val(),
+                                                horometro:$('.load_horometro').val(),
+                                                ind_vuelo:$('.load_ind_vuelo').val(),
+                                                toque_desp:$('.load_toque_desp').val(),
+                                                low_go:$('.load_low_go').val(),
+                                                total:$('.load_total').val(),
+                                                ciclos_tren:$('.load_ciclos_tren').val(),
+                                                ov_ota_om:$('.ov_ota_om').val(),
+                                                fam0001_id: id_fam0001,
+                                                completado: "paso2",
+                                            }, 
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    console.log(response)
+                                                    alert('Mision Actualziada correctamente')
+                                                    cleanA1()
+                                                }
+                                            }
+                                        });
+                                    });
                                 }
                             })
                         }
@@ -412,6 +536,114 @@
             
         });
 
+        $("#rowAdder").click(function () {
+            //AGREGAR CONSUMIBLES
+            $.ajax({
+                url:"{{ route('consumibles') }}",
+                method:'POST',
+                data:{ 
+                    _token:'{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        $(".consumibles").empty();
+                        $(".consumibles").append('<option>Seleccionar..</option>');
+                        $.each(response.consumibles ,function(key,value){
+                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
+                        });
+                        $(".unidades").empty();
+                        $(".unidades").append('<option>Seleccionar..</option>');
+                        $.each(response.unidades ,function(key,value){
+                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
+                        });
+                    }
+                }
+            });
+            newRowAdd =
+            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control cantidad" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#newinput').append(newRowAdd);
+        });
+
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
+
+        $(".test").click(function(e){
+
+            var consumiblesArray = []
+            var length = $('input[name="cantidad[]"]').length
+
+            $("input[name='cantidad[]']").each(cantidad => {
+                $("select[name='consumibles[]']").each(consumible =>{cantidad.map(item =>{
+                        consumiblesArray.push({
+                            cantidad:item.val(),
+                            consumible:consumible.text(),
+                        });
+                    })
+                });
+            });
+
+            $("input[name='cantidad[]']").each(function() {
+                consumiblesArray.push({
+                    cantidad:$(this).val(),
+                    consumible:$(this).text(),
+                });
+            });
+
+            // $("select[name='consumibles[]']").find(":selected").each(function() {
+            //     consumiblesArray.push({
+            //         consumible:$(this).text(),
+            //     });
+            // });
+
+            // $("select[name='consumibles[]']").find(":selected").each(function() {
+            //     console.log($(this).text())
+            // });
+
+
+            // var data = $('input[name="cantidad[]"]')
+            // var cantidad = $('input[name="cantidad[]"]')
+
+            // $.each(cantidad, function (index, value) {
+            //     consumiblesArray.push({
+            //         data:data[index],
+            //         cantidad:value,
+            //     });
+            // });
+
+            // Juices.map((juice) => {
+            //     Fruits.map((fruit) => {
+            //         if(juice.juiceId === fruit.fruitId){
+            //             finalArray.push({customer: juice.customer, fruit: fruit.name}) 
+            //         }
+            //     });
+            // });
+                   
+            
+            console.log(consumiblesArray)
+
+            
+           // var consuLegth = $('.consumibles').find(":selected").text();
+
+            // $("input[name='consumibles[]']").find(":selected").each(function() {
+            //     console.log($(this).text())
+            // });
+            // $("input[name='consumibles[]']").find(":selected").each(function() {
+            //     console.log($(this).text())
+            // });
+
+            
+            // $("input[name='cantidad[]']").each(function() {
+            //     console.log($(this).val())
+            // });
+
+        })
         //VALIDAR GUARDAR A1 MISION
         $(".enviar_a1_mision").click(function(e){
             e.preventDefault();
@@ -432,11 +664,7 @@
             var total = $('.total').val();
             var ciclos_tren = $('.ciclos_tren').val();
             
-            console.log($('.ov_ota_om').val());
-            console.log(id_fam0001);
-            console.log(ruta_desde);
             //VALIDAR PASO UNO HEADER
-            
             if(ordenada_por===""){
                 console.log('no puedes guardar datos vacios')
             }else{
@@ -488,6 +716,7 @@
                             //$('#A1_data tbody').empty();
                             console.log(response.data)
                             let res = response.data;
+                            fam0001_a1_mision_id = response.data.id;
                             $.each(res, function (key, value){
                             $('#A1_data').append(
                                 "<tr>\
@@ -496,9 +725,38 @@
                                 <td>"+value.en_apoyo+"</td>\
                                 <td>"+value.ruta_desde+"</td>\
                                 <td>"+value.ruta_hasta+"</td>\
-                                <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button id='delete_a1_mision' value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                 </tr>");
                             })
+                            
+
+                            //GUARDAR CONSUMIBLES A1 MISION
+                            var consumiblesArray = []
+                            // for (let index = 0; index < consumible.length; index++) {
+                            //     consumiblesArray.push({
+                            //         fam0001_id:id_fam0001,
+                            //         ov_ota_om: $('.ov_ota_om').val(),
+                            //         fam0001_a1_mision_id:fam0001_a1_mision_id,
+                            //         consumible:$('.consumible').find(":selected").text(),
+                            //         unidad:$('.unidad').find(":selected").text(),
+                            //         cantidad:$('.cantidad').text(),
+                            //     });
+                            // }
+
+                            // $.ajax({
+                            // url:"{{ route('store_a1_consumibles') }}",
+                            // method:'POST',
+                            //     data:consumiblesArray,
+                            //     success:function(response){
+                            //         if(response.success){
+                            //             console.log(response)
+                            //         }
+                            //     },
+                            //     error:function(error){
+                            //         console.log(error)
+                            //     }
+                            // });
+
                         }
                     },
                     error:function(error){
@@ -509,43 +767,7 @@
             
         });
         
-        $("#rowAdder").click(function () {
-            //AGREGAR CONSUMIBLES
-            $.ajax({
-                url:"{{ route('consumibles') }}",
-                method:'POST',
-                data:{ 
-                    _token:'{{ csrf_token() }}'
-                },
-                cache: false,
-                dataType: 'json',
-                success: function(response){
-                    if(response){
-                        // $("#consumibles").empty();
-                        // $("#consumibles").append('<option>Seleccionar..</option>');
-                        $.each(response.consumibles ,function(key,value){
-                            console.log(value.consumible)
-                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
-                        });
-                        $.each(response.unidades ,function(key,value){
-                            console.log(value.consumible)
-                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
-                        });
-                    }
-                }
-            });
-            newRowAdd =
-            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
-            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-
-            $('#newinput').append(newRowAdd);
-        });
-
-        $("body").on("click", "#DeleteRow", function () {
-            $(this).parents("#row").remove();
-        })
+        
 
     });
 

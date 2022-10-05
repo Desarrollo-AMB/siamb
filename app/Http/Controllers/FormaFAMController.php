@@ -170,5 +170,41 @@ class FormaFAMController extends Controller
         // );
     }
 
+    public function delete_a1_mision(Request $request)
+    {
+        Fam0001A1Mision::find($request->id)->delete();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
+            ]
+        );
+    } 
+
+    public function editar_a1_mision(Request $request)
+    {
+        $editFam = Fam0001A1Mision::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $editFam
+            ]
+        );
+    }
+
+    public function actualizar_a1_mision(Request $request)
+    {
+
+        //$dd = $request->except('id');
+
+        $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editMision' => $editMision
+            ]
+        );
+    } 
+
     
 }
