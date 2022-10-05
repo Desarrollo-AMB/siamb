@@ -13,7 +13,7 @@
             <div class="ms-md-3 pe-md-3 d-flex align-items-center">
             <div class="input-group">
                 <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" placeholder="Buscar...">
+                <input style="border: 1px solid #a5a9bf7a;" type="text" class="form-control" placeholder="Buscar...">
             </div>
             </div>
             <ul class="navbar-nav  justify-content-end">

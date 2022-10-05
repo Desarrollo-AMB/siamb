@@ -50,16 +50,19 @@ Route::group(['middleware' => ['auth']], function() {
 
 //RUTA FORMULARIO FAM002 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('FormaFAM',             [FormaFAMController::class, 'index'])->name('FormaFAM');
-    Route::get('aeronaves_grupos',     [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
-    Route::get('seriales',             [FormaFAMController::class, 'seriales'])->name('seriales'); 
-    Route::get('matriculas',           [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
-    
-    Route::post('steps',               [FormaFAMController::class, 'steps'])->name('steps'); 
-    Route::post('store_header',        [FormaFAMController::class, 'store'])->name('store_header'); 
-    Route::post('store_a1',            [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
-    Route::post('consumibles',         [FormaFAMController::class, 'consumibles'])->name('consumibles'); 
-    Route::post('store_a1_consumibles',[FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles'); 
+    Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
+    Route::get('aeronaves_grupos',      [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
+    Route::get('seriales',              [FormaFAMController::class, 'seriales'])->name('seriales'); 
+    Route::get('matriculas',            [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
+     
+    Route::post('steps',                [FormaFAMController::class, 'steps'])->name('steps'); 
+    Route::post('store_header',         [FormaFAMController::class, 'store'])->name('store_header'); 
+    Route::post('store_a1',             [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
+    Route::post('consumibles',          [FormaFAMController::class, 'consumibles'])->name('consumibles'); 
+    Route::post('store_a1_consumibles', [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
+    Route::post('delete_a1_mision',     [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');  
+    Route::post('editar_a1_mision',     [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
+    Route::post('actualizar_a1_mision', [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');  
 });
 
 Route::get('no_authorize', function () {
