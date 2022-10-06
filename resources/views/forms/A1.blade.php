@@ -165,7 +165,6 @@
         <div style="padding-top: 13px;" class="row">
             <div class="col-sm-4">
                 <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES<small></small></h6> 
-                {{-- <button style="background: green;color: white;" type="button" class="btn btn-success test">test</button> --}}
             </div>
             {{-- <div class="row">   
                 <div class="col-sm-4">
