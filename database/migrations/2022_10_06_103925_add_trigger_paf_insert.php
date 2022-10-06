@@ -15,7 +15,7 @@ return new class extends Migration
     {
         DB::unprepared('CREATE TRIGGER `trigger_paf_insert` AFTER INSERT ON `paf` FOR EACH ROW
         BEGIN
-            INSERT INTO data_tracking (`action`, `table`,`data_id` , `old_value` , `new_value` , `modified` ) 
+            INSERT INTO data_tracking (`action`, `table`,`data_id` , `old_value` , `new_value` , `modified`, `username` ) 
                 VALUES ("insert","paf", NEW.id, null, 
                     JSON_OBJECT(
                         "cedula", NEW.cedula,
@@ -47,7 +47,8 @@ return new class extends Migration
                         "nombre1_ev", NEW.nombre1_ev,
                         "is_deleted", NEW.is_deleted
                     ), 
-                    NOW()
+                    NOW(),
+                    NEW.user_created
                 );
         END');
     }

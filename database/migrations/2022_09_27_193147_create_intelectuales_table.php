@@ -58,6 +58,9 @@ return new class extends Migration
             $table->string('cargo_s')->nullable();
             $table->date('fechaE')->nullable();
             $table->integer('is_deleted')->default(0);
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 
