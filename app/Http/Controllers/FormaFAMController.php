@@ -125,13 +125,15 @@ class FormaFAMController extends Controller
         $A1->completado = $request->completado;
         $A1->save();
 
+        $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
 
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $A1_data
+                'data' => $A1_data,
+                'A1_id' => $A1_id
             ]
         );
 
@@ -146,28 +148,29 @@ class FormaFAMController extends Controller
 
     public function store_a1_consumibles(Request $request)
     {
-        $A1_cosumibles = new Fam0001A1MisionConsumible;
 
-        $A1_cosumibles->ov_ota_om = $request->ov_ota_om;
-        $A1_cosumibles->fam0001_id = $request->fam0001_id;
-        $A1_cosumibles->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+        $loop = count($request->consumiblesDATA);
 
-        $A1_cosumibles->consumible = $request->consumible;
-        $A1_cosumibles->unidad = $request->unidad;
-        $A1_cosumibles->cantidad = $request->cantidad;
+        for ($i=0; $i < $loop; $i++) { 
+            $A1_cosumibles = new Fam0001A1MisionConsumible;
+            $A1_cosumibles->ov_ota_om = $request->consumiblesDATA[$i]['ov_ota_om'];
+            $A1_cosumibles->fam0001_id = $request->consumiblesDATA[$i]['fam0001_id'];
+            $A1_cosumibles->fam0001_a1_mision_id = $request->consumiblesDATA[$i]['fam0001_a1_mision_id'];
 
-        $A1_cosumibles->save();
+            $A1_cosumibles->consumible = $request->consumiblesDATA[$i]['consumiblesArray'];
+            $A1_cosumibles->unidad = $request->consumiblesDATA[$i]['unidadesArray'];
+            $A1_cosumibles->cantidad = $request->consumiblesDATA[$i]['cantidad'];
 
-        // $dataFam001 = [
-        // ];
-            
-        // return response()->json(
-        //     [
-        //         'success' => true,
-        //         'message' => 'Data inserted successfully',
-        //         'data' => $dataFam001
-        //     ]
-        // );
+            $A1_cosumibles->save();
+        
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $loop
+            ]
+        );
     }
 
     public function delete_a1_mision(Request $request)

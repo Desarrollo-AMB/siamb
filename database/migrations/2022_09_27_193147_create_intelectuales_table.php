@@ -57,7 +57,7 @@ return new class extends Migration
             $table->string('apellido_s')->nullable();
             $table->string('cargo_s')->nullable();
             $table->date('fechaE')->nullable();
-            $table->integer('is_delected')->default(0);
+            $table->integer('is_deleted')->default(0);
         });
     }
 

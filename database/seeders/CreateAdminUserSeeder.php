@@ -24,15 +24,15 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('admin')
         ]);
 
-        $role = Role::create(['name' => 'administrador']);
+        $role = Role::create(['name' => 'administrador', 'guard_name'=>'web']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
 
-        $role = Role::create(['name' => 'comandante_unidad']);
-        $role = Role::create(['name' => 'disciplina']);
-        $role = Role::create(['name' => 'admindeporte']);
-        $role = Role::create(['name' => 'usudeporte']);
+        $role = Role::create(['name' => 'comandante_unidad', 'guard_name'=>'seid']);
+        $role = Role::create(['name' => 'disciplina', 'guard_name'=>'seid']);
+        $role = Role::create(['name' => 'admindeporte', 'guard_name'=>'seid']);
+        $role = Role::create(['name' => 'usudeporte', 'guard_name'=>'seid']);
 
     }
 }

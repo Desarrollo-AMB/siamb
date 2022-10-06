@@ -61,6 +61,20 @@
         </div>
       </li>
       <li class="nav-item">
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link " aria-expanded="false" aria-controls="collapseExample" >
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fa fa-users"><title>Registros de vuelos</title></i>
+            
+          </div>
+          <span class="nav-link-text ms-1">Registros de vuelos</span>
+        </a>
+        <div class="panel-collapse collapse {{ ((Request::is('FormaFAM') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
+          <ul style="margin-left:40px;" class="list-group">
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('FormaFAM') ? 'active' : '') }}" href="{{ url('FormaFAM') }}">- FAM-0002</a></li>
+          </ul>
+        </div>
+      </li>
+      {{-- <li class="nav-item">
         <a class="nav-link {{ (Request::is('FormaFAM') ? 'active' : '') }}" href="{{ url('FormaFAM') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -79,7 +93,7 @@
           </div>
           <span class="nav-link-text ms-1">FAM-0002</span>
         </a>
-      </li>      
+      </li>       --}}
       @endrole 
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " >

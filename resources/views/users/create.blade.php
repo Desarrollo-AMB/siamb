@@ -83,7 +83,37 @@
                                                         <div class="form-group">
                                                             <strong>Roles:</strong>
                                                             <br>
-                                                            {!! Form::select('roles[]', $roles,[], array('id'=>'roles','class' => 'form-control','multiple','size'=>'10')) !!}
+                                                            {{--!! Form::select('roles[]', $roles,[], array('id'=>'roles','class' => 'form-control','multiple','size'=>'10')) !!--}}
+                                                            <select class="select2 form-control" name="roles" id="roles" required>
+                                                                @foreach ($roles as $rol)
+                                                                    <option value="{{$rol->id}}"
+                                                                    >{{ $rol->name }} - {{ $rol->guard_name == 'web'? 'siamb':$rol->guard_name}}</option>
+                                                            
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="border-0 d-none d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg" id="div_seleccion">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-3 text-sm">Selección/Asociación Empleado/No Empleado</h6>
+                                                                <span class="mb-2 text-xs">
+                                                                    Cedula: 
+                                                                    <span class="text-dark font-weight-bold ms-sm-2" id="seleccion_cedula"></span>
+                                                                </span>
+                                                                <span class="mb-2 text-xs">
+                                                                    Nombre y Apellido: 
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_nombre"></span>
+                                                                </span>
+                                                                <span class="mb-2 text-xs">
+                                                                    Cargo: 
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_cargo"></span>
+                                                                </span>
+                                                                <span class="text-xs">
+                                                                Ubicación: 
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_ubicacion"></span>
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -191,6 +221,10 @@
         $('#table').on('click', '.confirm-asociar', function (event) {
             event.preventDefault();
             var codigo_empleado= $(this).data('id');
+            var cedula= $(this).data('cedula');
+            var name= $(this).data('name');
+            var cargo= $(this).data('cargo');
+            var ubicacion= $(this).data('ubicacion');
             Swal.fire({
                 title: 'Empleado Seleccionado!',
                 text: "Esta seguro de asociarlo al usuario?",
@@ -203,6 +237,11 @@
                 if (result.isConfirmed) {
                     $('#codigo_empleado').val(codigo_empleado);
                     $('#componente_aviacion').val(1);
+                    $('#div_seleccion').removeClass("d-none");
+                    $('#seleccion_cedula').text(cedula);
+                    $('#seleccion_nombre').text(name);
+                    $('#seleccion_cargo').text(cargo);
+                    $('#seleccion_ubicacion').text(ubicacion);
                     $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });
@@ -256,6 +295,9 @@
         $('#table2').on('click', '.confirm-asociar2', function (event) {
             event.preventDefault();
             var codigo_empleado= $(this).data('id');
+            var cedula= $(this).data('cedula');
+            var name= $(this).data('name');
+            var ubicacion= $(this).data('ubicacion');
             Swal.fire({
                 title: 'Empleado Otro componente Seleccionado!',
                 text: "Esta seguro de asociarlo al usuario?",
@@ -268,6 +310,10 @@
                 if (result.isConfirmed) {
                     $('#codigo_empleado').val(codigo_empleado);
                     $('#componente_aviacion').val(0);
+                    $('#div_seleccion').removeClass("d-none");
+                    $('#seleccion_cedula').text(cedula);
+                    $('#seleccion_nombre').text(name);
+                    $('#seleccion_ubicacion').text(ubicacion);
                     $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });

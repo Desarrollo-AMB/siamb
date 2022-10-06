@@ -15,11 +15,11 @@
             <div class="col-2">
                 <h6 style="color: #212529;">Fecha: <small></small><span style="color: #67748e;" id="fecha"> </span></h6>
             </div>
-            <div class="col-1">
+            {{-- <div class="col-1">
                 <a  data-toggle="tab">
                     <i class="ti-share loadSteps"></i>
                 </a>
-            </div>
+            </div> --}}
           </div>
         </div>
     </div>

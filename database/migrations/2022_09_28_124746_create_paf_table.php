@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string('casos_especiales')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('nombre1_ev')->nullable();
-            $table->integer('is_delected')->default(0);
+            $table->integer('is_deleted')->default(0);
         });
     }
 

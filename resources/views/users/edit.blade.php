@@ -58,7 +58,16 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Roles:</strong>
-                            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                            {{-- !! Form::select('roles[]', $roles,$userRole, array('id'=>'roles','class' => 'form-control','multiple')) !!--}}
+
+                            <select class="select2 form-control" name="roles" id="roles" required>
+                               
+                                @foreach ($roles as $rol)
+                                    <option {{ in_array($rol->id,$userRole) ? 'selected':'' }} value="{{$rol->id}}"
+                                    >{{ $rol->name }} - {{ $rol->guard_name == 'web'? 'siamb':$rol->guard_name}}</option>
+                               
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -80,4 +89,17 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(function () {
+        $('#roles').select2({
+                allowClear: true,
+                minimumResultsForSearch: -1,
+                width: 300
+             });
+        });
+</script>
 @endsection
