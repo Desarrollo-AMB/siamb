@@ -109,20 +109,22 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
+                                                            
                                                             <h6>AERONAVE / MODELO</h6>
                                                             {{-- <select class="aeronaves form-control" name="aeronaves">
                                                                 @foreach($aeronaveModelos as $naves) 
                                                                     <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
                                                                 @endforeach
                                                             </select> --}}
-
-                                                            <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
-                                                                <option value=""></option>
-                                                                {{-- <option>Seleccionar..</option>
-                                                                @foreach($aeronaveModelos as $naves) 
-                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                                @endforeach --}}
-                                                            </select>
+                                                                <select hidden="false" class="hide_aeronave selectpicker form-control aeronaves aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
+                                                                    <option value=""></option>
+                                                                    {{-- <option>Seleccionar..</option>
+                                                                    @foreach($aeronaveModelos as $naves) 
+                                                                        <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
+                                                                    @endforeach --}}
+                                                                </select>
+                                                            
+                                                            <input type="text" hidden="true" class="form-control aeronave_modelo load_aeronave show_aeronave" id="naves" disabled="true">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -230,10 +232,31 @@
     // });
     $(document).ready(function () {
         $('.aeronaves').select2();
-            $( "#dropdown" ).select2({
-            theme: "bootstrap"
-        });
+        // $('.load_serial').select2();
+        // $('.load_matricula').select2();
+        
+
+        function cleanA1() {
+            $('.ordenada_por').val('');
+            $('.en_apoyo').val('');
+            $('.codigo').val('');
+            $('.ruta_desde').val('');
+            $('.ruta_hasta').val('');
+            $('.encend').val('');
+            $('.despeg').val('');
+            $('.aterriz').val('');
+            $('.apag').val('');
+            $('.registro_manual').val('');
+            $('.horometro').val('');
+            $('.ind_vuelo').val('');
+            $('.toque_desp').val('');
+            $('.low_go').val('');
+            $('.total').val('');
+            $('.ciclos_tren').val('');
+        }
+        
         var id_fam0001;
+        var fam0001_a1_mision_id;
         $("#grupos").change(function(){
             var id = $(this).val();
             if(id){
@@ -314,8 +337,8 @@
                             $("#fecha").text(famSteps.fecha);
 
                             //CARGAR DATOS DE PASOS 
-                            $(".loadSteps").click(function(e){
-                                e.preventDefault();
+                            //$(".loadSteps").click(function(e){
+                                //e.preventDefault();
                                 //$("#collapseStepOne").collapse({toggle: false});
                                 $('#stepInputData').prop('hidden', true);
                                 $('#stepInputDataNext').prop('hidden', false);
@@ -326,7 +349,10 @@
                                 $(".load_componente_organismo").css('border-color','#66b700c4').find(":selected").text(famSteps.componente_organismo)
                                 $(".load_unidad").css('border-color','#66b700c4').find(":selected").text(famSteps.unidad)
 
-                                $(".load_aeronave").css('border-color','#66b700c4').find(":selected").text(famSteps.aeronave_modelo)
+                                // $(".load_aeronave").css('border-color','#66b700c4').find(":selected").text(famSteps.aeronave_modelo)
+                                // $(".load_aeronave").select2(famSteps.aeronave_modelo)
+                                // $(".aeronaves").select2().find(":selected").text(famSteps.aeronave_modelo);
+                                
                                 $(".load_serial").css('border-color','#66b700c4').find(":selected").text(famSteps.serial)
                                 $(".load_matricula").css('border-color','#66b700c4').find(":selected").text(famSteps.matricula)
 
@@ -337,19 +363,125 @@
                                 let A1Steps = response.A1_data
                                 if (A1Steps.length>0) {
                                     $(".step_two_color").css('background','rgb(225 225 224)');
+                                    
+                                    var counter = 1;
                                     $.each(A1Steps, function (key, value){
                                     $('#A1_data').append(
-                                        "<tr>\
-                                        <td>V</td>\
+                                        "<tr id='delete_a1_mision"+value.id+"'>\
+                                        <td>V"+counter+"</td>\
                                         <td>"+value.ordenada_por+"</td>\
                                         <td>"+value.en_apoyo+"</td>\
                                         <td>"+value.ruta_desde+"</td>\
                                         <td>"+value.ruta_hasta+"</td>\
-                                        <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                        <td><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                         </tr>");
+                                        counter += 1;
                                     })
+
+                                    //ELIMINAR MISION (METER EN HELPER)
+                                    $(".delete_a1_mision").click(function() {
+                                        var id = $(this).val();
+                                        console.log(id)
+                                        $.ajax({
+                                            url:"{{ route('delete_a1_mision') }}",
+                                            method:'POST',
+                                            data:{id:id},
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    $("#delete_a1_mision"+id+"").remove();
+                                                    alert('eliminacion correcta')
+                                                }
+                                            }
+                                        });
+                                    });
+
+                                    //EDITAR MISION (METER EN HELPER)
+                                    $(".editar_a1_mision").click(function() {
+                                        var id_edit = $(this).val();
+                                        console.log(id_edit)
+                                        $.ajax({
+                                            url:"{{ route('editar_a1_mision') }}",
+                                            method:'POST',
+                                            data:{id:id_edit},
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    let res = response.data[0]
+                                                    $(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
+                                                    $('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
+                                                    $('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
+                                                    $('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
+                                                    $('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                                    $('.load_encend').css('border-color','#66b700c4').val(res.encend)
+                                                    $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
+                                                    $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
+                                                    $('.load_apag').css('border-color','#66b700c4').val(res.apag)
+                                                    $('.load_registro_manual').css('border-color','#66b700c4').val(res.registro_manual)
+                                                    $('.load_horometro').css('border-color','#66b700c4').val(res.horometro)
+                                                    $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
+                                                    $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
+                                                    $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
+                                                    $('.load_total').css('border-color','#66b700c4').val(res.total)
+                                                    $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
+                                                    $('.load_id_mision').val(res.id)
+
+                                                    $('.edit_input').prop('hidden', false);
+                                                    $('.add_edit_input').prop('hidden', true);
+                                                    
+                                                }
+                                                else{
+                                                    alert('Fallo en la peticion con el servidor')
+                                                }
+                                            }
+                                        });
+                                        
+                                    });
+                                    //ACTUALIZAR MISION (METER EN HELPER)
+                                    $(".actualizar_a1_mision").click(function() {
+
+                                        console.log(id_fam0001)
+                                        console.log($(".load_ordenado_por").find(":selected").text())
+                                        $.ajax({
+                                            url:"{{ route('actualizar_a1_mision') }}",
+                                            method:'POST',
+                                            data:{
+                                                id:$(".load_id_mision").val(),
+                                                ordenada_por:$(".load_ordenado_por").find(":selected").text(),
+                                                en_apoyo:$('.load_en_apoyo').find(":selected").text(),
+                                                codigo:$('.load_codigo').find(":selected").text(),
+                                                ruta_desde:$('.load_ruta_desde').find(":selected").text(),
+                                                ruta_hasta:$('.load_ruta_hasta').find(":selected").text(),
+                                                encend:$('.load_encend').val(),
+                                                despeg:$('.load_despeg').val(),
+                                                aterriz:$('.load_aterriz').val(),
+                                                apag:$('.load_apag').val(),
+                                                registro_manual:$('.load_registro_manual').val(),
+                                                horometro:$('.load_horometro').val(),
+                                                ind_vuelo:$('.load_ind_vuelo').val(),
+                                                toque_desp:$('.load_toque_desp').val(),
+                                                low_go:$('.load_low_go').val(),
+                                                total:$('.load_total').val(),
+                                                ciclos_tren:$('.load_ciclos_tren').val(),
+                                                ov_ota_om:$('.ov_ota_om').val(),
+                                                fam0001_id: id_fam0001,
+                                                completado: "paso2",
+                                            }, 
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    console.log(response)
+                                                    alert('Mision Actualziada correctamente')
+                                                    cleanA1()
+                                                }
+                                            }
+                                        });
+                                    });
                                 }
-                            })
+                            //})
                         }
                     }
                     else{
@@ -402,6 +534,10 @@
                         if(response.success){
                             console.log(response)
                             id_fam0001 = response.data.id;
+                            $("#ov_ota_om").text(response.data.ov_ota_om);
+                            $("#aeronave_modelo").text(aeronave_modelo);
+                            $("#fecha").text(fecha);
+                            $('#step_one').prop('hidden', false);
                         }
                     },
                     error:function(error){
@@ -411,6 +547,44 @@
             }
             
         });
+
+        $("#rowAdder").click(function () {
+            //AGREGAR CONSUMIBLES
+            $.ajax({
+                url:"{{ route('consumibles') }}",
+                method:'POST',
+                data:{ 
+                    _token:'{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        $(".consumibles").empty();
+                        $(".consumibles").append('<option>Seleccionar..</option>');
+                        $.each(response.consumibles ,function(key,value){
+                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
+                        });
+                        $(".unidades").empty();
+                        $(".unidades").append('<option>Seleccionar..</option>');
+                        $.each(response.unidades ,function(key,value){
+                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
+                        });
+                    }
+                }
+            });
+            newRowAdd =
+            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control cantidad" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#newinput').append(newRowAdd);
+        });
+
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
 
         //VALIDAR GUARDAR A1 MISION
         $(".enviar_a1_mision").click(function(e){
@@ -432,11 +606,7 @@
             var total = $('.total').val();
             var ciclos_tren = $('.ciclos_tren').val();
             
-            console.log($('.ov_ota_om').val());
-            console.log(id_fam0001);
-            console.log(ruta_desde);
             //VALIDAR PASO UNO HEADER
-            
             if(ordenada_por===""){
                 console.log('no puedes guardar datos vacios')
             }else{
@@ -484,21 +654,179 @@
                             $('.low_go').val('');
                             $('.total').val('');
                             $('.ciclos_tren').val('');
+
                             $("#A1_data tr").remove();
                             //$('#A1_data tbody').empty();
-                            console.log(response.data)
+
+                            //GUARDAR CONSUMIBLES A1 MISION
+                            let misionID = response.A1_id[0].id;
+                            var loop = $('input[name="cantidad[]"]').length
+                            var cantidad = []
+                            var consumiblesArray = []
+                            var unidadesArray = []
+
+                            $("input[name='cantidad[]']").each(function() {
+                                cantidad.push({
+                                    cantidad:$(this).val(),
+                                });
+                            });
+                            $("select[name='consumibles[]']").find(":selected").each(function() {
+                                consumiblesArray.push({
+                                    consumible:$(this).text(),
+                                });
+                            });
+                            $("select[name='unidades[]']").find(":selected").each(function() {
+                                unidadesArray.push({
+                                    unidades:$(this).text(),
+                                });
+                            });
+                            var consumiblesDATA = []
+                            for (let index = 0; index < loop; index++) {
+                                consumiblesDATA.push({
+                                    ov_ota_om:$('.ov_ota_om').val(),
+                                    fam0001_id:id_fam0001,
+                                    fam0001_a1_mision_id:misionID,
+                                    cantidad:cantidad[index].cantidad,
+                                    consumiblesArray:consumiblesArray[index].consumible,
+                                    unidadesArray:unidadesArray[index].unidades
+                                });
+                            } 
+                            console.log(consumiblesDATA)
+                            //GUARDAR CONSUMIBLES
+                            $.ajax({
+                            url:"{{ route('store_a1_consumibles') }}",
+                            method:'POST',
+                            data:{
+                                consumiblesDATA: consumiblesDATA,
+                                },
+                                success:function(response){
+                                    if(response.success){
+                                        console.log(response)
+                                    }
+                                },
+                                error:function(error){
+                                    console.log(error)
+                                }
+                            });
+
                             let res = response.data;
+                            var counter = 1;
                             $.each(res, function (key, value){
                             $('#A1_data').append(
-                                "<tr>\
-                                <td>V</td>\
+                                "<tr id='delete_a1_mision"+value.id+"'>\
+                                <td>V"+counter+"</td>\
                                 <td>"+value.ordenada_por+"</td>\
                                 <td>"+value.en_apoyo+"</td>\
                                 <td>"+value.ruta_desde+"</td>\
                                 <td>"+value.ruta_hasta+"</td>\
-                                <td><button style='background: #212529;color: white;' type='button' class='btn btn-success'>Editar</button><button style='background:red;' class='btn btn-danger' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                <td><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                 </tr>");
+                                counter += 1;
                             })
+
+                            //ELIMINAR MISION (METER EN HELPER)
+                            $(".delete_a1_mision").click(function() {
+                                var id = $(this).val();
+                                console.log(id)
+                                $.ajax({
+                                    url:"{{ route('delete_a1_mision') }}",
+                                    method:'POST',
+                                    data:{id:id},
+                                    cache: false,
+                                    dataType: 'json',
+                                    success: function(response){
+                                        if(response){
+                                            $("#delete_a1_mision"+id+"").remove();
+                                            alert('eliminacion correcta')
+                                        }
+                                    }
+                                });
+                            });
+
+                            //EDITAR MISION (METER EN HELPER)
+                            $(".editar_a1_mision").click(function() {
+                                var id_edit = $(this).val();
+                                console.log(id_edit)
+                                $.ajax({
+                                    url:"{{ route('editar_a1_mision') }}",
+                                    method:'POST',
+                                    data:{id:id_edit},
+                                    cache: false,
+                                    dataType: 'json',
+                                    success: function(response){
+                                        if(response){
+                                            let res = response.data[0]
+                                            $(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
+                                            $('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
+                                            $('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
+                                            $('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
+                                            $('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                            $('.load_encend').css('border-color','#66b700c4').val(res.encend)
+                                            $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
+                                            $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
+                                            $('.load_apag').css('border-color','#66b700c4').val(res.apag)
+                                            $('.load_registro_manual').css('border-color','#66b700c4').val(res.registro_manual)
+                                            $('.load_horometro').css('border-color','#66b700c4').val(res.horometro)
+                                            $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
+                                            $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
+                                            $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
+                                            $('.load_total').css('border-color','#66b700c4').val(res.total)
+                                            $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
+                                            $('.load_id_mision').val(res.id)
+
+                                            $('.edit_input').prop('hidden', false);
+                                            $('.add_edit_input').prop('hidden', true);
+                                            
+                                        }
+                                        else{
+                                            alert('Fallo en la peticion con el servidor')
+                                        }
+                                    }
+                                });
+                                
+                            });
+
+                            //ACTUALIZAR MISION (METER EN HELPER)
+                            $(".actualizar_a1_mision").click(function() {
+                                console.log(id_fam0001)
+                                console.log($(".load_ordenado_por").find(":selected").text())
+                                $.ajax({
+                                    url:"{{ route('actualizar_a1_mision') }}",
+                                    method:'POST',
+                                    data:{
+                                        id:$(".load_id_mision").val(),
+                                        ordenada_por:$(".load_ordenado_por").find(":selected").text(),
+                                        en_apoyo:$('.load_en_apoyo').find(":selected").text(),
+                                        codigo:$('.load_codigo').find(":selected").text(),
+                                        ruta_desde:$('.load_ruta_desde').find(":selected").text(),
+                                        ruta_hasta:$('.load_ruta_hasta').find(":selected").text(),
+                                        encend:$('.load_encend').val(),
+                                        despeg:$('.load_despeg').val(),
+                                        aterriz:$('.load_aterriz').val(),
+                                        apag:$('.load_apag').val(),
+                                        registro_manual:$('.load_registro_manual').val(),
+                                        horometro:$('.load_horometro').val(),
+                                        ind_vuelo:$('.load_ind_vuelo').val(),
+                                        toque_desp:$('.load_toque_desp').val(),
+                                        low_go:$('.load_low_go').val(),
+                                        total:$('.load_total').val(),
+                                        ciclos_tren:$('.load_ciclos_tren').val(),
+                                        ov_ota_om:$('.ov_ota_om').val(),
+                                        fam0001_id: id_fam0001,
+                                        completado: "paso2",
+                                    }, 
+                                    cache: false,
+                                    dataType: 'json',
+                                    success: function(response){
+                                        if(response){
+                                            console.log(response)
+                                            alert('Mision Actualziada correctamente')
+                                            cleanA1()
+                                        }
+                                    }
+                                });
+                            });
+                             
                         }
                     },
                     error:function(error){
@@ -509,43 +837,7 @@
             
         });
         
-        $("#rowAdder").click(function () {
-            //AGREGAR CONSUMIBLES
-            $.ajax({
-                url:"{{ route('consumibles') }}",
-                method:'POST',
-                data:{ 
-                    _token:'{{ csrf_token() }}'
-                },
-                cache: false,
-                dataType: 'json',
-                success: function(response){
-                    if(response){
-                        // $("#consumibles").empty();
-                        // $("#consumibles").append('<option>Seleccionar..</option>');
-                        $.each(response.consumibles ,function(key,value){
-                            console.log(value.consumible)
-                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
-                        });
-                        $.each(response.unidades ,function(key,value){
-                            console.log(value.consumible)
-                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
-                        });
-                    }
-                }
-            });
-            newRowAdd =
-            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control" style="border: 1px solid #a5a9bf7a;"></div></div>'+
-            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-
-            $('#newinput').append(newRowAdd);
-        });
-
-        $("body").on("click", "#DeleteRow", function () {
-            $(this).parents("#row").remove();
-        })
+        
 
     });
 
