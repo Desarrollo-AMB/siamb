@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
+use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
@@ -30,9 +31,9 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $roles = Role::orderBy('name','ASC')->get(); //->paginate(10);
+        return view('roles.index',compact('roles'));
+            //->with('i', ($request->input('page', 1) - 1) * 10);
     }
   
     /**
@@ -45,7 +46,9 @@ class RoleController extends Controller
         $permission = Permission::get();
         $permissionsGrouped = Permission::orderBy('group')->get()
             ->groupBy('group');
-        return view('roles.create',compact('permissionsGrouped'));
+
+        $guard_names=config('constants.guard_names');
+        return view('roles.create',compact('permissionsGrouped','guard_names'));
     }
   
     /**
@@ -57,11 +60,23 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|alpha_dash|unique:roles,name',
-            'permission' => 'required',
+            //'name' => 'required|alpha_dash|unique:roles,name',
+            'name' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('roles')->where(function ($query) use($request) {
+                    return $query->where('name', $request->input('name'))
+                    ->where('guard_name', $request->input('guard_name'))
+                    ;
+                }),
+            ]
+            //'permission' => 'required',
         ]);
     
-        $role = Role::create(['name' => strtolower($request->input('name'))]);
+        $role = Role::create([
+            'name' => strtolower($request->input('name')),
+            'guard_name' => strtolower($request->input('guard_name')),
+        ]);
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
@@ -82,7 +97,8 @@ class RoleController extends Controller
             ->get();
         $permissionsGrouped = Permission::orderBy('group','ASC')->get()
             ->groupBy('group');
-        return view('roles.show',compact('role','rolePermissions'));
+        $guard_names=config('constants.guard_names');
+        return view('roles.show',compact('role','rolePermissions','guard_names'));
     }
     
     /**
@@ -100,8 +116,8 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-    
-        return view('roles.edit',compact('role','permissionsGrouped','rolePermissions'));
+        $guard_names=config('constants.guard_names');
+        return view('roles.edit',compact('role','permissionsGrouped','rolePermissions','guard_names'));
     }
    
     /**
@@ -113,13 +129,31 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request);
+        dd(
+            Rule::unique('roles')->where(function ($query) use($request, $id) {
+                return $query->where('name', $request->input('name'))
+                ->where('guard_name', $request->input('guard_name'))
+                ->whereNotIn('id', [$id]);
+            })
+        );
         $this->validate($request, [
-            'name' => 'required|alpha_dash|unique:roles,name,'.$id,
-            'permission' => 'required',
+            //'name' => 'required|alpha_dash|unique:roles,name,'.$id,
+            //'permission' => 'required',
+            'name' => [
+                'required',
+                'alpha_dash',
+                Rule::unique('roles')->where(function ($query) use($request, $id) {
+                    return $query->where('name', $request->input('name'))
+                    ->where('guard_name', $request->input('guard_name'))
+                    ->whereNotIn('id', [$id]);
+                }),
+            ],
         ]);
    
         $role = Role::find($id);
         $role->name = strtolower($request->input('name'));
+        $role->guard_name = $request->input('guard_name');
         $role->save();
     
         $role->syncPermissions($request->input('permission'));

@@ -19,21 +19,19 @@
             </div>
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="table-responsive p-0">
-                    <table id="table" class="table align-items-center mb-0">
+                    <table id="table" class="table align-items-center mb-0" data-order='[[0, "asc"]]'>
                         <thead>
                             <tr>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nro.</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roles</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Accion</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-sortable="false">Accion</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $key => $user)
                             <tr>
-                                <td class="text-center">{{ ++$i }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>
                                     @if ($user->empleado) 
@@ -45,12 +43,12 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @if(!empty($user->getRoleNames()))
-                                        @foreach($user->getRoleNames() as $v)
-                                            <label class="badge bg-secondary">{{ $v }}</label>
+                                        @foreach($user->roles as $v)
+                                            <label class="badge bg-secondary">{{ $v->guard_name }}-{{ $v->name }} </label>
                                         @endforeach
                                     @endif
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ route('users.show',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Mostrar usuario">
                                         <i class="fas fa-user text-secondary" aria-hidden="true"></i>
                                     </a>

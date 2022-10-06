@@ -25,12 +25,20 @@
             <div class="card-body px-2 pt-2 pb-2">
                 {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-12 col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <strong>Modulo/Sistema:</strong>
+                            {!! Form::select('guard_name', $guard_names,[], array('id'=>'guard_name','class' => 'form-control',)) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8">
                         <div class="form-group">
                             <strong>Nombre Rol:</strong>
                             {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control', 'onblur'=>'lowerCase()', 'id'=>'name')) !!}
                         </div>
                     </div>
+                </div>
+                <div class="row" id='permisos'>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Permisos: </strong>
@@ -63,6 +71,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
@@ -77,7 +87,16 @@
 @section('scripts')
 <script>
     $(function (){
-        
+        $('#guard_name').select2();
+
+        $('#guard_name').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if(selected_option_value!='web'){
+                $( "#permisos" ).hide();
+            }else{
+                $( "#permisos" ).show();
+            }
+        });
     });
 
     function lowerCase() {
