@@ -15,12 +15,20 @@
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-12 col-sm-12 col-md-7">
                         <div class="form-group">
                             <strong>Nombre:</strong>
                             {{ $role->name }}
                         </div>
                     </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4">
+                        <div class="form-group">
+                            <strong>Modulo/Sistema:</strong>
+                            {{ $role->guard_name=='web'?'SIAMB': $role->guard_name }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group row">
                             <div class="col-3"><strong>Permisos: </strong></div>

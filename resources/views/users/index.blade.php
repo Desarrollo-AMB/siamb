@@ -44,7 +44,7 @@
                                 <td>
                                     @if(!empty($user->getRoleNames()))
                                         @foreach($user->roles as $v)
-                                            <label class="badge bg-secondary">{{ $v->guard_name }}-{{ $v->name }} </label>
+                                            <label class="badge bg-secondary">{{ $v->guard_name =='web'? 'siamb' : $v->guard_name }}-{{ $v->name }} </label>
                                         @endforeach
                                     @endif
                                 </td>

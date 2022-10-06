@@ -33,6 +33,9 @@ return new class extends Migration
             $table->string('observaciones',255)->nullable();
             $table->date('fecha_tentativa')->nullable();
             $table->string('codigo_discracate',2)->nullable();
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 
