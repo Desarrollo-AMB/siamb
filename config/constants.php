@@ -52,5 +52,12 @@ return [
         '14' =>  'Ocupación Irregular',
 
     ],
+    'guard_names' =>[
+        'web' =>  'SIAMB',
+        'seid' =>  'SEID',
+        'avianet' =>  'AVIANET',
+        'educacion' =>  'EDUCACION',
+        'sireh' =>  'SIREH',
+    ]
 
 ];
