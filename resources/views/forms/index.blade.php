@@ -20,8 +20,6 @@
                             <div class="card wizard-card" data-color="orange" id="wizardProfile">
                                 <form action="" method="">
                                     <div class="wizard-header text-center">
-                                        {{-- <h3 class="wizard-title">FAM-0002</h3>
-                                        <p class="category">Generar Nueva FAM-0002.</p> --}}
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
@@ -65,11 +63,6 @@
                                     <div class="tab-content">
                                         <div class="tab-pane" id="about">
                                             <div class="row">
-                                                {{-- <br>
-                                                <div style="padding-top: 30px;" class="col-sm-12">
-                                                    <h5 style="float: left" class="info-text">FAM-0002A</h5>
-                                                </div> --}}
-                                                
                                                 <div style="padding-top:30px;" class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
@@ -86,10 +79,10 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>COMPONENTE / ORGANISMO <small></small></h6>
-                                                            <select name="componente_organismo" class="form-control componente_organismo load_componente_organismo">
-                                                                <option value=""></option>
+                                                            <select name="componente_organismo" class="form-control componente_organismo load_componente_organismo" id="organismo">
+                                                                <option value="">Seleccionar..</option>
                                                                 @foreach($componentes as $data) 
-                                                                    <option value="{{$data->id}}">{{$data->componente}} - {{$data->organismo}}</option>
+                                                                    <option value="{{$data->organismo}}">{{$data->componente}} - {{$data->organismo}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -109,36 +102,17 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            
                                                             <h6>AERONAVE / MODELO</h6>
-                                                            {{-- <select class="aeronaves form-control" name="aeronaves">
-                                                                @foreach($aeronaveModelos as $naves) 
-                                                                    <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                                @endforeach
-                                                            </select> --}}
-                                                                <select hidden="false" class="hide_aeronave selectpicker form-control aeronaves aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
-                                                                    <option value=""></option>
-                                                                    {{-- <option>Seleccionar..</option>
-                                                                    @foreach($aeronaveModelos as $naves) 
-                                                                        <option value="{{$naves->id}}">{{$naves->aeronave}} / {{$naves->modelo}}</option>
-                                                                    @endforeach --}}
-                                                                </select>
-                                                            
-                                                            <input type="text" hidden="true" class="form-control aeronave_modelo load_aeronave show_aeronave" id="naves" disabled="true">
+                                                            <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave" id="naves" name="aeronave_modelo">
+                                                                <option value=""></option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>SERIAL</h6>
-                                                            <select name="serial" id="serial" class="form-control serial load_serial">
+                                                            <select name="serial" id="serial" class="form-control serial serial_naves load_serial">
                                                                 <option value=""></option>
-                                                                {{-- <option>Seleccionar..</option>
-                                                                @foreach($matriculas as $data) 
-                                                                    @if ($data->serial==null)
-                                                                    @else
-                                                                    <option value="{{$data->id}}">{{$data->serial}}</option>
-                                                                    @endif
-                                                                @endforeach --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -149,10 +123,6 @@
                                                             <h6>MATRICULA <small></small></h6>
                                                             <select name="matricula" id="matricula" class="form-control matricula load_matricula">
                                                                 <option value=""></option>
-                                                                {{-- <option>Seleccionar..</option>
-                                                                @foreach($matriculas as $data) 
-                                                                    <option value="{{$data->id}}">{{$data->matricula}}</option>
-                                                                @endforeach --}}
                                                             </select>
                                                         </div> 
                                                     </div>
@@ -178,14 +148,10 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="">
-                                                        <input type='button' class='btn btn-info btn-wd enviar' name='enviar' value='enviar' />
-                                                    </div> --}}
                                                 </div>
-                                                {{-- <div class="row">
-                                                    <i id="step_save" style="font-size: 20px;" class="ti-save enviar"></i>
-                                                </div> --}}
                                             </div>
+                                            <button value="" id="editar_paso1" hidden="true" style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-fill btn-info btn-wd show_edit_paso1">ACTUALIZAR</button>
+                                            
                                         </div>
                                         <div class="tab-pane" id="a1">
                                             @include('forms.A1')
@@ -224,24 +190,31 @@
 
 @section('scripts')
 <script>
-    // $(document).ready(function() {
-    //     $('.aeronaves').select2();
-        //     $( "#dropdown" ).select2({
-        //     theme: "bootstrap"
-        // });
-    // });
     $(document).ready(function () {
-        $('.aeronaves').select2();
-        // $('.load_serial').select2();
-        // $('.load_matricula').select2();
         
+        $('.componente_organismo').select2();
+        $('#grupos').select2();
+        $('#naves').select2();
+        $('#serial').select2();
+        $('#matricula').select2();
+        $('.base_estacion').select2();
+        $('.jefe_maquina').select2();
 
+        $('.ordenada_por').select2();
+        $('.en_apoyo').select2();
+        $('.codigo').select2();
+        $('.ruta_desde').select2();
+        $('.ruta_hasta').select2();
+
+        // $('.consumibles').select2();
+        // $('.unidades').select2();
+        
         function cleanA1() {
-            $('.ordenada_por').val('');
-            $('.en_apoyo').val('');
-            $('.codigo').val('');
-            $('.ruta_desde').val('');
-            $('.ruta_hasta').val('');
+            $('.ordenada_por').val('').trigger('change');
+            $('.en_apoyo').val('').trigger('change');
+            $('.codigo').val('').trigger('change');
+            $('.ruta_desde').val('').trigger('change');
+            $('.ruta_hasta').val('').trigger('change');
             $('.encend').val('');
             $('.despeg').val('');
             $('.aterriz').val('');
@@ -273,7 +246,6 @@
                         });
                     }
                 }); 
-                
             }
         });
         $('#naves').on('change',function(){
@@ -288,7 +260,7 @@
                             $("#serial").empty();
                             $("#serial").append('<option>Seleccionar..</option>');
                             $.each(res,function(key,value){
-                                $("#serial").append('<option class="load_serial" value="'+key.serial+'">'+value.serial+'</option>');
+                                $("#serial").append('<option class="load_serial" value="'+value.serial+'">'+value.serial+'</option>');
                             });
                         }
                     }
@@ -302,7 +274,7 @@
                             $("#matricula").empty();
                             $("#matricula").append('<option>Seleccionar..</option>');
                             $.each(res,function(key,value){
-                                $("#matricula").append('<option class="load_matricula" value="'+key.matricula+'">'+value.matricula+'</option>');
+                                $("#matricula").append('<option class="load_matricula" value="'+value.matricula+'">'+value.matricula+'</option>');
                             });
                         }
                     }
@@ -323,42 +295,60 @@
                     let famSteps = response.headerData[0]
                     id_fam0001 = famSteps.id;
                     if (famSteps.completado === "completado") {
-                        //completado
+                        console.log('pasos completados')
                     }
                     if (famSteps.completado === "paso1") {
                         var dataHeader = 1;
                         //PASOS COMPLETADOS
                         if(dataHeader>0){
                             $('#step_one').prop('hidden', false);
-
-                            //$('#step_save').prop('hidden', true);
+                            $('.show_edit_paso1').prop('hidden', false);
+                            $(".show_edit_paso1").val(famSteps.id);
                             $("#ov_ota_om").text(famSteps.ov_ota_om);
-                            $("#aeronave_modelo").text(famSteps.aeronave_modelo);
+                            $("#aeronave_modelo").text(famSteps.componente_organismo);
                             $("#fecha").text(famSteps.fecha);
 
                             //CARGAR DATOS DE PASOS 
-                            //$(".loadSteps").click(function(e){
-                                //e.preventDefault();
-                                //$("#collapseStepOne").collapse({toggle: false});
                                 $('#stepInputData').prop('hidden', true);
                                 $('#stepInputDataNext').prop('hidden', false);
                                 $(".step_one_color").css('background','rgb(225 225 224)');
-
-                                $(".load_fecha").val(famSteps.fecha).css('border-color','#66b700c4');
-                                $(".load_ov_ota_om").val(famSteps.ov_ota_om).css('border-color','#66b700c4');
-                                $(".load_componente_organismo").css('border-color','#66b700c4').find(":selected").text(famSteps.componente_organismo)
-                                $(".load_unidad").css('border-color','#66b700c4').find(":selected").text(famSteps.unidad)
-
-                                // $(".load_aeronave").css('border-color','#66b700c4').find(":selected").text(famSteps.aeronave_modelo)
-                                // $(".load_aeronave").select2(famSteps.aeronave_modelo)
-                                // $(".aeronaves").select2().find(":selected").text(famSteps.aeronave_modelo);
                                 
-                                $(".load_serial").css('border-color','#66b700c4').find(":selected").text(famSteps.serial)
-                                $(".load_matricula").css('border-color','#66b700c4').find(":selected").text(famSteps.matricula)
+                                $(".load_fecha").val(famSteps.fecha)
+                                $(".load_ov_ota_om").val(famSteps.ov_ota_om)
 
-                                $(".load_estacion").css('border-color','#66b700c4').find(":selected").text(famSteps.base_estacion)
-                                $(".load_jefe_maquina").val(famSteps.jefe_maquina).css('border-color','#66b700c4');
+                                //$(".load_componente_organismo").css('border-color','#66b700c4').find(":selected").text(famSteps.componente_organismo)
+                                setTimeout(function() { 
+                                    $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
+                                }, 1000);
+
+                                //$(".load_unidad").css('border-color','#66b700c4').find(":selected").text(famSteps.unidad)
+                                $(".load_unidad").val(famSteps.unidad).trigger('change')
+
+                                //$(".load_aeronave").css('border-color','#66b700c4').find(":selected").val(famSteps.aeronave_modelo)
+                                cargarAeronavesModelos(famSteps.unidad)
+                                setTimeout(function() { 
+                                    $(".load_aeronave").val(famSteps.aeronave_modelo).trigger('change')
+                                }, 1200);
                                 
+                                //$(".load_serial").css('border-color','#66b700c4').find(":selected").text(famSteps.serial)
+                                cargarSeriales(famSteps.aeronave_modelo)
+
+                                setTimeout(function() { 
+                                    $(".load_serial").val(famSteps.serial).trigger('change')
+                                }, 3000);
+
+                                //$(".load_matricula").css('border-color','#66b700c4').find(":selected").text(famSteps.matricula)
+                                cargarMatriculas(famSteps.aeronave_modelo)
+                                setTimeout(function() { 
+                                    $(".load_matricula").val(famSteps.matricula).trigger('change')
+                                }, 3000);
+                                
+                                //$(".load_estacion").css('border-color','#66b700c4').find(":selected").text(famSteps.base_estacion)
+                                $(".load_estacion").val(famSteps.base_estacion).trigger('change')
+
+                                //$(".load_jefe_maquina").val(famSteps.jefe_maquina).css('border-color','#66b700c4');
+                                $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
+
                                 //CARGAR PASO 2
                                 let A1Steps = response.A1_data
                                 if (A1Steps.length>0) {
@@ -390,6 +380,7 @@
                                             dataType: 'json',
                                             success: function(response){
                                                 if(response){
+                                                    cleanA1()
                                                     $("#delete_a1_mision"+id+"").remove();
                                                     alert('eliminacion correcta')
                                                 }
@@ -410,11 +401,17 @@
                                             success: function(response){
                                                 if(response){
                                                     let res = response.data[0]
-                                                    $(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
-                                                    $('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
-                                                    $('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
-                                                    $('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
-                                                    $('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                                    //$(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
+                                                    $(".load_ordenado_por").val(res.ordenada_por).trigger('change')
+                                                    //$('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
+                                                    $(".load_en_apoyo").val(res.en_apoyo).trigger('change')
+                                                    //$('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
+                                                    $(".load_codigo").val(res.codigo).trigger('change')
+                                                    //$('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
+                                                    $(".load_ruta_desde").val(res.ruta_desde).trigger('change')
+                                                    //$('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                                    $(".load_ruta_hasta").val(res.ruta_hasta).trigger('change')
+
                                                     $('.load_encend').css('border-color','#66b700c4').val(res.encend)
                                                     $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
                                                     $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
@@ -430,6 +427,21 @@
 
                                                     $('.edit_input').prop('hidden', false);
                                                     $('.add_edit_input').prop('hidden', true);
+
+                                                    let consumblesEdit = response.consumibles
+                                                    console.log(consumblesEdit)
+                                                    //cargarConsumibles() 
+
+                                                    // $.each(consumblesEdit, function (key, value){
+                                                    // $('#consumblesEdit').append(
+                                                    //     "<tr id='consumibles"+value.id+"'>\
+                                                    //     <td>"+counter+"</td>\
+                                                    //     <td>"+value.consumible+"</td>\
+                                                    //     <td>"+value.unidad+"</td>\
+                                                    //     <td>"+value.cantidad+"</td>\
+                                                    //     </tr>");
+                                                    //     counter += 1;
+                                                    // })
                                                     
                                                 }
                                                 else{
@@ -441,19 +453,17 @@
                                     });
                                     //ACTUALIZAR MISION (METER EN HELPER)
                                     $(".actualizar_a1_mision").click(function() {
-
                                         console.log(id_fam0001)
-                                        console.log($(".load_ordenado_por").find(":selected").text())
                                         $.ajax({
                                             url:"{{ route('actualizar_a1_mision') }}",
                                             method:'POST',
                                             data:{
                                                 id:$(".load_id_mision").val(),
-                                                ordenada_por:$(".load_ordenado_por").find(":selected").text(),
-                                                en_apoyo:$('.load_en_apoyo').find(":selected").text(),
-                                                codigo:$('.load_codigo').find(":selected").text(),
-                                                ruta_desde:$('.load_ruta_desde').find(":selected").text(),
-                                                ruta_hasta:$('.load_ruta_hasta').find(":selected").text(),
+                                                ordenada_por:$(".load_ordenado_por").val(),
+                                                en_apoyo:$('.load_en_apoyo').val(),
+                                                codigo:$('.load_codigo').val(),
+                                                ruta_desde:$('.load_ruta_desde').val(),
+                                                ruta_hasta:$('.load_ruta_hasta').val(),
                                                 encend:$('.load_encend').val(),
                                                 despeg:$('.load_despeg').val(),
                                                 aterriz:$('.load_aterriz').val(),
@@ -474,13 +484,47 @@
                                             success: function(response){
                                                 if(response){
                                                     console.log(response)
-                                                    alert('Mision Actualziada correctamente')
                                                     cleanA1()
+                                                    alert('Mision Actualziada correctamente')
+                                                    
                                                 }
                                             }
                                         });
                                     });
                                 }
+
+                                //EDITAR PASO1 (METER EN HELPER)
+                                $("#editar_paso1").click(function() {
+                                        var id_edit = $(this).val();
+                                        $.ajax({
+                                            url:"{{ route('editar_paso1') }}",
+                                            method:'POST',
+                                            data:{
+                                                fecha: $('.fecha').val(),
+                                                ov_ota_om: $('.ov_ota_om').val(),
+                                                componente_organismo: $('.componente_organismo').val(),
+                                                unidad: $('.unidad').val(),
+                                                aeronave_modelo: $('.aeronaves').val(),
+                                                serial: $('.serial').val(),
+                                                matricula: $('.matricula').val(),
+                                                base_estacion: $('.base_estacion').val(),
+                                                jefe_maquina: $('.jefe_maquina').val(),
+                                                completado: "paso1",
+                                                id:id_edit,
+                                            },
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    console.log('editado')
+                                                }
+                                                else{
+                                                    alert('Fallo en la peticion con el servidor')
+                                                }
+                                            }
+                                        });
+                                        
+                                    });
                             //})
                         }
                     }
@@ -502,14 +546,16 @@
             e.preventDefault();
             var fecha = $('.fecha').val();
             var ov_ota_om = $('.ov_ota_om').val();
-            var componente_organismo = $('.componente_organismo').find(":selected").text();
-            var unidad = $('.unidad').find(":selected").text();
-            var aeronave_modelo = $('.aeronave_modelo').find(":selected").text();
-            var serial = $('.serial').find(":selected").text();
-            var matricula = $('.matricula').find(":selected").text();
-            var base_estacion = $('.base_estacion').find(":selected").text();
-            var jefe_maquina = $('.jefe_maquina').find(":selected").val();
-            
+            //var componente_organismo = $('.componente_organismo').find(":selected").text();
+            var componente_organismo = $('.componente_organismo').val();
+            var unidad = $('.unidad').val();
+            var aeronave_modelo = $('.aeronaves').val();
+            var serial = $('.serial').val();
+            var matricula = $('.matricula').val();
+            var base_estacion = $('.base_estacion').val();
+            var jefe_maquina = $('.jefe_maquina').val();
+
+            console.log(serial)
             //VALIDAR PASO UNO HEADER
             if(ov_ota_om===""){
                 console.log('no puedes guardar datos vacios')
@@ -531,6 +577,7 @@
                     completado: "paso1",
                     },
                     success:function(response){
+                        console.log(response)
                         if(response.success){
                             console.log(response)
                             id_fam0001 = response.data.id;
@@ -589,8 +636,8 @@
         //VALIDAR GUARDAR A1 MISION
         $(".enviar_a1_mision").click(function(e){
             e.preventDefault();
-            var ordenada_por = $('.ordenada_por').find(":selected").text();
-            var en_apoyo = $('.en_apoyo').find(":selected").val();
+            var ordenada_por = $('.ordenada_por').val();
+            var en_apoyo = $('.en_apoyo').val();
             var codigo = $('.codigo').val();
             var ruta_desde = $('.ruta_desde').val();
             var ruta_hasta = $('.ruta_hasta').val();
@@ -638,23 +685,8 @@
                     success:function(response){
                         if(response.success){
                             //limpiar
-                            $('.ordenada_por').val('');
-                            $('.en_apoyo').val('');
-                            $('.codigo').val('');
-                            $('.ruta_desde').val('');
-                            $('.ruta_hasta').val('');
-                            $('.encend').val('');
-                            $('.despeg').val('');
-                            $('.aterriz').val('');
-                            $('.apag').val('');
-                            $('.registro_manual').val('');
-                            $('.horometro').val('');
-                            $('.ind_vuelo').val('');
-                            $('.toque_desp').val('');
-                            $('.low_go').val('');
-                            $('.total').val('');
-                            $('.ciclos_tren').val('');
-
+                            cleanA1()
+                            $("#newinput").remove();
                             $("#A1_data tr").remove();
                             //$('#A1_data tbody').empty();
 
@@ -736,6 +768,7 @@
                                     dataType: 'json',
                                     success: function(response){
                                         if(response){
+                                            cleanA1()
                                             $("#delete_a1_mision"+id+"").remove();
                                             alert('eliminacion correcta')
                                         }
@@ -756,11 +789,12 @@
                                     success: function(response){
                                         if(response){
                                             let res = response.data[0]
-                                            $(".load_ordenado_por").css('border-color','#66b700c4').find(":selected").text(res.ordenada_por)
-                                            $('.load_en_apoyo').css('border-color','#66b700c4').find(":selected").text(res.en_apoyo)
-                                            $('.load_codigo').css('border-color','#66b700c4').find(":selected").text(res.codigo)
-                                            $('.load_ruta_desde').css('border-color','#66b700c4').find(":selected").text(res.ruta_desde)
-                                            $('.load_ruta_hasta').css('border-color','#66b700c4').find(":selected").text(res.ruta_hasta)
+                                            $(".load_ordenado_por").val(res.ordenada_por).trigger('change')
+                                            $(".load_en_apoyo").val(res.en_apoyo).trigger('change')
+                                            $(".load_codigo").val(res.codigo).trigger('change')
+                                            $(".load_ruta_desde").val(res.ruta_desde).trigger('change')
+                                            $(".load_ruta_hasta").val(res.ruta_hasta).trigger('change')
+
                                             $('.load_encend').css('border-color','#66b700c4').val(res.encend)
                                             $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
                                             $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
@@ -776,6 +810,18 @@
 
                                             $('.edit_input').prop('hidden', false);
                                             $('.add_edit_input').prop('hidden', true);
+
+                                            // let consumblesEdit = response.consumibles
+                                            // $.each(consumblesEdit, function (key, value){
+                                            // $('#consumblesEdit').append(
+                                            //     "<tr id='consumibles"+value.id+"'>\
+                                            //     <td>"+counter+"</td>\
+                                            //     <td>"+value.consumible+"</td>\
+                                            //     <td>"+value.unidad+"</td>\
+                                            //     <td>"+value.cantidad+"</td>\
+                                            //     </tr>");
+                                            //     counter += 1;
+                                            // })
                                             
                                         }
                                         else{
@@ -795,11 +841,11 @@
                                     method:'POST',
                                     data:{
                                         id:$(".load_id_mision").val(),
-                                        ordenada_por:$(".load_ordenado_por").find(":selected").text(),
-                                        en_apoyo:$('.load_en_apoyo').find(":selected").text(),
-                                        codigo:$('.load_codigo').find(":selected").text(),
-                                        ruta_desde:$('.load_ruta_desde').find(":selected").text(),
-                                        ruta_hasta:$('.load_ruta_hasta').find(":selected").text(),
+                                        ordenada_por:$(".load_ordenado_por").val(),
+                                        en_apoyo:$('.load_en_apoyo').val(),
+                                        codigo:$('.load_codigo').val(),
+                                        ruta_desde:$('.load_ruta_desde').val(),
+                                        ruta_hasta:$('.load_ruta_hasta').val(),
                                         encend:$('.load_encend').val(),
                                         despeg:$('.load_despeg').val(),
                                         aterriz:$('.load_aterriz').val(),
@@ -820,8 +866,9 @@
                                     success: function(response){
                                         if(response){
                                             console.log(response)
-                                            alert('Mision Actualziada correctamente')
                                             cleanA1()
+                                            alert('Mision Actualziada correctamente')
+                                            
                                         }
                                     }
                                 });
@@ -836,6 +883,93 @@
             }
             
         });
+        
+       
+        function cargarAeronavesModelos(grupo_id) {
+            if(grupo_id){
+                $.ajax({
+                    type:'GET',
+                    url:'{{ route("aeronaves_grupos") }}',
+                    data:{"unidad" : grupo_id },
+                    success:function(res){
+                        $("#naves").empty();
+                        $("#naves").append('<option>Cargando..</option>');
+                        $.each(res,function(key,value){
+                            $("#naves").append('<option class="load_aeronave" value="'+value.id+'">'+value.aeronave+' - '+value.modelo+'</option>');
+                        });
+                    }
+                }); 
+                
+            }
+        }
+        function cargarSeriales(naveId) {
+            if(naveId){
+                $.ajax({
+                    type:"GET",
+                    url:"{{ route('seriales') }}",
+                    data : { "id" : naveId },
+                    success:function(res){        
+                        if(res){
+                            $("#serial").empty();
+                            $("#serial").append('<option>Cargando..</option>');
+                            $.each(res,function(key,value){
+                                $("#serial").append('<option class="load_serial" value="'+value.serial+'">'+value.serial+'</option>');
+                            });
+                        }
+                    }
+                });
+            }
+        }
+        function cargarMatriculas(naveId) {
+            if(naveId){
+                $.ajax({
+                    type:"GET",
+                    url:"{{ route('matriculas') }}",
+                    data : { "id" : naveId },
+                    success:function(res){        
+                        if(res){
+                            $("#matricula").empty();
+                            $("#matricula").append('<option>Seleccionar..</option>');
+                            $.each(res,function(key,value){
+                                $("#matricula").append('<option class="load_matricula" value="'+value.matricula+'">'+value.matricula+'</option>');
+                            });
+                        }
+                    }
+                });
+            }
+        }
+        function cargarConsumibles() {
+            $.ajax({
+                url:"{{ route('consumibles') }}",
+                method:'POST',
+                data:{ 
+                    _token:'{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        $(".consumibles").empty();
+                        $(".consumibles").append('<option>Seleccionar..</option>');
+                        $.each(response.consumibles ,function(key,value){
+                            $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
+                        });
+                        $(".unidades").empty();
+                        $(".unidades").append('<option>Seleccionar..</option>');
+                        $.each(response.unidades ,function(key,value){
+                            $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
+                        });
+                    }
+                }
+            });
+            newRowAdd =
+            '<div id="row"><div class="input-group"><div style="padding:10px" class="col-sm-4"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control cantidad" style="border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#newinput').append(newRowAdd);
+        }
         
         
 

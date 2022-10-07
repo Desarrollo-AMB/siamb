@@ -83,12 +83,10 @@
                                                         <div class="form-group">
                                                             <strong>Roles:</strong>
                                                             <br>
-                                                            {{--!! Form::select('roles[]', $roles,[], array('id'=>'roles','class' => 'form-control','multiple','size'=>'10')) !!--}}
-                                                            <select class="select2 form-control" name="roles" id="roles" required>
+                                                            <select class="select2 form-control" name="roles" id="roles" multiple required>
                                                                 @foreach ($roles as $rol)
                                                                     <option value="{{$rol->id}}"
-                                                                    >{{ $rol->name }} - {{ $rol->guard_name == 'web'? 'siamb':$rol->guard_name}}</option>
-                                                            
+                                                                    >{{ $rol->name }} - {{ $rol->guard_name == 'web'? 'siamb': $rol->guard_name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

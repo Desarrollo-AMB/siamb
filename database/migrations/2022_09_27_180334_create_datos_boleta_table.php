@@ -57,7 +57,9 @@ return new class extends Migration
             $table->integer('cedula_revision')->nullable();
             $table->string('observacion',360)->nullable();
             $table->string('user',100)->nullable();
-            $table->integer('autorizado')->nullable()->default(3)->comment('1=>Autorizado,2=>No Autorizado,3=>En Revision');
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 

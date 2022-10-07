@@ -37,8 +37,8 @@
                         <div class="form-group">
                             <strong>Roles:</strong>
                             @if(!empty($user->getRoleNames()))
-                                @foreach($user->getRoleNames() as $v)
-                                    <label class="badge bg-success">{{ $v }}</label>
+                                @foreach($user->roles as $v)
+                                    <label class="badge bg-success">{{ $v->guard_name =='web'? 'siamb' : $v->guard_name }}-{{ $v->name }}</label>
                                 @endforeach
                             @endif
                         </div>

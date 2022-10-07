@@ -43,6 +43,9 @@ return new class extends Migration
             $table->string('observaciones')->nullable();
             $table->string('nombre1_ev')->nullable();
             $table->integer('is_deleted')->default(0);
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 
