@@ -11,7 +11,7 @@
                         <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
                             <option value=""></option>
                             @foreach($vueloOrdenadaPor as $data) 
-                                <option value="{{$data->id}}">{{$data->autoridad_orden_vuelo}} - {{$data->codigo}}</option>
+                                <option value="{{$data->codigo}}">{{$data->autoridad_orden_vuelo}} - {{$data->codigo}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -166,26 +166,19 @@
             <div class="col-sm-4">
                 <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES<small></small></h6> 
             </div>
-            {{-- <div class="row">   
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small>
-                        <input name="fecha" type="text" class="form-control fecha load_fecha"> 
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small>
-                        <input name="fecha" type="text" class="form-control fecha load_fecha"> 
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small>
-                        <input name="fecha" type="text" class="form-control fecha load_fecha"> 
-                    </div>
-                </div>
-            </div> --}}
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>Consumible</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>Unidad</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>Cantidad</h6></th>
+                    </tr>
+                </thead>
+                <tbody id="consumblesEdit">
+
+                </tbody>
+            </table>
             <div id="newinput" class="col-12"></div>
         </div>
         <div style="padding-top:20px" class="row">
@@ -196,6 +189,9 @@
         </div>
     </div>
     <div class="row p-t-5">
+        <div class="col-sm-4">
+            <h6 style="font-size:13px; margin: 0;"> LISTA DE MISIONES<small></small></h6> 
+        </div>
         <div class="card">
             <div class="table-responsive">
               <table class="table align-items-center mb-0">

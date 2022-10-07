@@ -175,7 +175,9 @@ class FormaFAMController extends Controller
 
     public function delete_a1_mision(Request $request)
     {
+        Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
         Fam0001A1Mision::find($request->id)->delete();
+        
         return response()->json([
                 'success' => true,
                 'message' => 'Data Eliminada'
@@ -185,11 +187,13 @@ class FormaFAMController extends Controller
 
     public function editar_a1_mision(Request $request)
     {
+        $consumibles = Fam0001A1MisionConsumible::where('fam0001_a1_mision_id', $request->id)->get();
         $editFam = Fam0001A1Mision::where('id', $request->id)->get();
         return response()->json([
                 'success' => true,
                 'message' => 'Data',
-                'data' => $editFam
+                'data' => $editFam,
+                'consumibles' => $consumibles,
             ]
         );
     }
@@ -208,6 +212,19 @@ class FormaFAMController extends Controller
             ]
         );
     } 
+
+    public function editar_paso1(Request $request)
+    {
+        $editPaso1 = Fam0001::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editMision' => $editPaso1
+            ]
+        );
+    } 
+    
 
     
 }
