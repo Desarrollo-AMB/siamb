@@ -15,7 +15,7 @@ return new class extends Migration
     {
         DB::unprepared('CREATE TRIGGER `trigger_intelectuales_update` AFTER UPDATE on `intelectuales` FOR EACH ROW
         BEGIN
-            INSERT INTO data_tracking (`action`, `table`, `data_id`, `old_value`, `new_value`, `modified` ) 
+            INSERT INTO data_tracking (`action`, `table`, `data_id`, `old_value`, `new_value`, `modified`, `username` ) 
                 VALUES ("update","intelectuales", NEW.id, 
                     JSON_OBJECT(
                         "cedula", OLD.cedula,
@@ -107,7 +107,8 @@ return new class extends Migration
                         "fechaE", NEW.fechaE,
                         "is_deleted", NEW.is_deleted
                     ),
-                    NOW()
+                    NOW(),
+                    NEW.user_updated
                 );
         END');
     }

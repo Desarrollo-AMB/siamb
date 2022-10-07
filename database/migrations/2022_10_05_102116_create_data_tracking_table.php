@@ -21,6 +21,7 @@ return new class extends Migration
             $table->json('old_value')->nullable();
             $table->json('new_value');
             $table->datetime('modified')->nullable();
+            $table->string('username')->nullable();
         });
     }
 
