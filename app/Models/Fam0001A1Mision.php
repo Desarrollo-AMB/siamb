@@ -28,6 +28,8 @@ class Fam0001A1Mision extends Model
         'ciclos_tren',
         'ov_ota_om',
         'fam0001_id',
+        'en_apoyo_A2',
+        'descripcion_A2',
         'completado',
     ];
 }
