@@ -101,6 +101,18 @@ class FormaFAMController extends Controller
         );
     }
 
+    public function editar_paso1(Request $request)
+    {
+        $editPaso1 = Fam0001::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editMision' => $editPaso1
+            ]
+        );
+    } 
+
     public function store_a1(Request $request)
     {
         $A1 = new Fam0001A1Mision;
@@ -122,6 +134,10 @@ class FormaFAMController extends Controller
         $A1->ciclos_tren = $request->ciclos_tren;
         $A1->ov_ota_om = $request->ov_ota_om;
         $A1->fam0001_id = $request->fam0001_id;
+
+        $A1->en_apoyo_A2 = $request->en_apoyo_A2;
+        $A1->descripcion_A2 = $request->descripcion_A2;
+  
         $A1->completado = $request->completado;
         $A1->save();
 
@@ -200,9 +216,6 @@ class FormaFAMController extends Controller
 
     public function actualizar_a1_mision(Request $request)
     {
-
-        //$dd = $request->except('id');
-
         $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
 
         return response()->json([
@@ -213,18 +226,6 @@ class FormaFAMController extends Controller
         );
     } 
 
-    public function editar_paso1(Request $request)
-    {
-        $editPaso1 = Fam0001::where('id', $request->id)->update($request->except('id'));
-
-        return response()->json([
-                'success' => true,
-                'message' => 'Data',
-                'editMision' => $editPaso1
-            ]
-        );
-    } 
-    
 
     
 }
