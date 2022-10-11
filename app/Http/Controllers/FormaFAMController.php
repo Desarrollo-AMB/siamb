@@ -34,7 +34,7 @@ class FormaFAMController extends Controller
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
-        $jefeMaquina = EmpleadoFuncion::with('empleado')->get();
+        $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
         //A1-MISION
         $vueloOrdenadaPor = VueloOrdenadaPor::get();
         $enApoyo = VueloEnApoyo::get();

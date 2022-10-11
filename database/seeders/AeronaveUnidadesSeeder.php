@@ -484,14 +484,14 @@ class AeronaveUnidadesSeeder extends Seeder
             FuncionTripulante::create($item);
         }
 
-        $jefeCargaTripulante = [
-            ['codigo_empleado' => '30284', 'id_funcion' => '15'],
-            ['codigo_empleado' => '30285', 'id_funcion' => '15'],
-            ['codigo_empleado' => '30286', 'id_funcion' => '15'],
-            ['codigo_empleado' => '4731',  'id_funcion' => '15'],
+        $empleadosSegunFunciones = [
+            ['codigo_empleado' => '30284', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30285', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30286', 'id_funcion' => '16'],
+            ['codigo_empleado' => '4731',  'id_funcion' => '16'],
         ];
 
-        foreach ($jefeCargaTripulante as $item) {
+        foreach ($empleadosSegunFunciones as $item) {
             EmpleadoFuncion::create($item);
         }
 
