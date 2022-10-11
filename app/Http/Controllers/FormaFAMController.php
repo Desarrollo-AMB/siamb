@@ -16,6 +16,8 @@ use App\Models\UnidadesMedidas;
 use App\Models\Fam0001A1Mision;
 use App\Models\CodigoTipoMision;
 use App\Models\Fam0001A1MisionConsumible;
+use App\Models\FuncionTripulante;
+use App\Models\CodigoDespegue;
 
 use Illuminate\Http\Request;
 
@@ -41,9 +43,13 @@ class FormaFAMController extends Controller
         $consumibles = UnidadesConsumible::get();
         $unidadesMedida = UnidadesMedidas::get();
         $codigoMision = CodigoTipoMision::get();
+        //B1-TRIPULACION
+        $A1_mision = Fam0001A1Mision::get();
+        $funcion = FuncionTripulante::get();
+        $despegue = CodigoDespegue::get();
 
         //dd($jefeMaquina);
-        return view('forms.index', compact('codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('forms.index', compact('despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)
@@ -225,6 +231,12 @@ class FormaFAMController extends Controller
             ]
         );
     } 
+
+    public function codigos_mision_json()
+    {
+        $codigoMision = CodigoTipoMision::get();
+        return response()->json($codigoMision);
+    }
 
 
     
