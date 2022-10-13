@@ -129,14 +129,6 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
-        dd(
-            Rule::unique('roles')->where(function ($query) use($request, $id) {
-                return $query->where('name', $request->input('name'))
-                ->where('guard_name', $request->input('guard_name'))
-                ->whereNotIn('id', [$id]);
-            })
-        );
         $this->validate($request, [
             //'name' => 'required|alpha_dash|unique:roles,name,'.$id,
             //'permission' => 'required',

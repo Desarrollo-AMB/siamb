@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Empleado;
 use App\Models\EmpleadosOtroComponente;
+use App\Models\TiposEmpleado;
+use App\Models\Estados;
+
 use DataTables;
 use Illuminate\Support\Str;
+use Config;
 
 class PersonalController extends Controller
 {
@@ -15,10 +19,13 @@ class PersonalController extends Controller
     
     public function ingresoPersonal()
     {
-        $user_id=auth()->user()->id;
-        $user = User::find($user_id);
-        
-        return view('sireh.personal.ingreso', compact('user'));
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        return view('sireh.personal.ingreso', compact('user_auth','tipos_emp','generos','edos_civil','estados'));
     }
 
 
