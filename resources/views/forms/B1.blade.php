@@ -7,7 +7,7 @@
                     <select name="v_trip" class="form-control v_trip load_v_trip">
                         <option value=""></option>
                         @foreach($A1_mision as $data) 
-                            <option value="{{$data->id}}">{{$data->ordenada_por}}</option>
+                            <option value="{{$data->id}}">V{{$data->vuelo}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -15,7 +15,7 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <h6 style="font-weight: bold; color:#67748e;">FUNCIÓN<h6>
-                    <select name="funcion" class="form-control funcion load_funcion">
+                    <select id="funcion" name="funcion" class="form-control funcion load_funcion">
                         <option value=""></option>
                         @foreach($funcion as $data) 
                             <option value="{{$data->id}}">{{$data->codigo}}</option>
