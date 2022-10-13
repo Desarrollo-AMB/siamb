@@ -434,7 +434,6 @@
                                             ind_vuelo:$('.load_ind_vuelo').val(),
                                             toque_desp:$('.load_toque_desp').val(),
                                             low_go:$('.load_low_go').val(),
-                                            total:$('.load_total').val(),
                                             ciclos_tren:$('.load_ciclos_tren').val(),
                                             ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                                             fam0001_id: id_fam0001,
@@ -546,6 +545,10 @@
                             $("#aeronave_modelo").text(componente_organismo);
                             $("#fecha").text(fecha);
                             $('#step_one').prop('hidden', false);
+
+                            $('#stepInputData').prop('hidden', true);
+                            $('#stepInputDataNext').prop('hidden', false);
+                            
                         }
                     },
                     error:function(error){
@@ -558,6 +561,18 @@
         
         //PASO #2 - AGREGAR CONSUMIBLES
         $("#rowAdder").click(function () {
+            
+            newRowAdd =
+            '<div id="row"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-4"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES</small> <select name="consumibles[]"  class="form-control consumibles" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES</small> <select name="unidades[]" class="form-control unidades" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small><input name="cantidad[]" type="number" class="form-control cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#newinput').append(newRowAdd);
+
+            $('.consumibles').select2();
+            $('.unidades').select2();
+
             $.ajax({
                 url:"{{ route('consumibles') }}",
                 method:'POST',
@@ -568,14 +583,12 @@
                 dataType: 'json',
                 success: function(response){
                     if(response){
-                        $('#consumibles').select2();
                         $(".consumibles").empty();
                         $(".consumibles").append('<option>Seleccionar..</option>');
                         $.each(response.consumibles ,function(key,value){
                             $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
                         });
                         
-                        $('#unidades').select2();
                         $(".unidades").empty();
                         $(".unidades").append('<option>Seleccionar..</option>');
                         $.each(response.unidades ,function(key,value){
@@ -584,13 +597,7 @@
                     }
                 }
             });
-            newRowAdd =
-            '<div id="row"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-4"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES<small></small></small> <select name="consumibles[]" id="consumibles" class="form-control consumibles" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES<small></small></small> <select name="unidades[]" id="unidades" class="form-control unidades" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small><input name="cantidad[]" type="number" class="form-control cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></div></div>'+
-            '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-
-            $('#newinput').append(newRowAdd);
+            
         });
         $("body").on("click", "#DeleteRow", function () {
             $(this).parents("#row").remove();
@@ -613,7 +620,6 @@
             var ind_vuelo = $('.ind_vuelo').val();
             var toque_desp = $('.toque_desp').val();
             var low_go = $('.low_go').val();
-            var total = $('.total').val();
             var ciclos_tren = $('.ciclos_tren').val();
 
             var en_apoyo_A2 = $('.en_apoyo_A2').val();
@@ -642,7 +648,6 @@
                     ind_vuelo:ind_vuelo.toUpperCase(),
                     toque_desp:toque_desp,
                     low_go:low_go,
-                    total:total,
                     ciclos_tren:ciclos_tren,
                     ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                     fam0001_id: id_fam0001,
@@ -661,6 +666,7 @@
                             
                             //MOSTRAR A1
                             let res = response.data;
+                            console.log(res)
                             var counter = 1;
                             $.each(res, function (key, value){
                             $('#A1_data').append(
@@ -670,7 +676,7 @@
                                 <td>"+value.en_apoyo+"</td>\
                                 <td>"+value.ruta_desde+"</td>\
                                 <td>"+value.ruta_hasta+"</td>\
-                                <td><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                <td><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
                                 </tr>");
                                 counter += 1;
                             })
@@ -741,7 +747,6 @@
                                         ind_vuelo:$('.load_ind_vuelo').val(),
                                         toque_desp:$('.load_toque_desp').val(),
                                         low_go:$('.load_low_go').val(),
-                                        total:$('.load_total').val(),
                                         ciclos_tren:$('.load_ciclos_tren').val(),
                                         ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                                         fam0001_id: id_fam0001,
@@ -777,6 +782,14 @@
 
         //PASO #3 - BOTON AGREGAR OPERACIONES EN VUELO
         $("#OV_ADD").click(function () {
+            nuevaOperacionVuelo =
+            '<div id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-4"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <select name="COD[]" class="form-control COD load_COD" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">HV</small> <input type="number" name="HV[]" id="HV" class="form-control HV load_HV" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
+            '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarOperacionVuelo" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+
+            $('#nuevaOperacionVuelo').append(nuevaOperacionVuelo);
+            $('.COD').select2();
+
             $.ajax({
                 url:"{{ route('codigos_mision_json') }}",
                 method:'POST',
@@ -788,7 +801,6 @@
                 success: function(response){
                     //console.log(response)
                     if(response){
-                        $('#COD').select2();
                         //$(".COD").empty();
                         $(".COD").append('<option>Seleccionar..</option>');
                         $.each(response ,function(key,value){
@@ -797,12 +809,6 @@
                     }
                 }
             });
-            nuevaOperacionVuelo =
-            '<div id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-4"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD<small></small></small> <select name="COD[]" id="COD" class="form-control COD load_COD" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">HV<small></small></small> <input type="number" name="HV[]" id="HV" class="form-control HV load_HV" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
-            '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarOperacionVuelo" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-
-            $('#nuevaOperacionVuelo').append(nuevaOperacionVuelo);
         });
         $("body").on("click", "#BorrarOperacionVuelo", function () {
             $(this).parents("#operacionVuelo").remove();
@@ -812,11 +818,12 @@
             var numItems = jQuery('.operacionVuelo').length
             if(numItems <3){
                 nuevoAterrizaje =
-                '<div class="operacionVuelo" id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-6"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">TIPO<small></small></small> <select name="tipo_aterrizaje[]" id="tipo_aterrizaje" class="form-control tipo_aterrizaje load_tipo_aterrizaje" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-                '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD<small></small></small> <input type="number" name="cantidad[]" id="cantidad" class="form-control cantidad load_cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
+                '<div class="operacionVuelo" id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-6"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">TIPO</small> <select name="tipo_aterrizaje[]" class="form-control tipo_aterrizaje load_tipo_aterrizaje" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+                '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small> <input type="number" name="cantidad[]" id="cantidad" class="form-control cantidad load_cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
                 '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarAterrizaje" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
 
                 $('#nuevoAterrizaje').append(nuevoAterrizaje);
+                $('.tipo_aterrizaje').select2();
             }else{
                 alert('No puedes agregar mas de tres aterrizajes')
             }
@@ -824,6 +831,29 @@
         $("body").on("click", "#BorrarAterrizaje", function () {
             $(this).parents("#operacionVuelo").remove();
         })
+        //PASO #3 - FUNCION TRIPULANTE CARGO
+        $("#funcion").change(function(){
+            var id = $(this).val();
+            if(id){
+                $.ajax({
+                    type:'POST',
+                    url:'{{ route("tripulante_funcion") }}',
+                    data:{"id_funcion" : id },
+                    success:function(res){
+                        console.log(res);
+                        $(".grado_nombre").empty();
+                        $(".grado_nombre").append('<option>Seleccionar..</option>');
+                        $.each(res,function(key,value){
+                            if (value.grado_empleado.siglas != null) {
+                                $(".grado_nombre").append('<option class="load_aeronave" value="'+value.id+'">'+value.grado_empleado.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
+                            }else{
+                                false
+                            }
+                        });
+                    }
+                }); 
+            }
+        });
         
         //FUNCIONES HELPER
         function cargarAeronavesModelos(grupo_id) {
@@ -895,7 +925,6 @@
             $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
             $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
             $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
-            $('.load_total').css('border-color','#66b700c4').val(res.total)
             $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
             $('.load_id_mision').val(res.id)
 

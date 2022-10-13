@@ -121,7 +121,13 @@ class FormaFAMController extends Controller
 
     public function store_a1(Request $request)
     {
+        $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
+       
+        $flyLoop = count($checkVuelo);
+
         $A1 = new Fam0001A1Mision;
+        $A1->vuelo = $flyLoop < 1 ? $A1->vuelo = 1: $A1->vuelo = $flyLoop + 1;
+
         $A1->ordenada_por = $request->ordenada_por;
         $A1->en_apoyo = $request->en_apoyo;
         $A1->codigo = $request->codigo;
@@ -136,19 +142,19 @@ class FormaFAMController extends Controller
         $A1->ind_vuelo = $request->ind_vuelo;
         $A1->toque_desp = $request->toque_desp;
         $A1->low_go = $request->low_go;
-        $A1->total = $request->total;
         $A1->ciclos_tren = $request->ciclos_tren;
         $A1->ov_ota_om = $request->ov_ota_om;
         $A1->fam0001_id = $request->fam0001_id;
 
         $A1->en_apoyo_A2 = $request->en_apoyo_A2;
         $A1->descripcion_A2 = $request->descripcion_A2;
-  
+    
         $A1->completado = $request->completado;
         $A1->save();
 
         $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+   
 
         return response()->json(
             [
@@ -236,6 +242,12 @@ class FormaFAMController extends Controller
     {
         $codigoMision = CodigoTipoMision::get();
         return response()->json($codigoMision);
+    }
+
+    public function tripulante_funcion(Request $request)
+    {
+        $empleadoCargo = EmpleadoFuncion::with('empleado', 'grado_empleado')->orderBy('codigo_grado', 'asc')->where('id_funcion', $request->id_funcion)->get();
+        return response()->json($empleadoCargo);
     }
 
 

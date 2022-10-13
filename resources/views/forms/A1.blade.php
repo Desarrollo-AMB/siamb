@@ -144,22 +144,16 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <h6 style="font-size:13px; margin: 0;">CICLOS TREN<small></small></h6> 
+                    <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren"> 
+                </div>
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TOTAL<small></small></small>
                         <input name="total" type="number" class="form-control total load_total"> 
                     </div>
-                </div>
+                </div> --}}
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <h6 style="font-size:13px; margin: 0;">CICLOS TREN<small></small></h6> 
-                <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren"> 
-            </div>
-            {{-- <div class="col-sm-4">
-                <h6 style="font-size:13px; margin: 0;">CONSUMIBLES<small></small></h6> 
-                <input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
-            </div> --}}
         </div>
         <div class="row">
             <div style="padding-top: 18px" class="col-sm-12">
@@ -188,7 +182,7 @@
         <input hidden="true" name="id_mision" type="text" class="form-control id_mision load_id_mision"> 
         <div style="padding: 10px;" class="row">
             <div class="col-sm-6">
-                <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES</h6>   <input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
+                <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES</h6><input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
             </div>
             {{-- <table class="table align-items-center mb-0">
                 <thead>
