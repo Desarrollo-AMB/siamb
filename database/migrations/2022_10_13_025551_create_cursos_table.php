@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('dirigido_a',30)->nullable();
             $table->string('nivel',25)->nullable();
             $table->string('tipo_curso',1)->nullable();
-            $table->string('dictado_por_ince',1)->nullable();
+            $table->string('dictado_por_el_ince',1)->nullable();
             $table->string('codigo_ince',7)->nullable();
             $table->integer('costo_ince')->nullable();
             $table->integer('total_horas')->nullable();

@@ -9,7 +9,6 @@ class CategoriasMilitares extends Model
 {
     use HasFactory;
     protected $table = 'categorias_militares';
-    protected $primaryKey = 'codigo_categoria';
     protected $fillable = [
         '*',
     ];

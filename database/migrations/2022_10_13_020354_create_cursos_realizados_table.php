@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('hasta')->nullable();
             $table->float('costo',11,2)->nullable();
             $table->integer('duracion')->nullable();
-            $table->integer('numero_transacion')->nullable();
+            $table->integer('numero_transaccion')->nullable();
             $table->date('fecha_registro')->nullable();
             $table->integer('orden_merito_curso')->nullable();
             $table->integer('total_orden_merito_curso')->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('observacion',180)->nullable();
             $table->string('usuario',30)->nullable();
             $table->string('tipo_curso',1)->nullable();
-            $table->string('stastus',12)->nullable();
+            $table->string('status',12)->nullable();
             $table->string('unidad',12)->nullable();
         });
     }

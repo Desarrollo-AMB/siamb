@@ -34,9 +34,14 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::resource('permissions', PermissionController::class);
     Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean'); 
     
-    Route::get('/sireh/ingreso_personal', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal');
-    Route::post('/sireh/ingreso_personal', [PersonalController::class, 'registraPersonal'])->name('sireh.registra-personal');
-    
+    Route::get('/sireh/ingreso_personal/index', [PersonalController::class, 'index'])->name('sireh.ingreso-personal.index');
+    Route::get('/sireh/ingreso_personal/new', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.new');
+    Route::post('/sireh/ingreso_personal/store', [PersonalController::class, 'registraPersonal'])->name('sireh.ingreso-personal.store');
+    Route::get('/sireh/ingreso_personal/edit', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.edit');
+
+    Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
+    Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
+    Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 });
 
 Route::group(['middleware' => ['auth']], function() {
