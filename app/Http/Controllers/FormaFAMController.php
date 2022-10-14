@@ -101,6 +101,18 @@ class FormaFAMController extends Controller
         );
     }
 
+    public function editar_paso1(Request $request)
+    {
+        $editPaso1 = Fam0001::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editMision' => $editPaso1
+            ]
+        );
+    } 
+
     public function store_a1(Request $request)
     {
         $A1 = new Fam0001A1Mision;
@@ -122,16 +134,22 @@ class FormaFAMController extends Controller
         $A1->ciclos_tren = $request->ciclos_tren;
         $A1->ov_ota_om = $request->ov_ota_om;
         $A1->fam0001_id = $request->fam0001_id;
+
+        $A1->en_apoyo_A2 = $request->en_apoyo_A2;
+        $A1->descripcion_A2 = $request->descripcion_A2;
+  
         $A1->completado = $request->completado;
         $A1->save();
 
+        $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
 
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $A1_data
+                'data' => $A1_data,
+                'A1_id' => $A1_id
             ]
         );
 
@@ -146,29 +164,68 @@ class FormaFAMController extends Controller
 
     public function store_a1_consumibles(Request $request)
     {
-        $A1_cosumibles = new Fam0001A1MisionConsumible;
 
-        $A1_cosumibles->ov_ota_om = $request->ov_ota_om;
-        $A1_cosumibles->fam0001_id = $request->fam0001_id;
-        $A1_cosumibles->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+        $loop = count($request->consumiblesDATA);
 
-        $A1_cosumibles->consumible = $request->consumible;
-        $A1_cosumibles->unidad = $request->unidad;
-        $A1_cosumibles->cantidad = $request->cantidad;
+        for ($i=0; $i < $loop; $i++) { 
+            $A1_cosumibles = new Fam0001A1MisionConsumible;
+            $A1_cosumibles->ov_ota_om = $request->consumiblesDATA[$i]['ov_ota_om'];
+            $A1_cosumibles->fam0001_id = $request->consumiblesDATA[$i]['fam0001_id'];
+            $A1_cosumibles->fam0001_a1_mision_id = $request->consumiblesDATA[$i]['fam0001_a1_mision_id'];
 
-        $A1_cosumibles->save();
+            $A1_cosumibles->consumible = $request->consumiblesDATA[$i]['consumiblesArray'];
+            $A1_cosumibles->unidad = $request->consumiblesDATA[$i]['unidadesArray'];
+            $A1_cosumibles->cantidad = $request->consumiblesDATA[$i]['cantidad'];
 
-        // $dataFam001 = [
-        // ];
-            
-        // return response()->json(
-        //     [
-        //         'success' => true,
-        //         'message' => 'Data inserted successfully',
-        //         'data' => $dataFam001
-        //     ]
-        // );
+            $A1_cosumibles->save();
+        
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $loop
+            ]
+        );
     }
+
+    public function delete_a1_mision(Request $request)
+    {
+        Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
+        Fam0001A1Mision::find($request->id)->delete();
+        
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
+            ]
+        );
+    } 
+
+    public function editar_a1_mision(Request $request)
+    {
+        $consumibles = Fam0001A1MisionConsumible::where('fam0001_a1_mision_id', $request->id)->get();
+        $editFam = Fam0001A1Mision::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $editFam,
+                'consumibles' => $consumibles,
+            ]
+        );
+    }
+
+    public function actualizar_a1_mision(Request $request)
+    {
+        $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editMision' => $editMision
+            ]
+        );
+    } 
+
 
     
 }

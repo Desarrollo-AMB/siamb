@@ -36,6 +36,9 @@ return new class extends Migration
             $table->string('total')->nullable();
             $table->string('ciclos_tren')->nullable();
 
+            $table->string('en_apoyo_A2')->nullable();
+            $table->string('descripcion_A2')->nullable();
+
             $table->string('completado')->nullable();
 
             $table->timestamps();

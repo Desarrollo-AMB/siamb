@@ -25,8 +25,8 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'       => ['required', 'string', 'max:30', Rule::unique('permissions')->ignore($this->permission)],
-            'route_name' => ['required', 'string', 'max:30', Rule::unique('permissions')->ignore($this->permission)],
+            'name'       => ['required', 'string', 'max:100', Rule::unique('permissions')->ignore($this->permission)],
+            'route_name' => ['required', 'string', 'max:100', Rule::unique('permissions')->ignore($this->permission)],
             'group'      => 'required|string|min:3|max:20',
         ];
 

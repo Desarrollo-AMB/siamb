@@ -3,35 +3,258 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DataTables;
+use Illuminate\Support\Str;
+use Config;
+use Illuminate\Validation\Rule;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
+
 use App\Models\User;
 use App\Models\Empleado;
 use App\Models\EmpleadosOtroComponente;
 use App\Models\TiposEmpleado;
 use App\Models\Estados;
-
-use DataTables;
-use Illuminate\Support\Str;
-use Config;
+use App\Models\Ubicaciones;
+use App\Models\UbicacionDetallada;
+use App\Models\Nivel;
+use App\Models\Cargos;
+use App\Models\Universidades;
+use App\Models\Profesion;
+use App\Models\Nomina;
+use App\Models\DatosMilitares;
 
 class PersonalController extends Controller
 {
-    
-    
+    public function index()
+    {
+        return view('sireh.personal.index');
+    }
+
+    public function indexPersonalMilitar()
+    {
+        return view('sireh.personal.militar.index');
+    }
+
+    public function indexPersonalCivil()
+    {
+        return view('sireh.personal.civil.index');
+    }
+
+    public function indexPersonalMilitarNoProf()
+    {
+        return view('sireh.personal.militar_noprof.index');
+    }
+
     public function ingresoPersonal()
     {
         $user_auth=auth()->user();
       
         $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
         $estados = Estados::all();
-        return view('sireh.personal.ingreso', compact('user_auth','tipos_emp','generos','edos_civil','estados'));
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        //dd($cargos, $universidades, $profesiones);
+        return view('sireh.personal.ingreso', 
+            compact(
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+            )
+        );
     }
 
+    public function registraPersonal(Request $request){
 
+        $this->validate($request, 
+            [
+                'tipo_emp' => 'required',
+                'cedula' => 'required|unique:empleados,cedula',
+                'nombre1' => 'required',
+                'apellido1' => 'required',
+                'ubicacion' => 'required',
+            ],
+            [
+                'tipo_emp.required' => 'Tipo de empleado es requerido',
+                'nombre1.required' => 'El primer nombre es requerido',
+                'apellido1.required' => 'El primer apellido es requerido'
+            ]
+        );
+        try {
+            $codigo_empleado = Empleado::max('codigo_empleado')+1;
+            if ($request->file("foto")){
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_'.$codigo_empleado . '.' . $ext;
+        
+                $path_foto = public_path('fotos/empleados/' . $file_name);
+                if(file_exists($path_foto)){
+                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                }
+                //$path = $request->file("foto")->store($path);
+                Image::make($request->file('foto'))
+                //->resize(160, 160) //Hacia que perdiera calidad al volver a mostrarla en la vista del perfil
+                ->save($path_foto);
+            }else{
+                $path_foto = null;
+            }
+                                   
+            $empleado = new Empleado;
+            $empleado->codigo_empleado = $codigo_empleado;
+            $empleado->cedula = $request->cedula;
+            $empleado->nacionalidad = $request->nacionalidad;
+            $empleado->nombre1 = $request->nombre1;
+            $empleado->nombre2 = $request->nombre2;
+            $empleado->apellido1 = $request->apellido1;
+            $empleado->apellido2 = $request->apellido2;
+            $empleado->fecha_nacim = $request->fecha_nacim;
+            $empleado->sexo = $request->sexo;
+            $empleado->edo_civil = $request->edo_civil;
+            $empleado->situacion = 'I';
+            $empleado->nivel_instruccion = $request->nivel;
+            $empleado->telefono = $request->telefono;
+            $empleado->telefono_cel = $request->telefono_cel;
+            $empleado->telefono_ofi = $request->telefono_ofi;
+            $empleado->direccion = $request->direccion;
+            $empleado->ciudad = empty($request->ciudad) ? $request->ciudad : null;
+            $empleado->estado = empty($request->estado) ? $request->estado : null;
+            $empleado->persona_contacto = empty($request->persona_contacto) ? $request->persona_contacto : null;
+            $empleado->estado = empty($request->estado) ? $request->estado : null;
+            $empleado->foto = $path_foto ? $path_foto :  null;
+            $empleado->save();
+
+            $nomina = new Nomina;
+            $nomina->codigo_empleado = $empleado->codigo_empleado;
+            $nomina->situacion = 'I';
+            $nomina->cedula = $empleado->cedula;
+            $nomina->tipo_emp = $request->tipo_emp;
+            $nomina->codigo_ubicacion = $request->ubicacion;
+            $nomina->fecha_ingreso = $request->fecha_ingreso;
+            $nomina->codigo_cargo = empty($request->cargo) ? $request->cargo : null; $request->cargo;
+            $nomina->save();
+
+            if($request->contingente){
+                $datos_militares = new DatosMilitares;
+                $datos_militares->codigo_empleado = $empleado->codigo_empleado;
+                $datos_militares->contingente = $request->contingente;
+                $datos_militares->save();
+            }
+            return redirect()->route('sireh.ingreso-personal.index')->with('status', 'Se ha ingresado al Personal');
+        } catch (\Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function empleadosInactivos(Request $request){
+       
+        $empleados = Empleado::where('empleados.situacion','I'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'tipos_empleados.descripcion as tipo_empleado',
+            'cargos.nombre_cargo as cargo',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'sireh.personal._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function personalMilitar(Request $request){
+       
+        $empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp',['MIL','TRP']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function personalCivil(Request $request){
+       
+        $empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
+        $empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'tipos_empleados.descripcion as tipo_empleado',
+            'cargos.nombre_cargo as cargo',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+    public function personalMilitarNoProf(Request $request){
+       
+        $empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp',['ALI','MEF']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
     public function empleadosSinUser(Request $request){
        
-        $empleados = Empleado::whereNull('user_id'); 
+        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');

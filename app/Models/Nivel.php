@@ -10,7 +10,6 @@ class Nivel extends Model
     use HasFactory;
 
     protected $table = 'nivel';
-    protected $primaryKey = 'codigo';
     
     public $timestamps = false;
 }

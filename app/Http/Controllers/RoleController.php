@@ -35,7 +35,7 @@ class RoleController extends Controller
         return view('roles.index',compact('roles'));
             //->with('i', ($request->input('page', 1) - 1) * 10);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,7 +50,7 @@ class RoleController extends Controller
         $guard_names=config('constants.guard_names');
         return view('roles.create',compact('permissionsGrouped','guard_names'));
     }
-  
+
     /**
      * Store a newly created resource in storage.
      *
@@ -72,13 +72,13 @@ class RoleController extends Controller
             ]
             //'permission' => 'required',
         ]);
-    
+
         $role = Role::create([
             'name' => strtolower($request->input('name')),
             'guard_name' => strtolower($request->input('guard_name')),
         ]);
         $role->syncPermissions($request->input('permission'));
-    
+
         return redirect()->route('roles.index')
             ->with('success','Rol creado con éxito');
     }
@@ -100,7 +100,7 @@ class RoleController extends Controller
         $guard_names=config('constants.guard_names');
         return view('roles.show',compact('role','rolePermissions','guard_names'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -119,7 +119,7 @@ class RoleController extends Controller
         $guard_names=config('constants.guard_names');
         return view('roles.edit',compact('role','permissionsGrouped','rolePermissions','guard_names'));
     }
-   
+
     /**
      * Update the specified resource in storage.
      *
@@ -129,6 +129,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
             //'name' => 'required|alpha_dash|unique:roles,name,'.$id,
             //'permission' => 'required',
@@ -142,14 +143,14 @@ class RoleController extends Controller
                 }),
             ],
         ]);
-   
+
         $role = Role::find($id);
         $role->name = strtolower($request->input('name'));
         $role->guard_name = $request->input('guard_name');
         $role->save();
-    
+
         $role->syncPermissions($request->input('permission'));
-    
+
         return redirect()->route('roles.index')
             ->with('success','Rol actualizado con éxito');
     }
