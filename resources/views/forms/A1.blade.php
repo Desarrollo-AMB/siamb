@@ -27,10 +27,20 @@
                         </select> 
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">SIGLAS<small></small></small>
+                        <select name="siglas" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data) 
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>  
+                    </div>
+                </div>
+                <div class="col-sm-2">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO<small></small></small>
-                        {{-- <input name="codigo" style="text-transform: uppercase" type="text" class="form-control codigo"> --}}
                         <select name="codigo" class="form-control codigo load_codigo">
                         <option value=""></option>
                             @foreach($codigoMision as $data) 
