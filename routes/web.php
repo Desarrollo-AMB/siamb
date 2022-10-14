@@ -66,6 +66,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('editar_paso1',         [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');  
     Route::post('codigos_mision_json',  [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json'); 
     Route::post('tripulante_funcion',   [FormaFAMController::class, 'tripulante_funcion'])->name('tripulante_funcion'); 
+    Route::post('data_vuelo',           [FormaFAMController::class, 'data_vuelo'])->name('data_vuelo'); 
+    Route::post('data_v_trip',          [FormaFAMController::class, 'data_v_trip'])->name('data_v_trip'); 
+    Route::post('store_b1',             [FormaFAMController::class, 'store_b1'])->name('store_b1'); 
+    
 });
 
 Route::get('no_authorize', function () {

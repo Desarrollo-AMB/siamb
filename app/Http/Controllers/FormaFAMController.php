@@ -16,8 +16,10 @@ use App\Models\UnidadesMedidas;
 use App\Models\Fam0001A1Mision;
 use App\Models\CodigoTipoMision;
 use App\Models\Fam0001A1MisionConsumible;
+use App\Models\Fam0001B1Tripulacion;
 use App\Models\FuncionTripulante;
 use App\Models\CodigoDespegue;
+use App\Models\CodigoTipoMisionSiglas;
 
 use Illuminate\Http\Request;
 
@@ -42,14 +44,15 @@ class FormaFAMController extends Controller
         $enApoyo = VueloEnApoyo::get();
         $consumibles = UnidadesConsumible::get();
         $unidadesMedida = UnidadesMedidas::get();
-        $codigoMision = CodigoTipoMision::get();
+        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
         //B1-TRIPULACION
         $A1_mision = Fam0001A1Mision::get();
         $funcion = FuncionTripulante::get();
         $despegue = CodigoDespegue::get();
 
         //dd($jefeMaquina);
-        return view('forms.index', compact('despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('forms.index', compact('codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)
@@ -74,7 +77,11 @@ class FormaFAMController extends Controller
     {
         $headerData = Fam0001::get();
         $A1_data = Fam0001A1Mision::where('completado',"paso2")->get();
-        return response()->json(["headerData"=>$headerData, "A1_data"=>$A1_data]);
+        //$B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
+        return response()->json([
+            "headerData"=>$headerData, 
+            "A1_data"=>$A1_data,
+        ]);
     }
 
     public function store(Request $request)
@@ -155,7 +162,6 @@ class FormaFAMController extends Controller
         $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
    
-
         return response()->json(
             [
                 'success' => true,
@@ -240,8 +246,16 @@ class FormaFAMController extends Controller
 
     public function codigos_mision_json()
     {
-        $codigoMision = CodigoTipoMision::get();
-        return response()->json($codigoMision);
+        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'siglas'  => $codigoTipoMisionSiglas,
+                'codigo'  => $codigoMision,
+            ]
+        );
     }
 
     public function tripulante_funcion(Request $request)
@@ -250,6 +264,47 @@ class FormaFAMController extends Controller
         return response()->json($empleadoCargo);
     }
 
+    public function data_vuelo(Request $request)
+    {
+        $data_vuelo = Fam0001A1Mision::where('id', $request->id)->get();
+        return response()->json($data_vuelo);
+    }
 
+    public function data_v_trip(Request $request)
+    {
+        $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)->get();
+        return response()->json($data_v_trip);
+    }
+
+    public function store_b1(Request $request)
+    {
+
+        $B1 = new Fam0001B1Tripulacion;
+
+        $B1->ov_ota_om = $request->ov_ota_om;
+        $B1->fam0001_id = $request->fam0001_id;
+        $B1->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+        $B1->v_trip = $request->v_trip;
+        $B1->funcion = $request->funcion;
+        $B1->grado_nombre = $request->grado_nombre;
+        $B1->tipo_despegue = $request->tipo_despegue;
+        $B1->operaciones_en_vuelo = $request->operaciones_en_vuelo;
+        $B1->aterrizaje = $request->aterrizaje;
+
+        $B1->save();
+
+        $B1_id = Fam0001B1Tripulacion::select('id')->where('id',$B1->id)->get();
+        $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
+   
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $B1_data,
+                'B1_id' => $B1_id
+            ]
+        );
+
+    }
     
 }
