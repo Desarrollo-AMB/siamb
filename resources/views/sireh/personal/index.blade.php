@@ -34,8 +34,9 @@
                                             <th>Nombre </th>
                                             <th>Apellido</th>
                                             <th>Tipo Empleado</th>
-                                            <th>Cargo</th>
                                             <th>Ubicacion</th>
+                                            <th>Cargo</th>
+                                            <th>Grado Militar</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -66,8 +67,9 @@
                 {data: 'nombre1'},
                 {data: 'apellido1'},
                 {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
-                {data: 'cargo', name: 'cargos.nombre_cargo'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+                {data: 'cargo', name: 'cargos.nombre_cargo'},
+                {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
             search: {

@@ -19,13 +19,6 @@
 		]
 	},
 	{
-		"group": "Permisos de Rol",
-		"labels": [
-			{ "name": "Seleccionar Permisos de Rol", "route_name": "roles.permissions.create" },
-			{ "name": "Almacenar Permisos de Rol",   "route_name": "roles.permissions.store" }
-		]
-	},
-	{
 		"group": "Roles",
 		"labels": [
 			{ "name": "Listar Roles",     "route_name": "roles.index" },
@@ -53,7 +46,13 @@
 	{
 		"group": "SIREH",
 		"labels": [
-			{ "name": "Ingreso de Personal",     "route_name": "sireh.ingreso-personal" }
+			{ "name": "Ingreso de Personal",     "route_name": "sireh.ingreso-personal.index" },
+			{ "name": "Editar Nuevo Empleado",     "route_name": "sireh.ingreso-personal.edit" },
+			{ "name": "Guardar Empleado",     "route_name": "sireh.ingreso-personal.store" },
+			{ "name": "Nuevo Empleado",     "route_name": "sireh.ingreso-personal.new" },
+			{ "name": "Personal Civil",     "route_name": "sireh.personal-civil.index" },
+			{ "name": "Personal Militar",     "route_name": "sireh.personal-militar.index" },
+			{ "name": "Personal Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.index" }
 		]
 	},
 	{

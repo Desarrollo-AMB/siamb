@@ -24,6 +24,7 @@ use App\Models\Universidades;
 use App\Models\Profesion;
 use App\Models\Nomina;
 use App\Models\DatosMilitares;
+use App\Models\EstudiosRealizados;
 
 class PersonalController extends Controller
 {
@@ -99,9 +100,7 @@ class PersonalController extends Controller
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
                 //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))
-                //->resize(160, 160) //Hacia que perdiera calidad al volver a mostrarla en la vista del perfil
-                ->save($path_foto);
+                Image::make($request->file('foto'))->save($path_foto);
             }else{
                 $path_foto = null;
             }
@@ -123,10 +122,12 @@ class PersonalController extends Controller
             $empleado->telefono_cel = $request->telefono_cel;
             $empleado->telefono_ofi = $request->telefono_ofi;
             $empleado->direccion = $request->direccion;
-            $empleado->ciudad = empty($request->ciudad) ? $request->ciudad : null;
-            $empleado->estado = empty($request->estado) ? $request->estado : null;
-            $empleado->persona_contacto = empty($request->persona_contacto) ? $request->persona_contacto : null;
-            $empleado->estado = empty($request->estado) ? $request->estado : null;
+            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
+            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
+            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
+            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
             $empleado->foto = $path_foto ? $path_foto :  null;
             $empleado->save();
 
@@ -137,7 +138,9 @@ class PersonalController extends Controller
             $nomina->tipo_emp = $request->tipo_emp;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = empty($request->cargo) ? $request->cargo : null; $request->cargo;
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null; 
+            $empleado->tipo_ingreso = '1';
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
             $nomina->save();
 
             if($request->contingente){
@@ -145,6 +148,14 @@ class PersonalController extends Controller
                 $datos_militares->codigo_empleado = $empleado->codigo_empleado;
                 $datos_militares->contingente = $request->contingente;
                 $datos_militares->save();
+            }
+            if( !empty($request->universidad) || !empty($request->profesion)){
+                $estudio_realizado = new EstudiosRealizados;
+                $estudio_realizado->codigo_empleado = $empleado->codigo_empleado;
+                $estudio_realizado->nivel = $request->nivel;
+                $estudio_realizado->profesion = $request->profesion;
+                $estudio_realizado->universidad = $request->universidad;
+                $estudio_realizado->save();
             }
             return redirect()->route('sireh.ingreso-personal.index')->with('status', 'Se ha ingresado al Personal');
         } catch (\Exception $e) {
@@ -160,6 +171,7 @@ class PersonalController extends Controller
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
+        $empleados->leftJoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -169,8 +181,10 @@ class PersonalController extends Controller
             'empleados.apellido1',
             'empleados.apellido2',
             'tipos_empleados.descripcion as tipo_empleado',
-            'cargos.nombre_cargo as cargo',
             'ubicaciones.descripcion as ubicacion',
+            'cargos.nombre_cargo as cargo',
+            'grados_militares.descripcion as grado_militar',
+            
         );
         $datatable= Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal._actions')

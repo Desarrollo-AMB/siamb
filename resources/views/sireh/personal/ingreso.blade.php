@@ -44,9 +44,7 @@
                                             <option value="{{$row->tipo_emp}}">{{ $row->descripcion }} ({{ $row->tipo_emp}})</option>
                                         @endforeach
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please choose a username.
-                                    </div>
+                                    
                                 </div>
                             </div> 
                                             
@@ -111,7 +109,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Sexo:</h6>
-                                            <select class="select2 form-control" name="genero" id="genero" required>
+                                            <select class="select2 form-control registrar" name="genero" id="genero" required>
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($generos as $key=>$value)
                                                     <option value="{{$key}}" >{{ $value }} </option>
@@ -122,7 +120,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Estado Civil:</h6>
-                                            <select class="select2 form-control" name="edo_civil" id="edo_civil" required>
+                                            <select class="select2 form-control registrar" name="edo_civil" id="edo_civil" required>
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($edos_civil as $key=>$value)
                                                     <option value="{{$key}}" >{{ $value }} </option>
@@ -161,7 +159,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Estado:</h6>
-                                            <select class="select2 form-control" name="estado" id="estado" >
+                                            <select class="select2 form-control registrar" name="estado" id="estado" >
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($estados as $row)
                                                     <option value="{{$row->id_estado}}" >{{ $row->estado }} </option>
@@ -172,7 +170,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Ciudad:</h6>
-                                            <select class="select2 form-control" name="ciudad" id="ciudad">
+                                            <select class="select2 form-control registrar" name="ciudad" id="ciudad">
                                                 <option value="">...</option>
                                             
                                             </select>
@@ -196,7 +194,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <h6>Nivel Instrucción:</h6>
-                                            <select class="select2 form-control" name="nivel" id="nivel" required>
+                                            <select class="select2 form-control registrar" name="nivel" id="nivel" required>
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($niveles as $row)
                                                     <option value="{{$row->codigo}}" data-nivel="{{$row->nivel_instruccion}}">{{ $row->descripcion }}</option>
@@ -252,7 +250,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <div class="form-group">
                                             <h6>Ubicación:</h6>
-                                            <select class="select2 form-control" name="ubicacion" id="ubicacion" required>
+                                            <select class="select2 form-control registrar" name="ubicacion" id="ubicacion" required>
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($ubicaciones as $row)
                                                     <option value="{{$row->codigo_ubicacion}}">{{ $row->descripcion }}</option>
@@ -282,6 +280,12 @@
                                                     <option value="{{$row->codigo_cargo}}">{{ $row->nombre_cargo }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div> 
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 cargo">
+                                        <div class="form-group">
+                                            <h6>Código RAC/RAPO:</h6>
+                                            <input type="text" class="form-control" name="cod_rac" >
                                         </div>
                                     </div> 
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 obrero">
