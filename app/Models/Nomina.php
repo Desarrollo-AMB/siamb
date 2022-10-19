@@ -11,6 +11,9 @@ class Nomina extends Model
 {
     use HasFactory, LogsActivity;
     protected $table = 'nomina';
+    protected $fillable = [
+        '*',
+    ];
 
     public function empleado()
     {

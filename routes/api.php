@@ -28,3 +28,5 @@ Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosIna
 Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('sireh.personal.civil.data');
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('sireh.personal.militar-noprof.data');
+
+Route::get('sireh/cargos/data', [PersonalController::class, 'cargosData'])->name('sireh.cargos.data');

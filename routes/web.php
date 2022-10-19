@@ -9,6 +9,7 @@ use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\PersonalController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,11 +38,32 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/ingreso_personal/index', [PersonalController::class, 'index'])->name('sireh.ingreso-personal.index');
     Route::get('/sireh/ingreso_personal/new', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.new');
     Route::post('/sireh/ingreso_personal/store', [PersonalController::class, 'registraPersonal'])->name('sireh.ingreso-personal.store');
-    Route::get('/sireh/ingreso_personal/edit', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.edit');
+    Route::get('/sireh/ingreso_personal/edit/{id}', [PersonalController::class, 'editIngresoPersonal'])->name('sireh.ingreso-personal.edit');
+    Route::post('/sireh/ingreso_personal/update/{empleado}', [PersonalController::class, 'updatePersonal'])->name('sireh.ingreso-personal.update');
+    Route::delete('/sireh/ingreso_personal/delete/{empleado}', [PersonalController::class, 'destroy'])->name('sireh.ingreso-personal.destroy');
+    Route::post('/sireh/ingreso_personal/activar/{empleado}', [PersonalController::class, 'activarIngreso'])->name('sireh.ingreso-personal.activar');
 
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
+
+    Route::get('/sireh/auxiliares', [PersonalController::class, 'auxiliares'])->name('sireh.auxiliares');
+    
+    //CRUD Tabla Cargos
+    Route::get('/sireh/cargos', [PersonalController::class, 'cargosIndex'])->name('sireh.cargos');
+    Route::get('/sireh/cargos/create', [PersonalController::class, 'createCargo'])->name('sireh.cargos.create');
+    Route::post('/sireh/cargos/store', [PersonalController::class, 'storeCargo'])->name('sireh.cargos.store');
+    Route::get('/sireh/cargos/edit/{id}', [PersonalController::class, 'editCargo'])->name('sireh.cargos.edit');
+    Route::post('/sireh/cargos/update/{cargo}', [PersonalController::class, 'updateCargo'])->name('sireh.cargos.update');
+    Route::delete('/sireh/cargos/delete/{cargo}', [PersonalController::class, 'destroyCargo'])->name('sireh.cargos.destroy');
+
+    //CRUD Tabla Ubicaciones
+    Route::get('/sireh/ubicaciones', [PersonalController::class, 'ubicacionesIndex'])->name('sireh.ubicaciones');
+    Route::get('/sireh/ubicaciones/create', [PersonalController::class, 'createUbicacion'])->name('sireh.ubicaciones.create');
+    Route::post('/sireh/ubicaciones/store', [PersonalController::class, 'storeUbicacion'])->name('sireh.ubicaciones.store');
+    Route::get('/sireh/ubicaciones/edit/{id}', [PersonalController::class, 'editUbicacion'])->name('sireh.ubicaciones.edit');
+    Route::post('/sireh/ubicaciones/update/{ubicacion}', [PersonalController::class, 'updateUbicacion'])->name('sireh.ubicaciones.update');
+    Route::delete('/sireh/ubicaciones/delete/{ubicacion}', [PersonalController::class, 'destroyUbicacion'])->name('sireh.ubicaciones.destroy');
 });
 
 Route::group(['middleware' => ['auth']], function() {
@@ -54,7 +76,7 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 //RUTA FORMULARIO FAM002 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth','access']], function() {
     Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
     Route::get('aeronaves_grupos',      [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',              [FormaFAMController::class, 'seriales'])->name('seriales'); 

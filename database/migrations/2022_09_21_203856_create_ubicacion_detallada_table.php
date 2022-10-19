@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('fecha_cambio')->nullable();
             $table->enum('situacion',['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

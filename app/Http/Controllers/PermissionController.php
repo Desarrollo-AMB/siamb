@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Support\Helper;
 use App\Models\Permission;
 use App\Http\Requests\PermissionRequest;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class PermissionController extends Controller
 {

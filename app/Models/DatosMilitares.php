@@ -10,7 +10,9 @@ use Spatie\Activitylog\LogOptions;
 class DatosMilitares extends Model
 {
     use HasFactory, LogsActivity;
-
+    protected $fillable = [
+        '*',
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

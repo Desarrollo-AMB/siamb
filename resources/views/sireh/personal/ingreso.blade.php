@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Ingreso de Personal</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dashboard') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.ingreso-personal.index') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -205,7 +205,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 nivel_instruccion" >
                                         <div class="form-group">
                                             <h6>Universidad:</h6>
-                                            <select class="select2 form-control" name="universidad" id="universidad" >
+                                            <select class="select2 form-control registrar" name="universidad" id="universidad" >
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($universidades as $row)
                                                     <option value="{{$row->codigo_universidad}}" >{{ $row->nombre }} ({{$row->tipo_universidad}})</option>
@@ -216,7 +216,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 nivel_instruccion" >
                                         <div class="form-group">
                                             <h6>Profesiones:</h6>
-                                            <select class="select2 form-control" name="profesion" id="profesion" >
+                                            <select class="select2 form-control registrar" name="profesion" id="profesion" >
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($profesiones as $row)
                                                     <option value="{{$row->codigo_profesion}}" >{{ $row->descripcion }} </option>
@@ -261,7 +261,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                         <div class="form-group">
                                             <h6>Ubicacion Detallada:</h6>
-                                            <select class="select2 form-control" name="ubicacion_det" id="ubicacion_det">
+                                            <select class="select2 form-control registrar" name="ubicacion_det" id="ubicacion_det">
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($ubicaciones_det as $row)
                                                     <option value="{{$row->codigo_ubicacion}}">{{ $row->descripcion }} ({{ $row->codigo_ubicacion}})</option>
@@ -274,7 +274,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 cargo">
                                         <div class="form-group">
                                             <h6>Cargo:</h6>
-                                            <select class="select2 form-control" name="cargo" id="cargo">
+                                            <select class="select2 form-control registrar" name="cargo" id="cargo">
                                                 <option value="">Seleccione ...</option>
                                                 @foreach ($cargos as $row)
                                                     <option value="{{$row->codigo_cargo}}">{{ $row->nombre_cargo }}</option>

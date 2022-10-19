@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('nombre',120)->nullable();
             $table->string('tipo_universidad',7)->nullable();
             $table->string('adscrita_aviacion',1)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
