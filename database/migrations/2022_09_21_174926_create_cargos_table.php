@@ -33,6 +33,7 @@ return new class extends Migration
             $table->integer('codigo_ocp')->nullable();
             $table->string('codigo_clase1',6)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('total_horas')->nullable();
             $table->integer('cupo')->nullable();
             $table->string('es_idioma',1)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

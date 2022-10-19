@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('codigo_profesion',4)->nullable();
             $table->string('descripcion',150)->nullable();
             $table->string('codigo_carrera',2)->nullable();
-           
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
