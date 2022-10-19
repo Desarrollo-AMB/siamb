@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('empleado_funcion', function (Blueprint $table) {
             $table->id();
             $table->string('codigo_empleado')->nullable();
+            $table->string('codigo_grado')->nullable();
             $table->string('id_funcion')->nullable();
             $table->timestamps();
         });

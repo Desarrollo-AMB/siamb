@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('ov_ota_om')->nullable();
             $table->foreignId('fam0001_id')->constrained('fam0001');
 
+            $table->integer('vuelo')->nullable();
+
             $table->string('ordenada_por')->nullable();
             $table->string('en_apoyo')->nullable();
             $table->string('codigo')->nullable();
@@ -33,9 +35,7 @@ return new class extends Migration
             $table->string('ind_vuelo')->nullable();
             $table->string('toque_desp')->nullable();
             $table->string('low_go')->nullable();
-            $table->string('total')->nullable();
             $table->string('ciclos_tren')->nullable();
-
             $table->string('en_apoyo_A2')->nullable();
             $table->string('descripcion_A2')->nullable();
 
