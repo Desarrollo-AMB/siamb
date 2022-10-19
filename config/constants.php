@@ -7,7 +7,7 @@ return [
 
     'nacionalidad' => [
         'V' =>  'VENEZOLANO(A)',
-        'F' =>  'EXTRANJERO(A)'
+        'E' =>  'EXTRANJERO(A)'
     ],
 
     'edo_civil' => [

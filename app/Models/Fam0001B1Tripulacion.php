@@ -14,11 +14,13 @@ class Fam0001B1Tripulacion extends Model
         'fam0001_id',
         'fam0001_a1_mision_id',
         'v_trip',
-        'funcion',
         'grado_nombre',
+        'cedula',
+        'funcion',
         'tipo_despegue',
         'operaciones_en_vuelo',
         'aterrizaje',
+        'completado',
     ];
     
 }
