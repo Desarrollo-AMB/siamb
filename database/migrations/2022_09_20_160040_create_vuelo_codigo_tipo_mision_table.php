@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('vuelo_codigo_tipo_mision', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('codigo');
+            $table->string('nombre')->nullable();
             $table->timestamps();
         });
     }

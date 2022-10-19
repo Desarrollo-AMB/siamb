@@ -62,12 +62,18 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <h6 style="font-weight: bold; color:#67748e;">GRADO NOMBRE Y APELLIDO<h6>
-                    <select name="grado_nombre" class="form-control grado_nombre load_grado_nombre">
+                    <select id="empleado_vuelo" name="grado_nombre" class="form-control grado_nombre load_grado_nombre">
                         <option value=""></option>
                     </select>
+                </div>
+            </div>
+            <div style="padding-top: 30px;" class="col-sm-4">
+                <div class="form-group">
+                    <h6 style="color: #212529;">CEDULA: <span style="color: #67748e; font-size: 14px;" class="load_cedula_empleado"> </span></h6>
+                    <input hidden="true" name="cedula_empleado" type="text" class="form-control cedula_empleado"> 
                 </div>
             </div>
         </div>
@@ -77,7 +83,14 @@
         <div class="col-sm-6">
             <h6 style="font-size:13px; margin: 0;">OPERACIONES EN VUELO Y/O ENTRENAMIENTO</h6>
             <input style="color:white; background:#38496a;" type='button' id="OV_ADD" class='btn btn-info' value="AGREGAR"/>
+            <h6 style="color: #212529;font-size: 14px;">COD: <span style="color: #67748e;" class="load_codigo_tripulacion"> </span></h6>
+            <input hidden="true" name="codigo_trip" type="text" class="form-control codigo_trip">
         </div>
+        {{-- <div class="col-4">
+            <div class="form-group">
+                <h6 style="color: #212529;">COD: <span style="color: #67748e;" class="load_codigo_tripulacion"> </span></h6>
+            </div>
+        </div> --}}
         <div class="row">
             <div id="nuevaOperacionVuelo" class="col-12"></div>
             {{-- <div style="padding-left: 20px;" class="col-sm-3">
@@ -99,7 +112,7 @@
                     <select name="tipo_despegue" class="form-control tipo_despegue load_tipo_despegue">
                         <option value=""></option>
                         @foreach($despegue as $data) 
-                            <option value="{{$data->codigo}}">{{$data->tipo_despegue}}</option>
+                            <option value="{{$data->codigo}}">{{$data->codigo}} - {{$data->tipo_despegue}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -145,7 +158,8 @@
                         {{-- <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th> --}}
                         <th class="text-uppercase font-weight-bolder"><h6>V-TRIP</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>GRADO NOMBRE Y APELLIDO</h6></th>
-                        <th class="text-uppercase font-weight-bolder"><h6>TIPO</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>CEDULA</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>FUNCION</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>TOTAL HV</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                     </tr>

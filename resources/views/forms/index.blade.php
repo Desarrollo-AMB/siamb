@@ -44,7 +44,7 @@
                                             </li>
                                             <li>
                                                 <a href="#dddd" data-toggle="tab">
-                                                    <div class="icon-circle">
+                                                    <div class="icon-circle step_three_color">
                                                         <i class="ti-user"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
@@ -53,7 +53,7 @@
                                             <li>
                                                 <a href="#address" data-toggle="tab">
                                                     <div class="icon-circle">
-                                                        <i class="ti-package    "></i>
+                                                        <i class="ti-package"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">A3 - DATOS DE CARGA Y PASAJEROS</p>
                                                 </a>
@@ -235,6 +235,24 @@
             $('.en_apoyo_A2').val('').trigger('change');
             $('.descripcion_A2').val('');
         }
+
+        //LIMPIAR B1
+        function cleanB1() {
+            $('.v_trip').val('').trigger('change');
+            $('.funcion').val('').trigger('change');
+            $('.grado_nombre').val('').trigger('change');
+            $('.tipo_despegue').val('').trigger('change');
+
+            $(".load_vuelo_ov_ota_om").text('');
+            $(".load_vuelo_desde").text('');
+            $(".load_vuelo_hasta").text('');
+            $('.load_codigo_tripulacion').text('');
+            $('.v_mision').val('');
+
+            $(".load_cedula_empleado").text('')
+            $(".cedula_empleado").val('')
+            $('.codigo_trip').val('')
+        }
         
         var id_fam0001;
         var fam0001_a1_mision_id;
@@ -248,7 +266,6 @@
                     url:'{{ route("aeronaves_grupos") }}',
                     data:{"unidad" : id },
                     success:function(res){
-                        console.log(res);
                         $("#naves").empty();
                         $("#naves").append('<option>Seleccionar..</option>');
                         $.each(res,function(key,value){
@@ -405,9 +422,7 @@
                                             if(response){
                                                 let res = response.data[0]
                                                 edit_A1(res) 
-                                                console.log(res)
                                                 let consumblesEdit = response.consumibles
-                                                console.log(consumblesEdit)
                                             }
                                             else{
                                                 alert('Fallo en la peticion con el servidor')
@@ -418,7 +433,9 @@
                                 });
                                 //ACTUALIZAR MISION (METER EN HELPER)
                                 $(".actualizar_a1_mision").click(function() {
-                                    console.log(id_fam0001)
+                                    var sigla = $('.load_siglas').val();
+                                    var numero = $('.load_codigo').val();
+                                    var codigo = ""+sigla+"-"+numero+"";
                                     $.ajax({
                                         url:"{{ route('actualizar_a1_mision') }}",
                                         method:'POST',
@@ -426,7 +443,7 @@
                                             id:$(".load_id_mision").val(),
                                             ordenada_por:$(".load_ordenado_por").val(),
                                             en_apoyo:$('.load_en_apoyo').val(),
-                                            codigo:$('.load_codigo').val(),
+                                            codigo:codigo,
                                             ruta_desde:$('.load_ruta_desde').val(),
                                             ruta_hasta:$('.load_ruta_hasta').val(),
                                             encend:$('.load_encend').val(),
@@ -494,10 +511,11 @@
                             });
 
                             //CARGAR PASO 3
-                            // let B1Steps = response.B1_data
-                            // if (B1Steps.length>0) {
-                            //     datos_tripulacion(B1Steps)
-                            // }
+                            let B1Steps = response.B1_data
+                            if (B1Steps.length>0) {
+                                $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
+                                datos_tripulacion(B1Steps)
+                            }
                         }
                     }
                 }
@@ -678,7 +696,6 @@
                             
                             //MOSTRAR A1
                             let res = response.data;
-                            console.log(res)
                             var counter = 1;
                             $.each(res, function (key, value){
                             $('#A1_data').append(
@@ -716,7 +733,6 @@
                             //EDITAR MISION (METER EN HELPER)
                             $(".editar_a1_mision").click(function() {
                                 var id_edit = $(this).val();
-                                console.log(id_edit)
                                 $.ajax({
                                     url:"{{ route('editar_a1_mision') }}",
                                     method:'POST',
@@ -738,8 +754,9 @@
 
                             //ACTUALIZAR MISION (METER EN HELPER)
                             $(".actualizar_a1_mision").click(function() {
-                                //console.log(id_fam0001)
-                                //console.log($(".load_ordenado_por").find(":selected").text())
+                                var sigla = $('.load_siglas').val();
+                                var numero = $('.load_codigo').val();
+                                var codigo = ""+sigla+"-"+numero+"";
                                 $.ajax({
                                     url:"{{ route('actualizar_a1_mision') }}",
                                     method:'POST',
@@ -747,7 +764,7 @@
                                         id:$(".load_id_mision").val(),
                                         ordenada_por:$(".load_ordenado_por").val(),
                                         en_apoyo:$('.load_en_apoyo').val(),
-                                        codigo:$('.load_codigo').val(),
+                                        codigo:codigo,
                                         ruta_desde:$('.load_ruta_desde').val(),
                                         ruta_hasta:$('.load_ruta_hasta').val(),
                                         encend:$('.load_encend').val(),
@@ -795,41 +812,43 @@
 
         //PASO #3 - BOTON AGREGAR OPERACIONES EN VUELO
         $("#OV_ADD").click(function () {
-            nuevaOperacionVuelo =
+            nuevaOperacionVuelo = 
             '<div id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group">'+
-            '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">SIGLAS</small> <select name="SIG[]" class="form-control SIG load_SIG" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <select name="COD[]" class="form-control COD load_COD" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            // '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">SIGLAS</small> <select name="SIG[]" class="form-control SIG load_SIG" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            // '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <select name="COD[]" class="form-control COD load_COD" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
+            //'<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <h6 style="color: #212529;"><span style="color: #67748e;" class="load_codigo_tripulacion"> </span></h6></div></div>'+
             '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">HV</small> <input type="number" name="HV[]" id="HV" class="form-control HV load_HV" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
             '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarOperacionVuelo" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
 
             $('#nuevaOperacionVuelo').append(nuevaOperacionVuelo);
-            $('.COD').select2();
-            $('.SIG').select2();
+            //$('.COD').select2();
+            //$('.SIG').select2();
 
-            $.ajax({
-                url:"{{ route('codigos_mision_json') }}",
-                method:'POST',
-                data:{ 
-                    _token:'{{ csrf_token() }}'
-                },
-                cache: false,
-                dataType: 'json',
-                success: function(response){
-                    //console.log(response)
-                    if(response){
-                        //$(".COD").empty();
-                        $(".COD").append('<option>Seleccionar..</option>');
-                        $.each(response.codigo ,function(key,value){
-                            $(".COD").append('<option class="load_COD" value="'+key.codigo+'">'+value.codigo+'</option>');
-                        });
+            // $.ajax({
+            //     url:"{{ route('codigos_mision_json') }}",
+            //     method:'POST',
+            //     data:{ 
+            //         _token:'{{ csrf_token() }}'
+            //     },
+            //     cache: false,
+            //     dataType: 'json',
+            //     success: function(response){
+            //         //console.log(response)
+            //         if(response){
+            //             //$(".COD").empty();
 
-                        $(".SIG").append('<option>Seleccionar..</option>');
-                        $.each(response.siglas ,function(key,value){
-                            $(".SIG").append('<option class="load_SIG" value="'+key.siglas+'">'+value.siglas+'</option>');
-                        });
-                    }
-                }
-            });
+            //             // $(".COD").append('<option>Seleccionar..</option>');
+            //             // $.each(response.codigo ,function(key,value){
+            //             //     $(".COD").append('<option class="load_COD" value="'+key.codigo+'">'+value.codigo+'</option>');
+            //             // });
+
+            //             $(".SIG").append('<option>Seleccionar..</option>');
+            //             $.each(response.siglas ,function(key,value){
+            //                 $(".SIG").append('<option class="load_SIG" value="'+key.siglas+'">'+value.siglas+'</option>');
+            //             });
+            //         }
+            //     }
+            // });
         });
         $("body").on("click", "#BorrarOperacionVuelo", function () {
             $(this).parents("#operacionVuelo").remove();
@@ -840,11 +859,31 @@
             if(numItems <3){
                 nuevoAterrizaje =
                 '<div class="operacionVuelo" id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-6"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">TIPO</small> <select name="tipo_aterrizaje[]" class="form-control tipo_aterrizaje load_tipo_aterrizaje" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-                '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small> <input type="number" name="cantidad[]" id="cantidad" class="form-control cantidad load_cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
+                '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small> <input type="number" name="cantidad_atr[]" id="cantidad" class="form-control cantidad load_cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
                 '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarAterrizaje" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
 
                 $('#nuevoAterrizaje').append(nuevoAterrizaje);
                 $('.tipo_aterrizaje').select2();
+
+                $.ajax({
+                    url:"{{ route('codigos_aterrizaje_json') }}",
+                    method:'POST',
+                    data:{ 
+                        _token:'{{ csrf_token() }}'
+                    },
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response){
+                        //console.log(response)
+                        if(response){
+                            $(".tipo_aterrizaje").empty();
+                            $(".tipo_aterrizaje").append('<option>Seleccionar..</option>');
+                            $.each(response.codigo ,function(key,value){
+                                $(".tipo_aterrizaje").append('<option class="load_tipo_aterrizaje" value="'+key.codigo+'">'+value.codigo+' - '+value.tipo_aterrizaje+'</option>');
+                            });
+                        }
+                    }
+                });
             }else{
                 alert('No puedes agregar mas de tres aterrizajes')
             }
@@ -861,7 +900,8 @@
                     url:'{{ route("tripulante_funcion") }}',
                     data:{"id_funcion" : id },
                     success:function(res){
-                        console.log(res);
+                        $(".load_cedula_empleado").text('')
+                        $(".cedula_empleado").val('')
                         $(".grado_nombre").empty();
                         $(".grado_nombre").append('<option>Seleccionar..</option>');
                         $.each(res,function(key,value){
@@ -887,15 +927,32 @@
                     data:{"id" : id },
                     success:function(res){
                         let data = res[0]
-                        console.log(data);
                         $(".load_vuelo_ov_ota_om").text(data.ov_ota_om)
                         $(".load_vuelo_desde").text(data.ruta_desde)
                         $(".load_vuelo_hasta").text(data.ruta_hasta)
+                        $('.load_codigo_tripulacion').text(data.codigo)
+                        $('.codigo_trip').val(data.codigo)
                         $('.v_mision').val(data.vuelo)
                     }
                 }); 
             }
         }).change();
+        //PASO #3 - DATOS DEL TRIPULANTE DE VUELO
+        $("#empleado_vuelo").change(function(){
+            var id = $(this).val();
+            if(id){
+                $.ajax({
+                    type:'POST',
+                    url:'{{ route("datos_empleado_vuelo") }}',
+                    data:{"id" : id },
+                    success:function(res){
+                        let emp = res.data[0]
+                        $(".load_cedula_empleado").text(emp.empleado.cedula)
+                        $(".cedula_empleado").val(emp.empleado.cedula)
+                    }
+                }); 
+            }
+        });
         //PASO #3 - GUARDAR DATOS TRIPULACION 
         $(".enviar_b1_tripulacion").click(function(e){
             e.preventDefault();
@@ -905,6 +962,9 @@
                 console.log('no puedes guardar datos vacios')
             }else{
                 //ENVIAR
+                // let pass_mision_id = $('.v_trip').val()
+                // console.log(pass_mision_id)
+                // guardar_HV_Aterrizajes(pass_mision_id)
                 $.ajax({
                 url:"{{ route('store_b1') }}",
                 method:'POST',
@@ -914,6 +974,7 @@
                     fam0001_a1_mision_id: $('.v_trip').val(),
                     v_trip: $('.v_mision').val(),
                     funcion: $('.funcion').find(":selected").text(),
+                    cedula: $('.cedula_empleado').val(),
                     grado_nombre: $('.grado_nombre').find(":selected").text(),
                     tipo_despegue: $('.tipo_despegue').val(),
                     operaciones_en_vuelo: null,
@@ -921,20 +982,21 @@
                     completado: "paso3",
                     },
                     success:function(response){
+                        $("#B1_data tr").remove();
+                        console.log(response)
                         if(response.success){
-                            console.log(response)
-                            datos_tripulacion(response)
-                            // id_fam0001 = response.data.id;
-                            // $("#ov_ota_om").text(response.data.ov_ota_om);
-                            // $("#aeronave_modelo").text(componente_organismo);
-                            // $("#fecha").text(fecha);
-                            // $('#step_one').prop('hidden', false);
+                            cleanB1()
+                            let b1_data = response.data
+                            datos_tripulacion(b1_data)
 
-                            // $('#stepInputData').prop('hidden', true);
-                            // $('#stepInputDataNext').prop('hidden', false);
+                            $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
+                            alert('Tripulación registrada Exitosamente!')
+                        }
+                        if (response.error) {
+                            let b1_data_error = response.data
+                            datos_tripulacion(b1_data_error)
 
-                            //$(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                              
+                            alert('Un solo tripulante puede tener la funcion de PILOTO en este vuelo')
                         }
                     },
                     error:function(error){
@@ -1107,7 +1169,6 @@
                     data:{"id" : id },
                     success:function(res){
                         let data = res[0]
-                        console.log(data);
                         $("#v_trip").empty();
                         $("#v_trip").append('<option></option>');
                         $.each(res,function(key,value){
@@ -1117,17 +1178,83 @@
                 }); 
             }
         }
-        function datos_tripulacion(response) {
-            let res = response.data
+        function datos_tripulacion(res) {
             $.each(res, function (key, value){
             $('#B1_data').append(
                 "<tr id='delete_b1_tripulacion"+value.id+"'>\
                 <td style='padding-left: 20px;'>"+value.v_trip+"</td>\
                 <td style='padding-left: 20px;'>"+value.grado_nombre+"</td>\
-                <td style='padding-left: 20px;'>"+value.tipo_despegue+"</td>\
-                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                <td style='padding-left: 20px;'>"+value.cedula+"</td>\
+                <td style='padding-left: 20px;'>"+value.funcion+"</td>\
+                <td style='padding-left: 20px;'></td>\
+                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_b1_tripulacion'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button><button value="+value.id+" style='background:grey;' class='btn btn-danger copy_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='fa fa-copy'></i></button></td>\
                 </tr>");
             })
+        }
+        function guardar_HV_Aterrizajes(response) {
+            
+            //GUARDAR CONSUMIBLES A1 MISION
+            let misionIDHV = response
+            var loop = $('input[name="HV[]"]').length
+            var HVData = []
+            var TipoAtr = []
+            var cantidadAtr = []
+
+            $("input[name='HV[]']").each(function() {
+                HVData.push({
+                    HVData:$(this).val(),
+                });
+            });
+            
+            $("select[name='tipo_aterrizaje[]']").find(":selected").each(function() {
+                var dato = $(this).text()
+                var datos = dato.split(" - ")
+                var cod_aterr = datos[0]
+                TipoAtr.push({
+                    TipoAtr:cod_aterr,
+                });
+            });
+
+            $("input[name='cantidad_atr[]']").each(function() {
+                cantidadAtr.push({
+                    cantidadAtr:$(this).val(),
+                });
+            });
+
+            var HVAterrizajeData = []
+            for (let index = 0; index < loop; index++) {
+                HVAterrizajeData.push({
+                    ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
+                    fam0001_id:id_fam0001,
+                    fam0001_a1_mision_id:misionIDHV,
+                    COD:$('.codigo_trip').val(),
+                    HV: HVData[index].HVData,
+                    TIP_ATERRIZAJE: TipoAtr[index] === undefined?null:TipoAtr[index].TipoAtr,
+                    CANTIDAD:  cantidadAtr[index] === undefined?null:cantidadAtr[index].cantidadAtr
+                });
+            } 
+            
+
+            console.log(HVAterrizajeData)
+            
+            //GUARDAR CONSUMIBLES
+            // $.ajax({
+            // url:"{{ route('store_a1_consumibles') }}",
+            // method:'POST',
+            // data:{
+            //     consumiblesDATA: consumiblesDATA,
+            //     },
+            //     success:function(response){
+            //         if(response.success){
+            //             console.log(response)
+            //             $("#newinput").remove();
+            //         }
+            //     },
+            //     error:function(error){
+            //         console.log(error)
+            //     }
+            // });
+            
         }
         
     });
