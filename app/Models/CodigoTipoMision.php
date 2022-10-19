@@ -10,6 +10,7 @@ class CodigoTipoMision extends Model
     use HasFactory;
     protected $table = 'vuelo_codigo_tipo_mision';
     protected $fillable = [
-        'codigo'
+        'codigo',
+        'nombre'
     ];
 }

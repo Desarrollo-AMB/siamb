@@ -15,6 +15,8 @@ use App\Models\CodigoSensores;
 use App\Models\UnidadesConsumible;
 use App\Models\EmpleadoFuncion;
 use App\Models\UnidadesMedidas;
+use App\Models\CodigoTipoMisionSiglas;
+use App\Models\CodigoAterrizaje;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -484,99 +486,126 @@ class AeronaveUnidadesSeeder extends Seeder
             FuncionTripulante::create($item);
         }
 
-        $jefeCargaTripulante = [
-            ['codigo_empleado' => '30284', 'id_funcion' => '15'],
-            ['codigo_empleado' => '30285', 'id_funcion' => '15'],
-            ['codigo_empleado' => '30286', 'id_funcion' => '15'],
-            ['codigo_empleado' => '4731',  'id_funcion' => '15'],
+        $empleadosSegunFunciones = [
+            ['codigo_empleado' => '4731',  'codigo_grado' => '210', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30284', 'codigo_grado' => '090', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30286', 'codigo_grado' => '070', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30285', 'codigo_grado' => '090', 'id_funcion' => '16'],
+            
+            ['codigo_empleado' => '26795', 'codigo_grado' => '070', 'id_funcion' => '3'],
+            //['codigo_empleado' => '59507', 'codigo_grado' => '16',  'id_funcion' => '3'],
+            ['codigo_empleado' => '24622', 'codigo_grado' => '070', 'id_funcion' => '2'],
+            //['codigo_empleado' => '898',   'codigo_grado' => '16',  'id_funcion' => '2'],
+
+            ['codigo_empleado' => '59921', 'codigo_grado' => '070', 'id_funcion' => '3'],
+            ['codigo_empleado' => '15694', 'codigo_grado' => '080', 'id_funcion' => '11'],
+            ['codigo_empleado' => '2242',  'codigo_grado' => '090', 'id_funcion' => '12'],
+            ['codigo_empleado' => '59855', 'codigo_grado' => '070', 'id_funcion' => '2'],
+            
         ];
 
-        foreach ($jefeCargaTripulante as $item) {
+        foreach ($empleadosSegunFunciones as $item) {
             EmpleadoFuncion::create($item);
         }
 
         $codigoTipoMision = [
-            ['codigo' => 'C-1111'],
-            ['codigo' => 'C-1112'],
-            ['codigo' => 'C-1113'],
-            ['codigo' => 'C-1114'],
-            ['codigo' => 'C-1115'],
-            ['codigo' => 'C-1116'],
-            ['codigo' => 'C-11211'],
-            ['codigo' => 'C-11222'],
-            ['codigo' => 'C-1123'],
-            ['codigo' => 'C-1211'],
-            ['codigo' => 'C-1212'],
-            ['codigo' => 'C-1213'],
-            ['codigo' => 'C-1221'],
-            ['codigo' => 'C-1222'],
-            ['codigo' => 'C-1223'],
-            ['codigo' => 'C-12311'],
-            ['codigo' => 'C-12312'],
-            ['codigo' => 'C-12313'],
-            ['codigo' => 'C-12314'],
-            ['codigo' => 'C-12321'],
-            ['codigo' => 'C-12322'],
-            ['codigo' => 'C-12323'],
-            ['codigo' => 'C-12324'],
-            ['codigo' => 'C-12331'],
-            ['codigo' => 'C-12332'],
-            ['codigo' => 'C-12333'],
-            ['codigo' => 'C-12334'],
-            ['codigo' => 'C-12341'],
-            ['codigo' => 'C-12342'],
-            ['codigo' => 'C-12343'],
-            ['codigo' => 'C-12344'],
-            ['codigo' => 'C-12345'],
-            ['codigo' => 'C-12346'],
-            ['codigo' => 'C-1241'],
-            ['codigo' => 'C-1242'],
-            ['codigo' => 'C-1243'],
-            ['codigo' => 'C-12441'],
-            ['codigo' => 'C-12442'],
-            ['codigo' => 'C-12443'],
-            ['codigo' => 'C-1245'],
-            ['codigo' => 'C-1251'],
-            ['codigo' => 'C-1252'],
-            ['codigo' => 'C-1253'],
-            ['codigo' => 'C-1254'],
-            ['codigo' => 'C-1255'],
-            ['codigo' => 'C-1261'],
-            ['codigo' => 'C-1262'],
-            ['codigo' => 'C-1263'],
-            ['codigo' => 'C-1270'],
-            ['codigo' => 'C-1280'],
-            ['codigo' => 'C-1310'],
-            ['codigo' => 'C-1311'],
-            ['codigo' => 'C-1312'],
-            ['codigo' => 'C-2110'],
-            ['codigo' => 'C-2120'],
-            ['codigo' => 'C-2120'],
-            ['codigo' => 'C-2200'],
-            ['codigo' => 'C-2310'],
-            ['codigo' => 'C-2320'],
-            ['codigo' => 'C-2330'],
-            ['codigo' => 'C-2400'],
-            ['codigo' => 'C-2500'],
-            ['codigo' => 'C-2600'],
-            ['codigo' => 'C-2710'],
-            ['codigo' => 'C-2720'],
-            ['codigo' => 'C-2730'],
-            ['codigo' => 'C-2740'],
-            ['codigo' => 'C-2750'],
-            ['codigo' => 'C-2760'],
-            ['codigo' => 'C-2770'],
-            ['codigo' => 'C-2810'],
-            ['codigo' => 'C-2820'],
-            ['codigo' => 'C-3100'],
-            ['codigo' => 'C-3200'],
-            ['codigo' => 'C-3300'],
-            ['codigo' => 'C-3400'],
-            ['codigo' => 'C-3500'],
+            ['codigo' => 1111,  'nombre' => 'OFENSIVAS/ATAQUES A OBJETIVOS EN TIERRA'],
+            ['codigo' => 1112,  'nombre' => 'OFENSIVAS/BARRIDO DE CAZA'],
+            ['codigo' => 1113,  'nombre' => 'OFENSIVAS/ESCOLTA AÉREA'],
+            ['codigo' => 1114,  'nombre' => 'OFENSIVAS/PATRULLA AÉREA DE COMBATE'],
+            ['codigo' => 1115,  'nombre' => 'OFENSIVAS/SUPRESIÓN DE DEFENSA'],
+            ['codigo' => 1116,  'nombre' => 'OFENSIVAS/EMBOSCADA AÉRE'],
+            ['codigo' => 11211, 'nombre' => 'DEFENSIVAS/DEFENSA AEROESPACIAL ACTIVA AIRE'],
+            ['codigo' => 11222, 'nombre' => 'DEFENSIVAS/DEFENSA AEROESPACIAL ACTIVA TIERRA'],
+            ['codigo' => 1123,  'nombre' => 'DEFENSIVAS/DEFENSA AEROESPACIAL PASIVA'],
+            ['codigo' => 1211,  'nombre' => 'APOYO DE COMBATE/INTERDICCIÓN AÉREA INTERDICCIÓN AÉREA EN LA PROFUNDIDAD DEL TERRITORIO ENEMIGO'],
+            ['codigo' => 1212,  'nombre' => 'APOYO DE COMBATE/INTERDICCIÓN AÉREA INTERDICCIÓN EN EL CAMPO DE BATALLA'],
+            ['codigo' => 1213,  'nombre' => 'APOYO DE COMBATE/INTERDICCIÓN AÉREA RECONOCIMIENTO ARMADO'],
+            ['codigo' => 1221,  'nombre' => 'APOYO DE COMBATE/APOYO AÉREO DE FUEGO APOYO AÉREO CERCANO '],
+            ['codigo' => 1222,  'nombre' => 'APOYO DE COMBATE/APOYO AÉREO DE FUEGO COBERTURA AÉREA DE COLUMNAS O CONVOYES'],
+            ['codigo' => 1223,  'nombre' => 'APOYO DE COMBATE/APOYO AÉREO DE FUEGO PATRULLA AÉREA DE COMBATE'],
+            ['codigo' => 12311, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES OFENSIVAS ATAQUE AERONAVAL'],
+            ['codigo' => 12312, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES OFENSIVAS ATAQUE DE SUPERFICIE, ANTISUBMARINO Y ANTIAÉREO'],
+            ['codigo' => 12313, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES OFENSIVAS INTERDICCIÓN MARÍTIMA'],
+            ['codigo' => 12314, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES OFENSIVAS APOYO AÉREO DIRECTO EN DESEMBARCOS ANFIBIOS'],
+            ['codigo' => 12321, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES DEFENSIVAS PATRULLA DE COMBATE AERONAVAL'],
+            ['codigo' => 12322, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES DEFENSIVAS PATRULLAJE MARÍTIMO'],
+            ['codigo' => 12323, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES DEFENSIVAS VIGILANCIA MARÍTIMA'],
+            ['codigo' => 12324, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES DEFENSIVAS ANTIMINADO'],
+            ['codigo' => 12331, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES INFORMACIÓN BÚSQUEDA'],
+            ['codigo' => 12332, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES INFORMACIÓN EXPLORACIÓN'],
+            ['codigo' => 12333, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES INFORMACIÓN RECONOCIMIENTO'],
+            ['codigo' => 12334, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES INFORMACIÓN ANTIMINADO'],
+            ['codigo' => 12341, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO APROVISIONAMIENTO VERTICAL DE COMBUSTIBLE'],
+            ['codigo' => 12342, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO TRANSPORTE DE ASALTO'],
+            ['codigo' => 12343, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO SOSTÉN LOGÍSTICO'],
+            ['codigo' => 12344, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO LANZAMIENTO Y RECUPERACIÓN DE BUZOS'],
+            ['codigo' => 12345, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO CONTROL DE TRÁFICO MARÍTIMO Y PESQUERO'],
+            ['codigo' => 12346, 'nombre' => 'APOYO DE COMBATE/OPERACIONES AERONAVALES AUXILIAR/APOYO TRANSFERENCIA VERTICAL DE CARGAS'],
+
+            ['codigo' => 1241,  'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO EVACUACIÓN AEROMÉDICA'],
+            ['codigo' => 1242,  'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO TRASLADO AEROMÉDICO '],
+            ['codigo' => 1243,  'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO ABASTECIMIENTO LOGÍSTICO'],
+            ['codigo' => 12441, 'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO DESPLIEGUE '],
+            ['codigo' => 12442, 'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO REDESPLIEGUE '],
+            ['codigo' => 12443, 'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO REPLIEGUE'],
+            ['codigo' => 1245,  'nombre' => 'APOYO DE COMBATE/APOYO DE TRANSPORTE AÉREO ENLACE AÉREO'],
+            
+            ['codigo' => 1251,  'nombre' => null],
+            ['codigo' => 1252,  'nombre' => null],
+            ['codigo' => 1253,  'nombre' => null],
+            ['codigo' => 1254,  'nombre' => null],
+            ['codigo' => 1255,  'nombre' => null],
+            ['codigo' => 1261,  'nombre' => null],
+            ['codigo' => 1262,  'nombre' => null],
+            ['codigo' => 1263,  'nombre' => null],
+            ['codigo' => 1270,  'nombre' => null],
+            ['codigo' => 1280,  'nombre' => null],
+            ['codigo' => 1310,  'nombre' => null],
+            ['codigo' => 1311,  'nombre' => null],
+            ['codigo' => 1312,  'nombre' => null],
+            ['codigo' => 2110,  'nombre' => null],
+            ['codigo' => 2120,  'nombre' => null],
+            ['codigo' => 2120,  'nombre' => null],
+            ['codigo' => 2200,  'nombre' => null],
+            ['codigo' => 2310,  'nombre' => null],
+            ['codigo' => 2320,  'nombre' => null],
+            ['codigo' => 2330,  'nombre' => null],
+            ['codigo' => 2400,  'nombre' => null],
+            ['codigo' => 2500,  'nombre' => null],
+            ['codigo' => 2600,  'nombre' => null],
+            ['codigo' => 2710,  'nombre' => null],
+            ['codigo' => 2720,  'nombre' => null],
+            ['codigo' => 2730,  'nombre' => null],
+            ['codigo' => 2740,  'nombre' => null],
+            ['codigo' => 2750,  'nombre' => null],
+            ['codigo' => 2760,  'nombre' => null],
+            ['codigo' => 2770,  'nombre' => null],
+            ['codigo' => 2810,  'nombre' => null],
+            ['codigo' => 2820,  'nombre' => null],
+            ['codigo' => 3100,  'nombre' => null],
+            ['codigo' => 3200,  'nombre' => null],
+            ['codigo' => 3300,  'nombre' => null],
+            ['codigo' => 3400,  'nombre' => null],
+            ['codigo' => 3500,  'nombre' => null],
         ];
 
         foreach ($codigoTipoMision as $item) {
             CodigoTipoMision::create($item);
+        }
+
+        $codigoTipoMisionSiglas = [
+            ['siglas' => 'C',  'nombre' => 'COMBATE REAL'],
+            ['siglas' => 'AC', 'nombre' => 'APOYO DE COMBATE'],
+            ['siglas' => 'O',  'nombre' => 'OPERACIONALES' ],
+            ['siglas' => 'E',  'nombre' => 'ENTRENAMIENTO' ],
+            ['siglas' => 'I',  'nombre' => 'INSTRUCCIÓN' ],
+            ['siglas' => 'Y',  'nombre' => 'VUELO DE CHEQUEO FUNCIONAL/PRUEBA/FERRY' ],
+            ['siglas' => 'S',  'nombre' => 'ESPECIALES' ],
+        ];
+
+        foreach ($codigoTipoMisionSiglas as $item) {
+            CodigoTipoMisionSiglas::create($item);
         }
 
         $codigoDespegue = [
@@ -594,6 +623,25 @@ class AeronaveUnidadesSeeder extends Seeder
 
         foreach ($codigoDespegue as $item) {
             CodigoDespegue::create($item);
+        }
+
+        $codigoAterrizaje = [
+            ['tipo_aterrizaje' => 'NORMAL',                                                                                             'codigo' => 'L'],
+            ['tipo_aterrizaje' => 'EN VUELO INSTRUMENTAL CON APROXIMACIÓN DE PRECISIÓN',                                                'codigo' => 'A'],
+            ['tipo_aterrizaje' => 'EN VUELO INSTRUMENTAL CON APROXIMACIÓN DE NO PRECISIÓN',                                             'codigo' => 'B'],
+            ['tipo_aterrizaje' => 'EN ÁREAS CONFINADAS Y MONTAÑA ACM (SÓLO HELICÓPTEROS)',                                              'codigo' => 'C'],
+            ['tipo_aterrizaje' => 'EN BUQUES O PLATAFORMAS OCEÁNICAS, MARINAS, LACUSTRES O FLUVIALES (ANAVIAJE) (SÓLO HELICÓPTEROS)',   'codigo' => 'H'],
+            ['tipo_aterrizaje' => 'EN SUPERFICIES ACUÁTICAS (HIDROAVIÓN / AVIÓN ANFIBIO / HELICÓPTERO)',                                'codigo' => 'I'],
+            ['tipo_aterrizaje' => 'EN PISTAS NO PREPARADAS',                                                                            'codigo' => 'J'],
+            ['tipo_aterrizaje' => 'EN PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 4',                                                      'codigo' => 'K'],
+            ['tipo_aterrizaje' => 'EN PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 5',                                                      'codigo' => 'M'],
+            ['tipo_aterrizaje' => 'EN PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 6 (SÓLO HELICÓPTERO)',                                   'codigo' => 'N'],
+            ['tipo_aterrizaje' => 'EN PUNTOS DE RECOBRE OPERACIONAL (PRO) TIPO 7',                                                      'codigo' => 'O'],
+            
+        ];
+
+        foreach ($codigoAterrizaje as $item) {
+            CodigoAterrizaje::create($item);
         }
 
         $codigoSensores = [
