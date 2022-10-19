@@ -1256,6 +1256,48 @@
             // });
             
         }
+        function calculateTime() {
+            var encend = $('.encend').val()
+            var despeg = $('.despeg').val();
+            var aterriz = $('.aterriz').val();
+            var apag = $('.apag').val();
+                
+            var segEncend = new Date("01/01/2007 " + encend).getTime();
+            var segDespeg = new Date("01/01/2007 " + despeg).getTime();
+            
+            // if($('.encend').val()!=""){
+            //     var minDiffSeg = ((ssegDespeg - segEncend)/60)/1000;
+            // }
+            var minDiffSeg = 0.0
+            if($('.despeg').val()!=""){
+                var minDiffSeg = ((segDespeg - segEncend)/60)/1000;
+            }
+
+            var segAterriz = new Date("01/01/2007 " + aterriz).getTime();
+            
+            if( $('.aterriz').val()!=""){
+                if(segDespeg>segAterriz){
+                    alert('No puedes registrar una hora menor a la de Despegue')
+                }else{
+                    var dataStep = ((segAterriz - segDespeg)/60)/1000; 
+                    minDiffSeg = dataStep + minDiffSeg
+                }
+            }
+
+            var segApag = new Date("01/01/2007 " + apag).getTime();
+
+            if( $('.apag').val()!=""){
+                if(segAterriz>segApag){
+                    alert('No puedes registrar una hora menor a la de Aterrizaje')
+                }
+                var dataStep2 = ((segApag - segAterriz)/60)/1000; 
+                minDiffSeg = dataStep2 + minDiffSeg
+            }
+            
+            $(".pasar_calculo").val(((minDiffSeg*0.1)/6).toFixed(1))
+        }
+        $(".calculateTime").change(calculateTime);
+        calculateTime();
         
     });
 </script>
