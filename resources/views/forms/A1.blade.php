@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <small style="font-weight: bold; color:#67748e;">SIGLAS</small>
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
                         <select name="siglas" class="form-control siglas load_siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data) 
@@ -56,7 +56,7 @@
                 <h6 style="font-size:13px; margin: 0;">RUTA</h6> 
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">DESDE</small>
                         <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
@@ -67,7 +67,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HASTA</small>
                         <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
@@ -119,7 +119,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">REGISTRO MANUAL</small>
-                        <input name="registro_manual" type="text" class="form-control registro_manual load_registro_manual pasar_calculo" style="text-transform: uppercase"> 
+                        <input readonly="true" name="registro_manual" type="text" class="form-control registro_manual load_registro_manual pasar_calculo" style="text-transform: uppercase"> 
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -144,7 +144,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TOQUE Y DESP</small>
-                        <input name="toque_desp" type="number" class="form-control toque_desp load_toque_desp"> 
+                        <input name="toque_desp" type="number" class="form-control toque_desp load_toque_desp sendingData"> 
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -155,7 +155,7 @@
                 </div>
                 <div class="col-sm-4">
                     <small style="font-weight: bold; color:#67748e;">CICLOS TREN</small>
-                    <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren"> 
+                    <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren sameData"> 
                 </div>
                 {{-- <div class="col-sm-4">
                     <div class="form-group">
@@ -192,7 +192,7 @@
         <input hidden="true" name="id_mision" type="text" class="form-control id_mision load_id_mision"> 
         <div style="padding: 10px;" class="row">
             <div class="col-sm-6">
-                <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES</h6><input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
+                <h6 style="font-size:13px; margin: 0;">CONSUMIBLES</h6><input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR CONSUMIBLES"/>
             </div>
             {{-- <table class="table align-items-center mb-0">
                 <thead>
@@ -211,8 +211,11 @@
             <hr>
         </div>
         <div style="padding-top:5px" class="row">
-            <button style="background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar vuelo</button>
-            <button hidden="true" style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
+            <div  class="pull-right">
+                <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Pierna</button>
+                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input update_A1_clean">X</button>
+                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
+            </div>
         </div>
     </div>
     <div class="row pt-3">

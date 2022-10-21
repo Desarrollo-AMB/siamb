@@ -15,4 +15,8 @@ class FuncionTripulante extends Model
         'flag_jefe_maquina'
     ];
 
+    public function funcionTrip() {
+        return $this->hasMany(Fam0001B1Tripulacion::class, 'funcion');
+    }
+
 }

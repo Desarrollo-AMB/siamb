@@ -31,5 +31,6 @@ class Fam0001A1Mision extends Model
         'en_apoyo_A2',
         'descripcion_A2',
         'completado',
+        'user_id'
     ];
 }
