@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
+
         $this->call([
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         //Para insertar datos por medio de archivos SQL
         $this->command->info('Iniciando Insercion de Datos por SQL!');
-        
+
         $path = 'database/sql/ubicaciones.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "ubicaciones" ejecutado!');
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/cargos.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "cargos" ejecutado!');
-        
+
         $path = 'database/sql/paises.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "paises" ejecutado!');
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "universidades" ejecutado!');
 
-        $this->command->info('Tabla "empleados", por favor espere...');
+       /* $this->command->info('Tabla "empleados", por favor espere...');
         $path = 'database/sql/empleados.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "empleados" ejecutado!');
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Tabla "nomina", por favor espere...');
         $path = 'database/sql/nomina.sql';
         DB::unprepared(file_get_contents($path));
-        $this->command->info('SQL Insert tabla "nomina" ejecutado!');
+        $this->command->info('SQL Insert tabla "nomina" ejecutado!');*/
 
         $path = 'database/sql/articulo_hijo.sql';
         DB::unprepared(file_get_contents($path));
@@ -87,5 +87,10 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/notempleados.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "empleados_otro_componente" (SEID) ejecutado!');
+
+
+        $path = 'database/sql/profesiones.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "profesiones" ejecutado!');
     }
 }
