@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('descripcion',80)->nullable();
             $table->string('area_desempeno',2)->nullable();
             $table->string('sub_especialidad',3)->nullable();
+            $table->integer('is_deleted')->default(0);
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 
