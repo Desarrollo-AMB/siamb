@@ -22,15 +22,25 @@
                         <select name="en_apoyo" class="form-control en_apoyo load_en_apoyo">
                             <option value=""></option>
                             @foreach($enApoyo as $data) 
-                                <option value="{{$data->codigo}}">{{$data->nombre_apoyo}} - {{$data->codigo}}</option>
+                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select> 
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">SIGLAS<small></small></small>
+                        <select name="siglas" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data) 
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>  
+                    </div>
+                </div>
+                <div class="col-sm-2">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO<small></small></small>
-                        {{-- <input name="codigo" style="text-transform: uppercase" type="text" class="form-control codigo"> --}}
                         <select name="codigo" class="form-control codigo load_codigo">
                         <option value=""></option>
                             @foreach($codigoMision as $data) 
@@ -70,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-1">
             <div class="col-sm-6">
                 <h6 style="font-size:13px; margin: 0;">HORA DE LA AERONAVE<small></small></h6> 
             </div>
@@ -101,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-1">
             <div class="col-sm-6">
                 <h6 style="font-size:13px; margin: 0;">TIEMPO DE VUELO<small></small></h6> 
             </div>
@@ -126,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-1">
             <div class="col-sm-6">
                 <h6 style="font-size:13px; margin: 0;">ATERRIZAJES<small></small></h6> 
             </div>
@@ -144,29 +154,47 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <h6 style="font-size:13px; margin: 0;">CICLOS TREN<small></small></h6> 
+                    <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren"> 
+                </div>
+                {{-- <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TOTAL<small></small></small>
                         <input name="total" type="number" class="form-control total load_total"> 
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
-                <h6 style="font-size:13px; margin: 0;">CICLOS TREN<small></small></h6> 
-                <input name="ciclos_tren" type="number" class="form-control ciclos_tren load_ciclos_tren"> 
+            <div style="padding-top: 18px" class="col-sm-12">
+                <h6 style="font-size:13px; margin: 0;">A2 DATOS DE MISION<small></small></h6> 
             </div>
-            <div class="col-sm-4">
-                <h6 style="font-size:13px; margin: 0;">CONSUMIBLES<small></small></h6> 
-                <input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 0;" class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">EN APOYO A - <small></small>NOMBRE ESPECÍFICO ENTE/PERSONA</small>
+                        <select name="en_apoyo_A2" class="form-control en_apoyo_A2 load_en_apoyo_A2">
+                            <option value=""></option>
+                            @foreach($enApoyo as $data) 
+                                <option value="{{$data->nombre_apoyo}}">{{$data->nombre_apoyo}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="margin-bottom: 0;" class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">DESCRIPCIÓN<small></small></small>
+                        <input name="descripcion_A2" type="text" class="form-control descripcion_A2 load_descripcion_A2" style="text-transform: uppercase"> 
+                    </div>
+                </div>
             </div>
         </div>
         <input hidden="true" name="id_mision" type="text" class="form-control id_mision load_id_mision"> 
-        <div style="padding-top: 13px;" class="row">
-            <div class="col-sm-4">
-                <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES<small></small></h6> 
+        <div style="padding: 10px;" class="row">
+            <div class="col-sm-6">
+                <h6 style="font-size:13px; margin: 0;"> REGISTRAR CONSUMIBLES</h6><input style="color:white; background:#38496a;" type='button' id="rowAdder" class='btn btn-info' value="AGREGAR"/>
             </div>
-            <table class="table align-items-center mb-0">
+            {{-- <table class="table align-items-center mb-0">
                 <thead>
                     <tr>
                         <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
@@ -178,24 +206,23 @@
                 <tbody id="consumblesEdit">
 
                 </tbody>
-            </table>
+            </table> --}}
             <div id="newinput" class="col-12"></div>
-        </div>
-        <div style="padding-top:20px" class="row">
             <hr>
+        </div>
+        <div style="padding-top:5px" class="row">
             <button style="background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar vuelo</button>
             <button hidden="true" style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
-       
         </div>
     </div>
-    <div class="row p-t-5">
+    <div class="row pt-3">
         <div class="col-sm-4">
             <h6 style="font-size:13px; margin: 0;"> LISTA DE MISIONES<small></small></h6> 
         </div>
         <div class="card">
             <div class="table-responsive">
               <table class="table align-items-center mb-0">
-                <thead>
+                <thead style="background: #e1e1e0;">
                     <tr>
                         <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>ORDENADO</h6></th>

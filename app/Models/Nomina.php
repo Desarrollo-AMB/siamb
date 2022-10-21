@@ -4,11 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Nomina extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $table = 'nomina';
+    protected $fillable = [
+        '*',
+    ];
 
     public function empleado()
     {
@@ -25,5 +30,17 @@ class Nomina extends Model
 
     public function tipo_empleado() {
         return $this->belongsTo(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->useLogName('Actividad tabla nomina')
+        ->logOnly(
+            [
+                'codigo_empleado', 'codigo_ubicacion', 'codigo_cargo', 'tipo_emp', 'fecha_ingreso',
+                'codigo_banco', 'tipo_cuenta', 'nro_cuenta', 'situacion', 'sueldo',
+                'codigo_ubicacion_detallada', 
+            ]);
     }
 }

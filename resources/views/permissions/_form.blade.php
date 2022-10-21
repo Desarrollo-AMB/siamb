@@ -15,14 +15,14 @@
             <label for="route_name">Nombre de Ruta*</label>
             <select class="select2 form-control" name="route_name" id="route_name" required
                 data-live-search="true">
-                <option disabled {{ old('route_name', $permission->route_name)!=null ? 'selected':'' }}>{{ $permission->route_name }}</option>
+                <option {{ old('route_name', $permission->route_name)!=null ? 'selected':'' }}>{{ $permission->route_name }}</option>
                 > Seleccione el Nombre de la Ruta </option>
                 @forelse ($privateRoutesWithoutPermission as $route)
-                    <option {{ old('route_name', $permission->route_name)===$route->getName() ? 'selected':'' }}
-                    >{{ $route->getName() }}</option>
+                    <option value="{{ $route->getName() }}" {{ old('route_name', $permission->route_name)===$route->getName() ? 'selected':'' }}
+                        >{{ $route->getName() }}</option>
                 @empty
                     @if (old('route_name', $permission->route_name))
-                        <option>{{ old('route_name', $permission->route_name) }}</option>
+                        <option value="{{ old('route_name', $permission->route_name) }}">{{ old('route_name', $permission->route_name) }}</option>
                     @endif
                 @endforelse
             </select>

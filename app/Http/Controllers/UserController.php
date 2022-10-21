@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Spatie\Permission\Models\Role;
-use DB;
-use Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\DataTables;
+use App\Models\User;
 use App\Models\Empleado;
 use App\Models\EmpleadosOtroComponente;
-use DataTables;
+
 
 class UserController extends Controller
 {
@@ -145,9 +147,15 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
-
-        return redirect()->route('users.index')
-            ->with('success','Usuario eliminado satisfactoriamente');
+        try {
+            User::find($id)->delete();
+            Empleado::where('user_id',$id)->update(['user_id'=>null]);
+            EmpleadosOtroComponente::where('user_id',$id)->update(['user_id'=>null]);
+            return redirect()->route('users.index')
+                ->with('success','Usuario eliminado satisfactoriamente');
+        }catch (\Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
     }
 }

@@ -9,8 +9,10 @@ class Ubicaciones extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'codigo_ubicacion';
-
+    protected $fillable = [
+        '*',
+    ];
+    
     public function nomina()
     {
         return $this->belongsTo(Nomina::class, 'codigo_ubicacion', 'codigo_ubicacion');

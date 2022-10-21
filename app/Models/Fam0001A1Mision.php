@@ -10,6 +10,7 @@ class Fam0001A1Mision extends Model
     use HasFactory;
     protected $table = 'fam0001_a1_mision';
     protected $fillable = [
+        'vuelo',
         'ordenada_por',
         'en_apoyo',
         'codigo',
@@ -24,10 +25,11 @@ class Fam0001A1Mision extends Model
         'ind_vuelo',
         'toque_desp',
         'low_go',
-        'total',
         'ciclos_tren',
         'ov_ota_om',
         'fam0001_id',
+        'en_apoyo_A2',
+        'descripcion_A2',
         'completado',
     ];
 }

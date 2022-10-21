@@ -62,6 +62,7 @@ return new class extends Migration
             $table->string('telefono_cel',15)->nullable();
             $table->string('telefono_ofi',15)->nullable();
             $table->string('persona_contacto',60)->nullable();
+            $table->string('telefono_e',15)->nullable();
             $table->string('talla_gorra',3)->nullable();
             $table->string('ubicacion_admpub',20)->nullable();
             $table->string('discapacidad',100)->nullable();

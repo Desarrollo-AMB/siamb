@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('user_created',100)->nullable();
             $table->string('user_updated',100)->nullable();
             $table->timestamps();
-
+            $table->softDeletes();
         });
     }
 

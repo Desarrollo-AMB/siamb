@@ -24,13 +24,13 @@
                     </div>
                     @if ($privateRoutesWithoutPermission->count())
                     <div class="p-2">
-                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" 
-                            data-target="#modal-private-routes-without-permission">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#modal-private-routes-without-permission">
                             Rutas Privadas sin Permisos ({{ $privateRoutesWithoutPermission->count() }})
                         </button>
                     </div>
                     @endif
-                    @if ($unnecessaryPermissions->count())
+                    {{--@if ($unnecessaryPermissions->count())
                     <div class="p-2">
                         <a href="#" class="btn btn-danger btn-sm"
                             onclick="event.preventDefault();
@@ -41,7 +41,7 @@
                             @method('DELETE')
                         </form>
                     </div>
-                    @endif
+                    @endif--}}
                     <div class="p-2">
                         <a href="{{ route('permissions.create') }}" class="btn btn-bg-gradient-primary btn-sm">+&nbsp;Crear</a>
                     </div>
@@ -70,7 +70,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Rutas Privadas sin Permiso</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -84,7 +84,7 @@
                 </div>
 			</div>
 			<div class="modal-footer justify-content-rigth">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

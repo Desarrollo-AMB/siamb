@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TiposEmpleado extends Model
 {
     use HasFactory;
+    
     protected $table = 'tipos_empleados';
-    //protected $primaryKey = 'tipo_emp';
+
     protected $fillable = [
         'tipo_emp',
         'descripcion',
