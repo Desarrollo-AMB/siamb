@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('base_estacion')->nullable();
             $table->string('jefe_maquina')->nullable();
             $table->string('completado')->nullable();
+            
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

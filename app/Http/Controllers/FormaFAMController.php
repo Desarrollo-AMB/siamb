@@ -21,6 +21,7 @@ use App\Models\FuncionTripulante;
 use App\Models\CodigoDespegue;
 use App\Models\CodigoTipoMisionSiglas;
 use App\Models\CodigoAterrizaje;
+use App\Models\Fam0001A3CargaPasajeros;
 
 use Illuminate\Http\Request;
 
@@ -78,7 +79,7 @@ class FormaFAMController extends Controller
     {
         $headerData = Fam0001::get();
         $A1_data = Fam0001A1Mision::where('completado',"paso2")->get();
-        $B1_data = Fam0001B1Tripulacion::where('completado',"paso3")->get();
+        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->get();
         return response()->json([
             "headerData"=>$headerData, 
             "A1_data"=>$A1_data,
@@ -305,14 +306,14 @@ class FormaFAMController extends Controller
     public function store_b1(Request $request)
     {
         
-        $B1_funcion = Fam0001B1Tripulacion::select('funcion')
+        $B1_funcion = Fam0001B1Tripulacion::select('codigo_funcion')
             ->where('v_trip',$request->v_trip)
-            ->where('funcion','P')
+            ->where('codigo_funcion','P')
             ->get();
 
         if (count($B1_funcion)>0) {
             $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
-            if($request->funcion == $B1_funcion[0]['funcion']){
+            if($request->codigo_funcion == $B1_funcion[0]['codigo_funcion']){
                 return response()->json(
                     [
                         'error' => true,
@@ -326,10 +327,20 @@ class FormaFAMController extends Controller
                 $B1->fam0001_id = $request->fam0001_id;
                 $B1->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
                 $B1->v_trip = $request->v_trip;
-                $B1->grado_nombre = $request->grado_nombre;
+
+                $B1->grado_nombre_id = $request->grado_nombre_id;
+                $B1->grado_nombre_data = $request->grado_nombre_data;
+                
                 $B1->cedula = $request->cedula;
+
+                $B1->codigo_funcion = $request->codigo_funcion;
                 $B1->funcion = $request->funcion;
+
                 $B1->tipo_despegue = $request->tipo_despegue;
+
+                $B1->COD = $request->COD;
+                $B1->hv = $request->HV;
+                
                 $B1->completado = $request->completado;
         
                 $B1->save();
@@ -353,10 +364,20 @@ class FormaFAMController extends Controller
             $B1->fam0001_id = $request->fam0001_id;
             $B1->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
             $B1->v_trip = $request->v_trip;
-            $B1->grado_nombre = $request->grado_nombre;
+
+            $B1->grado_nombre_id = $request->grado_nombre_id;
+            $B1->grado_nombre_data = $request->grado_nombre_data;
+            
             $B1->cedula = $request->cedula;
+
+            $B1->codigo_funcion = $request->codigo_funcion;
             $B1->funcion = $request->funcion;
+
             $B1->tipo_despegue = $request->tipo_despegue;
+
+            $B1->COD = $request->COD;
+            $B1->hv = $request->HV;
+            
             $B1->completado = $request->completado;
     
             $B1->save();
@@ -375,6 +396,88 @@ class FormaFAMController extends Controller
         }
 
     }
-    
+    public function editar_b1(Request $request)
+    {
+        $editTrip = Fam0001B1Tripulacion::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $editTrip,
+            ]
+        );
+    }
 
+    public function actualizar_b1(Request $request)
+    {
+        $editTrip = Fam0001B1Tripulacion::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'editTrip' => $editTrip
+            ]
+        );
+    } 
+
+    public function delete_b1(Request $request)
+    {
+        //Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
+        Fam0001B1Tripulacion::find($request->id)->delete();
+        
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
+            ]
+        );
+    } 
+
+    public function store_a3(Request $request)
+    {
+
+        $B1 = new Fam0001A3CargaPasajeros;
+
+        $B1->ov_ota_om = $request->ov_ota_om;
+        $B1->fam0001_id = $request->fam0001_id;
+        $B1->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+        
+        $B1->n_vuelo = $request->n_vuelo;
+        $B1->apoyo_carga = $request->apoyo_carga;
+       
+        $B1->pesocargaTotal = $request->pesocargaTotal;
+        $B1->volCargaTotal = $request->volCargaTotal;
+
+        $B1->seca = $request->seca;
+        $B1->liquida = $request->liquida;
+        $B1->comb = $request->comb;
+        $B1->ammto = $request->ammto;
+        $B1->tox_pel = $request->tox_pel;
+
+        $B1->mil = $request->mil;
+        $B1->gob = $request->gob;
+        $B1->no_gob = $request->no_gob;
+        $B1->civil = $request->civil;
+
+        $B1->cant_animales = $request->cant_animales;
+        $B1->carga = $request->carga;
+        $B1->pers = $request->pers;
+        
+        $B1->completado = $request->completado;
+
+        $B1->save();
+        
+        $B1_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->fam0001_id)->get();
+        // $B1_id = Fam0001B1Tripulacion::select('id')->where('id',$B1->id)->get();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $B1_data,
+                //'B1_id' => $B1_id
+            ]
+        );
+           
+        
+
+    }
 }

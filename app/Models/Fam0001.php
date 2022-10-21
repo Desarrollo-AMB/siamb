@@ -20,5 +20,6 @@ class Fam0001 extends Model
         'base_estacion',
         'jefe_maquina',
         'completado',
+        'user_id'
     ];
 }

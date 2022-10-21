@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreignId('fam0001_id')->constrained('fam0001');
             $table->foreignId('fam0001_a1_mision_id')->constrained('fam0001_a1_mision');
 
-            $table->string('COD')->nullable();
-            $table->string('HV')->nullable();
             $table->string('TIP_ATERRIZAJE')->nullable();
             $table->string('CANTIDAD')->nullable();
 

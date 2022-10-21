@@ -160,7 +160,7 @@
                                             @include('forms.B1')
                                         </div>
                                         <div class="tab-pane" id="address">
-                                           
+                                            @include('forms.A3')
                                         </div>
                                     </div>
                                     <br>
@@ -179,10 +179,10 @@
                                     </div>
                                 </form>
                             </div>
-                        </div> <!-- wizard container -->
+                        </div>
                     </div>
-                </div><!-- end row -->
-            </div> <!--  big container -->
+                </div>
+            </div> 
         </div>
     </div>
 </div>
@@ -212,7 +212,9 @@
         $('.funcion').select2();
         $('.grado_nombre').select2();
         $('.tipo_despegue').select2();
-  
+        //PASO 4
+        $('.n_vuelo').select2();
+
         //LIMPIAR A1
         function cleanA1() {
             $('.ordenada_por').val('').trigger('change');
@@ -252,6 +254,7 @@
             $(".load_cedula_empleado").text('')
             $(".cedula_empleado").val('')
             $('.codigo_trip').val('')
+            $('.load_registro_hv').val('')
         }
         
         var id_fam0001;
@@ -374,7 +377,6 @@
                                 $(".step_two_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
                                 
                                 data_vuelos(id_fam0001);
-
                                 var counter = 1;
                                 $.each(A1Steps, function (key, value){
                                 $('#A1_data').append(
@@ -470,10 +472,14 @@
                                                 guardarConsumo(misionID);
                                                 console.log(response)
                                                 cleanA1()
+                                                $('.edit_input').prop('hidden', true);
+                                                $('.add_edit_input').prop('hidden', false);
+                                                alert('Se actualizo correctamente')
                                             }
                                         }
                                     });
                                 });
+                                updateClean_A1()
                             }
 
                             //EDITAR PASO 1 
@@ -515,7 +521,55 @@
                             if (B1Steps.length>0) {
                                 $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
                                 datos_tripulacion(B1Steps)
+                                console.log(id_fam0001)
+
+                                //PASO #3 - EDITAR TRIPULACION
+                                $(".editar_B1_trip").click(function() {
+                                    var id_edit = $(this).val();
+                                    $.ajax({
+                                        url:"{{ route('editar_b1') }}",
+                                        method:'POST',
+                                        data:{id:id_edit},
+                                        cache: false,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response){
+                                                let res = response.data[0]
+                                                edit_B1(res) 
+                                            }
+                                            else{
+                                                alert('Fallo en la peticion con el servidor')
+                                            }
+                                        }
+                                    });
+                                });
+                                //PASO #3 - UPDATE TRIPULACION
+                                update_B1()
+                                //PASO #3 - BOTON LIMPIAR TRIPULACION
+                                updateClean_B1()
+
+                                //PASO #3 - ELIMINAR TRIPULACION
+                                $(".delete_b1_trip").click(function() {
+                                    var id = $(this).val();
+                                    console.log(id)
+                                    $.ajax({
+                                        url:"{{ route('delete_b1') }}",
+                                        method:'POST',
+                                        data:{id:id},
+                                        cache: false,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response){
+                                                cleanB1()
+                                                $("#delete_b1"+id+"").remove();
+                                                alert('eliminacion correcta')
+                                            }
+                                        }
+                                    });
+                                });
+
                             }
+                            
                         }
                     }
                 }
@@ -793,12 +847,14 @@
                                             misionID = $(".load_id_mision").val()
                                             guardarConsumo(misionID);
                                             cleanA1()
+                                            $('.edit_input').prop('hidden', true);
+                                            $('.add_edit_input').prop('hidden', false);
                                             alert('Mision Actualziada correctamente')
                                         }
                                     }
                                 });
                             });
-                            
+                            updateClean_A1()
                             data_vuelos(id_fam0001);
                         }
                     },
@@ -933,6 +989,7 @@
                         $('.load_codigo_tripulacion').text(data.codigo)
                         $('.codigo_trip').val(data.codigo)
                         $('.v_mision').val(data.vuelo)
+                        $('.load_registro_hv').val(data.registro_manual)
                     }
                 }); 
             }
@@ -962,8 +1019,6 @@
                 console.log('no puedes guardar datos vacios')
             }else{
                 //ENVIAR
-                // let pass_mision_id = $('.v_trip').val()
-                // console.log(pass_mision_id)
                 // guardar_HV_Aterrizajes(pass_mision_id)
                 $.ajax({
                 url:"{{ route('store_b1') }}",
@@ -973,20 +1028,24 @@
                     fam0001_id: id_fam0001,
                     fam0001_a1_mision_id: $('.v_trip').val(),
                     v_trip: $('.v_mision').val(),
-                    funcion: $('.funcion').find(":selected").text(),
+                    //
+                    grado_nombre_id: $('.grado_nombre').val(),
+                    grado_nombre_data: $('.grado_nombre').find(":selected").text(),
+                    funcion: $('.funcion').val(),
+                    codigo_funcion: $('.funcion').find(":selected").text(),
+                    //
                     cedula: $('.cedula_empleado').val(),
-                    grado_nombre: $('.grado_nombre').find(":selected").text(),
                     tipo_despegue: $('.tipo_despegue').val(),
-                    operaciones_en_vuelo: null,
-                    aterrizaje: null,
+                    COD:$('.codigo_trip').val(),
+                    HV:$('.load_registro_hv').val(),
                     completado: "paso3",
                     },
                     success:function(response){
                         $("#B1_data tr").remove();
-                        console.log(response)
                         if(response.success){
                             cleanB1()
                             let b1_data = response.data
+                            console.log(b1_data)
                             datos_tripulacion(b1_data)
 
                             $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
@@ -998,15 +1057,123 @@
 
                             alert('Un solo tripulante puede tener la funcion de PILOTO en este vuelo')
                         }
+                        //PASO #3 - EDITAR TRIPULACION
+                        $(".editar_B1_trip").click(function() {
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_b1') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_B1(res) 
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                            
+                        });
+                        //PASO #3 - UPDATE TRIPULACION
+                        update_B1()
+                        //PASO #3 - BOTON LIMPIAR TRIPULACION
+                        updateClean_B1()
+                        //PASO #3 - ELIMINAR TRIPULACION
+                        $(".delete_b1_trip").click(function() {
+                            var id = $(this).val();
+                            console.log(id)
+                            $.ajax({
+                                url:"{{ route('delete_b1') }}",
+                                method:'POST',
+                                data:{id:id},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        cleanB1()
+                                        $("#delete_b1"+id+"").remove();
+                                        alert('eliminacion correcta')
+                                    }
+                                }
+                            });
+                        });
                     },
                     error:function(error){
                         console.log(error)
                     }
                 });
             }
-            
         });
-        
+        //PASO #3 - MOSTRAR DATOS VUELO CARGA
+        $("#n_vuelo").change(function(){
+            var id = $(this).val();
+            if(id){
+                $.ajax({
+                    type:'POST',
+                    url:'{{ route("data_vuelo") }}',
+                    data:{"id" : id },
+                    success:function(res){
+                        let data = res[0]
+                        $(".apoyo_carga").val(data.en_apoyo)
+                    }
+                }); 
+            }
+        }).change();
+
+        //PASO #4 - GUARDAR DATOS CARGA
+        $(".enviar_a3").click(function(e){
+            e.preventDefault();
+            //VALIDAR PASO UNO HEADER
+            if(v_trip===""){
+                alert('no puedes guardar campos vacios')
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('store_a3') }}",
+                method:'POST',
+                data:{
+                    ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                    fam0001_id: id_fam0001,
+                    fam0001_a1_mision_id: $('.n_vuelo').val(),
+
+                    n_vuelo: $('.n_vuelo').val(),
+                    apoyo_carga: $('.apoyo_carga').val(),
+
+                    pesocargaTotal: $('.pesocargaTotal').val(),
+                    volCargaTotal: $('.volCargaTotal').val(),
+
+                    seca: $('.seca').val(),
+                    liquida: $('.liquida').val(),
+                    comb: $('.comb').val(),
+                    ammto: $('.ammto').val(),
+                    tox_pel: $('.tox_pel').val(),
+
+                    mil: $('.mil').val(),
+                    gob: $('.gob').val(),
+                    no_gob: $('.no_gob').val(),
+                    civil: $('.civil').val(),
+
+                    cant_animales: $('.cant_animales').val(),
+                    carga: $('.carga').val(),
+                    pers: $('.pers').val(),
+
+                    completado: "paso4",
+                    },
+                    success:function(response){
+                        console.log(response)
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
         //FUNCIONES HELPER
         function cargarAeronavesModelos(grupo_id) {
             if(grupo_id){
@@ -1075,20 +1242,20 @@
             $(".load_ruta_desde").val(res.ruta_desde).trigger('change')
             $(".load_ruta_hasta").val(res.ruta_hasta).trigger('change')
 
-            $('.load_encend').css('border-color','#66b700c4').val(res.encend)
-            $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
-            $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
-            $('.load_apag').css('border-color','#66b700c4').val(res.apag)
-            $('.load_registro_manual').css('border-color','#66b700c4').val(res.registro_manual)
-            $('.load_horometro').css('border-color','#66b700c4').val(res.horometro)
-            $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
-            $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
-            $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
-            $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
+            $('.load_encend').val(res.encend)
+            $('.load_despeg').val(res.despeg)
+            $('.load_aterriz').val(res.aterriz)
+            $('.load_apag').val(res.apag)
+            $('.load_registro_manual').val(res.registro_manual)
+            $('.load_horometro').val(res.horometro)
+            $('.load_ind_vuelo').val(res.ind_vuelo)
+            $('.load_toque_desp').val(res.toque_desp)
+            $('.load_low_go').val(res.low_go)
+            $('.load_ciclos_tren').val(res.ciclos_tren)
             $('.load_id_mision').val(res.id)
 
-            $(".load_en_apoyo_A2").css('border-color','#66b700c4').val(res.en_apoyo_A2).trigger('change')
-            $('.load_descripcion_A2').css('border-color','#66b700c4').val(res.descripcion_A2)
+            $(".load_en_apoyo_A2").val(res.en_apoyo_A2).trigger('change')
+            $('.load_descripcion_A2').val(res.descripcion_A2)
             
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
@@ -1173,6 +1340,7 @@
                         $("#v_trip").append('<option></option>');
                         $.each(res,function(key,value){
                             $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            $("#n_vuelo").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
                         });
                     }
                 }); 
@@ -1181,13 +1349,13 @@
         function datos_tripulacion(res) {
             $.each(res, function (key, value){
             $('#B1_data').append(
-                "<tr id='delete_b1_tripulacion"+value.id+"'>\
+                "<tr id='delete_b1"+value.id+"'>\
                 <td style='padding-left: 20px;'>"+value.v_trip+"</td>\
-                <td style='padding-left: 20px;'>"+value.grado_nombre+"</td>\
+                <td style='padding-left: 20px;'>"+value.grado_nombre_data+"</td>\
                 <td style='padding-left: 20px;'>"+value.cedula+"</td>\
-                <td style='padding-left: 20px;'>"+value.funcion+"</td>\
-                <td style='padding-left: 20px;'></td>\
-                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_b1_tripulacion'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button><button value="+value.id+" style='background:grey;' class='btn btn-danger copy_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='fa fa-copy'></i></button></td>\
+                <td style='padding-left: 20px;'>"+value.codigo_funcion+"</td>\
+                <td style='padding-left: 20px;'>"+value.hv+"</td>\
+                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_B1_trip'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_b1_trip' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button><button value="+value.id+" style='background:grey;' class='btn btn-danger copy_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='fa fa-copy'></i></button></td>\
                 </tr>");
             })
         }
@@ -1195,17 +1363,8 @@
             
             //GUARDAR CONSUMIBLES A1 MISION
             let misionIDHV = response
-            var loop = $('input[name="HV[]"]').length
-            var HVData = []
             var TipoAtr = []
             var cantidadAtr = []
-
-            $("input[name='HV[]']").each(function() {
-                HVData.push({
-                    HVData:$(this).val(),
-                });
-            });
-            
             $("select[name='tipo_aterrizaje[]']").find(":selected").each(function() {
                 var dato = $(this).text()
                 var datos = dato.split(" - ")
@@ -1236,24 +1395,6 @@
             
 
             console.log(HVAterrizajeData)
-            
-            //GUARDAR CONSUMIBLES
-            // $.ajax({
-            // url:"{{ route('store_a1_consumibles') }}",
-            // method:'POST',
-            // data:{
-            //     consumiblesDATA: consumiblesDATA,
-            //     },
-            //     success:function(response){
-            //         if(response.success){
-            //             console.log(response)
-            //             $("#newinput").remove();
-            //         }
-            //     },
-            //     error:function(error){
-            //         console.log(error)
-            //     }
-            // });
             
         }
         function calculateTime() {
@@ -1298,6 +1439,86 @@
         }
         $(".calculateTime").change(calculateTime);
         calculateTime();
+        $('.sendingData').keyup(function () {
+            $('.sameData').val($(this).val());
+        });
+        
+        function edit_B1(res) {
+            
+            $('.load_id_trip').val(res.id)
+
+            setTimeout(function() { 
+                $(".funcion").val(res.funcion).trigger('change')
+            }, 1200);
+            setTimeout(function() { 
+                $(".grado_nombre").val(res.grado_nombre_id).trigger('change')
+            }, 1600);
+                           
+            $('.tipo_despegue').val(res.tipo_despegue).trigger('change')
+
+            $(".v_trip").val(res.v_trip).trigger('change')
+
+            $('.codigo_trip').val(res.COD)
+            $('.load_registro_hv').val(res.hv)
+            $('.load_cedula_empleado').val(res.cedula)
+
+            $('.edit_input_b1').prop('hidden', false);
+            $('.add_edit_b1_input').prop('hidden', true);
+            
+        }
+        function update_B1(){
+            $(".actualizar_b1").click(function() {
+                $.ajax({
+                    url:"{{ route('actualizar_b1') }}",
+                    method:'POST',
+                    data:{
+                        id:$(".load_id_trip").val(),
+                        ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                        fam0001_id: id_fam0001,
+                        fam0001_a1_mision_id: $('.v_trip').val(),
+                        v_trip: $('.v_mision').val(),
+                        //
+                        grado_nombre_id: $('.grado_nombre').val(),
+                        grado_nombre_data: $('.grado_nombre').find(":selected").text(),
+                        funcion: $('.funcion').val(),
+                        codigo_funcion: $('.funcion').find(":selected").text(),
+                        //
+                        cedula: $('.cedula_empleado').val(),
+                        tipo_despegue: $('.tipo_despegue').val(),
+                        COD:$('.codigo_trip').val(),
+                        HV:$('.load_registro_hv').val(),
+                        completado: "paso3",
+                    }, 
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response){
+                        if(response){
+                            console.log(response)
+                            // misionID = $(".load_id_mision").val()
+                            // guardarConsumo(misionID);
+                            cleanB1()
+                            $('.edit_input_b1').prop('hidden', true);
+                            $('.add_edit_b1_input').prop('hidden', false);
+                            alert('Actualziado correctamente')
+                        }
+                    }
+                });
+            });
+        }
+        function updateClean_B1(){
+            $(".update_b1_clean").click(function() {
+                cleanB1()
+                $('.edit_input_b1').prop('hidden', true);
+                $('.add_edit_b1_input').prop('hidden', false);
+            });
+        }
+        function updateClean_A1(){
+            $(".update_A1_clean").click(function() {
+                cleanA1()
+                $('.edit_input').prop('hidden', true);
+                $('.add_edit_input').prop('hidden', false);
+            });
+        }
         
     });
 </script>
