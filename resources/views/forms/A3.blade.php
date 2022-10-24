@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <h6 style="font-weight: bold;">EN APOYO A</h6>
-                    <input readonly="true" name="apoyo_carga" type="text" class="form-control apoyo_carga load_apoyo_carga" style="text-transform: uppercase"> 
+                    <input readonly="true" name="apoyo_carga" type="text" class="form-control apoyo_carga load_apoyo_carga blackInReadOnly" style="text-transform: uppercase"> 
                 </div>
             </div>
             <div class="col-sm-2">
@@ -144,8 +144,8 @@
         <div  class="pull-right">
             <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a3 add_edit_carga_input">Agregar Carga</button>
             <div>
-                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input_carga update_carga_clean">X</button>
-                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input_carga actualizar_carga">ACTUALIZAR</button>
+                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input_a3 update_b1_clean">X</button>
+                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input_a3 actualizar_b1">ACTUALIZAR</button>
             </div>
             <input hidden="true" name="id_trip" type="text" class="form-control id_trip load_id_trip"> 
         </div>
@@ -163,7 +163,8 @@
                         {{-- <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th> --}}
                         <th class="text-uppercase font-weight-bolder"><h6>Nº VUELO</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>EN APOYO A</h6></th>
-                        <th class="text-uppercase font-weight-bolder"><h6>CARGA TOTAL PESO/VOL</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>TOTAL PESO(Kg)</h6></th>
+                        <th class="text-uppercase font-weight-bolder"><h6>TOTAL VOL(m³)</h6></th>
                         <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                     </tr>
                 </thead>

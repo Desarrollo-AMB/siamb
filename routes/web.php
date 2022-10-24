@@ -69,11 +69,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('editar_a1_mision',         [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
     Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');  
     Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');  
+    
     Route::post('codigos_mision_json',      [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json'); 
     Route::post('tripulante_funcion',       [FormaFAMController::class, 'tripulante_funcion'])->name('tripulante_funcion'); 
     Route::post('data_vuelo',               [FormaFAMController::class, 'data_vuelo'])->name('data_vuelo'); 
     Route::post('data_v_trip',              [FormaFAMController::class, 'data_v_trip'])->name('data_v_trip'); 
     Route::post('store_b1',                 [FormaFAMController::class, 'store_b1'])->name('store_b1'); 
+    Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje'); 
     Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json'); 
     Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo'); 
     Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1'); 
@@ -81,7 +83,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('delete_b1',                [FormaFAMController::class, 'delete_b1'])->name('delete_b1');  
     
     Route::post('store_a3',                 [FormaFAMController::class, 'store_a3'])->name('store_a3'); 
-   
+    Route::post('delete_a3',                [FormaFAMController::class, 'delete_a3'])->name('delete_a3');  
+    Route::post('editar_a3',                [FormaFAMController::class, 'editar_a3'])->name('editar_a3'); 
+    
 });
 
 Route::get('no_authorize', function () {

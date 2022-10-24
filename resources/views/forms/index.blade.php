@@ -52,7 +52,7 @@
                                             </li>
                                             <li>
                                                 <a href="#address" data-toggle="tab">
-                                                    <div class="icon-circle">
+                                                    <div class="icon-circle step_four_color">
                                                         <i class="ti-package"></i>
                                                     </div>
                                                     <p style="font-size:11px; color: #707885">A3 - DATOS DE CARGA Y PASAJEROS</p>
@@ -237,7 +237,6 @@
             $('.en_apoyo_A2').val('').trigger('change');
             $('.descripcion_A2').val('');
         }
-
         //LIMPIAR B1
         function cleanB1() {
             $('.v_trip').val('').trigger('change');
@@ -255,6 +254,25 @@
             $(".cedula_empleado").val('')
             $('.codigo_trip').val('')
             $('.load_registro_hv').val('')
+        }
+        //LIMPIAR A3
+        function cleanA3() {
+            $('.n_vuelo').val('').trigger('change')
+            $('.apoyo_carga').val('')
+            $('.pesocargaTotal').val('')
+            $('.volCargaTotal').val('')
+            $(".seca").val('')
+            $(".liquida").val('')
+            $(".comb").val('')
+            $('.ammto').val('')
+            $('.tox_pel').val('')
+            $(".mil").val('')
+            $(".gob").val('')
+            $('.no_gob').val('')
+            $('.civil').val('')
+            $('.cant_animales').val('')
+            $('.carga').val('')
+            $('.pers').val('')
         }
         
         var id_fam0001;
@@ -376,7 +394,6 @@
                             if (A1Steps.length>0) {
                                 $(".step_two_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
                                 
-                                data_vuelos(id_fam0001);
                                 var counter = 1;
                                 $.each(A1Steps, function (key, value){
                                 $('#A1_data').append(
@@ -474,7 +491,7 @@
                                                 cleanA1()
                                                 $('.edit_input').prop('hidden', true);
                                                 $('.add_edit_input').prop('hidden', false);
-                                                alert('Se actualizo correctamente')
+                                                alert('Se actualizó correctamente')
                                             }
                                         }
                                     });
@@ -521,8 +538,6 @@
                             if (B1Steps.length>0) {
                                 $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
                                 datos_tripulacion(B1Steps)
-                                console.log(id_fam0001)
-
                                 //PASO #3 - EDITAR TRIPULACION
                                 $(".editar_B1_trip").click(function() {
                                     var id_edit = $(this).val();
@@ -547,7 +562,6 @@
                                 update_B1()
                                 //PASO #3 - BOTON LIMPIAR TRIPULACION
                                 updateClean_B1()
-
                                 //PASO #3 - ELIMINAR TRIPULACION
                                 $(".delete_b1_trip").click(function() {
                                     var id = $(this).val();
@@ -567,7 +581,45 @@
                                         }
                                     });
                                 });
+                                data_vuelos(id_fam0001);
 
+                            }
+
+                            //CARGAR PASO 4
+                            let A3Steps = response.A3_data
+                            if (A3Steps.length>0) {
+                                $(".step_four_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
+                                datos_aterrizaje(A3Steps)
+                                //PASO #4 - EDITAR TRIPULACION
+                                    //edit_A3()
+                                //PASO #4 - UPDATE TRIPULACION
+                                    //update_A3()
+                                //PASO #4 - DELETE CARGA
+                                $(".borrar_A3").click(function() {
+                                    var id = $(this).val();
+                                    dalete_A3(id)
+                                });
+                                 //PASO #4 EDITAR CARGA
+                                $(".editar_A3").click(function() {
+                                    console.log('editandoo')
+                                    var id_edit = $(this).val();
+                                    $.ajax({
+                                        url:"{{ route('editar_a3') }}",
+                                        method:'POST',
+                                        data:{id:id_edit},
+                                        cache: false,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response){
+                                                let res = response.data[0]
+                                                edit_A3(res) 
+                                            }
+                                            else{
+                                                alert('Fallo en la peticion con el servidor')
+                                            }
+                                        }
+                                    });
+                                });
                             }
                             
                         }
@@ -631,7 +683,6 @@
                             $('#stepInputDataNext').prop('hidden', false);
 
                             $(".step_one_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                              
                         }
                     },
                     error:function(error){
@@ -743,7 +794,7 @@
                             cleanA1()
                             $("#A1_data tr").remove();
                             $(".step_two_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                                
+                            alert('Mision Registrada Correctamente')   
                             //GUARDAR CONSUMIBLES
                             let misionID = response.A1_id[0].id;
                             guardarConsumo(misionID);
@@ -849,7 +900,7 @@
                                             cleanA1()
                                             $('.edit_input').prop('hidden', true);
                                             $('.add_edit_input').prop('hidden', false);
-                                            alert('Mision Actualziada correctamente')
+                                            alert('Misión Actualizada correctamente')
                                         }
                                     }
                                 });
@@ -1001,7 +1052,7 @@
                 $.ajax({
                     type:'POST',
                     url:'{{ route("datos_empleado_vuelo") }}',
-                    data:{"id" : id },
+                    data:{"id":id},
                     success:function(res){
                         let emp = res.data[0]
                         $(".load_cedula_empleado").text(emp.empleado.cedula)
@@ -1019,7 +1070,7 @@
                 console.log('no puedes guardar datos vacios')
             }else{
                 //ENVIAR
-                // guardar_HV_Aterrizajes(pass_mision_id)
+                let misionID = $('.v_trip').val()
                 $.ajax({
                 url:"{{ route('store_b1') }}",
                 method:'POST',
@@ -1045,8 +1096,10 @@
                         if(response.success){
                             cleanB1()
                             let b1_data = response.data
-                            console.log(b1_data)
                             datos_tripulacion(b1_data)
+
+                            //GUARDAR ATERRIZAJES
+                            guardarAterrizajes(misionID);
 
                             $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
                             alert('Tripulación registrada Exitosamente!')
@@ -1054,7 +1107,6 @@
                         if (response.error) {
                             let b1_data_error = response.data
                             datos_tripulacion(b1_data_error)
-
                             alert('Un solo tripulante puede tener la funcion de PILOTO en este vuelo')
                         }
                         //PASO #3 - EDITAR TRIPULACION
@@ -1085,7 +1137,6 @@
                         //PASO #3 - ELIMINAR TRIPULACION
                         $(".delete_b1_trip").click(function() {
                             var id = $(this).val();
-                            console.log(id)
                             $.ajax({
                                 url:"{{ route('delete_b1') }}",
                                 method:'POST',
@@ -1140,32 +1191,60 @@
                     ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
                     fam0001_id: id_fam0001,
                     fam0001_a1_mision_id: $('.n_vuelo').val(),
-
                     n_vuelo: $('.n_vuelo').val(),
                     apoyo_carga: $('.apoyo_carga').val(),
-
                     pesocargaTotal: $('.pesocargaTotal').val(),
                     volCargaTotal: $('.volCargaTotal').val(),
-
                     seca: $('.seca').val(),
                     liquida: $('.liquida').val(),
                     comb: $('.comb').val(),
                     ammto: $('.ammto').val(),
                     tox_pel: $('.tox_pel').val(),
-
                     mil: $('.mil').val(),
                     gob: $('.gob').val(),
                     no_gob: $('.no_gob').val(),
                     civil: $('.civil').val(),
-
                     cant_animales: $('.cant_animales').val(),
                     carga: $('.carga').val(),
                     pers: $('.pers').val(),
-
                     completado: "paso4",
                     },
                     success:function(response){
-                        console.log(response)
+                        $(".step_four_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
+                        $("#A3_data tr").remove();
+                        cleanA3()
+                        let A3_data = response.data
+                        datos_aterrizaje(A3_data)
+
+                        alert('Carga registrada correctamente!')
+
+                        //PASO #4 - DELETE CARGA
+                        $(".borrar_A3").click(function() {
+                            var id = $(this).val();
+                            dalete_A3(id)
+                        });
+                        //PASO #4 EDITAR CARGA
+                        $(".editar_A3").click(function() {
+                            console.log('editandoo')
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_a3') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_A3(res) 
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                        });
+                        
                     },
                     error:function(error){
                         console.log(error)
@@ -1307,24 +1386,24 @@
                 });
             } 
             console.log(consumiblesDATA)
-            
-            //GUARDAR CONSUMIBLES
-            $.ajax({
-            url:"{{ route('store_a1_consumibles') }}",
-            method:'POST',
-            data:{
-                consumiblesDATA: consumiblesDATA,
-                },
-                success:function(response){
-                    if(response.success){
-                        console.log(response)
-                        $("#newinput").remove();
+            if (loop>0) {
+                //GUARDAR CONSUMIBLES
+                $.ajax({
+                url:"{{ route('store_a1_consumibles') }}",
+                method:'POST',
+                data:{
+                    consumiblesDATA: consumiblesDATA,
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $("#newinput").remove();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
                     }
-                },
-                error:function(error){
-                    console.log(error)
-                }
-            });
+                });
+            }
             
         }
         function data_vuelos(fam0001_id) {
@@ -1338,9 +1417,13 @@
                         let data = res[0]
                         $("#v_trip").empty();
                         $("#v_trip").append('<option></option>');
+
+                        $("#n_vuelo").empty();
+                        $("#n_vuelo").append('<option></option>');
+
                         $.each(res,function(key,value){
                             $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
-                            $("#n_vuelo").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
                         });
                     }
                 }); 
@@ -1359,9 +1442,8 @@
                 </tr>");
             })
         }
-        function guardar_HV_Aterrizajes(response) {
-            
-            //GUARDAR CONSUMIBLES A1 MISION
+        function guardarAterrizajes(response) {
+            //GUARDAR ATERRIZAJES A1 MISION
             let misionIDHV = response
             var TipoAtr = []
             var cantidadAtr = []
@@ -1380,21 +1462,36 @@
                 });
             });
 
-            var HVAterrizajeData = []
+            var loop = $('input[name="cantidad_atr[]"]').length
+            var aterrizajeData = []
             for (let index = 0; index < loop; index++) {
-                HVAterrizajeData.push({
+                aterrizajeData.push({
                     ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                     fam0001_id:id_fam0001,
                     fam0001_a1_mision_id:misionIDHV,
-                    COD:$('.codigo_trip').val(),
-                    HV: HVData[index].HVData,
                     TIP_ATERRIZAJE: TipoAtr[index] === undefined?null:TipoAtr[index].TipoAtr,
                     CANTIDAD:  cantidadAtr[index] === undefined?null:cantidadAtr[index].cantidadAtr
                 });
             } 
-            
-
-            console.log(HVAterrizajeData)
+  
+            console.log(aterrizajeData)
+            //GUARDAR ATERRIZAJE
+            $.ajax({
+            url:"{{ route('store_aterrizaje') }}",
+            method:'POST',
+            data:{
+                aterrizajeData: aterrizajeData,
+                },
+                success:function(response){
+                    if(response.success){
+                        console.log(response)
+                        $("#operacionVuelo").remove();
+                    }
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            });
             
         }
         function calculateTime() {
@@ -1499,7 +1596,7 @@
                             cleanB1()
                             $('.edit_input_b1').prop('hidden', true);
                             $('.add_edit_b1_input').prop('hidden', false);
-                            alert('Actualziado correctamente')
+                            alert('Actualizado correctamente')
                         }
                     }
                 });
@@ -1519,7 +1616,56 @@
                 $('.add_edit_input').prop('hidden', false);
             });
         }
-        
+        function datos_aterrizaje(response){
+            $.each(response, function (key, value){
+            $('#A3_data').append(
+                "<tr id='delete_a3"+value.id+"'>\
+                <td style='padding-left: 20px;'>V"+value.n_vuelo+"</td>\
+                <td style='padding-left: 20px;'>"+value.apoyo_carga+"</td>\
+                <td style='padding-left: 20px;'>"+value.pesocargaTotal+"</td>\
+                <td style='padding-left: 20px;'>"+value.volCargaTotal+"</td>\
+                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_A3'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger borrar_A3' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                </tr>");
+            })
+        }
+        function dalete_A3(id){
+            $.ajax({
+                url:"{{ route('delete_a3') }}",
+                method:'POST',
+                data:{id:id},
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        cleanA3()
+                        $("#delete_a3"+id+"").remove();
+                        alert('eliminacion correcta')
+                    }
+                }
+            });
+        }
+        function edit_A3(res) {
+            
+            $('.n_vuelo').val(res.n_vuelo).trigger('change')
+            $('.apoyo_carga').val(res.apoyo_carga),
+            $('.pesocargaTotal').val(res.pesocargaTotal),
+            $('.volCargaTotal').val(res.volCargaTotal),
+            $('.seca').val(res.seca),
+            $('.liquida').val(res.liquida),
+            $('.comb').val(res.comb),
+            $('.ammto').val(res.ammto),
+            $('.tox_pel').val(res.tox_pel),
+            $('.mil').val(res.mil),
+            $('.gob').val(res.gob),
+            $('.no_gob').val(res.no_gob),
+            $('.civil').val(res.civil),
+            $('.cant_animales').val(res.cant_animales),
+            $('.carga').val(res.carga),
+            $('.pers').val(res.pers)
+            
+            $('.edit_input_a3').prop('hidden', false);
+            $('.add_edit_carga_input').prop('hidden', true);
+        }
     });
 </script>
 @endsection

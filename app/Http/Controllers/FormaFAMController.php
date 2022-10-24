@@ -22,6 +22,7 @@ use App\Models\CodigoDespegue;
 use App\Models\CodigoTipoMisionSiglas;
 use App\Models\CodigoAterrizaje;
 use App\Models\Fam0001A3CargaPasajeros;
+use App\Models\Fam0001B1TripulacionAterrizajes;
 
 use Illuminate\Http\Request;
 
@@ -80,10 +81,12 @@ class FormaFAMController extends Controller
         $headerData = Fam0001::get();
         $A1_data = Fam0001A1Mision::where('completado',"paso2")->get();
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->get();
+        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->get();
         return response()->json([
             "headerData"=>$headerData, 
             "A1_data"=>$A1_data,
             "B1_data"=>$B1_data,
+            "A3_data"=>$A3_data,
         ]);
     }
 
@@ -396,6 +399,34 @@ class FormaFAMController extends Controller
         }
 
     }
+
+    public function store_aterrizaje(Request $request)
+    {
+
+        $loop = count($request->aterrizajeData);
+
+        for ($i=0; $i < $loop; $i++) { 
+            $B1_aterrizajes = new Fam0001B1TripulacionAterrizajes;
+
+            $B1_aterrizajes->ov_ota_om = $request->aterrizajeData[$i]['ov_ota_om'];
+            $B1_aterrizajes->fam0001_id = $request->aterrizajeData[$i]['fam0001_id'];
+            $B1_aterrizajes->fam0001_a1_mision_id = $request->aterrizajeData[$i]['fam0001_a1_mision_id'];
+
+            $B1_aterrizajes->TIP_ATERRIZAJE = $request->aterrizajeData[$i]['TIP_ATERRIZAJE'];
+            $B1_aterrizajes->CANTIDAD = $request->aterrizajeData[$i]['CANTIDAD'];
+
+            $B1_aterrizajes->save();
+        
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $loop
+            ]
+        );
+    }
+
     public function editar_b1(Request $request)
     {
         $editTrip = Fam0001B1Tripulacion::where('id', $request->id)->get();
@@ -479,5 +510,26 @@ class FormaFAMController extends Controller
            
         
 
+    }
+
+    public function delete_a3(Request $request)
+    {
+        Fam0001A3CargaPasajeros::find($request->id)->delete();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
+            ]
+        );
+    } 
+
+    public function editar_a3(Request $request)
+    {
+        $editA3 = Fam0001A3CargaPasajeros::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $editA3,
+            ]
+        );
     }
 }
