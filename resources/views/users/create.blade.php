@@ -215,7 +215,7 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
+
         $('#table').on('click', '.confirm-asociar', function (event) {
             event.preventDefault();
             var codigo_empleado= $(this).data('id');
@@ -289,7 +289,7 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table2 );
+
         $('#table2').on('click', '.confirm-asociar2', function (event) {
             event.preventDefault();
             var codigo_empleado= $(this).data('id');

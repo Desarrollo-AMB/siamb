@@ -102,7 +102,6 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
 
     });
 </script>

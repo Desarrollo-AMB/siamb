@@ -97,8 +97,7 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
-
+     
         $('#table').on('click', '.confirm-delete' ,function (e) { 
             e.preventDefault(); 
             var url =$(this).data('target') ;

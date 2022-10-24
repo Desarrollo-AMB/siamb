@@ -109,6 +109,7 @@
                 }
             }
         });
+        
         $('.confirm-delete').on('click', function (event) {
             event.preventDefault();
             var idForm= $(this).attr('form-target');

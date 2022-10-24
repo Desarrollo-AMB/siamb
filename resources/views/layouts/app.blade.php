@@ -47,6 +47,8 @@
     <link href="{{ asset('css/siamb.css') }}" rel="stylesheet">
     @yield('styles')
     @stack('plugins-css')
+    <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset('vendor/jquery/jquery.validate.js') }}" type="text/javascript"></script>
 </head>
 <body class="g-sidenav-show  bg-gray-100 ">        
     @auth
@@ -65,7 +67,7 @@
         </div>
     @endif
     
-    <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" ></script>
+    
     <!--   Core JS Files   -->
     <script src="{{ asset('template/assets/js/core/popper.min.js') }}"></script>
     {{--<script src="{{ asset('template/assets/js/core/bootstrap.min.js') }}"></script>--}}
@@ -94,7 +96,7 @@
     
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}" ></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}" ></script>
-    <script src="{{ asset('vendor/jquery/jquery.validate.js') }}"></script>
+    
 
     
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}" ></script> 
