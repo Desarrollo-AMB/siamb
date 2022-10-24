@@ -44,7 +44,7 @@
                         <select name="codigo" class="form-control codigo load_codigo">
                         <option value=""></option>
                             @foreach($codigoMision as $data) 
-                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
+                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select>  
                     </div>
@@ -119,7 +119,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">REGISTRO MANUAL</small>
-                        <input readonly="true" name="registro_manual" type="text" class="form-control registro_manual load_registro_manual pasar_calculo" style="text-transform: uppercase"> 
+                        <input readonly="true" name="registro_manual" type="text" class="form-control registro_manual load_registro_manual pasar_calculo blackInReadOnly" style="text-transform: uppercase"> 
                     </div>
                 </div>
                 <div class="col-sm-4">

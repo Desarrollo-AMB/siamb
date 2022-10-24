@@ -63,7 +63,7 @@
             <div class="col-sm-3">
                 <div style="margin-bottom: 0;" class="form-group">
                     <small style="font-weight: bold;">CEDULA</small>
-                    <input readonly="true" name="cedula_empleado" type="text" class="form-control load_cedula_empleado cedula_empleado" style="text-transform: uppercase"> 
+                    <input readonly="true" name="cedula_empleado" type="text" class="form-control load_cedula_empleado cedula_empleado blackInReadOnly" style="text-transform: uppercase"> 
                 </div>
             </div>
         </div>
@@ -77,13 +77,13 @@
             <div class="col-sm-2">
                 <div style="margin-bottom: 0;" class="form-group">
                     <small style="font-weight: bold;">HV</small>
-                    <input  readonly="true" name="load_registro_hv" type="text" class="form-control load_registro_hv">    
+                    <input  readonly="true" name="load_registro_hv" type="text" class="form-control load_registro_hv blackInReadOnly">    
                 </div>
             </div>
             <div class="col-sm-3">
                 <div style="margin-bottom: 0;" class="form-group">
                     <small style="font-weight: bold;">CODIGO</small>
-                    <input  readonly="true" name="codigo_trip" type="text" class="form-control codigo_trip load_codigo_tripulacion">    
+                    <input  readonly="true" name="codigo_trip" type="text" class="form-control codigo_trip load_codigo_tripulacion blackInReadOnly">    
                 </div>
             </div>
         </div>
