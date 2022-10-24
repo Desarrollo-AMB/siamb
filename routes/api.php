@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\GraduacionController;
 use App\Http\Controllers\ApiController;
 
 /*
@@ -30,3 +31,11 @@ Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])-
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('sireh.personal.militar-noprof.data');
 
 Route::get('sireh/cargos/data', [PersonalController::class, 'cargosData'])->name('sireh.cargos.data');
+
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_comando', [GraduacionController::class, 'getOficialesComando'])->name('sireh.militar-noprof.graduacion.dataOficialesComando');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_medicina', [GraduacionController::class, 'getOficialesTecnicosMedicina'])->name('sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_salud', [GraduacionController::class, 'getOficialesTecnicosSalud'])->name('sireh.militar-noprof.graduacion.dataOficialesTecnicosSalud');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos', [GraduacionController::class, 'getOficialesTecnicos'])->name('sireh.militar-noprof.graduacion.dataOficialesTecnicos');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tropa', [GraduacionController::class, 'getOficialesTropa'])->name('sireh.militar-noprof.graduacion.dataOficialesTropa');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_asimilados', [GraduacionController::class, 'getOficialesAsimilados'])->name('sireh.militar-noprof.graduacion.dataOficialesAsimilados');
+Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tropa_profesional', [GraduacionController::class, 'getOficialesTropaProfesional'])->name('sireh.militar-noprof.graduacion.dataOficialesTropaProfesional');

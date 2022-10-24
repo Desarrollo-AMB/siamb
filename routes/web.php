@@ -9,6 +9,7 @@ use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\GraduacionController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,9 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/ubicaciones/edit/{id}', [PersonalController::class, 'editUbicacion'])->name('sireh.ubicaciones.edit');
     Route::post('/sireh/ubicaciones/update/{ubicacion}', [PersonalController::class, 'updateUbicacion'])->name('sireh.ubicaciones.update');
     Route::delete('/sireh/ubicaciones/delete/{ubicacion}', [PersonalController::class, 'destroyUbicacion'])->name('sireh.ubicaciones.destroy');
+
+    Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
+    Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
 });
 
 Route::group(['middleware' => ['auth']], function() {

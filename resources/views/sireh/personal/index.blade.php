@@ -110,7 +110,6 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
 
         $('#table').on('click', '.confirm-delete' ,function (e) { 
             e.preventDefault(); 
@@ -169,7 +168,7 @@
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
                         }
                     ).always(function (data) {
-                        console.log(data);
+                        //console.log(data);
                         $('#table').DataTable().ajax.reload(); 
                         Swal.fire({
                             title: 'Activado!',
