@@ -9,7 +9,9 @@ use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\PersonalController;
-use App\Http\Controllers\GraduacionController;
+use App\Http\Controllers\MilitarNoProf\GraduacionController;
+use App\Http\Controllers\MilitarNoProf\AscensosController;
+use App\Http\Controllers\MilitarNoProf\EgresosController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +70,11 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
+
+    Route::get('/sireh/personal-militar-noprof/ascensos', [AscensosController::class, 'index'])->name('sireh.personal-militar-noprof.ascensos');
+    Route::post('/sireh/personal-militar-noprof/ascender', [AscensosController::class, 'ascender'])->name('sireh.personal-militar-noprof.ascender');
+
+    Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
 });
 
 Route::group(['middleware' => ['auth']], function() {

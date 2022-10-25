@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalController;
-use App\Http\Controllers\GraduacionController;
+use App\Http\Controllers\MilitarNoProf\GraduacionController;
+use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\ApiController;
 
 /*
@@ -39,3 +40,10 @@ Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos', [Graduac
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tropa', [GraduacionController::class, 'getOficialesTropa'])->name('sireh.militar-noprof.graduacion.dataOficialesTropa');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_asimilados', [GraduacionController::class, 'getOficialesAsimilados'])->name('sireh.militar-noprof.graduacion.dataOficialesAsimilados');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tropa_profesional', [GraduacionController::class, 'getOficialesTropaProfesional'])->name('sireh.militar-noprof.graduacion.dataOficialesTropaProfesional');
+
+Route::get('sireh/personalmilitarnoprof/ascensos/alferez_6to_medicina', [AscensosController::class, 'getAlferez6toMedicina'])->name('sireh.militar-noprof.ascensos.dataAlferez6toMedicina');
+Route::get('sireh/personalmilitarnoprof/ascensos/alferez_5to_medicina', [AscensosController::class, 'getAlferez5toMedicina'])->name('sireh.militar-noprof.ascensos.dataAlferez5toMedicina');
+Route::get('sireh/personalmilitarnoprof/ascensos/alferez_5to_salud', [AscensosController::class, 'getAlferez5toSalud'])->name('sireh.militar-noprof.ascensos.dataAlferez5toSalud');
+Route::get('sireh/personalmilitarnoprof/ascensos/alferez', [AscensosController::class, 'getAlferez'])->name('sireh.militar-noprof.ascensos.dataAlferez');
+Route::get('sireh/personalmilitarnoprof/ascensos/cadete_3er', [AscensosController::class, 'getCadete3er'])->name('sireh.militar-noprof.ascensos.dataCadete3er');
+Route::get('sireh/personalmilitarnoprof/ascensos/cadete_2do', [AscensosController::class, 'getCadete2do'])->name('sireh.militar-noprof.ascensos.dataCadete2do');

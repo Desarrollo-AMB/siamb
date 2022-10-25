@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MilitarNoProf;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Empleado;
-use App\Models\TiposEmpleado;
-use App\Models\Ubicaciones;
 use App\Models\Nomina;
 use App\Models\DatosMilitares;
-use App\Models\GradosMilitares;
 use App\Models\Movimientos;
 
 class GraduacionController extends Controller

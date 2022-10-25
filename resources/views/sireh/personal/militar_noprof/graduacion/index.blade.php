@@ -38,7 +38,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal A Graduarse por Categoria</h5>
+                        <h5 class="mb-0">Personal a Graduarse por Categoria</h5>
                     </div>
                 </div>
             </div>
@@ -966,8 +966,6 @@
                         processData: false,
                         contentType: false,
                         success:function(res){
-
-                            console.log(res);
                             $("#fecha_ascenso",form).val('');
                             $("#fecha_resuelto",form).val('');
                             $("#numero_resuelto",form).val('');
@@ -986,7 +984,7 @@
                 Swal.fire(
                     {
                         title: 'Información!',
-                        text: 'Debe seleccionar un Graduando.',
+                        text: 'Debe seleccionar como minimo un (1) Graduando.',
                         icon: 'info',
                         timer: 5000,
                         showConfirmButton: true,
