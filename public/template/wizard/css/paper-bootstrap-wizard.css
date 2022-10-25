@@ -1286,7 +1286,7 @@ input[type="button"]:focus {
   color: #F3BB45;
 }
 .wizard-card[data-color="orange"] .wizard-navigation .progress-bar {
-  background-color: #F3BB45;
+  background-color: #00168C;
 }
 .wizard-card[data-color="red"] .picture:hover {
   border-color: #EB5E28;

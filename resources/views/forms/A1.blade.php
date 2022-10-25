@@ -224,7 +224,7 @@
         </div>
         <div class="card">
             <div class="table-responsive">
-              <table class="table align-items-center mb-0">
+              <table id="responsiveA1" class="table align-items-center mb-0">
                 <thead style="background: #e1e1e0;">
                     <tr>
                         <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>

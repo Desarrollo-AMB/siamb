@@ -35,6 +35,8 @@ return new class extends Migration
 
             $table->string('completado')->nullable();
 
+            $table->integer('user_id')->unsigned()->nullable();
+
             $table->timestamps();
         });
     }
