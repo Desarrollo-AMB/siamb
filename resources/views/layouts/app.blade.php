@@ -30,11 +30,11 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="../template/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../template/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{ asset('template/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
+    <link href="{{ asset('template/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{ asset('template/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+    
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('template/assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
 
@@ -47,6 +47,8 @@
     <link href="{{ asset('css/siamb.css') }}" rel="stylesheet">
     @yield('styles')
     @stack('plugins-css')
+    <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset('vendor/jquery/jquery.validate.js') }}" type="text/javascript"></script>
 </head>
 <body class="g-sidenav-show  bg-gray-100 ">        
     @auth
@@ -65,7 +67,7 @@
         </div>
     @endif
     
-    <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" ></script>
+    
     <!--   Core JS Files   -->
     <script src="{{ asset('template/assets/js/core/popper.min.js') }}"></script>
     {{--<script src="{{ asset('template/assets/js/core/bootstrap.min.js') }}"></script>--}}
@@ -94,7 +96,7 @@
     
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}" ></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}" ></script>
-    <script src="{{ asset('vendor/jquery/jquery.validate.js') }}"></script>
+    
 
     
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}" ></script> 

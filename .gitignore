@@ -29,3 +29,5 @@ Homestead.json
 /public/storage
 /public/uploads
 /public/fotos
+
+/storage/framework/cache/

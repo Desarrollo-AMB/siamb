@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DataTables;
-use Illuminate\Support\Str;
-use Config;
-use Illuminate\Validation\Rule;
+use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
@@ -25,6 +23,8 @@ use App\Models\Profesion;
 use App\Models\Nomina;
 use App\Models\DatosMilitares;
 use App\Models\EstudiosRealizados;
+use App\Models\Ciudades;
+use App\Models\GradosMilitares;
 
 class PersonalController extends Controller
 {
@@ -63,7 +63,7 @@ class PersonalController extends Controller
         $cargos = Cargos::all();
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
-        //dd($cargos, $universidades, $profesiones);
+
         return view('sireh.personal.ingreso', 
             compact(
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -95,12 +95,11 @@ class PersonalController extends Controller
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'.$codigo_empleado . '.' . $ext;
         
-                $path_foto = public_path('fotos/empleados/' . $file_name);
+                $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
-                //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))->save($path_foto);
+                Image::make($request->file('foto'))->save( public_path($path_foto));
             }else{
                 $path_foto = null;
             }
@@ -114,7 +113,7 @@ class PersonalController extends Controller
             $empleado->apellido1 = $request->apellido1;
             $empleado->apellido2 = $request->apellido2;
             $empleado->fecha_nacim = $request->fecha_nacim;
-            $empleado->sexo = $request->sexo;
+            $empleado->sexo = $request->genero;
             $empleado->edo_civil = $request->edo_civil;
             $empleado->situacion = 'I';
             $empleado->nivel_instruccion = $request->nivel;
@@ -129,6 +128,7 @@ class PersonalController extends Controller
             $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
             $empleado->estado = !empty($request->estado) ? $request->estado : null;
             $empleado->foto = $path_foto ? $path_foto :  null;
+            $empleado->correo = $request->correo;
             $empleado->save();
 
             $nomina = new Nomina;
@@ -139,8 +139,10 @@ class PersonalController extends Controller
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
             $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null; 
-            $empleado->tipo_ingreso = '1';
+            $nomina->tipo_ingreso = '1';
             $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
+            $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
             $nomina->save();
 
             if($request->contingente){
@@ -157,15 +159,171 @@ class PersonalController extends Controller
                 $estudio_realizado->universidad = $request->universidad;
                 $estudio_realizado->save();
             }
-            return redirect()->route('sireh.ingreso-personal.index')->with('status', 'Se ha ingresado al Personal');
-        } catch (\Exception $e) {
+            return redirect()->route('sireh.ingreso-personal.index')->with('success', 'Se ha ingresado al Personal');
+        } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
     }
 
-    public function empleadosInactivos(Request $request){
+    public function editIngresoPersonal($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
        
+        return view('sireh.personal.edit-ingreso', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+            )
+        );
+    }
+
+    public function updatePersonal(Empleado $empleado,Request $request){
+
+        $this->validate($request, 
+            [
+                'tipo_emp' => 'required',
+                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
+                'nombre1' => 'required',
+                'apellido1' => 'required',
+                'ubicacion' => 'required',
+            ],
+            [
+                'tipo_emp.required' => 'Tipo de empleado es requerido',
+                'nombre1.required' => 'El primer nombre es requerido',
+                'apellido1.required' => 'El primer apellido es requerido'
+            ]
+        );
+        try {
+            //$codigo_empleado = Empleado::max('codigo_empleado')+1;
+            if ($request->file("foto")){
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
+        
+                $path_foto = 'fotos/empleados/' . $file_name;
+                if(file_exists($path_foto)){
+                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                }
+                //$path = $request->file("foto")->store($path);
+                Image::make($request->file('foto'))->save( public_path($path_foto));
+            }else{
+                $path_foto = null;
+            }
+                                   
+            $empleado->cedula = $request->cedula;
+            $empleado->nacionalidad = $request->nacionalidad;
+            $empleado->nombre1 = $request->nombre1;
+            $empleado->nombre2 = $request->nombre2;
+            $empleado->apellido1 = $request->apellido1;
+            $empleado->apellido2 = $request->apellido2;
+            $empleado->fecha_nacim = $request->fecha_nacim;
+            $empleado->sexo = $request->genero;
+            $empleado->edo_civil = $request->edo_civil;
+
+            $empleado->nivel_instruccion = $request->nivel;
+            $empleado->telefono = $request->telefono;
+            $empleado->telefono_cel = $request->telefono_cel;
+            $empleado->telefono_ofi = $request->telefono_ofi;
+            $empleado->direccion = $request->direccion;
+            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
+            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
+            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
+            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
+            if ($path_foto) {
+                $empleado->foto = $path_foto ;
+            }
+            $empleado->correo = $request->correo;
+            $empleado->save();
+
+            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            $nomina->cedula = $empleado->cedula;
+            $nomina->tipo_emp = $request->tipo_emp;
+            $nomina->codigo_ubicacion = $request->ubicacion;
+            $nomina->fecha_ingreso = $request->fecha_ingreso;
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null; 
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
+            $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
+            $nomina->save();
+
+            if($request->contingente){
+                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+                $datos_militares->contingente = $request->contingente;
+                $datos_militares->save();
+            }
+            if( !empty($request->universidad) || !empty($request->profesion)){
+                EstudiosRealizados::updateOrCreate(
+                    ['codigo_empleado' => $empleado->codigo_empleado],
+                    [
+                        'nivel' => $request->nivel,
+                        'profesion' => $request->profesion,
+                        'universidad' => $request->universidad,
+                    ]
+                );
+            }
+            return redirect()->route('sireh.ingreso-personal.index')->with('success', 'Se ha actualizado los Datos de Ingreso de Personal');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Empleado  $empleado
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Empleado $empleado)
+    {
+        $empleado = Empleado::find($empleado->id);
+        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $nomina->delete();
+        $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $datos_militares->delete();
+        $estudios_realizados = EstudiosRealizados::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $estudios_realizados->delete();
+        $empleado->delete();
+
+        return redirect()->route('sireh.ingreso-personal.index')
+            ->with('success','Eliminado satisfactoriamente');
+    }
+
+    public function activarIngreso(Empleado $empleado){
+        try{
+            $empleado->situacion='A';
+            $empleado->save();
+            $nomina=Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
+            $nomina->situacion='A';
+            $nomina->save();
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    //Obtiene los empleados registrados aun sin activar el Ingreso, exclusivo por api para el Datatable 
+    public function empleadosInactivos(Request $request){
         $empleados = Empleado::where('empleados.situacion','I'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -184,7 +342,6 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
             'cargos.nombre_cargo as cargo',
             'grados_militares.descripcion as grado_militar',
-            
         );
         $datatable= Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal._actions')
@@ -192,8 +349,8 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
+    //Obtiene el personal militar, exclusivo por api para el Datatable 
     public function personalMilitar(Request $request){
-       
         $empleados = Empleado::where('empleados.situacion','A'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -217,8 +374,8 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
+    //Obtiene el personal Civil, exclusivo por api para el Datatable 
     public function personalCivil(Request $request){
-       
         $empleados = Empleado::where('empleados.situacion','A'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -242,8 +399,9 @@ class PersonalController extends Controller
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
+
+    //Obtiene el personal militar no profesional, exclusivo por api para el Datatable 
     public function personalMilitarNoProf(Request $request){
-       
         $empleados = Empleado::where('empleados.situacion','A'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -266,8 +424,9 @@ class PersonalController extends Controller
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
+
+    //Obtiene los empleados sin asociar Usuario, exclusivo por api para el Datatable 
     public function empleadosSinUser(Request $request){
-       
         $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -290,8 +449,8 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
+    //Obtiene los empleados que no son del componente Aviacion sin asociar Usuario, exclusivo por api para el Datatable 
     public function notEmpleadosSinUser(Request $request){
-       
         $empleados = EmpleadosOtroComponente::whereNull('user_id'); 
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','empleados_otro_componente.codigo_ubicacion');
         $empleados->select(
@@ -309,4 +468,112 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
+    public function auxiliares()
+    {
+        return view('sireh.auxiliares');
+    }
+
+    public function cargosIndex()
+    {
+        return view('sireh.cargos.index');
+    }
+
+    //Obtiene los cargos, exclusivo por api para el Datatable 
+    public function cargosData(Request $request){
+        $cargos = Cargos::select(
+            'id',
+            'codigo_cargo',
+            'nombre_cargo',
+            'situacion',
+            'tipo_cargo',
+        );
+        $datatable= Datatables::of($cargos)
+            ->addColumn('actions', 'sireh.cargos._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createCargo()
+    {
+        $clasificacion = Config::get('constants.clasificacion_cargo');
+        return view('sireh.cargos.create',compact('clasificacion'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCargo(Request $request)
+    {
+        $this->validate($request, [
+            'codigo_cargo' => 'required|unique:cargos,codigo_cargo',
+            'nombre_cargo' => 'required',
+            'tipo_cargo' => 'required'
+        ]);
+
+        $input = $request;
+        $cargo = Cargos::create($input);
+            
+        return redirect()->route('sireh.cargos')
+            ->with('success','Cargo creado satisfactoriamente');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editCargo($id)
+    {
+        $cargo = Cargos::find($id);
+        $clasificacion = Config::get('constants.clasificacion_cargo');
+        return view('sireh.cargos.edit',compact('cargo', 'clasificacion'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCargo(Request $request, $id)
+    {
+
+        $this->validate($request, [
+            'nombre_cargo' => [
+                'required'
+            ],
+        ]);
+
+        $cargo = Cargos::find($id);
+        $cargo->nombre_cargo = strtolower($request->input('nombre_cargo'));
+        $cargo->tipo_cargo = $request->input('tipo_cargo');
+        $cargo->situacion = $request->input('situacion');
+        $cargo->save();
+
+        return redirect()->route('sireh.cargos')
+            ->with('success','Cargo actualizado con éxito');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyCargo($id)
+    {
+        //\DB::table("cargos")->where('id',$id)->delete();
+        return redirect()->route('sireh.cargos')
+            ->with('success','Cargo eliminado con éxito');
+    }
 }

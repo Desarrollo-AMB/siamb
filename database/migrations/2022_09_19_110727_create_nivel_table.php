@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('codigo',2)->unique()->nullable();
             $table->string('descripcion',35)->nullable();
             $table->string('nivel_instruccion',2)->nullable();
+            $table->integer('is_deleted')->default(0);
+            $table->string('user_created',100)->nullable();
+            $table->string('user_updated',100)->nullable();
+            $table->timestamps();
         });
     }
 

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class EstudiosRealizados extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        '*',
+    ];
+
+    public $timestamps = false;
+    
 }

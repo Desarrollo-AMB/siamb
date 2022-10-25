@@ -1,14 +1,18 @@
 
-    <a href="{-- route('sireh.empleados.edit', $id) --}" class="btn btn-sm btn-primary"
-        title="Editar">
-        <i class="fa fa-edit"></i>
+    <a href="#" class="mx-3 activar-ingreso" data-bs-toggle="tooltip" data-bs-original-title="Activar" title="Activar"
+        data-target="{{ route('sireh.ingreso-personal.activar', $id) }}"
+    >
+        <i class="fas fa-arrow-up text-success" aria-hidden="true"></i>
     </a>
-    <a href="#" class="btn btn-sm btn-danger confirm-delete" title="Eliminar"
-        onclick="event.preventDefault();" form-target="delete-form-{{ $id }}">
-        <i class="fa fa-times"></i>
+    
+    <a href="{{ route('sireh.ingreso-personal.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Editar" title="Editar"
+    >
+        <i class="fas fa-edit text-primary" aria-hidden="true"></i>
     </a>
-    <form id="delete-form-{{ $id }}" action="{-- route('sireh.empleados.destroy', $id) --}"
-        method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
+
+    <a href="#" class="mx-3 confirm-delete"  title="Eliminar"
+        data-target="{{ route('sireh.ingreso-personal.destroy', $id) }}"
+    >
+        <i class="fas fa-trash"></i>
+    </a>
