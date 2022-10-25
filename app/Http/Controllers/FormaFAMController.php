@@ -79,9 +79,9 @@ class FormaFAMController extends Controller
     public function steps()
     {
         $headerData = Fam0001::get();
-        $A1_data = Fam0001A1Mision::where('completado',"paso2")->get();
-        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->get();
-        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->get();
+        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('user_id',auth()->id())->get();
+        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->where('user_id',auth()->id())->get();
+        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('user_id',auth()->id())->get();
         return response()->json([
             "headerData"=>$headerData, 
             "A1_data"=>$A1_data,
@@ -103,6 +103,9 @@ class FormaFAMController extends Controller
         $fam0001->base_estacion = $request->base_estacion;
         $fam0001->jefe_maquina = $request->jefe_maquina;
         $fam0001->completado = $request->completado;
+        
+        $fam0001->user_id = auth()->id();
+
         $fam0001->save();
 
         $dataFam001 = [
@@ -115,7 +118,7 @@ class FormaFAMController extends Controller
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $dataFam001
+                'data' => $dataFam001,
             ]
         );
     }
@@ -163,6 +166,8 @@ class FormaFAMController extends Controller
         $A1->descripcion_A2 = $request->descripcion_A2;
     
         $A1->completado = $request->completado;
+
+        $A1->user_id = auth()->id();
         $A1->save();
 
         $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
@@ -312,6 +317,8 @@ class FormaFAMController extends Controller
         $B1_funcion = Fam0001B1Tripulacion::select('codigo_funcion')
             ->where('v_trip',$request->v_trip)
             ->where('codigo_funcion','P')
+            ->where('completado','<>','completado')
+            ->where('user_id',auth()->id())
             ->get();
 
         if (count($B1_funcion)>0) {
@@ -345,7 +352,7 @@ class FormaFAMController extends Controller
                 $B1->hv = $request->HV;
                 
                 $B1->completado = $request->completado;
-        
+                $B1->user_id = auth()->id();
                 $B1->save();
                 
                 $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
@@ -382,7 +389,7 @@ class FormaFAMController extends Controller
             $B1->hv = $request->HV;
             
             $B1->completado = $request->completado;
-    
+            $B1->user_id = auth()->id();
             $B1->save();
             
             $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
@@ -465,51 +472,48 @@ class FormaFAMController extends Controller
     public function store_a3(Request $request)
     {
 
-        $B1 = new Fam0001A3CargaPasajeros;
+        $A3 = new Fam0001A3CargaPasajeros;
 
-        $B1->ov_ota_om = $request->ov_ota_om;
-        $B1->fam0001_id = $request->fam0001_id;
-        $B1->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
+        $A3->ov_ota_om = $request->ov_ota_om;
+        $A3->fam0001_id = $request->fam0001_id;
+        $A3->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
         
-        $B1->n_vuelo = $request->n_vuelo;
-        $B1->apoyo_carga = $request->apoyo_carga;
+        $A3->n_vuelo = $request->n_vuelo;
+        $A3->apoyo_carga = $request->apoyo_carga;
        
-        $B1->pesocargaTotal = $request->pesocargaTotal;
-        $B1->volCargaTotal = $request->volCargaTotal;
+        $A3->pesocargaTotal = $request->pesocargaTotal;
+        $A3->volCargaTotal = $request->volCargaTotal;
 
-        $B1->seca = $request->seca;
-        $B1->liquida = $request->liquida;
-        $B1->comb = $request->comb;
-        $B1->ammto = $request->ammto;
-        $B1->tox_pel = $request->tox_pel;
+        $A3->seca = $request->seca;
+        $A3->liquida = $request->liquida;
+        $A3->comb = $request->comb;
+        $A3->ammto = $request->ammto;
+        $A3->tox_pel = $request->tox_pel;
 
-        $B1->mil = $request->mil;
-        $B1->gob = $request->gob;
-        $B1->no_gob = $request->no_gob;
-        $B1->civil = $request->civil;
+        $A3->mil = $request->mil;
+        $A3->gob = $request->gob;
+        $A3->no_gob = $request->no_gob;
+        $A3->civil = $request->civil;
 
-        $B1->cant_animales = $request->cant_animales;
-        $B1->carga = $request->carga;
-        $B1->pers = $request->pers;
+        $A3->cant_animales = $request->cant_animales;
+        $A3->carga = $request->carga;
+        $A3->pers = $request->pers;
         
-        $B1->completado = $request->completado;
+        $A3->completado = $request->completado;
+        $A3->user_id = auth()->id();
 
-        $B1->save();
+        $A3->save();
         
-        $B1_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->fam0001_id)->get();
-        // $B1_id = Fam0001B1Tripulacion::select('id')->where('id',$B1->id)->get();
+        $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->fam0001_id)->get();
+        // $A3_id = Fam0001B1Tripulacion::select('id')->where('id',$A3->id)->get();
 
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $B1_data,
-                //'B1_id' => $B1_id
+                'data' => $A3_data,
             ]
         );
-           
-        
-
     }
 
     public function delete_a3(Request $request)
@@ -532,4 +536,60 @@ class FormaFAMController extends Controller
             ]
         );
     }
+    public function actualizar_a3(Request $request)
+    {
+        $updateA3 = Fam0001A3CargaPasajeros::where('id', $request->id)->update($request->except('id'));
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'updateA3' => $updateA3
+            ]
+        );
+    } 
+    public function pasoFinal(Request $request)
+    {
+        $id_fam0001 = $request->id_fam0001;
+        $get_data = Fam0001A1Mision::where('fam0001_id',$id_fam0001)->get();
+        $count_date = count($get_data);
+        $total_registro_manual = 0; 
+        $total_ind_vuelo = 0; 
+        $total_toque_desp = 0; 
+        $total_low_go = 0; 
+        $total_aterriz = 0; 
+        $total_ciclos_tren = 0; 
+        $total_consumibles = 0; 
+        for ($i=0; $i < $count_date; $i++) { 
+            $total_registro_manual += $get_data[$i]['registro_manual'];
+            $total_ind_vuelo += $get_data[$i]['ind_vuelo'];
+            $total_toque_desp += $get_data[$i]['toque_desp'];
+            $total_low_go += $get_data[$i]['low_go'];
+            //$total_aterriz += $get_data[$i]['total_aterriz'];
+            $total_ciclos_tren += $get_data[$i]['ciclos_tren'];
+            //$total_consumibles += $get_data[$i]['total_consumibles'];
+        }
+        $FAM0001 = Fam0001::where('completado',"paso1")->where('user_id',auth()->id())->update([
+            'total_registro_manual' => $total_registro_manual, 
+            'total_ind_vuelo' => $total_ind_vuelo, 
+            'total_toque_desp' => $total_toque_desp, 
+            'total_low_go' => $total_low_go, 
+            'total_aterriz' => $total_aterriz, 
+            'total_ciclos_tren' => $total_ciclos_tren, 
+            //'total_consumibles' => $total_consumibles, 
+            'completado' => 'completado',
+        ]);
+        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('user_id',auth()->id())->update([
+            'completado' => 'completado'
+        ]);
+        $B1_data = Fam0001B1Tripulacion::where('completado',"paso3")->where('user_id',auth()->id())->update(['completado' => 'completado']);
+        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('user_id',auth()->id())->update(['completado' => 'completado']);
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'FAM0001' => $FAM0001,
+                'A1_data' => $A1_data,
+                'B1_data' => $B1_data,
+                'A3_data' => $A3_data
+            ]
+        );
+    } 
 }

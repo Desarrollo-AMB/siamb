@@ -144,10 +144,10 @@
         <div  class="pull-right">
             <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a3 add_edit_carga_input">Agregar Carga</button>
             <div>
-                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input_a3 update_b1_clean">X</button>
-                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input_a3 actualizar_b1">ACTUALIZAR</button>
+                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input_a3 update_a3_clean">X</button>
+                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input_a3 actualizar_A3">ACTUALIZAR</button>
             </div>
-            <input hidden="true" name="id_trip" type="text" class="form-control id_trip load_id_trip"> 
+            <input hidden="true" name="id_a3" type="text" class="form-control id_a3 load_id_a3"> 
         </div>
     </div>
     <hr>

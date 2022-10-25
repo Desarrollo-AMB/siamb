@@ -25,6 +25,7 @@ class Fam0001B1Tripulacion extends Model
         'COD',
         'hv',
         'completado',
+        'user_id'
     ];
 
     public function funcionTrip() {

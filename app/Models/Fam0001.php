@@ -20,6 +20,13 @@ class Fam0001 extends Model
         'base_estacion',
         'jefe_maquina',
         'completado',
+        'total_registro_manual',
+        'total_ind_vuelo',
+        'total_toque_desp',
+        'total_low_go',
+        'total_aterriz',
+        'total_ciclos_tren',
+        'total_consumibles',
         'user_id'
     ];
 }
