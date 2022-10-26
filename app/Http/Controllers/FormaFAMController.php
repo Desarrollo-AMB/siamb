@@ -23,6 +23,7 @@ use App\Models\CodigoTipoMisionSiglas;
 use App\Models\CodigoAterrizaje;
 use App\Models\Fam0001A3CargaPasajeros;
 use App\Models\Fam0001B1TripulacionAterrizajes;
+use DataTables;
 
 use Illuminate\Http\Request;
 
@@ -32,6 +33,26 @@ class FormaFAMController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function fam0001()
+    {
+        $fam0001 = Fam0001::with('aeronaves')->get();
+        return view('forms.FAM0001', compact('fam0001'));
+    }
+    // public function getFam0001(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = Fam0001::latest()->get();
+    //         return Datatables::of($data)
+    //             ->addIndexColumn()
+    //             ->addColumn('action', function($row){
+    //                 $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+    //                 return $actionBtn;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+    // }
 
     public function index()
     {
@@ -277,7 +298,7 @@ class FormaFAMController extends Controller
 
     public function data_vuelo(Request $request)
     {
-        $data_vuelo = Fam0001A1Mision::where('id', $request->id)->get();
+        $data_vuelo = Fam0001A1Mision::where('id', $request->id)->where('completado','<>','completado')->where('user_id',auth()->id())->get();
         return response()->json($data_vuelo);
     }
 

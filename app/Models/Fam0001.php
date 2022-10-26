@@ -29,4 +29,13 @@ class Fam0001 extends Model
         'total_consumibles',
         'user_id'
     ];
+
+    public function aeronaves()
+    {
+        return $this->belongsTo(AeronaveModelo::class, 'aeronave_modelo');
+    }
+    public function base()
+    {
+        return $this->belongsTo(Base::class, 'base_estacion');
+    }
 }
