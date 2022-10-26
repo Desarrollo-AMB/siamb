@@ -466,7 +466,6 @@
                                                 }
                                             }
                                         });
-                                        
                                     });
                                     //ACTUALIZAR MISION (METER EN HELPER)
                                     $(".actualizar_a1_mision").click(function() {
@@ -1043,7 +1042,13 @@
                     }
                 });
             }else{
-                alert('No puedes agregar mas de tres aterrizajes')
+                Swal.fire({
+                    title: 'ERROR!',
+                    text: 'No puedes agregar mas de tres Aterrizajes.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                });
             }
         });
         $("body").on("click", "#BorrarAterrizaje", function () {
@@ -1077,7 +1082,6 @@
         $("#v_trip").change(function(){
             $('#v_data').prop('hidden', false);
             var id = $(this).val();
-            console.log(id)
             if(id){
                 $.ajax({
                     type:'POST',
@@ -1366,7 +1370,10 @@
                             icon: 'success',
                             timer: 3000,
                             showConfirmButton: true,
-                        }); 
+                        });
+                        setTimeout(function () {
+                            window.location = "{{ route('fam0001') }}"
+                        }, 2000);
                     },
                     error:function(error){
                         console.log(error)
@@ -1667,15 +1674,15 @@
 
             setTimeout(function() { 
                 $(".funcion").val(res.funcion).trigger('change')
-            }, 1200);
+            }, 1400);
             setTimeout(function() { 
                 $(".grado_nombre").val(res.grado_nombre_id).trigger('change')
             }, 1600);
                            
             $('.tipo_despegue').val(res.tipo_despegue).trigger('change')
 
-            $(".v_trip").val(res.v_trip).trigger('change')
-
+            $(".v_trip").val(res.fam0001_a1_mision_id).trigger('change')
+            
             $('.codigo_trip').val(res.COD)
             $('.load_registro_hv').val(res.hv)
             $('.load_cedula_empleado').val(res.cedula)

@@ -3,7 +3,7 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
-        <img src="https://imgs.search.brave.com/VuMOm1q85JJqhG16saxVbSFw8oosBrbZUV_T_pC_arw/rs:fit:215:240:1/g:ce/aHR0cDovL2JwMi5i/bG9nZ2VyLmNvbS9f/ZFFLRlc0T01CbUkv/U0hHRDh3MjhXMEkv/QUFBQUFBQUFBQkEv/QXFtQkhNcUVMcFUv/czMyMC9Fc2N1ZG8u/SlBH" class="navbar-brand-img h-100" alt="...">
+        <img  src="../template/assets/img/logo.png"  class="navbar-brand-img h-100" alt="...">
         <span class="ms-3 font-weight-bold">SIAMB</span>
     </a>
   </div>
@@ -68,9 +68,9 @@
           </div>
           <span class="nav-link-text ms-1">Registros de vuelos</span>
         </a>
-        <div class="panel-collapse collapse {{ ((Request::is('FormaFAM') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
+        <div class="panel-collapse collapse {{ ((Request::is('fam0001') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
           <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('FormaFAM') ? 'active' : '') }}" href="{{ url('FormaFAM') }}">- FAM-0002</a></li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('fam0001') ? 'active' : '') }}" href="{{ url('fam0001') }}">- FAM-0002</a></li>
           </ul>
         </div>
       </li>

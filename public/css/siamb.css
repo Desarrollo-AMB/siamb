@@ -52,3 +52,8 @@
 .avatar-wrapper .upload-button:hover .fa-arrow-circle-up{
 			opacity: .9;
 }
+
+.new_fly_bt{
+	background: #303e55;
+    color: white;
+}

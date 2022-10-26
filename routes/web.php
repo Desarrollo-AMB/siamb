@@ -55,6 +55,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 //RUTA FORMULARIO FAM002 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
+  //Route::get('getFam0001',                [FormaFAMController::class, 'getFam0001'])->name('getFam0001');
+
     Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 
