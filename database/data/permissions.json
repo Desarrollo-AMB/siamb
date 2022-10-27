@@ -68,12 +68,7 @@
 		"group": "Aviacion",
 		"labels": [
 			{ "name": "FormaFAM",         "route_name": "FormaFAM" },
-			{ "name": "aeronaves_grupos", "route_name": "aeronaves_grupos" },
-			{ "name": "seriales",         "route_name": "seriales" },
-			{ "name": "matriculas",       "route_name": "matriculas" },
-			{ "name": "steps",            "route_name": "steps" },
-			{ "name": "store",            "route_name": "store" },
-			{ "name": "store_a1",         "route_name": "store_a1" }
+			{ "name": "aeronaves_grupos", "route_name": "aeronaves_grupos" }
 		]
 	},
 	{

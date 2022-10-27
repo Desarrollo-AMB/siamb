@@ -24,7 +24,18 @@ return new class extends Migration
             $table->string('matricula')->nullable();
             $table->string('base_estacion')->nullable();
             $table->string('jefe_maquina')->nullable();
+
+            $table->integer('total_registro_manual')->nullable();
+            $table->integer('total_ind_vuelo')->nullable();
+            $table->integer('total_toque_desp')->nullable();
+            $table->integer('total_low_go')->nullable();
+            $table->integer('total_aterriz')->nullable();
+            $table->integer('total_ciclos_tren')->nullable();
+            $table->integer('total_consumibles')->nullable();
+
             $table->string('completado')->nullable();
+            
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

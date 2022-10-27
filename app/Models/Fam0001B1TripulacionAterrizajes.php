@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fam0001B1TripulacionHVAterrizajes extends Model
+class Fam0001B1TripulacionAterrizajes extends Model
 {
     use HasFactory;
-    protected $table = 'fam0001_b1_tripulacion_HV';
+    protected $table = 'fam0001_b1_trip_aterrizaje';
     protected $fillable = [
         'ov_ota_om',
         'fam0001_id',
-        'fam0001_a1_mision_id',
-        'COD',
-        'HV',
+        'fam0001_b1_mision_id',
         'TIP_ATERRIZAJE',
         'CANTIDAD',
     ];

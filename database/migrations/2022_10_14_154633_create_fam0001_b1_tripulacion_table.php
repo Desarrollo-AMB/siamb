@@ -20,12 +20,22 @@ return new class extends Migration
             $table->foreignId('fam0001_a1_mision_id')->constrained('fam0001_a1_mision');
             
             $table->string('v_trip')->nullable();
-            $table->string('grado_nombre')->nullable();
+            $table->string('grado_nombre_id')->nullable();
+            $table->string('grado_nombre_data')->nullable();
+
             $table->string('cedula')->nullable();
+
             $table->string('funcion')->nullable();
+            $table->string('codigo_funcion')->nullable();
+            
             $table->string('tipo_despegue')->nullable();
 
+            $table->string('COD')->nullable();
+            $table->string('hv')->nullable();
+
             $table->string('completado')->nullable();
+
+            $table->integer('user_id')->unsigned()->nullable();
 
             $table->timestamps();
         });

@@ -31,31 +31,31 @@
                                                     <div class="icon-circle step_one_color">
                                                         <i class="ti-files"></i>
                                                     </div>
-                                                    <p style="font-size:11px; color: #707885">DATOS AERONAVE</p>
+                                                    <p style="font-size:11px; color:black">DATOS AERONAVE</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#a1" data-toggle="tab">
+                                                <a href="#misionTap" data-toggle="tab">
                                                     <div class="icon-circle step_two_color">
                                                         <i class="ti-flag-alt-2"></i>
                                                     </div>
-                                                    <p style="font-size:11px; color: #707885">A1 - DATOS DE LA MISIÓN</p>
+                                                    <p style="font-size:11px; color:black">A1 - DATOS DE LA MISIÓN</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#dddd" data-toggle="tab">
+                                                <a href="#b1tap" data-toggle="tab">
                                                     <div class="icon-circle step_three_color">
                                                         <i class="ti-user"></i>
                                                     </div>
-                                                    <p style="font-size:11px; color: #707885">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
+                                                    <p style="font-size:11px; color:black">B1 - DATOS DE LA TRIPULACIÓN DE VUELO</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#address" data-toggle="tab">
-                                                    <div class="icon-circle">
+                                                <a href="#a3tap" data-toggle="tab">
+                                                    <div class="icon-circle step_four_color">
                                                         <i class="ti-package"></i>
                                                     </div>
-                                                    <p style="font-size:11px; color: #707885">A3 - DATOS DE CARGA Y PASAJEROS</p>
+                                                    <p style="font-size:11px; color:black">A3 - DATOS DE CARGA Y PASAJEROS</p>
                                                 </a>
                                             </li>
                                         </ul>
@@ -151,16 +151,15 @@
                                                 </div>
                                             </div>
                                             <button value="" id="editar_paso1" hidden="true" style="background: rgb(190, 200, 227);color: rgb(0, 0, 0);" type="button" class="btn btn-fill btn-info btn-wd show_edit_paso1">ACTUALIZAR</button>
-                                            
                                         </div>
-                                        <div class="tab-pane" id="a1">
+                                        <div class="tab-pane" id="misionTap">
                                             @include('forms.A1')
                                         </div>
-                                        <div class="tab-pane" id="dddd">
+                                        <div class="tab-pane" id="b1tap">
                                             @include('forms.B1')
                                         </div>
-                                        <div class="tab-pane" id="address">
-                                           
+                                        <div class="tab-pane" id="a3tap">
+                                            @include('forms.A3')
                                         </div>
                                     </div>
                                     <br>
@@ -169,7 +168,7 @@
                                             <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
                                             <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
                                             
-                                            <input type='button' class='btn btn-finish btn-fill btn-info btn-wd' name='finish' value='Terminar' />
+                                            <input type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish' name='finish' value='Terminar' />
                                         </div>
     
                                         <div class="pull-left">
@@ -179,10 +178,10 @@
                                     </div>
                                 </form>
                             </div>
-                        </div> <!-- wizard container -->
+                        </div>
                     </div>
-                </div><!-- end row -->
-            </div> <!--  big container -->
+                </div>
+            </div> 
         </div>
     </div>
 </div>
@@ -190,7 +189,7 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function () {    
         //PASO 1
         $('.componente_organismo').select2();
         $('#grupos').select2();
@@ -212,7 +211,9 @@
         $('.funcion').select2();
         $('.grado_nombre').select2();
         $('.tipo_despegue').select2();
-  
+        //PASO 4
+        $('.n_vuelo').select2();
+
         //LIMPIAR A1
         function cleanA1() {
             $('.ordenada_por').val('').trigger('change');
@@ -235,7 +236,6 @@
             $('.en_apoyo_A2').val('').trigger('change');
             $('.descripcion_A2').val('');
         }
-
         //LIMPIAR B1
         function cleanB1() {
             $('.v_trip').val('').trigger('change');
@@ -252,6 +252,26 @@
             $(".load_cedula_empleado").text('')
             $(".cedula_empleado").val('')
             $('.codigo_trip').val('')
+            $('.load_registro_hv').val('')
+        }
+        //LIMPIAR A3
+        function cleanA3() {
+            $('.n_vuelo').val('').trigger('change')
+            $('.apoyo_carga').val('')
+            $('.pesocargaTotal').val('')
+            $('.volCargaTotal').val('')
+            $(".seca").val('')
+            $(".liquida").val('')
+            $(".comb").val('')
+            $('.ammto').val('')
+            $('.tox_pel').val('')
+            $(".mil").val('')
+            $(".gob").val('')
+            $('.no_gob').val('')
+            $('.civil').val('')
+            $('.cant_animales').val('')
+            $('.carga').val('')
+            $('.pers').val('')
         }
         
         var id_fam0001;
@@ -267,7 +287,7 @@
                     data:{"unidad" : id },
                     success:function(res){
                         $("#naves").empty();
-                        $("#naves").append('<option>Seleccionar..</option>');
+                        $("#naves").append('<option value="">Seleccionar..</option>');
                         $.each(res,function(key,value){
                             $("#naves").append('<option class="load_aeronave" value="'+value.id+'">'+value.aeronave+' - '+value.modelo+'</option>');
                         });
@@ -285,7 +305,7 @@
                     success:function(res){        
                         if(res){
                             $("#serial").empty();
-                            $("#serial").append('<option>Seleccionar..</option>');
+                            $("#serial").append('<option value="">Seleccionar..</option>');
                             $.each(res,function(key,value){
                                 $("#serial").append('<option class="load_serial" value="'+value.serial+'">'+value.serial+'</option>');
                             });
@@ -299,7 +319,7 @@
                     success:function(res){        
                         if(res){
                             $("#matricula").empty();
-                            $("#matricula").append('<option>Seleccionar..</option>');
+                            $("#matricula").append('<option value="">Seleccionar..</option>');
                             $.each(res,function(key,value){
                                 $("#matricula").append('<option class="load_matricula" value="'+value.matricula+'">'+value.matricula+'</option>');
                             });
@@ -310,218 +330,348 @@
         });
 
         //TRAER DATA DEL PRIMER PASO
-        $.ajax({
-            url:"{{ route('steps') }}",
-            method:'POST',
-            data:{ 
-                _token:'{{ csrf_token() }}'
-            },
-            cache: false,
-            dataType: 'json',
-            success: function(response){
-                if(response.headerData.length>0){
-                    let famSteps = response.headerData[0]
-                    id_fam0001 = famSteps.id;
-                    if (famSteps.completado === "completado") {
-                        console.log('pasos completados')
-                    }
-                    if (famSteps.completado === "paso1") {
-                        var dataHeader = 1;
-                        //PASOS COMPLETADOS
-                        if(dataHeader>0){
-                            $('#step_one').prop('hidden', false);
-                            $('.show_edit_paso1').prop('hidden', false);
-                            $(".show_edit_paso1").val(famSteps.id);
-                            $("#ov_ota_om").text(famSteps.ov_ota_om);
-                            $("#aeronave_modelo").text(famSteps.componente_organismo);
-                            $("#fecha").text(famSteps.fecha);
+        // $.ajax({
+        //     url:"{{ route('steps') }}",
+        //     method:'POST',
+        //     data:{ 
+        //         _token:'{{ csrf_token() }}'
+        //     },
+        //     cache: false,
+        //     dataType: 'json',
+        //     success: function(response){
+        //         if(response.headerData.length>0){
+        //             var loopSteps = response.headerData.length
+        //             for (let i = 0; i < loopSteps; i++) {
+        //                 let famSteps = response.headerData[i]
+        //                 id_fam0001 = famSteps.id;
+        //                 if (famSteps.completado === "completado") {
+        //                     console.log('pasos completados')
+        //                 }
+        //                 if (famSteps.completado === "paso1") {
+        //                     var dataHeader = 1;
+        //                     //PASOS COMPLETADOS
+        //                     if(dataHeader>0){
+        //                         $('#step_one').prop('hidden', false);
+        //                         $('.show_edit_paso1').prop('hidden', false);
+        //                         $(".show_edit_paso1").val(famSteps.id);
+        //                         $("#ov_ota_om").text(famSteps.ov_ota_om);
+        //                         $("#aeronave_modelo").text(famSteps.componente_organismo);
+        //                         $("#fecha").text(famSteps.fecha);
 
-                            //CARGAR DATOS DE PASOS 
-                            $('#stepInputData').prop('hidden', true);
-                            $('#stepInputDataNext').prop('hidden', false);
-                            $(".step_one_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                            
-                            $(".load_fecha").val(famSteps.fecha)
-                            $(".load_ov_ota_om").val(famSteps.ov_ota_om)
-
-                            setTimeout(function() { 
-                                $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
-                            }, 1000);
-
-                            $(".load_unidad").val(famSteps.unidad).trigger('change')
-
-                            cargarAeronavesModelos(famSteps.unidad)
-                            setTimeout(function() { 
-                                $(".load_aeronave").val(famSteps.aeronave_modelo).trigger('change')
-                            }, 1200);
-                            
-                            cargarSeriales(famSteps.aeronave_modelo)
-                            setTimeout(function() { 
-                                $(".load_serial").val(famSteps.serial).trigger('change')
-                            }, 3000);
-                            
-                            cargarMatriculas(famSteps.aeronave_modelo)
-                            setTimeout(function() { 
-                                $(".load_matricula").val(famSteps.matricula).trigger('change')
-                            }, 3000);
-                            
-                            $(".load_estacion").val(famSteps.base_estacion).trigger('change')
-                            $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
-
-                            //CARGAR PASO 2
-                            let A1Steps = response.A1_data
-                            if (A1Steps.length>0) {
-                                $(".step_two_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
+        //                         //CARGAR DATOS DE PASOS 
+        //                         $('#stepInputData').prop('hidden', true);
+        //                         $('#stepInputDataNext').prop('hidden', false);
+        //                         $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
                                 
-                                data_vuelos(id_fam0001);
+        //                         $(".load_fecha").val(famSteps.fecha)
+        //                         $(".load_ov_ota_om").val(famSteps.ov_ota_om)
 
-                                var counter = 1;
-                                $.each(A1Steps, function (key, value){
-                                $('#A1_data').append(
-                                    "<tr id='delete_a1_mision"+value.id+"'>\
-                                    <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                    <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                    <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                    <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                    <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                    <td style='padding-left: 20px;'><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
-                                    </tr>");
-                                    counter += 1;
-                                })
+        //                         setTimeout(function() { 
+        //                             $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
+        //                         }, 1000);
 
-                                //ELIMINAR MISION (METER EN HELPER)
-                                $(".delete_a1_mision").click(function() {
-                                    var id = $(this).val();
-                                    console.log(id)
-                                    $.ajax({
-                                        url:"{{ route('delete_a1_mision') }}",
-                                        method:'POST',
-                                        data:{id:id},
-                                        cache: false,
-                                        dataType: 'json',
-                                        success: function(response){
-                                            if(response){
-                                                cleanA1()
-                                                $("#delete_a1_mision"+id+"").remove();
-                                                alert('eliminacion correcta')
-                                            }
-                                        }
-                                    });
-                                });
+        //                         $(".load_unidad").val(famSteps.unidad).trigger('change')
 
-                                //EDITAR MISION
-                                $(".editar_a1_mision").click(function() {
-                                    var id_edit = $(this).val();
-                                    $.ajax({
-                                        url:"{{ route('editar_a1_mision') }}",
-                                        method:'POST',
-                                        data:{id:id_edit},
-                                        cache: false,
-                                        dataType: 'json',
-                                        success: function(response){
-                                            if(response){
-                                                let res = response.data[0]
-                                                edit_A1(res) 
-                                                let consumblesEdit = response.consumibles
-                                            }
-                                            else{
-                                                alert('Fallo en la peticion con el servidor')
-                                            }
-                                        }
-                                    });
+        //                         cargarAeronavesModelos(famSteps.unidad)
+        //                         setTimeout(function() { 
+        //                             $(".load_aeronave").val(famSteps.aeronave_modelo).trigger('change')
+        //                         }, 1200);
+                                
+        //                         cargarSeriales(famSteps.aeronave_modelo)
+        //                         setTimeout(function() { 
+        //                             $(".load_serial").val(famSteps.serial).trigger('change')
+        //                         }, 3200);
+                                
+        //                         cargarMatriculas(famSteps.aeronave_modelo)
+        //                         setTimeout(function() { 
+        //                             $(".load_matricula").val(famSteps.matricula).trigger('change')
+        //                         }, 3300);
+                                
+        //                         $(".load_estacion").val(famSteps.base_estacion).trigger('change')
+        //                         $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
+
+        //                         //CARGAR PASO 2
+        //                         let A1Steps = response.A1_data
+        //                         if (A1Steps.length>0) {
+        //                             $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
                                     
-                                });
-                                //ACTUALIZAR MISION (METER EN HELPER)
-                                $(".actualizar_a1_mision").click(function() {
-                                    var sigla = $('.load_siglas').val();
-                                    var numero = $('.load_codigo').val();
-                                    var codigo = ""+sigla+"-"+numero+"";
-                                    $.ajax({
-                                        url:"{{ route('actualizar_a1_mision') }}",
-                                        method:'POST',
-                                        data:{
-                                            id:$(".load_id_mision").val(),
-                                            ordenada_por:$(".load_ordenado_por").val(),
-                                            en_apoyo:$('.load_en_apoyo').val(),
-                                            codigo:codigo,
-                                            ruta_desde:$('.load_ruta_desde').val(),
-                                            ruta_hasta:$('.load_ruta_hasta').val(),
-                                            encend:$('.load_encend').val(),
-                                            despeg:$('.load_despeg').val(),
-                                            aterriz:$('.load_aterriz').val(),
-                                            apag:$('.load_apag').val(),
-                                            registro_manual:$('.load_registro_manual').val(),
-                                            horometro:$('.load_horometro').val(),
-                                            ind_vuelo:$('.load_ind_vuelo').val(),
-                                            toque_desp:$('.load_toque_desp').val(),
-                                            low_go:$('.load_low_go').val(),
-                                            ciclos_tren:$('.load_ciclos_tren').val(),
-                                            ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
-                                            fam0001_id: id_fam0001,
-                                            en_apoyo_A2:$(".load_en_apoyo_A2").val(),
-                                            descripcion_A2:$('.load_descripcion_A2').val(),
-                                            completado: "paso2",
-                                        }, 
-                                        cache: false,
-                                        dataType: 'json',
-                                        success: function(response){
-                                            if(response){
-                                                misionID = $(".load_id_mision").val()
-                                                guardarConsumo(misionID);
-                                                console.log(response)
-                                                cleanA1()
-                                            }
-                                        }
-                                    });
-                                });
-                            }
+        //                             var counter = 1;
+        //                             $.each(A1Steps, function (key, value){
+        //                             $('#A1_data').append(
+        //                                 "<tr id='delete_a1_mision"+value.id+"'>\
+        //                                 <td style='padding-left: 20px;'>V"+counter+"</td>\
+        //                                 <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+        //                                 <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
+        //                                 <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+        //                                 <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+        //                                 <td style='padding-left: 20px;'><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+        //                                 </tr>");
+        //                                 counter += 1;
+        //                             })
 
-                            //EDITAR PASO 1 
-                            $("#editar_paso1").click(function() {
-                                var id_edit = $(this).val();
-                                $.ajax({
-                                    url:"{{ route('editar_paso1') }}",
-                                    method:'POST',
-                                    data:{
-                                        fecha: $('.fecha').val(),
-                                        ov_ota_om: $('.ov_ota_om').val().toUpperCase(),
-                                        componente_organismo: $('.componente_organismo').val(),
-                                        unidad: $('.unidad').val(),
-                                        aeronave_modelo: $('.aeronaves').val(),
-                                        serial: $('.serial').val(),
-                                        matricula: $('.matricula').val(),
-                                        base_estacion: $('.base_estacion').val(),
-                                        jefe_maquina: $('.jefe_maquina').val(),
-                                        completado: "paso1",
-                                        id:id_edit,
-                                    },
-                                    cache: false,
-                                    dataType: 'json',
-                                    success: function(response){
-                                        if(response){
-                                            console.log('editado')
-                                            alert('Campos Editado Correctamente')
-                                        }
-                                        else{
-                                            alert('Fallo en la peticion con el servidor')
-                                        }
-                                    }
-                                });
+        //                             $('.delete_a1_mision').on('click', function (event) {
+        //                             event.preventDefault();
+        //                             var id = $(this).val();
+        //                                 Swal.fire({
+        //                                     title: 'Estas Seguro de Eliminar?',
+        //                                     text: "No podrás revertir esto.!",
+        //                                     icon: 'warning',
+        //                                     showCancelButton: true,
+        //                                     confirmButtonColor: '#3085d6',
+        //                                     cancelButtonColor: '#d33',
+        //                                     confirmButtonText: 'Si!'
+        //                                     }).then((result) => {
+        //                                     if (result.isConfirmed) {
+        //                                         $.ajax({
+        //                                             url:"{{ route('delete_a1_mision') }}",
+        //                                             method:'POST',
+        //                                             data:{id:id},
+        //                                             cache: false,
+        //                                             dataType: 'json',
+        //                                             success: function(response){
+        //                                                 if(response){
+        //                                                     cleanA1()
+        //                                                     $("#delete_a1_mision"+id+"").remove();
+        //                                                 }
+        //                                             }
+        //                                         });
+        //                                         Swal.fire({
+        //                                             title: 'Eliminado!',
+        //                                             text: 'La Misión ha sido eliminado.',
+        //                                             icon: 'success',
+        //                                             timer: 3000,
+        //                                             showConfirmButton: true,
+        //                                         });   
+        //                                     }
+        //                                 });
+        //                             });
+
+        //                             //EDITAR MISION
+        //                             $(".editar_a1_mision").click(function() {
+        //                                 var id_edit = $(this).val();
+        //                                 $.ajax({
+        //                                     url:"{{ route('editar_a1_mision') }}",
+        //                                     method:'POST',
+        //                                     data:{id:id_edit},
+        //                                     cache: false,
+        //                                     dataType: 'json',
+        //                                     success: function(response){
+        //                                         if(response){
+        //                                             let res = response.data[0]
+        //                                             edit_A1(res) 
+        //                                             let consumblesEdit = response.consumibles
+        //                                         }
+        //                                         else{
+        //                                             alert('Fallo en la peticion con el servidor')
+        //                                         }
+        //                                     }
+        //                                 });
+        //                             });
+        //                             //ACTUALIZAR MISION (METER EN HELPER)
+        //                             $(".actualizar_a1_mision").click(function() {
+        //                                 var sigla = $('.load_siglas').val();
+        //                                 var numero = $('.load_codigo').val();
+        //                                 var codigo = ""+sigla+"-"+numero+"";
+        //                                 $.ajax({
+        //                                     url:"{{ route('actualizar_a1_mision') }}",
+        //                                     method:'POST',
+        //                                     data:{
+        //                                         id:$(".load_id_mision").val(),
+        //                                         ordenada_por:$(".load_ordenado_por").val(),
+        //                                         en_apoyo:$('.load_en_apoyo').val(),
+        //                                         codigo:codigo,
+        //                                         ruta_desde:$('.load_ruta_desde').val(),
+        //                                         ruta_hasta:$('.load_ruta_hasta').val(),
+        //                                         encend:$('.load_encend').val(),
+        //                                         despeg:$('.load_despeg').val(),
+        //                                         aterriz:$('.load_aterriz').val(),
+        //                                         apag:$('.load_apag').val(),
+        //                                         registro_manual:$('.load_registro_manual').val(),
+        //                                         horometro:$('.load_horometro').val(),
+        //                                         ind_vuelo:$('.load_ind_vuelo').val(),
+        //                                         toque_desp:$('.load_toque_desp').val(),
+        //                                         low_go:$('.load_low_go').val(),
+        //                                         ciclos_tren:$('.load_ciclos_tren').val(),
+        //                                         ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
+        //                                         fam0001_id: id_fam0001,
+        //                                         en_apoyo_A2:$(".load_en_apoyo_A2").val(),
+        //                                         descripcion_A2:$('.load_descripcion_A2').val(),
+        //                                         completado: "paso2",
+        //                                     }, 
+        //                                     cache: false,
+        //                                     dataType: 'json',
+        //                                     success: function(response){
+        //                                         if(response){
+        //                                             misionID = $(".load_id_mision").val()
+        //                                             guardarConsumo(misionID);
+        //                                             console.log(response)
+        //                                             cleanA1()
+        //                                             $('.edit_input').prop('hidden', true);
+        //                                             $('.add_edit_input').prop('hidden', false);
+        //                                             Swal.fire({
+        //                                                 title: 'Actualizado!',
+        //                                                 text: 'La Misión ha sido Actualizada Correctamente.',
+        //                                                 icon: 'success',
+        //                                                 timer: 3000,
+        //                                                 showConfirmButton: true,
+        //                                             }); 
+        //                                         }
+        //                                     }
+        //                                 });
+        //                             });
+        //                             updateClean_A1()
+        //                         }
+
+        //                         //EDITAR PASO 1 
+        //                         $("#editar_paso1").click(function() {
+        //                             var id_edit = $(this).val();
+        //                             $.ajax({
+        //                                 url:"{{ route('editar_paso1') }}",
+        //                                 method:'POST',
+        //                                 data:{
+        //                                     fecha: $('.fecha').val(),
+        //                                     ov_ota_om: $('.ov_ota_om').val().toUpperCase(),
+        //                                     componente_organismo: $('.componente_organismo').val(),
+        //                                     unidad: $('.unidad').val(),
+        //                                     aeronave_modelo: $('.aeronaves').val(),
+        //                                     serial: $('.serial').val(),
+        //                                     matricula: $('.matricula').val(),
+        //                                     base_estacion: $('.base_estacion').val(),
+        //                                     jefe_maquina: $('.jefe_maquina').val(),
+        //                                     completado: "paso1",
+        //                                     id:id_edit,
+        //                                 },
+        //                                 cache: false,
+        //                                 dataType: 'json',
+        //                                 success: function(response){
+        //                                     if(response){
+        //                                         console.log('editado')
+        //                                         Swal.fire({
+        //                                             title: 'Actualizado!',
+        //                                             text: 'Datos del vuelo Actualizado Correctamente.',
+        //                                             icon: 'success',
+        //                                             timer: 3000,
+        //                                             showConfirmButton: true,
+        //                                         }); 
+        //                                     }
+        //                                     else{
+        //                                         alert('Fallo en la peticion con el servidor')
+        //                                     }
+        //                                 }
+        //                             });
+                                    
+        //                         });
+        //                         data_vuelos(id_fam0001);
+        //                         //CARGAR PASO 3
+        //                         let B1Steps = response.B1_data
+        //                         if (B1Steps.length>0) {
+        //                             $(".step_three_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+        //                             datos_tripulacion(B1Steps)
+        //                             //PASO #3 - EDITAR TRIPULACION
+        //                             $(".editar_B1_trip").click(function() {
+        //                                 var id_edit = $(this).val();
+        //                                 $.ajax({
+        //                                     url:"{{ route('editar_b1') }}",
+        //                                     method:'POST',
+        //                                     data:{id:id_edit},
+        //                                     cache: false,
+        //                                     dataType: 'json',
+        //                                     success: function(response){
+        //                                         if(response){
+        //                                             let res = response.data[0]
+        //                                             edit_B1(res) 
+        //                                         }
+        //                                         else{
+        //                                             alert('Fallo en la peticion con el servidor')
+        //                                         }
+        //                                     }
+        //                                 });
+        //                             });
+        //                             //PASO #3 - UPDATE TRIPULACION
+        //                             update_B1()
+        //                             //PASO #3 - BOTON LIMPIAR TRIPULACION
+        //                             updateClean_B1()
+        //                             //PASO #3 - ELIMINAR TRIPULACION
+        //                             $(".delete_b1_trip").click(function() {
+        //                                 var id = $(this).val();
+        //                                 Swal.fire({
+        //                                     title: 'Estas Seguro de Eliminar?',
+        //                                     text: "No podrás revertir esto.!",
+        //                                     icon: 'warning',
+        //                                     showCancelButton: true,
+        //                                     confirmButtonColor: '#3085d6',
+        //                                     cancelButtonColor: '#d33',
+        //                                     confirmButtonText: 'Si!'
+        //                                     }).then((result) => {
+        //                                     if (result.isConfirmed) {
+        //                                         $.ajax({
+        //                                             url:"{{ route('delete_b1') }}",
+        //                                             method:'POST',
+        //                                             data:{id:id},
+        //                                             cache: false,
+        //                                             dataType: 'json',
+        //                                             success: function(response){
+        //                                                 if(response){
+        //                                                     cleanB1()
+        //                                                     $("#delete_b1"+id+"").remove();
+        //                                                 }
+        //                                             }
+        //                                         });
+        //                                         Swal.fire({
+        //                                             title: 'Eliminado!',
+        //                                             text: 'La Misión ha sido eliminado.',
+        //                                             icon: 'success',
+        //                                             timer: 3000,
+        //                                             showConfirmButton: true,
+        //                                         });   
+        //                                     }
+        //                                 });
+        //                             });
+        //                             data_vuelos(id_fam0001);
+                                    
+        //                         }
+        //                         //CARGAR PASO 4
+        //                         let A3Steps = response.A3_data
+        //                         if (A3Steps.length>0) {
+        //                             $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+        //                             datos_aterrizaje(A3Steps)
+        //                             //PASO #4 - DELETE CARGA
+        //                             $(".borrar_A3").click(function() {
+        //                                 var id = $(this).val();
+        //                                 dalete_A3(id)
+        //                             });
+        //                             //PASO #4 EDITAR CARGA
+        //                             $(".editar_A3").click(function() {
+        //                                 var id_edit = $(this).val();
+        //                                 $.ajax({
+        //                                     url:"{{ route('editar_a3') }}",
+        //                                     method:'POST',
+        //                                     data:{id:id_edit},
+        //                                     cache: false,
+        //                                     dataType: 'json',
+        //                                     success: function(response){
+        //                                         if(response){
+        //                                             let res = response.data[0]
+        //                                             edit_A3(res) 
+        //                                         }
+        //                                         else{
+        //                                             alert('Fallo en la peticion con el servidor')
+        //                                         }
+        //                                     }
+        //                                 });
+        //                             });
+        //                             //PASO #4 - UPDATE CARGA
+        //                             update_A3()
+        //                             //BOTON ACTUALIZAR DINAMICO CERRAR
+        //                             updateClean_A3()
+        //                         }
                                 
-                            });
-
-                            //CARGAR PASO 3
-                            let B1Steps = response.B1_data
-                            if (B1Steps.length>0) {
-                                $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                                datos_tripulacion(B1Steps)
-                            }
-                        }
-                    }
-                }
-                
-            }
-        });
+        //                     }
+        //                 } 
+        //             }
+        //         }
+        //     }
+        // });
 
         //FORMULARIO GUARDAR
         $.ajaxSetup({
@@ -542,7 +692,6 @@
             var base_estacion = $('.base_estacion').val();
             var jefe_maquina = $('.jefe_maquina').val();
 
-            console.log(serial)
             //VALIDAR PASO UNO HEADER
             if(ov_ota_om===""){
                 alert('no puedes guardar el ov_ota_om vacio')
@@ -576,8 +725,15 @@
                             $('#stepInputData').prop('hidden', true);
                             $('#stepInputDataNext').prop('hidden', false);
 
-                            $(".step_one_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                              
+                            $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                            
+                            Swal.fire({
+                                title: 'Creado!',
+                                text: 'Se Creo Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
                         }
                     },
                     error:function(error){
@@ -585,7 +741,6 @@
                     }
                 });
             }
-            
         });
         
         //PASO #2 - AGREGAR CONSUMIBLES
@@ -612,13 +767,13 @@
                 success: function(response){
                     if(response){
                         $(".consumibles").empty();
-                        $(".consumibles").append('<option>Seleccionar..</option>');
+                        $(".consumibles").append('<option value="">Seleccionar..</option>');
                         $.each(response.consumibles ,function(key,value){
                             $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
                         });
                         
                         $(".unidades").empty();
-                        $(".unidades").append('<option>Seleccionar..</option>');
+                        $(".unidades").append('<option value="">Seleccionar..</option>');
                         $.each(response.unidades ,function(key,value){
                             $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
                         });
@@ -688,8 +843,14 @@
                             //LIMPIAR CAMPOS
                             cleanA1()
                             $("#A1_data tr").remove();
-                            $(".step_two_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                                
+                            $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                            Swal.fire({
+                                title: 'Creado!',
+                                text: 'Misión Registrada Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });  
                             //GUARDAR CONSUMIBLES
                             let misionID = response.A1_id[0].id;
                             guardarConsumo(misionID);
@@ -711,21 +872,40 @@
                             })
 
                             //ELIMINAR MISION (METER EN HELPER)
-                            $(".delete_a1_mision").click(function() {
+
+                            $('.delete_a1_mision').on('click', function (event) {
+                                event.preventDefault();
                                 var id = $(this).val();
-                                console.log(id)
-                                $.ajax({
-                                    url:"{{ route('delete_a1_mision') }}",
-                                    method:'POST',
-                                    data:{id:id},
-                                    cache: false,
-                                    dataType: 'json',
-                                    success: function(response){
-                                        if(response){
-                                            cleanA1()
-                                            $("#delete_a1_mision"+id+"").remove();
-                                            alert('eliminacion correcta')
-                                        }
+                                Swal.fire({
+                                    title: 'Estas Seguro de Eliminar?',
+                                    text: "No podrás revertir esto.!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Si!'
+                                    }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url:"{{ route('delete_a1_mision') }}",
+                                            method:'POST',
+                                            data:{id:id},
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(response){
+                                                if(response){
+                                                    cleanA1()
+                                                    $("#delete_a1_mision"+id+"").remove();
+                                                }
+                                            }
+                                        });
+                                        Swal.fire({
+                                            title: 'Eliminado!',
+                                            text: 'La Misión ha sido eliminado.',
+                                            icon: 'success',
+                                            timer: 3000,
+                                            showConfirmButton: true,
+                                        });   
                                     }
                                 });
                             });
@@ -793,12 +973,20 @@
                                             misionID = $(".load_id_mision").val()
                                             guardarConsumo(misionID);
                                             cleanA1()
-                                            alert('Mision Actualziada correctamente')
+                                            $('.edit_input').prop('hidden', true);
+                                            $('.add_edit_input').prop('hidden', false);
+                                            Swal.fire({
+                                                title: 'Actualizado!',
+                                                text: 'La Misión ha sido Actualizada Correctamente.',
+                                                icon: 'success',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            }); 
                                         }
                                     }
                                 });
                             });
-                            
+                            updateClean_A1()
                             data_vuelos(id_fam0001);
                         }
                     },
@@ -814,41 +1002,10 @@
         $("#OV_ADD").click(function () {
             nuevaOperacionVuelo = 
             '<div id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group">'+
-            // '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">SIGLAS</small> <select name="SIG[]" class="form-control SIG load_SIG" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            // '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <select name="COD[]" class="form-control COD load_COD" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
-            //'<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">COD</small> <h6 style="color: #212529;"><span style="color: #67748e;" class="load_codigo_tripulacion"> </span></h6></div></div>'+
             '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">HV</small> <input type="number" name="HV[]" id="HV" class="form-control HV load_HV" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
             '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarOperacionVuelo" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
 
             $('#nuevaOperacionVuelo').append(nuevaOperacionVuelo);
-            //$('.COD').select2();
-            //$('.SIG').select2();
-
-            // $.ajax({
-            //     url:"{{ route('codigos_mision_json') }}",
-            //     method:'POST',
-            //     data:{ 
-            //         _token:'{{ csrf_token() }}'
-            //     },
-            //     cache: false,
-            //     dataType: 'json',
-            //     success: function(response){
-            //         //console.log(response)
-            //         if(response){
-            //             //$(".COD").empty();
-
-            //             // $(".COD").append('<option>Seleccionar..</option>');
-            //             // $.each(response.codigo ,function(key,value){
-            //             //     $(".COD").append('<option class="load_COD" value="'+key.codigo+'">'+value.codigo+'</option>');
-            //             // });
-
-            //             $(".SIG").append('<option>Seleccionar..</option>');
-            //             $.each(response.siglas ,function(key,value){
-            //                 $(".SIG").append('<option class="load_SIG" value="'+key.siglas+'">'+value.siglas+'</option>');
-            //             });
-            //         }
-            //     }
-            // });
         });
         $("body").on("click", "#BorrarOperacionVuelo", function () {
             $(this).parents("#operacionVuelo").remove();
@@ -877,7 +1034,7 @@
                         //console.log(response)
                         if(response){
                             $(".tipo_aterrizaje").empty();
-                            $(".tipo_aterrizaje").append('<option>Seleccionar..</option>');
+                            $(".tipo_aterrizaje").append('<option value="">Seleccionar..</option>');
                             $.each(response.codigo ,function(key,value){
                                 $(".tipo_aterrizaje").append('<option class="load_tipo_aterrizaje" value="'+key.codigo+'">'+value.codigo+' - '+value.tipo_aterrizaje+'</option>');
                             });
@@ -885,7 +1042,13 @@
                     }
                 });
             }else{
-                alert('No puedes agregar mas de tres aterrizajes')
+                Swal.fire({
+                    title: 'ERROR!',
+                    text: 'No puedes agregar mas de tres Aterrizajes.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                });
             }
         });
         $("body").on("click", "#BorrarAterrizaje", function () {
@@ -903,7 +1066,7 @@
                         $(".load_cedula_empleado").text('')
                         $(".cedula_empleado").val('')
                         $(".grado_nombre").empty();
-                        $(".grado_nombre").append('<option>Seleccionar..</option>');
+                        $(".grado_nombre").append('<option value="">Seleccionar..</option>');
                         $.each(res,function(key,value){
                             if (value.grado_empleado.siglas != null) {
                                 $(".grado_nombre").append('<option value="'+value.id+'">'+value.grado_empleado.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
@@ -919,7 +1082,6 @@
         $("#v_trip").change(function(){
             $('#v_data').prop('hidden', false);
             var id = $(this).val();
-            console.log(id)
             if(id){
                 $.ajax({
                     type:'POST',
@@ -933,6 +1095,7 @@
                         $('.load_codigo_tripulacion').text(data.codigo)
                         $('.codigo_trip').val(data.codigo)
                         $('.v_mision').val(data.vuelo)
+                        $('.load_registro_hv').val(data.registro_manual)
                     }
                 }); 
             }
@@ -944,7 +1107,7 @@
                 $.ajax({
                     type:'POST',
                     url:'{{ route("datos_empleado_vuelo") }}',
-                    data:{"id" : id },
+                    data:{"id":id},
                     success:function(res){
                         let emp = res.data[0]
                         $(".load_cedula_empleado").text(emp.empleado.cedula)
@@ -962,9 +1125,7 @@
                 console.log('no puedes guardar datos vacios')
             }else{
                 //ENVIAR
-                // let pass_mision_id = $('.v_trip').val()
-                // console.log(pass_mision_id)
-                // guardar_HV_Aterrizajes(pass_mision_id)
+                let misionID = $('.v_trip').val()
                 $.ajax({
                 url:"{{ route('store_b1') }}",
                 method:'POST',
@@ -973,40 +1134,254 @@
                     fam0001_id: id_fam0001,
                     fam0001_a1_mision_id: $('.v_trip').val(),
                     v_trip: $('.v_mision').val(),
-                    funcion: $('.funcion').find(":selected").text(),
+                    //
+                    grado_nombre_id: $('.grado_nombre').val(),
+                    grado_nombre_data: $('.grado_nombre').find(":selected").text(),
+                    funcion: $('.funcion').val(),
+                    codigo_funcion: $('.funcion').find(":selected").text(),
+                    //
                     cedula: $('.cedula_empleado').val(),
-                    grado_nombre: $('.grado_nombre').find(":selected").text(),
                     tipo_despegue: $('.tipo_despegue').val(),
-                    operaciones_en_vuelo: null,
-                    aterrizaje: null,
+                    COD:$('.codigo_trip').val(),
+                    HV:$('.load_registro_hv').val(),
                     completado: "paso3",
                     },
                     success:function(response){
                         $("#B1_data tr").remove();
-                        console.log(response)
                         if(response.success){
                             cleanB1()
                             let b1_data = response.data
                             datos_tripulacion(b1_data)
 
-                            $(".step_three_color").css({"border": "3px solid #309830","background":"rgb(68 147 68)","color": "white"});
-                            alert('Tripulación registrada Exitosamente!')
+                            //GUARDAR ATERRIZAJES
+                            guardarAterrizajes(misionID);
+
+                            $(".step_three_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                            
+                            Swal.fire({
+                                title:'Creado!',
+                                text: 'Tripulación registrada Exitosamente!',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            }); 
                         }
                         if (response.error) {
                             let b1_data_error = response.data
                             datos_tripulacion(b1_data_error)
-
-                            alert('Un solo tripulante puede tener la funcion de PILOTO en este vuelo')
+                            Swal.fire({
+                                title: 'ERROR!',
+                                text: 'Solo un tripulante puede tener la funcion de PILOTO en este vuelo.',
+                                icon: 'warning',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });  
                         }
+                        //PASO #3 - EDITAR TRIPULACION
+                        $(".editar_B1_trip").click(function() {
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_b1') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_B1(res) 
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                            
+                        });
+                        //PASO #3 - UPDATE TRIPULACION
+                        update_B1()
+                        //PASO #3 - BOTON LIMPIAR TRIPULACION
+                        updateClean_B1()
+                        //PASO #3 - ELIMINAR TRIPULACION
+                        $(".delete_b1_trip").click(function() {
+                            var id = $(this).val();
+                            Swal.fire({
+                                title: 'Estas Seguro de Eliminar?',
+                                text: "No podrás revertir esto.!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Si!'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url:"{{ route('delete_b1') }}",
+                                        method:'POST',
+                                        data:{id:id},
+                                        cache: false,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response){
+                                                cleanB1()
+                                                $("#delete_b1"+id+"").remove();
+                                            }
+                                        }
+                                    });
+                                    Swal.fire({
+                                        title: 'Eliminado!',
+                                        text: 'La Tripulación ha sido eliminada.',
+                                        icon: 'success',
+                                        timer: 3000,
+                                        showConfirmButton: true,
+                                    });   
+                                }
+                            });
+                        });
                     },
                     error:function(error){
                         console.log(error)
                     }
                 });
             }
-            
         });
-        
+        //PASO #3 - MOSTRAR DATOS VUELO CARGA
+        $("#n_vuelo").change(function(){
+            var id = $(this).val();
+            console.log(id)
+            if(id){
+                $.ajax({
+                    type:'POST',
+                    url:'{{ route("data_vuelo") }}',
+                    data:{"id" : id },
+                    success:function(res){
+                        console.log(res)
+                        let data = res[0]
+                        $(".apoyo_carga").val(data.en_apoyo)
+                    }
+                }); 
+            }
+        }).change();
+
+        //PASO #4 - GUARDAR DATOS CARGA
+        $(".enviar_a3").click(function(e){
+            e.preventDefault();
+            //VALIDAR PASO UNO HEADER  n_vuelo
+            if(v_trip===""){
+                alert('no puedes guardar campos vacios')
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('store_a3') }}",
+                method:'POST',
+                data:{
+                    ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                    fam0001_id: id_fam0001,
+                    fam0001_a1_mision_id: $('.n_vuelo').val(),
+                    n_vuelo: $('.n_vuelo').val(),
+                    apoyo_carga: $('.apoyo_carga').val(),
+                    pesocargaTotal: $('.pesocargaTotal').val(),
+                    volCargaTotal: $('.volCargaTotal').val(),
+                    seca: $('.seca').val(),
+                    liquida: $('.liquida').val(),
+                    comb: $('.comb').val(),
+                    ammto: $('.ammto').val(),
+                    tox_pel: $('.tox_pel').val(),
+                    mil: $('.mil').val(),
+                    gob: $('.gob').val(),
+                    no_gob: $('.no_gob').val(),
+                    civil: $('.civil').val(),
+                    cant_animales: $('.cant_animales').val(),
+                    carga: $('.carga').val(),
+                    pers: $('.pers').val(),
+                    completado: "paso4",
+                    },
+                    success:function(response){
+                        $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                        $("#A3_data tr").remove();
+                        cleanA3()
+                        let A3_data = response.data
+                        datos_aterrizaje(A3_data)
+                        Swal.fire({
+                            title:'Creado!',
+                            text: 'Carga registrada correctamente!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        }); 
+                        //PASO #4 - DELETE CARGA
+                        $(".borrar_A3").click(function() {
+                            var id = $(this).val();
+                            dalete_A3(id)
+                        });
+                        //PASO #4 EDITAR CARGA
+                        $(".editar_A3").click(function() {
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_a3') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_A3(res) 
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                        });
+                        //PASO #4 - UPDATE CARGA
+                        update_A3()
+                        //CLEAN
+                        updateClean_A3()
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
+        //PASO FINAL - CERRAR ORDEN DE VUELO
+        $(".finish").click(function(e){
+            e.preventDefault();
+            //VALIDAR PASO UNO HEADER
+            if(v_trip===""){
+                alert('no puedes guardar campos vacios')
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('pasoFinal') }}",
+                method:'POST',
+                data:{
+                    id_fam0001:id_fam0001,
+                    },
+                    success:function(response){
+                        console.log(response)
+                        Swal.fire({
+                            title:'Vuelo Completado!',
+                            text: 'Vuelo Completado Correctamente!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        setTimeout(function () {
+                            window.location = "{{ route('fam0001') }}"
+                        }, 1200);
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
         //FUNCIONES HELPER
         function cargarAeronavesModelos(grupo_id) {
             if(grupo_id){
@@ -1052,7 +1427,7 @@
                     success:function(res){        
                         if(res){
                             $("#matricula").empty();
-                            $("#matricula").append('<option>Seleccionar..</option>');
+                            $("#matricula").append('<option value="">Seleccionar..</option>');
                             $.each(res,function(key,value){
                                 $("#matricula").append('<option class="load_matricula" value="'+value.matricula+'">'+value.matricula+'</option>');
                             });
@@ -1075,20 +1450,20 @@
             $(".load_ruta_desde").val(res.ruta_desde).trigger('change')
             $(".load_ruta_hasta").val(res.ruta_hasta).trigger('change')
 
-            $('.load_encend').css('border-color','#66b700c4').val(res.encend)
-            $('.load_despeg').css('border-color','#66b700c4').val(res.despeg)
-            $('.load_aterriz').css('border-color','#66b700c4').val(res.aterriz)
-            $('.load_apag').css('border-color','#66b700c4').val(res.apag)
-            $('.load_registro_manual').css('border-color','#66b700c4').val(res.registro_manual)
-            $('.load_horometro').css('border-color','#66b700c4').val(res.horometro)
-            $('.load_ind_vuelo').css('border-color','#66b700c4').val(res.ind_vuelo)
-            $('.load_toque_desp').css('border-color','#66b700c4').val(res.toque_desp)
-            $('.load_low_go').css('border-color','#66b700c4').val(res.low_go)
-            $('.load_ciclos_tren').css('border-color','#66b700c4').val(res.ciclos_tren)
+            $('.load_encend').val(res.encend)
+            $('.load_despeg').val(res.despeg)
+            $('.load_aterriz').val(res.aterriz)
+            $('.load_apag').val(res.apag)
+            $('.load_registro_manual').val(res.registro_manual)
+            $('.load_horometro').val(res.horometro)
+            $('.load_ind_vuelo').val(res.ind_vuelo)
+            $('.load_toque_desp').val(res.toque_desp)
+            $('.load_low_go').val(res.low_go)
+            $('.load_ciclos_tren').val(res.ciclos_tren)
             $('.load_id_mision').val(res.id)
 
-            $(".load_en_apoyo_A2").css('border-color','#66b700c4').val(res.en_apoyo_A2).trigger('change')
-            $('.load_descripcion_A2').css('border-color','#66b700c4').val(res.descripcion_A2)
+            $(".load_en_apoyo_A2").val(res.en_apoyo_A2).trigger('change')
+            $('.load_descripcion_A2').val(res.descripcion_A2)
             
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
@@ -1140,24 +1515,24 @@
                 });
             } 
             console.log(consumiblesDATA)
-            
-            //GUARDAR CONSUMIBLES
-            $.ajax({
-            url:"{{ route('store_a1_consumibles') }}",
-            method:'POST',
-            data:{
-                consumiblesDATA: consumiblesDATA,
-                },
-                success:function(response){
-                    if(response.success){
-                        console.log(response)
-                        $("#newinput").remove();
+            if (loop>0) {
+                //GUARDAR CONSUMIBLES
+                $.ajax({
+                url:"{{ route('store_a1_consumibles') }}",
+                method:'POST',
+                data:{
+                    consumiblesDATA: consumiblesDATA,
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $("#newinput").remove();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
                     }
-                },
-                error:function(error){
-                    console.log(error)
-                }
-            });
+                });
+            }
             
         }
         function data_vuelos(fam0001_id) {
@@ -1171,8 +1546,13 @@
                         let data = res[0]
                         $("#v_trip").empty();
                         $("#v_trip").append('<option></option>');
+
+                        $("#n_vuelo").empty();
+                        $("#n_vuelo").append('<option></option>');
+
                         $.each(res,function(key,value){
                             $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
                         });
                     }
                 }); 
@@ -1181,31 +1561,21 @@
         function datos_tripulacion(res) {
             $.each(res, function (key, value){
             $('#B1_data').append(
-                "<tr id='delete_b1_tripulacion"+value.id+"'>\
+                "<tr id='delete_b1"+value.id+"'>\
                 <td style='padding-left: 20px;'>"+value.v_trip+"</td>\
-                <td style='padding-left: 20px;'>"+value.grado_nombre+"</td>\
+                <td style='padding-left: 20px;'>"+value.grado_nombre_data+"</td>\
                 <td style='padding-left: 20px;'>"+value.cedula+"</td>\
-                <td style='padding-left: 20px;'>"+value.funcion+"</td>\
-                <td style='padding-left: 20px;'></td>\
-                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_b1_tripulacion'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button><button value="+value.id+" style='background:grey;' class='btn btn-danger copy_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='fa fa-copy'></i></button></td>\
+                <td style='padding-left: 20px;'>"+value.codigo_funcion+"</td>\
+                <td style='padding-left: 20px;'>"+value.hv+"</td>\
+                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_B1_trip'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_b1_trip' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button><button value="+value.id+" style='background:grey;' class='btn btn-danger copy_b1_tripulacion' type='button'><i style='font-size: 22px; color:white;' class='fa fa-copy'></i></button></td>\
                 </tr>");
             })
         }
-        function guardar_HV_Aterrizajes(response) {
-            
-            //GUARDAR CONSUMIBLES A1 MISION
+        function guardarAterrizajes(response) {
+            //GUARDAR ATERRIZAJES A1 MISION
             let misionIDHV = response
-            var loop = $('input[name="HV[]"]').length
-            var HVData = []
             var TipoAtr = []
             var cantidadAtr = []
-
-            $("input[name='HV[]']").each(function() {
-                HVData.push({
-                    HVData:$(this).val(),
-                });
-            });
-            
             $("select[name='tipo_aterrizaje[]']").find(":selected").each(function() {
                 var dato = $(this).text()
                 var datos = dato.split(" - ")
@@ -1221,40 +1591,36 @@
                 });
             });
 
-            var HVAterrizajeData = []
+            var loop = $('input[name="cantidad_atr[]"]').length
+            var aterrizajeData = []
             for (let index = 0; index < loop; index++) {
-                HVAterrizajeData.push({
+                aterrizajeData.push({
                     ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                     fam0001_id:id_fam0001,
                     fam0001_a1_mision_id:misionIDHV,
-                    COD:$('.codigo_trip').val(),
-                    HV: HVData[index].HVData,
                     TIP_ATERRIZAJE: TipoAtr[index] === undefined?null:TipoAtr[index].TipoAtr,
                     CANTIDAD:  cantidadAtr[index] === undefined?null:cantidadAtr[index].cantidadAtr
                 });
             } 
-            
-
-            console.log(HVAterrizajeData)
-            
-            //GUARDAR CONSUMIBLES
-            // $.ajax({
-            // url:"{{ route('store_a1_consumibles') }}",
-            // method:'POST',
-            // data:{
-            //     consumiblesDATA: consumiblesDATA,
-            //     },
-            //     success:function(response){
-            //         if(response.success){
-            //             console.log(response)
-            //             $("#newinput").remove();
-            //         }
-            //     },
-            //     error:function(error){
-            //         console.log(error)
-            //     }
-            // });
-            
+            if (loop>0) {
+                //GUARDAR ATERRIZAJE
+                $.ajax({
+                url:"{{ route('store_aterrizaje') }}",
+                method:'POST',
+                data:{
+                    aterrizajeData: aterrizajeData,
+                    },
+                    success:function(response){
+                        if(response.success){
+                            console.log(response)
+                            $("#operacionVuelo").remove();
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
         }
         function calculateTime() {
             var encend = $('.encend').val()
@@ -1298,7 +1664,215 @@
         }
         $(".calculateTime").change(calculateTime);
         calculateTime();
+        $('.sendingData').keyup(function () {
+            $('.sameData').val($(this).val());
+        });
         
+        function edit_B1(res) {
+            
+            $('.load_id_trip').val(res.id)
+
+            setTimeout(function() { 
+                $(".funcion").val(res.funcion).trigger('change')
+            }, 1400);
+            setTimeout(function() { 
+                $(".grado_nombre").val(res.grado_nombre_id).trigger('change')
+            }, 1600);
+                           
+            $('.tipo_despegue').val(res.tipo_despegue).trigger('change')
+
+            $(".v_trip").val(res.fam0001_a1_mision_id).trigger('change')
+            
+            $('.codigo_trip').val(res.COD)
+            $('.load_registro_hv').val(res.hv)
+            $('.load_cedula_empleado').val(res.cedula)
+
+            $('.edit_input_b1').prop('hidden', false);
+            $('.add_edit_b1_input').prop('hidden', true);
+            
+        }
+        function update_B1(){
+            $(".actualizar_b1").click(function() {
+                $.ajax({
+                    url:"{{ route('actualizar_b1') }}",
+                    method:'POST',
+                    data:{
+                        id:$(".load_id_trip").val(),
+                        ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                        fam0001_id: id_fam0001,
+                        fam0001_a1_mision_id: $('.v_trip').val(),
+                        v_trip: $('.v_mision').val(),
+                        //
+                        grado_nombre_id: $('.grado_nombre').val(),
+                        grado_nombre_data: $('.grado_nombre').find(":selected").text(),
+                        funcion: $('.funcion').val(),
+                        codigo_funcion: $('.funcion').find(":selected").text(),
+                        //
+                        cedula: $('.cedula_empleado').val(),
+                        tipo_despegue: $('.tipo_despegue').val(),
+                        COD:$('.codigo_trip').val(),
+                        HV:$('.load_registro_hv').val(),
+                        completado: "paso3",
+                    }, 
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response){
+                        if(response){
+                            console.log(response)
+                            // misionID = $(".load_id_mision").val()
+                            // guardarConsumo(misionID);
+                            cleanB1()
+                            $('.edit_input_b1').prop('hidden', true);
+                            $('.add_edit_b1_input').prop('hidden', false);
+                            Swal.fire({
+                                title: 'Actualizado!',
+                                text: 'Datos de Tripulación Actualizado Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            }); 
+                        }
+                    }
+                });
+            });
+        }
+        function updateClean_B1(){
+            $(".update_b1_clean").click(function() {
+                cleanB1()
+                $('.edit_input_b1').prop('hidden', true);
+                $('.add_edit_b1_input').prop('hidden', false);
+            });
+        }
+        function updateClean_A1(){
+            $(".update_A1_clean").click(function() {
+                cleanA1()
+                $('.edit_input').prop('hidden', true);
+                $('.add_edit_input').prop('hidden', false);
+            });
+        }
+        function datos_aterrizaje(response){
+            $.each(response, function (key, value){
+            $('#A3_data').append(
+                "<tr id='delete_a3"+value.id+"'>\
+                <td style='padding-left: 20px;'>V"+value.n_vuelo+"</td>\
+                <td style='padding-left: 20px;'>"+value.apoyo_carga+"</td>\
+                <td style='padding-left: 20px;'>"+value.pesocargaTotal+"</td>\
+                <td style='padding-left: 20px;'>"+value.volCargaTotal+"</td>\
+                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_A3'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger borrar_A3' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                </tr>");
+            })
+        }
+        function dalete_A3(id){
+            var id = $(this).val();
+            Swal.fire({
+                title: 'Estas Seguro de Eliminar?',
+                text: "No podrás revertir esto.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url:"{{ route('delete_a3') }}",
+                        method:'POST',
+                        data:{id:id},
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response){
+                            if(response){
+                                cleanA3()
+                                $("#delete_a3"+id+"").remove();
+                            }
+                        }
+                    });
+                    Swal.fire({
+                        title: 'Eliminado!',
+                        text: 'La Misión ha sido eliminado.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });   
+                }
+            });
+        }
+        function edit_A3(res) {
+            $('.load_id_a3').val(res.id)
+
+            $('.n_vuelo').val(res.n_vuelo).trigger('change')
+            $('.apoyo_carga').val(res.apoyo_carga),
+            $('.pesocargaTotal').val(res.pesocargaTotal),
+            $('.volCargaTotal').val(res.volCargaTotal),
+            $('.seca').val(res.seca),
+            $('.liquida').val(res.liquida),
+            $('.comb').val(res.comb),
+            $('.ammto').val(res.ammto),
+            $('.tox_pel').val(res.tox_pel),
+            $('.mil').val(res.mil),
+            $('.gob').val(res.gob),
+            $('.no_gob').val(res.no_gob),
+            $('.civil').val(res.civil),
+            $('.cant_animales').val(res.cant_animales),
+            $('.carga').val(res.carga),
+            $('.pers').val(res.pers)
+            
+            $('.edit_input_a3').prop('hidden', false);
+            $('.add_edit_carga_input').prop('hidden', true);
+        }
+        function update_A3(){
+            $(".actualizar_A3").click(function() {
+                $.ajax({
+                    url:"{{ route('actualizar_a3') }}",
+                    method:'POST',
+                    data:{
+                        id:$(".load_id_a3").val(),
+                        ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                        fam0001_id: id_fam0001,
+                        fam0001_a1_mision_id: $('.n_vuelo').val(),
+                        n_vuelo: $('.n_vuelo').val(),
+                        apoyo_carga: $('.apoyo_carga').val(),
+                        pesocargaTotal: $('.pesocargaTotal').val(),
+                        volCargaTotal: $('.volCargaTotal').val(),
+                        seca: $('.seca').val(),
+                        liquida: $('.liquida').val(),
+                        comb: $('.comb').val(),
+                        ammto: $('.ammto').val(),
+                        tox_pel: $('.tox_pel').val(),
+                        mil: $('.mil').val(),
+                        gob: $('.gob').val(),
+                        no_gob: $('.no_gob').val(),
+                        civil: $('.civil').val(),
+                        cant_animales: $('.cant_animales').val(),
+                        carga: $('.carga').val(),
+                        pers: $('.pers').val(),
+                        completado: "paso4",
+                    }, 
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response){
+                        if(response){
+                            console.log(response)
+                            cleanA3()
+                            Swal.fire({
+                                title:'Actualizado!',
+                                text: 'Datos de la Carga Actualizado Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            }); 
+                        }
+                    }
+                });
+            });
+        }
+        function updateClean_A3(){
+            $(".update_a3_clean").click(function() {
+                cleanA3()
+                $('.edit_input_a3').prop('hidden', true);
+                $('.add_edit_carga_input').prop('hidden', false);
+            });
+        }
     });
 </script>
 @endsection
