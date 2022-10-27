@@ -56,14 +56,16 @@ Route::group(['middleware' => ['auth']], function() {
 //RUTA FORMULARIO FAM002 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
-  //Route::get('getFam0001',                [FormaFAMController::class, 'getFam0001'])->name('getFam0001');
-
+    
     Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
+    Route::get('FormaFAM_edit/{fam_id}',    [FormaFAMController::class, 'FormaFAM_edit'])->name('FormaFAM.edit');
+    Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 
     Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
 
     Route::post('steps',                    [FormaFAMController::class, 'steps'])->name('steps'); 
+    Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status'); 
     Route::post('store_header',             [FormaFAMController::class, 'store'])->name('store_header'); 
     Route::post('store_a1',                 [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
     Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles'); 

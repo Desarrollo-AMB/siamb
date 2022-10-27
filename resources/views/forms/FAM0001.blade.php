@@ -54,10 +54,10 @@
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
-                                                    <a href="{{ route('users.edit',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
+                                                    {{-- <a href="{{route('FormaFAM.edit', $data->id)}}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                         <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
-                                                    </a>
-                                                    <a href="" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                    </a> --}}
+                                                    <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                         <i class="fas fa-search text-secondary" aria-hidden="true"></i>
                                                     </a>
                                                 </th>
