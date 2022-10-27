@@ -56,17 +56,12 @@
 			{ "name": "Eliminar Ingreso de Personal",     "route_name": "sireh.ingreso-personal.destroy" },
 			{ "name": "Activación de Ingreso de Personal",     "route_name": "sireh.ingreso-personal.activar" },
 			{ "name": "Actualizar Ingreso de Personal",     "route_name": "sireh.ingreso-personal.update" },
-			{ "name": "Cargos",     "route_name": "sireh.cargos" },
-			{ "name": "Nuevo Cargo",     "route_name": "sireh.cargos.create" },
-			{ "name": "Editar Cargo",     "route_name": "sireh.cargos.edit" },
-			{ "name": "Guardar Cargo",     "route_name": "sireh.cargos.store" },
-			{ "name": "Actualizar Cargo",     "route_name": "sireh.cargos.update" },
-			{ "name": "Eliminar Cargo",     "route_name": "sireh.cargos.destroy" },
 			{ "name": "Modulo Ascensos Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.ascensos" },
 			{ "name": "Modulo Graduación Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.graduacion" },
-			{ "name": "Proceso Ascender Militar No Profesional",     "route_name": "sireh..personal-militar-noprof.ascender" },
-			{ "name": "Proceso Graduar Militar No Profesional",     "route_name": "sireh..personal-militar-noprof.graduar" },
-			{ "name": "Modulo Egresos Militar No Profesional",     "route_name": "sireh..personal-militar-noprof.egresos" }
+			{ "name": "Proceso Ascender Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.ascender" },
+			{ "name": "Proceso Graduar Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.graduar" },
+			{ "name": "Modulo Egresos de Alistados",     "route_name": "sireh.personal-militar-noprof.egresos" },
+			{ "name": "Proceso Egresar Alistados",     "route_name": "sireh.personal-militar-noprof.egresar" }
 		]
 	},
 	{
@@ -79,6 +74,17 @@
 			{ "name": "steps",            "route_name": "steps" },
 			{ "name": "store",            "route_name": "store" },
 			{ "name": "store_a1",         "route_name": "store_a1" }
+		]
+	},
+	{
+		"group": "Archivo",
+		"labels": [
+			{ "name": "Cargos",     "route_name": "sireh.cargos" },
+			{ "name": "Nuevo Cargo",     "route_name": "sireh.cargos.create" },
+			{ "name": "Editar Cargo",     "route_name": "sireh.cargos.edit" },
+			{ "name": "Guardar Cargo",     "route_name": "sireh.cargos.store" },
+			{ "name": "Actualizar Cargo",     "route_name": "sireh.cargos.update" },
+			{ "name": "Eliminar Cargo",     "route_name": "sireh.cargos.destroy" }
 		]
 	}
 ]

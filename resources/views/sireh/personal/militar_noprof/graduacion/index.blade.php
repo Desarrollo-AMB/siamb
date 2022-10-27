@@ -438,8 +438,7 @@
 <script>
 
     $(document).ready(function() {
-        
-
+        grados();
         var table1 = $('#table1').DataTable({
             processing: true,
             serverSide: true,
@@ -461,7 +460,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -474,7 +472,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -528,7 +527,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -541,7 +539,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -595,7 +594,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -608,7 +606,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -662,7 +661,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -675,7 +673,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -729,7 +728,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -742,7 +740,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -796,7 +795,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -809,7 +807,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('TE');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -863,7 +862,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -876,7 +874,8 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `TE`; 
+                    var grado=buscarGrado('S/2');
+                    return grado.descripcion; 
                     }
                 },
             ],
@@ -992,8 +991,25 @@
                 );   
             }
         });
-
-      
     });
+
+    function grados(){
+        $.get('/api/grados-militares/MEF'  ,function(data) {
+            $.each(data, function(fetch, grado){ 
+                var objeto =   {
+                    'codigo': grado.codigo_grado,
+                    'siglas': grado.siglas,
+                    'descripcion': grado.descripcion,
+                };       
+                gradosData.push(objeto);
+            });
+        }); 
+    }
+
+    function buscarGrado(nuevoGrado){
+        var results = gradosData.filter(function (grados) { return grados.siglas == nuevoGrado; });
+        var firstObj = (results.length > 0) ? results[0] : null;
+        return firstObj;
+    }
 </script>
 @endsection

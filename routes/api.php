@@ -2,11 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
-use App\Http\Controllers\ApiController;
-
+use App\Http\Controllers\MilitarNoProf\EgresosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,3 +47,5 @@ Route::get('sireh/personalmilitarnoprof/ascensos/alferez_5to_salud', [AscensosCo
 Route::get('sireh/personalmilitarnoprof/ascensos/alferez', [AscensosController::class, 'getAlferez'])->name('sireh.militar-noprof.ascensos.dataAlferez');
 Route::get('sireh/personalmilitarnoprof/ascensos/cadete_3er', [AscensosController::class, 'getCadete3er'])->name('sireh.militar-noprof.ascensos.dataCadete3er');
 Route::get('sireh/personalmilitarnoprof/ascensos/cadete_2do', [AscensosController::class, 'getCadete2do'])->name('sireh.militar-noprof.ascensos.dataCadete2do');
+
+Route::get('sireh/personalmilitarnoprof/egreso_contingente', [EgresosController::class, 'dataEgresoContingente'])->name('sireh.personal.militar-noprof.egresoContingente');

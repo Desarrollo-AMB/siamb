@@ -24,7 +24,7 @@ return new class extends Migration
                     "hasta", OLD.hasta,
                     "costo", OLD.costo,
                     "duracion", OLD.duracion,
-                    "numero_transacion", OLD.numero_transacion,
+                    "numero_transacion", OLD.numero_transaccion,
                     "fecha_registro", OLD.fecha_registro,
                     "orden_merito_curso", OLD.orden_merito_curso,
                     "total_orden_merito_curso", OLD.total_orden_merito_curso,
@@ -33,7 +33,7 @@ return new class extends Migration
                     "observacion", OLD.observacion,
                     "usuario", OLD.usuario,
                     "tipo_curso", OLD.tipo_curso,
-                    "stastus", OLD.stastus,
+                    "status", OLD.status,
                     "unidad", OLD.unidad,
                     "is_deleted", OLD.is_deleted
                 ),
@@ -44,7 +44,7 @@ return new class extends Migration
                     "hasta", NEW.hasta,
                     "costo", NEW.costo,
                     "duracion", NEW.duracion,
-                    "numero_transacion", NEW.numero_transacion,
+                    "numero_transacion", NEW.numero_transaccion,
                     "fecha_registro", NEW.fecha_registro,
                     "orden_merito_curso", NEW.orden_merito_curso,
                     "total_orden_merito_curso", NEW.total_orden_merito_curso,
@@ -53,12 +53,12 @@ return new class extends Migration
                     "observacion", NEW.observacion,
                     "usuario", NEW.usuario,
                     "tipo_curso", NEW.tipo_curso,
-                    "stastus", NEW.stastus,
+                    "status", NEW.status,
                     "unidad", NEW.unidad,
                     "is_deleted", NEW.is_deleted
                 ),
                 NOW(),
-                NEW.user_updated
+                NEW.usuario
             );
         END');
     }

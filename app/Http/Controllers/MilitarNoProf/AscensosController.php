@@ -8,8 +8,10 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\Facades\Log;
+
 use App\Models\Empleado;
 use App\Models\Nomina;
+use App\Models\HistoricoAscensos;
 
 class AscensosController extends Controller
 {
@@ -29,6 +31,16 @@ class AscensosController extends Controller
                         $nomina = Nomina::where('codigo_empleado',$codigo_empleado)->first();
                         $nomina->grado_militar='311';
                         $nomina->update();
+                        HistoricoAscensos::create(
+                            [
+                                'codigo_empleado'=> $nomina->codigo_empleado,
+                                'codigo_grado'=>'311',
+                                'fecha_ascenso' => $request->fecha_ascenso,
+                                'resolucion'=> '',
+                                'username' => auth()->user()->username,
+                                'fecha_registro' => $fecha_registro,
+                            ]
+                        );
                     }
                 } catch (Exception $e) {
                     Log::error("************************* ERROR ************************* \n" . $e);

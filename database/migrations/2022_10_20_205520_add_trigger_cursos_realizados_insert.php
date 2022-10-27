@@ -31,7 +31,7 @@ return new class extends Migration
                         "tipo_curso", NEW.tipo_curso
                     ),
                     NOW(),
-                    NEW.user_created
+                    NEW.usuario
                 );
         END');
     }

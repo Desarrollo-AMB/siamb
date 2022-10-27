@@ -32,8 +32,7 @@ return new class extends Migration
                     "codigo_estado", OLD.codigo_estado,
                     "ciudad", OLD.ciudad,
                     "año_graduacion", OLD.año_graduacion,
-                    "pais", OLD.pais,
-                    "is_deleted", OLD.is_deleted
+                    "pais", OLD.pais
                 ),
                 JSON_OBJECT(
                     "codigo_empleado", NEW.codigo_empleado,
@@ -50,11 +49,10 @@ return new class extends Migration
                     "codigo_estado", NEW.codigo_estado,
                     "ciudad", NEW.ciudad,
                     "año_graduacion", NEW.año_graduacion,
-                    "pais", NEW.pais,
-                    "is_deleted", NEW.is_deleted
+                    "pais", NEW.pais
                 ),
                 NOW(),
-                NEW.user_updated
+                NEW.usuario
             );
         END');
     }
