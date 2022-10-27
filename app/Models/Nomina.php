@@ -43,4 +43,8 @@ class Nomina extends Model
                 'codigo_ubicacion_detallada', 
             ]);
     }
+
+    public function datos_militares() {
+        return $this->hasOne(DatosMilitares::class, 'codigo_empleado', 'codigo_empleado');
+    }
 }

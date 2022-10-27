@@ -267,7 +267,21 @@
         <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-laravel" class="btn btn-primary btn-md active px-5 text-white" target="_blank" role="button" aria-pressed="true">
             Upgrade to PRO</a>
       </li> --}}
+
     </ul>
+    <div>
+      @if(session()->has('warning'))
+        <div x-data="{ show: true}"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-show="show"
+            class="position-fixed bg-warning rounded right-3 text-sm py-2 px-4">
+          <p class="m-0" style="white-space: break-word;">{{ session('warning')}}</p>
+        </div>
+      @endif
+    </div>
+  </div>
+  <div class="sidenav-footer mx-3 ">
+  
   </div>
   {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
