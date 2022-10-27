@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('zodi',40)->nullable();
             $table->enum('situacion',['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

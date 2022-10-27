@@ -58,6 +58,14 @@ return [
         'avianet' =>  'AVIANET',
         'educacion' =>  'EDUCACION',
         'sireh' =>  'SIREH',
+    ],
+    'clasificacion_cargo' =>[
+        'M' =>  'MILITAR',
+        'E' =>  'EMPLEADO',
+        'O' =>  'OBRERO',
+        'D' =>  'DOCENTE',
+        'I' =>  'MEDICOS',
+        'C' =>  'CONTRATADO',
     ]
 
 ];

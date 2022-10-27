@@ -45,7 +45,7 @@
       @role('administrador')
       
       <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-expanded="false" aria-controls="collapseExample" >
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-users"><title>Usuarios</title></i>
             
@@ -61,7 +61,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link " aria-expanded="false" aria-controls="collapseExample" >
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-users"><title>Registros de vuelos</title></i>
             
@@ -96,21 +96,37 @@
       </li>       --}}
       @endrole 
       <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " >
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-shield"><title>SIREH</title></i>
             
           </div>
           <span class="nav-link-text ms-1">SIREH </span>
         </a>
-        <div class="panel-collapse collapse {{ ((Request::is('sireh/') ) ? 'show' : '') }}"  id="collapseListGroup2" >
+        
+        <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
           <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('sireh/ingreso_personal/index') ? 'active' : '') }}" href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('sireh/personal_militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('sireh/personal_civil/index') ? 'active' : '') }}" href="{{ route('sireh.personal-civil.index') }}">Personal Civil</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('sireh/personal_militar_noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }}" href="{{ url('/') }}">Bienestar Social</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('/') ? 'active' : '') }}" href="{{ url('/') }}">Nomina</a></li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/ingreso-personal/index') ? 'active' : '') }}" href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/personal-militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/personal-civil/index') ? 'active' : '') }}" href="{{ route('sireh.personal-civil.index') }}">Personal Civil</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{-- (Request::is('/') ? 'active' : '') --}}" href="{{ url('/') }}">Bienestar Social</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{-- (Request::is('/') ? 'active' : '') --}}" href="{{ url('/') }}">Nomina</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="(Request::is('sireh/auxiliares') ? 'active' : '') " href="{{ route('sireh.auxiliares') }}">Tablas Auxiliares</a>
+            </li>
           </ul>
         </div>
       </li>
@@ -251,7 +267,21 @@
         <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-laravel" class="btn btn-primary btn-md active px-5 text-white" target="_blank" role="button" aria-pressed="true">
             Upgrade to PRO</a>
       </li> --}}
+
     </ul>
+    <div>
+      @if(session()->has('warning'))
+        <div x-data="{ show: true}"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-show="show"
+            class="position-fixed bg-warning rounded right-3 text-sm py-2 px-4">
+          <p class="m-0" style="white-space: break-word;">{{ session('warning')}}</p>
+        </div>
+      @endif
+    </div>
+  </div>
+  <div class="sidenav-footer mx-3 ">
+  
   </div>
   {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">

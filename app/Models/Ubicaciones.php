@@ -9,6 +9,10 @@ class Ubicaciones extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        '*',
+    ];
+    
     public function nomina()
     {
         return $this->belongsTo(Nomina::class, 'codigo_ubicacion', 'codigo_ubicacion');

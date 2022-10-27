@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
 
@@ -14,7 +13,7 @@ class ApiController extends Controller
     }
 
     public function getGradosMilitares($tipo_emp){
-        $ciudades = GradosMilitares::where('tipo_emp',$tipo_emp)->get();
-        return response()->json($ciudades);
+        $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->get();
+        return response()->json($grados);
     }
 }

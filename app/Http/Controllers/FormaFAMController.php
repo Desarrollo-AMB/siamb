@@ -39,20 +39,56 @@ class FormaFAMController extends Controller
         $fam0001 = Fam0001::with('aeronaves')->get();
         return view('forms.FAM0001', compact('fam0001'));
     }
-    // public function getFam0001(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = Fam0001::latest()->get();
-    //         return Datatables::of($data)
-    //             ->addIndexColumn()
-    //             ->addColumn('action', function($row){
-    //                 $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-    //                 return $actionBtn;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
-    //     }
-    // }
+    public function FormaFAM_edit($fam_id) 
+    {
+        //HEADER
+        $aeronaveModelos = AeronaveModelo::get();
+        $matriculas = AeronaveMatricula::get();
+        $unidad = AeronaveUnidades::get();
+        $componentes = ComponenteOrganismo::get();
+        $bases = Base::get();
+        $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
+        //A1-MISION
+        $vueloOrdenadaPor = VueloOrdenadaPor::get();
+        $enApoyo = VueloEnApoyo::get();
+        $consumibles = UnidadesConsumible::get();
+        $unidadesMedida = UnidadesMedidas::get();
+        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        //B1-TRIPULACION
+        $A1_mision = Fam0001A1Mision::get();
+        $funcion = FuncionTripulante::get();
+        $despegue = CodigoDespegue::get(); 
+
+        $fam0001 = $fam_id;
+        return view('forms.FAM0001_edit', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+    
+    }
+    public function FormaFAM_status($fam_id) 
+    {
+        //HEADER
+        $aeronaveModelos = AeronaveModelo::get();
+        $matriculas = AeronaveMatricula::get();
+        $unidad = AeronaveUnidades::get();
+        $componentes = ComponenteOrganismo::get();
+        $bases = Base::get();
+        $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
+        //A1-MISION
+        $vueloOrdenadaPor = VueloOrdenadaPor::get();
+        $enApoyo = VueloEnApoyo::get();
+        $consumibles = UnidadesConsumible::get();
+        $unidadesMedida = UnidadesMedidas::get();
+        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        //B1-TRIPULACION
+        $A1_mision = Fam0001A1Mision::get();
+        $funcion = FuncionTripulante::get();
+        $despegue = CodigoDespegue::get(); 
+
+        $fam0001 = $fam_id;
+        return view('forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+    
+    }
 
     public function index()
     {
@@ -97,12 +133,25 @@ class FormaFAMController extends Controller
         return response()->json($selectedMatricula);
     }
 
-    public function steps()
+    public function steps(Request $request)
     {
-        $headerData = Fam0001::get();
-        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('user_id',auth()->id())->get();
-        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->where('user_id',auth()->id())->get();
-        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('user_id',auth()->id())->get();
+        $headerData = Fam0001::where('id',$request->data_id)->get();
+        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        return response()->json([
+            "headerData"=>$headerData, 
+            "A1_data"=>$A1_data,
+            "B1_data"=>$B1_data,
+            "A3_data"=>$A3_data,
+        ]);
+    }
+    public function steps_status(Request $request)
+    {
+        $headerData = Fam0001::where('id',$request->data_id)->get();
+        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         return response()->json([
             "headerData"=>$headerData, 
             "A1_data"=>$A1_data,
@@ -588,7 +637,7 @@ class FormaFAMController extends Controller
             $total_ciclos_tren += $get_data[$i]['ciclos_tren'];
             //$total_consumibles += $get_data[$i]['total_consumibles'];
         }
-        $FAM0001 = Fam0001::where('completado',"paso1")->where('user_id',auth()->id())->update([
+        $FAM0001 = Fam0001::where('completado',"paso1")->where('id',$id_fam0001)->where('user_id',auth()->id())->update([
             'total_registro_manual' => $total_registro_manual, 
             'total_ind_vuelo' => $total_ind_vuelo, 
             'total_toque_desp' => $total_toque_desp, 
@@ -598,11 +647,11 @@ class FormaFAMController extends Controller
             //'total_consumibles' => $total_consumibles, 
             'completado' => 'completado',
         ]);
-        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('user_id',auth()->id())->update([
+        $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('fam0001_id',$id_fam0001)->where('user_id',auth()->id())->update([
             'completado' => 'completado'
         ]);
-        $B1_data = Fam0001B1Tripulacion::where('completado',"paso3")->where('user_id',auth()->id())->update(['completado' => 'completado']);
-        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('user_id',auth()->id())->update(['completado' => 'completado']);
+        $B1_data = Fam0001B1Tripulacion::where('completado',"paso3")->where('fam0001_id',$id_fam0001)->where('user_id',auth()->id())->update(['completado' => 'completado']);
+        $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('fam0001_id',$id_fam0001)->where('user_id',auth()->id())->update(['completado' => 'completado']);
         return response()->json([
                 'success' => true,
                 'message' => 'Data',

@@ -10,6 +10,11 @@
     </ul>
 </div>
 @endif
+@if ($message = Session::get('success'))
+<div class="alert alert-success mx-4" role="alert">
+    <span class="text-white">{{ $message }}</span>
+</div>
+@endif
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
@@ -21,14 +26,15 @@
                 </div>
             </div>
             <hr class="horizontal dark my-0">
+            @include('sireh.personal.militar_noprof._barra_auxiliar')
+            <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
-                                <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Codigo Empleado</th>
                                             <th>Cedula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
@@ -59,7 +65,6 @@
             pageLength: 25,
             ajax: "{{ route('sireh.personal.militar-noprof.data') }}",
             columns: [
-                {data: 'codigo_empleado',},
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
@@ -95,7 +100,6 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
 
     });
 </script>

@@ -10,6 +10,11 @@
     </ul>
 </div>
 @endif
+@if ($message = Session::get('success'))
+<div class="alert alert-success mx-4" role="alert">
+    <span class="text-white">{{ $message }}</span>
+</div>
+@endif
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
@@ -29,7 +34,6 @@
                                 <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            <th>Codigo Empleado</th>
                                             <th>Cedula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
@@ -54,6 +58,11 @@
 @section('scripts')
 @parent
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(function () {
         var table = $('#table').DataTable({
             processing: true,
@@ -62,7 +71,6 @@
             pageLength: 25,
             ajax: "{{ route('sireh.empleados.inactivos') }}",
             columns: [
-                {data: 'codigo_empleado',},
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
@@ -100,8 +108,78 @@
                 }
             }
         });
-        new $.fn.dataTable.FixedHeader( table );
 
+        $('#table').on('click', '.confirm-delete' ,function (e) { 
+            e.preventDefault(); 
+            var url =$(this).data('target') ;
+            Swal.fire({
+                title: 'Estas Seguro de Eliminar?',
+                text: "No podrás revertir esto.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => { 
+                if(result.isConfirmed){
+                    $.ajax(
+                        { 
+                            url: url, 
+                            type: 'DELETE', 
+                            dataType: 'json', 
+                            data: {method: '_DELETE'}, 
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
+                        }
+                    ).always(function (data) { 
+                        $('#table').DataTable().ajax.reload(); 
+                        Swal.fire({
+                            title: 'Eliminado!',
+                            text: 'El Registro de Ingreso ha sido eliminado.',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                    }); 
+                }
+            });
+        });
+
+        $('#table').on('click', '.activar-ingreso' ,function (e) { 
+            e.preventDefault(); 
+            var url =$(this).data('target') ;
+            Swal.fire({
+                title: 'Estas Seguro de Activar?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => { 
+                if(result.isConfirmed){
+                    $.ajax(
+                        { 
+                            url: url, 
+                            type: 'POST', 
+                            dataType: 'json', 
+                            data: {method: '_POST'}, 
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
+                        }
+                    ).always(function (data) {
+                        //console.log(data);
+                        $('#table').DataTable().ajax.reload(); 
+                        Swal.fire({
+                            title: 'Activado!',
+                            text: 'El Registro de Ingreso ha sido activado.',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                    }); 
+                }
+            });
+        });
+        
     });
 </script>
 @endsection

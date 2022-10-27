@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('estudios_realizados', function (Blueprint $table) {
             $table->id();
             $table->integer('codigo_empleado')->nullable();
-            $table->string('profresion',4)->nullable();
+            $table->string('profesion',4)->nullable();
             $table->integer('ultimo_año_cursado')->nullable();
             $table->string('resultado',2)->nullable();
             $table->string('universidad',4)->nullable();

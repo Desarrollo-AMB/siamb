@@ -9,6 +9,10 @@ use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\MilitarNoProf\GraduacionController;
+use App\Http\Controllers\MilitarNoProf\AscensosController;
+use App\Http\Controllers\MilitarNoProf\EgresosController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +25,11 @@ use App\Http\Controllers\PersonalController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    if(Auth::check()) {
+        return redirect('/home');
+    } else {
+        return view('auth.login');
+    }
 });
 
 Auth::routes();
@@ -29,6 +37,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::group(['middleware' => ['auth','access']], function() {
+
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
@@ -37,12 +46,43 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/ingreso_personal/index', [PersonalController::class, 'index'])->name('sireh.ingreso-personal.index');
     Route::get('/sireh/ingreso_personal/new', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.new');
     Route::post('/sireh/ingreso_personal/store', [PersonalController::class, 'registraPersonal'])->name('sireh.ingreso-personal.store');
-    Route::get('/sireh/ingreso_personal/edit', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.edit');
+    Route::get('/sireh/ingreso_personal/edit/{id}', [PersonalController::class, 'editIngresoPersonal'])->name('sireh.ingreso-personal.edit');
+    Route::post('/sireh/ingreso_personal/update/{empleado}', [PersonalController::class, 'updatePersonal'])->name('sireh.ingreso-personal.update');
+    Route::delete('/sireh/ingreso_personal/delete/{empleado}', [PersonalController::class, 'destroy'])->name('sireh.ingreso-personal.destroy');
+    Route::post('/sireh/ingreso_personal/activar/{empleado}', [PersonalController::class, 'activarIngreso'])->name('sireh.ingreso-personal.activar');
 
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
+
+    Route::get('/sireh/auxiliares', [PersonalController::class, 'auxiliares'])->name('sireh.auxiliares');
+    
+    //CRUD Tabla Cargos
+    Route::get('/sireh/cargos', [PersonalController::class, 'cargosIndex'])->name('sireh.cargos');
+    Route::get('/sireh/cargos/create', [PersonalController::class, 'createCargo'])->name('sireh.cargos.create');
+    Route::post('/sireh/cargos/store', [PersonalController::class, 'storeCargo'])->name('sireh.cargos.store');
+    Route::get('/sireh/cargos/edit/{id}', [PersonalController::class, 'editCargo'])->name('sireh.cargos.edit');
+    Route::post('/sireh/cargos/update/{cargo}', [PersonalController::class, 'updateCargo'])->name('sireh.cargos.update');
+    Route::delete('/sireh/cargos/delete/{cargo}', [PersonalController::class, 'destroyCargo'])->name('sireh.cargos.destroy');
+
+    //CRUD Tabla Ubicaciones
+    Route::get('/sireh/ubicaciones', [PersonalController::class, 'ubicacionesIndex'])->name('sireh.ubicaciones');
+    Route::get('/sireh/ubicaciones/create', [PersonalController::class, 'createUbicacion'])->name('sireh.ubicaciones.create');
+    Route::post('/sireh/ubicaciones/store', [PersonalController::class, 'storeUbicacion'])->name('sireh.ubicaciones.store');
+    Route::get('/sireh/ubicaciones/edit/{id}', [PersonalController::class, 'editUbicacion'])->name('sireh.ubicaciones.edit');
+    Route::post('/sireh/ubicaciones/update/{ubicacion}', [PersonalController::class, 'updateUbicacion'])->name('sireh.ubicaciones.update');
+    Route::delete('/sireh/ubicaciones/delete/{ubicacion}', [PersonalController::class, 'destroyUbicacion'])->name('sireh.ubicaciones.destroy');
+
+    Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
+    Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
+
+    Route::get('/sireh/personal-militar-noprof/ascensos', [AscensosController::class, 'index'])->name('sireh.personal-militar-noprof.ascensos');
+    Route::post('/sireh/personal-militar-noprof/ascender', [AscensosController::class, 'ascender'])->name('sireh.personal-militar-noprof.ascender');
+
+    Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
+    Route::post('/sireh/personal-militar-noprof/egresar', [EgresosController::class, 'egresar'])->name('sireh.personal-militar-noprof.egresar');
 });
+
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('dashboard', function () {
@@ -54,16 +94,19 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 //RUTA FORMULARIO FAM002 
+
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
-  //Route::get('getFam0001',                [FormaFAMController::class, 'getFam0001'])->name('getFam0001');
 
     Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
+    Route::get('FormaFAM_edit/{fam_id}',    [FormaFAMController::class, 'FormaFAM_edit'])->name('FormaFAM.edit');
+    Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 
     Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
 
     Route::post('steps',                    [FormaFAMController::class, 'steps'])->name('steps'); 
+    Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status'); 
     Route::post('store_header',             [FormaFAMController::class, 'store'])->name('store_header'); 
     Route::post('store_a1',                 [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
     Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles'); 
@@ -81,6 +124,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje'); 
     Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json'); 
     Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo'); 
+
     Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1'); 
     Route::post('actualizar_b1',            [FormaFAMController::class, 'actualizar_b1'])->name('actualizar_b1');  
     Route::post('delete_b1',                [FormaFAMController::class, 'delete_b1'])->name('delete_b1');  
@@ -91,6 +135,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');  
     
     Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');  
+
 });
 
 Route::get('no_authorize', function () {
