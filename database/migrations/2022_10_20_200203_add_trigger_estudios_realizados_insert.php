@@ -29,7 +29,7 @@ return new class extends Migration
                         "pais", NEW.pais
                     ),
                     NOW(),
-                    NEW.user_created
+                    NEW.usuario
                 );
         END');
     }

@@ -333,7 +333,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -343,7 +342,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('A6');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion; 
                     }
                 },
@@ -398,7 +396,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -408,7 +405,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('A5');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion; 
                     }
                 },
@@ -463,7 +459,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -473,7 +468,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('5T');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion; 
                     }
                 },
@@ -528,7 +522,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -538,7 +531,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('AL');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion;  
                     }
                 },
@@ -593,7 +585,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -603,7 +594,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('C3');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion; 
                     }
                 },
@@ -658,7 +648,6 @@
                 {
                     data: 'codigo_empleado',
                     orderable: false, searchable: false,
-                   
                 },
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
@@ -668,7 +657,6 @@
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('C2');
-                    //console.log('Grado Ascender =>', grado.descripcion);
                     return grado.descripcion;  
                     }
                 },
@@ -710,7 +698,7 @@
             var rows_selected = $( eval('table'+$("#tabla",form).val()).$('input[type="checkbox"]').map(function () {
                 return $(this).prop("checked") ? eval('table'+$("#tabla",form).val()).row($(this).closest('tr')).data() : null;
             } ) );
-            //console.log(rows_selected, rows_selected.length)
+
             if ( rows_selected.length > 0 ){
                 var validator= form.validate({
                     rules: {
@@ -737,7 +725,6 @@
                         ids_selected.push(value.codigo_empleado);
                     });
                     fd.append('ids',JSON.parse(JSON.stringify(ids_selected)));
-                    
                     //console.log(...fd);
 
                     $.ajax({
@@ -771,9 +758,7 @@
                     }
                 );   
             }
-        });
-
-      
+        });      
     });
 
     function grados(){
@@ -787,13 +772,11 @@
                 gradosData.push(objeto);
             });
         }); 
-        
     }
 
     function buscarGrado(nuevoGrado){
         var results = gradosData.filter(function (grados) { return grados.siglas == nuevoGrado; });
         var firstObj = (results.length > 0) ? results[0] : null;
-        console.log(firstObj);
         return firstObj;
     }
 </script>

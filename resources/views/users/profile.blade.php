@@ -25,57 +25,66 @@
             <div class="card-body px-2 pt-2 pb-2">
                 {!! Form::model($profile, ['method' => 'POST', 'enctype'=>'multipart/form-data', 'route' => ['profile.update', $user->id]]) !!}
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        {{--<div class="form-group">
-                            <strong>Foto:</strong>
-                            <input type="file" placeholder="Foto" name="foto" id="imgInp">
-                            <img style="visibility:hidden"  id="prview" src=""  width=100 height=100 />
-                            @if ($profile && $profile->foto)
-                            <img height="100" width=100 src="{{asset($profile->foto)}}"  id="foto_preview"/>
-                            @endif
-                        </div>--}}
-                        <div class="avatar-wrapper">
-                            @if ($profile && $profile->foto)
-                                <img class="profile-pic" src="{{asset($profile->foto)}}"/>
-                            @else
-                                <img class="profile-pic" src="" />
-                            @endif
-                            
-                            <div class="upload-button">
-                                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    <div class="col-lg-6 col-sm-12 col-md-6">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="avatar-wrapper">
+                                    @if ($profile && $profile->foto)
+                                        <img class="profile-pic" src="{{asset($profile->foto)}}"/>
+                                    @else
+                                        <img class="profile-pic" src="" />
+                                    @endif
+                                    <div class="upload-button">
+                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="file-upload" type="file" accept="image/*" name="foto" />
+                                </div>
                             </div>
-                            <input class="file-upload" type="file" accept="image/*" name="foto" />
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Cédula:</strong>
+                                    {!! Form::text('cedula', $profile->cedula, array('placeholder' => 'Cédula','class' => 'form-control', 'disabled'=>'true')) !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Cédula:</strong>
-                            {!! Form::text('cedula', null, array('placeholder' => 'Cédula','class' => 'form-control')) !!}
-                        </div>
+                    <div class="col-lg-6 col-sm-12 col-md-6">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Primer Nombre:</strong>
+                                    {!! Form::text('nombre1', $profile->nombre1, array('placeholder' => 'Nombres','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Segundo Nombre:</strong>
+                                    {!! Form::text('nombre2', $profile->nombre2, array('placeholder' => 'Nombres','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Primer Apellido:</strong>
+                                    {!! Form::text('apellido1', $profile->apellido1, array('placeholder' => 'Apellidos','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Segundo Apellido:</strong>
+                                    {!! Form::text('apellido2', $profile->apellido2, array('placeholder' => 'Apellidos','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Telefono:</strong>
+                                    {!! Form::text('telefono', $profile->telefono, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                        </div>              
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Nombres:</strong>
-                            {!! Form::text('nombres', null, array('placeholder' => 'Nombres','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Apellidos:</strong>
-                            {!! Form::text('apellidos', null, array('placeholder' => 'Apellidos','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Telefono:</strong>
-                            {!! Form::text('telefono', null, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                                       
-                    
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Actualizar</button>
-                    </div>
+                    </div>              
                 </div>
                 {!! Form::close() !!}
             </div>

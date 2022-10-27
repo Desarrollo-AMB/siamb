@@ -32,10 +32,9 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
-                                <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Codigo Empleado</th>
                                             <th>Cedula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
@@ -66,7 +65,6 @@
             pageLength: 25,
             ajax: "{{ route('sireh.personal.militar-noprof.data') }}",
             columns: [
-                {data: 'codigo_empleado',},
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},

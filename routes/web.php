@@ -25,7 +25,11 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    if(Auth::check()) {
+        return redirect('/home');
+    } else {
+        return view('auth.login');
+    }
 });
 
 Auth::routes();
@@ -33,6 +37,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::group(['middleware' => ['auth','access']], function() {
+
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
@@ -75,7 +80,9 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar-noprof/ascender', [AscensosController::class, 'ascender'])->name('sireh.personal-militar-noprof.ascender');
 
     Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
+    Route::post('/sireh/personal-militar-noprof/egresar', [EgresosController::class, 'egresar'])->name('sireh.personal-militar-noprof.egresar');
 });
+
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('dashboard', function () {
