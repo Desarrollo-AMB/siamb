@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MilitarNoProf;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\Facades\Log;
+
 use App\Models\Empleado;
-use App\Models\TiposEmpleado;
-use App\Models\Ubicaciones;
 use App\Models\Nomina;
 use App\Models\DatosMilitares;
-use App\Models\GradosMilitares;
 use App\Models\Movimientos;
+use App\Models\HistoricoAscensos;
 
 class GraduacionController extends Controller
 {
@@ -57,6 +57,17 @@ class GraduacionController extends Controller
                             $movimiento->fecha_ubicacion=$request->fecha_ascenso;
                             $movimiento->fecha_cargo=$request->fecha_ascenso;
                             $movimiento->save();
+
+                            HistoricoAscensos::create(
+                                [
+                                    'codigo_empleado'=> $codigo_empleado,
+                                    'codigo_grado'=>'090',
+                                    'fecha_ascenso' => $request->fecha_ascenso,
+                                    'resolucion'=> $request->numero_resuelto,
+                                    'username' => auth()->user()->username,
+                                    'fecha_registro' => $fecha_registro,
+                                ]
+                            );
                         }
                     }
                 } catch (Exception $e) {
@@ -95,6 +106,17 @@ class GraduacionController extends Controller
                         $movimiento->fecha_ubicacion=$request->fecha_ascenso;
                         $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
+
+                        HistoricoAscensos::create(
+                            [
+                                'codigo_empleado'=> $codigo_empleado,
+                                'codigo_grado'=>'090',
+                                'fecha_ascenso' => $request->fecha_ascenso,
+                                'resolucion'=> $request->numero_resuelto,
+                                'username' => auth()->user()->username,
+                                'fecha_registro' => $fecha_registro,
+                            ]
+                        );
                     }
                 }
                 break;
@@ -129,6 +151,17 @@ class GraduacionController extends Controller
                         $movimiento->fecha_ubicacion=$request->fecha_ascenso;
                         $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
+
+                        HistoricoAscensos::create(
+                            [
+                                'codigo_empleado'=> $codigo_empleado,
+                                'codigo_grado'=>'090',
+                                'fecha_ascenso' => $request->fecha_ascenso,
+                                'resolucion'=> $request->numero_resuelto,
+                                'username' => auth()->user()->username,
+                                'fecha_registro' => $fecha_registro,
+                            ]
+                        );
                     }
                 }
                 break;
@@ -163,6 +196,17 @@ class GraduacionController extends Controller
                         $movimiento->fecha_ubicacion=$request->fecha_ascenso;
                         $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
+
+                        HistoricoAscensos::create(
+                            [
+                                'codigo_empleado'=> $codigo_empleado,
+                                'codigo_grado'=>'090',
+                                'fecha_ascenso' => $request->fecha_ascenso,
+                                'resolucion'=> $request->numero_resuelto,
+                                'username' => auth()->user()->username,
+                                'fecha_registro' => $fecha_registro,
+                            ]
+                        );
                     }
                 }
                 break;
@@ -199,6 +243,17 @@ class GraduacionController extends Controller
                         $movimiento->fecha_ubicacion=$request->fecha_ascenso;
                         $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
+
+                        HistoricoAscensos::create(
+                            [
+                                'codigo_empleado'=> $codigo_empleado,
+                                'codigo_grado'=>'470',
+                                'fecha_ascenso' => $request->fecha_ascenso,
+                                'resolucion'=> $request->numero_resuelto,
+                                'username' => auth()->user()->username,
+                                'fecha_registro' => $fecha_registro,
+                            ]
+                        );
                     }
                 }
                 break;

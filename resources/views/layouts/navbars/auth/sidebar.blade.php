@@ -3,7 +3,7 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
-        <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="...">
+        <img  src="../template/assets/img/logo.png"  class="navbar-brand-img h-100" alt="...">
         <span class="ms-3 font-weight-bold">SIAMB</span>
     </a>
   </div>
@@ -68,9 +68,9 @@
           </div>
           <span class="nav-link-text ms-1">Registros de vuelos</span>
         </a>
-        <div class="panel-collapse collapse {{ ((Request::is('FormaFAM') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
+        <div class="panel-collapse collapse {{ ((Request::is('fam0001') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
           <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('FormaFAM') ? 'active' : '') }}" href="{{ url('FormaFAM') }}">- FAM-0002</a></li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('fam0001') ? 'active' : '') }}" href="{{ url('fam0001') }}">- FAM-0002</a></li>
           </ul>
         </div>
       </li>
@@ -267,7 +267,21 @@
         <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-laravel" class="btn btn-primary btn-md active px-5 text-white" target="_blank" role="button" aria-pressed="true">
             Upgrade to PRO</a>
       </li> --}}
+
     </ul>
+    <div>
+      @if(session()->has('warning'))
+        <div x-data="{ show: true}"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-show="show"
+            class="position-fixed bg-warning rounded right-3 text-sm py-2 px-4">
+          <p class="m-0" style="white-space: break-word;">{{ session('warning')}}</p>
+        </div>
+      @endif
+    </div>
+  </div>
+  <div class="sidenav-footer mx-3 ">
+  
   </div>
   {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
