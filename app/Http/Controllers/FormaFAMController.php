@@ -41,8 +41,8 @@ class FormaFAMController extends Controller
         // $empleado = Empleado::where('user_id',$user_id)->with('date_empleado')->get();
         // $codigo_ubicacion = $empleado[0]['date_empleado']['codigo_ubicacion'];
         // $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
-
-        // $fam0001 = Fam0001::where('codigos', $ubicacion[0]['codigos'])->with('aeronaves')->get();
+        //$fam0001 = Fam0001::where('codigos', $ubicacion[0]['codigos'])->with('aeronaves')->get();
+        $fam0001 = Fam0001::with('aeronaves')->get();
         return view('forms.FAM0001', compact('fam0001'));
     }
     public function FormaFAM_edit($fam_id) 
