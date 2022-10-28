@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "universidades" ejecutado!');
 
-       /* $this->command->info('Tabla "empleados", por favor espere...');
+        $this->command->info('Tabla "empleados", por favor espere...');
         $path = 'database/sql/empleados.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "empleados" ejecutado!');
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Tabla "nomina", por favor espere...');
         $path = 'database/sql/nomina.sql';
         DB::unprepared(file_get_contents($path));
-        $this->command->info('SQL Insert tabla "nomina" ejecutado!');*/
+        $this->command->info('SQL Insert tabla "nomina" ejecutado!');
 
         $path = 'database/sql/articulo_hijo.sql';
         DB::unprepared(file_get_contents($path));
