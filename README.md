@@ -68,7 +68,14 @@ FROM nomina
 - paf
 - datos_boleta
 
-4. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde la BD SIREH:
+4. Con el manejador de Bases de Datos, exportar directamente desde la BD EDUCACION, las siguientes tablas:
+- estudios_realizados
+- cursos_realizado
+
+5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde la BD SIREH:
 - ubicaciones 
 - cargos
 - ubicaciones_detalladas
+
+
+
