@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('status',12)->nullable();
             $table->string('unidad',12)->nullable();
             $table->integer('is_deleted')->default(0);
+            $table->timestamps();
         });
     }
 
