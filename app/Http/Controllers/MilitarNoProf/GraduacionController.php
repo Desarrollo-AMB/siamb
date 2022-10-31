@@ -54,8 +54,8 @@ class GraduacionController extends Controller
                             $movimiento->tipo_emp_anterior='MEF';
                             $movimiento->tipo_emp_nuevo = 'MIL';
                             $movimiento->codigo_grado ='090';
-                            $movimiento->fecha_ubicacion=$request->fecha_resuelto;
-                            $movimiento->fecha_cargo=$request->fecha_resuelto;
+                            $movimiento->fecha_ubicacion=$request->fecha_ascenso;
+                            $movimiento->fecha_cargo=$request->fecha_ascenso;
                             $movimiento->save();
 
                             HistoricoAscensos::create(
@@ -103,8 +103,8 @@ class GraduacionController extends Controller
                         $movimiento->tipo_emp_anterior='MEF';
                         $movimiento->tipo_emp_nuevo = 'MIL';
                         $movimiento->codigo_grado ='090';
-                        $movimiento->fecha_ubicacion=$request->fecha_resuelto;
-                        $movimiento->fecha_cargo=$request->fecha_resuelto;
+                        $movimiento->fecha_ubicacion=$request->fecha_ascenso;
+                        $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
 
                         HistoricoAscensos::create(
@@ -193,8 +193,8 @@ class GraduacionController extends Controller
                         $movimiento->tipo_emp_anterior='MEF';
                         $movimiento->tipo_emp_nuevo = 'MIL';
                         $movimiento->codigo_grado ='090';
-                        $movimiento->fecha_ubicacion=$request->fecha_resuelto;
-                        $movimiento->fecha_cargo=$request->fecha_resuelto;
+                        $movimiento->fecha_ubicacion=$request->fecha_ascenso;
+                        $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
 
                         HistoricoAscensos::create(
@@ -240,8 +240,8 @@ class GraduacionController extends Controller
                         $movimiento->tipo_emp_anterior='MEF';
                         $movimiento->tipo_emp_nuevo = 'TRP';
                         $movimiento->codigo_grado ='470';
-                        $movimiento->fecha_ubicacion=$request->fecha_resuelto;
-                        $movimiento->fecha_cargo=$request->fecha_resuelto;
+                        $movimiento->fecha_ubicacion=$request->fecha_ascenso;
+                        $movimiento->fecha_cargo=$request->fecha_ascenso;
                         $movimiento->save();
 
                         HistoricoAscensos::create(

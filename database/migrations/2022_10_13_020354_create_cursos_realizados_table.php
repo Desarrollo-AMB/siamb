@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('cursos_realizados', function (Blueprint $table) {
             $table->id();
             $table->string('codigo_empleado',6)->nullable();
-            $table->integer('codigo_curso')->nullable();
+            $table->string('codigo_curso',11)->nullable();
             $table->date('desde')->nullable();
             $table->date('hasta')->nullable();
             $table->float('costo',11,2)->nullable();
@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('status',12)->nullable();
             $table->string('unidad',12)->nullable();
             $table->integer('is_deleted')->default(0);
+            $table->timestamps();
         });
     }
 

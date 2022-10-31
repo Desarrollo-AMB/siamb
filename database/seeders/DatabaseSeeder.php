@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "universidades" ejecutado!');
 
-       $this->command->info('Tabla "empleados", por favor espere...');
+       /* $this->command->info('Tabla "empleados", por favor espere...');
         $path = 'database/sql/empleados.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "empleados" ejecutado!');
@@ -70,8 +70,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Tabla "nomina", por favor espere...');
         $path = 'database/sql/nomina.sql';
         DB::unprepared(file_get_contents($path));
-        $this->command->info('SQL Insert tabla "nomina" ejecutado!');
-        
+        $this->command->info('SQL Insert tabla "nomina" ejecutado!');*/
+
         $path = 'database/sql/articulo_hijo.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "articulo_hijo" (SEID) ejecutado!');
@@ -86,11 +86,18 @@ class DatabaseSeeder extends Seeder
 
         $path = 'database/sql/notempleados.sql';
         DB::unprepared(file_get_contents($path));
-        $this->command->info('SQL Insert tabla "empleados_otro_componente" (SEID) ejecutado!');
-
+        $this->command->info('SQL Insert tabla "empleados_otro_componente" ejecutado!');
 
         $path = 'database/sql/profesiones.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "profesiones" ejecutado!');
+
+        $path = 'database/sql/cursos.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "cursos" ejecutado!');
+
+        $path = 'database/sql/conceptos_nomina.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "conceptos_nomina" ejecutado!');
     }
 }
