@@ -18,7 +18,9 @@
                     <div>
                         <h5 class="mb-0">Registros de Vuelo</h5>
                     </div>
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
+                    @role('aviacion')
+                        <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
+                    @endrole
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -32,7 +34,9 @@
                                             <th>FECHA</th>
                                             <th>OV/OTA/OM</th>
                                             <th>AERONAVE</th>
-                                            {{-- <th>EN APOYO</th> --}}
+                                            @role('administrador')
+                                            <th>UNIDAD</th>
+                                            @endrole 
                                             <th>BASE</th>
                                             <th>ESTATUS</th>
                                             <th>ACCIONES</th>
@@ -44,7 +48,9 @@
                                                 <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                 <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                 <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                {{-- <th>EN APOYO</th> --}}
+                                                @role('administrador')
+                                                <th  class="font-weight-normal">{{$data->unidad}}</th>
+                                                @endrole  
                                                 <th class="font-weight-normal">
                                                     {{$data->base->siglas}}
                                                 </th>
@@ -57,7 +63,7 @@
                                                 </th>
                                                 <th class="font-weight-normal">
                                                     @if($data->completado == 'completado') 
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                             <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                     @else
@@ -65,6 +71,11 @@
                                                             <i class="fas fa-search text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                     @endif
+                                                    @role('administrador')
+                                                        <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
+                                                            <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
+                                                        </a>
+                                                    @endrole
                                                 </th>
                                             </tr>
                                         @endforeach
