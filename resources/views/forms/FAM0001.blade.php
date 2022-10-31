@@ -45,7 +45,9 @@
                                                 <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                 <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
                                                 {{-- <th>EN APOYO</th> --}}
-                                                <th class="font-weight-normal">{{$data->base->siglas}}</th>
+                                                <th class="font-weight-normal">
+                                                    {{$data->base->siglas}}
+                                                </th>
                                                 <th class="font-weight-normal">
                                                     @if($data->completado == 'completado') 
                                                         <label class="badge bg-gradient-success">{{$data->completado}}</label>
@@ -54,12 +56,15 @@
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
-                                                    {{-- <a href="{{route('FormaFAM.edit', $data->id)}}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
-                                                        <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
-                                                    </a> --}}
-                                                    <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                        <i class="fas fa-search text-secondary" aria-hidden="true"></i>
-                                                    </a>
+                                                    @if($data->completado == 'completado') 
+                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                            <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                        </a>
+                                                    @else
+                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                            <i class="fas fa-search text-secondary" aria-hidden="true"></i>
+                                                        </a>
+                                                    @endif
                                                 </th>
                                             </tr>
                                         @endforeach

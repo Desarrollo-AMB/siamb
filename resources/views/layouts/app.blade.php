@@ -32,17 +32,21 @@
     <!-- Nucleo Icons -->
     <link href="{{ asset('template/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
     <link href="{{ asset('template/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+    <link href="{{ asset('template/assets/css/themify-icons/themify-icons.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('template/assets/font-awesome/css/all.css') }}">
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    {{-- <script src="{{ asset('template/assets/js/fontawesome.js') }}" crossorigin="anonymous"></script> --}}
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> 
     
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('template/assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
 
     {{-- WIZARD --}}
 	<!-- Fonts and Icons -->
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
-	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <!-- <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet"> -->
+	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>  
 	<link href="{{ asset('template/wizard/css/themify-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('template/wizard/css/styling-wizard.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/siamb.css') }}" rel="stylesheet">
     @yield('styles')

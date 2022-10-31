@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('unidad');
             $table->string('codigos');
+            $table->string('codigo_ubicacion');
             $table->timestamps();
         });
     }

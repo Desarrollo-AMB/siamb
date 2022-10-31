@@ -30,22 +30,22 @@ class AeronaveUnidadesSeeder extends Seeder
     public function run()
     {
         $items = [
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº4',               'codigos' => 'G-4'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº5',               'codigos' => 'G-5'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº6',               'codigos' => 'G-6'],
-            ['unidad' => 'GRUPO AÉREO DE VUELO INSTRUMENTAL Nº7',       'codigos' => 'G-7'],
-            ['unidad' => 'GRUPO AÉREO DE INTELIGENCIA, VIGILANCIA Y RECONOCIMIENTO ELECTRÓNICO Nº8', 'codigos' => 'G-8'],
-            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº9',               'codigos' => 'G-9'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15',  'codigos' => 'G-10'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº11',                    'codigos' => 'G-11'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº12',                    'codigos' => 'G-12'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº13',                    'codigos' => 'G-13'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº14',           'codigos' => 'G-14'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15',  'codigos' => 'G-15'],
-            ['unidad' => 'GRUPO AÉREO DE CAZA Nº16',                    'codigos' => 'G-16'],
-            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº17',  'codigos' => 'G-17'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº18',           'codigos' => 'G-18'],
-            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº19',           'codigos' => 'G-19'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº4',               'codigos' => 'G-4',  'codigo_ubicacion' =>  '2011'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº5',               'codigos' => 'G-5',  'codigo_ubicacion' =>  '2012'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº6',               'codigos' => 'G-6',  'codigo_ubicacion' =>  '2023'],
+            ['unidad' => 'GRUPO AÉREO DE VUELO INSTRUMENTAL Nº7',       'codigos' => 'G-7',  'codigo_ubicacion' =>  '4041'],
+            ['unidad' => 'GRUPO AÉREO DE INTELIGENCIA, VIGILANCIA Y RECONOCIMIENTO ELECTRÓNICO Nº8', 'codigos' => 'G-8', 'codigo_ubicacion' => '1022'],
+            ['unidad' => 'GRUPO AÉREO DE TRANSPORTE Nº9',               'codigos' => 'G-9' , 'codigo_ubicacion' => '2072'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº10',  'codigos' => 'G-10', 'codigo_ubicacion' => '2024'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº11',                    'codigos' => 'G-11', 'codigo_ubicacion' => '2022'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº12',                    'codigos' => 'G-12', 'codigo_ubicacion' => '2031'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº13',                    'codigos' => 'G-13', 'codigo_ubicacion' => '7285'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº14',           'codigos' => 'G-14', 'codigo_ubicacion' => '4004'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº15',  'codigos' => 'G-15', 'codigo_ubicacion' => '2051'],
+            ['unidad' => 'GRUPO AÉREO DE CAZA Nº16',                    'codigos' => 'G-16', 'codigo_ubicacion' => '2021'],
+            ['unidad' => 'GRUPO AÉREO DE OPERACIONES ESPECIALES Nº17',  'codigos' => 'G-17', 'codigo_ubicacion' => '7015'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº18',           'codigos' => 'G-18', 'codigo_ubicacion' => '8696'],
+            ['unidad' => 'GRUPO DE ENTRENAMIENTO AÉREO Nº19',           'codigos' => 'G-19', 'codigo_ubicacion' => '8697'],
         ];
 
         foreach ($items as $item) {
@@ -487,20 +487,16 @@ class AeronaveUnidadesSeeder extends Seeder
         }
 
         $empleadosSegunFunciones = [
-            ['codigo_empleado' => '4731',  'codigo_grado' => '210', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30284', 'codigo_grado' => '090', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30286', 'codigo_grado' => '070', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30285', 'codigo_grado' => '090', 'id_funcion' => '16'],
-            
-            ['codigo_empleado' => '26795', 'codigo_grado' => '070', 'id_funcion' => '3'],
-            //['codigo_empleado' => '59507', 'codigo_grado' => '16',  'id_funcion' => '3'],
-            ['codigo_empleado' => '24622', 'codigo_grado' => '070', 'id_funcion' => '2'],
-            //['codigo_empleado' => '898',   'codigo_grado' => '16',  'id_funcion' => '2'],
-
-            ['codigo_empleado' => '59921', 'codigo_grado' => '070', 'id_funcion' => '3'],
-            ['codigo_empleado' => '15694', 'codigo_grado' => '080', 'id_funcion' => '11'],
-            ['codigo_empleado' => '2242',  'codigo_grado' => '090', 'id_funcion' => '12'],
-            ['codigo_empleado' => '59855', 'codigo_grado' => '070', 'id_funcion' => '2'],
+            ['codigo_empleado' => '4731',  'codigo_grado' => '210', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '30284', 'codigo_grado' => '090', 'codigo_ubicacion' => '2022', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30286', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '30285', 'codigo_grado' => '090', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '26795', 'codigo_grado' => '070', 'codigo_ubicacion' => '2031', 'id_funcion' => '3'],
+            ['codigo_empleado' => '24622', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '2'],
+            ['codigo_empleado' => '59921', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '3'],
+            ['codigo_empleado' => '15694', 'codigo_grado' => '080', 'codigo_ubicacion' => '7285', 'id_funcion' => '11'],
+            ['codigo_empleado' => '2242',  'codigo_grado' => '090', 'codigo_ubicacion' => '',     'id_funcion' => '12'],
+            ['codigo_empleado' => '59855', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '2'],
             
         ];
 
