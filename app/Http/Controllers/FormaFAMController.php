@@ -35,40 +35,23 @@ class FormaFAMController extends Controller
         $this->middleware('auth');
     }
 
-    public function fam0001()
+    public function fam0001() 
     {
         $user_id = auth()->id();
-        // $empleado = Empleado::where('user_id',$user_id)->with('date_empleado')->get();
-        // $codigo_ubicacion = $empleado[0]['date_empleado']['codigo_ubicacion'];
-        // $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
-        //$fam0001 = Fam0001::where('codigos', $ubicacion[0]['codigos'])->with('aeronaves')->get();
-        $fam0001 = Fam0001::with('aeronaves')->get();
-        return view('forms.FAM0001', compact('fam0001'));
-    }
-    public function FormaFAM_edit($fam_id) 
-    {
-        //HEADER
-        $aeronaveModelos = AeronaveModelo::get();
-        $matriculas = AeronaveMatricula::get();
-        $unidad = AeronaveUnidades::get();
-        $componentes = ComponenteOrganismo::get();
-        $bases = Base::get();
-        $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
-        //A1-MISION
-        $vueloOrdenadaPor = VueloOrdenadaPor::get();
-        $enApoyo = VueloEnApoyo::get();
-        $consumibles = UnidadesConsumible::get();
-        $unidadesMedida = UnidadesMedidas::get();
-        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
-        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
-        //B1-TRIPULACION
-        $A1_mision = Fam0001A1Mision::get();
-        $funcion = FuncionTripulante::get();
-        $despegue = CodigoDespegue::get(); 
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado')->get();
+        
+        if(count($empleado)>0){
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+            $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->with('aeronaves')->get();
+        }else{
+            $fam0001 = Fam0001::with('aeronaves')->get();
+        }
 
-        $fam0001 = $fam_id;
-        return view('forms.FAM0001_edit', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
-    
+        // $empleado = Empleado::where('user_id',$user_id)->with('funcion')->get();
+        // $codigo_empleado = $empleado[0]['codigo_empleado'];
+
+        return view('forms.FAM0001', compact('fam0001'));
     }
     public function FormaFAM_status($fam_id) 
     {

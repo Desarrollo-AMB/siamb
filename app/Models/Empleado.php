@@ -26,7 +26,7 @@ class Empleado extends Model
         return $this->hasOne(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
-    public function date_empleado()
+    public function data_empleado()
     {
         return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }

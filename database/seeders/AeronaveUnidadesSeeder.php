@@ -487,20 +487,16 @@ class AeronaveUnidadesSeeder extends Seeder
         }
 
         $empleadosSegunFunciones = [
-            ['codigo_empleado' => '4731',  'codigo_grado' => '210', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30284', 'codigo_grado' => '090', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30286', 'codigo_grado' => '070', 'id_funcion' => '16'],
-            ['codigo_empleado' => '30285', 'codigo_grado' => '090', 'id_funcion' => '16'],
-            
-            ['codigo_empleado' => '26795', 'codigo_grado' => '070', 'id_funcion' => '3'],
-            //['codigo_empleado' => '59507', 'codigo_grado' => '16',  'id_funcion' => '3'],
-            ['codigo_empleado' => '24622', 'codigo_grado' => '070', 'id_funcion' => '2'],
-            //['codigo_empleado' => '898',   'codigo_grado' => '16',  'id_funcion' => '2'],
-
-            ['codigo_empleado' => '59921', 'codigo_grado' => '070', 'id_funcion' => '3'],
-            ['codigo_empleado' => '15694', 'codigo_grado' => '080', 'id_funcion' => '11'],
-            ['codigo_empleado' => '2242',  'codigo_grado' => '090', 'id_funcion' => '12'],
-            ['codigo_empleado' => '59855', 'codigo_grado' => '070', 'id_funcion' => '2'],
+            ['codigo_empleado' => '4731',  'codigo_grado' => '210', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '30284', 'codigo_grado' => '090', 'codigo_ubicacion' => '2022', 'id_funcion' => '16'],
+            ['codigo_empleado' => '30286', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '30285', 'codigo_grado' => '090', 'codigo_ubicacion' => '',     'id_funcion' => '16'],
+            ['codigo_empleado' => '26795', 'codigo_grado' => '070', 'codigo_ubicacion' => '2031', 'id_funcion' => '3'],
+            ['codigo_empleado' => '24622', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '2'],
+            ['codigo_empleado' => '59921', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '3'],
+            ['codigo_empleado' => '15694', 'codigo_grado' => '080', 'codigo_ubicacion' => '7285', 'id_funcion' => '11'],
+            ['codigo_empleado' => '2242',  'codigo_grado' => '090', 'codigo_ubicacion' => '',     'id_funcion' => '12'],
+            ['codigo_empleado' => '59855', 'codigo_grado' => '070', 'codigo_ubicacion' => '',     'id_funcion' => '2'],
             
         ];
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('codigo_empleado')->nullable();
             $table->string('codigo_grado')->nullable();
+            $table->string('codigo_ubicacion')->nullable();
             $table->string('id_funcion')->nullable();
             $table->timestamps();
         });
