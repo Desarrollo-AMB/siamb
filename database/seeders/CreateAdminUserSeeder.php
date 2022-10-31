@@ -24,6 +24,27 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('admin')
         ]);
 
+        $pilotos = User::create([
+            'name' => 'Piloto', 
+            'username' => 'piloto', 
+            'email' => 'piloto@siamb.test',
+            'password' => bcrypt('123')
+        ]);
+
+        $pilotos = User::create([
+            'name' => 'Piloto 2', 
+            'username' => 'piloto2', 
+            'email' => 'piloto2@siamb.test',
+            'password' => bcrypt('123')
+        ]);
+
+        $pilotos = User::create([
+            'name' => 'Piloto 3', 
+            'username' => 'piloto3', 
+            'email' => 'piloto3@siamb.test',
+            'password' => bcrypt('123')
+        ]);
+
         $role = Role::create(['name' => 'administrador', 'guard_name'=>'web']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
