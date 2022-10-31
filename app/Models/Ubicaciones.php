@@ -13,8 +13,4 @@ class Ubicaciones extends Model
         '*',
     ];
     
-    public function nomina()
-    {
-        return $this->belongsTo(Nomina::class, 'codigo_ubicacion', 'codigo_ubicacion');
-    }
 }

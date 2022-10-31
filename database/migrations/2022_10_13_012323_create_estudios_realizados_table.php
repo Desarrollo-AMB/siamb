@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('ciudad',20)->nullable();
             $table->integer('año_graduacion')->nullable();
             $table->string('pais',4)->nullable();
+            $table->integer('is_deleted')->default(0);
+            $table->timestamps();
         });
     }
 

@@ -332,7 +332,7 @@
         //TRAER DATA DEL PRIMER PASO
         $.ajax({
             url:"{{ route('steps_status') }}",
-            method:'POST',
+            method:'POST', 
             data:{
                 _token:'{{ csrf_token() }}',
                 data_id:data_id

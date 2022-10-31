@@ -1,3 +1,6 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
 .avatar-wrapper{
 	position: relative;
 	height: 120px;
@@ -56,4 +59,9 @@
 .new_fly_bt{
 	background: #303e55;
     color: white;
+}
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0.35em 0.45em !important;
 }
