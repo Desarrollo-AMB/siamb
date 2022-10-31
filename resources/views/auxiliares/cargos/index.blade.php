@@ -23,7 +23,7 @@
                     <div>
                         <h5 class="mb-0">Cargos</h5>
                     </div>
-                    <a class="btn btn-default btn-sm mb-0" href="{{ route('sireh.cargos.create') }}">+&nbsp;Crear Cargo</a>
+                    <a class="btn btn-default btn-sm mb-0" href="{{ route('auxiliares.cargos.create') }}">+&nbsp;Crear Cargo</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -61,7 +61,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.cargos.data') }}",
+            ajax: "{{ route('auxiliares.cargos.data') }}",
             columns: [
                 {data: 'codigo_cargo',},
                 {data: 'nombre_cargo',},

@@ -12,6 +12,8 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
+use App\Http\Controllers\Auxiliares\CargosController;
+use App\Http\Controllers\Auxiliares\UbicacionesController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -55,23 +57,23 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 
-    Route::get('/sireh/auxiliares', [PersonalController::class, 'auxiliares'])->name('sireh.auxiliares');
+    Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
     
     //CRUD Tabla Cargos
-    Route::get('/sireh/cargos', [PersonalController::class, 'cargosIndex'])->name('sireh.cargos');
-    Route::get('/sireh/cargos/create', [PersonalController::class, 'createCargo'])->name('sireh.cargos.create');
-    Route::post('/sireh/cargos/store', [PersonalController::class, 'storeCargo'])->name('sireh.cargos.store');
-    Route::get('/sireh/cargos/edit/{id}', [PersonalController::class, 'editCargo'])->name('sireh.cargos.edit');
-    Route::post('/sireh/cargos/update/{cargo}', [PersonalController::class, 'updateCargo'])->name('sireh.cargos.update');
-    Route::delete('/sireh/cargos/delete/{cargo}', [PersonalController::class, 'destroyCargo'])->name('sireh.cargos.destroy');
+    Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');
+    Route::get('/auxiliares/cargos/create', [CargosController::class, 'create'])->name('auxiliares.cargos.create');
+    Route::post('/auxiliares/cargos/store', [CargosController::class, 'store'])->name('auxiliares.cargos.store');
+    Route::get('/auxiliares/cargos/edit/{id}', [CargosController::class, 'edit'])->name('auxiliares.cargos.edit');
+    Route::post('/auxiliares/cargos/update/{cargo}', [CargosController::class, 'update'])->name('auxiliares.cargos.update');
+    Route::delete('/auxiliares/cargos/delete/{cargo}', [CargosController::class, 'destroy'])->name('auxiliares.cargos.destroy');
 
     //CRUD Tabla Ubicaciones
-    Route::get('/sireh/ubicaciones', [PersonalController::class, 'ubicacionesIndex'])->name('sireh.ubicaciones');
-    Route::get('/sireh/ubicaciones/create', [PersonalController::class, 'createUbicacion'])->name('sireh.ubicaciones.create');
-    Route::post('/sireh/ubicaciones/store', [PersonalController::class, 'storeUbicacion'])->name('sireh.ubicaciones.store');
-    Route::get('/sireh/ubicaciones/edit/{id}', [PersonalController::class, 'editUbicacion'])->name('sireh.ubicaciones.edit');
-    Route::post('/sireh/ubicaciones/update/{ubicacion}', [PersonalController::class, 'updateUbicacion'])->name('sireh.ubicaciones.update');
-    Route::delete('/sireh/ubicaciones/delete/{ubicacion}', [PersonalController::class, 'destroyUbicacion'])->name('sireh.ubicaciones.destroy');
+    Route::get('/auxiliares/ubicaciones', [UbicacionesController::class, 'index'])->name('auxiliares.ubicaciones.index');
+    Route::get('/auxiliares/ubicaciones/create', [UbicacionesController::class, 'create'])->name('auxiliares.ubicaciones.create');
+    Route::post('/auxiliares/ubicaciones/store', [UbicacionesController::class, 'store'])->name('auxiliares.ubicaciones.store');
+    Route::get('/auxiliares/ubicaciones/edit/{id}', [UbicacionesController::class, 'edit'])->name('auxiliares.ubicaciones.edit');
+    Route::post('/auxiliares/ubicaciones/update/{ubicacion}', [UbicacionesController::class, 'update'])->name('auxiliares.ubicaciones.update');
+    Route::delete('/auxiliares/ubicaciones/delete/{ubicacion}', [UbicacionesController::class, 'destroy'])->name('auxiliares.ubicaciones.destroy');
 
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
@@ -81,6 +83,10 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
     Route::post('/sireh/personal-militar-noprof/egresar', [EgresosController::class, 'egresar'])->name('sireh.personal-militar-noprof.egresar');
+
+    Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
+    Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
+    Route::get('/sireh/personal-civilf/view/{id}', [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
 });
 
 
