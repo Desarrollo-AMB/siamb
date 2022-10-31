@@ -30,4 +30,9 @@ class HomeController extends Controller
     {
         return view('no_authorize');
     }
+
+    public function auxiliares()
+    {
+        return view('auxiliares.auxiliares');
+    }
 }

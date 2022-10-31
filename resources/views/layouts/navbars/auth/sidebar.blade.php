@@ -91,11 +91,16 @@
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{-- (Request::is('/') ? 'active' : '') --}}" href="{{ url('/') }}">Nomina</a>
             </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="(Request::is('sireh/auxiliares') ? 'active' : '') " href="{{ route('sireh.auxiliares') }}">Tablas Auxiliares</a>
-            </li>
           </ul>
         </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ (Request::is('auxiliares/*') || Request::is('auxiliares')) ? 'active' : '' }} " href="{{ url('auxiliares') }}">
+        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10"><title>Tablas Auxiliares</title></i>
+          </div>
+            <span class="nav-link-text ms-1">Tablas Auxiliares</span>
+        </a>
       </li>
       @endrole 
       @role('aviacion|administrador')
@@ -114,7 +119,6 @@
         </div>
       </li>
       @endrole 
-      
       {{--
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>
