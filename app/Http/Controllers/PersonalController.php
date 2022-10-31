@@ -468,112 +468,31 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    public function auxiliares()
+    public function viewPersonalMilitarNoProf($id)
     {
-        return view('sireh.auxiliares');
-    }
-
-    public function cargosIndex()
-    {
-        return view('sireh.cargos.index');
-    }
-
-    //Obtiene los cargos, exclusivo por api para el Datatable 
-    public function cargosData(Request $request){
-        $cargos = Cargos::select(
-            'id',
-            'codigo_cargo',
-            'nombre_cargo',
-            'situacion',
-            'tipo_cargo',
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        return view('sireh.personal.militar_noprof.view', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+            )
         );
-        $datatable= Datatables::of($cargos)
-            ->addColumn('actions', 'sireh.cargos._actions')
-            ->rawColumns(['actions']);
-        return $datatable->make(true);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createCargo()
-    {
-        $clasificacion = Config::get('constants.clasificacion_cargo');
-        return view('sireh.cargos.create',compact('clasificacion'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeCargo(Request $request)
-    {
-        $this->validate($request, [
-            'codigo_cargo' => 'required|unique:cargos,codigo_cargo',
-            'nombre_cargo' => 'required',
-            'tipo_cargo' => 'required'
-        ]);
-
-        $input = $request;
-        $cargo = Cargos::create($input);
-            
-        return redirect()->route('sireh.cargos')
-            ->with('success','Cargo creado satisfactoriamente');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editCargo($id)
-    {
-        $cargo = Cargos::find($id);
-        $clasificacion = Config::get('constants.clasificacion_cargo');
-        return view('sireh.cargos.edit',compact('cargo', 'clasificacion'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateCargo(Request $request, $id)
-    {
-
-        $this->validate($request, [
-            'nombre_cargo' => [
-                'required'
-            ],
-        ]);
-
-        $cargo = Cargos::find($id);
-        $cargo->nombre_cargo = strtolower($request->input('nombre_cargo'));
-        $cargo->tipo_cargo = $request->input('tipo_cargo');
-        $cargo->situacion = $request->input('situacion');
-        $cargo->save();
-
-        return redirect()->route('sireh.cargos')
-            ->with('success','Cargo actualizado con éxito');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyCargo($id)
-    {
-        //\DB::table("cargos")->where('id',$id)->delete();
-        return redirect()->route('sireh.cargos')
-            ->with('success','Cargo eliminado con éxito');
     }
 }

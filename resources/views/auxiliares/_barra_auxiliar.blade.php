@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="col-4 text-end">
-                        <a href="{{ route('sireh.cargos') }}">
+                        <a href="{{ route('auxiliares.cargos.index') }}">
                             <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                 <i class="ni ni-badge text-lg opacity-10" aria-hidden="true"></i>
                             </div>
