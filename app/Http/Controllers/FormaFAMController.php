@@ -292,7 +292,7 @@ class FormaFAMController extends Controller
     public function editar_a1_mision(Request $request)
     {
         $consumibles = Fam0001A1MisionConsumible::where('fam0001_a1_mision_id', $request->id)->get();
-        $editFam = Fam0001A1Mision::where('id', $request->id)->get();
+        $editFam = Fam0001A1Mision::where('id', $request->id)->with('consumibles')->get();
         return response()->json([
                 'success' => true,
                 'message' => 'Data',
@@ -305,6 +305,13 @@ class FormaFAMController extends Controller
     public function actualizar_a1_mision(Request $request)
     {
         $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
+
+        // $loop = count($request->consumiblesDATA);
+        // if($loop>0){
+        //     for ($i=0; $i < $loop; $i++) { 
+        //         $updateConsumibles = Fam0001A1MisionConsumible::where('id', $request->id_consumible)->update($request->except('id'));     
+        //     }
+        // }
 
         return response()->json([
                 'success' => true,
