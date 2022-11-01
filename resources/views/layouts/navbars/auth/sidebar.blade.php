@@ -107,8 +107,7 @@
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-users"><title>Registros de vuelos</title></i>
-            
+            <i style="color:#3a416f" class="fa fa-plane"><title>Registros de vuelos</title></i>
           </div>
           <span class="nav-link-text ms-1">Registros de vuelos</span>
         </a>

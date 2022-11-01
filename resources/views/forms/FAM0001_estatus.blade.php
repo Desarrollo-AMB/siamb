@@ -764,14 +764,14 @@
                 dataType: 'json',
                 success: function(response){
                     if(response){
-                        $(".consumibles").empty();
-                        $(".consumibles").append('<option value="">Seleccionar..</option>');
+                        //$(".consumibles").empty();
+                        $(".consumibles").append('<option value=""></option>');
                         $.each(response.consumibles ,function(key,value){
                             $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
                         });
                         
-                        $(".unidades").empty();
-                        $(".unidades").append('<option value="">Seleccionar..</option>');
+                        //$(".unidades").empty();
+                        $(".unidades").append('<option value=""></option>');
                         $.each(response.unidades ,function(key,value){
                             $(".unidades").append('<option class="load_unidades" value="'+key.id+'">'+value.unidad+'</option>');
                         });
@@ -969,7 +969,7 @@
                                         if(response){
                                             console.log(response)
                                             misionID = $(".load_id_mision").val()
-                                            guardarConsumo(misionID);
+                                            //updateConsumo(misionID);
                                             cleanA1()
                                             $('.edit_input').prop('hidden', true);
                                             $('.add_edit_input').prop('hidden', false);
@@ -1466,19 +1466,75 @@
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
 
-            // let consumblesEdit = response.consumibles
-            // $.each(consumblesEdit, function (key, value){
-            // $('#consumblesEdit').append(
-            //     "<tr id='consumibles"+value.id+"'>\
-            //     <td>"+counter+"</td>\
-            //     <td>"+value.consumible+"</td>\
-            //     <td>"+value.unidad+"</td>\
-            //     <td>"+value.cantidad+"</td>\
-            //     </tr>");
-            //     counter += 1;
-            // })
-            
+            console.log(res)
+            if(res.consumibles.length>0){
+                let data = res.consumibles
+                for (let index = 0; index < data.length; index++) {
+                    newRowAdd =
+                    '<div id="row" class="removInput"><div style="margin-bottom: 0;" class="input-group"><div style="padding:10px" class="col-sm-4"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CONSUMIBLES</small> <select name="consumibles[]"  class="form-control consumibles" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value="'+data[index].id+'">'+data[index].consumible+'</option></select> </div></div>'+
+                    '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES</small> <select name="unidades[]" class="form-control unidades" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value="'+data[index].id+'">'+data[index].unidad+'</option></select> </div></div>'+
+                    '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small><input value="'+data[index].cantidad+'" name="cantidad[]" type="number" class="form-control cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></div></div>'+
+                    '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
+                    
+                    $('#newinput').append(newRowAdd);
+
+                }
+            }
+
+
         }
+        // function updateConsumo(response){
+        //     let misionID = response
+        //     var loop = $('input[name="cantidad[]"]').length
+        //     var cantidad = []
+        //     var consumiblesArray = []
+        //     var unidadesArray = []
+        //     $("input[name='cantidad[]']").each(function() {
+        //         cantidad.push({
+        //             cantidad:$(this).val(),
+        //         });
+        //     });
+        //     $("select[name='consumibles[]']").find(":selected").each(function() {
+        //         consumiblesArray.push({
+        //             consumible:$(this).text(),
+        //         });
+        //     });
+        //     $("select[name='unidades[]']").find(":selected").each(function() {
+        //         unidadesArray.push({
+        //             unidades:$(this).text(),
+        //         });
+        //     });
+        //     var consumiblesDATA = []
+        //     for (let index = 0; index < loop; index++) {
+        //         consumiblesDATA.push({
+        //             ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
+        //             fam0001_id:id_fam0001,
+        //             fam0001_a1_mision_id:misionID,
+        //             cantidad:cantidad[index].cantidad,
+        //             consumiblesArray:consumiblesArray[index].consumible,
+        //             unidadesArray:unidadesArray[index].unidades
+        //         });
+        //     } 
+        //     console.log(consumiblesDATA)
+        //     if (loop>0) {
+        //         //GUARDAR CONSUMIBLES
+        //         $.ajax({
+        //         url:"{{ route('store_a1_consumibles') }}",
+        //         method:'POST',
+        //         data:{
+        //             consumiblesDATA: consumiblesDATA,
+        //             },
+        //             success:function(response){
+        //                 if(response.success){
+        //                     $("#newinput").remove();
+        //                 }
+        //             },
+        //             error:function(error){
+        //                 console.log(error)
+        //             }
+        //         });
+        //     }
+        // }
         function guardarConsumo(response) {
             //GUARDAR CONSUMIBLES A1 MISION
             let misionID = response
@@ -1746,6 +1802,7 @@
                 cleanA1()
                 $('.edit_input').prop('hidden', true);
                 $('.add_edit_input').prop('hidden', false);
+                $(".removInput").remove();
             });
         }
         function datos_aterrizaje(response){

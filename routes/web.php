@@ -104,7 +104,9 @@ Route::group(['middleware' => ['auth']], function() {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
-    Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
+    Route::group(['middleware' => ['role:aviacion']], function () {
+        Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
+    });
     Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 
