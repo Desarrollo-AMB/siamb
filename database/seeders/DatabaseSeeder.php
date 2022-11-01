@@ -99,5 +99,19 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/conceptos_nomina.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "conceptos_nomina" ejecutado!');
+
+        $this->command->info('Tabla "datos_militares", por favor espere...');
+        $path = 'database/sql/datos_militares.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "datos_militares" ejecutado!');
+
+        $this->command->info('Tabla "conceptos_pagados", por favor espere...');
+        $path = 'database/sql/conceptos_pagados.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "conceptos_pagados" ejecutado!');
+
+        $path = 'database/sql/estudios_realizados.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "estudios_realizados" ejecutado!');
     }
 }

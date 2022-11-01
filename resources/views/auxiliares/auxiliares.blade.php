@@ -1,7 +1,7 @@
 @extends('layouts.user_type.auth')
 @section('title', 'SIREH Auxiliares')
 @section('content')
-    @include('sireh._barra_auxiliar')
+    @include('auxiliares._barra_auxiliar')
 @endsection
 
 @section('scripts')

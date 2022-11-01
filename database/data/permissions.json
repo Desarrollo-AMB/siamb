@@ -61,7 +61,10 @@
 			{ "name": "Proceso Ascender Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.ascender" },
 			{ "name": "Proceso Graduar Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.graduar" },
 			{ "name": "Modulo Egresos de Alistados",     "route_name": "sireh.personal-militar-noprof.egresos" },
-			{ "name": "Proceso Egresar Alistados",     "route_name": "sireh.personal-militar-noprof.egresar" }
+			{ "name": "Proceso Egresar Alistados",     "route_name": "sireh.personal-militar-noprof.egresar" },
+			{ "name": "Ver Datos Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.view" },
+			{ "name": "Ver Datos Militar",     "route_name": "sireh.personal-militar.view" },
+			{ "name": "Ver Datos Personal Civil",     "route_name": "sireh.personal-civil.view" }
 		]
 	},
 	{
@@ -72,14 +75,21 @@
 		]
 	},
 	{
-		"group": "Archivo",
+		"group": "Auxiliares",
 		"labels": [
-			{ "name": "Cargos",     "route_name": "sireh.cargos" },
-			{ "name": "Nuevo Cargo",     "route_name": "sireh.cargos.create" },
-			{ "name": "Editar Cargo",     "route_name": "sireh.cargos.edit" },
-			{ "name": "Guardar Cargo",     "route_name": "sireh.cargos.store" },
-			{ "name": "Actualizar Cargo",     "route_name": "sireh.cargos.update" },
-			{ "name": "Eliminar Cargo",     "route_name": "sireh.cargos.destroy" }
+			{ "name": "Tablas Auxiliares",     "route_name": "auxiliares" },
+			{ "name": "Cargos",     "route_name": "auxiliares.cargos.index" },
+			{ "name": "Nuevo Cargo",     "route_name": "auxiliares.cargos.create" },
+			{ "name": "Editar Cargo",     "route_name": "auxiliares.cargos.edit" },
+			{ "name": "Guardar Cargo",     "route_name": "auxiliares.cargos.store" },
+			{ "name": "Actualizar Cargo",     "route_name": "auxiliares.cargos.update" },
+			{ "name": "Eliminar Cargo",     "route_name": "auxiliares.cargos.destroy" },
+			{ "name": "Ubicaciones",     "route_name": "auxiliares.ubicaciones.index" },
+			{ "name": "Nuevo Ubicación",     "route_name": "auxiliares.ubicaciones.create" },
+			{ "name": "Editar Ubicación",     "route_name": "auxiliares.ubicaciones.edit" },
+			{ "name": "Guardar Ubicación",     "route_name": "auxiliares.ubicaciones.store" },
+			{ "name": "Actualizar Ubicación",     "route_name": "auxiliares.ubicaciones.update" },
+			{ "name": "Eliminar Ubicación",     "route_name": "auxiliares.ubicaciones.destroy" }
 		]
 	}
 ]
