@@ -381,7 +381,9 @@ class PersonalController extends Controller
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
-        $empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        //$empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        //$empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEF');
+        $empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEX');
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -395,7 +397,7 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
         );
         $datatable= Datatables::of($empleados)
-            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->addColumn('actions', 'sireh.personal.civil._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
@@ -543,6 +545,35 @@ class PersonalController extends Controller
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','cargos','estudios_realizados'])->find($id);
         return view('sireh.personal.militar_noprof.view', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+            )
+        );
+    }
+
+    public function viewPersonalCivil($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        //dd($datos);
+        return view('sireh.personal.civil.view', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',

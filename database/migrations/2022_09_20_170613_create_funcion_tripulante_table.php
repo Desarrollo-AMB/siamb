@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('funcion');
             $table->string('codigo');
-            $table->boolean('flag_jefe_maquina')->nullable();
             $table->timestamps();
         });
     }
