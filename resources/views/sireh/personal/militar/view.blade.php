@@ -34,13 +34,12 @@
                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                             <div class="form-group">
                                 <h6>Tipo Empleado:</h6>
-                                <select class="select2 form-control" name="tipo_emp" id="tipo_emp" disabled>
-                                    <option value="">Seleccione ...</option>
-                                    @foreach ($tipos_emp as $row)
-                                        <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp? 'selected': '' }}>{{ $row->descripcion }} ({{ $row->tipo_emp}})</option>
-                                    @endforeach
-                                </select>
-                                
+                                @foreach ($tipos_emp as $row)
+                                    @if($row->tipo_emp == $datos->nomina->tipo_emp)
+                                    <input type="text" class="form-control" value="{{$row->descripcion}} ({{$datos->nomina->tipo_emp}})">
+                                    @else
+                                    @endif
+                                @endforeach
                             </div>
                         </div>              
                     </div>
@@ -76,7 +75,8 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Primer Nombre:</h6>
-                                                <input name="nombre1" value="{{$datos->nombre1}}" class = "form-control" disabled>                                        </div>
+                                                <input name="nombre1" value="{{$datos->nombre1}}" class = "form-control" disabled>
+                                            </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
@@ -282,7 +282,7 @@
                                             </div>
                                         </div> 
                                     </div>
-                                    <div class="row">    
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 cargo">
                                             <div class="form-group">
                                                 <h6>Cargo:</h6>
@@ -336,7 +336,7 @@
                     </div>
                     <div class="row"> 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
-                            <div class="card " id="div-militar">
+                            <div class="card ">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                     <h5 class="card-title">Datos Militares</h5>
                                 </div>
