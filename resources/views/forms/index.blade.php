@@ -8,6 +8,7 @@
 @endif
 @section('styles')
 <link href="template/wizard/css/paper-bootstrap-wizard.css" rel="stylesheet" /> 
+<link href="{{ asset('template/wizard/css/themify-icons.css') }}" rel="stylesheet">
 @endsection
 <div class="row">
     <div class="col-12">

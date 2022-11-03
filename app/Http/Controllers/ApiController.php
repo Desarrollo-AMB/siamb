@@ -12,8 +12,13 @@ class ApiController extends Controller
         return response()->json($ciudades);
     }
 
-    public function getGradosMilitares($tipo_emp){
-        $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->get();
+    public function getGradosMilitares($tipo_emp=null){
+        if  ($tipo_emp){
+            $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->get();
+        }else{
+            $grados = GradosMilitares::all();
+        }
+        
         return response()->json($grados);
     }
 }
