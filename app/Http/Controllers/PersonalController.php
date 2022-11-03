@@ -25,6 +25,7 @@ use App\Models\DatosMilitares;
 use App\Models\EstudiosRealizados;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
+use App\Models\Movimientos;
 
 class PersonalController extends Controller
 {
@@ -572,7 +573,6 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        //dd($datos);
         return view('sireh.personal.civil.view', 
             compact(
                 'datos','ciudades','grados_militares',
@@ -580,6 +580,62 @@ class PersonalController extends Controller
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones'
             )
+        );
+    }
+
+    public function suspenderPersonalCivil(Request $request)
+    {
+        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'S'
+        ]);
+        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'S'
+        ]);
+
+        $movimiento = new Movimientos;
+
+        $movimiento->fecha_movimiento = $request->fecha;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'S';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
+    public function egresoPersonalCivil(Request $request)
+    {
+        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+
+        $movimiento = new Movimientos;
+
+        $movimiento->fecha_movimiento = $request->fecha_egreso;
+        $movimiento->tipo_movimiento = $request->egreso;
+        $movimiento->situacion = 'E';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
         );
     }
 }

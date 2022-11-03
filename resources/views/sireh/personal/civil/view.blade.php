@@ -42,16 +42,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 pt-4">
+                        <input hidden="true" style="height: 35px" type="text" class="form-control codigo_empleado" value="{{$datos->codigo_empleado}}" id="codigo_empleado">
+                        <div class="col-sm-6 mt-2 pt-4">
                             <div class="row">
-                                
-                                <div class="col-3">
-                                    <a class="btn bg-gradient-danger btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" href="#">SUSPENDER</a>
-                                </div>
-                              
-                                <div class="col-3">
-                                    <a class="btn bg-gradient-warning btn-sm mb-0"  data-bs-toggle="modal" data-bs-target="#egresar" href="#">EGRESAR</a>
-                                </div>
+                                @if($datos->situacion != 'A')
+                                    <div class="col-3">
+                                        <a class="btn bg-gradient-success btn-sm mb-0" data-bs-toggle="modal"href="#">ACTIVAR</a>
+                                    </div>
+                                @else
+                                    <div class="col-3">
+                                        <a class="btn bg-gradient-danger btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" href="#">SUSPENDER</a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a class="btn bg-gradient-warning btn-sm mb-0"  data-bs-toggle="modal" data-bs-target="#egresar" href="#">EGRESAR</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -73,13 +78,18 @@
                                             <div class="col-sm-5">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
-                                                    <input  type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
+                                                    <input style="height: 35px" type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-7">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
-                                                    <input type="text" class="form-control" value="" id="">
+                                                    <select class="form-control motivo" id="motivo" name="motivo" required>
+                                                        <option value="">Seleccione...</option>
+                                                        <option value="DESERTOR">DESERTOR</option>
+                                                        <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
+                                                        <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,14 +97,14 @@
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                                    <textarea style="height: 100px" class="form-control" name="" id="" rows="7"></textarea>
+                                                    <textarea style="text-transform: uppercase; height: 100px" class="form-control observaciones" name="" id="" rows="7"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                                        <button type="button" class="btn bg-gradient-success">Confirmar</button>
+                                        <button type="submit" class="btn bg-gradient-success enviar_suspencion">Confirmar</button>
                                     </div>
                                 </form>
                             </div>
@@ -118,13 +128,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Fecha de Ingreso</label>
-                                                    <input  type="date" class="form-control " value="" id="">
+                                                    <input  type="date" class="form-control fecha_ingreso" value="{{$datos->nomina->fecha_ingreso}}" id="" disabled="true">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Fecha de Ingreso</label>
-                                                    <input  type="date" class="form-control " value="" id="">
+                                                    <label for="recipient-name" class="col-form-label">Fecha de Egreso</label>
+                                                    <input  type="date" class="form-control fecha_egreso" value="" id="">
                                                 </div>
                                             </div>
                                         </div>
@@ -132,7 +142,7 @@
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Motivo de Egreso</label>
-                                                    <select class="form-control" id="motivo" name="motivo" required>
+                                                    <select class="form-control egreso" id="egreso" name="egreso" required>
                                                         <option value="">Seleccione...</option>
                                                         <option value="PRIVADO DE LIBERTAD">PRIVADO DE LIBERTAD</option>
                                                         <option value="RENUNCIA">RENUNCIA</option>
@@ -145,14 +155,14 @@
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                                    <textarea style="height: 100px" class="form-control" name="" id="" rows="7"></textarea>
+                                                    <textarea style="height: 100px" class="form-control observaciones_egreso" name="" id="" rows="7"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                                        <button type="button" class="btn bg-gradient-success">Confirmar</button>
+                                        <button type="button" class="btn bg-gradient-success enviar_egreso">Confirmar</button>
                                     </div>
                                 </form>
                             </div>
@@ -522,18 +532,105 @@
 
 @section('scripts')
 <script>
-    $(function (){
+
+    $(document).ready(function () {  
         $('.nivel_instruccion').hide();
         $('.obrero').hide();
         $('.cargo').hide();
         $("select.registrar").prop( "disabled", true );
         $("#btn-registrar").prop( "disabled", true );
-
-        //////////////////////////////////
         $('.select2').select2();
+        $('.motivo').select2();
+        $('.egreso').select2();
 
-        inicializar();
-    });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
+        $(".enviar_suspencion").click(function(e){
+            e.preventDefault();
+            var motivo = $('.motivo').val();
+            if(motivo===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar un Motivo.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('sireh.personal-civil.suspender') }}",
+                method:'POST',
+                data:{
+                    fecha: $('.fechaSuspencion').val(),
+                    motivo: motivo,
+                    observaciones: $('.observaciones').val().toUpperCase(),
+                    codigo_empleado: $('.codigo_empleado').val(),
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $('#exampleModalMessage').modal('hide');
+                            Swal.fire({
+                                title: 'LISTO!',
+                                text: 'Empleado Suspendido Correctamente!',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
+        $(".enviar_egreso").click(function(e){
+            e.preventDefault();
+            var egreso = $('.egreso').val();
+            if(egreso===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar un motivo de Egreso.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('sireh.personal-civil.egreso') }}",
+                method:'POST',
+                data:{
+                        egreso: egreso,
+                        fecha_ingreso: $('.fecha_ingreso').val(),
+                        fecha_egreso: $('.fecha_egreso').val(),
+                        observaciones: $('.observaciones_egreso').val().toUpperCase(),
+                        codigo_empleado: $('.codigo_empleado').val(),
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $('#egresar').modal('hide');
+                            Swal.fire({
+                                title: 'LISTO!',
+                                text: 'Empleado Egresado Correctamente!',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+    })
 </script>
 @endsection
