@@ -10,9 +10,22 @@ use Spatie\Activitylog\LogOptions;
 class DatosMilitares extends Model
 {
     use HasFactory, LogsActivity;
+    protected $table = 'datos_militares';
     protected $fillable = [
         '*',
     ];
+
+    public function empleados() {
+        return $this->hasOne(Empleados::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
+    public function categorias_militares() {
+        return $this->hasOne(CategoriasMilitares::class, 'codigo_categoria', 'codigo_categoria');
+    }
+
+    public function promociones_militares() {
+        return $this->hasOne(PromocionesMilitares::class, 'codigo_promocion', 'codigo_promocion');
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

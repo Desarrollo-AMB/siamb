@@ -50,8 +50,8 @@ return [
         '12' =>  'Situación de Calle',
         '13' =>  'Vivienda al Cuido',
         '14' =>  'Ocupación Irregular',
-
     ],
+
     'guard_names' =>[
         'web' =>  'SIAMB',
         'seid' =>  'SEID',
@@ -59,6 +59,7 @@ return [
         'educacion' =>  'EDUCACION',
         'sireh' =>  'SIREH',
     ],
+
     'clasificacion_cargo' =>[
         'M' =>  'MILITAR',
         'E' =>  'EMPLEADO',
@@ -66,6 +67,13 @@ return [
         'D' =>  'DOCENTE',
         'I' =>  'MEDICOS',
         'C' =>  'CONTRATADO',
+    ],
+
+    'situacion' =>[
+        'A' => 'ACTIVO',
+        'E' => 'EGRESADO',
+        'S' => 'SUSPENDIDO',
+        'I' => 'INGRESO',
     ]
 
 ];

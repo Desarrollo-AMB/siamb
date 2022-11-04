@@ -25,6 +25,8 @@ use App\Models\DatosMilitares;
 use App\Models\EstudiosRealizados;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
+use App\Models\CategoriasMilitares;
+use App\Models\PromocionesMilitares;
 
 class PersonalController extends Controller
 {
@@ -504,6 +506,41 @@ class PersonalController extends Controller
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos_militares = DatosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
+        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        //dd($datos);
+        return view('sireh.personal.militar.view', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'datos_militares', 'categorias_militares', 'situaciones',
+                'promociones_militares'
+            )
+        );
+    }
+
+    public function editPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -514,6 +551,7 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        //dd($datos);
         return view('sireh.personal.militar.view', 
             compact(
                 'datos','ciudades','grados_militares',
