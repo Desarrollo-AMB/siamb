@@ -47,7 +47,7 @@
                             <div class="row">
                                 @if($datos->situacion != 'A')
                                     <div class="col-3">
-                                        <a class="btn bg-gradient-success btn-sm mb-0" data-bs-toggle="modal"href="#">ACTIVAR</a>
+                                        <a class="btn bg-gradient-success btn-sm mb-0 activar_empleado" data-bs-toggle="modal"href="#">ACTIVAR</a>
                                     </div>
                                 @else
                                     <div class="col-3">
@@ -581,6 +581,9 @@
                                 timer: 3000,
                                 showConfirmButton: true,
                             });
+                            setTimeout(function () {
+                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
+                            }, 1200);
                         }
                     },
                     error:function(error){
@@ -623,6 +626,9 @@
                                 timer: 3000,
                                 showConfirmButton: true,
                             });
+                            setTimeout(function () {
+                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
+                            }, 1200);
                         }
                     },
                     error:function(error){
@@ -630,6 +636,46 @@
                     }
                 });
             }
+        });
+
+        $(".activar_empleado").click(function(e){
+            Swal.fire({
+                title: 'ACTIVACION DE EMPLEADO',
+                text: "Estas Seguro de Activar este Empleado?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(new Date())
+                    $.ajax({
+                        url:"{{ route('sireh.personal-civil.activar') }}",
+                        method:'POST',
+                        data:{
+                            codigo_empleado: $('.codigo_empleado').val(),
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response){
+                            if(response){
+                                console.log(response)
+                            }
+                        }
+                    });
+                    Swal.fire({
+                        title: 'ACTIVADO!',
+                        text: 'Empleado Activado Correctamente.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    }); 
+                    setTimeout(function () {
+                        window.location.href = "{{ route('sireh.personal-civil.index') }}";
+                    }, 1200);  
+                }
+            });
         });
     })
 </script>

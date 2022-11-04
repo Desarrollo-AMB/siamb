@@ -377,7 +377,8 @@ class PersonalController extends Controller
 
     //Obtiene el personal Civil, exclusivo por api para el Datatable 
     public function personalCivil(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A'); 
+        //$empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados = Empleado::where('empleados.situacion', '<>',''); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -626,6 +627,31 @@ class PersonalController extends Controller
         $movimiento->tipo_movimiento = $request->egreso;
         $movimiento->situacion = 'E';
         $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
+    public function activarPersonalCivil(Request $request)
+    {
+        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'A'
+        ]);
+        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'A'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->tipo_movimiento = "ACTIVACION DE EMPLEADO";
+        $movimiento->situacion = 'A';
         $movimiento->codigo_empleado = $request->codigo_empleado;
 
         $movimiento->save();
