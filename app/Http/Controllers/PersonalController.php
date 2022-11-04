@@ -520,7 +520,6 @@ class PersonalController extends Controller
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        //dd($datos);
         return view('sireh.personal.militar.view', 
             compact(
                 'datos','ciudades','grados_militares',
@@ -556,7 +555,7 @@ class PersonalController extends Controller
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         //dd($datos);
-        return view('sireh.personal.militar.view', 
+        return view('sireh.personal.militar.edit', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -591,7 +590,7 @@ class PersonalController extends Controller
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         //dd($datos);
-        return view('sireh.personal.militar.view', 
+        return view('sireh.personal.militar.cargos', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -626,7 +625,7 @@ class PersonalController extends Controller
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         //dd($datos);
-        return view('sireh.personal.militar.view', 
+        return view('sireh.personal.militar.ubicaciones', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
