@@ -57,8 +57,8 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
     Route::get('/sireh/personal-militar/view', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     Route::get('/sireh/personal-militar/edit/{id}', [PersonalController::class, 'editPersonalMilitar'])->name('sireh.personal-militar.edit');
-    Route::get('/sireh/personal-militar/cargos', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargos');
-    Route::get('/sireh/personal-militar/ubicaciones', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicaciones');
+    Route::get('/sireh/personal-militar/cargos/{id}', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargos');
+    Route::get('/sireh/personal-militar/ubicaciones/{id}', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicaciones');
 
 
 
