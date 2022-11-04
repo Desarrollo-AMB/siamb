@@ -35,9 +35,6 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="avatar-wrapper">
                                 <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
-                                <div class="upload-button">
-                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -464,102 +461,8 @@
                             </div>
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-<script>
-    $(function (){
-        $('.nivel_instruccion').hide();
-        $('.obrero').hide();
-        $('.cargo').hide();
-        $("input").prop( "disabled", true );
-        $("select.registrar").prop( "disabled", true );
-        $("#btn-registrar").prop( "disabled", true );
-
-        //////////////////////////////////
-        $('.select2').select2();
-
-        inicializar();
-    });
-
-    function inicializar(){
-        var tipo_emp = $('#tipo_emp').val();
-        var nivel_instruccion = $('#nivel').find(':selected').attr('data-nivel');
-        if (tipo_emp == 'MEF' || tipo_emp == 'ALI' || tipo_emp == 'MIL' || tipo_emp == 'TRP'){
-            $('#div-militar').removeClass('d-none');
-            //$('#div-militar #grado_militar').attr('required');
-            $( "#grado_militar" ).prop( "disabled", true );
-            /*$.get('/api/grados-militares/' + tipo_emp,function(data) {
-                $('#grado_militar').empty();
-                $.each(data, function(fetch, grado){          
-                    $('#grado_militar').append('<option value="'+ grado.codigo_grado +'">'+ grado.descripcion +'</option>');
-                });
-            });
-            contingente(tipo_emp, $('#fecha_ingreso').val());*/
-            $('.cargo').hide();
-        }else{
-            $('.cargo').show();
-            $('#div-militar').addClass('d-none');
-            $('#div-militar #grado_militar').removeAttr('required');
-            if (tipo_emp == 'OBR'){
-
-                $('.obrero #grado_obr').attr('required');
-                $('.obrero #clasificacion').attr('required');
-                $('.obrero').show();
-            }else{
-                $('.obrero').hide();
-                $('.obrero #grado_obr').removeAttr('required');
-                $('.obrero #clasificacion').removeAttr('required');
-            }
-        }
-        if(tipo_emp!=''){
-            $( "input" ).prop( "disabled", true );
-            $( "select.registrar" ).prop( "disabled", true);
-        }else{
-            $( "input" ).prop( "disabled", true );
-            $( "select.registrar" ).prop( "disabled", true );
-            $("#btn-registrar").prop( "disabled", true );
-        }
-        
-        if (nivel_instruccion>=5){
-            $('.nivel_instruccion').show();
-        }else{
-            $('.nivel_instruccion').hide();
-        }
-        if (tipo_emp == 'MEF' || tipo_emp == 'ALI' || tipo_emp == 'MIL' || tipo_emp == 'TRP'){
-            contingente(tipo_emp, this.value);
-        }
-    }
-
-    function contingente(tipo_emp, fecha_ingreso=null) {
-        if (tipo_emp == 'ALI') {
-            if (fecha_ingreso){
-                var mes = new Date(fecha_ingreso).getMonth()+1;
-                if (mes<5) {
-                    var mes2 = '1';
-                }
-                else if (mes>4 && mes<9) {
-                    var mes2 = '2';
-                }
-                else if (mes>8 && mes<=12) {
-                    var mes2 = '3';
-                }
-                var año = new Date(fecha_ingreso).getFullYear().toString();
-                var final = año.slice(-2);
-                var valor2 = mes2+""+final;            
-                $('#contingente').val(valor2);
-            }else {
-                $('#contingente').val('');
-            }
-        }else {
-            $('#contingente').val('');
-        }
-    }
-</script>
 @endsection
