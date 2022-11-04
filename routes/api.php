@@ -7,6 +7,7 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
+use App\Http\Controllers\MilitarNoProf\ReingresosController as ReingresoPMNoProfController;
 use App\Http\Controllers\Auxiliares\CargosController;
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('personal/empleadosnotuser', [PersonalController::class, 'empleadosSinUser'])->name('personal.empleados.notuser');
 Route::get('personal/notempleadosnotuser', [PersonalController::class, 'notEmpleadosSinUser'])->name('personal.not-empleados.notuser');
 Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->name("api.ciudades");
-Route::get("grados-militares/{tipo_emp}", [ApiController::class, 'getGradosMilitares'])->name("api.gradops_militares");
+Route::get("grados-militares/{tipo_emp?}", [ApiController::class, 'getGradosMilitares'])->name("api.gradops_militares");
 Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('sireh.empleados.inactivos');
 Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('sireh.personal.civil.data');
@@ -49,4 +50,6 @@ Route::get('sireh/personalmilitarnoprof/ascensos/alferez', [AscensosController::
 Route::get('sireh/personalmilitarnoprof/ascensos/cadete_3er', [AscensosController::class, 'getCadete3er'])->name('sireh.militar-noprof.ascensos.dataCadete3er');
 Route::get('sireh/personalmilitarnoprof/ascensos/cadete_2do', [AscensosController::class, 'getCadete2do'])->name('sireh.militar-noprof.ascensos.dataCadete2do');
 
-Route::get('sireh/personalmilitarnoprof/egreso_contingente', [EgresosController::class, 'dataEgresoContingente'])->name('sireh.personal.militar-noprof.egresoContingente');
+Route::get('sireh/personalmilitarnoprof/egreso_contingente', [EgresosController::class, 'dataEgresoAlistadosContingente'])->name('sireh.personal.militar-noprof.egresoContingente');
+
+Route::get('sireh/personalmilitarnoprof/reingresos', [ReingresoPMNoProfController::class, 'personalMilitarNoProfEgresado'])->name('sireh.personal.militar-noprof.dataEgresados');

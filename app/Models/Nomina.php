@@ -40,7 +40,7 @@ class Nomina extends Model
             [
                 'codigo_empleado', 'codigo_ubicacion', 'codigo_cargo', 'tipo_emp', 'fecha_ingreso',
                 'codigo_banco', 'tipo_cuenta', 'nro_cuenta', 'situacion', 'sueldo',
-                'codigo_ubicacion_detallada', 
+                'codigo_ubicacion_detallada', 'fecha_egreso', 'observaciones'
             ]);
     }
 

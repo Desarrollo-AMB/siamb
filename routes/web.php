@@ -12,6 +12,7 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
+use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
 use Illuminate\Support\Facades\Auth;
@@ -91,12 +92,19 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/ascensos', [AscensosController::class, 'index'])->name('sireh.personal-militar-noprof.ascensos');
     Route::post('/sireh/personal-militar-noprof/ascender', [AscensosController::class, 'ascender'])->name('sireh.personal-militar-noprof.ascender');
 
-    Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
-    Route::post('/sireh/personal-militar-noprof/egresar', [EgresosController::class, 'egresar'])->name('sireh.personal-militar-noprof.egresar');
+    Route::get('/sireh/personal-militar-noprof/egresos-alistados', [EgresosController::class, 'indexAlistados'])->name('sireh.personal-militar-noprof.egresos-alistados');
+    Route::post('/sireh/personal-militar-noprof/egresar-alistados', [EgresosController::class, 'egresarAlistados'])->name('sireh.personal-militar-noprof.egresar-alistados');
 
     Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
+    Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     Route::get('/sireh/personal-civilf/view/{id}', [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
+
+    Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
+
+    Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');
+    Route::post('/sireh/personal-militar-noprof/egresar', [PersonalController::class, 'egresarMilitarNoProf'])->name('sireh.personal-militar-noprof.egresar');
+    Route::post('/sireh/personal-militar-noprof/reingresar', [ReingresosController::class, 'reingresarMilitarNoProf'])->name('sireh.personal-militar-noprof.reingresar');
 });
 
 
@@ -114,7 +122,9 @@ Route::group(['middleware' => ['auth']], function() {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
-    Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
+    Route::group(['middleware' => ['role:aviacion']], function () {
+        Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
+    });
     Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 

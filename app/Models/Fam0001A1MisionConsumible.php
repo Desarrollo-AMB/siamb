@@ -17,4 +17,9 @@ class Fam0001A1MisionConsumible extends Model
         'unidad',
         'cantidad',
     ];
+
+    public function consumible()
+    {
+        return $this->belongsTo(Fam0001A1Mision::class, 'fam0001_a1_mision_id');
+    }
 }
