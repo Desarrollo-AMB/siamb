@@ -35,9 +35,6 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="avatar-wrapper">
                                 <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
-                                <div class="upload-button">
-                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                </div>
                             </div>
                         </div>
                     </div>
