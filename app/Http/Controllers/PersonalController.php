@@ -25,6 +25,8 @@ use App\Models\DatosMilitares;
 use App\Models\EstudiosRealizados;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
+use App\Models\CategoriasMilitares;
+use App\Models\PromocionesMilitares;
 
 class PersonalController extends Controller
 {
@@ -504,6 +506,7 @@ class PersonalController extends Controller
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -513,6 +516,9 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
+        $datos_militares = DatosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         //dd($datos);
         return view('sireh.personal.militar.view', 
@@ -520,7 +526,9 @@ class PersonalController extends Controller
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'datos_militares', 'categorias_militares', 'situaciones',
+                'promociones_militares'
             )
         );
     }
