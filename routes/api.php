@@ -27,7 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('personal/empleadosnotuser', [PersonalController::class, 'empleadosSinUser'])->name('personal.empleados.notuser');
 Route::get('personal/notempleadosnotuser', [PersonalController::class, 'notEmpleadosSinUser'])->name('personal.not-empleados.notuser');
 Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->name("api.ciudades");
-Route::get("grados-militares/{tipo_emp?}", [ApiController::class, 'getGradosMilitares'])->name("api.gradops_militares");
+Route::get("categoria/{tipo_emp}", [ApiController::class, 'getCategoriasMilitares'])->name("api.categoria");
+Route::get("grados-militares/{tipo_emp}", [ApiController::class, 'getGradosMilitares'])->name("api.grados_militares");
+Route::get("promociones-militares/{categoria}", [ApiController::class, 'getPromocionesMilitares'])->name("api.promociones");
 Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('sireh.empleados.inactivos');
 Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('sireh.personal.civil.data');

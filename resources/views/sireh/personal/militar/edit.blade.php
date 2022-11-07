@@ -247,10 +247,10 @@
                                                     {!! Form::text('talla_calzado', $datos->talla_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
                                                 <div class="form-group">
                                                     <h6>Talla de Falda:</h6>
-                                                    {!! Form::text('talla_falda', $datos->talla_falda, array('placeholder' => 'No Posee Talla de Falda','class' => 'form-control')) !!}
+                                                    {!! Form::text('talla_falda', $datos->talla_falda, array('placeholder'=>'No Posee Talla de Falda', 'class'=>'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -268,18 +268,33 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
                                                     <h6>Tipo Empleado:</h6>
                                                     <select class="select2 form-control" name="tipo_emp" id="tipo_emp">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($tipos_emp as $row)
-                                                            <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            @if ($row->aplicacion_nomina == 'M' || $row->aplicacion_nomina == 'X')
+                                                                <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <h6>Categoria:</h6>
+                                                    <select class="select2 form-control" name="categoria" id="categoria">
+                                                        <option value="">SELECCIONE...</option>
+                                                        @foreach ($categorias_militares as $row)
+                                                            @if ($row->tipo_emp == 'MIL' || $row->tipo_emp == 'TRP')
+                                                                <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
                                                     <h6>Grado Militar:</h6>
                                                     <select class="select2 form-control" name="grado_militar" id="grado_militar">
@@ -290,20 +305,9 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Categoria:</h6>
-                                                    <select class="select2 form-control" name="categoria" id="categoria">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($categorias_militares as $row)
-                                                            <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' }}>{{ $row->descripcion }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="form-group">
                                                     <h6>Promoción:</h6>
                                                     <select class="select2 form-control" name="promocion" id="promocion">
@@ -414,6 +418,148 @@
 <script>
     $(function (){
         $('.select2').select2();
+
+        //Para la foto
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+   
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button").on('click', function() {
+            $(".file-upload").click();
+        });
+
+        $('#sexo').on('change', function(e){
+            var sexo = e.target.value;
+            if (sexo == 'M') {
+                $('.falda').hide();
+            }
+            else {
+                $('.falda').show();
+            }
+        });
+
+        $('#estado').on('change', function(e){
+            var estado = e.target.value;
+            if (estado == "") {
+                $('#ciudad').prop('disabled',true);
+            }
+            else {
+                $('#ciudad').prop('disabled',false);
+                $.get('/api/ciudades/' + estado,function(data) {
+                    $('#ciudad').empty();
+                    $('#ciudad').append('<option value="">SELECCIONE...</option>');
+                    $.each(data, function(fetch, ciudad){          
+                        $('#ciudad').append('<option value="'+ ciudad.id +'">'+ ciudad.ciudad +'</option>');
+                    });
+                });
+            }
+        });
+
+        $('#tipo_emp').on('change', function(e){
+            var tipo_emp = e.target.value;
+            if (tipo_emp == "") {
+                $('#categoria').prop('disabled',true);
+            }
+            else {
+                $('#categoria').prop('disabled',false);
+                $.get('/api/categoria/' + tipo_emp,function(data) {
+                    $('#categoria').empty();
+                    $('#categoria').append('<option value="">SELECCIONE...</option>');
+                    $.each(data, function(fetch, categoria){
+                        $('#categoria').append('<option value="'+ categoria.codigo_categoria +'">'+ categoria.descripcion +'</option>');
+                    });
+                });
+            }
+        });
+
+        $('#categoria').on('change', function(e){
+            var tipo_emp = $('#tipo_emp').val();
+            var categoria = e.target.value;
+            if (categoria == "") {
+                $('#grado_militar').prop('disabled',true);
+                $('#promocion').prop('disabled',true);
+            }
+            else {
+                $('#grado_militar').prop('disabled',false);
+
+                $.get('/api/grados-militares/' + tipo_emp,function(data) {
+                    $('#grado_militar').empty();
+                    $('#grado_militar').append('<option value="">SELECCIONE...</option>');
+                    $.each(data, function(fetch, grados){
+                        $('#grado_militar').append('<option value="'+ grados.codigo_categoria +'">'+ grados.descripcion +'</option>');
+                    });
+                });
+
+                $('#promocion').prop('disabled',false);
+
+                $.get('/api/promociones-militares/' + categoria,function(data) {
+                    console.log(data);
+                    $('#promocion').empty();
+                    $('#promocion').append('<option value="">SELECCIONE...</option>');
+                    $.each(data, function(fetch, promociones){
+                        $('#promocion').append('<option value="'+ promociones.codigo_promocion +'">'+ promociones.descripcion +'</option>');
+                    });
+                });
+            }
+        });
+
+        
+
+        inicializar();
     });
+
+    function inicializar() {
+        var sexo = $('#sexo').val();
+        if(sexo == 'M') {
+            $('.falda').hide();
+            $('input:text[name=talla_falda]').prop('disabled',true);
+        }
+
+        var estado = $('#estado').val();
+        if (estado == "") {
+            $('#ciudad').prop('disabled',true);
+        }
+        else {
+            $('#ciudad').prop('disabled',false);
+        }
+
+        var tipo_emp = $('#tipo_emp').val();
+        if (tipo_emp == "") {
+            $('#categoria').prop('disabled',true);
+        }
+        else {
+            $('#categoria').prop('disabled',false);
+        }
+
+        var categoria = $('#categoria').val();
+        if (categoria == "") {
+            $('#grado_militar').prop('disabled',true);
+            $('#promocion').prop('disabled',true);
+        }
+        else {
+            $('#grado_militar').prop('disabled',false);
+            $('#promocion').prop('disabled',false);
+        }
+
+        var ubicacion = $('#ubicacion').val();
+        if (ubicacion == "") {
+            $('#ubicacion_detallada').prop('disabled',true);
+            $('#cargo').prop('disabled',true);
+        }
+        else {
+            $('#ubicacion_detallada').prop('disabled',false);
+            $('#cargo').prop('disabled',false);
+        }
+    }
 </script>
 @endsection
