@@ -129,7 +129,7 @@
                                     <div class="row">      
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <h6>Fecha Nacimiento: <small></small></h6>
+                                                <h6>Fecha Nacimiento:</h6>
                                                 {!! Form::text('fecha_nacim', $datos->fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@
                                                 <h6>Ciudad:</h6>
                                                 @if($datos->ciudad != "")
                                                     @foreach ($ciudades as $row)
-                                                        @if($row->id == $datos->ciudad)
+                                                        @if($row->ciudad == $datos->ciudad)
                                                             {!! Form::text('ciudad', $row->ciudad, array('placeholder' => 'No Posee Ciudad','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach

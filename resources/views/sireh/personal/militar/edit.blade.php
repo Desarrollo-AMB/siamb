@@ -54,24 +54,18 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Nacionalidad:</h6>
-                                                @if($datos->nacionalidad != "")
+                                                <select class="select2 form-control" name="nacionalidad" id="nacionalidad">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($nacionalidades as $key=>$value)
-                                                        @if($datos->nacionalidad == $key)
-                                                            {!! Form::text('nacionalidad', $value, array('placeholder' => 'No Posee Nacionalidad', 'class' => 'form-control')) !!}
-                                                        @else
-                                                        @endif
+                                                        <option value="{{$key}}" {{$datos->nacionalidad == $key ? 'selected': '' }}>{{ $value }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('nacionalidad', '', array('placeholder' => 'No Posee Nacionalidad','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div> 
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Cédula:</h6>
-                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled 
-                                                    value="{{ $datos->cedula }}"
-                                                >
+                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ $datos->cedula }}">
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -103,37 +97,31 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Sexo:</h6>
-                                                @if($datos->sexo != '')
+                                                <select class="select2 form-control" name="sexo" id="sexo">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($generos as $key=>$value)
-                                                        @if($datos->sexo == $key)
-                                                            {!! Form::text('sexo', $value, array('placeholder' => 'No Posee Sexo','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$key}}" {{$datos->sexo == $key ? 'selected': '' }}>{{ $value }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('sexo', '', array('placeholder' => 'No Posee Sexo','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div> 
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Estado Civil:</h6>
-                                                @if($datos->edo_civil != '')
+                                                <select class="select2 form-control" name="edo_civil" id="edo_civil">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($edos_civil as $key=>$value)
-                                                        @if($datos->edo_civil == $key)
-                                                            {!! Form::text('edo_civil', $value, array('placeholder' => 'No Posee Estado Civil','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$key}}" {{$datos->edo_civil == $key ? 'selected': '' }}>{{ $value }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('edo_civil', '', array('placeholder' => 'No Posee Estado Civil','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">      
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <h6>Fecha Nacimiento: <small></small></h6>
-                                                {!! Form::text('fecha_nacim', $datos->fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
+                                                <h6>Fecha Nacimiento:</h6>
+                                                {!! Form::date('fecha_nacim', $datos->fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -159,29 +147,23 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Estado:</h6>
-                                                @if($datos->estado != "")
+                                                <select class="select2 form-control" name="estado" id="estado">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($estados as $row)
-                                                        @if($row->id_estado == $datos->estado)
-                                                            {!! Form::text('estado', $row->estado, array('placeholder' => 'Estado','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->id_estado}}" {{$datos->estado == $row->id_estado ? 'selected': '' }}>{{ $row->estado }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('estado', '', array('placeholder' => 'No Posee Estado','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Ciudad:</h6>
-                                                @if($datos->ciudad != "")
+                                                <select class="select2 form-control" name="ciudad" id="ciudad">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($ciudades as $row)
-                                                        @if($row->id == $datos->ciudad)
-                                                            {!! Form::text('ciudad', $row->ciudad, array('placeholder' => 'No Posee Ciudad','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->ciudad}}" {{$datos->ciudad == $row->ciudad ? 'selected': '' }}>{{ $row->ciudad }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('ciudad', '', array('placeholder' => 'No Posee Ciudad','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -286,91 +268,47 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Tipo Empleado:</h6>
-                                                @if($datos->nomina->tipo_emp != "")
+                                                <select class="select2 form-control" name="tipo_emp" id="tipo_emp">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($tipos_emp as $row)
-                                                        @if($row->tipo_emp == $datos->nomina->tipo_emp)
-                                                            {!! Form::text('tipo_emp', $row->descripcion.' '.'('.$datos->nomina->tipo_emp.')' , array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('tipo_emp', '', array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Grado Militar:</h6>
-                                                @if($datos->nomina->grado_militar != "")
+                                                <select class="select2 form-control" name="grado_militar" id="grado_militar">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($grados_militares as $row)
-                                                        @if($row->codigo_grado == $datos->nomina->grado_militar)
-                                                            {!! Form::text('grado_militar', $row->descripcion, array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_grado}}" {{$datos->nomina->grado_militar == $row->codigo_grado ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('grado_militar', '', array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Categoria:</h6>
-                                                @if($datos->datos_militares->codigo_categoria != "")
+                                                <select class="select2 form-control" name="categoria" id="categoria">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($categorias_militares as $row)
-                                                        @if($datos->datos_militares->codigo_categoria == $row->codigo_categoria)
-                                                            {!! Form::text('categoria', $row->descripcion, array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('categoria', '', array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Situación:</h6>
-                                                @if($datos->situacion != '')
-                                                    @foreach ($situaciones as $key=>$value)
-                                                        @if($datos->situacion == $key)
-                                                            {!! Form::text('situacion', $value, array('placeholder' => 'No Posee Situación','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('situacion', '', array('placeholder' => 'No Posee Situación','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Graduación:</h6>
-                                                {!! Form::text('fecha_graduacion', $datos->datos_militares->fecha_graduacion, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                                             <div class="form-group">
                                                 <h6>Promoción:</h6>
-                                                @if($datos->datos_militares->codigo_promocion != "")
+                                                <select class="select2 form-control" name="promocion" id="promocion">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($promociones_militares as $row)
-                                                        @if($row->codigo_promocion == $datos->datos_militares->codigo_promocion)
-                                                            {!! Form::text('promocion', $row->descripcion, array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_promocion}}" {{$datos->datos_militares->codigo_promocion == $row->codigo_promocion ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('promocion', '', array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Ultimo Ascenso:</h6>
-                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares->fecha_ultimo_ascenso, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Retiro:</h6>
-                                                {!! Form::text('fecha_retiro', $datos->datos_militares->fecha_retiro, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -391,29 +329,23 @@
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <h6>Ubicación:</h6>
-                                                @if($datos->nomina->codigo_ubicacion != "")
+                                                <select class="select2 form-control" name="ubicacion" id="ubicacion">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($ubicaciones as $row)
-                                                        @if($row->codigo_ubicacion == $datos->nomina->codigo_ubicacion)
-                                                            {!! Form::text('ubicacion', $row->descripcion, array('placeholder' => 'No Posee Ubicacion','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->codigo_ubicacion == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('ubicacion', '', array('placeholder' => 'No Posee Ubicacion','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div> 
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <h6>Ubicacion Detallada:</h6>
-                                                @if($datos->nomina->cod_ubicacion_detallada != "")
+                                                <select class="select2 form-control" name="ubicacion_detallada" id="ubicacion_detallada">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($ubicaciones_det as $row)
-                                                        @if($row->codigo_ubicacion == $datos->nomina->cod_ubicacion_detallada)
-                                                            {!! Form::text('ubicacion_detallada', $row->descripcion.' '.'('.$row->codigo_ubicacion.')' , array('placeholder' => 'No Posee Ubicacion Detallada','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->cod_ubicacion_detallada == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('ubicacion_detallada', '', array('placeholder' => 'No Posee Ubicacion Detallada','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -421,15 +353,12 @@
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <h6>Cargo:</h6>
-                                                @if($datos->nomina->codigo_cargo != "")
+                                                <select class="select2 form-control" name="cargo" id="cargo">
+                                                    <option value="">SELECCIONE...</option>
                                                     @foreach ($cargos as $row)
-                                                        @if($row->codigo_cargo == $datos->nomina->codigo_cargo)
-                                                            {!! Form::text('cargo', $row->nombre_cargo.' '.'('.$row->codigo_cargo.')' , array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->codigo_cargo}}" {{$datos->nomina->codigo_cargo == $row->codigo_cargo ? 'selected': '' }}>{{ $row->nombre_cargo }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('cargo', '', array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -468,4 +397,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(function (){
+        $('.select2').select2();
+    });
+</script>
 @endsection
