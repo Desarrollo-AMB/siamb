@@ -20,6 +20,13 @@
     >
         <i class="fas fa-globe text-warning"></i>
     </a>
+
+    <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Carga Familiar" title="CargaFamiliar"
+    >
+        <i class="fas fa-users text-primary" aria-hidden="true"></i>
+    </a>
+
     <a href="{{ route('sireh.personal-militar.movimientos', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
         data-bs-original-title="Movimientos" title="Movimientos"
     >
@@ -29,3 +36,4 @@
         data-bs-original-title="Suspender" title="Suspender" data-id="{{ $id }}">
         <i class="fas fa-sync text-danger" aria-hidden="true"></i>
     </a>
+

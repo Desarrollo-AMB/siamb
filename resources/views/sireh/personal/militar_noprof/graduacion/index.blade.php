@@ -955,8 +955,6 @@
                         ids_selected.push(value.codigo_empleado);
                     });
                     fd.append('ids',JSON.parse(JSON.stringify(ids_selected)));
-                    
-                    //console.log(...fd);
 
                     $.ajax({
                         type:'POST',
@@ -1004,17 +1002,13 @@
                 gradosData.push(objeto);
             });
         }); 
-        console.log(gradosData);
     }
 
     function buscarGrado(nuevoGrado){
-        console.log(nuevoGrado);
         var results = gradosData.filter(function (grados) { 
-            console.log(grados.siglas, nuevoGrado);
             return grados.siglas == nuevoGrado; 
         });
         var firstObj = (results.length > 0) ? results[0] : null;
-        console.log(firstObj);
         return firstObj;
     }
 </script>
