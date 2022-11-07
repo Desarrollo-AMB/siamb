@@ -103,7 +103,7 @@
                                                 @if($datos->sexo != '')
                                                     @foreach ($generos as $key=>$value)
                                                         @if($datos->sexo == $key)
-                                                            {!! Form::text('sexo', $value, array('placeholder' => 'No Posee Sexo','class' => 'form-control')) !!}
+                                                            {!! Form::text('sexo', $value, array('id'=>'sexo','placeholder' => 'No Posee Sexo','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -259,7 +259,7 @@
                                                 {!! Form::text('talla_calzado', $datos->talla_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
                                             <div class="form-group">
                                                 <h6>Talla de Falda:</h6>
                                                 {!! Form::text('talla_falda', $datos->talla_falda, array('placeholder' => 'No Posee Talla de Falda','class' => 'form-control')) !!}
@@ -470,7 +470,27 @@
 @section('scripts')
 <script>
     $(function (){
-        $("input").prop( "disabled", true );
+        $('.select2').select2();
+
+        //Para la foto
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        inicializar();
     });
+
+    function inicializar() {
+        var sexo = $('#sexo').val();
+        if(sexo == 'MASCULINO') {
+            $('.falda').hide();
+        }
+    }
 </script>
 @endsection
