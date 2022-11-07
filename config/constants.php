@@ -74,6 +74,14 @@ return [
         'E' => 'EGRESADO',
         'S' => 'SUSPENDIDO',
         'I' => 'INGRESO',
+    ],
+
+    'parentesco' => [
+        'P' => 'PADRE',
+        'M' => 'MADRE',
+        'H' => 'HIJO(A)',
+        'E' => 'ESPOSO(A)',
+        'C' => 'CONYUGUE',
     ]
 
 ];

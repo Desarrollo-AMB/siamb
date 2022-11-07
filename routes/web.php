@@ -15,6 +15,7 @@ use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
+use App\Http\Controllers\CargaFamiliarController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +63,6 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar/ubicaciones/{id}', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicaciones');
 
 
-
-
-
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 
@@ -105,6 +103,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');
     Route::post('/sireh/personal-militar-noprof/egresar', [PersonalController::class, 'egresarMilitarNoProf'])->name('sireh.personal-militar-noprof.egresar');
     Route::post('/sireh/personal-militar-noprof/reingresar', [ReingresosController::class, 'reingresarMilitarNoProf'])->name('sireh.personal-militar-noprof.reingresar');
+
+    Route::get('/sireh/carga-familiar/{id}', [CargaFamiliarController::class, 'cargaFamiliar'])->name('sireh.carga-familiar.view');
+    Route::post('/sireh/cargar-familiar/store', [CargaFamiliarController::class, 'storeCargarFamiliar'])->name('sireh.cargar-familiar.store');
+    Route::get('/sireh/carga-familiar/edit/{id}', [CargaFamiliarController::class, 'editCargaFamiliar'])->name('sireh.carga-familiar.edit');
 });
 
 

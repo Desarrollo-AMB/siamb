@@ -172,9 +172,7 @@
                         data: fd,
                         processData: false,
                         contentType: false,
-                        success:function(res){
-                            console.log(res);
-                          
+                        success:function(res){                     
                             Swal.fire({
                                 title: 'Reingreso!',
                                 text: 'Proceso realizado satisfactoriamente...',
