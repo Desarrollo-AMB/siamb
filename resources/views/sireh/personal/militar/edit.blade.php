@@ -29,9 +29,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form class="row g-3 requires-validation" name="militar" id="militar" 
-                        method="post" action="{{route('sireh.personal-militar.update', $datos->id)}}" 
-                        enctype="multipart/form-data" >
+                    <form class="row g-3 requires-validation" name="militar" id="militar" method="post" action="{{route('sireh.personal-militar.update.datos')}}" enctype="multipart/form-data" >
                         @csrf
                         <!-- FOTO DE PERFIL -->
                         <div class="row">
@@ -41,6 +39,7 @@
                                     <div class="upload-button">
                                         <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                                     </div>
+                                    <input class="file-upload" type="file" accept="image/*" name="foto"  id="foto"/>
                                 </div>
                             </div>
                         </div>
@@ -52,8 +51,11 @@
                                     <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                         <h5 class="card-title">Datos Personales</h5>
                                     </div>
+
+                                    <input type="hidden" class="form-control" name="codigo_empleado" value="{{ $datos->codigo_empleado }}">
+
                                     <div class="card-body">
-                                        <div class="row"> 
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Nacionalidad:</h6>
@@ -244,7 +246,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Talla de Calzado:</h6>
-                                                    {!! Form::text('talla_calzado', $datos->talla_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
+                                                    {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
@@ -314,56 +316,6 @@
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($promociones_militares as $row)
                                                             <option value="{{$row->codigo_promocion}}" {{$datos->datos_militares->codigo_promocion == $row->codigo_promocion ? 'selected': '' }}>{{ $row->descripcion }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DATOS LABORALES -->
-                        <div class="row"> 
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
-                                <div class="card">
-                                    <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
-                                        <h5 class="card-title">Datos Laborales</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">    
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <h6>Ubicación:</h6>
-                                                    <select class="select2 form-control" name="ubicacion" id="ubicacion">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($ubicaciones as $row)
-                                                            <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->codigo_ubicacion == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div> 
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <h6>Ubicacion Detallada:</h6>
-                                                    <select class="select2 form-control" name="ubicacion_detallada" id="ubicacion_detallada">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($ubicaciones_det as $row)
-                                                            <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->cod_ubicacion_detallada == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <h6>Cargo:</h6>
-                                                    <select class="select2 form-control" name="cargo" id="cargo">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($cargos as $row)
-                                                            <option value="{{$row->codigo_cargo}}" {{$datos->nomina->codigo_cargo == $row->codigo_cargo ? 'selected': '' }}>{{ $row->nombre_cargo }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -456,10 +408,11 @@
             else {
                 $('#ciudad').prop('disabled',false);
                 $.get('/api/ciudades/' + estado,function(data) {
+                    console.log(data);
                     $('#ciudad').empty();
                     $('#ciudad').append('<option value="">SELECCIONE...</option>');
                     $.each(data, function(fetch, ciudad){          
-                        $('#ciudad').append('<option value="'+ ciudad.id +'">'+ ciudad.ciudad +'</option>');
+                        $('#ciudad').append('<option value="'+ ciudad.ciudad +'">'+ ciudad.ciudad +'</option>');
                     });
                 });
             }
@@ -496,7 +449,7 @@
                     $('#grado_militar').empty();
                     $('#grado_militar').append('<option value="">SELECCIONE...</option>');
                     $.each(data, function(fetch, grados){
-                        $('#grado_militar').append('<option value="'+ grados.codigo_categoria +'">'+ grados.descripcion +'</option>');
+                        $('#grado_militar').append('<option value="'+ grados.codigo_grado +'">'+ grados.descripcion +'</option>');
                     });
                 });
 
