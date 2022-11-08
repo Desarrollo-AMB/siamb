@@ -50,40 +50,54 @@
         </div>
     </div>
 </div>
-{{-- Modal para egresar --}}
-<div class="modal fade" id="modal-view">
-    <div class="modal-dialog modal-md">
+{{-- Modal para Suspender o Activar Profesional --}}
+<div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+    <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form>
-            @csrf
             <div class="modal-header">
-                <h4 class="modal-title" id="title-modal">Egresar</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <h5 class="modal-title" id="exampleModalLabel">Cambio de Situación del Profesional</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-dark">X</span>
                 </button>
             </div>
-            <div class="modal-body">
-                    <input name="id_empleado" id="id_empleado" type="hidden" value="">
-                    <div class="form-group">
-                        <h6>Fecha Egreso: </h6>
-                        <input name="fecha_egreso" type="date" class="form-control fecha" required value="">
+            <form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
+                                <input style="height: 35px" type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
+                                <input style="height: 35px" type="text" class="form-control codigo_empleado" value="" id="codigo_empleado">
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
+                                <select class="form-control motivo" id="motivo" name="motivo" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="DESERTOR">DESERTOR</option>
+                                    <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
+                                    <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                
-                    <div class="form-group">
-                        <h6>Exposicion de motivo del egreso:</h6>
-                        <textarea name="observaciones" class="form-control" rows="5" required></textarea>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Observaciones</label>
+                                <textarea style="text-transform: uppercase; height: 100px" class="form-control observaciones" name="" id="" rows="7"></textarea>
+                            </div>
+                        </div>
                     </div>
-                
-            </div>
-            <div class="modal-footer justify-content-rigth">
-                <button type="button" class="btn btn-primary" id="btn-egresar">Egresar</button>
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button> 
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
+                    <button type="submit" class="btn bg-gradient-success enviar_suspencion">Confirmar</button>
+                </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 {{-- /.modal --}}
 @endsection
@@ -134,69 +148,63 @@
                 }
             }
         });
+
         table.on('click', '.suspender', function() {
             var id = $(this).data("id");
-            console.log(id);    
+            console.log(id);
+
+            var codigo_empleado = $(this).data("codigo_empleado");
+            console.log(codigo_empleado);
+            $('.codigo_empleado').val(codigo_empleado);
    
             $('#modal-view').on('shown.bs.modal', function(e) {
                 $('#modal-view #id_empleado').val(id);
             })
-            $('#modal-view').modal("show");  
+            $('#modal-view').modal("show");
         });
 
-        $('#btn-egresar').on('click', function(){
-            console.log('Egresar');
-            var fd = new FormData();
-            var form = $(this).parents('form:first');
-            var validator= form.validate({
-                rules: {
-                    fecha_egreso : {
-                        required: true,
-                    },
-                    observaciones : {
-                        required: true,
-                    },
-                },
-                messages : {
-                    fecha_egreso: {
-                        required: "Fecha de Egreso es requerida"
-                    },
-                    observaciones: {
-                        required: "El motivo de Egreso es requerido"
-                    },
-                }
-            });
-            if(validator.form()){
-                var other_data = form.serializeArray();
-                ///Obtener inputs
-                $.each(other_data,function(key,input){
-                    fd.append(input.name,input.value);
-                });
-
+        $(".enviar_suspencion").click(function(e){
+            e.preventDefault();
+            var motivo = $('.motivo').val();
+            if(motivo===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar un Motivo.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
+                //ENVIAR
                 $.ajax({
-                        type:'POST',
-                        url:'{{ route("sireh.personal-militar-noprof.egresar") }}',
-                        data: fd,
-                        processData: false,
-                        contentType: false,
-                        success:function(res){
-                            console.log(res);
-                          
+                url:"{{ route('sireh.personal-militar.suspender') }}",
+                method:'POST',
+                data:{
+                    fecha: $('.fechaSuspencion').val(),
+                    motivo: motivo,
+                    observaciones: $('.observaciones').val().toUpperCase(),
+                    codigo_empleado: $('.codigo_empleado').val(),
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $('#modal-view').modal('hide');
                             Swal.fire({
-                                title: 'Egreso!',
-                                text: 'Proceso realizado satisfactoriamente...',
+                                title: 'LISTO!',
+                                text: 'Empleado Suspendido Correctamente!',
                                 icon: 'success',
                                 timer: 3000,
                                 showConfirmButton: true,
                             });
-                            if(res.success){
-                                window.location.reload();
-                            }
+                            setTimeout(function () {
+                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
+                            }, 1200);
                         }
-                    }); 
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
             }
-
-            //$('#modal-view').modal("hide"); 
         });
 
     });
