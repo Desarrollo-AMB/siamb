@@ -50,33 +50,46 @@
         </div>
     </div>
 </div>
-{{-- Modal para egresar --}}
+{{-- Modal para Suspender o Activar Profesional --}}
 <div class="modal fade" id="modal-view">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form>
             @csrf
             <div class="modal-header">
-                <h4 class="modal-title" id="title-modal">Egresar</h4>
+                <h4 class="modal-title" id="title-modal">Cambio de Situación</h4>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                     <input name="id_empleado" id="id_empleado" type="hidden" value="">
+                    <input name="codigo_ubicacion" id="codigo_ubicacion" type="hidden" value="">
+                    <input name="codigo_cargo" id="codigo_cargo" type="hidden" value="">
+
                     <div class="form-group">
-                        <h6>Fecha Egreso: </h6>
-                        <input name="fecha_egreso" type="date" class="form-control fecha" required value="">
+                        <h6>Situación Actual: </h6>
+                        <input name="situacion" type="text" class="form-control" value="" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <h6>Fecha de Cambio de Situación: </h6>
+                        <input name="fecha_movimiento" type="date" class="form-control" required value="">
+                    </div>
+
+                    <div class="form-group">
+                        <h6>Tipo de Movimiento: </h6>
+                        <input name="fecha_movimiento" type="date" class="form-control" required value="">
                     </div>
                 
                     <div class="form-group">
-                        <h6>Exposicion de motivo del egreso:</h6>
+                        <h6>Exposicion de Motivo de la Situación:</h6>
                         <textarea name="observaciones" class="form-control" rows="5" required></textarea>
                     </div>
                 
             </div>
             <div class="modal-footer justify-content-rigth">
-                <button type="button" class="btn btn-primary" id="btn-egresar">Egresar</button>
+                <button type="button" class="btn btn-primary" id="btn-situacion">Cambiar Situación</button>
                 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button> 
             </div>
             </form>
@@ -144,13 +157,13 @@
             $('#modal-view').modal("show");  
         });
 
-        $('#btn-egresar').on('click', function(){
+        $('#btn-situacion').on('click', function(){
             console.log('Egresar');
             var fd = new FormData();
             var form = $(this).parents('form:first');
             var validator= form.validate({
                 rules: {
-                    fecha_egreso : {
+                    fecha_movimiento : {
                         required: true,
                     },
                     observaciones : {
@@ -158,11 +171,11 @@
                     },
                 },
                 messages : {
-                    fecha_egreso: {
-                        required: "Fecha de Egreso es requerida"
+                    fecha_movimiento: {
+                        required: "Fecha de Cambio de Situación es requerida"
                     },
                     observaciones: {
-                        required: "El motivo de Egreso es requerido"
+                        required: "El motivo de Cambio de Situación es requerido"
                     },
                 }
             });
@@ -175,7 +188,7 @@
 
                 $.ajax({
                         type:'POST',
-                        url:'{{ route("sireh.personal-militar-noprof.egresar") }}',
+                        url:'{{ route("sireh.personal-militar.situacion") }}',
                         data: fd,
                         processData: false,
                         contentType: false,
@@ -183,7 +196,7 @@
                             console.log(res);
                           
                             Swal.fire({
-                                title: 'Egreso!',
+                                title: 'Cambio de Situacion!',
                                 text: 'Proceso realizado satisfactoriamente...',
                                 icon: 'success',
                                 timer: 3000,
