@@ -566,24 +566,44 @@ class PersonalController extends Controller
         );
     }
 
-    public function updatePersonalMilitar(Empleado $id,Request $request){
+    public function updatePersonalMilitar(Request $request){
         
         $this->validate($request, 
             [
-                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
+                'cedula' => 'required',
+                'nacionalidad' => 'required',
                 'nombre1' => 'required',
                 'apellido1' => 'required',
-                'ubicacion' => 'required',
+                'sexo' => 'required',
+                'edo_civil' => 'required',
+                'fecha_nacim' => 'required',
+                'estado' => 'required',
+                'ciudad' => 'required',
+                'direccion' => 'required',
+                'tipo_emp' => 'required',
+                'categoria' => 'required',
+                'grado_militar' => 'required',
             ],
             [
+                'cedula.required' => 'La cedula es requerida',
+                'nacionalidad.required' => 'La nacionalidad es requerida',
                 'nombre1.required' => 'El primer nombre es requerido',
-                'apellido1.required' => 'El primer apellido es requerido'
+                'apellido1.required' => 'El primer apellido es requerido',
+                'sexo.required' => 'El sexo es requerido',
+                'edo_civil.required' => 'El estado civil es requerido',
+                'fecha_nacim.required' => 'La fecha de nacimiento es requerida',
+                'estado.required' => 'El estado donde vive es requerido',
+                'ciudad.required' => 'La ciudad donde vive es requerida',
+                'direccion.required' => 'La direccion es requerida',
+                'tipo_emp.required' => 'El tipo de empleado es requerido',
+                'categoria.required' => 'La categoria es requerida',
+                'grado_militar.required' => 'El grado militar es requerido'
             ]
         );
         try {
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
+                $file_name = 'empleado_'.$request->codigo_empleado . '.' . $ext;
         
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
@@ -594,60 +614,51 @@ class PersonalController extends Controller
             }else{
                 $path_foto = null;
             }
-                                   
-            $empleado->cedula = $request->cedula;
-            $empleado->nacionalidad = $request->nacionalidad;
-            $empleado->nombre1 = $request->nombre1;
-            $empleado->nombre2 = $request->nombre2;
-            $empleado->apellido1 = $request->apellido1;
-            $empleado->apellido2 = $request->apellido2;
-            $empleado->fecha_nacim = $request->fecha_nacim;
-            $empleado->sexo = $request->genero;
-            $empleado->edo_civil = $request->edo_civil;
 
-            $empleado->nivel_instruccion = $request->nivel;
-            $empleado->telefono = $request->telefono;
-            $empleado->telefono_cel = $request->telefono_cel;
-            $empleado->telefono_ofi = $request->telefono_ofi;
-            $empleado->direccion = $request->direccion;
-            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
-            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
-            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            if ($path_foto) {
-                $empleado->foto = $path_foto ;
-            }
-            $empleado->correo = $request->correo;
-            $empleado->save();
+            $empleado = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
+                "cedula" => $request->cedula,
+                "nacionalidad" => $request->nacionalidad,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
+                "sexo" => $request->sexo,
+                "edo_civil" => $request->edo_civil,
+                "fecha_nacim" => $request->fecha_nacim,
+                "telefono_cel" => $request->telefono_cel,
+                "telefono" => $request->telefono,
+                "telefono_ofi" => $request->telefono_ofi,
+                "estado" => $request->estado,
+                "ciudad" => $request->ciudad,
+                "direccion" => $request->direccion,
+                "correo" => $request->correo,
+                "peso" => $request->peso,
+                "estatura" => $request->estatura,
+                "zur_der_amb" => $request->zur_der_amb,
+                "ojos" => $request->ojos,
+                "cabellos" => $request->cabellos,
+                "color" => $request->color,
+                "talla_camisa" => $request->talla_camisa,
+                "talla_pant" => $request->talla_pant,
+                "talla_chaqueta" => $request->talla_chaqueta,
+                "numero_calzado" => $request->numero_calzado,
+                "talla_falda" => !empty($request->talla_falda) ? $request->talla_falda : null,
+                "persona_contacto" => !empty($request->persona_contacto) ? $request->persona_contacto : null,
+                "telefono_e" => !empty($request->telefono_e) ? $request->telefono_e : null,
+                "foto" => $path_foto,
+            ]);
 
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
-            $nomina->cedula = $empleado->cedula;
-            $nomina->codigo_ubicacion = $request->ubicacion;
-            $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0; 
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
-            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
-            $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
-            $nomina->save();
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "cedula" => $request->cedula,
+                "tipo_emp" => $request->tipo_emp,
+                "grado_militar" => !empty($request->grado_militar) ? $request->grado_militar : null,
+            ]);
+            
+            $datos_militares = DatosMilitares::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_categoria" => $request->categoria,
+                "codigo_promocion" => empty($request->promocion) ? $request->promocion : null,
+            ]);
 
-            if($request->contingente){
-                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
-                $datos_militares->contingente = $request->contingente;
-                $datos_militares->save();
-            }
-            if( !empty($request->universidad) || !empty($request->profesion)){
-                EstudiosRealizados::updateOrCreate(
-                    ['codigo_empleado' => $empleado->codigo_empleado],
-                    [
-                        'nivel' => $request->nivel,
-                        'profesion' => $request->profesion,
-                        'universidad' => $request->universidad,
-                    ]
-                );
-            }
-            dd($empleado);
             return redirect()->route('sireh.personal-militar.index')->with('success', 'Se han actualizado los Datos del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
@@ -673,93 +684,33 @@ class PersonalController extends Controller
         );
     }
 
-    /*public function updatePersonalMilitarNoProf(Empleado $empleado,Request $request){
+    public function updateCargosPersonalMilitar(Request $request){
         
         $this->validate($request, 
             [
-                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
-                'nombre1' => 'required',
-                'apellido1' => 'required',
-                'ubicacion' => 'required',
+                'cargo' => 'required',
+                'fecha_inic_cargo' => 'required',
+                'nro_resolucion_cargo' => 'required',
             ],
             [
-                'nombre1.required' => 'El primer nombre es requerido',
-                'apellido1.required' => 'El primer apellido es requerido'
+                'cargo.required' => 'El cargo es requerido',
+                'fecha_inic_cargo.required' => 'La fecha de inicio del cargo es requerida',
+                'nro_resolucion_cargo.required' => 'El numero de resolución es requerido'
             ]
         );
         try {
-            if ($request->file("foto")){
-                $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
-        
-                $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
-                    unlink($path_foto); // Eliminamos la imagen previa si existe.
-                }
-                //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
-                $path_foto = null;
-            }
-                                   
-            $empleado->cedula = $request->cedula;
-            $empleado->nacionalidad = $request->nacionalidad;
-            $empleado->nombre1 = $request->nombre1;
-            $empleado->nombre2 = $request->nombre2;
-            $empleado->apellido1 = $request->apellido1;
-            $empleado->apellido2 = $request->apellido2;
-            $empleado->fecha_nacim = $request->fecha_nacim;
-            $empleado->sexo = $request->genero;
-            $empleado->edo_civil = $request->edo_civil;
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_cargo" => !empty($request->cargo) ? $request->cargo : 0,
+                "fecha_inic_cargo" => !empty($request->fecha_inic_cargo) ? $request->fecha_inic_cargo : 0,
+                "nro_resolucion_cargo" => !empty($request->nro_resolucion_cargo) ? $request->nro_resolucion_cargo : 0,
+            ]);
 
-            $empleado->nivel_instruccion = $request->nivel;
-            $empleado->telefono = $request->telefono;
-            $empleado->telefono_cel = $request->telefono_cel;
-            $empleado->telefono_ofi = $request->telefono_ofi;
-            $empleado->direccion = $request->direccion;
-            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
-            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
-            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            if ($path_foto) {
-                $empleado->foto = $path_foto ;
-            }
-            $empleado->correo = $request->correo;
-            $empleado->save();
-
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
-            $nomina->cedula = $empleado->cedula;
-            $nomina->codigo_ubicacion = $request->ubicacion;
-            $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0; 
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
-            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
-            $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
-            $nomina->save();
-
-            if($request->contingente){
-                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
-                $datos_militares->contingente = $request->contingente;
-                $datos_militares->save();
-            }
-            if( !empty($request->universidad) || !empty($request->profesion)){
-                EstudiosRealizados::updateOrCreate(
-                    ['codigo_empleado' => $empleado->codigo_empleado],
-                    [
-                        'nivel' => $request->nivel,
-                        'profesion' => $request->profesion,
-                        'universidad' => $request->universidad,
-                    ]
-                );
-            }
-            return redirect()->route('sireh.personal-militar-noprof.index')->with('success', 'Se ha actualizado los Datos de Ingreso de Personal');
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado el Cargo del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
-    }*/
+    }
 
     public function ubicacionesPersonalMilitar($id)
     {
@@ -779,93 +730,36 @@ class PersonalController extends Controller
         );
     }
 
-    /*public function updatePersonalMilitarNoProf(Empleado $empleado,Request $request){
+    public function updateUbicacionesPersonalMilitar(Request $request){
         
         $this->validate($request, 
             [
-                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
-                'nombre1' => 'required',
-                'apellido1' => 'required',
                 'ubicacion' => 'required',
+                'ubicacion_detallada' => 'required',
+                'fecha_inic_ubicacion' => 'required',
+                'nro_resolucion_ubicacion' => 'required',
             ],
             [
-                'nombre1.required' => 'El primer nombre es requerido',
-                'apellido1.required' => 'El primer apellido es requerido'
+                'ubicacion.required' => 'La ubicación es requerida',
+                'ubicacion_detallada.required' => 'La ubicación detallada es requerida',
+                'fecha_inic_ubicacion.required' => 'La fecha de inicio de la ubicación es requerida',
+                'nro_resolucion_ubicacion.required' => 'El numero de resolución es requerido'
             ]
         );
         try {
-            if ($request->file("foto")){
-                $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
-        
-                $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
-                    unlink($path_foto); // Eliminamos la imagen previa si existe.
-                }
-                //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
-                $path_foto = null;
-            }
-                                   
-            $empleado->cedula = $request->cedula;
-            $empleado->nacionalidad = $request->nacionalidad;
-            $empleado->nombre1 = $request->nombre1;
-            $empleado->nombre2 = $request->nombre2;
-            $empleado->apellido1 = $request->apellido1;
-            $empleado->apellido2 = $request->apellido2;
-            $empleado->fecha_nacim = $request->fecha_nacim;
-            $empleado->sexo = $request->genero;
-            $empleado->edo_civil = $request->edo_civil;
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_ubicacion" => !empty($request->ubicacion) ? $request->ubicacion : 0,
+                "cod_ubicacion_detallada" => !empty($request->ubicacion_detallada) ? $request->ubicacion_detallada : 0,
+                "fecha_inic_ubicacion" => !empty($request->fecha_inic_ubicacion) ? $request->fecha_inic_ubicacion : 0,
+                "nro_resolucion_ubicacion" => !empty($request->nro_resolucion_ubicacion) ? $request->nro_resolucion_ubicacion : 0,
+            ]);
 
-            $empleado->nivel_instruccion = $request->nivel;
-            $empleado->telefono = $request->telefono;
-            $empleado->telefono_cel = $request->telefono_cel;
-            $empleado->telefono_ofi = $request->telefono_ofi;
-            $empleado->direccion = $request->direccion;
-            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
-            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
-            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
-            $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            if ($path_foto) {
-                $empleado->foto = $path_foto ;
-            }
-            $empleado->correo = $request->correo;
-            $empleado->save();
-
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
-            $nomina->cedula = $empleado->cedula;
-            $nomina->codigo_ubicacion = $request->ubicacion;
-            $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0; 
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
-            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
-            $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
-            $nomina->save();
-
-            if($request->contingente){
-                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
-                $datos_militares->contingente = $request->contingente;
-                $datos_militares->save();
-            }
-            if( !empty($request->universidad) || !empty($request->profesion)){
-                EstudiosRealizados::updateOrCreate(
-                    ['codigo_empleado' => $empleado->codigo_empleado],
-                    [
-                        'nivel' => $request->nivel,
-                        'profesion' => $request->profesion,
-                        'universidad' => $request->universidad,
-                    ]
-                );
-            }
-            return redirect()->route('sireh.personal-militar-noprof.index')->with('success', 'Se ha actualizado los Datos de Ingreso de Personal');
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado la Ubicación del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
-    }*/
+    }
 
     public function movimientosPersonalMilitar($id)
     {
@@ -881,41 +775,6 @@ class PersonalController extends Controller
             compact(
                 'datos', 'grados_militares', 'user_auth', 'tipos_emp',
                 'ubicaciones', 'ubicaciones_det', 'cargos'
-            )
-        );
-    }
-
-    public function situacionesPersonalMilitar($id)
-    {
-        $user_auth=auth()->user();
-      
-        $tipos_emp = TiposEmpleado::all();
-        $nacionalidades = Config::get('constants.nacionalidad');
-        $generos = Config::get('constants.sexo');
-        $edos_civil = Config::get('constants.edo_civil');
-        $situaciones = Config::get('constants.situacion');
-        $estados = Estados::all();
-        $ubicaciones = Ubicaciones::all();
-        $ubicaciones_det = UbicacionDetallada::all();
-        $niveles = Nivel::all();
-        $cargos = Cargos::all();
-        $universidades = Universidades::all();
-        $profesiones = Profesion::all();
-        $ciudades = Ciudades::all();
-        $grados_militares = GradosMilitares::all();
-        $datos_militares = DatosMilitares::all();
-        $categorias_militares = CategoriasMilitares::all();
-        $promociones_militares = PromocionesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        //dd($datos);
-        return view('sireh.personal.militar.situacion', 
-            compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'datos_militares', 'categorias_militares', 'situaciones',
-                'promociones_militares'
             )
         );
     }
