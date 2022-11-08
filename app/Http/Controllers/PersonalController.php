@@ -25,6 +25,8 @@ use App\Models\DatosMilitares;
 use App\Models\EstudiosRealizados;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
+use App\Models\CategoriasMilitares;
+use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
 
 class PersonalController extends Controller
@@ -508,6 +510,7 @@ class PersonalController extends Controller
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -517,6 +520,9 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
+        $datos_militares = DatosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         return view('sireh.personal.militar.view', 
             compact(
@@ -528,62 +534,7 @@ class PersonalController extends Controller
         );
     }
 
-    public function viewPersonalCivilf($id)
-    {
-        $user_auth=auth()->user();
-      
-        $tipos_emp = TiposEmpleado::all();
-        $nacionalidades = Config::get('constants.nacionalidad');
-        $generos = Config::get('constants.sexo');
-        $edos_civil = Config::get('constants.edo_civil');
-        $estados = Estados::all();
-        $ubicaciones = Ubicaciones::all();
-        $ubicaciones_det = UbicacionDetallada::all();
-        $niveles = Nivel::all();
-        $cargos = Cargos::all();
-        $universidades = Universidades::all();
-        $profesiones = Profesion::all();
-        $ciudades = Ciudades::all();
-        $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','cargos','estudios_realizados'])->find($id);
-        return view('sireh.personal.militar_noprof.view', 
-            compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
-            )
-        );
-    }
-
-    public function viewPersonalCivil($id)
-    {
-        $user_auth=auth()->user();
-      
-        $tipos_emp = TiposEmpleado::all();
-        $nacionalidades = Config::get('constants.nacionalidad');
-        $generos = Config::get('constants.sexo');
-        $edos_civil = Config::get('constants.edo_civil');
-        $estados = Estados::all();
-        $ubicaciones = Ubicaciones::all();
-        $ubicaciones_det = UbicacionDetallada::all();
-        $niveles = Nivel::all();
-        $cargos = Cargos::all();
-        $universidades = Universidades::all();
-        $profesiones = Profesion::all();
-        $ciudades = Ciudades::all();
-        $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        return view('sireh.personal.civil.view', 
-            compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
-            )
-        );
-    }
-
+<<<<<<< HEAD
     public function suspenderPersonalCivil(Request $request)
     {
         $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
@@ -682,9 +633,8 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        //dd($datos);
-        return view('sireh.personal.civil.edit', 
+        $datos = Empleado::with(['nomina','cargos','estudios_realizados'])->find($id);
+        return view('sireh.personal.militar_noprof.view', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -692,60 +642,5 @@ class PersonalController extends Controller
                 'cargos', 'nacionalidades', 'universidades', 'profesiones'
             )
         );
-    }
-
-    public function updatePersonalCivil(Request $request)
-    {
-        $user_auth=auth()->user();
-      
-        $updateNomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
-            'situacion' => $request->situacion,
-            "tipo_emp" => $request->tipo_emp,
-            "nacionalidad" => $request->nacionalidad,
-            "cedula" => $request->cedula,
-            "nombre1" => $request->nombre1,
-            "nombre2" => $request->nombre2,
-            "apellido1" => $request->apellido1,
-            "apellido2" => $request->apellido2,
-            "fecha_nacim" => $request->fecha_nacim,
-            "genero" => $request->genero,
-            "edo_civil" => $request->edo_civil,
-            "telefono_cel" => $request->telefono_cel,
-            "telefono" => $request->telefono,
-            "telefono_ofi" => $request->telefono_ofi,
-            "correo" => $request->correo,
-            "estado" => $request->estado,
-            "ciudad" => $request->ciudad,
-            "direccion" => $request->direccion,
-            "peso" => $request->peso,
-            "estatura" => $request->estatura,
-            "zur_der_amb" => $request->zur_der_amb,
-            "grupo_sanguineo" => $request->grupo_sanguineo,
-            "talla_pant" => $request->talla_pant,
-            "talla_camisa" => $request->talla_camisa,
-            "talla_chaqueta" => $request->talla_chaqueta,
-            "numero_calzado" => $request->numero_calzado,
-            "ojos" => $request->ojos,
-            "cabellos" => $request->cabellos,
-            "color" => $request->color,
-            "nivel" => $request->nivel,
-            "universidad" => $request->universidad,
-            "profesion" => $request->profesion,
-            "fecha_graduacion" => $request->fecha_graduacion,
-            "persona_contacto" => $request->persona_contacto,
-            "telefono_e" => $request->telefono_e,
-        ]);
-        // $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
-        //     'situacion' => 'A'
-        // ]);
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Data inserted successfully',
-                'situacion' => $updateNomina,
-            ]
-        );
-        
     }
 }

@@ -10,3 +10,8 @@
         <i class="fas fa-edit text-primary" aria-hidden="true"></i>
     </a>
     
+    <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Carga Familiar" title="CargaFamiliar"
+    >
+        <i class="fas fa-users text-primary" aria-hidden="true"></i>
+    </a

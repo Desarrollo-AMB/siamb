@@ -436,7 +436,7 @@
 @section('scripts')
 @parent
 <script>
-
+    var gradosData = Array();
     $(document).ready(function() {
         grados();
         var table1 = $('#table1').DataTable({
@@ -955,8 +955,6 @@
                         ids_selected.push(value.codigo_empleado);
                     });
                     fd.append('ids',JSON.parse(JSON.stringify(ids_selected)));
-                    
-                    //console.log(...fd);
 
                     $.ajax({
                         type:'POST',
@@ -994,7 +992,7 @@
     });
 
     function grados(){
-        $.get('/api/grados-militares/MEF'  ,function(data) {
+        $.get('/api/grados-militares'  ,function(data) {
             $.each(data, function(fetch, grado){ 
                 var objeto =   {
                     'codigo': grado.codigo_grado,
@@ -1007,7 +1005,9 @@
     }
 
     function buscarGrado(nuevoGrado){
-        var results = gradosData.filter(function (grados) { return grados.siglas == nuevoGrado; });
+        var results = gradosData.filter(function (grados) { 
+            return grados.siglas == nuevoGrado; 
+        });
         var firstObj = (results.length > 0) ? results[0] : null;
         return firstObj;
     }

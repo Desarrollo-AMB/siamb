@@ -16,7 +16,7 @@ use App\Models\Nomina;
 
 class EgresosController extends Controller
 {
-    public function index()
+    public function indexAlistados()
     {
         $contingentes = DatosMilitares::join('nomina', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
         ->join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
@@ -27,12 +27,12 @@ class EgresosController extends Controller
         ->groupBy('contingente')
         ->get();
         
-        return view('sireh.personal.militar_noprof.egresos.index',compact('contingentes'));
+        return view('sireh.personal.militar_noprof.egresos_alistados.index',compact('contingentes'));
     }
 
 
     //Obtiene el personal militar no profesional, exclusivo por api para el Datatable 
-    public function dataEgresoContingente(Request $request){
+    public function dataEgresoAlistadosContingente(Request $request){
         $empleados = Empleado::where('nomina.situacion','!=','E'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
@@ -57,7 +57,7 @@ class EgresosController extends Controller
     }
 
 
-    public function egresar(Request $request)
+    public function egresarAlistados(Request $request)
     {
         try{
             $fecha_registro =date('Y-m-d H:i:s');

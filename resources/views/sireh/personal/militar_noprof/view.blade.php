@@ -276,7 +276,7 @@
                                                 <select class="select2 form-control registrar" name="ubicacion_det" id="ubicacion_det">
                                                     <option value="">Seleccione ...</option>
                                                     @foreach ($ubicaciones_det as $row)
-                                                        <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->codigo_ubicacion_detallada == $row->codigo_ubicacion ?  'selected': '' }}>{{ $row->descripcion }} ({{ $row->codigo_ubicacion}})</option>
+                                                        <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->cod_ubicacion_detallada == $row->codigo_ubicacion ?  'selected': '' }}>{{ $row->descripcion }} ({{ $row->codigo_ubicacion}})</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -356,7 +356,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Contingente:</h6>
-                                                {!! Form::text('contingente', $datos->datos_militares ? $datos->datos_militares->contingente : null, array('id'=>'contingente', 'placeholder' => '','class' => 'form-control')) !!}
+                                                {!! Form::text('contingente', $datos->nomina->datos_militares ? $datos->nomina->datos_militares->contingente : null, array('id'=>'contingente', 'placeholder' => '','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -471,6 +471,7 @@
     }
 
     function contingente(tipo_emp, fecha_ingreso=null) {
+        var contingente= $('#contingente').val();
         if (tipo_emp == 'ALI') {
             if (fecha_ingreso){
                 var mes = new Date(fecha_ingreso).getMonth()+1;
@@ -488,10 +489,10 @@
                 var valor2 = mes2+""+final;            
                 $('#contingente').val(valor2);
             }else {
-                $('#contingente').val('');
+                $('#contingente').val(contingente);
             }
         }else {
-            $('#contingente').val('');
+            $('#contingente').val(contingente);
         }
     }
 </script>

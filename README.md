@@ -62,6 +62,7 @@ FROM nomina
 2. Con el manejador de Bases de Datos, exportar directamente desde la BD SIREH, las siguientes tablas:
 - datos_militares
 - conceptos_pagados
+- familiares
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales
@@ -70,7 +71,7 @@ FROM nomina
 
 4. Con el manejador de Bases de Datos, exportar directamente desde la BD EDUCACION, las siguientes tablas:
 - estudios_realizados
-- cursos_realizado
+- cursos_realizados
 
 5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde la BD SIREH:
 - ubicaciones 
