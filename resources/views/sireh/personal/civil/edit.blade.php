@@ -178,8 +178,8 @@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
-                                                <h6>Direccion:</h6>
-                                                {!! Form::text('direccion', $datos->direccion, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                <h6>Dirección:</h6>
+                                                {!! Form::text('direccion', $datos->direccion, array('placeholder' => 'Dirección','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -201,9 +201,9 @@
                                                 <h6>Tipo de Lateralidad:</h6>
                                                 <select class="select2 form-control zur_der_amb" name="zur_der_amb" id="zur_der_amb">
                                                     <option value="{{$datos->zur_der_amb}}">{{$datos->zur_der_amb}}</option>
-                                                    <option value="ZURDO">ZURDO</option>
-                                                    <option value="DERECHO">DERECHO</option>
-                                                    <option value="AMBIDIESTRO">AMBIDIESTRO</option>
+                                                    <option value="Z">ZURDO(A)</option>
+                                                    <option value="D">DERECHO(A)</option>
+                                                    <option value="A">AMBIDIESTRO(A)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -276,22 +276,11 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
-                                    <h5 class="card-title">Datos Académicos</h5>
+                                    <h5 class="card-title">Estudios Y Ubicación</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">    
-                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <h6>Nivel Instrucción:</h6>
-                                                <select class="select2 form-control registrar" name="nivel" id="nivel">
-                                                    <option value="">Seleccione ...</option>
-                                                    @foreach ($niveles as $row)
-                                                        <option value="{{$row->codigo}}" data-nivel="{{$row->nivel_instruccion}}" {{ $datos->nivel_instruccion == $row->codigo ? 'selected': '' }}>{{ $row->descripcion }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> 
-                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 nivel_instruccion" >
+                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
                                             <div class="form-group">
                                                 <h6>Universidad:</h6>
                                                 <select class="select2 form-control registrar" name="universidad" id="universidad" >
@@ -302,24 +291,35 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 nivel_instruccion" >
-                                            <div class="form-group">
-                                                <h6>Profesiones:</h6>
-                                                <select class="select2 form-control registrar" name="profesion" id="profesion" >
-                                                    <option value="">Seleccione ...</option>
-                                                    @foreach ($profesiones as $row)
-                                                        <option value="{{$row->codigo_profesion}}" {{$datos->profesion == $row->codigo_profesion ? 'selected': '' }} >{{ $row->descripcion }} </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 nivel_instruccion">
+                                        <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 nivel_instruccion">
                                             <div class="form-group">
                                                 <h6>Fecha Graduacion: <small></small></h6>
                                                 <input name="fecha_graduacion"  id="fecha_graduacion" type="date" class="form-control fecha" 
                                                     value="{{ $datos->fecha_graduacion }}">
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
+                                            <div class="form-group">
+                                                <h6>Ubicacion:</h6>
+                                                <select class="select2 form-control registrar" name="codigo_ubicacion" id="codigo_ubicacion" >
+                                                    <option value="">Seleccione ...</option>
+                                                    @foreach ($ubicaciones as $row)
+                                                        <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->codigo_ubicacion == $row->codigo_ubicacion ? 'selected': '' }} >{{ $row->descripcion }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
+                                            <div class="form-group">
+                                                <h6>Ubicacion Detallada:</h6>
+                                                <select class="select2 form-control registrar" name="cod_ubicacion_detallada" id="cod_ubicacion_detallada">
+                                                    <option value="">Seleccione ...</option>
+                                                    @foreach ($ubicaciones_det as $row)
+                                                        <option value="{{$row->codigo_ubicacion}}" {{ $datos->nomina->cod_ubicacion_detallada == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div> 
                                     </div>
