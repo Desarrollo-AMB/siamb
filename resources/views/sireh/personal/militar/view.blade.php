@@ -349,7 +349,7 @@
                                                 <h6>Promoción:</h6>
                                                 @if($datos->datos_militares->codigo_promocion != "")
                                                     @foreach ($promociones_militares as $row)
-                                                        @if($row->codigo_promocion == $datos->datos_militares->codigo_promocion)
+                                                        @if($datos->datos_militares->codigo_promocion == $row->codigo_promocion)
                                                             {!! Form::text('promocion', $row->descripcion, array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
@@ -471,6 +471,7 @@
 <script>
     $(function (){
         $('.select2').select2();
+        $("input").prop( "disabled", true );
 
         //Para la foto
         var readURL = function(input) {
