@@ -56,3 +56,8 @@ Route::get('sireh/personalmilitarnoprof/egreso_contingente', [EgresosController:
 Route::get('sireh/personalmilitarnoprof/reingresos', [ReingresoPMNoProfController::class, 'personalMilitarNoProfEgresado'])->name('sireh.personal.militar-noprof.dataEgresados');
 
 Route::get('sireh/carga-familiar/data', [CargaFamiliarController::class, 'dataCargaFamiliar'])->name('api.sireh.carga-familiar.data');
+
+//Route::post('/sireh/personal-civil/suspender', [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
+//Route::post('/sireh/personal-civil/egreso', [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
+Route::post('/sireh/personal-civil/activar',   [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
+Route::post('/sireh/personal-civil/update',     [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
