@@ -6,6 +6,7 @@ use App\Models\Ciudades;
 use App\Models\GradosMilitares;
 use App\Models\CategoriasMilitares;
 use App\Models\PromocionesMilitares;
+use App\Models\UbicacionDetallada;
 
 class ApiController extends Controller
 {
@@ -37,5 +38,10 @@ class ApiController extends Controller
     public function getPromocionesMilitares($categoria){
         $promociones = PromocionesMilitares::where('codigo_categoria',$categoria)->orderBy('codigo_promocion','asc')->get();
         return response()->json($promociones);
+    }
+
+    public function getUbicacionesDetalladas($ubicacion){
+        $ubicaciones_detalladas = UbicacionDetallada::where('codigo_ubic_nomina',$ubicacion)->orderBy('codigo_ubicacion','asc')->get();
+        return response()->json($ubicaciones_detalladas);
     }
 }

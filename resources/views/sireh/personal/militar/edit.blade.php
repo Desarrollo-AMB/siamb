@@ -503,7 +503,6 @@
                 $('#promocion').prop('disabled',false);
 
                 $.get('/api/promociones-militares/' + categoria,function(data) {
-                    console.log(data);
                     $('#promocion').empty();
                     $('#promocion').append('<option value="">SELECCIONE...</option>');
                     $.each(data, function(fetch, promociones){
@@ -513,7 +512,26 @@
             }
         });
 
-        
+        $('#ubicacion').on('change', function(e){
+            var ubicacion = e.target.value;
+            if (ubicacion == "") {
+                $('#ubicacion_detallada').prop('disabled',true);
+                $('#cargo').prop('disabled',true);
+            }
+            else {
+                $('#ubicacion_detallada').prop('disabled',false);
+                $('#cargo').prop('disabled',false);
+
+                $.get('/api/ubicaciones-detalladas/' + ubicacion,function(data) {
+                    console.log(data);
+                    $('#ubicacion_detallada').empty();
+                    $('#ubicacion_detallada').append('<option value="">SELECCIONE...</option>');
+                    $.each(data, function(fetch, ubicaciones_detalladas){
+                        $('#ubicacion_detallada').append('<option value="'+ ubicaciones_detalladas.codigo_ubicacion +'">'+ ubicaciones_detalladas.descripcion +'</option>');
+                    });
+                });
+            }
+        });        
 
         inicializar();
     });

@@ -30,6 +30,7 @@ Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->n
 Route::get("categoria/{tipo_emp}", [ApiController::class, 'getCategoriasMilitares'])->name("api.categoria");
 Route::get("grados-militares/{tipo_emp}", [ApiController::class, 'getGradosMilitares'])->name("api.grados_militares");
 Route::get("promociones-militares/{categoria}", [ApiController::class, 'getPromocionesMilitares'])->name("api.promociones");
+Route::get("ubicaciones-detalladas/{ubicacion}", [ApiController::class, 'getUbicacionesDetalladas'])->name("api.ubicaciones.detalladas");
 Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('sireh.empleados.inactivos');
 Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('sireh.personal.civil.data');
