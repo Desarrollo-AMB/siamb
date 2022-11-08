@@ -55,4 +55,9 @@ class Empleado extends Model
     public function estudios_realizados() {
         return $this->hasOne(EstudiosRealizados::class, 'codigo_empleado', 'codigo_empleado');
     }
+
+    public function familiares()
+    {
+        return $this->hasMany(Familiares::class,'codigo_empleado','codigo_empleado');
+    }
 }
