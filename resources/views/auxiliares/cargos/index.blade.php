@@ -110,7 +110,7 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si!'
             }).then((result) => { 
-                if(result.isconfirmed){
+                if(result.isConfirmed){
                     $.ajax({ 
                         url: url, 
                         type: 'DELETE', 
