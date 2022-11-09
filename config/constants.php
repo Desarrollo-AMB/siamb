@@ -50,8 +50,8 @@ return [
         '12' =>  'Situación de Calle',
         '13' =>  'Vivienda al Cuido',
         '14' =>  'Ocupación Irregular',
-
     ],
+
     'guard_names' =>[
         'web' =>  'SIAMB',
         'seid' =>  'SEID',
@@ -59,6 +59,7 @@ return [
         'educacion' =>  'EDUCACION',
         'sireh' =>  'SIREH',
     ],
+
     'clasificacion_cargo' =>[
         'M' =>  'MILITAR',
         'E' =>  'EMPLEADO',
@@ -67,14 +68,47 @@ return [
         'I' =>  'MEDICOS',
         'C' =>  'CONTRATADO',
     ],
+
     'tipo_universidad' =>[
         'PÚBLICA' =>  'PÚBLICA',
         'PRIVADA' =>  'PRIVADA',
         'NA' =>  'NO DEFINIDA'
     ],
+    
     'adscrita_aviacion' =>[
         'S' =>  'SI',
         'N' =>  'NO'
+    ],
+
+    'redi' =>[
+        '1' =>  'ORIENTAL',
+        '2' =>  'OCCIDENTAL',
+        '3' =>  'MARITIMA INSULAR',
+        '4' =>  'LOS LLANOS',
+        '5' =>  'LOS ANDES',
+        '6' =>  'GUYANA',
+        '7' =>  'CENTRAL',
+        '8' =>  'CAPITAL',
+    ],
+    
+    'tipo_unidad' =>[
+        'F' =>  'FORANEA',
+        'A' =>  'ADMINISTRATIVA',
+    ],
+    
+    'situacion' =>[
+        'A' => 'ACTIVO',
+        'E' => 'EGRESADO',
+        'S' => 'SUSPENDIDO',
+        'I' => 'INGRESO',
+    ],
+
+    'parentesco' => [
+        'P' => 'PADRE',
+        'M' => 'MADRE',
+        'H' => 'HIJO(A)',
+        'E' => 'ESPOSO(A)',
+        'C' => 'CONYUGUE',
     ]
 
 ];

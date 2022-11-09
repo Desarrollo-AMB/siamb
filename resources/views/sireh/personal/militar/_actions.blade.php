@@ -4,15 +4,30 @@
     >
         <i class="fas fa-eye text-info" aria-hidden="true"></i>
     </a>
-    <a href="{{-- route('sireh.personal-militar-noprof.edit', $id) --}}" class="mx-3" data-bs-toggle="tooltip"
+    <a href="{{ route('sireh.personal-militar.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Editar" title="Editar"
     >
         <i class="fas fa-edit text-primary" aria-hidden="true"></i>
     </a>
     
-    <a href="#" class="mx-3"  data-bs-toggle="tooltip"
-        data-bs-original-title="Cargos y Ubicacionesr" title="Cargos y Ubicaciones"
-        data-target="{{-- route('', $id) --}}"
+    <a href="{{ route('sireh.personal-militar.cargo', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
+        data-bs-original-title="Cargos" title="Cargos"
+    >
+        <i class="fas fa-briefcase text-success"></i>
+    </a>
+    <a href="{{ route('sireh.personal-militar.ubicacion', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
+        data-bs-original-title="Ubicaciones" title="Ubicaciones"
     >
         <i class="fas fa-globe text-warning"></i>
     </a>
+
+    <a href="{{ route('sireh.personal-militar.movimientos', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
+        data-bs-original-title="Movimientos" title="Movimientos"
+    >
+        <i class="fas fa-file-alt text-success"></i>
+    </a>
+    <a href="#" class="mx-3 suspender" data-bs-toggle="tooltip"
+        data-bs-original-title="Suspender" title="Suspender" data-id="{{ $id }}">
+        <i class="fas fa-sync text-danger" aria-hidden="true"></i>
+    </a>
+

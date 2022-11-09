@@ -97,9 +97,9 @@
                 }
             }
         });
-     
-        $('#table').on('click', '.confirm-delete' ,function (e) { 
-            e.preventDefault(); 
+
+        $('#table').on('click', '.confirm-delete' ,function (e) {
+            e.preventDefault();
             var url =$(this).data('target') ;
             Swal.fire({
                 title: 'Eliminar Cargo',
@@ -109,16 +109,16 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si!'
-            }).then((result) => { 
-                if(result.isconfirmed){
-                    $.ajax({ 
-                        url: url, 
-                        type: 'DELETE', 
-                        dataType: 'json', 
-                        data: {method: '_DELETE'}, 
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
-                    }).done(function (data) { 
-                        $('#table').DataTable().ajax.reload(); 
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        data: {method: '_DELETE'},
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                    }).done(function (data) {
+                        $('#table').DataTable().ajax.reload();
                         Swal.fire({
                             title: 'Eliminado!',
                             text: 'El Cargo ha sido eliminado.',
@@ -126,7 +126,7 @@
                             timer: 3000,
                             showConfirmButton: true,
                         });
-                    }); 
+                    });
                 }
             });
         });

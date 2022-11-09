@@ -50,6 +50,56 @@
         </div>
     </div>
 </div>
+{{-- Modal para Suspender o Activar Profesional --}}
+<div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+    <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cambio de Situación del Profesional</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-dark">X</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
+                                <input style="height: 35px" type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
+                                <input style="height: 35px" type="text" class="form-control codigo_empleado" value="" id="codigo_empleado">
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
+                                <select class="form-control motivo" id="motivo" name="motivo" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="DESERTOR">DESERTOR</option>
+                                    <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
+                                    <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Observaciones</label>
+                                <textarea style="text-transform: uppercase; height: 100px" class="form-control observaciones" name="" id="" rows="7"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
+                    <button type="submit" class="btn bg-gradient-success enviar_suspencion">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- /.modal --}}
 @endsection
 
 @section('scripts')
@@ -96,6 +146,64 @@
                     "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
+            }
+        });
+
+        table.on('click', '.suspender', function() {
+            var id = $(this).data("id");
+            console.log(id);
+
+            var codigo_empleado = $(this).data("codigo_empleado");
+            console.log(codigo_empleado);
+            $('.codigo_empleado').val(codigo_empleado);
+   
+            $('#modal-view').on('shown.bs.modal', function(e) {
+                $('#modal-view #id_empleado').val(id);
+            })
+            $('#modal-view').modal("show");
+        });
+
+        $(".enviar_suspencion").click(function(e){
+            e.preventDefault();
+            var motivo = $('.motivo').val();
+            if(motivo===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar un Motivo.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('sireh.personal-militar.suspender') }}",
+                method:'POST',
+                data:{
+                    fecha: $('.fechaSuspencion').val(),
+                    motivo: motivo,
+                    observaciones: $('.observaciones').val().toUpperCase(),
+                    codigo_empleado: $('.codigo_empleado').val(),
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $('#modal-view').modal('hide');
+                            Swal.fire({
+                                title: 'LISTO!',
+                                text: 'Empleado Suspendido Correctamente!',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                            setTimeout(function () {
+                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
+                            }, 1200);
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
             }
         });
 
