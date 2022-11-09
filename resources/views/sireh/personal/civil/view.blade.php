@@ -29,7 +29,17 @@
                         </ul>
                     </div>
                     @endif
-
+                    
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="avatar-wrapper">
+                                <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
+                                <div class="upload-button">
+                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">  
                         <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
                             <div class="form-group">
@@ -43,131 +53,6 @@
                             </div>
                         </div>
                         <input hidden="true" style="height: 35px" type="text" class="form-control codigo_empleado" value="{{$datos->codigo_empleado}}" id="codigo_empleado">
-                        <div class="col-sm-6 mt-2 pt-4">
-                            <div class="row">
-                                @if($datos->situacion == 'A')
-                                    <div class="col-3">
-                                        <a class="btn bg-gradient-danger btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" href="#">SUSPENDER</a>
-                                    </div>
-                                    <div class="col-3">
-                                        <a class="btn bg-gradient-warning btn-sm mb-0"  data-bs-toggle="modal" data-bs-target="#egresar" href="#">EGRESAR</a>
-                                    </div>
-                                @else
-                                    <div class="col-3">
-                                        <a class="btn bg-gradient-success btn-sm mb-0 activar_empleado" data-bs-toggle="modal"href="#">ACTIVAR</a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-                          <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Cambio de Situación del Profesional</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <form>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
-                                                    <input style="height: 35px" type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-7">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
-                                                    <select class="form-control motivo" id="motivo" name="motivo" required>
-                                                        <option value="">Seleccione...</option>
-                                                        <option value="DESERTOR">DESERTOR</option>
-                                                        <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
-                                                        <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                                    <textarea style="text-transform: uppercase; height: 100px" class="form-control observaciones" name="" id="" rows="7"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                                        <button type="submit" class="btn bg-gradient-success enviar_suspencion">Confirmar</button>
-                                    </div>
-                                </form>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Modal -->
-                        <div class="modal fade" id="egresar" tabindex="-1" role="dialog" aria-labelledby="egresarTitle" aria-hidden="true">
-                          <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Cambio de Situación del Profesional</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <form>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Fecha de Ingreso</label>
-                                                    <input  type="date" class="form-control fecha_ingreso" value="{{$datos->nomina->fecha_ingreso}}" id="" disabled="true">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Fecha de Egreso</label>
-                                                    <input  type="date" class="form-control fecha_egreso" value="" id="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Motivo de Egreso</label>
-                                                    <select class="form-control egreso" id="egreso" name="egreso" required>
-                                                        <option value="">Seleccione...</option>
-                                                        <option value="PRIVADO DE LIBERTAD">PRIVADO DE LIBERTAD</option>
-                                                        <option value="RENUNCIA">RENUNCIA</option>
-                                                        <option value="DESPIDO">DESPIDO</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                                    <textarea style="height: 100px" class="form-control observaciones_egreso" name="" id="" rows="7"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                                        <button type="button" class="btn bg-gradient-success enviar_egreso">Confirmar</button>
-                                    </div>
-                                </form>
-                            </div>
-                          </div>
-                        </div>
                     </div>
                     <div class="row"> 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
@@ -477,16 +362,48 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="avatar-wrapper">
-                                <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
-                                <div class="upload-button">
-                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    @if(count($cursosRealizados)>0)
+                        <div class="row"> 
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
+                                <div class="card" >
+                                    <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
+                                        <h5 class="card-title">Cursos Realizados</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">    
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="card-body">
+                                                    <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Curso</th>
+                                                                <th>Desde</th>
+                                                                <th>Hasta</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($cursosRealizados as $data)
+                                                                <tr>
+                                                                    <th class="font-weight-normal">
+                                                                        @foreach ($cursos as $row)
+                                                                            {{$data->codigo_curso == $row->codigo_curso ? $row->descripcion_curso:null}} 
+                                                                        @endforeach
+                                                                    </th>
+                                                                    <th class="font-weight-normal">{{$data->desde}}</th>
+                                                                    <th class="font-weight-normal">{{$data->hasta}}</th>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                    @endif
                 </div>
             </div>
         </div>
@@ -497,9 +414,6 @@
 <script>
 
     $(document).ready(function () {  
-        // $('.nivel_instruccion').hide();
-        // $('.obrero').hide();
-        // $('.cargo').hide();
         $("select.registrar").prop( "disabled", true );
         $("#btn-registrar").prop( "disabled", true );
         $(":input").prop("disabled", true);

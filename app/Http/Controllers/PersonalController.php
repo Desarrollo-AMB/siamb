@@ -28,6 +28,8 @@ use App\Models\GradosMilitares;
 use App\Models\CategoriasMilitares;
 use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
+use App\Models\Cursos;
+use App\Models\CursosRealizados;
 
 class PersonalController extends Controller
 {
@@ -43,7 +45,12 @@ class PersonalController extends Controller
 
     public function indexPersonalCivil()
     {
-        return view('sireh.personal.civil.index');
+        $cursos = Cursos::all();
+        return view('sireh.personal.civil.index', 
+            compact(
+                'cursos'
+            )
+        );
     }
 
     public function indexPersonalMilitarNoProf()
@@ -379,15 +386,15 @@ class PersonalController extends Controller
 
     //Obtiene el personal Civil, exclusivo por api para el Datatable 
     public function personalCivil(Request $request){
-        //$empleados = Empleado::where('empleados.situacion','A'); 
-        $empleados = Empleado::where('empleados.situacion', '<>',''); 
+        $empleados = Empleado::where('empleados.situacion','A'); 
+        //$empleados = Empleado::where('empleados.situacion', '<>',''); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
         //$empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        $empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI');
         //$empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEF');
-        $empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEX');
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -548,17 +555,21 @@ class PersonalController extends Controller
         $ubicaciones_det = UbicacionDetallada::all();
         $niveles = Nivel::all();
         $cargos = Cargos::all();
+        $cursos = Cursos::all();
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $getEmpleadoCode = Empleado::select('codigo_empleado')->find($id);
+        $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
         return view('sireh.personal.civil.view', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'cargos', 'nacionalidades', 'universidades', 'profesiones', 
+                'cursosRealizados', 'cursos'
             )
         );
     }
@@ -722,7 +733,44 @@ class PersonalController extends Controller
         ]);
 
         return redirect()->route('sireh.personal-civil.index')->with('success', 'Se ha actualizado el Personal');
-        
-        
+    
     }
+    public function personalCivilNoActive(){
+        $noActive = Empleado::where('empleados.situacion','<>','A')
+            ->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+            //->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+            ->where('nomina.tipo_emp','<>','MIL')
+            ->where('nomina.tipo_emp','<>','TRP')
+            ->where('nomina.tipo_emp','<>','ALI')
+            ->get();
+            //dd($noActive);
+        return view('sireh.personal.civil.view_civil_no_activo', 
+            compact(
+                'noActive'
+            )
+        );
+    }
+
+    public function AgregarCursoPersonalCivil(Request $request)
+    {
+        $cursos = new CursosRealizados;
+
+        $cursos->codigo_curso = $request->curso;
+        $cursos->desde = $request->desde_curso;
+        $cursos->hasta = $request->hasta_curso;
+        $cursos->codigo_empleado = $request->codigo_empleado;
+
+        $cursos->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $cursos,
+            ]
+        );
+    }
+
 }
