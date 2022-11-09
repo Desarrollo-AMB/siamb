@@ -14,6 +14,8 @@ use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
+use App\Http\Controllers\Auxiliares\UniversidadesController;
+use App\Http\Controllers\Auxiliares\ProfesionesController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +45,8 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
-    Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean'); 
-    
+    Route::delete('permissions', [PermissionController::class, 'clean'])->name('permissions.clean');
+
     Route::get('/sireh/ingreso_personal/index', [PersonalController::class, 'index'])->name('sireh.ingreso-personal.index');
     Route::get('/sireh/ingreso_personal/new', [PersonalController::class, 'ingresoPersonal'])->name('sireh.ingreso-personal.new');
     Route::post('/sireh/ingreso_personal/store', [PersonalController::class, 'registraPersonal'])->name('sireh.ingreso-personal.store');
@@ -58,7 +60,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 
     Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
-    
+
     //CRUD Tabla Cargos
     Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');
     Route::get('/auxiliares/cargos/create', [CargosController::class, 'create'])->name('auxiliares.cargos.create');
@@ -74,6 +76,22 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/auxiliares/ubicaciones/edit/{id}', [UbicacionesController::class, 'edit'])->name('auxiliares.ubicaciones.edit');
     Route::post('/auxiliares/ubicaciones/update/{ubicacion}', [UbicacionesController::class, 'update'])->name('auxiliares.ubicaciones.update');
     Route::delete('/auxiliares/ubicaciones/delete/{ubicacion}', [UbicacionesController::class, 'destroy'])->name('auxiliares.ubicaciones.destroy');
+
+    //CRUD Tabla Universidades
+    Route::get('/auxiliares/universidades', [UniversidadesController::class, 'index'])->name('auxiliares.universidades.index');
+    Route::get('/auxiliares/universidades/create', [UniversidadesController::class, 'create'])->name('auxiliares.universidades.create');
+    Route::post('/auxiliares/universidades/store', [UniversidadesController::class, 'store'])->name('auxiliares.universidades.store');
+    Route::get('/auxiliares/universidades/edit/{id}', [UniversidadesController::class, 'edit'])->name('auxiliares.universidades.edit');
+    Route::patch('/auxiliares/universidades/update/{universidad}', [UniversidadesController::class, 'update'])->name('auxiliares.universidades.update');
+    Route::delete('/auxiliares/universidades/delete/{id}', [UniversidadesController::class, 'destroy'])->name('auxiliares.universidades.destroy');
+
+    //CRUD Tabla Profesiones
+    Route::get('/auxiliares/profesiones', [ProfesionesController::class, 'index'])->name('auxiliares.profesiones.index');
+    Route::get('/auxiliares/profesiones/create', [ProfesionesController::class, 'create'])->name('auxiliares.profesiones.create');
+    Route::post('/auxiliares/profesiones/store', [ProfesionesController::class, 'store'])->name('auxiliares.profesiones.store');
+    Route::get('/auxiliares/profesiones/edit/{id}', [ProfesionesController::class, 'edit'])->name('auxiliares.profesiones.edit');
+    Route::patch('/auxiliares/profesiones/update/{profesion}', [ProfesionesController::class, 'update'])->name('auxiliares.profesiones.update');
+    Route::delete('/auxiliares/profesiones/delete/{id}', [ProfesionesController::class, 'destroy'])->name('auxiliares.profesiones.destroy');
 
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
@@ -96,10 +114,10 @@ Route::group(['middleware' => ['auth']], function() {
 	})->name('dashboard');
     Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
-     
+
 });
 
-//RUTA FORMULARIO FAM002 
+//RUTA FORMULARIO FAM002
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
@@ -108,40 +126,40 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
     });
     Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
-    Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos'); 
-    Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales'); 
-    Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas'); 
+    Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos');
+    Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales');
+    Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas');
 
-    Route::post('steps',                    [FormaFAMController::class, 'steps'])->name('steps'); 
-    Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status'); 
-    Route::post('store_header',             [FormaFAMController::class, 'store'])->name('store_header'); 
-    Route::post('store_a1',                 [FormaFAMController::class, 'store_a1'])->name('store_a1'); 
-    Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles'); 
+    Route::post('steps',                    [FormaFAMController::class, 'steps'])->name('steps');
+    Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status');
+    Route::post('store_header',             [FormaFAMController::class, 'store'])->name('store_header');
+    Route::post('store_a1',                 [FormaFAMController::class, 'store_a1'])->name('store_a1');
+    Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles');
     Route::post('store_a1_consumibles',     [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
-    Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');  
+    Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');
     Route::post('editar_a1_mision',         [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
-    Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');  
-    Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');  
-    
-    Route::post('codigos_mision_json',      [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json'); 
-    Route::post('tripulante_funcion',       [FormaFAMController::class, 'tripulante_funcion'])->name('tripulante_funcion'); 
-    Route::post('data_vuelo',               [FormaFAMController::class, 'data_vuelo'])->name('data_vuelo'); 
-    Route::post('data_v_trip',              [FormaFAMController::class, 'data_v_trip'])->name('data_v_trip'); 
-    Route::post('store_b1',                 [FormaFAMController::class, 'store_b1'])->name('store_b1'); 
-    Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje'); 
-    Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json'); 
-    Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo'); 
+    Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');
+    Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');
 
-    Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1'); 
-    Route::post('actualizar_b1',            [FormaFAMController::class, 'actualizar_b1'])->name('actualizar_b1');  
-    Route::post('delete_b1',                [FormaFAMController::class, 'delete_b1'])->name('delete_b1');  
-    
-    Route::post('store_a3',                 [FormaFAMController::class, 'store_a3'])->name('store_a3'); 
-    Route::post('delete_a3',                [FormaFAMController::class, 'delete_a3'])->name('delete_a3');  
-    Route::post('editar_a3',                [FormaFAMController::class, 'editar_a3'])->name('editar_a3'); 
-    Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');  
-    
-    Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');  
+    Route::post('codigos_mision_json',      [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json');
+    Route::post('tripulante_funcion',       [FormaFAMController::class, 'tripulante_funcion'])->name('tripulante_funcion');
+    Route::post('data_vuelo',               [FormaFAMController::class, 'data_vuelo'])->name('data_vuelo');
+    Route::post('data_v_trip',              [FormaFAMController::class, 'data_v_trip'])->name('data_v_trip');
+    Route::post('store_b1',                 [FormaFAMController::class, 'store_b1'])->name('store_b1');
+    Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje');
+    Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json');
+    Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo');
+
+    Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1');
+    Route::post('actualizar_b1',            [FormaFAMController::class, 'actualizar_b1'])->name('actualizar_b1');
+    Route::post('delete_b1',                [FormaFAMController::class, 'delete_b1'])->name('delete_b1');
+
+    Route::post('store_a3',                 [FormaFAMController::class, 'store_a3'])->name('store_a3');
+    Route::post('delete_a3',                [FormaFAMController::class, 'delete_a3'])->name('delete_a3');
+    Route::post('editar_a3',                [FormaFAMController::class, 'editar_a3'])->name('editar_a3');
+    Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');
+
+    Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');
 
 });
 

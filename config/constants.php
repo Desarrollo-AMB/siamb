@@ -66,6 +66,15 @@ return [
         'D' =>  'DOCENTE',
         'I' =>  'MEDICOS',
         'C' =>  'CONTRATADO',
+    ],
+    'tipo_universidad' =>[
+        'PÚBLICA' =>  'PÚBLICA',
+        'PRIVADA' =>  'PRIVADA',
+        'NA' =>  'NO DEFINIDA'
+    ],
+    'adscrita_aviacion' =>[
+        'S' =>  'SI',
+        'N' =>  'NO'
     ]
 
 ];

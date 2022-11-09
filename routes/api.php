@@ -8,6 +8,8 @@ use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
+use App\Http\Controllers\Auxiliares\UniversidadesController;
+use App\Http\Controllers\Auxiliares\ProfesionesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +35,8 @@ Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])-
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('sireh.personal.militar-noprof.data');
 
 Route::get('auxiliares/cargos/data', [CargosController::class, 'cargosData'])->name('auxiliares.cargos.data');
+Route::get('auxiliares/universidades/data', [UniversidadesController::class, 'universidadesData'])->name('auxiliares.universidades.data');
+Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profesionesData'])->name('auxiliares.profesiones.data');
 
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_comando', [GraduacionController::class, 'getOficialesComando'])->name('sireh.militar-noprof.graduacion.dataOficialesComando');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_medicina', [GraduacionController::class, 'getOficialesTecnicosMedicina'])->name('sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina');
