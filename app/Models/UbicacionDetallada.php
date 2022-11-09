@@ -14,4 +14,11 @@ class UbicacionDetallada extends Model
     protected $table = 'ubicacion_detallada';
 
     protected $dates = ['deleted_at'];
+
+    protected $fillable = [
+        '*',
+    ];
+    
+    public $timestamps = false;
+
 }

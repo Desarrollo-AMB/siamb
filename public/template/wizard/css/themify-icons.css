@@ -29,7 +29,7 @@
 }
 
 /* ESTILOS SELECT  */
-.form-control {
+.select2 .form-control {
     background-color: #F3F2EE;
     border: 1px solid #1417277a;
     border-radius: 4px;

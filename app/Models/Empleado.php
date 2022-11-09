@@ -55,25 +55,9 @@ class Empleado extends Model
     public function estudios_realizados() {
         return $this->hasOne(EstudiosRealizados::class, 'codigo_empleado', 'codigo_empleado');
     }
-    /*public function getSituacionAttribute()
+
+    public function familiares()
     {
-        switch ($this->situacion) {
-            case 'A':
-                $value= 'ACTIVO';
-                break;
-            case 'E':
-                $value= 'EGRESADO';
-                break;
-            case 'S':
-                $value= 'SUSPENDIDO';
-                break;
-            case 'I':
-                $value= 'INGRESO';
-                break;
-            default:
-                $value= '';
-                break;
-        }
-        return  $value;
-    }*/
+        return $this->hasMany(Familiares::class,'codigo_empleado','codigo_empleado');
+    }
 }

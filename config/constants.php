@@ -50,8 +50,8 @@ return [
         '12' =>  'Situación de Calle',
         '13' =>  'Vivienda al Cuido',
         '14' =>  'Ocupación Irregular',
-
     ],
+
     'guard_names' =>[
         'web' =>  'SIAMB',
         'seid' =>  'SEID',
@@ -59,6 +59,7 @@ return [
         'educacion' =>  'EDUCACION',
         'sireh' =>  'SIREH',
     ],
+
     'clasificacion_cargo' =>[
         'M' =>  'MILITAR',
         'E' =>  'EMPLEADO',
@@ -67,6 +68,7 @@ return [
         'I' =>  'MEDICOS',
         'C' =>  'CONTRATADO',
     ],
+
     'redi' =>[
         '1' =>  'ORIENTAL',
         '2' =>  'OCCIDENTAL',
@@ -77,10 +79,25 @@ return [
         '7' =>  'CENTRAL',
         '8' =>  'CAPITAL',
     ],
+    
     'tipo_unidad' =>[
         'F' =>  'FORANEA',
         'A' =>  'ADMINISTRATIVA',
-        
+    ],
+    
+    'situacion' =>[
+        'A' => 'ACTIVO',
+        'E' => 'EGRESADO',
+        'S' => 'SUSPENDIDO',
+        'I' => 'INGRESO',
+    ],
+
+    'parentesco' => [
+        'P' => 'PADRE',
+        'M' => 'MADRE',
+        'H' => 'HIJO(A)',
+        'E' => 'ESPOSO(A)',
+        'C' => 'CONYUGUE',
     ]
 
 ];

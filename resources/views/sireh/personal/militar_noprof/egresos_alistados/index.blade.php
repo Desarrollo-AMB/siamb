@@ -34,7 +34,7 @@
                     <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
                                 <form name="egresar"  id="egresar" class="form-egresar"
-                                    method="post" action="{{route('sireh.personal-militar-noprof.egresar')}}" 
+                                    method="post" action="" 
                                     >
                                     @csrf
                                     <div class="row align-items-center justify-content-end">
@@ -221,7 +221,7 @@
 
                     $.ajax({
                         type:'POST',
-                        url:'{{ route("sireh.personal-militar-noprof.egresar") }}',
+                        url:'{{ route("sireh.personal-militar-noprof.egresar-alistados") }}',
                         data: fd,
                         processData: false,
                         contentType: false,

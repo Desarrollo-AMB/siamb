@@ -12,18 +12,6 @@
             </div>
             <div style="padding-top: 30px;" class="col-sm-6">
                 <div class="row" id="v_data" hidden="true">
-                    {{-- <div class="col-sm-3">
-                        <div style="margin-bottom: 0;" class="form-group">
-                            <small style="font-weight: bold;">DESDE</small>
-                            <input readonly="true" name="load_vuelo_desde" type="text" class="form-control load_vuelo_desde" style="text-transform: uppercase"> 
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div style="margin-bottom: 0;" class="form-group">
-                            <small style="font-weight: bold;">HASTA</small>
-                            <input readonly="true" name="load_vuelo_hasta" type="text" class="form-control load_vuelo_hasta" style="text-transform: uppercase"> 
-                        </div>
-                    </div> --}}
                     <div class="col-4">
                         <div class="form-group">
                             <h6 style="color: #212529;">DESDE: <span style="color: #67748e;" class="load_vuelo_desde"> </span></h6>

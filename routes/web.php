@@ -12,9 +12,11 @@ use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\MilitarNoProf\GraduacionController;
 use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
+use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
+use App\Http\Controllers\CargaFamiliarController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +56,21 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::delete('/sireh/ingreso_personal/delete/{empleado}', [PersonalController::class, 'destroy'])->name('sireh.ingreso-personal.destroy');
     Route::post('/sireh/ingreso_personal/activar/{empleado}', [PersonalController::class, 'activarIngreso'])->name('sireh.ingreso-personal.activar');
 
+    //PERSONAL MILITAR
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
+    Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
+    Route::get('/sireh/personal-militar/edit/{id}', [PersonalController::class, 'editPersonalMilitar'])->name('sireh.personal-militar.edit');
+    Route::get('/sireh/personal-militar/cargo/{id}', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargo');
+    Route::get('/sireh/personal-militar/ubicacion/{id}', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicacion');
+    Route::get('/sireh/personal-militar/movimientos/{id}', [PersonalController::class, 'movimientosPersonalMilitar'])->name('sireh.personal-militar.movimientos');
+    Route::post('/sireh/personal-militar/updatedatos', [PersonalController::class, 'updatePersonalMilitar'])->name('sireh.personal-militar.update.datos');
+    Route::post('/sireh/personal-militar/updatecargo', [PersonalController::class, 'updateCargosPersonalMilitar'])->name('sireh.personal-militar.update.cargo');
+    Route::post('/sireh/personal-militar/updateubicacion', [PersonalController::class, 'updateUbicacionesPersonalMilitar'])->name('sireh.personal-militar.update.ubicacion');
+    Route::post('/sireh/personal-militar/suspender', [PersonalController::class, 'suspenderPersonalMilitar'])->name('sireh.personal-militar.suspender');
+    /*Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');
+    Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');*/
+
+
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 
@@ -91,12 +107,28 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/ascensos', [AscensosController::class, 'index'])->name('sireh.personal-militar-noprof.ascensos');
     Route::post('/sireh/personal-militar-noprof/ascender', [AscensosController::class, 'ascender'])->name('sireh.personal-militar-noprof.ascender');
 
-    Route::get('/sireh/personal-militar-noprof/egresos', [EgresosController::class, 'index'])->name('sireh.personal-militar-noprof.egresos');
-    Route::post('/sireh/personal-militar-noprof/egresar', [EgresosController::class, 'egresar'])->name('sireh.personal-militar-noprof.egresar');
+    Route::get('/sireh/personal-militar-noprof/egresos-alistados', [EgresosController::class, 'indexAlistados'])->name('sireh.personal-militar-noprof.egresos-alistados');
+    Route::post('/sireh/personal-militar-noprof/egresar-alistados', [EgresosController::class, 'egresarAlistados'])->name('sireh.personal-militar-noprof.egresar-alistados');
 
     Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
+    
     Route::get('/sireh/personal-civilf/view/{id}', [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
+    Route::post('/sireh/personal-civil/suspender', [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
+    Route::post('/sireh/personal-civil/egreso',    [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
+    
+    Route::get('/sireh/personal-civil/edit/{id}',  [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');
+    
+
+    Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
+
+    Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');
+    Route::post('/sireh/personal-militar-noprof/egresar', [PersonalController::class, 'egresarMilitarNoProf'])->name('sireh.personal-militar-noprof.egresar');
+    Route::post('/sireh/personal-militar-noprof/reingresar', [ReingresosController::class, 'reingresarMilitarNoProf'])->name('sireh.personal-militar-noprof.reingresar');
+
+    Route::get('/sireh/carga-familiar/{id}', [CargaFamiliarController::class, 'cargaFamiliar'])->name('sireh.carga-familiar.view');
+    Route::post('/sireh/cargar-familiar/store', [CargaFamiliarController::class, 'storeCargarFamiliar'])->name('sireh.cargar-familiar.store');
+    Route::get('/sireh/carga-familiar/edit/{id}', [CargaFamiliarController::class, 'editCargaFamiliar'])->name('sireh.carga-familiar.edit');
 });
 
 

@@ -62,6 +62,11 @@ FROM nomina
 2. Con el manejador de Bases de Datos, exportar directamente desde la BD SIREH, las siguientes tablas:
 - datos_militares
 - conceptos_pagados
+<<<<<<< HEAD
+- promociones_militares
+=======
+- familiares
+>>>>>>> develop
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales
