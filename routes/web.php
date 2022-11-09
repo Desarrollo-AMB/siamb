@@ -15,8 +15,11 @@ use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
+use App\Http\Controllers\Auxiliares\UniversidadesController;
+use App\Http\Controllers\Auxiliares\ProfesionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
+
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +103,22 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::delete('/auxiliares/ubicacionesDetalladas/delete/{id}', [UbicacionesDetalladasController::class, 'destroy'])->name('auxiliares.ubicacionesDetalladas.destroy');
 
 
+
+    //CRUD Tabla Universidades
+    Route::get('/auxiliares/universidades', [UniversidadesController::class, 'index'])->name('auxiliares.universidades.index');
+    Route::get('/auxiliares/universidades/create', [UniversidadesController::class, 'create'])->name('auxiliares.universidades.create');
+    Route::post('/auxiliares/universidades/store', [UniversidadesController::class, 'store'])->name('auxiliares.universidades.store');
+    Route::get('/auxiliares/universidades/edit/{id}', [UniversidadesController::class, 'edit'])->name('auxiliares.universidades.edit');
+    Route::patch('/auxiliares/universidades/update/{universidad}', [UniversidadesController::class, 'update'])->name('auxiliares.universidades.update');
+    Route::delete('/auxiliares/universidades/delete/{id}', [UniversidadesController::class, 'destroy'])->name('auxiliares.universidades.destroy');
+
+    //CRUD Tabla Profesiones
+    Route::get('/auxiliares/profesiones', [ProfesionesController::class, 'index'])->name('auxiliares.profesiones.index');
+    Route::get('/auxiliares/profesiones/create', [ProfesionesController::class, 'create'])->name('auxiliares.profesiones.create');
+    Route::post('/auxiliares/profesiones/store', [ProfesionesController::class, 'store'])->name('auxiliares.profesiones.store');
+    Route::get('/auxiliares/profesiones/edit/{id}', [ProfesionesController::class, 'edit'])->name('auxiliares.profesiones.edit');
+    Route::patch('/auxiliares/profesiones/update/{profesion}', [ProfesionesController::class, 'update'])->name('auxiliares.profesiones.update');
+    Route::delete('/auxiliares/profesiones/delete/{id}', [ProfesionesController::class, 'destroy'])->name('auxiliares.profesiones.destroy');
 
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');

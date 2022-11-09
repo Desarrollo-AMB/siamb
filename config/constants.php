@@ -69,6 +69,17 @@ return [
         'C' =>  'CONTRATADO',
     ],
 
+    'tipo_universidad' =>[
+        'PÚBLICA' =>  'PÚBLICA',
+        'PRIVADA' =>  'PRIVADA',
+        'NA' =>  'NO DEFINIDA'
+    ],
+    
+    'adscrita_aviacion' =>[
+        'S' =>  'SI',
+        'N' =>  'NO'
+    ],
+
     'redi' =>[
         '1' =>  'ORIENTAL',
         '2' =>  'OCCIDENTAL',
