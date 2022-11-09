@@ -37,7 +37,7 @@
                             {!! Form::text('nombre_cargo', $cargo->nombre_cargo, array('placeholder' => 'Nombre','class' => 'form-control', 'id'=>'nombre_cargo')) !!}
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-4">
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-    
+
 @endsection
 
 @section('scripts')

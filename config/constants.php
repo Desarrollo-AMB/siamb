@@ -66,6 +66,21 @@ return [
         'D' =>  'DOCENTE',
         'I' =>  'MEDICOS',
         'C' =>  'CONTRATADO',
+    ],
+    'redi' =>[
+        '1' =>  'ORIENTAL',
+        '2' =>  'OCCIDENTAL',
+        '3' =>  'MARITIMA INSULAR',
+        '4' =>  'LOS LLANOS',
+        '5' =>  'LOS ANDES',
+        '6' =>  'GUYANA',
+        '7' =>  'CENTRAL',
+        '8' =>  'CAPITAL',
+    ],
+    'tipo_unidad' =>[
+        'F' =>  'FORANEA',
+        'A' =>  'ADMINISTRATIVA',
+        
     ]
 
 ];

@@ -37,9 +37,11 @@
                         </div>
                     </div>
                     <div class="col-4 text-end">
-                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                        </div>
+                        <a href="{{ route('auxiliares.ubicaciones.index') }}">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -59,9 +61,11 @@
                         </div>
                     </div>
                     <div class="col-4 text-end">
-                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                            <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
-                        </div>
+                        <a href="{{route('auxiliares.ubicacionesDetalladas.index')}}">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
