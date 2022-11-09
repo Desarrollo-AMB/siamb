@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('ruta',4)->nullable();
             $table->string('estacion',8)->nullable();
             $table->string('sso',12)->nullable();
-            $table->string('codigo_estado',2)->nullable();
+            $table->integer('codigo_estado')->nullable();
             $table->string('ubicaciones_de_nomina',1)->nullable();
             $table->string('cod_programa',2)->nullable();
             $table->string('subprg_activ',4)->nullable();

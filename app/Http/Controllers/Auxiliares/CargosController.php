@@ -8,6 +8,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 
 use App\Models\Cargos;
+use App\Models\Estados;
 
 class CargosController extends Controller
 {
@@ -16,8 +17,9 @@ class CargosController extends Controller
         return view('auxiliares.cargos.index');
     }
 
-    //Obtiene los cargos, exclusivo por api para el Datatable 
-    public function cargosData(Request $request){
+    //Obtiene los cargos, exclusivo por api para el Datatable
+    public function cargosData(Request $request)
+    {
         $cargos = Cargos::select(
             'id',
             'codigo_cargo',
@@ -25,7 +27,7 @@ class CargosController extends Controller
             'situacion',
             'tipo_cargo',
         );
-        $datatable= Datatables::of($cargos)
+        $datatable = Datatables::of($cargos)
             ->addColumn('actions', 'auxiliares.cargos._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
@@ -38,8 +40,9 @@ class CargosController extends Controller
      */
     public function create()
     {
+
         $clasificacion = Config::get('constants.clasificacion_cargo');
-        return view('auxiliares.cargos.create',compact('clasificacion'));
+        return view('auxiliares.cargos.create', compact('clasificacion'));
     }
 
     /**
@@ -58,9 +61,9 @@ class CargosController extends Controller
 
         $input = $request;
         $cargo = Cargos::create($input);
-            
+
         return redirect()->route('auxiliares.cargos.index')
-            ->with('success','Cargo creado satisfactoriamente');
+            ->with('success', 'Cargo creado satisfactoriamente');
     }
 
     /**
@@ -73,7 +76,7 @@ class CargosController extends Controller
     {
         $cargo = Cargos::find($id);
         $clasificacion = Config::get('constants.clasificacion_cargo');
-        return view('auxiliares.cargos.edit',compact('cargo', 'clasificacion'));
+        return view('auxiliares.cargos.edit', compact('cargo', 'clasificacion'));
     }
 
     /**
@@ -99,7 +102,7 @@ class CargosController extends Controller
         $cargo->save();
 
         return redirect()->route('auxiliares.cargos.index')
-            ->with('success','Cargo actualizado con éxito');
+            ->with('success', 'Cargo actualizado con éxito');
     }
 
     /**
@@ -110,8 +113,9 @@ class CargosController extends Controller
      */
     public function destroy($id)
     {
+        $cargo = Cargos::find($id);
+        $cargo->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
-        return redirect()->route('auxiliares.cargos.index')
-            ->with('success','Cargo eliminado con éxito');
+        return response()->json(['success' => true]);
     }
 }
