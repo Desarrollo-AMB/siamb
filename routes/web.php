@@ -57,10 +57,11 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     //PERSONAL MILITAR
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
-    Route::get('/sireh/personal-militar/view', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
+    Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     Route::get('/sireh/personal-militar/edit/{id}', [PersonalController::class, 'editPersonalMilitar'])->name('sireh.personal-militar.edit');
-    Route::get('/sireh/personal-militar/cargos/{id}', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargos');
-    Route::get('/sireh/personal-militar/ubicaciones/{id}', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicaciones');
+    Route::get('/sireh/personal-militar/cargo/{id}', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargo');
+    Route::get('/sireh/personal-militar/ubicacion/{id}', [PersonalController::class, 'ubicacionesPersonalMilitar'])->name('sireh.personal-militar.ubicacion');
+    Route::get('/sireh/personal-militar/movimientos/{id}', [PersonalController::class, 'movimientosPersonalMilitar'])->name('sireh.personal-militar.movimientos');
 
 
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
@@ -95,7 +96,6 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
-    Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     Route::get('/sireh/personal-civilf/view/{id}', [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');

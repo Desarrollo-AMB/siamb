@@ -554,7 +554,6 @@ class PersonalController extends Controller
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        //dd($datos);
         return view('sireh.personal.militar.edit', 
             compact(
                 'datos','ciudades','grados_militares',
@@ -572,37 +571,56 @@ class PersonalController extends Controller
         $user_auth=auth()->user();
       
         $tipos_emp = TiposEmpleado::all();
-        $nacionalidades = Config::get('constants.nacionalidad');
-        $generos = Config::get('constants.sexo');
-        $edos_civil = Config::get('constants.edo_civil');
-        $situaciones = Config::get('constants.situacion');
-        $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
-        $niveles = Nivel::all();
         $cargos = Cargos::all();
-        $universidades = Universidades::all();
-        $profesiones = Profesion::all();
-        $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos_militares = DatosMilitares::all();
-        $categorias_militares = CategoriasMilitares::all();
-        $promociones_militares = PromocionesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        //dd($datos);
-        return view('sireh.personal.militar.cargos', 
+        $datos = Empleado::with(['nomina'])->find($id);
+        return view('sireh.personal.militar.cargo', 
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'datos_militares', 'categorias_militares', 'situaciones',
-                'promociones_militares'
+                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
+                'ubicaciones', 'ubicaciones_det', 'cargos'
             )
         );
     }
 
     public function ubicacionesPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina'])->find($id);
+        return view('sireh.personal.militar.ubicacion', 
+            compact(
+                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
+                'ubicaciones', 'ubicaciones_det', 'cargos'
+            )
+        );
+    }
+
+    public function movimientosPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina'])->find($id);
+        return view('sireh.personal.militar.ubicacion', 
+            compact(
+                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
+                'ubicaciones', 'ubicaciones_det', 'cargos'
+            )
+        );
+    }
+
+    public function situacionesPersonalMilitar($id)
     {
         $user_auth=auth()->user();
       
@@ -625,7 +643,7 @@ class PersonalController extends Controller
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         //dd($datos);
-        return view('sireh.personal.militar.ubicaciones', 
+        return view('sireh.personal.militar.situacion', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
