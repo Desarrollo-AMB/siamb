@@ -61,7 +61,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('auxiliares.ubicacionesDetalladas.data') }}",
+            ajax: "{{ route('api.auxiliares.ubicacionesDetalladas.data') }}",
 
             columns: [
                 {data: 'codigo_ubicacion',},
