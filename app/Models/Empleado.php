@@ -52,6 +52,10 @@ class Empleado extends Model
         return $this->hasOne(DatosMilitares::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function movimientos() {
+        return $this->hasOne(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function estudios_realizados() {
         return $this->hasOne(EstudiosRealizados::class, 'codigo_empleado', 'codigo_empleado');
     }
