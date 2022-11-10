@@ -9,7 +9,12 @@ use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\MilitarNoProf\ReingresosController as ReingresoPMNoProfController;
 use App\Http\Controllers\Auxiliares\CargosController;
+use App\Http\Controllers\Auxiliares\UniversidadesController;
+use App\Http\Controllers\Auxiliares\ProfesionesController;
+use App\Http\Controllers\Auxiliares\UbicacionesController;
+use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,6 +45,13 @@ Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])-
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('sireh.personal.militar-noprof.data');
 
 Route::get('auxiliares/cargos/data', [CargosController::class, 'cargosData'])->name('auxiliares.cargos.data');
+Route::get('auxiliares/universidades/data', [UniversidadesController::class, 'universidadesData'])->name('auxiliares.universidades.data');
+Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profesionesData'])->name('auxiliares.profesiones.data');
+
+//ubucaciones//
+Route::get('auxiliares/ubicaciones/data', [UbicacionesController::class, 'ubicacionesData'])->name('auxiliares.ubicaciones.data');
+//Ubicaciones_detalladas////
+Route::get('auxiliares/ubicacionesDetalladas/data', [UbicacionesDetalladasController::class, 'ubicacionesDetalladasData'])->name('auxiliares.ubicacionesDetalladas.data');
 
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_comando', [GraduacionController::class, 'getOficialesComando'])->name('sireh.militar-noprof.graduacion.dataOficialesComando');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_medicina', [GraduacionController::class, 'getOficialesTecnicosMedicina'])->name('sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina');
@@ -66,3 +78,4 @@ Route::get('sireh/carga-familiar/data', [CargaFamiliarController::class, 'dataCa
 //Route::post('/sireh/personal-civil/egreso', [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
 Route::post('/sireh/personal-civil/activar',   [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
 Route::post('/sireh/personal-civil/update',     [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
+
