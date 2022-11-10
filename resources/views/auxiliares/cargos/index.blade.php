@@ -97,9 +97,9 @@
                 }
             }
         });
-     
-        $('#table').on('click', '.confirm-delete' ,function (e) { 
-            e.preventDefault(); 
+
+        $('#table').on('click', '.confirm-delete' ,function (e) {
+            e.preventDefault();
             var url =$(this).data('target') ;
             Swal.fire({
                 title: 'Eliminar Cargo',
@@ -126,7 +126,7 @@
                             timer: 3000,
                             showConfirmButton: true,
                         });
-                    }); 
+                    });
                 }
             });
         });
