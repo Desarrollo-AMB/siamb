@@ -161,6 +161,66 @@
                             </div>
                         </div>
 
+                        <!-- HISTORICO DE CARGOS -->
+                        <div class="row"> 
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
+                                <div class="card">
+                                    <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
+                                        <h5 class="card-title">Historico de Cargos</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Grado Militar </th>
+                                                                <th>Ubicacion</th>
+                                                                <th>Ubicacion Detallada</th>
+                                                                <th>Cargo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($movimientos as $row)
+                                                                @if ($row->codigo_empleado == $datos->codigo_empleado && $row->tipo_movimiento == 'Actualizacion del Cargo')
+                                                                    <tr>
+                                                                        @foreach ($grados_militares as $grados)
+                                                                            @if ($grados->codigo_grado == $row->codigo_grado)
+                                                                                <td>{{$grados->siglas}}</td>
+                                                                            @endif
+                                                                        @endforeach
+
+                                                                        @foreach ($ubicaciones as $ubic)
+                                                                            @if ($ubic->codigo_ubicacion == $row->codigo_ubicacion)
+                                                                                <td>{{$ubic->descripcion}}</td>
+                                                                            @endif
+                                                                        @endforeach
+
+                                                                        @foreach ($ubicaciones_det as $ubic_det)
+                                                                            @if ($ubic_det->codigo_ubicacion == $row->ubicacion_detallada)
+                                                                                <td>{{$ubic_det->descripcion}}</td>
+                                                                            @endif
+                                                                        @endforeach
+
+                                                                        @foreach ($cargos as $cargo)
+                                                                            @if ($cargo->codigo_cargo == $row->codigo_cargo)
+                                                                                <td>{{$cargo->nombre_cargo}}</td>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- INGRESO DE CARGOS -->
                         <div class="row"> 
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">

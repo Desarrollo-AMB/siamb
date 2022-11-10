@@ -720,11 +720,12 @@ class PersonalController extends Controller
         $ubicaciones_det = UbicacionDetallada::all();
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina'])->find($id);
-        return view('sireh.personal.militar.cargo', 
+        $movimientos = Movimientos::all();
+        $datos = Empleado::with(['nomina','movimientos'])->find($id);
+        return view('sireh.personal.militar.cargo',
             compact(
                 'datos', 'grados_militares', 'user_auth', 'tipos_emp',
-                'ubicaciones', 'ubicaciones_det', 'cargos'
+                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
             )
         );
     }
@@ -750,30 +751,27 @@ class PersonalController extends Controller
                 "nro_resolucion_cargo" => !empty($request->nro_resolucion_cargo) ? $request->nro_resolucion_cargo : 0,
             ]);
 
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
             $movimiento->fecha_movimiento = date('Y-m-d');
             $movimiento->tipo_movimiento = 'Actualizacion del Cargo';
             //$movimiento->situacion = $datos_anteriores->situacion;
             //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
-            $movimiento->tipo_emp_nuevo = $request->tipo_emp;
+            $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
             //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
-            $movimiento->codigo_grado = $request->grado_militar;
+            $movimiento->codigo_grado = $nomina->grado_militar;
             //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
-            $movimiento->codigo_ubicacion = $request->ubicacion;
-            //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
-            $movimiento->fecha_ubicacion = $request->fecha_ubicacion;
-            //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
-            $movimiento->resol_ubicacion = $request->resolucion_ubicacion;
+            $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
             //$movimiento->cargo_anterior = $datos_anteriores->cargo;
             $movimiento->codigo_cargo = $request->cargo;
             //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
-            $movimiento->fecha_cargo = $request->fecha_cargo;
+            $movimiento->fecha_cargo = $request->fecha_inic_cargo;
             //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
-            $movimiento->resol_cargo = $request->resolucion_cargo;
-            //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
-            $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
-
+            $movimiento->resol_cargo = $request->nro_resolucion_cargo;
+            $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+            //dd($movimiento);
             $movimiento->save();
 
             return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado el Cargo del Profesional');
@@ -792,11 +790,12 @@ class PersonalController extends Controller
         $ubicaciones_det = UbicacionDetallada::all();
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina'])->find($id);
+        $movimientos = Movimientos::all();
+        $datos = Empleado::with(['nomina','movimientos'])->find($id);
         return view('sireh.personal.militar.ubicacion', 
             compact(
                 'datos', 'grados_militares', 'user_auth', 'tipos_emp',
-                'ubicaciones', 'ubicaciones_det', 'cargos'
+                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
             )
         );
     }
@@ -825,27 +824,25 @@ class PersonalController extends Controller
                 "nro_resolucion_ubicacion" => !empty($request->nro_resolucion_ubicacion) ? $request->nro_resolucion_ubicacion : 0,
             ]);
 
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
             $movimiento->fecha_movimiento = date('Y-m-d');
             $movimiento->tipo_movimiento = 'Actualizacion de la Ubicacion';
             //$movimiento->situacion = $datos_anteriores->situacion;
             //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
-            $movimiento->tipo_emp_nuevo = $request->tipo_emp;
+            $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
             //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
-            $movimiento->codigo_grado = $request->grado_militar;
+            $movimiento->codigo_grado = $nomina->grado_militar;
             //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
             $movimiento->codigo_ubicacion = $request->ubicacion;
             //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
-            $movimiento->fecha_ubicacion = $request->fecha_ubicacion;
+            $movimiento->fecha_ubicacion = $request->fecha_inic_ubicacion;
             //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
-            $movimiento->resol_ubicacion = $request->resolucion_ubicacion;
+            $movimiento->resol_ubicacion = $request->nro_resolucion_ubicacion;
             //$movimiento->cargo_anterior = $datos_anteriores->cargo;
-            $movimiento->codigo_cargo = $request->cargo;
-            //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
-            $movimiento->fecha_cargo = $request->fecha_cargo;
-            //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
-            $movimiento->resol_cargo = $request->resolucion_cargo;
+            $movimiento->codigo_cargo = $nomina->codigo_cargo;
             //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
             $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
 
@@ -860,37 +857,27 @@ class PersonalController extends Controller
 
     public function suspenderPersonalMilitar(Request $request)
     {
-        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+        $empleado = Empleado::where('id',$request->id)->first();
+        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+
+        $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
             'situacion' => 'S'
         ]);
-        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+        $updateSituacion = Empleado::where('id', $request->id)->update([
             'situacion' => 'S'
         ]);
 
         $movimiento = new Movimientos;
-        $movimiento->codigo_empleado = $request->codigo_empleado;
-        $movimiento->fecha_movimiento = date('Y-m-d');
-        $movimiento->tipo_movimiento = 'Cambio de Situacion del Profesional';
-        //$movimiento->situacion = $datos_anteriores->situacion;
-        //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
-        $movimiento->tipo_emp_nuevo = $request->tipo_emp;
-        //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
-        $movimiento->codigo_grado = $request->grado_militar;
-        //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
-        $movimiento->codigo_ubicacion = $request->ubicacion;
-        //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
-        $movimiento->fecha_ubicacion = $request->fecha_ubicacion;
-        //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
-        $movimiento->resol_ubicacion = $request->resolucion_ubicacion;
-        //$movimiento->cargo_anterior = $datos_anteriores->cargo;
-        $movimiento->codigo_cargo = $request->cargo;
-        //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
-        $movimiento->fecha_cargo = $request->fecha_cargo;
-        //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
-        $movimiento->resol_cargo = $request->resolucion_cargo;
-        //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
-        $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
+        $movimiento->codigo_empleado = $empleado->codigo_empleado;
+        $movimiento->fecha_movimiento = $request->fechaSuspencion;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'S';
         $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+        $movimiento->codigo_cargo = $nomina->codigo_cargo;
+        $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+        $movimiento->codigo_grado = $nomina->grado_militar;
+        $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
 
         $movimiento->save();
         
@@ -902,41 +889,6 @@ class PersonalController extends Controller
             ]
         );
     }
-
-    public function listHistoricoPersonalMilitar($id)
-    {
-        $user_auth=auth()->user();
-      
-        $ubicaciones = Ubicaciones::all();
-        $ubicaciones_det = UbicacionDetallada::all();
-        $cargos = Cargos::all();
-        $grados_militares = GradosMilitares::all();
-        $movimientos = Movimientos::all();
-        $datos = Empleado::with(['movimientos'])->find($id);
-        return view('sireh.personal.militar.historico', 
-            compact(
-                'datos','grados_militares','user_auth','ubicaciones',
-                'ubicaciones_det','cargos','movimientos'
-            )
-        );
-    }
-
-    /*public function historialCargosUbicacionPersonalMilitar(Empleado $id)
-    {
-        $empleados = Empleado::where('empleados.id',$id);
-        $empleados->join('movimientos','movimientos.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->select(
-            'movimientos.id',
-            'empleados.codigo_empleado',
-            'movimientos.tipo_movimiento',
-            'movimientos.codigo_grado',
-            'movimientos.codigo_ubicacion',
-            'movimientos.ubicacion_detallada',
-            'movimientos.codigo_cargo',
-        );
-        $datatable= Datatables::of($empleados);
-        return $datatable->make(true);
-    }*/
 
     public function listPersonalMilitarSuspendido()
     {
@@ -966,6 +918,41 @@ class PersonalController extends Controller
             ->addColumn('actions', 'sireh.personal.militar.suspendidos._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
+    }
+
+    public function activarPersonalMilitar(Request $request)
+    {
+        $empleado = Empleado::where('id',$request->id)->first();
+        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+
+        $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
+            'situacion' => 'A'
+        ]);
+        $updateSituacion = Empleado::where('id', $request->id)->update([
+            'situacion' => 'A'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->codigo_empleado = $empleado->codigo_empleado;
+        $movimiento->fecha_movimiento = $request->fechaActivacion;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'A';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+        $movimiento->codigo_cargo = $nomina->codigo_cargo;
+        $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+        $movimiento->codigo_grado = $nomina->grado_militar;
+        $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
     }
 
     //PERSONAL CIVIL FUNCTIONS

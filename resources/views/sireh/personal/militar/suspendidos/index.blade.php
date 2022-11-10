@@ -26,6 +26,8 @@
                 </div>
             </div>
             <hr class="horizontal dark my-0">
+            @include('sireh.personal.militar.suspendidos._barra_auxiliar')
+            <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
@@ -51,35 +53,31 @@
     </div>
 </div>
 
-{{-- Modal para Suspender o Activar Profesional --}}
+{{-- Modal para Activar Profesional --}}
 <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
     <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cambio de Situación del Profesional</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" class="text-dark">X</span>
+                <h5 class="modal-title" id="exampleModalLabel">Activación del Profesional</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form>
+                @csrf
+                <input type="hidden" value="" name="id" id="id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
-                                <input style="height: 35px" type="date" class="form-control fechaSuspencion" value="" id="fechaSuspencion">
-                                <input style="height: 35px" type="text" class="form-control codigo_empleado" value="" id="codigo_empleado">
+                                <label for="recipient-name" class="col-form-label">Fecha de Activación</label>
+                                <input style="height: 35px" type="date" class="form-control" value="" name="fechaActivacion" id="fechaActivacion">
                             </div>
                         </div>
                         <div class="col-sm-7">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
-                                <select class="form-control motivo" id="motivo" name="motivo" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="DESERTOR">DESERTOR</option>
-                                    <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
-                                    <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
-                                </select>
+                                <label for="recipient-name" class="col-form-label">Motivo de Activación</label>
+                                <input type="text" name="motivo" id="motivo" class="form-control" value="ACTIVAR" readonly>
                             </div>
                         </div>
                     </div>
@@ -87,14 +85,14 @@
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                <textarea style="text-transform: uppercase; height: 100px" class="form-control observaciones" name="" id="" rows="7"></textarea>
+                                <textarea style="text-transform: uppercase; height: 100px" class="form-control" name="observaciones" id="observaciones" rows="7"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                    <button type="submit" class="btn bg-gradient-success enviar_suspencion">Confirmar</button>
+                    <button type="submit" class="btn bg-gradient-success" id="btn-activar">Confirmar</button>
                 </div>
             </form>
         </div>
@@ -151,61 +149,73 @@
             }
         });
 
-        table.on('click', '.suspender', function() {
+        table.on('click', '.activar', function() {
             var id = $(this).data("id");
-            console.log(id);
-
-            var codigo_empleado = $(this).data("codigo_empleado");
-            console.log(codigo_empleado);
-            $('.codigo_empleado').val(codigo_empleado);
+            console.log(id);    
    
             $('#modal-view').on('shown.bs.modal', function(e) {
                 $('#modal-view #id_empleado').val(id);
             })
             $('#modal-view').modal("show");
+
+            $("#id").val(id);
         });
 
-        $(".enviar_suspencion").click(function(e){
-            e.preventDefault();
-            var motivo = $('.motivo').val();
-            if(motivo===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un Motivo.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                }); 
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-militar.suspender') }}",
-                method:'POST',
-                data:{
-                    fecha: $('.fechaSuspencion').val(),
-                    motivo: motivo,
-                    observaciones: $('.observaciones').val().toUpperCase(),
-                    codigo_empleado: $('.codigo_empleado').val(),
+        $('#btn-activar').on('click', function(){
+            console.log('Activar');
+            var fd = new FormData();
+            var form = $(this).parents('form:first');
+            var validator= form.validate({
+                rules: {
+                    fechaActivacion : {
+                        required: true,
                     },
-                    success:function(response){
-                        if(response.success){
-                            $('#modal-view').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Empleado Suspendido Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
-                            }, 1200);
-                        }
+                    motivo : {
+                        required: true,
                     },
-                    error:function(error){
-                        console.log(error)
-                    }
+                    observaciones : {
+                        required: true,
+                    },
+                },
+                messages : {
+                    fechaActivacion: {
+                        required: "Fecha de Activacion es requerida"
+                    },
+                    motivo : {
+                        required: "Motivo de Activacion es requerido"
+                    },
+                    observaciones: {
+                        required: "las Observaciones de Activacion es requerido"
+                    },
+                }
+            });
+            if(validator.form()){
+                var other_data = form.serializeArray();
+                ///Obtener inputs
+                $.each(other_data,function(key,input){
+                    fd.append(input.name,input.value);
                 });
+
+                $.ajax({
+                    type:'POST',
+                    url:'{{ route("sireh.personal-militar.activar") }}',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    success:function(res){
+                      
+                        Swal.fire({
+                            title: 'Egreso!',
+                            text: 'Proceso realizado satisfactoriamente...',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        if(res.success){
+                            window.location.reload();
+                        }
+                    }
+                }); 
             }
         });
 

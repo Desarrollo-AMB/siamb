@@ -32,6 +32,10 @@ class Nomina extends Model
         return $this->belongsTo(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
     }
 
+    public function movimientos() {
+        return $this->belongsTo(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
