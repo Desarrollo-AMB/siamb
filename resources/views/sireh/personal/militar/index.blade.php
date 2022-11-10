@@ -21,10 +21,12 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Militar</h5>
+                        <h5 class="mb-0">Personal Militar Activo</h5>
                     </div>
                 </div>
             </div>
+            <hr class="horizontal dark my-0">
+            @include('sireh.personal.militar._barra_auxiliar')
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">

@@ -359,7 +359,7 @@ class PersonalController extends Controller
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','TRP']);
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -903,32 +903,54 @@ class PersonalController extends Controller
         );
     }
 
-    public function movimientosPersonalMilitar($id)
+    public function listHistoricoPersonalMilitar($id)
     {
         $user_auth=auth()->user();
       
-        $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina'])->find($id);
-        return view('sireh.personal.militar.movimientos', 
+        $movimientos = Movimientos::all();
+        $datos = Empleado::with(['movimientos'])->find($id);
+        return view('sireh.personal.militar.historico', 
             compact(
-                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
-                'ubicaciones', 'ubicaciones_det', 'cargos'
+                'datos','grados_militares','user_auth','ubicaciones',
+                'ubicaciones_det','cargos','movimientos'
             )
         );
     }
 
-    //Obtiene los movimientos para obtener los cargos y ubicaciones del profesional, exclusivo por api para el Datatable 
-    /*public function movimientosPersonalMilitar(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A'); 
+    /*public function historialCargosUbicacionPersonalMilitar(Empleado $id)
+    {
+        $empleados = Empleado::where('empleados.id',$id);
+        $empleados->join('movimientos','movimientos.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->select(
+            'movimientos.id',
+            'empleados.codigo_empleado',
+            'movimientos.tipo_movimiento',
+            'movimientos.codigo_grado',
+            'movimientos.codigo_ubicacion',
+            'movimientos.ubicacion_detallada',
+            'movimientos.codigo_cargo',
+        );
+        $datatable= Datatables::of($empleados);
+        return $datatable->make(true);
+    }*/
+
+    public function listPersonalMilitarSuspendido()
+    {
+        return view('sireh.personal.militar.suspendidos.index');
+    }
+
+    //Obtiene el personal militar suspendido, exclusivo por api para el Datatable 
+    public function personalMilitarSuspendido(Request $request){
+        $empleados = Empleado::where('empleados.situacion','S'); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','TRP']);
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -941,10 +963,10 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
         );
         $datatable= Datatables::of($empleados)
-            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->addColumn('actions', 'sireh.personal.militar.suspendidos._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
-    }*/
+    }
 
     //PERSONAL CIVIL FUNCTIONS
     public function viewPersonalCivil($id)
