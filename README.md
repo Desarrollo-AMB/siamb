@@ -63,6 +63,7 @@ FROM nomina
 - datos_militares
 - conceptos_pagados
 - familiares
+- militares_condecorados
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales

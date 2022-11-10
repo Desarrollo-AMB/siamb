@@ -397,7 +397,7 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
         );
         $datatable= Datatables::of($empleados)
-            ->addColumn('actions', 'sireh.personal.militar._actions')
+            ->addColumn('actions', 'sireh.personal.civil._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }

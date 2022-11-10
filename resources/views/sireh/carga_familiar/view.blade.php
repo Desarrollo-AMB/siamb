@@ -380,6 +380,7 @@
             })
             $('#modal-carga').modal("show");  
         });
+
         table.on('click', '.editar', function() {
            
             var id = $(this).data("id");
@@ -410,7 +411,39 @@
                     $('#modal-carga').modal("show");  
                 }
             });
+        });
 
+        $('#table').on('click', '.confirm-delete' ,function (e) { 
+            e.preventDefault(); 
+            var url =$(this).data('target') ;
+            Swal.fire({
+                title: 'Eliminar Carga Familiar',
+                text: "Esta seguro???",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => { 
+                if(result.isConfirmed){
+                    $.ajax({ 
+                        url: url, 
+                        type: 'DELETE', 
+                        dataType: 'json', 
+                        data: {method: '_DELETE'}, 
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
+                    }).done(function (data) { 
+                        $('#table').DataTable().ajax.reload(); 
+                        Swal.fire({
+                            title: 'Eliminado!',
+                            text: 'caraga Familiar eliminada satisfactoriamente',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                    }); 
+                }
+            });
         });
 
         $('#btn-guardar').on('click', function(){

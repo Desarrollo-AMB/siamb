@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -16,7 +17,8 @@ use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
 use App\Http\Controllers\Auxiliares\UbicacionesController;
 use App\Http\Controllers\CargaFamiliarController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CondecoracionesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -107,6 +109,12 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/carga-familiar/{id}', [CargaFamiliarController::class, 'cargaFamiliar'])->name('sireh.carga-familiar.view');
     Route::post('/sireh/cargar-familiar/store', [CargaFamiliarController::class, 'storeCargarFamiliar'])->name('sireh.cargar-familiar.store');
     Route::get('/sireh/carga-familiar/edit/{id}', [CargaFamiliarController::class, 'editCargaFamiliar'])->name('sireh.carga-familiar.edit');
+    Route::delete('/sireh/carga-familiar/delete/{id}', [CargaFamiliarController::class, 'destroy'])->name('sireh.carga-familiar.destroy');
+
+    Route::get('/sireh/condecoraciones/{id}', [CondecoracionesController::class, 'indexView'])->name('sireh.condecoraciones.view');
+    Route::post('/sireh/condecoraciones/store', [CondecoracionesController::class, 'store'])->name('sireh.condecoraciones.store');
+    Route::get('/sireh/condecoraciones/edit/{id}', [CondecoracionesController::class, 'edit'])->name('sireh.condecoraciones.edit');
+    Route::delete('/sireh/condecoraciones/delete/{id}', [CondecoracionesController::class, 'destroy'])->name('sireh.condecoraciones.destroy');
 });
 
 

@@ -61,7 +61,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('auxiliares.cargos.data') }}",
+            ajax: "{{ route('api.auxiliares.cargos.data') }}",
             columns: [
                 {data: 'codigo_cargo',},
                 {data: 'nombre_cargo',},

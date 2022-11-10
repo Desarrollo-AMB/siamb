@@ -21,19 +21,25 @@
         <i class="fas fa-globe text-warning"></i>
     </a>
 
-    <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
-        data-bs-original-title="Carga Familiar" title="CargaFamiliar"
-    >
-        <i class="fas fa-users text-primary" aria-hidden="true"></i>
-    </a>
-
     <a href="{{ route('sireh.personal-militar.movimientos', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
         data-bs-original-title="Movimientos" title="Movimientos"
     >
         <i class="fas fa-file-alt text-success"></i>
     </a>
+
     <a href="#" class="mx-3 suspender" data-bs-toggle="tooltip"
         data-bs-original-title="Suspender" title="Suspender" data-id="{{ $id }}">
         <i class="fas fa-sync text-danger" aria-hidden="true"></i>
     </a>
 
+    <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Carga Familiar" title="Carga Familiar"
+    >
+        <i class="fas fa-users text-warning" aria-hidden="true"></i>
+    </a>
+    
+    <a href="{{ route('sireh.condecoraciones.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Condecoraciones" title="Condecoraciones"
+    >
+        <i class="fas fa-medal text-secondary" aria-hidden="true"></i>
+    </a>
