@@ -61,7 +61,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('auxiliares.cargos.data') }}",
+            ajax: "{{ route('api.auxiliares.cargos.data') }}",
             columns: [
                 {data: 'codigo_cargo',},
                 {data: 'nombre_cargo',},
@@ -109,16 +109,16 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si!'
-            }).then((result) => {
+            }).then((result) => { 
                 if(result.isConfirmed){
-                    $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                        dataType: 'json',
-                        data: {method: '_DELETE'},
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-                    }).done(function (data) {
-                        $('#table').DataTable().ajax.reload();
+                    $.ajax({ 
+                        url: url, 
+                        type: 'DELETE', 
+                        dataType: 'json', 
+                        data: {method: '_DELETE'}, 
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} 
+                    }).done(function (data) { 
+                        $('#table').DataTable().ajax.reload(); 
                         Swal.fire({
                             title: 'Eliminado!',
                             text: 'El Cargo ha sido eliminado.',

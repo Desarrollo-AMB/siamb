@@ -69,7 +69,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.empleados.inactivos') }}",
+            ajax: "{{ route('api.sireh.empleados.inactivos') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},

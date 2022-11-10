@@ -21,7 +21,7 @@ class Nomina extends Model
     }
 
     public function cargo() {
-        return $this->hasOne(Cargos::class, 'codigo_cargo', 'codigo_cargo');
+        return $this->hasOne(Cargos::class, 'codigo_cargo', 'codigo_cargo')->withTrashed();
     }
 
     public function ubicacion() {

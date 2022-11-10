@@ -46,7 +46,7 @@
 			position: absolute;
 			font-size: 140px;
 			top: -10px;
-			left: 0;
+			left: -10px;
 			text-align: center;
 			opacity: 0;
 			transition: all .3s ease;

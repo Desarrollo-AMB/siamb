@@ -444,7 +444,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesComando') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesComando') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -511,7 +511,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -578,7 +578,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicosSalud') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosSalud') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -645,7 +645,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicos') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicos') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -712,7 +712,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTropa') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTropa') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -779,7 +779,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesAsimilados') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesAsimilados') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -846,7 +846,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTropaProfesional') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTropaProfesional') }}",
             columnDefs: [
                 {
                     targets: 0,
