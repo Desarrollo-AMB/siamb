@@ -21,7 +21,13 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Historico de Cargos y Ubicaciones de</h5>
+                        <h5 class="mb-0">Historico de Cargos y Ubicaciones de
+                            @foreach ($grados_militares as $row)
+                                @if ($datos->nomina->grado_militar == $row->codigo_grado)
+                                    {{ $row->siglas." ".$datos->apellido1." ".$datos->apellido2." ".$datos->nombre1." ".$datos->nombre2 }}
+                                @endif
+                            @endforeach
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -42,16 +48,13 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($movimientos as $row)
-                                        @if ($row->codigo_empleado == $datos->codigo_empleado)
                                             <tr>
-                                                <td>{{$row->codigo_empleado}}</td>
+                                                <td>{{$row->tipo_movimiento." ".$row->codigo_empleado}}</td>
                                                 <td>{{$row->codigo_grado}}</td>
                                                 <td>{{$row->codigo_ubicacion}}</td>
                                                 <td>{{$row->ubicacion_detallada}}</td>
                                                 <td>{{$row->codigo_cargo}}</td>
                                             </tr>
-                                        @else
-                                        @endif
                                         @endforeach
                                     </tbody>
                                 </table>

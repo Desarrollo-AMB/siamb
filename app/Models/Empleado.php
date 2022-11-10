@@ -53,7 +53,7 @@ class Empleado extends Model
     }
 
     public function movimientos() {
-        return $this->hasOne(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
+        return $this->belongsTo(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
     }
 
     public function estudios_realizados() {
