@@ -15,6 +15,7 @@ use App\Http\Controllers\Auxiliares\UbicacionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
