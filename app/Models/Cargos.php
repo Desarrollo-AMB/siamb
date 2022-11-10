@@ -13,14 +13,16 @@ class Cargos extends Model
     protected $fillable = [
         '*',
     ];
-
-    protected $dates = [
-        'deleted_at',
-    ];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
     
     public function nomina()
     {
         return $this->belongsTo(Nomina::class, 'codigo_cargo', 'codigo_cargo');
     }
-    
+
 }

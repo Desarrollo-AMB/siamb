@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ciudades extends Model
 {
     use HasFactory;
+    protected $table = 'ciudades';
+    protected $fillable = [
+        '*',
+    ];
     public $timestamps = false;
 }

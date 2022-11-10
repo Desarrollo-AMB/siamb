@@ -9,6 +9,10 @@ use App\Http\Controllers\MilitarNoProf\AscensosController;
 use App\Http\Controllers\MilitarNoProf\EgresosController;
 use App\Http\Controllers\MilitarNoProf\ReingresosController;
 use App\Http\Controllers\Auxiliares\CargosController;
+use App\Http\Controllers\Auxiliares\UniversidadesController;
+use App\Http\Controllers\Auxiliares\ProfesionesController;
+use App\Http\Controllers\Auxiliares\UbicacionesController;
+use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 /*
@@ -36,6 +40,24 @@ Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])-
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('api.sireh.personal.militar-noprof.data');
 
 Route::get('auxiliares/cargos/data', [CargosController::class, 'cargosData'])->name('api.auxiliares.cargos.data');
+Route::get("categoria/{tipo_emp}", [ApiController::class, 'getCategoriasMilitares'])->name("api.categoria");
+Route::get("grados-militares/{tipo_emp}", [ApiController::class, 'getGradosMilitares'])->name("api.grados_militares");
+Route::get("promociones-militares/{categoria}", [ApiController::class, 'getPromocionesMilitares'])->name("api.promociones");
+Route::get("ubicaciones-detalladas/{ubicacion}", [ApiController::class, 'getUbicacionesDetalladas'])->name("api.ubicaciones.detalladas");
+Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('sireh.empleados.inactivos');
+Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('sireh.personal.militar.data');
+Route::get('sireh/personalmilitar/suspendidos', [PersonalController::class, 'personalMilitarSuspendido'])->name('sireh.personal.militar.suspendidos');
+//RUTA PARA DATATABLE HISTORICO Route::get('sireh/personalmilitar/historico', [PersonalController::class, 'historialCargosUbicacionPersonalMilitar'])->name('sireh.personal.militar.historico');
+Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('sireh.personal.civil.data');
+Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('sireh.personal.militar-noprof.data');
+
+Route::get('auxiliares/universidades/data', [UniversidadesController::class, 'universidadesData'])->name('api.auxiliares.universidades.data');
+Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profesionesData'])->name('api.auxiliares.profesiones.data');
+
+//ubucaciones//
+Route::get('auxiliares/ubicaciones/data', [UbicacionesController::class, 'ubicacionesData'])->name('api.auxiliares.ubicaciones.data');
+//Ubicaciones_detalladas////
+Route::get('auxiliares/ubicacionesDetalladas/data', [UbicacionesDetalladasController::class, 'ubicacionesDetalladasData'])->name('api.auxiliares.ubicacionesDetalladas.data');
 
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_comando', [GraduacionController::class, 'getOficialesComando'])->name('api.sireh.militar-noprof.graduacion.dataOficialesComando');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_medicina', [GraduacionController::class, 'getOficialesTecnicosMedicina'])->name('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina');
@@ -59,3 +81,8 @@ Route::get('sireh/personalmilitarnoprof/reingresos', [ReingresosController::clas
 Route::get('sireh/carga-familiar/data', [CargaFamiliarController::class, 'dataCargaFamiliar'])->name('api.sireh.carga-familiar.data');
 
 Route::get('sireh/condecoraciones/data', [CondecoracionesController::class, 'dataCondecoraciones'])->name('api.sireh.condecoraciones.data');
+//Route::post('/sireh/personal-civil/suspender', [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
+//Route::post('/sireh/personal-civil/egreso', [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
+Route::post('/sireh/personal-civil/activar',   [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
+Route::post('/sireh/personal-civil/update',     [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
+
