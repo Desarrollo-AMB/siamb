@@ -177,7 +177,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('personal.empleados.notuser') }}",
+            ajax: "{{ route('api.personal.empleados.notuser') }}",
             columns: [
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
                 {data: 'cedula',},
@@ -253,7 +253,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('personal.not-empleados.notuser') }}",
+            ajax: "{{ route('api.personal.not-empleados.notuser') }}",
             columns: [
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
                 {data: 'cedula',},

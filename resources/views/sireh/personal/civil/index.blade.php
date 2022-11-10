@@ -62,7 +62,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.civil.data') }}",
+            ajax: "{{ route('api.sireh.personal.civil.data') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},

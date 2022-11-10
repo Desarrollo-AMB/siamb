@@ -59,7 +59,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('auxiliares.profesiones.data') }}",
+            ajax: "{{ route('api.auxiliares.profesiones.data') }}",
             columns: [
                 {data: 'codigo_profesion'},
                 {data: 'descripcion'},

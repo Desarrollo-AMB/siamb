@@ -272,7 +272,7 @@
                     autoWidth: true,
                     pageLength: 10,
                     ajax:{
-                        url : "{{ route('sireh.personal.militar-noprof.egresoContingente') }}",
+                        url : "{{ route('api.sireh.personal.militar-noprof.egresoContingente') }}",
                         type: "GET",
                         data: {"contingente": contingente}
                     },

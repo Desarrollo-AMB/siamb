@@ -59,7 +59,13 @@ class CargosController extends Controller
             'tipo_cargo' => 'required'
         ]);
 
-        $input = $request;
+        $input = [
+            'codigo_cargo' => $request->codigo_cargo, 
+            'nombre_cargo' => $request->nombre_cargo, 
+            'tipo_cargo' => $request->tipo_cargo, 
+            'situacion' => $request->situacion, 
+        ];
+       
         $cargo = Cargos::create($input);
 
         return redirect()->route('auxiliares.cargos.index')
@@ -115,7 +121,6 @@ class CargosController extends Controller
     {
         $cargo = Cargos::find($id);
         $cargo->delete();
-        //\DB::table("cargos")->where('id',$id)->delete();
         return response()->json(['success' => true]);
     }
 }
