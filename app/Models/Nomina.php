@@ -51,4 +51,9 @@ class Nomina extends Model
     public function datos_militares() {
         return $this->hasOne(DatosMilitares::class, 'codigo_empleado', 'codigo_empleado');
     }
+
+    public function egresos()
+    {
+        return $this->belongsTo(Egresos::class, 'codigo_empleado', 'codigo_empleado');
+    }
 }

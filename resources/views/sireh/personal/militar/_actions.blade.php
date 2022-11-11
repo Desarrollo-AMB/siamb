@@ -23,13 +23,19 @@
         <i class="fas fa-globe text-warning"></i>
     </a>
 
-    <a href="#" class="mx-3 suspender" data-bs-toggle="tooltip"
+    <a href="#" class="mx-3 suspender_militar" data-bs-toggle="tooltip"
         data-bs-original-title="Suspender" title="Suspender" data-id="{{ $id }}">
         <i class="fas fa-sync text-primary" aria-hidden="true"></i>
     </a>
 
-    <a href="#" class="mx-3 egresar" data-bs-toggle="tooltip"
+    <a href="{{ route('sireh.personal-militar.baja', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
+        data-bs-original-title="Baja" title="Baja"
+    >
+        <i class="fas fa-backspace text-danger"></i>
+    </a>
+
+    {{--<a href="#" class="mx-3 baja_militar" data-bs-toggle="tooltip"
         data-bs-original-title="Egresar" title="Egresar" data-id="{{ $id }}">
         <i class="fas fa-backspace text-danger" aria-hidden="true"></i>
-    </a>
+    </a>--}}
 

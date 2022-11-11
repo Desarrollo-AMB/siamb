@@ -398,7 +398,7 @@
                                                     {!! Form::text('ubicacion', '', array('placeholder' => 'No Posee Ubicacion','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <h6>Ubicacion Detallada:</h6>

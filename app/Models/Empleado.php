@@ -31,6 +31,11 @@ class Empleado extends Model
         return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function egresos()
+    {
+        return $this->belongsTo(Egresos::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function funcion() {
         return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado');
     }
