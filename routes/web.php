@@ -135,12 +135,21 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     
-    Route::get('/sireh/personal-civilf/view/{id}', [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
-    Route::post('/sireh/personal-civil/suspender', [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
-    Route::post('/sireh/personal-civil/egreso',    [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
+    Route::get('/sireh/personal-civilf/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
     
-    Route::get('/sireh/personal-civil/edit/{id}',  [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');
-    
+    Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');
+    Route::get('/sireh/personal-civil/edit/{id}',     [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');
+    Route::get('/sireh/personal-civil/evaluar/{id}',  [PersonalController::class, 'evaluarPersonalCivil'])->name('sireh.personal-civil.evaluar');
+    Route::post('/sireh/personal-civil/storeEvaluar', [PersonalController::class, 'storeEvaluarPersonalCivil'])->name('sireh.personal-civil.storeEvaluar');
+    Route::post('/sireh/personal-civil/egreso',       [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
+    Route::post('/sireh/personal-civil/suspender',    [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
+    Route::post('/sireh/personal-civil/activar',      [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
+    Route::post('/sireh/personal-civil/update',       [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
+    Route::post('/sireh/personal-civil/agregarCurso', [PersonalController::class, 'AgregarCursoPersonalCivil'])->name('sireh.personal-civil.agregarCurso');
+    Route::post('/sireh/personal-civil/editarEvalua', [PersonalController::class, 'EditEvaluarPersonalCivil'])->name('sireh.personal-civil.editEvaluar');
+    Route::post('/sireh/personal-civil/updateEvaluar',[PersonalController::class, 'updateEvaluarPersonalCivil'])->name('sireh.personal-civil.updateEvaluar');
+    Route::post('/sireh/personal-civil/showJubilado', [PersonalController::class, 'showJubiladoPersonalCivil'])->name('sireh.personal-civil.showJubilado');
+    Route::post('/sireh/personal-civil/storeJubilado',[PersonalController::class, 'storeJubiladoPersonalCivil'])->name('sireh.personal-civil.storeJubilado');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
 

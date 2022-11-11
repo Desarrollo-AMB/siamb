@@ -28,8 +28,15 @@ use App\Models\GradosMilitares;
 use App\Models\CategoriasMilitares;
 use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
+
+use App\Models\Cursos;
+use App\Models\CursosRealizados;
+use App\Models\IntelectualesCivil;
+use App\Models\Jubilados;
+
 use App\Models\TipoDeBaja;
 use App\Models\Egresos;
+
 
 class PersonalController extends Controller
 {
@@ -45,7 +52,12 @@ class PersonalController extends Controller
 
     public function indexPersonalCivil()
     {
-        return view('sireh.personal.civil.index');
+        $cursos = Cursos::all();
+        return view('sireh.personal.civil.index', 
+            compact(
+                'cursos'
+            )
+        );
     }
 
     public function indexPersonalMilitarNoProf()
@@ -381,15 +393,15 @@ class PersonalController extends Controller
 
     //Obtiene el personal Civil, exclusivo por api para el Datatable 
     public function personalCivil(Request $request){
-        //$empleados = Empleado::where('empleados.situacion','A'); 
-        $empleados = Empleado::where('empleados.situacion', '<>',''); 
+        $empleados = Empleado::where('empleados.situacion','A'); 
+        //$empleados = Empleado::where('empleados.situacion', '<>',''); 
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
         //$empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        $empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI');
         //$empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEF');
-        $empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEX');
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -1085,17 +1097,21 @@ class PersonalController extends Controller
         $ubicaciones_det = UbicacionDetallada::all();
         $niveles = Nivel::all();
         $cargos = Cargos::all();
+        $cursos = Cursos::all();
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $getEmpleadoCode = Empleado::select('codigo_empleado')->find($id);
+        $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
         return view('sireh.personal.civil.view', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'cargos', 'nacionalidades', 'universidades', 'profesiones', 
+                'cursosRealizados', 'cursos'
             )
         );
     }
@@ -1259,10 +1275,157 @@ class PersonalController extends Controller
         ]);
 
         return redirect()->route('sireh.personal-civil.index')->with('success', 'Se ha actualizado el Personal');
-        
-        
+    
+    }
+    public function personalCivilNoActive(){
+        $noActive = Empleado::where('empleados.situacion','<>','A')
+            ->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+            //->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+            ->where('nomina.tipo_emp','<>','MIL')
+            ->where('nomina.tipo_emp','<>','TRP')
+            ->where('nomina.tipo_emp','<>','ALI')
+            ->get();
+            //dd($noActive);
+        return view('sireh.personal.civil.view_civil_no_activo', 
+            compact(
+                'noActive'
+            )
+        );
     }
 
+    public function AgregarCursoPersonalCivil(Request $request)
+    {
+        $cursos = new CursosRealizados;
+
+        $cursos->codigo_curso = $request->curso;
+        $cursos->desde = $request->desde_curso;
+        $cursos->hasta = $request->hasta_curso;
+        $cursos->codigo_empleado = $request->codigo_empleado;
+
+        $cursos->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $cursos,
+            ]
+        );
+    }
+
+    public function evaluarPersonalCivil($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $evaluaciones = IntelectualesCivil::where('codigo_empleado', $datos->codigo_empleado)->get();
+        return view('sireh.personal.civil.view_evaluar', 
+            compact(
+                'datos','grados_militares',
+                'user_auth', 'tipos_emp', 'ubicaciones', 'ubicaciones_det',
+                'cargos', 'evaluaciones'
+            )
+        );
+    }
+
+    public function storeEvaluarPersonalCivil(Request $request)
+    {
+        $evaluacion_civil = new IntelectualesCivil;
+
+        $evaluacion_civil->codigo_empleado = $request->codigo_empleado;
+        $evaluacion_civil->fecha_evaluacion = $request->fecha_evaluacion;
+        $evaluacion_civil->cedula_evaluador = $request->cedula_evaluador;
+        $evaluacion_civil->nombre_evaluador = $request->nombre_evaluador;
+        $evaluacion_civil->nota = $request->nota;
+        $evaluacion_civil->rango_actuacion = $request->rango_actuacion;
+        $evaluacion_civil->obervaciones = $request->obervaciones;
+
+        $evaluacion_civil->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $evaluacion_civil,
+            ]
+        );
+    }
+    public function EditEvaluarPersonalCivil(Request $request)
+    {
+        $edit = IntelectualesCivil::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $edit,
+            ]
+        );
+    }
+    public function updateEvaluarPersonalCivil(Request $request)
+    {
+        $updateIntec = IntelectualesCivil::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'updateIntec' => $updateIntec
+            ]
+        );
+    } 
+
+    public function showJubiladoPersonalCivil(Request $request)
+    {
+        $jubilados = Nomina::where('codigo_empleado', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $jubilados,
+            ]
+        );
+    }
+
+    public function storeJubiladoPersonalCivil(Request $request)
+    {
+        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->fecha_movimiento = $request->fecha_jubi;
+        $movimiento->tipo_movimiento = 'JUBILACIÓN';
+        $movimiento->situacion = 'E';
+        $movimiento->observaciones = $request->observaciones_jubi;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+        $movimiento->save();
+
+        $movimiento = new Jubilados;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+        $movimiento->tipo_jubilar = $request->tipo_jubilar;
+        $movimiento->nombre_jubi = $request->nombre_jubi;
+        $movimiento->cedula_jubi = $request->cedula_jubi;
+        $movimiento->fecha_ingreso_jubi = $request->fecha_ingreso_jubi;
+        $movimiento->edad_jubi = $request->edad_jubi;
+        $movimiento->fecha_jubi = $request->fecha_jubi;
+        $movimiento->observaciones_jubi = $request->observaciones_jubi;
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
     public function editPersonalMilitarNoProf($id)
     {
         $user_auth=auth()->user();
@@ -1407,4 +1570,5 @@ class PersonalController extends Controller
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
     }
+
 }
