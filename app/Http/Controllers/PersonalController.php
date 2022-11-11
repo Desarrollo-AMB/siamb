@@ -28,10 +28,15 @@ use App\Models\GradosMilitares;
 use App\Models\CategoriasMilitares;
 use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
+
 use App\Models\Cursos;
 use App\Models\CursosRealizados;
 use App\Models\IntelectualesCivil;
 use App\Models\Jubilados;
+
+use App\Models\TipoDeBaja;
+use App\Models\Egresos;
+
 
 class PersonalController extends Controller
 {
@@ -368,7 +373,7 @@ class PersonalController extends Controller
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','TRP']);
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -532,16 +537,551 @@ class PersonalController extends Controller
         $datos_militares = DatosMilitares::all();
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        $datos = Empleado::with(['nomina','datos_militares'])->find($id);
         return view('sireh.personal.militar.view', 
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'categorias_militares','situaciones','promociones_militares',
+                'datos_militares'
             )
         );
     }
+
+    public function editPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos_militares = DatosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
+        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        return view('sireh.personal.militar.edit', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'datos_militares', 'categorias_militares', 'situaciones',
+                'promociones_militares'
+            )
+        );
+    }
+
+    public function updatePersonalMilitar(Request $request){
+        
+        $this->validate($request, 
+            [
+                'cedula' => 'required',
+                'nacionalidad' => 'required',
+                'nombre1' => 'required',
+                'apellido1' => 'required',
+                'sexo' => 'required',
+                'edo_civil' => 'required',
+                'fecha_nacim' => 'required',
+                'estado' => 'required',
+                'ciudad' => 'required',
+                'direccion' => 'required',
+                'tipo_emp' => 'required',
+                'categoria' => 'required',
+                'grado_militar' => 'required',
+            ],
+            [
+                'cedula.required' => 'La cedula es requerida',
+                'nacionalidad.required' => 'La nacionalidad es requerida',
+                'nombre1.required' => 'El primer nombre es requerido',
+                'apellido1.required' => 'El primer apellido es requerido',
+                'sexo.required' => 'El sexo es requerido',
+                'edo_civil.required' => 'El estado civil es requerido',
+                'fecha_nacim.required' => 'La fecha de nacimiento es requerida',
+                'estado.required' => 'El estado donde vive es requerido',
+                'ciudad.required' => 'La ciudad donde vive es requerida',
+                'direccion.required' => 'La direccion es requerida',
+                'tipo_emp.required' => 'El tipo de empleado es requerido',
+                'categoria.required' => 'La categoria es requerida',
+                'grado_militar.required' => 'El grado militar es requerido'
+            ]
+        );
+        try {
+            if ($request->file("foto")){
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_'.$request->codigo_empleado . '.' . $ext;
+        
+                $path_foto = 'fotos/empleados/' . $file_name;
+                if(file_exists($path_foto)){
+                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                }
+                //$path = $request->file("foto")->store($path);
+                Image::make($request->file('foto'))->save( public_path($path_foto));
+            }else{
+                $path_foto = null;
+            }
+
+            /*$datos_anteriores = Empleado::where('empleados.codigo_empleado',$request->codigo_empleado); 
+            $datos_anteriores->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+            $datos_anteriores->select(
+                'nomina.situacion as situacion',
+                'nomina.tipo_emp as tipo_emp',
+                'nomina.grado_militar as grado_militar',
+                'nomina.codigo_ubicacion as ubicacion',
+                'nomina.fecha_inic_ubicacion as fecha_ubicacion',
+                'nomina.nro_resolucion_ubicacion as resolucion_ubicacion',
+                'nomina.codigo_cargo as cargo',
+                'nomina.fecha_inic_cargo as fecha_cargo',
+                'nomina.nro_resolucion_cargo as resolucion_cargo',
+                'nomina.cod_ubicacion_detallada as ubicacion_detallada',
+            );*/
+
+            $empleado = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
+                "cedula" => $request->cedula,
+                "nacionalidad" => $request->nacionalidad,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
+                "sexo" => $request->sexo,
+                "edo_civil" => $request->edo_civil,
+                "fecha_nacim" => $request->fecha_nacim,
+                "telefono_cel" => $request->telefono_cel,
+                "telefono" => $request->telefono,
+                "telefono_ofi" => $request->telefono_ofi,
+                "estado" => $request->estado,
+                "ciudad" => $request->ciudad,
+                "direccion" => $request->direccion,
+                "correo" => $request->correo,
+                "peso" => $request->peso,
+                "estatura" => $request->estatura,
+                "zur_der_amb" => $request->zur_der_amb,
+                "ojos" => $request->ojos,
+                "cabellos" => $request->cabellos,
+                "color" => $request->color,
+                "talla_camisa" => $request->talla_camisa,
+                "talla_pant" => $request->talla_pant,
+                "talla_chaqueta" => $request->talla_chaqueta,
+                "numero_calzado" => $request->numero_calzado,
+                "talla_falda" => !empty($request->talla_falda) ? $request->talla_falda : null,
+                "persona_contacto" => !empty($request->persona_contacto) ? $request->persona_contacto : null,
+                "telefono_e" => !empty($request->telefono_e) ? $request->telefono_e : null,
+                "foto" => $path_foto,
+            ]);
+
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "cedula" => $request->cedula,
+                "tipo_emp" => $request->tipo_emp,
+                "grado_militar" => !empty($request->grado_militar) ? $request->grado_militar : null,
+            ]);
+            
+            $datos_militares = DatosMilitares::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_categoria" => $request->categoria,
+                "codigo_promocion" => !empty($request->promocion) ? $request->promocion : null,
+            ]);
+
+            $movimiento = new Movimientos;
+            $movimiento->codigo_empleado = $request->codigo_empleado;
+            $movimiento->fecha_movimiento = date('Y-m-d');
+            $movimiento->tipo_movimiento = 'Actualizacion de Datos Personales y Militares';
+            //$movimiento->situacion = $datos_anteriores->situacion;
+            //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
+            $movimiento->tipo_emp_nuevo = $request->tipo_emp;
+            //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
+            $movimiento->codigo_grado = $request->grado_militar;
+            //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
+            $movimiento->codigo_ubicacion = $request->ubicacion;
+            //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
+            $movimiento->fecha_ubicacion = $request->fecha_ubicacion;
+            //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
+            $movimiento->resol_ubicacion = $request->resolucion_ubicacion;
+            //$movimiento->cargo_anterior = $datos_anteriores->cargo;
+            $movimiento->codigo_cargo = $request->cargo;
+            //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
+            $movimiento->fecha_cargo = $request->fecha_cargo;
+            //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
+            $movimiento->resol_cargo = $request->resolucion_cargo;
+            //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
+            $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
+
+            $movimiento->save();
+
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se han actualizado los Datos del Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function cargosPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $movimientos = Movimientos::all();
+        $datos = Empleado::with(['nomina','movimientos'])->find($id);
+        return view('sireh.personal.militar.cargo',
+            compact(
+                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
+                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
+            )
+        );
+    }
+
+    public function updateCargosPersonalMilitar(Request $request){
+        
+        $this->validate($request, 
+            [
+                'cargo' => 'required',
+                'fecha_inic_cargo' => 'required',
+                'nro_resolucion_cargo' => 'required',
+            ],
+            [
+                'cargo.required' => 'El cargo es requerido',
+                'fecha_inic_cargo.required' => 'La fecha de inicio del cargo es requerida',
+                'nro_resolucion_cargo.required' => 'El numero de resolución es requerido'
+            ]
+        );
+        try {
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_cargo" => !empty($request->cargo) ? $request->cargo : 0,
+                "fecha_inic_cargo" => !empty($request->fecha_inic_cargo) ? $request->fecha_inic_cargo : 0,
+                "nro_resolucion_cargo" => !empty($request->nro_resolucion_cargo) ? $request->nro_resolucion_cargo : 0,
+            ]);
+
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+
+            $movimiento = new Movimientos;
+            $movimiento->codigo_empleado = $request->codigo_empleado;
+            $movimiento->fecha_movimiento = date('Y-m-d');
+            $movimiento->tipo_movimiento = 'Actualizacion del Cargo';
+            //$movimiento->situacion = $datos_anteriores->situacion;
+            //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
+            $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+            //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
+            $movimiento->codigo_grado = $nomina->grado_militar;
+            //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
+            $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+            //$movimiento->cargo_anterior = $datos_anteriores->cargo;
+            $movimiento->codigo_cargo = $request->cargo;
+            //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
+            $movimiento->fecha_cargo = $request->fecha_inic_cargo;
+            //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
+            $movimiento->resol_cargo = $request->nro_resolucion_cargo;
+            $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+            //dd($movimiento);
+            $movimiento->save();
+
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado el Cargo del Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function ubicacionesPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $movimientos = Movimientos::all();
+        $datos = Empleado::with(['nomina','movimientos'])->find($id);
+        return view('sireh.personal.militar.ubicacion', 
+            compact(
+                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
+                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
+            )
+        );
+    }
+
+    public function updateUbicacionesPersonalMilitar(Request $request){
+        
+        $this->validate($request, 
+            [
+                'ubicacion' => 'required',
+                'ubicacion_detallada' => 'required',
+                'fecha_inic_ubicacion' => 'required',
+                'nro_resolucion_ubicacion' => 'required',
+            ],
+            [
+                'ubicacion.required' => 'La ubicación es requerida',
+                'ubicacion_detallada.required' => 'La ubicación detallada es requerida',
+                'fecha_inic_ubicacion.required' => 'La fecha de inicio de la ubicación es requerida',
+                'nro_resolucion_ubicacion.required' => 'El numero de resolución es requerido'
+            ]
+        );
+        try {
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "codigo_ubicacion" => !empty($request->ubicacion) ? $request->ubicacion : 0,
+                "cod_ubicacion_detallada" => !empty($request->ubicacion_detallada) ? $request->ubicacion_detallada : 0,
+                "fecha_inic_ubicacion" => !empty($request->fecha_inic_ubicacion) ? $request->fecha_inic_ubicacion : 0,
+                "nro_resolucion_ubicacion" => !empty($request->nro_resolucion_ubicacion) ? $request->nro_resolucion_ubicacion : 0,
+            ]);
+
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+
+            $movimiento = new Movimientos;
+            $movimiento->codigo_empleado = $request->codigo_empleado;
+            $movimiento->fecha_movimiento = date('Y-m-d');
+            $movimiento->tipo_movimiento = 'Actualizacion de la Ubicacion';
+            //$movimiento->situacion = $datos_anteriores->situacion;
+            //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
+            $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+            //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
+            $movimiento->codigo_grado = $nomina->grado_militar;
+            //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
+            $movimiento->codigo_ubicacion = $request->ubicacion;
+            //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
+            $movimiento->fecha_ubicacion = $request->fecha_inic_ubicacion;
+            //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
+            $movimiento->resol_ubicacion = $request->nro_resolucion_ubicacion;
+            //$movimiento->cargo_anterior = $datos_anteriores->cargo;
+            $movimiento->codigo_cargo = $nomina->codigo_cargo;
+            //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
+            $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
+
+            $movimiento->save();
+
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado la Ubicación del Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function listPersonalMilitarSuspendido()
+    {
+        return view('sireh.personal.militar.suspendidos.index');
+    }
+
+    //Obtiene el personal militar suspendido, exclusivo por api para el Datatable 
+    public function personalMilitarSuspendido(Request $request){
+        $empleados = Empleado::where('empleados.situacion','S'); 
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'sireh.personal.militar.suspendidos._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function suspenderPersonalMilitar(Request $request)
+    {
+        $empleado = Empleado::where('id',$request->id)->first();
+        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+
+        $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
+            'situacion' => 'S'
+        ]);
+        $updateSituacion = Empleado::where('id', $request->id)->update([
+            'situacion' => 'S'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->codigo_empleado = $empleado->codigo_empleado;
+        $movimiento->fecha_movimiento = $request->fechaSuspencion;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'S';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+        $movimiento->codigo_cargo = $nomina->codigo_cargo;
+        $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+        $movimiento->codigo_grado = $nomina->grado_militar;
+        $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
+    public function listPersonalMilitarBajas()
+    {
+        return view('sireh.personal.militar.bajas.index');
+    }
+
+    //Obtiene el personal militar egresado, exclusivo por api para el Datatable 
+    public function personalMilitarBaja(Request $request){
+        $empleados = Empleado::where('empleados.situacion','E');
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->join('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+            'tipo_de_baja.descripcion as motivo',
+            'egresos.fecha_salida as fecha_salida',
+            'egresos.nro_resuelto as nro_resuelto',
+        );
+        $datatable= Datatables::of($empleados);
+        return $datatable->make(true);
+    }
+
+    public function bajaPersonalMilitar($id)
+    {
+        $user_auth=auth()->user();
+      
+        $situaciones = Config::get('constants.situacion');
+        $ubicaciones = Ubicaciones::all();
+        $grados_militares = GradosMilitares::all();
+        $datos_militares = DatosMilitares::all();
+        $tipo_de_baja = TipoDeBaja::all();
+        $datos = Empleado::with(['nomina','datos_militares'])->find($id);
+        return view('sireh.personal.militar.baja', 
+            compact(
+                'datos','grados_militares','situaciones',
+                'user_auth','ubicaciones','datos_militares',
+                'tipo_de_baja'
+            )
+        );
+    }
+
+    public function darBajaPersonalMilitar(Request $request)
+    {
+        $this->validate($request, 
+            [
+                'causa_egreso' => 'required',
+                'fecha_ingreso' => 'required',
+                'fecha_salida' => 'required',
+                'nro_resuelto' => 'required',
+                'fecha_resuelto' => 'required',
+            ],
+            [
+                'causa_egreso.required' => 'El tipo de egreso es requerido',
+                'fecha_ingreso.required' => 'La fecha de ingreso es requerida',
+                'fecha_salida.required' => 'La fecha de egreso es requerida',
+                'nro_resuelto.required' => 'El numero de resolución es requerido',
+                'fecha_resuelto.required' => 'La fecha de resolución es requerida'
+            ]
+        );
+        try {
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+                "situacion" => 'E',
+            ]);
+
+            $empleados = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
+                "situacion" => 'E',
+            ]);
+
+            $user_auth=auth()->user();
+
+            $egresos = new Egresos;
+            $egresos->codigo_empleado = $request->codigo_empleado;
+            $egresos->causa_egreso = $request->causa_egreso;
+            $egresos->fecha_salida = $request->fecha_salida;
+            $egresos->nro_resuelto = $request->nro_resuelto;
+            $egresos->fecha_resuelto = $request->fecha_resuelto;
+            $egresos->fecha_registro = date('Y-m-d');
+            $egresos->usuario = $user_auth->name;
+            $egresos->save();
+
+            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+
+            $movimiento = new Movimientos;
+            $movimiento->codigo_empleado = $request->codigo_empleado;
+            $movimiento->fecha_movimiento = date('Y-m-d');
+            $movimiento->tipo_movimiento = 'Egreso del Profesional';
+            $movimiento->situacion = $nomina->situacion;
+            $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+            $movimiento->codigo_grado = $nomina->grado_militar;
+            $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+            $movimiento->codigo_cargo = $nomina->codigo_cargo;
+            $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+            $movimiento->save();
+
+            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha Egresado al Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function activarPersonalMilitar(Request $request)
+    {
+        $empleado = Empleado::where('id',$request->id)->first();
+        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+
+        $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
+            'situacion' => 'A'
+        ]);
+        $updateSituacion = Empleado::where('id', $request->id)->update([
+            'situacion' => 'A'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->codigo_empleado = $empleado->codigo_empleado;
+        $movimiento->fecha_movimiento = $request->fechaActivacion;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'A';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_ubicacion = $nomina->codigo_ubicacion;
+        $movimiento->codigo_cargo = $nomina->codigo_cargo;
+        $movimiento->tipo_emp_nuevo = $nomina->tipo_emp;
+        $movimiento->codigo_grado = $nomina->grado_militar;
+        $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
+
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
+    
 
     //PERSONAL CIVIL FUNCTIONS
     public function viewPersonalCivil($id)
@@ -886,6 +1426,149 @@ class PersonalController extends Controller
             ]
         );
     }
+    public function editPersonalMilitarNoProf($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $datos = Empleado::with(['nomina','nomina.cargo','estudios_realizados','nomina.datos_militares'])->find($id);
+        $grados_militares = GradosMilitares::where('tipo_emp',$datos->nomina->tipo_emp)->get();
+        return view('sireh.personal.militar_noprof.edit', 
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+            )
+        );
+    }
+    
+    public function updatePersonalMilitarNoProf(Empleado $empleado,Request $request){
+        
+        $this->validate($request, 
+            [
+                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
+                'nombre1' => 'required',
+                'apellido1' => 'required',
+                'ubicacion' => 'required',
+            ],
+            [
+                'nombre1.required' => 'El primer nombre es requerido',
+                'apellido1.required' => 'El primer apellido es requerido'
+            ]
+        );
+        try {
+            if ($request->file("foto")){
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
+        
+                $path_foto = 'fotos/empleados/' . $file_name;
+                if(file_exists($path_foto)){
+                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                }
+                //$path = $request->file("foto")->store($path);
+                Image::make($request->file('foto'))->save( public_path($path_foto));
+            }else{
+                $path_foto = null;
+            }
+                                   
+            $empleado->cedula = $request->cedula;
+            $empleado->nacionalidad = $request->nacionalidad;
+            $empleado->nombre1 = $request->nombre1;
+            $empleado->nombre2 = $request->nombre2;
+            $empleado->apellido1 = $request->apellido1;
+            $empleado->apellido2 = $request->apellido2;
+            $empleado->fecha_nacim = $request->fecha_nacim;
+            $empleado->sexo = $request->genero;
+            $empleado->edo_civil = $request->edo_civil;
 
+            $empleado->nivel_instruccion = $request->nivel;
+            $empleado->telefono = $request->telefono;
+            $empleado->telefono_cel = $request->telefono_cel;
+            $empleado->telefono_ofi = $request->telefono_ofi;
+            $empleado->direccion = $request->direccion;
+            $empleado->profesion = !empty($request->profesion) ? $request->profesion : null;
+            $empleado->ciudad = !empty($request->ciudad) ? $request->ciudad : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
+            $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
+            $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
+            $empleado->estado = !empty($request->estado) ? $request->estado : null;
+            if ($path_foto) {
+                $empleado->foto = $path_foto ;
+            }
+            $empleado->correo = $request->correo;
+            $empleado->save();
+
+            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            $nomina->cedula = $empleado->cedula;
+            $nomina->codigo_ubicacion = $request->ubicacion;
+            $nomina->fecha_ingreso = $request->fecha_ingreso;
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0; 
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
+            $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
+            $nomina->save();
+
+            if($request->contingente){
+                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+                $datos_militares->contingente = $request->contingente;
+                $datos_militares->save();
+            }
+            if( !empty($request->universidad) || !empty($request->profesion)){
+                EstudiosRealizados::updateOrCreate(
+                    ['codigo_empleado' => $empleado->codigo_empleado],
+                    [
+                        'nivel' => $request->nivel,
+                        'profesion' => $request->profesion,
+                        'universidad' => $request->universidad,
+                    ]
+                );
+            }
+            return redirect()->route('sireh.personal-militar-noprof.index')->with('success', 'Se ha actualizado los Datos de Ingreso de Personal');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function egresarMilitarNoProf(Request $request){
+        
+        $this->validate($request, 
+            [
+                'fecha_egreso' => 'required',
+           
+                'observaciones' => 'required',
+            ],
+            [
+                'fecha_egreso.required' => 'Fecha de Egreso es requerida',
+                'observaciones.required' => 'Motivo de Egreso es requerido'
+            ]
+        );
+        try {
+            $empleado = Empleado::find($request->id_empleado);
+            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            $empleado->situacion='E';
+            $nomina->situacion='E';
+            $nomina->fecha_egreso=$request->fecha_egreso;
+            $nomina->observaciones=$request->observaciones;
+            $empleado->update();
+            $nomina->update();
+            return response()->json(['success' => true,'msg'=>'Egreso Realizado con exito']);
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
 
 }

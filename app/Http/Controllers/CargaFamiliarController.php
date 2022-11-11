@@ -41,7 +41,7 @@ class CargaFamiliarController extends Controller
 
     //Obtiene las carga familiar del empleados, exclusivo por api para el Datatable 
     public function dataCargaFamiliar(Request $request){
-        $familiares = familiares::where('codigo_empleado',$request->codigo_empleado); 
+        $familiares = Familiares::where('codigo_empleado',$request->codigo_empleado); 
        
         $familiares->select(
             'familiares.id',
@@ -110,8 +110,19 @@ class CargaFamiliarController extends Controller
                 Log::error("************************* ERROR ************************* \n" . $e);
                 return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
             }
-        }
-      
-       
+        }       
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $familiar = Familiares::find($id);
+        $familiar->delete();
+        return response()->json(['success' => true]);
     }
 }

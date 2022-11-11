@@ -21,7 +21,7 @@ class Nomina extends Model
     }
 
     public function cargo() {
-        return $this->hasOne(Cargos::class, 'codigo_cargo', 'codigo_cargo');
+        return $this->hasOne(Cargos::class, 'codigo_cargo', 'codigo_cargo')->withTrashed();
     }
 
     public function ubicacion() {
@@ -30,6 +30,10 @@ class Nomina extends Model
 
     public function tipo_empleado() {
         return $this->belongsTo(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
+    }
+
+    public function movimientos() {
+        return $this->belongsTo(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
     }
 
     public function getActivitylogOptions(): LogOptions
@@ -46,5 +50,10 @@ class Nomina extends Model
 
     public function datos_militares() {
         return $this->hasOne(DatosMilitares::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
+    public function egresos()
+    {
+        return $this->belongsTo(Egresos::class, 'codigo_empleado', 'codigo_empleado');
     }
 }

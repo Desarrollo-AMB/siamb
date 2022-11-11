@@ -61,7 +61,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('auxiliares.cargos.data') }}",
+            ajax: "{{ route('api.auxiliares.cargos.data') }}",
             columns: [
                 {data: 'codigo_cargo',},
                 {data: 'nombre_cargo',},
@@ -97,9 +97,9 @@
                 }
             }
         });
-     
-        $('#table').on('click', '.confirm-delete' ,function (e) { 
-            e.preventDefault(); 
+
+        $('#table').on('click', '.confirm-delete' ,function (e) {
+            e.preventDefault();
             var url =$(this).data('target') ;
             Swal.fire({
                 title: 'Eliminar Cargo',
@@ -110,7 +110,7 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si!'
             }).then((result) => { 
-                if(result.isconfirmed){
+                if(result.isConfirmed){
                     $.ajax({ 
                         url: url, 
                         type: 'DELETE', 
@@ -126,7 +126,7 @@
                             timer: 3000,
                             showConfirmButton: true,
                         });
-                    }); 
+                    });
                 }
             });
         });

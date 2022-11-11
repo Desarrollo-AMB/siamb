@@ -15,6 +15,10 @@ class Movimientos extends Model
         '*'
     ];
 
+    public function nomina() {
+        return $this->hasOne(Nomina::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
