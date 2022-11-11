@@ -90,11 +90,23 @@
 			{ "name": "Actualizar Cargo",     "route_name": "auxiliares.cargos.update" },
 			{ "name": "Eliminar Cargo",     "route_name": "auxiliares.cargos.destroy" },
 			{ "name": "Ubicaciones",     "route_name": "auxiliares.ubicaciones.index" },
-			{ "name": "Nuevo Ubicación",     "route_name": "auxiliares.ubicaciones.create" },
+			{ "name": "Nueva Ubicación",     "route_name": "auxiliares.ubicaciones.create" },
 			{ "name": "Editar Ubicación",     "route_name": "auxiliares.ubicaciones.edit" },
 			{ "name": "Guardar Ubicación",     "route_name": "auxiliares.ubicaciones.store" },
 			{ "name": "Actualizar Ubicación",     "route_name": "auxiliares.ubicaciones.update" },
-			{ "name": "Eliminar Ubicación",     "route_name": "auxiliares.ubicaciones.destroy" }
+			{ "name": "Eliminar Ubicación",     "route_name": "auxiliares.ubicaciones.destroy" },
+			{ "name": "Universidades",     "route_name": "auxiliares.universidades.index" },
+			{ "name": "Nueva Universidad",     "route_name": "auxiliares.universidades.create" },
+			{ "name": "Editar Universidad",     "route_name": "auxiliares.universidades.edit" },
+			{ "name": "Guardar Universidad",     "route_name": "auxiliares.universidades.store" },
+			{ "name": "Actualizar Universidad",     "route_name": "auxiliares.universidades.update" },
+			{ "name": "Eliminar Universidad",     "route_name": "auxiliares.universidades.destroy" },
+			{ "name": "Profesiones",     "route_name": "auxiliares.profesiones.index" },
+			{ "name": "Nueva Profesion",     "route_name": "auxiliares.profesiones.create" },
+			{ "name": "Editar Profesion",     "route_name": "auxiliares.profesiones.edit" },
+			{ "name": "Guardar Profesion",     "route_name": "auxiliares.profesiones.store" },
+			{ "name": "Actualizar Profesion",     "route_name": "auxiliares.profesiones.update" },
+			{ "name": "Eliminar Profesion",     "route_name": "auxiliares.profesiones.destroy" }			
 		]
 	}
 ]

@@ -75,9 +75,6 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar/suspender', [PersonalController::class, 'suspenderPersonalMilitar'])->name('sireh.personal-militar.suspender');
     Route::post('/sireh/personal-militar/activar', [PersonalController::class, 'activarPersonalMilitar'])->name('sireh.personal-militar.activar');
     Route::post('/sireh/personal-militar/darbaja', [PersonalController::class, 'darBajaPersonalMilitar'])->name('sireh.personal-militar.dar.baja');
-    /*Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');
-    Route::post('/sireh/personal-militar-noprof/update/{empleado}', [PersonalController::class, 'updatePersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.update');*/
-
 
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
