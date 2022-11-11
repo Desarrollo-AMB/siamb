@@ -65,6 +65,8 @@ FROM nomina
 - promociones_militares
 - familiares
 - militares_condecorados
+- egresos
+- tipo_de_baja
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales
