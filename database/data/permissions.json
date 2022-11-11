@@ -69,7 +69,21 @@
 			{ "name": "Reingresar Militar no Profesional",     "route_name": "sireh.personal-militar-noprof.reingresar" },
 			{ "name": "Ver Datos Militar",     "route_name": "sireh.personal-militar.view" },
 			{ "name": "Ver Datos Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.view" },
-			{ "name": "Ver Datos Personal Civil",     "route_name": "sireh.personal-civil.view" }
+			{ "name": "Ver Datos Personal Civil",     "route_name": "sireh.personal-civil.view" },
+			{ "name": "No Activos Personal Civil",     "route_name": "sireh.personal-civil.noActive" },
+			{ "name": "Editar  Datos Personal Civil",     "route_name": "sireh.personal-civil.edit" },
+			{ "name": "Evaluar  Datos Personal Civil",     "route_name": "sireh.personal-civil.evaluar" },
+			{ "name": "Guardar Evaluacion  Datos Personal Civil",     "route_name": "sireh.personal-civil.storeEvaluar" },
+			{ "name": "Egreso Personal Civil",     "route_name": "sireh.personal-civil.egreso" },
+			{ "name": "Suspender Personal Civil",     "route_name": "sireh.personal-civil.suspender" },
+			{ "name": "Activar  Datos Personal Civil",     "route_name": "sireh.personal-civil.activar" },
+			{ "name": "Actualizar  Datos Personal Civil",     "route_name": "sireh.personal-civil.update" },
+			{ "name": "Agregar Curso  Personal Civil",     "route_name": "sireh.personal-civil.agregarCurso" },
+			{ "name": "Editar Evaluacion  Datos Personal Civil",     "route_name": "sireh.personal-civil.editEvaluar" },
+			{ "name": "Actualizar Evaluacion Datos Personal Civil",     "route_name": "sireh.personal-civil.updateEvaluar" },
+			{ "name": "mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
+			{ "name": "guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" }
+
 		]
 	},
 	{

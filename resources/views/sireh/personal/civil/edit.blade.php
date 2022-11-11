@@ -29,6 +29,16 @@
                         </ul>
                     </div>
                     @endif
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="avatar-wrapper">
+                                <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
+                                <div class="upload-button">
+                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form method="POST" action="{{ route('sireh.personal-civil.update') }}">
                     {{csrf_field()}}
                     <div class="row">  
@@ -348,16 +358,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="avatar-wrapper">
-                                <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
-                                <div class="upload-button">
-                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
