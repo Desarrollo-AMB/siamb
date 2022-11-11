@@ -21,16 +21,12 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Historico de Cargos y Ubicaciones de
-                            @foreach ($grados_militares as $row)
-                                @if ($datos->nomina->grado_militar == $row->codigo_grado)
-                                    {{ $row->siglas." ".$datos->apellido1." ".$datos->apellido2." ".$datos->nombre1." ".$datos->nombre2 }}
-                                @endif
-                            @endforeach
-                        </h5>
+                        <h5 class="mb-0">Personal Militar Suspendido</h5>
                     </div>
                 </div>
             </div>
+            <hr class="horizontal dark my-0">
+            @include('sireh.personal.militar.suspendidos._barra_auxiliar')
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
@@ -39,24 +35,16 @@
                                 <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            <th>Codigo Empleado</th>
-                                            <th>Grado Militar </th>
+                                            <th>Cedula</th>
+                                            <th>Nombre </th>
+                                            <th>Apellido</th>
+                                            <th>Grado Militar</th>
                                             <th>Ubicacion</th>
-                                            <th>Ubicacion Detallada</th>
-                                            <th>Cargo</th>
+                                            <th>Motivo</th>
+                                            <th>Fecha de Egreso</th>
+                                            <th>Numero de Resuelto</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($movimientos as $row)
-                                            <tr>
-                                                <td>{{$row->tipo_movimiento." ".$row->codigo_empleado}}</td>
-                                                <td>{{$row->codigo_grado}}</td>
-                                                <td>{{$row->codigo_ubicacion}}</td>
-                                                <td>{{$row->ubicacion_detallada}}</td>
-                                                <td>{{$row->codigo_cargo}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -68,7 +56,7 @@
 </div>
 @endsection
 
-{{--@section('scripts')
+@section('scripts')
 @parent
 <script>
     $(function () {
@@ -77,13 +65,16 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.militar.historico') }}",
+            ajax: "{{ route('sireh.personal.militar.bajas') }}",
             columns: [
-                {data: 'codigo_empleado'},
-                {data: 'codigo_grado'},
-                {data: 'codigo_ubicacion'},
-                {data: 'ubicacion_detallada'},
-                {data: 'codigo_cargo'},
+                {data: 'cedula',},
+                {data: 'nombre1'},
+                {data: 'apellido1'},
+                {data: 'grado_militar', name: 'grados_militares.descripcion'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+                {data: 'motivo', name: 'tipo_de_baja.codigo_egreso', searchable: false},
+                {data: 'fecha_salida', name: 'egresos.fecha_salida', searchable: false},
+                {data: 'nro_resuelto', name: 'egresos.nro_resuelto', searchable: false},
             ],
             search: {
                 return: true,
@@ -113,6 +104,7 @@
                 }
             }
         });
+
     });
 </script>
-@endsection--}}
+@endsection
