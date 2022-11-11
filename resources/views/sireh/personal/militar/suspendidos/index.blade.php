@@ -111,7 +111,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.militar.suspendidos') }}",
+            ajax: "{{ route('api.sireh.personal.militar.suspendidos') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},

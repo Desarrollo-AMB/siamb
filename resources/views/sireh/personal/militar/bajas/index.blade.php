@@ -65,7 +65,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.militar.bajas') }}",
+            ajax: "{{ route('api.sireh.personal.militar.bajas') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},
