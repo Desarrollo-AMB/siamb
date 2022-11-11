@@ -30,6 +30,8 @@ use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
 use App\Models\Cursos;
 use App\Models\CursosRealizados;
+use App\Models\IntelectualesCivil;
+use App\Models\Jubilados;
 
 class PersonalController extends Controller
 {
@@ -772,5 +774,118 @@ class PersonalController extends Controller
             ]
         );
     }
+
+    public function evaluarPersonalCivil($id)
+    {
+        $user_auth=auth()->user();
+      
+        $tipos_emp = TiposEmpleado::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $cargos = Cargos::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $evaluaciones = IntelectualesCivil::where('codigo_empleado', $datos->codigo_empleado)->get();
+        return view('sireh.personal.civil.view_evaluar', 
+            compact(
+                'datos','grados_militares',
+                'user_auth', 'tipos_emp', 'ubicaciones', 'ubicaciones_det',
+                'cargos', 'evaluaciones'
+            )
+        );
+    }
+
+    public function storeEvaluarPersonalCivil(Request $request)
+    {
+        $evaluacion_civil = new IntelectualesCivil;
+
+        $evaluacion_civil->codigo_empleado = $request->codigo_empleado;
+        $evaluacion_civil->fecha_evaluacion = $request->fecha_evaluacion;
+        $evaluacion_civil->cedula_evaluador = $request->cedula_evaluador;
+        $evaluacion_civil->nombre_evaluador = $request->nombre_evaluador;
+        $evaluacion_civil->nota = $request->nota;
+        $evaluacion_civil->rango_actuacion = $request->rango_actuacion;
+        $evaluacion_civil->obervaciones = $request->obervaciones;
+
+        $evaluacion_civil->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $evaluacion_civil,
+            ]
+        );
+    }
+    public function EditEvaluarPersonalCivil(Request $request)
+    {
+        $edit = IntelectualesCivil::where('id', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $edit,
+            ]
+        );
+    }
+    public function updateEvaluarPersonalCivil(Request $request)
+    {
+        $updateIntec = IntelectualesCivil::where('id', $request->id)->update($request->except('id'));
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'updateIntec' => $updateIntec
+            ]
+        );
+    } 
+
+    public function showJubiladoPersonalCivil(Request $request)
+    {
+        $jubilados = Nomina::where('codigo_empleado', $request->id)->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $jubilados,
+            ]
+        );
+    }
+
+    public function storeJubiladoPersonalCivil(Request $request)
+    {
+        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+            'situacion' => 'E'
+        ]);
+
+        $movimiento = new Movimientos;
+        $movimiento->fecha_movimiento = $request->fecha_jubi;
+        $movimiento->tipo_movimiento = 'JUBILACIÓN';
+        $movimiento->situacion = 'E';
+        $movimiento->observaciones = $request->observaciones_jubi;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+        $movimiento->save();
+
+        $movimiento = new Jubilados;
+        $movimiento->codigo_empleado = $request->codigo_empleado;
+        $movimiento->tipo_jubilar = $request->tipo_jubilar;
+        $movimiento->nombre_jubi = $request->nombre_jubi;
+        $movimiento->cedula_jubi = $request->cedula_jubi;
+        $movimiento->fecha_ingreso_jubi = $request->fecha_ingreso_jubi;
+        $movimiento->edad_jubi = $request->edad_jubi;
+        $movimiento->fecha_jubi = $request->fecha_jubi;
+        $movimiento->observaciones_jubi = $request->observaciones_jubi;
+        $movimiento->save();
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
 
 }

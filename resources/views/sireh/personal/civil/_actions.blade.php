@@ -24,3 +24,12 @@ data-bs-original-title="Carga Familiar" title="CargaFamiliar">
 <a href="#" class="mx-3 cursos" data-bs-toggle="tooltip" data-bs-original-title="Cursos" title="Cursos Realizados" data-id="{{ $codigo_empleado }}">
 <i class="fas fa-graduation-cap text-success" aria-hidden="true"></i>
 </a>
+
+<a href="{{ route('sireh.personal-civil.evaluar', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+data-bs-original-title="Evaluar" title="Evaluar">
+<i class="fa fa-file-signature text-secondary" aria-hidden="true"></i>
+</a>
+
+<a href="#" class="mx-3 jubilar" data-bs-toggle="tooltip" data-bs-original-title="Jubilar" title="Jubilar Empleado" data-id="{{ $codigo_empleado }}">
+    <i class="fas fa-home text-warning" aria-hidden="true"></i>
+</a>

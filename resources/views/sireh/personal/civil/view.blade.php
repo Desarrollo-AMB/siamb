@@ -43,7 +43,7 @@
                     <div class="row">  
                         <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
                             <div class="form-group">
-                                <h6>Tipo Empleado:</h6>
+                                <h6>Tipo de Empleado:</h6>
                                 <select class="select2 form-control" name="tipo_emp" id="tipo_emp" disabled>
                                     <option value="">Seleccione ...</option>
                                     @foreach ($tipos_emp as $row)
@@ -427,133 +427,133 @@
             }
         });
 
-        $(".enviar_suspencion").click(function(e){
-            e.preventDefault();
-            var motivo = $('.motivo').val();
-            if(motivo===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un Motivo.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                }); 
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-civil.suspender') }}",
-                method:'POST',
-                data:{
-                    fecha: $('.fechaSuspencion').val(),
-                    motivo: motivo,
-                    observaciones: $('.observaciones').val().toUpperCase(),
-                    codigo_empleado: $('.codigo_empleado').val(),
-                    },
-                    success:function(response){
-                        if(response.success){
-                            $('#exampleModalMessage').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Empleado Suspendido Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
-                            }, 1200);
-                        }
-                    },
-                    error:function(error){
-                        console.log(error)
-                    }
-                });
-            }
-        });
+        // $(".enviar_suspencion").click(function(e){
+        //     e.preventDefault();
+        //     var motivo = $('.motivo').val();
+        //     if(motivo===""){
+        //         Swal.fire({
+        //             title: 'Atención!',
+        //             text: 'Debes Ingresar un Motivo.',
+        //             icon: 'warning',
+        //             timer: 3000,
+        //             showConfirmButton: true,
+        //         }); 
+        //     }else{
+        //         //ENVIAR
+        //         $.ajax({
+        //         url:"{{ route('sireh.personal-civil.suspender') }}",
+        //         method:'POST',
+        //         data:{
+        //             fecha: $('.fechaSuspencion').val(),
+        //             motivo: motivo,
+        //             observaciones: $('.observaciones').val().toUpperCase(),
+        //             codigo_empleado: $('.codigo_empleado').val(),
+        //             },
+        //             success:function(response){
+        //                 if(response.success){
+        //                     $('#exampleModalMessage').modal('hide');
+        //                     Swal.fire({
+        //                         title: 'LISTO!',
+        //                         text: 'Empleado Suspendido Correctamente!',
+        //                         icon: 'success',
+        //                         timer: 3000,
+        //                         showConfirmButton: true,
+        //                     });
+        //                     setTimeout(function () {
+        //                         window.location.href = "{{ route('sireh.personal-civil.index') }}";
+        //                     }, 1200);
+        //                 }
+        //             },
+        //             error:function(error){
+        //                 console.log(error)
+        //             }
+        //         });
+        //     }
+        // });
 
-        $(".enviar_egreso").click(function(e){
-            e.preventDefault();
-            var egreso = $('.egreso').val();
-            if(egreso===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un motivo de Egreso.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                }); 
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-civil.egreso') }}",
-                method:'POST',
-                data:{
-                        egreso: egreso,
-                        fecha_ingreso: $('.fecha_ingreso').val(),
-                        fecha_egreso: $('.fecha_egreso').val(),
-                        observaciones: $('.observaciones_egreso').val().toUpperCase(),
-                        codigo_empleado: $('.codigo_empleado').val(),
-                    },
-                    success:function(response){
-                        if(response.success){
-                            $('#egresar').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Empleado Egresado Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.href = "{{ route('sireh.personal-civil.index') }}";
-                            }, 1200);
-                        }
-                    },
-                    error:function(error){
-                        console.log(error)
-                    }
-                });
-            }
-        });
+        // $(".enviar_egreso").click(function(e){
+        //     e.preventDefault();
+        //     var egreso = $('.egreso').val();
+        //     if(egreso===""){
+        //         Swal.fire({
+        //             title: 'Atención!',
+        //             text: 'Debes Ingresar un motivo de Egreso.',
+        //             icon: 'warning',
+        //             timer: 3000,
+        //             showConfirmButton: true,
+        //         }); 
+        //     }else{
+        //         //ENVIAR
+        //         $.ajax({
+        //         url:"{{ route('sireh.personal-civil.egreso') }}",
+        //         method:'POST',
+        //         data:{
+        //                 egreso: egreso,
+        //                 fecha_ingreso: $('.fecha_ingreso').val(),
+        //                 fecha_egreso: $('.fecha_egreso').val(),
+        //                 observaciones: $('.observaciones_egreso').val().toUpperCase(),
+        //                 codigo_empleado: $('.codigo_empleado').val(),
+        //             },
+        //             success:function(response){
+        //                 if(response.success){
+        //                     $('#egresar').modal('hide');
+        //                     Swal.fire({
+        //                         title: 'LISTO!',
+        //                         text: 'Empleado Egresado Correctamente!',
+        //                         icon: 'success',
+        //                         timer: 3000,
+        //                         showConfirmButton: true,
+        //                     });
+        //                     setTimeout(function () {
+        //                         window.location.href = "{{ route('sireh.personal-civil.index') }}";
+        //                     }, 1200);
+        //                 }
+        //             },
+        //             error:function(error){
+        //                 console.log(error)
+        //             }
+        //         });
+        //     }
+        // });
 
-        $(".activar_empleado").click(function(e){
-            Swal.fire({
-                title: 'ACTIVACION DE EMPLEADO',
-                text: "Estas Seguro de Activar este Empleado?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si!'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url:"{{ route('sireh.personal-civil.activar') }}",
-                        method:'POST',
-                        data:{
-                            codigo_empleado: $('.codigo_empleado').val(),
-                        },
-                        cache: false,
-                        dataType: 'json',
-                        success: function(response){
-                            if(response){
-                                console.log(response)
-                            }
-                        }
-                    });
-                    Swal.fire({
-                        title: 'ACTIVADO!',
-                        text: 'Empleado Activado Correctamente.',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true,
-                    }); 
-                    setTimeout(function () {
-                        window.location.href = "{{ route('sireh.personal-civil.index') }}";
-                    }, 1200);  
-                }
-            });
-        });
+        // $(".activar_empleado").click(function(e){
+        //     Swal.fire({
+        //         title: 'ACTIVACION DE EMPLEADO',
+        //         text: "Estas Seguro de Activar este Empleado?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Si!'
+        //         }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             $.ajax({
+        //                 url:"{{ route('sireh.personal-civil.activar') }}",
+        //                 method:'POST',
+        //                 data:{
+        //                     codigo_empleado: $('.codigo_empleado').val(),
+        //                 },
+        //                 cache: false,
+        //                 dataType: 'json',
+        //                 success: function(response){
+        //                     if(response){
+        //                         console.log(response)
+        //                     }
+        //                 }
+        //             });
+        //             Swal.fire({
+        //                 title: 'ACTIVADO!',
+        //                 text: 'Empleado Activado Correctamente.',
+        //                 icon: 'success',
+        //                 timer: 3000,
+        //                 showConfirmButton: true,
+        //             }); 
+        //             setTimeout(function () {
+        //                 window.location.href = "{{ route('sireh.personal-civil.index') }}";
+        //             }, 1200);  
+        //         }
+        //     });
+        // });
     })
 </script>
 @endsection

@@ -97,6 +97,11 @@
                 }
             }
         });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         table.on('click', '.activar_empleado', function() {
             var id = $(this).data("id");
             $('#codigo_empleado_activar').val(id);
