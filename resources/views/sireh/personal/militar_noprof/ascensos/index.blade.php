@@ -317,7 +317,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataAlferez6toMedicina') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataAlferez6toMedicina') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -380,7 +380,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataAlferez5toMedicina') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataAlferez5toMedicina') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -443,7 +443,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataAlferez5toSalud') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataAlferez5toSalud') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -506,7 +506,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataAlferez') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataAlferez') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -569,7 +569,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataCadete3er') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataCadete3er') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -632,7 +632,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.ascensos.dataCadete2do') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.ascensos.dataCadete2do') }}",
             columnDefs: [
                 {
                     targets: 0,

@@ -33,6 +33,17 @@
                         method="post" action="{{route('sireh.personal-militar-noprof.update', $datos->id)}}" 
                         enctype="multipart/form-data" >
                         @csrf
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="avatar-wrapper">
+                                    <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
+                                    <div class="upload-button">
+                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="file-upload" type="file" accept="image/*" name="foto"  id="foto"/>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">  
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                 <div class="form-group">
@@ -395,17 +406,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="avatar-wrapper">
-                                    <img class="profile-pic" src="{{ $datos->foto ? url($datos->foto): '' }}" />
-                                    <div class="upload-button">
-                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                    </div>
-                                    <input class="file-upload" type="file" accept="image/*" name="foto"  id="foto"/>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="row">    
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary" id="btn-actualizar">Actualizar</button>

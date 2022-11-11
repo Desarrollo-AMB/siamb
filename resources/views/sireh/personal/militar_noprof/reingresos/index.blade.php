@@ -95,7 +95,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.militar-noprof.dataEgresados') }}",
+            ajax: "{{ route('api.sireh.personal.militar-noprof.dataEgresados') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},

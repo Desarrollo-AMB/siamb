@@ -65,7 +65,7 @@
                 serverSide: true,
                 responsive: true,
                 pageLength: 25,
-                ajax: "{{ route('auxiliares.universidades.data') }}",
+                ajax: "{{ route('api.auxiliares.universidades.data') }}",
                 columns: [{
                         data: 'codigo_universidad',
                     },

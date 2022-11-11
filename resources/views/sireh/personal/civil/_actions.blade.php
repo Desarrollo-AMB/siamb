@@ -11,7 +11,13 @@
     </a>
     
     <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
-        data-bs-original-title="Carga Familiar" title="CargaFamiliar"
+        data-bs-original-title="Carga Familiar" title="Carga Familiar"
     >
-        <i class="fas fa-users text-primary" aria-hidden="true"></i>
-    </a
+        <i class="fas fa-users text-warning" aria-hidden="true"></i>
+    </a>
+
+    <a href="{{ route('sireh.condecoraciones.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+        data-bs-original-title="Condecoraciones" title="Condecoraciones"
+    >
+        <i class="fas fa-medal text-secondary" aria-hidden="true"></i>
+    </a>

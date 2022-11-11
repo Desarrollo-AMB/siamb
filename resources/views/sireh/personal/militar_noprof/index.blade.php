@@ -101,7 +101,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('sireh.personal.militar-noprof.data') }}",
+            ajax: "{{ route('api.sireh.personal.militar-noprof.data') }}",
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},

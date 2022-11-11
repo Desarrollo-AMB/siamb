@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cargos extends Model
 {
-    use HasFactory,SoftDeletes;
-
+    use HasFactory, SoftDeletes;
+    
     protected $fillable = [
         '*',
     ];
@@ -19,7 +19,7 @@ class Cargos extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-
+    
     public function nomina()
     {
         return $this->belongsTo(Nomina::class, 'codigo_cargo', 'codigo_cargo');
