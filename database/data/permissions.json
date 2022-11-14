@@ -81,9 +81,20 @@
 			{ "name": "Agregar Curso  Personal Civil",     "route_name": "sireh.personal-civil.agregarCurso" },
 			{ "name": "Editar Evaluacion  Datos Personal Civil",     "route_name": "sireh.personal-civil.editEvaluar" },
 			{ "name": "Actualizar Evaluacion Datos Personal Civil",     "route_name": "sireh.personal-civil.updateEvaluar" },
-			{ "name": "mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
-			{ "name": "guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" }
-
+			{ "name": "Mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
+			{ "name": "Guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" },
+			{ "name": "Editar Personal Militar",     "route_name": "sireh.personal-militar.edit" },
+			{ "name": "Actualizar Personal Militar",     "route_name": "sireh.personal-militar.update.datos" },
+			{ "name": "Personal Militar Suspendidos",     "route_name": "sireh.personal-militar.suspendido" },
+			{ "name": "Suspender Personal Militar",     "route_name": "sireh.personal-militar.suspender" },
+			{ "name": "Personal Militar Bajas",     "route_name": "sireh.personal-militar.bajas" },
+			{ "name": "Mostrar Baja Personal Militar",     "route_name": "sireh.personal-militar.baja" },
+			{ "name": "Dar Baja Personal Militar",     "route_name": "sireh.personal-militar.dar.baja" },
+			{ "name": "Proceso Cambiar Cargo Personal Militar",     "route_name": "sireh.personal-militar.cargo" },
+			{ "name": "Actualizar Cargo Personal Militar",     "route_name": "sireh.personal-militar.update.cargo" },
+			{ "name": "Proceso Cambiar Ubicacion Personal Militar",     "route_name": "sireh.personal-militar.ubicacion" },
+			{ "name": "Actualizar Ubicacion Personal Militar",     "route_name": "sireh.personal-militar.update.ubicacion" },
+			{ "name": "Activar Personal Militar",     "route_name": "sireh.personal-militar.activar" }
 		]
 	},
 	{
@@ -120,7 +131,27 @@
 			{ "name": "Editar Profesion",     "route_name": "auxiliares.profesiones.edit" },
 			{ "name": "Guardar Profesion",     "route_name": "auxiliares.profesiones.store" },
 			{ "name": "Actualizar Profesion",     "route_name": "auxiliares.profesiones.update" },
-			{ "name": "Eliminar Profesion",     "route_name": "auxiliares.profesiones.destroy" }			
+			{ "name": "Eliminar Profesion",     "route_name": "auxiliares.profesiones.destroy" },
+			{ "name": "Ubicaciones Detalladas",     "route_name": "auxiliares.ubicacionesDetalladas.index" },
+			{ "name": "Nueva Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.create" },
+			{ "name": "Editar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.edit" },
+			{ "name": "Guardar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.store" },
+			{ "name": "Actualizar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.update" },
+			{ "name": "Eliminar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.destroy" }			
+		]
+	},
+	{
+		"group": "Bienestar Social",
+		"labels": [
+			{ "name": "Carga Familiar",         "route_name": "sireh.carga-familiar.view" },
+			{ "name": "Editar Carga Familiar",         "route_name": "sireh.carga-familiar.edit" },
+			{ "name": "Guardar/Actualizar Carga Familiar",         "route_name": "sireh.cargar-familiar.store" },
+			{ "name": "Eliminar Carga Familiar",         "route_name": "sireh.carga-familiar.destroy" },
+			{ "name": "Condecoraciones", 		"route_name": "sireh.condecoraciones.view" },
+			{ "name": "Editar Condecoracion ", 		"route_name": "sireh.condecoraciones.edit" },
+			{ "name": "Guardar/Actualizar Condecoracion", 		"route_name": "sireh.condecoraciones.store" },
+			{ "name": "Eliminar Condecoracion", 		"route_name": "sireh.condecoraciones.destroy" }
+			
 		]
 	}
 ]

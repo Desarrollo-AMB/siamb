@@ -46,8 +46,8 @@ Route::get("grados-militares/{tipo_emp}", [ApiController::class, 'getGradosMilit
 Route::get("promociones-militares/{categoria}", [ApiController::class, 'getPromocionesMilitares'])->name("api.promociones");
 Route::get("ubicaciones-detalladas/{ubicacion}", [ApiController::class, 'getUbicacionesDetalladas'])->name("api.ubicaciones.detalladas");
 
-Route::get('sireh/personalmilitar/suspendidos', [PersonalController::class, 'personalMilitarSuspendido'])->name('sireh.personal.militar.suspendidos');
-Route::get('sireh/personalmilitar/bajas', [PersonalController::class, 'personalMilitarBaja'])->name('sireh.personal.militar.bajas');
+Route::get('sireh/personalmilitar/suspendidos', [PersonalController::class, 'personalMilitarSuspendido'])->name('api.sireh.personal.militar.suspendidos');
+Route::get('sireh/personalmilitar/bajas', [PersonalController::class, 'personalMilitarBaja'])->name('api.sireh.personal.militar.bajas');
 
 Route::get('auxiliares/universidades/data', [UniversidadesController::class, 'universidadesData'])->name('api.auxiliares.universidades.data');
 Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profesionesData'])->name('api.auxiliares.profesiones.data');

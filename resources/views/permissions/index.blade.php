@@ -103,6 +103,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            pageLength: 15,
             ajax: "{{ route('permissions.index') }}",
             columns: [
                 {
@@ -139,6 +140,7 @@
                 }
             }
         });
+        
         $('#table').on('click', '.confirm-delete', function (event) {
             event.preventDefault();
             var idForm= $(this).attr('form-target');
