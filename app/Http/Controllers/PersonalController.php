@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Empleado;
@@ -1069,7 +1070,19 @@ class PersonalController extends Controller
         );
     }
 
-    
+    public function imprimirEscalafon() {
+        $empleados = DB::table('empleados')
+        ->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+        ->where('empleados.situacion','A')
+        ->get();
+        //dd($empleados[0]->cedula);
+
+        $pdf = \PDF::loadview('sireh.personal.militar.escalafon', 'empleados')->setPaper('a4', 'landscape');
+
+        return $pdf->download('escalafon.pdf');
+        //return view('sireh.personal.militar.escalafon', compact('empleados'));
+    }
 
     //PERSONAL CIVIL FUNCTIONS
     public function viewPersonalCivil($id)
