@@ -1076,7 +1076,7 @@ class PersonalController extends Controller
         ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
         ->where('empleados.situacion','A')
         ->get();
-        //dd($empleados[0]->cedula);
+        dd($empleados);
 
         $pdf = \PDF::loadview('sireh.personal.militar.escalafon', 'empleados')->setPaper('a4', 'landscape');
 

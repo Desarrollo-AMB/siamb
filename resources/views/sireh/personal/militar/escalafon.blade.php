@@ -61,6 +61,7 @@
                 </thead>
 
                 <tbody>
+                    @foreach 
                     <tr>
                         <td>Listo</td>
                     </tr>
