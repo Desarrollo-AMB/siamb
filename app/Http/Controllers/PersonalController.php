@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
@@ -1082,18 +1083,62 @@ class PersonalController extends Controller
         );
     }
 
-    public function imprimirEscalafon() {
-        $empleados = DB::table('empleados')
-        ->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-        ->where('empleados.situacion','A')
+    public function escogerEscalafon()
+    {
+        $user_auth=auth()->user();
+
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])
+        ->orderBy('codigo_grado','asc')
         ->get();
-        dd($empleados);
 
-        $pdf = \PDF::loadview('sireh.personal.militar.escalafon', 'empleados')->setPaper('a4', 'landscape');
+        return view('sireh.personal.militar.escalafon', 
+            compact(
+                'grados_militares'
+            )
+        );
+    }
 
-        return $pdf->download('escalafon.pdf');
-        //return view('sireh.personal.militar.escalafon', compact('empleados'));
+    public function imprimirEscalafon(Request $request) {
+        $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+        ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+        ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+        ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+        ->where('empleados.situacion','A')
+        ->where('nomina.grado_militar',$request->grado_militar)
+        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+        ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
+        ->orderBy('datos_militares.fecha_graduacion','asc')
+        ->orderBy('datos_militares.orden_merito','asc')
+        ->select(
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'empleados.fecha_nacim',
+            'empleados.sexo',
+            'categorias_militares.descripcion as categoria',
+            'grados_militares.descripcion as grado_militar',
+            'datos_militares.orden_merito as orden_merito',
+            'datos_militares.total_orden_merito as total_merito',
+            'datos_militares.fecha_graduacion as graduacion',
+            'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
+            'datos_militares.fecha_retiro as retiro',
+            'especialidades_militares.descripcion as especialidad1',
+            'especialidades_militares.descripcion as especialidad2',
+            'ubicaciones.descripcion as ubicacion',
+            'cargos.nombre_cargo as cargo',
+        )
+        //->limit(8)
+        ->get();
+
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
+
+        return $pdf->stream('escalafon.pdf');
+        //return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
