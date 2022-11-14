@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar/index', [PersonalController::class, 'indexPersonalMilitar'])->name('sireh.personal-militar.index');
     Route::get('/sireh/personal-militar/suspendidos/index', [PersonalController::class, 'listPersonalMilitarSuspendido'])->name('sireh.personal-militar.suspendido');
     Route::get('/sireh/personal-militar/bajas/index', [PersonalController::class, 'listPersonalMilitarBajas'])->name('sireh.personal-militar.bajas');
-    Route::get('/sireh/personal-militar/escalafon', [PersonalController::class, 'imprimirEscalafon'])->name('sireh.personal-militar.escalafon');
+    Route::get('/sireh/personal-militar/escalafon', [PersonalController::class, 'escogerEscalafon'])->name('sireh.personal-militar.escalafon');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     Route::get('/sireh/personal-militar/edit/{id}', [PersonalController::class, 'editPersonalMilitar'])->name('sireh.personal-militar.edit');
     Route::get('/sireh/personal-militar/cargo/{id}', [PersonalController::class, 'cargosPersonalMilitar'])->name('sireh.personal-militar.cargo');
@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar/suspender', [PersonalController::class, 'suspenderPersonalMilitar'])->name('sireh.personal-militar.suspender');
     Route::post('/sireh/personal-militar/activar', [PersonalController::class, 'activarPersonalMilitar'])->name('sireh.personal-militar.activar');
     Route::post('/sireh/personal-militar/darbaja', [PersonalController::class, 'darBajaPersonalMilitar'])->name('sireh.personal-militar.dar.baja');
+    Route::post('/sireh/personal-militar/imprimirescalafon', [PersonalController::class, 'imprimirEscalafon'])->name('sireh.personal-militar.imprimirescalafon');
 
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
