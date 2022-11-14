@@ -33,11 +33,6 @@
     >
         <i class="fas fa-backspace text-danger"></i>
     </a>
-    
-    {{--<a href="#" class="mx-3 baja_militar" data-bs-toggle="tooltip"
-        data-bs-original-title="Egresar" title="Egresar" data-id="{{ $id }}">
-        <i class="fas fa-backspace text-danger" aria-hidden="true"></i>
-    </a>--}}
 
     <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Carga Familiar" title="Carga Familiar"
