@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('condecoraciones', function (Blueprint $table) {
+        Schema::create('condecoraciones_militares', function (Blueprint $table) {
             $table->id();
             $table->string('codigo_condecoracion',4);
             $table->text('descripcion')->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('condecoraciones');
+        Schema::dropIfExists('condecoraciones_militares');
     }
 };

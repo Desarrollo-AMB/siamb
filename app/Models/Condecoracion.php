@@ -9,7 +9,7 @@ class Condecoracion extends Model
 {
     use HasFactory;
 
-    protected $table = 'condecoraciones';
+    protected $table = 'condecoraciones_militares';
     
     protected $fillable = [
         '*',

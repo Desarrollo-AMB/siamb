@@ -311,7 +311,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Categoria:</h6>
-                                                @if($datos->datos_militares->codigo_categoria != "" && $datos->datos_militares->codigo_categoria != 1)
+                                                @if($datos->datos_militares && $datos->datos_militares->codigo_categoria != "" && $datos->datos_militares->codigo_categoria != 1)
                                                     @foreach ($categorias_militares as $row)
                                                         @if($datos->datos_militares->codigo_categoria == $row->codigo_categoria)
                                                             {!! Form::text('categoria', $row->descripcion, array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
@@ -341,13 +341,13 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Graduación:</h6>
-                                                {!! Form::text('fecha_graduacion', $datos->datos_militares->fecha_graduacion, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_graduacion', $datos->datos_militares ? $datos->datos_militares->fecha_graduacion : null, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Promoción:</h6>
-                                                @if($datos->datos_militares->codigo_promocion != "")
+                                                @if($datos->datos_militares && $datos->datos_militares->codigo_promocion != "")
                                                     @foreach ($promociones_militares as $row)
                                                         @if($datos->datos_militares->codigo_promocion == $row->codigo_promocion)
                                                             {!! Form::text('promocion', $row->descripcion, array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
@@ -361,13 +361,13 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Ultimo Ascenso:</h6>
-                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares->fecha_ultimo_ascenso, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares ? $datos->datos_militares->fecha_ultimo_ascenso : null, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Retiro:</h6>
-                                                {!! Form::text('fecha_retiro', $datos->datos_militares->fecha_retiro, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_retiro', $datos->datos_militares ? $datos->datos_militares->fecha_retiro : null, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>

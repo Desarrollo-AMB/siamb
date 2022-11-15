@@ -57,7 +57,18 @@ SELECT `codigo_empleado`, `cedula` , `nombre1`, `nombre2`, `apellido1`, `apellid
 	CASE WHEN fecha_reincorporacion ='0000-00-00' THEN NULL ELSE fecha_reincorporacion END AS fecha_reincorporacion,
 	`codigo_reincorporacion`, `grado_tentativo`, `codigo_clase`, `categoria_clas`, `nivel_escala`, `codigo_clase1`,
 	`observaciones`
-FROM nomina
+FROM nomina;
+```
+* La tabla egresos:
+```
+SELECT id, codigo_empleado,
+	CASE WHEN fecha_salida ='0000-00-00' THEN NULL ELSE fecha_salida END AS fecha_salida,
+	causa_egreso,
+	nro_resuelto,
+	CASE WHEN fecha_resuelto ='0000-00-00' THEN NULL ELSE fecha_resuelto END AS fecha_resuelto,
+	CASE WHEN fecha_registro ='0000-00-00' THEN NULL ELSE fecha_registro END AS fecha_registro,
+	usuario
+FROM egresos;
 ```
 2. Con el manejador de Bases de Datos, exportar directamente desde la BD SIREH, las siguientes tablas:
 - datos_militares
@@ -65,7 +76,6 @@ FROM nomina
 - promociones_militares
 - familiares
 - militares_condecorados
-- egresos
 - tipo_de_baja
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
@@ -77,8 +87,13 @@ FROM nomina
 - estudios_realizados
 - cursos_realizados
 
-5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde la BD SIREH:
+5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde las BDs SIREH/SEID/EDUCACION respectivamente:
 - ubicaciones 
 - cargos
 - ubicaciones_detalladas
-
+- especialidades_militares
+- grados_militares
+- conceptos_nomina
+- datos_militares
+- conceptos_pagados
+- condecoraciones_militares
