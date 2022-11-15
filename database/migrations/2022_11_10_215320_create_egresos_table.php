@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('egresos', function (Blueprint $table) {
             $table->id();
             $table->integer('codigo_empleado');
-            $table->date('fecha_salida');
+            $table->date('fecha_salida')->nullable();
             $table->integer('causa_egreso');
-            $table->integer('nro_resuelto');
-            $table->date('fecha_resuelto');
-            $table->date('fecha_registro');
-            $table->text('usuario');
+            $table->integer('nro_resuelto')->nullable();
+            $table->date('fecha_resuelto')->nullable();
+            $table->date('fecha_registro')->nullable();
+            $table->string('usuario',255);
             $table->timestamps();
         });
     }

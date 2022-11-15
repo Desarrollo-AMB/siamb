@@ -87,7 +87,7 @@
             </li>
 
             {{--<li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="" href="{{ url('/') }}">Nomina</a>
+
             </li>--}}
           </ul>
         </div>
