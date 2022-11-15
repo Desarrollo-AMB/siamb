@@ -40,8 +40,8 @@
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
-                                    <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="fa fa-user text-lg opacity-10" aria-hidden="true"></i>
+                                    <div style="background-image:linear-gradient(310deg,#cc886f,#ee1505)" class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
+                                    <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
-                                    <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                    <div style="background-image:linear-gradient(310deg,#a7e9b0,#087904)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                     <i class="fa fa-file-excel text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
-                                    <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                    <div style="background-image:linear-gradient(310deg,#a7e9b0,#087904)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                     <i class="fa fa-file-excel text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -252,7 +252,7 @@
                                 <label for="recipient-name" class="col-form-label">Seleccionar Curso</label>
                                 <select class="form-control cursos_select select2" id="cursos_select" name="cursos_select" required>
                                     <option value="">Seleccione...</option>
-                                    @foreach($cursos as $data) 
+                                    @foreach($cursos as $data)
                                         <option value="{{$data->codigo_curso}}">{{$data->descripcion_curso}}</option>
                                     @endforeach
                                 </select>
@@ -409,14 +409,14 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         //SUSPENDER
         table.on('click', '.suspender', function() {
             var id = $(this).data("id");
             $('#modal-view-suspender').on('shown.bs.modal', function(e) {
                 $('#modal-view-suspender #id_empleado_suspender').val(id);
             })
-            $('#modal-view-suspender').modal("show");  
+            $('#modal-view-suspender').modal("show");
         });
         $(".enviar_suspencion").click(function(e){
             e.preventDefault();
@@ -428,7 +428,7 @@
                     icon: 'warning',
                     timer: 3000,
                     showConfirmButton: true,
-                }); 
+                });
             }else{
                 //ENVIAR
                 $.ajax({
@@ -468,7 +468,7 @@
             $('#modal-view-egresar').on('shown.bs.modal', function(e) {
                 $('#modal-view-egresar #codigo_empleado_egresar').val(id);
             })
-            $('#modal-view-egresar').modal("show");  
+            $('#modal-view-egresar').modal("show");
         });
         $(".enviar_egreso").click(function(e){
             e.preventDefault();
@@ -480,7 +480,7 @@
                     icon: 'warning',
                     timer: 3000,
                     showConfirmButton: true,
-                }); 
+                });
             }else{
                 //ENVIAR
                 $.ajax({
@@ -521,7 +521,7 @@
             $('#modal-view-cursos').on('shown.bs.modal', function(e) {
                 $('#modal-view-cursos #id_empleado_cursos').val(id);
             })
-            $('#modal-view-cursos').modal("show");  
+            $('#modal-view-cursos').modal("show");
         });
         $(".enviar_curso").click(function(e){
             e.preventDefault();
@@ -533,7 +533,7 @@
                     icon: 'warning',
                     timer: 3000,
                     showConfirmButton: true,
-                }); 
+                });
             }else{
                 //ENVIAR
                 $.ajax({
@@ -587,13 +587,13 @@
                         $('.nombre_jubi').val(res.nombre1 +' '+ res.apellido1)
                         $('.cedula_jubi').val(res.cedula)
                         $('.fecha_ingreso_jubi').val(res.fecha_ingreso)
-                        $('#modal-view-jubilar').modal("show"); 
+                        $('#modal-view-jubilar').modal("show");
                     }
                     else{
                         alert('Fallo en la peticion con el servidor')
                     }
                 }
-            });  
+            });
         });
         $(".enviar_jubilado").click(function(e){
             e.preventDefault();

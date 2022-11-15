@@ -10,11 +10,11 @@ data-bs-original-title="Editar" title="Editar">
 </a>
 
 <a href="#" class="mx-3 suspender" data-bs-toggle="tooltip" data-bs-original-title="Suspender" title="Suspender" data-id="{{ $codigo_empleado }}">
-<i class="fas fa-sync text-danger" aria-hidden="true"></i>
+<i class="fas fa-sync text-info" aria-hidden="true"></i>
 </a>
 
 <a href="#" class="mx-3 egresar" data-bs-toggle="tooltip" data-bs-original-title="Suspender" title="Egresar" data-id="{{ $codigo_empleado }}">
-<i class="fas fa-arrow-right text-info" aria-hidden="true"></i>
+<i class="fas fa-backspace text-danger" aria-hidden="true"></i>
 </a>
 
 <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
@@ -45,7 +45,7 @@ data-bs-original-title="Evaluar" title="Evaluar">
     >
         <i class="fas fa-edit text-primary" aria-hidden="true"></i>
     </a>
-    
+
     <a href="{{ route('sireh.carga-familiar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Carga Familiar" title="Carga Familiar"
     >

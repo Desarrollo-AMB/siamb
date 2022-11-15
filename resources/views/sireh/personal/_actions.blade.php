@@ -4,7 +4,7 @@
     >
         <i class="fas fa-arrow-up text-success" aria-hidden="true"></i>
     </a>
-    
+
     <a href="{{ route('sireh.ingreso-personal.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Editar" title="Editar"
     >

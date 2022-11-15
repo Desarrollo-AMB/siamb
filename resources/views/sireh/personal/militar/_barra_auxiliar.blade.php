@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar.bajas') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
                                 <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
