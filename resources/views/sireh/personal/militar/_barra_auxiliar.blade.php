@@ -7,7 +7,7 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                             <h5 class="font-weight-bolder mb-0">
-                                Personal Militar Suspendido
+                                Suspendidos
                                 <span class="text-success text-sm font-weight-bolder"></span>
                             </h5>
                         </div>
@@ -32,14 +32,14 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                             <h5 class="font-weight-bolder mb-0">
-                                Personal Militar Dado de Baja
+                                Dado de Baja
                                 <span class="text-success text-sm font-weight-bolder"></span>
                             </h5>
                         </div>
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar.bajas') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
                                 <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -74,3 +74,4 @@
         </div>
     </div>
 </div>
+

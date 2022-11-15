@@ -10,7 +10,7 @@
     >
         <i class="fas fa-edit text-primary" aria-hidden="true"></i>
     </a>
-    
+
     <a href="{{ route('sireh.personal-militar.cargo', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
         data-bs-original-title="Cargos" title="Cargos"
     >
@@ -39,7 +39,7 @@
     >
         <i class="fas fa-users text-warning" aria-hidden="true"></i>
     </a>
-    
+
     <a href="{{ route('sireh.condecoraciones.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Condecoraciones" title="Condecoraciones"
     >
