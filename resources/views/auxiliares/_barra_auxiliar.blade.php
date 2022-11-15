@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('auxiliares.cargos.index') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
                                 <i class="ni ni-badge text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('auxiliares.ubicaciones.index') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
                                 <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
@@ -62,8 +62,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{route('auxiliares.ubicacionesDetalladas.index')}}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                                <i class="fa fa-map-marker text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -86,8 +86,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('auxiliares.universidades.index') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                                <i class="fa fa-university text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -110,8 +110,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('auxiliares.profesiones.index') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                                <i class="fa fa-briefcase text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
