@@ -91,11 +91,11 @@
 			{ "name": "Actualizar Ubicacion Personal Militar",     "route_name": "sireh.personal-militar.update.ubicacion" },
 			{ "name": "Suspender Personal Militar",     "route_name": "sireh.personal-militar.suspender" },
 			{ "name": "Listado del Personal Militar Suspendido",     "route_name": "sireh.personal-militar.suspendido" },
-			{ "name": "Activar Personal Militar",     "route_name": "sireh.personal-militar.activar" }
+			{ "name": "Activar Personal Militar",     "route_name": "sireh.personal-militar.activar" },
 			{ "name": "Vista para Egresar Personal Militar",     "route_name": "sireh.personal-militar.baja" },
 			{ "name": "Procesar Baja Personal Militar",     "route_name": "sireh.personal-militar.dar.baja" },
 			{ "name": "Listado del Personal Militar Egresado",     "route_name": "sireh.personal-militar.bajas" },
-			{ "name": "Vista para Generar el Escalafon Personal Militar",     "route_name": "sireh.personal-militar.escalafon" }
+			{ "name": "Vista para Generar el Escalafon Personal Militar",     "route_name": "sireh.personal-militar.escalafon" },
 			{ "name": "Imprimir Escalafon Personal Militar",     "route_name": "sireh.personal-militar.imprimirescalafon" }
 		]
 	},
