@@ -70,16 +70,16 @@
                         <h6>Fecha Egreso: </h6>
                         <input name="fecha_egreso" type="date" class="form-control fecha" required value="">
                     </div>
-                
+
                     <div class="form-group">
                         <h6>Exposicion de motivo del egreso:</h6>
                         <textarea name="observaciones" class="form-control" rows="5" required></textarea>
                     </div>
-                
+
             </div>
             <div class="modal-footer justify-content-rigth">
-                <button type="button" class="btn btn-primary" id="btn-egresar">Egresar</button>
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button> 
+                <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn bg-gradient-success" id="btn-egresar">Confirmar</button>
             </div>
             </form>
         </div>
@@ -140,12 +140,12 @@
         });
         table.on('click', '.egresar', function() {
             var id = $(this).data("id");
-            console.log(id);    
-   
+            console.log(id);
+
             $('#modal-view').on('shown.bs.modal', function(e) {
                 $('#modal-view #id_empleado').val(id);
             })
-            $('#modal-view').modal("show");  
+            $('#modal-view').modal("show");
         });
 
         $('#btn-egresar').on('click', function(){
@@ -185,7 +185,7 @@
                         contentType: false,
                         success:function(res){
                             console.log(res);
-                          
+
                             Swal.fire({
                                 title: 'Egreso!',
                                 text: 'Proceso realizado satisfactoriamente...',
@@ -197,10 +197,10 @@
                                 window.location.reload();
                             }
                         }
-                    }); 
+                    });
             }
 
-            //$('#modal-view').modal("hide"); 
+            //$('#modal-view').modal("hide");
         });
     });
 </script>

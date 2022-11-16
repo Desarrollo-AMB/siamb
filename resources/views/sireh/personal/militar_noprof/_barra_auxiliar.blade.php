@@ -14,8 +14,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar-noprof.graduacion') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-badge text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                                <i class="fa fa-graduation-cap text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -38,8 +38,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar-noprof.ascensos') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                                <i class="fa fa-line-chart text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -62,8 +62,8 @@
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar-noprof.egresos-alistados') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
+                                <i class="fas fa-backspace text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -87,7 +87,7 @@
                     <div class="col-4 text-end">
                         <a href="{{ route('sireh.personal-militar-noprof.reingresos') }}">
                             <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa fa-share text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
