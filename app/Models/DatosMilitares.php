@@ -27,6 +27,10 @@ class DatosMilitares extends Model
         return $this->hasOne(PromocionesMilitares::class, 'codigo_promocion', 'codigo_promocion');
     }
 
+    public function especialidades_militares() {
+        return $this->hasOne(EspecialidadesMilitares::class, 'codigo_especialidad', 'codigo_especialidad1');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

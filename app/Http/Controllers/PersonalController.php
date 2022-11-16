@@ -24,6 +24,7 @@ use App\Models\Universidades;
 use App\Models\Profesion;
 use App\Models\Nomina;
 use App\Models\DatosMilitares;
+use App\Models\EspecialidadesMilitares;
 use App\Models\EstudiosRealizados;
 use App\Models\Ciudades;
 use App\Models\GradosMilitares;
@@ -539,6 +540,7 @@ class PersonalController extends Controller
         $datos_militares = DatosMilitares::all();
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
+        $especialidades_militares = EspecialidadesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares'])->find($id);
         return view('sireh.personal.militar.view', 
             compact(
@@ -547,7 +549,7 @@ class PersonalController extends Controller
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones',
                 'categorias_militares','situaciones','promociones_militares',
-                'datos_militares'
+                'datos_militares','especialidades_militares'
             )
         );
     }
@@ -1132,13 +1134,13 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
             'cargos.nombre_cargo as cargo',
         )
-        //->limit(8)
+        ->limit(8)
         ->get();
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
+        /*$pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
 
-        return $pdf->stream('escalafon.pdf');
-        //return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
+        return $pdf->stream('escalafon.pdf');*/
+        return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
