@@ -16,20 +16,20 @@ class ApiController extends Controller
     }
 
     public function getCategoriasMilitares($tipo_emp){
-        if ($tipo_emp == 'MEX') {
+        if ($tipo_emp == 'MIL' || $tipo_emp =='MEX') {
             $categoria = CategoriasMilitares::where('tipo_emp','MIL')->get();
         }
         else {
-            $categoria = CategoriasMilitares::where('tipo_emp',$tipo_emp)->get();
+            $categoria = CategoriasMilitares::where('tipo_emp','TRP')->get();
         }
         return response()->json($categoria);
     }
 
     public function getGradosMilitares($tipo_emp){
-        if  ($tipo_emp == 'MEX'){
+        if  ($tipo_emp == 'MIL' || $tipo_emp =='MEX'){
             $grados = GradosMilitares::where('tipo_emp','MIL')->orderBy('codigo_grado','asc')->get();
         }else{
-            $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->orderBy('codigo_grado','asc')->get();
+            $grados = GradosMilitares::where('tipo_emp','TRP')->orderBy('codigo_grado','asc')->get();
         }
         
         return response()->json($grados);
