@@ -94,14 +94,17 @@
 			{ "name": "Actualizar Cargo Personal Militar",     "route_name": "sireh.personal-militar.update.cargo" },
 			{ "name": "Proceso Cambiar Ubicacion Personal Militar",     "route_name": "sireh.personal-militar.ubicacion" },
 			{ "name": "Actualizar Ubicacion Personal Militar",     "route_name": "sireh.personal-militar.update.ubicacion" },
-			{ "name": "Activar Personal Militar",     "route_name": "sireh.personal-militar.activar" }
+			{ "name": "Activar Personal Militar",           "route_name": "sireh.personal-militar.activar" },
+			{ "name": "Modal Funcion Personal Militar",     "route_name": "sireh.personal-militar.showData" },
+			{ "name": "Guardar Funcion Personal Militar",   "route_name": "sireh.personal-militar.storeFuncion" },
+			{ "name": "Eliminar Funcion Personal Militar",  "route_name": "sireh.personal-militar.deleteFuncion" }
 		]
 	},
 	{
 		"group": "Aviacion",
 		"labels": [
-			{ "name": "FormaFAM",         "route_name": "FormaFAM" },
-			{ "name": "aeronaves_grupos", "route_name": "aeronaves_grupos" }
+			{ "name": "Generar vuelo",         "route_name": "FormaFAM" },
+			{ "name": "Aeronaves grupos",      "route_name": "aeronaves_grupos" }
 		]
 	},
 	{

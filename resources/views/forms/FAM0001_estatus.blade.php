@@ -13,6 +13,14 @@
         <div class="card mb-4 mx-4">
             <div class="container">
                 <div class="row">
+                    <div class="card-header pb-0 mb-2">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div>
+                                <h5 class="mb-0"></h5>
+                            </div>
+                            <a style="background: #303e55;color: white; border-radius:5px;" class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
+                        </div>
+                    </div>
                     <div style="margin: 0 auto;" class="col-sm-11 col-sm-offset-2">
                         @include('forms.step_one_card')
                         <div class="wizard-container">
@@ -1065,9 +1073,10 @@
                         $(".cedula_empleado").val('')
                         $(".grado_nombre").empty();
                         $(".grado_nombre").append('<option value="">Seleccionar..</option>');
+                        console.log(res)
                         $.each(res,function(key,value){
-                            if (value.grado_empleado.siglas != null) {
-                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.grado_empleado.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
+                            if (value.siglas != null) {
+                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
                             }else{
                                 false
                             }
@@ -1101,6 +1110,7 @@
         //PASO #3 - DATOS DEL TRIPULANTE DE VUELO
         $("#empleado_vuelo").change(function(){
             var id = $(this).val();
+            console.log(id)
             if(id){
                 $.ajax({
                     type:'POST',

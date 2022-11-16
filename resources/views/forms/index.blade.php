@@ -143,8 +143,8 @@
                                                             <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
                                                             <select name="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
                                                                 <option value=""></option>
-                                                                @foreach($jefeMaquina as $data) 
-                                                                    <option value="{{$data->empleado->codigo_empleado}}">{{$data->empleado->cedula}} - {{$data->empleado->nombre1}}  {{$data->empleado->apellido1}}</option>
+                                                                @foreach($jefeMaquina as $data)
+                                                                    <option value="{{$data->empleado->codigo_empleado}}">V-{{$data->empleado->cedula}} - {{$data->empleado->nombre1}}  {{$data->empleado->apellido1}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -719,20 +719,21 @@
         })
         //PASO #3 - FUNCION TRIPULANTE CARGO
         $("#funcion").change(function(){
-            var id = $(this).val();
+            var id = $(this).val(); 
             if(id){
                 $.ajax({
                     type:'POST',
                     url:'{{ route("tripulante_funcion") }}',
                     data:{"id_funcion" : id },
                     success:function(res){
+                        console.log(res)
                         $(".load_cedula_empleado").text('')
                         $(".cedula_empleado").val('')
                         $(".grado_nombre").empty();
                         $(".grado_nombre").append('<option value="">Seleccionar..</option>');
                         $.each(res,function(key,value){
-                            if (value.grado_empleado.siglas != null) {
-                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.grado_empleado.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
+                            if (value.siglas != null) { 
+                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
                             }else{
                                 false
                             }
@@ -772,6 +773,7 @@
                     url:'{{ route("datos_empleado_vuelo") }}',
                     data:{"id":id},
                     success:function(res){
+                        console.log(res)
                         let emp = res.data[0]
                         $(".load_cedula_empleado").text(emp.empleado.cedula)
                         $(".cedula_empleado").val(emp.empleado.cedula)

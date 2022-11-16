@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('funcion');
             $table->string('codigo');
+            $table->string('codigo_funcion');
             $table->timestamps();
         });
     }

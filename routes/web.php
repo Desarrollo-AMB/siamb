@@ -135,6 +135,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     
+    Route::post('/sireh/personal-militar/showData',     [PersonalController::class, 'showDataPersonalMilitar'])->name('sireh.personal-militar.showData');
+    Route::post('/sireh/personal-militar/storeFuncion', [PersonalController::class, 'storeFuncionPersonalMilitar'])->name('sireh.personal-militar.storeFuncion');
+    Route::post('/sireh/personal-militar/deleteFuncion',[PersonalController::class, 'deteleFuncionPersonalMilitar'])->name('sireh.personal-militar.deleteFuncion');
+
     Route::get('/sireh/personal-civilf/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
     
     Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');

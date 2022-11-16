@@ -45,3 +45,8 @@
     >
         <i class="fas fa-medal text-secondary" aria-hidden="true"></i>
     </a>
+
+    <a href="#" class="mx-3 funcion_empleado" data-bs-toggle="tooltip"
+        data-bs-original-title="Funcion del Empleado" title="Funcion del Empleado" data-id="{{ $codigo_empleado }}">
+        <i class="fas fa-users-cog text-info" aria-hidden="true"></i>
+    </a>

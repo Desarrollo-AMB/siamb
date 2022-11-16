@@ -153,12 +153,67 @@
     </div>
 </div>--}}
 {{-- /.modal --}}
+
+{{-- MODAL FUNCION EMPLEADO --}}
+<div class="modal fade" id="modal-view-funcion_empleado" tabindex="-1" role="dialog" aria-labelledby="egresarTitle" aria-hidden="true">
+    <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Asignar Función</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input class="codigo_empleado_funcion" name="codigo_empleado_funcion" id="codigo_empleado_funcion" type="hidden" value="">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Nombre y Apellido</label>
+                                <input  type="text" class="form-control nombre_empleado" value="" id="" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">cedula</label>
+                                <input  type="text" class="form-control cedula_empleado" value="" id="" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Seleccionar Función</label>
+                                <select class="form-control funcion select2" id="funcion" name="funcion[]" multiple="multiple" required>
+                                    <option value="">Seleccione...</option>
+                                    @foreach($funcionEmpleado as $data) 
+                                        <option value="{{$data->id}}">{{$data->funcion}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="haveFuncion">
+                        <label class='col-form-label showLabel' hidden="true">Funciones del Empleado</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn bg-gradient-danger close-modal" data-bs-dismiss="modal" disabled="false">Atras</a>
+                    <a class="btn bg-gradient-success enviar_funcion" disabled="false">Confirmar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
 @parent
 <script>
     $(function () {
+        $('.select2').select2();
+
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -342,6 +397,137 @@
             }
         });*/
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        
+        //FUNCIONES PARA LOS EMPLEADOS
+        table.on('click', '.funcion_empleado', function() {
+            var id = $(this).data("id");
+            $("#haveFuncion").empty();
+            $.ajax({
+                url:"{{ route('sireh.personal-militar.showData') }}",
+                method:'POST',
+                data:{id:id},
+                cache: false,
+                dataType: 'json',
+                success: function(response){
+                    if(response){
+                        let res = response.data[0]
+                        $('.nombre_empleado').val(res.nombre1 + ' ' +res.apellido1)
+                        $('.cedula_empleado').val(res.cedula)
+                        $('#modal-view-funcion_empleado').on('shown.bs.modal', function(e) {
+                            $('#modal-view-funcion_empleado #codigo_empleado_funcion').val(res.codigo_empleado);
+                        })
+                        if (response.haveFuncion.length > 0) {
+                            $('.showLabel').prop('hidden', false);
+                            $("#haveFuncion").empty(); 
+                            $.each(response.haveFuncion, function (key, value){
+                                $('#haveFuncion').append(
+                                    "<div id='row'>\
+                                        <div style='margin-bottom: 0;' class='input-group'>\
+                                            <div class='col-sm'>\
+                                                <p style='padding-left: 20px;'>- "+value.funcion+"</p>\
+                                            </div>\
+                                            <div class='col-sm-1'>\
+                                                <div style='margin-bottom: 0;' class='form-group'>\
+                                                    <a class='eliminar_funcion' id='"+value.id+"' type='button'>\
+                                                    <i style='color:red;' class='fas fa-times'></i>\
+                                                    </a>\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    "
+                                );
+                            })
+                        }
+                    }
+                    else{
+                        alert('Fallo en la peticion con el servidor')
+                    }
+                }
+            });  
+            $('#modal-view-funcion_empleado').modal("show");  
+        });
+        $(".enviar_funcion").click(function(e){
+            e.preventDefault();
+            var funcion = $('.funcion').val();
+            if(funcion===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar una Funcion.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('sireh.personal-militar.storeFuncion') }}",
+                method:'POST',
+                data:{
+                        codigo_empleado: $('#codigo_empleado_funcion').val(),
+                        funcion_id: $('.funcion').val()
+                    },
+                    success:function(response){
+                        if(response.success){
+                            $('#modal-view-funcion_empleado').modal('hide');
+                            Swal.fire({
+                                title: 'LISTO!',
+                                text: 'Funcion Registrada Correctamente!',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1200);
+                        }
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
+        $("body").on("click", ".eliminar_funcion", function () {
+            var id = $(this).attr('id')
+            Swal.fire({
+                title: 'Estas Seguro de Eliminar?',
+                text: "No podrás revertir esto.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url:"{{ route('sireh.personal-militar.deleteFuncion') }}",
+                        method:'POST',
+                        data:{id:id},
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response){
+                            if(response){
+                                window.location.reload();
+                            }
+                        }
+                    });
+                    Swal.fire({
+                        title: 'Eliminado!',
+                        text: 'La Función ha sido eliminada.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });   
+                }
+            });
+        })
     });
 </script>
 @endsection
