@@ -9,7 +9,7 @@ use Carbon\Carbon;
         <style>
             /** Define the margins of your page **/
             @page {
-                margin: 180px 20px 60px;
+                margin: 200px 20px 60px;
             }
 
             header {
@@ -17,22 +17,28 @@ use Carbon\Carbon;
                 top: -165px;
                 left: 0px;
                 right: 0px;
-                height: 160px;
+                height: 100px;
 
                 /** Extra personal styles **/
                 background-color: #03a9f4;
                 color: white;
+                border-radius: 35px;
                 
                 line-height: 20px;
             }
 
             main {
+                /** Posicion **/
+                position: relative;
+                top: -50px;
+
+                /** Tamaño de Fuente **/
                 font-size: 12px;
             }
 
             footer {
                 position: fixed; 
-                bottom: -50px; 
+                bottom: -25px; 
                 left: 0px; 
                 right: 0px;
                 height: 30px; 
@@ -42,6 +48,7 @@ use Carbon\Carbon;
                 color: white;
                 text-align: center;
                 line-height: 20px;
+                border-radius: 35px;
             }
         </style>
     </head>
@@ -54,14 +61,10 @@ use Carbon\Carbon;
                     <th align="center">ESCALAFON GENERAL DEL PERSONAL MILITAR</th>
 
                     <th align="left">FECHA: {{date('d/m/Y')}}<br>PAGINA: {{'PAGINA DE PAGINAS'}}</th>
-                </tr>
 
-                <tr>
-                    <th style="text-align: left; font-size: 10">Grado: {{$empleados[0]->grado_militar}}</th>
-                </tr>
-
-                <tr>
-                    <th style="text-align: left; font-size: 10">Categoria: {{$empleados[0]->categoria}}</th>
+                    <th>
+                        <img src="template/assets/img/logo.png" alt="" width="60">
+                    </th>
                 </tr>
             </table>
         </header>
@@ -71,7 +74,17 @@ use Carbon\Carbon;
         </footer>
 
         <main>
+            @php
+            $i = 0;
+            @endphp
+            @foreach ($agrupados as $key=>$empleados)
+
+            <div>
+                <p>Grado: {{'asd'}}</p>
+                <p>Categoria: {{$key}}</p>
+            </div>
             <hr>
+
             <table>
                 <thead>
                     <tr>
@@ -91,7 +104,6 @@ use Carbon\Carbon;
                 </thead>
 
                 <tbody>
-                    {{$i = 0}}
                     @foreach ($empleados as $row)
                         @php
                         if ($row->sexo === 'M') {
@@ -124,6 +136,8 @@ use Carbon\Carbon;
                     @endforeach
                 </tbody>
             </table>
+            <div style="page-break-after:always;"></div>
+            @endforeach
         </main>
     </body>
 </html>

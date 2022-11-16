@@ -1107,13 +1107,11 @@ class PersonalController extends Controller
         ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
         ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
         ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-        ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+        ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+        ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
         ->where('empleados.situacion','A')
         ->where('nomina.grado_militar',$request->grado_militar)
         ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-        ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
-        ->orderBy('datos_militares.fecha_graduacion','asc')
-        ->orderBy('datos_militares.orden_merito','asc')
         ->select(
             'empleados.cedula',
             'empleados.nombre1',
@@ -1129,18 +1127,23 @@ class PersonalController extends Controller
             'datos_militares.fecha_graduacion as graduacion',
             'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
             'datos_militares.fecha_retiro as retiro',
-            'especialidades_militares.descripcion as especialidad1',
-            'especialidades_militares.descripcion as especialidad2',
+            'em1.descripcion as especialidad1',
+            'em2.descripcion as especialidad2',
             'ubicaciones.descripcion as ubicacion',
             'cargos.nombre_cargo as cargo',
         )
-        //->limit(8)
+        //->limit(5)
+        ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
+        ->orderBy('datos_militares.fecha_graduacion','asc')
+        ->orderBy('datos_militares.orden_merito','asc')
         ->get();
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
+        $agrupados = $empleados->groupBy('categoria');
+
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados'))->setPaper('a4', 'landscape');
 
         return $pdf->stream('escalafon.pdf');
-        //return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
+        //return view('sireh.personal.militar.imprimirescalafon', compact('agrupados'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
