@@ -18,9 +18,7 @@
                     <div>
                         <h5 class="mb-0">Registros de Vuelo</h5>
                     </div>
-                    @role('aviacion')
-                        <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
-                    @endrole
+                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -62,20 +60,17 @@
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
+                                                    <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
+                                                        <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                    </a>
                                                     @if($data->completado == 'completado') 
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
-                                                            <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                        <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                            <i class="fas fa-eye  text-info" aria-hidden="true"></i>
                                                         </a>
-                                                    @else
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                            <i class="fas fa-search text-secondary" aria-hidden="true"></i>
-                                                        </a>
-                                                    @endif
-                                                    @role('administrador')
                                                         <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
                                                             <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
                                                         </a>
-                                                    @endrole
+                                                    @endif
                                                 </th>
                                             </tr>
                                         @endforeach

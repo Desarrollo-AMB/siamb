@@ -10,9 +10,7 @@ class EmpleadoFuncion extends Model
     use HasFactory;
     protected $table = 'empleado_funcion';
     protected $fillable = [
-        'codigo_empleado',
-        'codigo_grado',
-        'id_funcion'
+        '*'
     ];
 
     public function empleado()
@@ -20,9 +18,14 @@ class EmpleadoFuncion extends Model
         return $this->belongsTo(Empleado::class, 'codigo_empleado', 'codigo_empleado');
     }
 
-    public function grado_empleado()
+    // public function grado_empleado()
+    // {
+    //     return $this->belongsTo(GradosMilitares::class, 'codigo_grado', 'codigo_grado');
+    // }
+
+    public function nomina()
     {
-        return $this->belongsTo(GradosMilitares::class, 'codigo_grado', 'codigo_grado');
+        return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
 }
