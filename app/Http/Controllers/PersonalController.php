@@ -1134,13 +1134,13 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
             'cargos.nombre_cargo as cargo',
         )
-        ->limit(8)
+        //->limit(8)
         ->get();
 
-        /*$pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('empleados'))->setPaper('a4', 'landscape');
 
-        return $pdf->stream('escalafon.pdf');*/
-        return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
+        return $pdf->stream('escalafon.pdf');
+        //return view('sireh.personal.militar.imprimirescalafon', compact('empleados'));
     }
 
     //PERSONAL CIVIL FUNCTIONS

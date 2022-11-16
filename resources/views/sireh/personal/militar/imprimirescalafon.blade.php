@@ -47,13 +47,21 @@ use Carbon\Carbon;
     </head>
     <body>
         <header>
-            <table cellspacing="20">
+            <table cellspacing="10">
                 <tr>
                     <th align="center">REPÚBLICA BOLIVARIANA DE VENEZUELA<br>MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<br>AVIACIÓN MILITAR NACIONAL BOLIVARIANA</th>
 
                     <th align="center">ESCALAFON GENERAL DEL PERSONAL MILITAR</th>
 
                     <th align="left">FECHA: {{date('d/m/Y')}}<br>PAGINA: {{'PAGINA DE PAGINAS'}}</th>
+                </tr>
+
+                <tr>
+                    <th style="text-align: left; font-size: 10">Grado: {{$empleados[0]->grado_militar}}</th>
+                </tr>
+
+                <tr>
+                    <th style="text-align: left; font-size: 10">Categoria: {{$empleados[0]->categoria}}</th>
                 </tr>
             </table>
         </header>
@@ -63,16 +71,7 @@ use Carbon\Carbon;
         </footer>
 
         <main>
-            <table>
-                <tr>
-                    <th style="text-align: left">Grado: {{$empleados[0]->grado_militar}}</th>
-                </tr>
-                <tr>
-                    <th style="text-align: left">Categoria: {{'categoria'}}</th>
-                </tr>
-            </table>
             <hr>
-
             <table>
                 <thead>
                     <tr>
@@ -87,11 +86,12 @@ use Carbon\Carbon;
                         <th align="left">Fecha Retiro</th>
                         <th align="left">CEAMB-1</th>
                         <th align="left">CEAMB-2</th>
-                        <th align="left" style="word-wrap: break-word;">Cargo y Ubicación</th>
+                        <th align="left" style="word-wrap: break-word">Cargo y Ubicación</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    {{$i = 0}}
                     @foreach ($empleados as $row)
                         @php
                         if ($row->sexo === 'M') {
@@ -101,13 +101,14 @@ use Carbon\Carbon;
                             $sexo = 'FEMENINA';
                         }
 
+                        $i++;
                         $date = Carbon::createFromDate($row->fecha_nacim)->age;
                         $graduacion = date("d/m/Y", strtotime($row->graduacion));
                         $ultimo_ascenso = date("d/m/Y", strtotime($row->ultimo_ascenso));
                         $retiro = date("d/m/Y", strtotime($row->retiro));
                         @endphp
                         <tr>
-                            <td align="center">{{$row->key}}</td>
+                            <td align="center">{{$i}}</td>
                             <td>{{$row->cedula}}</td>
                             <td>{{$row->nombre1." ".$row->nombre2." ".$row->apellido1." ".$row->apellido2}}</td>
                             <td>{{$date}}</td>
