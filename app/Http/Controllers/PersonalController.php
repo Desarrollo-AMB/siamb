@@ -1132,7 +1132,7 @@ class PersonalController extends Controller
             'ubicaciones.descripcion as ubicacion',
             'cargos.nombre_cargo as cargo',
         )
-        //->limit(5)
+        ->limit(50)
         ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
         ->orderBy('datos_militares.fecha_graduacion','asc')
         ->orderBy('datos_militares.orden_merito','asc')
@@ -1140,7 +1140,7 @@ class PersonalController extends Controller
 
         $agrupados = $empleados->groupBy('categoria');
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados'))->setPaper('a4', 'landscape');
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'))->setPaper('a4', 'landscape');
 
         return $pdf->stream('escalafon.pdf');
         //return view('sireh.personal.militar.imprimirescalafon', compact('agrupados'));

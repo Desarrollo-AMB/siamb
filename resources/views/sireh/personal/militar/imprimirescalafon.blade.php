@@ -50,6 +50,10 @@ use Carbon\Carbon;
                 line-height: 20px;
                 border-radius: 35px;
             }
+
+            .page:after {
+                content: counter(page);
+            }
         </style>
     </head>
     <body>
@@ -60,7 +64,7 @@ use Carbon\Carbon;
 
                     <th align="center">ESCALAFON GENERAL DEL PERSONAL MILITAR</th>
 
-                    <th align="left">FECHA: {{date('d/m/Y')}}<br>PAGINA: {{'PAGINA DE PAGINAS'}}</th>
+                    <th align="left">FECHA: {{date('d/m/Y')}}</th>
 
                     <th>
                         <img src="template/assets/img/logo.png" alt="" width="60">
@@ -69,18 +73,17 @@ use Carbon\Carbon;
             </table>
         </header>
 
-        <footer>
-            
+        <footer class="page">
         </footer>
 
         <main>
             @php
             $i = 0;
+            
             @endphp
             @foreach ($agrupados as $key=>$empleados)
-
             <div>
-                <p>Grado: {{'asd'}}</p>
+                <p>Grado: {{$empleados[0]->grado_militar}}</p>
                 <p>Categoria: {{$key}}</p>
             </div>
             <hr>
