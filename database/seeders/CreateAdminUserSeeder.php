@@ -50,7 +50,7 @@ class CreateAdminUserSeeder extends Seeder
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
 
-        $role = Role::create(['name' => 'aviacion', 'guard_name'=>'siamb']);
+        $role = Role::create(['name' => 'aviacion', 'guard_name'=>'web']);
 
         $role = Role::create(['name' => 'comandante_unidad', 'guard_name'=>'seid']);
         $role = Role::create(['name' => 'disciplina', 'guard_name'=>'seid']);
@@ -59,6 +59,12 @@ class CreateAdminUserSeeder extends Seeder
         $role = Role::create(['name' => 'usuario', 'guard_name'=>'avianet']);
         $role = Role::create(['name' => 'nomina', 'guard_name'=>'avianet']);
         $role = Role::create(['name' => 'usuario', 'guard_name'=>'educacion']);
+
+        $role = Role::create(['name' => 'personal_militar_noprof', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'bienestar_social', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'personal_civil', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'personal_militar', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'consulta', 'guard_name'=>'web']);
 
     }
 }

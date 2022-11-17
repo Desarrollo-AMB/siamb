@@ -40,6 +40,7 @@
                     <div>
                         <h5 class="mb-0">Personal a Graduarse por Categoria</h5>
                     </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar-noprof.index') }}">Volver</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">

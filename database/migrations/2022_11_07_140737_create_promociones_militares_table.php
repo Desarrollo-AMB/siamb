@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('promociones', function (Blueprint $table) {
+        Schema::create('promociones_militares', function (Blueprint $table) {
             $table->id();
             $table->integer('codigo_promocion');
-            $table->text('descripcion');
+            $table->string('descripcion',255);
             $table->integer('codigo_categoria');
-            $table->text('año_promocion');
+            $table->string('ano_promocion',4);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promociones');
+        Schema::dropIfExists('promociones_militares');
     }
 };

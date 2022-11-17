@@ -290,7 +290,7 @@
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($categorias_militares as $row)
                                                             @if ($row->tipo_emp == 'MIL' || $row->tipo_emp == 'TRP')
-                                                                <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                                <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares ? ($datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' ) : ''}}>{{ $row->descripcion }} </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
@@ -315,7 +315,7 @@
                                                     <select class="select2 form-control" name="promocion" id="promocion">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($promociones_militares as $row)
-                                                            <option value="{{$row->codigo_promocion}}" {{$datos->datos_militares->codigo_promocion == $row->codigo_promocion ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            <option value="{{$row->codigo_promocion}}" {{$datos->datos_militares ? ($datos->datos_militares->codigo_promocion == $row->codigo_promocion ? 'selected': '') :'' }}>{{ $row->descripcion }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

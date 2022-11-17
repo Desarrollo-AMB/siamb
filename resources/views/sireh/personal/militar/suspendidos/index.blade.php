@@ -23,11 +23,12 @@
                     <div>
                         <h5 class="mb-0">Personal Militar Suspendido</h5>
                     </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
-            @include('sireh.personal.militar.suspendidos._barra_auxiliar')
-            <hr class="horizontal dark my-0">
+            {{--@include('sireh.personal.militar.suspendidos._barra_auxiliar')
+            <hr class="horizontal dark my-0">--}}
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
