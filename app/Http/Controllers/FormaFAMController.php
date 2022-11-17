@@ -40,10 +40,10 @@ class FormaFAMController extends Controller
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado')->get();
         if(count($empleado)>0){
-            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];        
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
             if(count($ubicacion)>0){
-                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->with('aeronaves')->get();
+                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }

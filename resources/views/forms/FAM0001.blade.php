@@ -64,9 +64,9 @@
                                                         <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                     </a>
                                                     @if($data->completado == 'completado') 
-                                                        <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                        {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                             <i class="fas fa-eye  text-info" aria-hidden="true"></i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
                                                             <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
                                                         </a>
@@ -92,21 +92,7 @@
     $(function () {
         $('#vuelos').DataTable({
             processing: true,
-            // serverSide: true,
             responsive: true,
-            // ajax: "{{ route('fam0001') }}",
-            // columns: [
-            //     {data: 'fecha',},
-            //     {data: 'ov_ota_om',},
-            //     {data: 'aeronave_modelo'},
-            //     //{data: 'en_apoyo'},
-            //     {data: 'unidad'},
-            //     {data: 'completado'},
-            //     {data: 'actions', name: 'action', orderable: false, searchable: false},
-            // ],
-            // search: {
-            //     return: true,
-            // },
             "language": {
                 "sProcessing":    "Procesando...",
                 "sLengthMenu":    "Mostrar _MENU_ registros",
