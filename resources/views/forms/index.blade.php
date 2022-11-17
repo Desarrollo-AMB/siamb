@@ -93,7 +93,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <h6>UNIDAD<small></small></h6>
-                                                            <select name="unidad" class="form-control unidad load_unidad" id="grupos">
+                                                            <select required="true" name="unidad" class="form-control unidad load_unidad" id="grupos">
                                                                 <option value=""></option>
                                                                 @foreach($unidad as $data) 
                                                                     <option value="{{$data->codigos}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
@@ -350,7 +350,7 @@
             var jefe_maquina = $('.jefe_maquina').val();
 
             //VALIDAR PASO UNO HEADER
-            if(ov_ota_om===""){
+            if(ov_ota_om==="" || base_estacion==="" || aeronave_modelo==="" || unidad==="" || fecha===""){
                 Swal.fire({
                     title: 'Atención!',
                     text: 'Debes completar ciertos campos para continuar.',

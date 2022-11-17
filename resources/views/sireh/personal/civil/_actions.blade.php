@@ -9,9 +9,9 @@ data-bs-original-title="Editar" title="Editar">
 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
 </a>
 
-{{-- <a href="#" class="mx-3 suspender" data-bs-toggle="tooltip" data-bs-original-title="Suspender" title="Suspender" data-id="{{ $codigo_empleado }}">
+<a href="#" class="mx-3 suspender" data-bs-toggle="tooltip" data-bs-original-title="Suspender" title="Suspender" data-id="{{ $codigo_empleado }}">
 <i class="fas fa-sync text-danger" aria-hidden="true"></i>
-</a> --}}
+</a> 
 
 <a href="#" class="mx-3 egresar" data-bs-toggle="tooltip" data-bs-original-title="Suspender" title="Egresar" data-id="{{ $codigo_empleado }}">
 <i class="fas fa-arrow-right text-info" aria-hidden="true"></i>

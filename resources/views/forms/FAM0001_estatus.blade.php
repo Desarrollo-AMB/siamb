@@ -175,7 +175,7 @@
                                             <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
                                             <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
                                             
-                                            <input type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar' />
+                                            <input id="finish" type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar'/>
                                         </div>
     
                                         <div class="pull-left">
@@ -348,6 +348,9 @@
             cache: false,
             dataType: 'json',
             success: function(response){
+                if (response.headerData[0].completado == "completado") {
+                    $('#finish').prop('hidden', true);
+                }
                 if(response.headerData.length>0){
                     var loopSteps = response.headerData.length
                     for (let i = 0; i < loopSteps; i++) {
