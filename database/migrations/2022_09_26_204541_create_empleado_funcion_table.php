@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('empleado_funcion', function (Blueprint $table) {
             $table->id();
             $table->string('codigo_empleado')->nullable();
-            $table->string('codigo_grado')->nullable();
-            $table->string('codigo_ubicacion')->nullable();
-            $table->string('id_funcion')->nullable();
+            // $table->string('codigo_grado')->nullable();
+            // $table->string('codigo_ubicacion')->nullable();
+            // $table->string('id_funcion')->nullable();
+            $table->foreignId('id_funcion')->constrained('funcion_tripulante');
+ 
             $table->timestamps();
         });
     }

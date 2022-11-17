@@ -56,4 +56,6 @@ class Nomina extends Model
     {
         return $this->belongsTo(Egresos::class, 'codigo_empleado', 'codigo_empleado');
     }
+
+
 }

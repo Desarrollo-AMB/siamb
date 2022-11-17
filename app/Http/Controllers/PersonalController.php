@@ -39,7 +39,8 @@ use App\Models\Jubilados;
 
 use App\Models\TipoDeBaja;
 use App\Models\Egresos;
-
+use App\Models\FuncionTripulante;
+use App\Models\EmpleadoFuncion;
 
 class PersonalController extends Controller
 {
@@ -50,7 +51,12 @@ class PersonalController extends Controller
 
     public function indexPersonalMilitar()
     {
-        return view('sireh.personal.militar.index');
+        $funcionEmpleado = FuncionTripulante::get();
+        return view('sireh.personal.militar.index', 
+            compact(
+                'funcionEmpleado'
+            )
+        );
     }
 
     public function indexPersonalCivil()
@@ -1633,5 +1639,52 @@ class PersonalController extends Controller
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
     }
+
+    //MOSTRAR DATA PARA AGREGAR FUNCION PERSONAL MILITAR
+    public function showDataPersonalMilitar(Request $request)
+    {
+        $data = Nomina::where('codigo_empleado', $request->id)->get();
+        $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
+            ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
+            ->select(
+                'empleado_funcion.id',
+                'funcion_tripulante.funcion',
+            )
+            ->get();
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $data,
+                'haveFuncion' => $haveFuncion,
+            ]
+        );
+    }
+    public function storeFuncionPersonalMilitar(Request $request)
+    {
+        $loop = count($request->funcion_id);
+        for ($i=0; $i < $loop; $i++) { 
+            $funcion = new EmpleadoFuncion;
+            $funcion->codigo_empleado = $request->codigo_empleado;
+            $funcion->id_funcion = $request->funcion_id[$i];
+            $funcion->save();
+        }
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $funcion,
+            ]
+        );
+    }
+    public function deteleFuncionPersonalMilitar(Request $request)
+    {
+        EmpleadoFuncion::find($request->id)->delete();
+        
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
+            ]
+        );
+    } 
 
 }

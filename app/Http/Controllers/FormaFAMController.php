@@ -8,7 +8,7 @@ use App\Models\ComponenteOrganismo;
 use App\Models\Base;
 use App\Models\EmpleadoFuncion;
 use App\Models\Empleado;
-use App\Models\EmpleadosOtroComponente;
+use App\Models\Nomina;
 use App\Models\Fam0001;
 use App\Models\VueloOrdenadaPor;
 use App\Models\VueloEnApoyo;
@@ -40,10 +40,10 @@ class FormaFAMController extends Controller
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado')->get();
         if(count($empleado)>0){
-            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];        
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
             if(count($ubicacion)>0){
-                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->with('aeronaves')->get();
+                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
@@ -62,6 +62,7 @@ class FormaFAMController extends Controller
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
         $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
+    
         //A1-MISION
         $vueloOrdenadaPor = VueloOrdenadaPor::get();
         $enApoyo = VueloEnApoyo::get();
@@ -337,7 +338,16 @@ class FormaFAMController extends Controller
 
     public function tripulante_funcion(Request $request)
     {
-        $empleadoCargo = EmpleadoFuncion::with('empleado', 'grado_empleado')->orderBy('codigo_grado', 'asc')->where('id_funcion', $request->id_funcion)->get();
+        $empleadoCargo = EmpleadoFuncion::with('empleado')
+            ->join('nomina','nomina.codigo_empleado','=','empleado_funcion.codigo_empleado')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->orderBy('nomina.grado_militar', 'asc')
+            ->where('id_funcion', $request->id_funcion)
+            ->select(
+                'empleado_funcion.*',
+                'grados_militares.siglas'
+            )
+            ->get();
         return response()->json($empleadoCargo);
     }
 
@@ -367,7 +377,8 @@ class FormaFAMController extends Controller
 
     public function datos_empleado_vuelo(Request $request)
     {
-        $datosEmpleado = EmpleadoFuncion::with('empleado', 'grado_empleado')->where('id', $request->id)->get();
+        $datosEmpleado = EmpleadoFuncion::with('empleado')->where('id', $request->id)->get();
+        //$datosEmpleado = Nomina::with('empleado')->where('codigo_empleado', $request->id)->get();
         return response()->json(
             [
                 'success' => true,
@@ -382,8 +393,10 @@ class FormaFAMController extends Controller
         
         $B1_funcion = Fam0001B1Tripulacion::select('codigo_funcion')
             ->where('v_trip',$request->v_trip)
+            ->where('fam0001_id',$request->fam0001_id)
+            ->where('fam0001_a1_mision_id',$request->fam0001_a1_mision_id)
             ->where('codigo_funcion','P')
-            ->where('completado','<>','completado')
+            //->where('completado','<>','completado')
             ->where('user_id',auth()->id())
             ->get();
 
