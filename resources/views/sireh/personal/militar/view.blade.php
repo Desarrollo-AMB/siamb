@@ -371,6 +371,36 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Especialidad Primaria:</h6>
+                                                @if($datos->datos_militares && $datos->datos_militares->codigo_especialidad1 != "")
+                                                    @foreach ($especialidades_militares as $row)
+                                                        @if($datos->datos_militares->codigo_especialidad1 == $row->codigo_especialidad)
+                                                            {!! Form::text('especialidad1', $row->descripcion, array('placeholder' => 'No Posee Especialidad','class' => 'form-control')) !!}
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    {!! Form::text('especialidad1', '', array('placeholder' => 'No Posee Especialidad','class' => 'form-control')) !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Especialidad Secundaria:</h6>
+                                                @if($datos->datos_militares && $datos->datos_militares->codigo_especialidad2 != "")
+                                                    @foreach ($especialidades_militares as $row)
+                                                        @if($datos->datos_militares->codigo_especialidad2 == $row->codigo_especialidad)
+                                                            {!! Form::text('especialidad2', $row->descripcion, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    {!! Form::text('especialidad2', '', array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

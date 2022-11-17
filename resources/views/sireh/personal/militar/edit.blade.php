@@ -422,29 +422,26 @@
             var tipo_emp = e.target.value;
             if (tipo_emp == "") {
                 $('#categoria').prop('disabled',true);
+                $('#grado_militar').prop('disabled',true);
             }
             else {
                 $('#categoria').prop('disabled',false);
                 $.get('/api/categoria/' + tipo_emp,function(data) {
                     $('#categoria').empty();
-                    $('#categoria').append('<option value="">SELECCIONE...</option>');
-                    $.each(data, function(fetch, categoria){
-                        $('#categoria').append('<option value="'+ categoria.codigo_categoria +'">'+ categoria.descripcion +'</option>');
-                    });
+                    if (tipo_emp == 'TRP') {
+                        $.each(data, function(fetch, categoria){
+                            $('#categoria').append('<option value="'+ categoria.codigo_categoria +'">'+ categoria.descripcion +'</option>');
+                        });
+                    }
+                    else {
+                        $('#categoria').append('<option value="">SELECCIONE...</option>');
+                        $.each(data, function(fetch, categoria){
+                            $('#categoria').append('<option value="'+ categoria.codigo_categoria +'">'+ categoria.descripcion +'</option>');
+                        });
+                    }
                 });
-            }
-        });
 
-        $('#categoria').on('change', function(e){
-            var tipo_emp = $('#tipo_emp').val();
-            var categoria = e.target.value;
-            if (categoria == "") {
-                $('#grado_militar').prop('disabled',true);
-                $('#promocion').prop('disabled',true);
-            }
-            else {
                 $('#grado_militar').prop('disabled',false);
-
                 $.get('/api/grados-militares/' + tipo_emp,function(data) {
                     $('#grado_militar').empty();
                     $('#grado_militar').append('<option value="">SELECCIONE...</option>');
@@ -452,9 +449,16 @@
                         $('#grado_militar').append('<option value="'+ grados.codigo_grado +'">'+ grados.descripcion +'</option>');
                     });
                 });
+            }
+        });
 
+        $('#categoria').on('change', function(e){
+            var categoria = e.target.value;
+            if (categoria == "") {
+                $('#promocion').prop('disabled',true);
+            }
+            else {
                 $('#promocion').prop('disabled',false);
-
                 $.get('/api/promociones-militares/' + categoria,function(data) {
                     $('#promocion').empty();
                     $('#promocion').append('<option value="">SELECCIONE...</option>');
@@ -484,7 +488,19 @@
                     });
                 });
             }
-        });        
+        });
+
+        $('#sexo').on('change', function(e){
+            var sexo = e.target.value;
+            if (sexo == "M") {
+                $('.falda').hide();
+                $('input:text[name=talla_falda]').prop('disabled',true);
+            }
+            else {
+                $('.falda').show();
+                $('input:text[name=talla_falda]').prop('disabled',false);
+            }
+        });
 
         inicializar();
     });
@@ -494,6 +510,10 @@
         if(sexo == 'M') {
             $('.falda').hide();
             $('input:text[name=talla_falda]').prop('disabled',true);
+        }
+        else {
+            $('.falda').show();
+            $('input:text[name=talla_falda]').prop('disabled',false);
         }
 
         var estado = $('#estado').val();
@@ -507,18 +527,18 @@
         var tipo_emp = $('#tipo_emp').val();
         if (tipo_emp == "") {
             $('#categoria').prop('disabled',true);
+            $('#grado_militar').prop('disabled',true);
         }
         else {
             $('#categoria').prop('disabled',false);
+            $('#grado_militar').prop('disabled',false);
         }
 
         var categoria = $('#categoria').val();
         if (categoria == "") {
-            $('#grado_militar').prop('disabled',true);
             $('#promocion').prop('disabled',true);
         }
         else {
-            $('#grado_militar').prop('disabled',false);
             $('#promocion').prop('disabled',false);
         }
 
