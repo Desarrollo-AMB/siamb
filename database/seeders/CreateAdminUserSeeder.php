@@ -24,33 +24,33 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('admin')
         ]);
 
-        $pilotos = User::create([
-            'name' => 'Piloto', 
-            'username' => 'piloto', 
-            'email' => 'piloto@siamb.test',
-            'password' => bcrypt('123')
-        ]);
+        // $pilotos = User::create([
+        //     'name' => 'Piloto', 
+        //     'username' => 'piloto', 
+        //     'email' => 'piloto@siamb.test',
+        //     'password' => bcrypt('123')
+        // ]);
 
-        $pilotos = User::create([
-            'name' => 'Piloto 2', 
-            'username' => 'piloto2', 
-            'email' => 'piloto2@siamb.test',
-            'password' => bcrypt('123')
-        ]);
+        // $pilotos = User::create([
+        //     'name' => 'Piloto 2', 
+        //     'username' => 'piloto2', 
+        //     'email' => 'piloto2@siamb.test',
+        //     'password' => bcrypt('123')
+        // ]);
 
-        $pilotos = User::create([
-            'name' => 'Piloto 3', 
-            'username' => 'piloto3', 
-            'email' => 'piloto3@siamb.test',
-            'password' => bcrypt('123')
-        ]);
+        // $pilotos = User::create([
+        //     'name' => 'Piloto 3', 
+        //     'username' => 'piloto3', 
+        //     'email' => 'piloto3@siamb.test',
+        //     'password' => bcrypt('123')
+        // ]);
 
         $role = Role::create(['name' => 'administrador', 'guard_name'=>'web']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
 
-        $role = Role::create(['name' => 'aviacion', 'guard_name'=>'siamb']);
+        $role = Role::create(['name' => 'aviacion', 'guard_name'=>'web']);
 
         $role = Role::create(['name' => 'comandante_unidad', 'guard_name'=>'seid']);
         $role = Role::create(['name' => 'disciplina', 'guard_name'=>'seid']);
@@ -59,6 +59,12 @@ class CreateAdminUserSeeder extends Seeder
         $role = Role::create(['name' => 'usuario', 'guard_name'=>'avianet']);
         $role = Role::create(['name' => 'nomina', 'guard_name'=>'avianet']);
         $role = Role::create(['name' => 'usuario', 'guard_name'=>'educacion']);
+
+        $role = Role::create(['name' => 'personal_militar_noprof', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'bienestar_social', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'personal_civil', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'personal_militar', 'guard_name'=>'web']);
+        $role = Role::create(['name' => 'consulta', 'guard_name'=>'web']);
 
     }
 }

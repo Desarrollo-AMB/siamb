@@ -18,4 +18,5 @@ class GradosMilitares extends Model
     public function grado() {
         return $this->hasMany(EmpleadoFuncion::class, 'codigo_grado');
     }
+
 }
