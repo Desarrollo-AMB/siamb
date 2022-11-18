@@ -25,11 +25,11 @@ class ApiController extends Controller
         return response()->json($categoria);
     }
 
-    public function getGradosMilitares($tipo_emp){
-        if  ($tipo_emp == 'MIL' || $tipo_emp =='MEX'){
-            $grados = GradosMilitares::where('tipo_emp','MIL')->orderBy('codigo_grado','asc')->get();
+    public function getGradosMilitares($tipo_emp=null){
+        if  ($tipo_emp == 'MIL' || $tipo_emp =='MEF'){
+            $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->orderBy('codigo_grado','asc')->get();
         }else{
-            $grados = GradosMilitares::where('tipo_emp','TRP')->orderBy('codigo_grado','asc')->get();
+            $grados = GradosMilitares::orderBy('codigo_grado','asc')->get();
         }
         
         return response()->json($grados);
