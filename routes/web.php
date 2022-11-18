@@ -137,6 +137,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
     
+    Route::post('/sireh/personal-militar/showData',     [PersonalController::class, 'showDataPersonalMilitar'])->name('sireh.personal-militar.showData');
+    Route::post('/sireh/personal-militar/storeFuncion', [PersonalController::class, 'storeFuncionPersonalMilitar'])->name('sireh.personal-militar.storeFuncion');
+    Route::post('/sireh/personal-militar/deleteFuncion',[PersonalController::class, 'deteleFuncionPersonalMilitar'])->name('sireh.personal-militar.deleteFuncion');
+
     Route::get('/sireh/personal-civilf/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
     
     Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');
@@ -185,10 +189,10 @@ Route::group(['middleware' => ['auth']], function() {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
-    Route::group(['middleware' => ['role:aviacion']], function () {
-        Route::get('FormaFAM',              [FormaFAMController::class, 'index'])->name('FormaFAM');
-    });
-    Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
+    //Route::group(['middleware' => ['role:aviacion']], function () {
+        Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
+        Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
+    //});
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos');
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales');
     Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas');

@@ -13,6 +13,14 @@
         <div class="card mb-4 mx-4">
             <div class="container">
                 <div class="row">
+                    <div class="card-header pb-0 mb-2">
+                        <div class="d-flex flex-row justify-content-between">
+                            <div>
+                                <h5 class="mb-0"></h5>
+                            </div>
+                            <a style="background: #303e55;color: white; border-radius:5px;" class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
+                        </div>
+                    </div>
                     <div style="margin: 0 auto;" class="col-sm-11 col-sm-offset-2">
                         @include('forms.step_one_card')
                         <div class="wizard-container">
@@ -167,7 +175,7 @@
                                             <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
                                             <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
                                             
-                                            <input type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar' />
+                                            <input id="finish" type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar'/>
                                         </div>
     
                                         <div class="pull-left">
@@ -340,6 +348,9 @@
             cache: false,
             dataType: 'json',
             success: function(response){
+                if (response.headerData[0].completado == "completado") {
+                    $('#finish').prop('hidden', true);
+                }
                 if(response.headerData.length>0){
                     var loopSteps = response.headerData.length
                     for (let i = 0; i < loopSteps; i++) {
@@ -1065,9 +1076,10 @@
                         $(".cedula_empleado").val('')
                         $(".grado_nombre").empty();
                         $(".grado_nombre").append('<option value="">Seleccionar..</option>');
+                        console.log(res)
                         $.each(res,function(key,value){
-                            if (value.grado_empleado.siglas != null) {
-                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.grado_empleado.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
+                            if (value.siglas != null) {
+                                $(".grado_nombre").append('<option value="'+value.id+'">'+value.siglas+' - '+value.empleado.apellido1+' '+value.empleado.nombre1+'</option>');
                             }else{
                                 false
                             }
@@ -1101,6 +1113,7 @@
         //PASO #3 - DATOS DEL TRIPULANTE DE VUELO
         $("#empleado_vuelo").change(function(){
             var id = $(this).val();
+            console.log(id)
             if(id){
                 $.ajax({
                     type:'POST',
