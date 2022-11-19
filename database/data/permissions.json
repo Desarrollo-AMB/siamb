@@ -96,7 +96,7 @@
 			{ "name": "Procesar Baja Personal Militar",     "route_name": "sireh.personal-militar.dar.baja" },
 			{ "name": "Listado del Personal Militar Egresado",     "route_name": "sireh.personal-militar.bajas" },
 			{ "name": "Vista para Generar el Escalafon Personal Militar",     "route_name": "sireh.personal-militar.escalafon" },
-			{ "name": "Imprimir Escalafon Personal Militar",     "route_name": "sireh.personal-militar.imprimirescalafon" }
+			{ "name": "Imprimir Escalafon Personal Militar",     "route_name": "sireh.personal-militar.imprimirescalafon" },
 			{ "name": "Modal Funcion Personal Militar",     "route_name": "sireh.personal-militar.showData" },
 			{ "name": "Guardar Funcion Personal Militar",   "route_name": "sireh.personal-militar.storeFuncion" },
 			{ "name": "Eliminar Funcion Personal Militar",  "route_name": "sireh.personal-militar.deleteFuncion" }

@@ -115,6 +115,15 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ (Request::is('forms/listado_pilotos'))}}" href="{{ route('forms.listado_pilotos') }}">
+        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fas fa-file-pdf text-lg"><title>Reporte de Pilotos</title></i>
+          </div>
+            <span class="nav-link-text ms-1">Reporte de Pilotos</span>
+        </a>
+      </li>
       @endrole 
       {{--
       <li class="nav-item mt-2">
