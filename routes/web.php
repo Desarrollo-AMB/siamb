@@ -227,6 +227,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');
 
     Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');
+    Route::get('forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('forms.listado_pilotos');
 
 });
 

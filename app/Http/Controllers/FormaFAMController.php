@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 use App\Models\AeronaveUnidades;
 use App\Models\AeronaveModelo;
 use App\Models\AeronaveMatricula;
@@ -30,10 +31,10 @@ use Illuminate\Http\Request;
 
 class FormaFAMController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth');
-    }
+    }*/
 
     public function fam0001() 
     {
@@ -670,5 +671,36 @@ class FormaFAMController extends Controller
                 'A3_data' => $A3_data
             ]
         );
-    } 
+    }
+
+    public function listado_pilotos(){
+        return view('forms.listado_pilotos');
+    }
+
+    //DATA TABLE PARA LLAMAR A LOS PILOTOS QUE TIENEN VUELOS COMPLETADOS
+    public function data_pilotos(){
+        $pilotos = Empleado::where('empleados.situacion','A'); 
+        $pilotos->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $pilotos->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $pilotos->join('empleado_funcion','empleado_funcion.codigo_empleado','=','empleados.codigo_empleado');
+        $pilotos->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion');
+        $pilotos->where('funcion_tripulante.codigo','P');
+        /*$empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');*/
+        $pilotos->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+        $pilotos->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+        );
+
+        $datatable= DataTables::of($pilotos)
+            ->addColumn('actions', 'forms._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Auxiliares\UbicacionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
+use App\Http\Controllers\FormaFAMController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,4 +85,4 @@ Route::get('sireh/condecoraciones/data', [CondecoracionesController::class, 'dat
 Route::post('/sireh/personal-civil/activar',   [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
 Route::post('/sireh/personal-civil/update',     [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
 
-
+Route::get('forms/listado_pilotos/data', [FormaFAMController::class, 'data_pilotos'])->name('api.forms.listado_pilotos.data');
