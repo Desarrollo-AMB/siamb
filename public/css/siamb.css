@@ -65,3 +65,16 @@
 .dataTables_wrapper .dataTables_paginate .paginate_button {
 	padding: 0.35em 0.45em !important;
 }
+
+
+.fondo-dashboard {
+	background-image: url("/template/assets/img/logo.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 100%;
+	height: auto;
+	margin: auto;
+	background-size: 35% 70%;
+    opacity: 1;
+	
+}
