@@ -1,97 +1,254 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-  {{--<div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Activos</p>
-                <h5 class="font-weight-bolder mb-0">
-                  53,000
-                  <span class="text-success text-sm font-weight-bolder">+55%</span>
-                </h5>
+
+    <div class="row my-4">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Personal Militar Activo</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($militares_activos,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
               </div>
             </div>
-            <div class="col-4 text-end">
-              <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Evaluaciones realizadas el año ({{ $ultimo_year}})</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($evaluaciones,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Pruefas físicas realizadas el año ({{$ultimo_year}})</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($pafs,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">hoy</p>
-                <h5 class="font-weight-bolder mb-0">
-                  2,300
-                  <span class="text-success text-sm font-weight-bolder">+3%</span>
-                </h5>
+    <div class="row my-4">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Registradas</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
               </div>
             </div>
-            <div class="col-4 text-end">
-              <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">sanciones Aprobadaso</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_aprobadas,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Denegadas</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_denegadas,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Pendientes por Autorizar</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_pendientes,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Registradas el ultimo Año ({{ $ultimo_year}})</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_registradas_year,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Aprobadas el ultimo Año ({{ $ultimo_year}})</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_aprobadas_year,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Sanciones Denegadas el ultimo Año ({{ $ultimo_year}})</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($sanciones_denegadas_year,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card ">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Procedimientos Devueltos</p>
+                  <h5 class="font-weight-bolder mb-0 mx-3">
+                    # {{ number_format($procedimientos_devueltos,0,'','.') }}
+                    <span class="text-success text-sm font-weight-bolder"></span>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Pilotos</p>
-                <h5 class="font-weight-bolder mb-0">
-                  +3,462
-                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                </h5>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Datos</p>
-                <h5 class="font-weight-bolder mb-0">
-                  $103,430
-                  <span class="text-success text-sm font-weight-bolder">+5%</span>
-                </h5>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div style="background-image:linear-gradient(310deg,#506793,#273244)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4">
+  {{--<div class="row mt-4">
     <div class="col-lg-5 mb-lg-0 mb-4">
       <div class="card z-index-2">
         <div class="card-body p-3">
@@ -227,7 +384,7 @@
   </div> --}}
   <div class="row my-4">
     <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-      <div class="card">
+      <div class="card ">
         <div class="card-header pb-0">
           <div class="row">
             <div class="col-lg-6 col-7">
@@ -243,9 +400,10 @@
           </div>
         </div>
         <div class="card-body px-0 pb-2">
-          <div class="table-responsive text-center">
-          <img class="w-30 z-index-2 pt-1 mb-4" src="{{ asset('/template/assets/img/logo.png') }}" alt="rocket">
-          </div>
+        
+          {{--<img class="w-30 z-index-2 pt-1 mb-4" src="{{ asset('/template/assets/img/logo.png') }}" alt="rocket">--}}
+          
+          
         </div> 
       </div>
     </div>

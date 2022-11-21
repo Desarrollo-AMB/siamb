@@ -69,4 +69,5 @@ class Empleado extends Model
     {
         return $this->hasMany(Familiares::class,'codigo_empleado','codigo_empleado');
     }
+
 }
