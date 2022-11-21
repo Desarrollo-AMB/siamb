@@ -107,23 +107,27 @@
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-plane"><title>Registros de vuelos</title></i>
           </div>
+
           <span class="nav-link-text ms-1">Registros de vuelos</span>
         </a>
-        <div class="panel-collapse collapse {{ ((Request::is('fam0001') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
+
+        <div class="panel-collapse collapse {{ ((Request::is('forms/*') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('fam0001') ? 'active' : '') }}" href="{{ url('fam0001') }}">- FAM-0002</a></li>
+
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('forms/listado_pilotos') ? 'active' : '') }}" href="{{ route('forms.listado_pilotos') }}">- Reporte de Pilotos</a></li>
           </ul>
         </div>
       </li>
 
-      <li class="nav-item">
+      {{--<li class="nav-item">
         <a class="nav-link {{ (Request::is('forms/listado_pilotos'))}}" href="{{ route('forms.listado_pilotos') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fas fa-file-pdf text-lg"><title>Reporte de Pilotos</title></i>
           </div>
             <span class="nav-link-text ms-1">Reporte de Pilotos</span>
         </a>
-      </li>
+      </li>--}}
       @endrole 
       {{--
       <li class="nav-item mt-2">
