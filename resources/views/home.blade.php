@@ -99,7 +99,7 @@
             <div class="row">
               <div class="col-9">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">sanciones Aprobadaso</p>
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">sanciones Aprobadas</p>
                   <h5 class="font-weight-bolder mb-0 mx-3">
                     # {{ number_format($sanciones_aprobadas,0,'','.') }}
                     <span class="text-success text-sm font-weight-bolder"></span>
