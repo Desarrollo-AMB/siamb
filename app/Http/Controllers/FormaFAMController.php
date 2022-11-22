@@ -25,6 +25,8 @@ use App\Models\CodigoTipoMisionSiglas;
 use App\Models\CodigoAterrizaje;
 use App\Models\Fam0001A3CargaPasajeros;
 use App\Models\Fam0001B1TripulacionAterrizajes;
+use App\Models\GradosMilitares;
+use App\Models\Ubicaciones;
 use DataTables;
 
 use Illuminate\Http\Request;
@@ -681,26 +683,60 @@ class FormaFAMController extends Controller
     public function data_pilotos(){
         $pilotos = Empleado::where('empleados.situacion','A'); 
         $pilotos->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $pilotos->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $pilotos->join('empleado_funcion','empleado_funcion.codigo_empleado','=','empleados.codigo_empleado');
         $pilotos->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion');
+        $pilotos->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $pilotos->where('funcion_tripulante.codigo','P');
-        /*$empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');*/
-        $pilotos->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+        
         $pilotos->select(
             'empleados.id',
             'empleados.codigo_empleado',
             'empleados.cedula',
             'empleados.nombre1',
-            'empleados.nombre2',
             'empleados.apellido1',
-            'empleados.apellido2',
+            'grados_militares.siglas as grado',
         );
 
         $datatable= DataTables::of($pilotos)
             ->addColumn('actions', 'forms._actions')
             ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function ver_listado_piloto($id)
+    {
+        $user_auth=auth()->user();
+      
+        $funcion_tripulante = FuncionTripulante::all();
+        $grados_militares = GradosMilitares::all();
+        $ubicaciones = Ubicaciones::all();
+        $datos = Empleado::with(['nomina','funcion'])->find($id);
+        return view('forms.ver_listado_piloto', 
+            compact(
+                'datos','funcion_tripulante','grados_militares','ubicaciones'
+            )
+        );
+    }
+
+    //DATA TABLE PARA VER LOS VUELOS COMPLETADOS DEL PILOTO
+    public function verListadoPilotoData($cedula){
+        $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$cedula)
+        ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->join('empleados','empleado.codigo_empleado','=','fam0001.jefe_maquina')
+        ->where('fam0001_b1_tripulacion.completado','completado')
+        ->select(
+            'fam0001_b1_tripulacion.ov_ota_om',
+            'fam0001.base_estacion',
+            'fam0001.unidad',
+            'fam0001.aeronave_modelo',
+            'fam0001.serial',
+            'fam0001.matricula',
+            'fam0001.jefe_maquina',
+            'fam0001.fecha'
+        );
+
+        $datatable= DataTables::of($piloto);
         return $datatable->make(true);
     }
 }
