@@ -5,8 +5,8 @@
         <i class="fas fa-eye text-info" aria-hidden="true"></i>
     </a>
 
-    <!--<a href="{{--{{ route('forms.ver_piloto.view', $id) }}--}}#" class="mx-3" data-bs-toggle="tooltip"
+    <a href="{{ route('forms.reporte_vuelos', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Imprimir" title="Imprimir"
     >
         <i class="fas fa-file-pdf text-danger" aria-hidden="true"></i>
-    </a>-->
+    </a>

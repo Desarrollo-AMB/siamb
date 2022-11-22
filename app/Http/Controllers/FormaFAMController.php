@@ -703,8 +703,7 @@ class FormaFAMController extends Controller
         return $datatable->make(true);
     }
 
-    public function ver_listado_piloto($id)
-    {
+    public function ver_listado_piloto($id){
         $user_auth=auth()->user();
       
         $funcion_tripulante = FuncionTripulante::all();
@@ -719,24 +718,72 @@ class FormaFAMController extends Controller
     }
 
     //DATA TABLE PARA VER LOS VUELOS COMPLETADOS DEL PILOTO
-    public function verListadoPilotoData($cedula){
+    public function verListadoPilotoData(Request $cedula){
         $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$cedula)
         ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
-        ->join('empleados','empleado.codigo_empleado','=','fam0001.jefe_maquina')
+        ->join('bases','bases.id','=','fam0001.base_estacion')
+        ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->where('fam0001_b1_tripulacion.completado','completado')
         ->select(
             'fam0001_b1_tripulacion.ov_ota_om',
-            'fam0001.base_estacion',
+            'bases.descripcion as base',
             'fam0001.unidad',
-            'fam0001.aeronave_modelo',
+            'aeronave_modelo.aeronave as aeronave',
             'fam0001.serial',
             'fam0001.matricula',
-            'fam0001.jefe_maquina',
             'fam0001.fecha'
         );
 
         $datatable= DataTables::of($piloto);
         return $datatable->make(true);
+    }
+
+    public function reporte_vuelos($id) {
+        $user_auth=auth()->user();
+
+        $datos = Empleado::find($id);
+        return view('forms.reporte_vuelos',
+            compact(
+                'datos'
+            )
+        );
+    }
+
+    public function imprimir_reporte(Request $request) {
+        $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->leftjoin('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
+        ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
+        ->join('empleado_funcion','empleado_funcion.codigo_empleado','=','empleados.codigo_empleado')
+        ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
+        ->join('datos_militares','datos_militares.codigo_empleado','=','empleados.codigo_empleado')
+        ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+        ->where('empleado_funcion.id_funcion','=',3)
+        ->where('fam0001_b1_tripulacion.codigo_funcion','=','P')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->select(
+            'fam0001_b1_tripulacion.grado_nombre_data as nombre',
+            'fam0001_b1_tripulacion.cedula as cedula',
+            'funcion_tripulante.funcion as nombre_funcion',
+            'especialidades_militares.descripcion as especialidad',
+            'fam0001.componente_organismo as organismo',
+            'fam0001.unidad as unidad',
+            'fam0001.fecha as fecha',
+            'aeronave_modelo.aeronave as aeronave',
+            'aeronave_modelo.modelo as modelo',
+            'fam0001_b1_tripulacion.COD as COD',
+            'fam0001_b1_tripulacion.codigo_funcion as funcion',
+            'fam0001_b1_tripulacion.hv as hv',
+            'fam0001.total_aterriz as aterriz'
+        )
+        ->orderBy('fam0001.fecha','asc')
+        ->get();
+        //dd($piloto);
+        
+        $pdf = \PDF::loadview('forms.imprimir_reporte', compact('piloto'));
+
+        return $pdf->stream('REPORTE.pdf');
+        //return view('forms.imprimir_reporte', compact('piloto'));
     }
 }
