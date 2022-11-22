@@ -34,6 +34,9 @@
                                     <thead>
                                         <tr>
                                             <th>Cedula</th>
+                                            <th>Grado</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -60,7 +63,10 @@
             pageLength: 25,
             ajax: "{{ route('api.forms.listado_pilotos.data') }}",
             columns: [
-                {data: 'id',},
+                {data: 'cedula',},
+                {data: 'grado',},
+                {data: 'nombre1',},
+                {data: 'apellido1',},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
             search: {
