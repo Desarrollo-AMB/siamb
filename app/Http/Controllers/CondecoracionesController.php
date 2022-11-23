@@ -46,13 +46,13 @@ class CondecoracionesController extends Controller
 
     //Obtiene las condecoraciones del empleados, exclusivo por api para el Datatable 
     public function dataCondecoraciones(Request $request){
-        $condecoraciones = MilitaresCondecorados::join('condecoraciones','militares_condecorados.codigo_condecoracion','=','condecoraciones.codigo_condecoracion')
+        $condecoraciones = MilitaresCondecorados::join('condecoraciones_militares','militares_condecorados.codigo_condecoracion','=','condecoraciones_militares.codigo_condecoracion')
             ->join('grados_militares','grados_militares.codigo_grado','=','militares_condecorados.codigo_grado')
             ->where('codigo_empleado',$request->codigo_empleado); 
        
         $condecoraciones->select(
             'militares_condecorados.id',
-            'condecoraciones.descripcion as condecoracion',
+            'condecoraciones_militares.descripcion as condecoracion',
             'militares_condecorados.fecha_condecoracion',
             'grados_militares.descripcion as grado',
             'militares_condecorados.resuelto',

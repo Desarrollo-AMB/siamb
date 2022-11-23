@@ -15,6 +15,7 @@ SIAMB V.1.0
 - composer install
 - php artisan key:generate
 - php artisan migrate --seed
+- en el directorio "public", crear las carpetas "/fotos/empleados". En este directorio se guardaran las fotos de los empleados.
 
 ## Exportacion de Datos desde las BD anteriores
 1. BD SIREH: Ejecutar las siguientes SQL's y el resultado ejecutarlos como sentencias "INSERT" a la BD SIAMB:
