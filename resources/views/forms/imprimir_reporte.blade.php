@@ -35,8 +35,32 @@ use Carbon\Carbon;
                 <thead>
                     <tr>
                         <th colspan="10">REGISTRO INDIVIDUAL PARA PILOTOS</th>
-                        <th>1. HOJA N°</th>
-                        <th>2. MES Y AÑO</th>
+                        <th>
+                            1. HOJA N°
+                        </th>
+                        <th>
+                            2. MES Y AÑO
+                            <br><br>
+                            @php
+                                $cantidad = count($piloto);
+
+                                $desde = $piloto[0]->fecha;
+                                for ($i=0; $i < $cantidad; $i++) { 
+                                    $hasta = $piloto[$i]->fecha;
+                                }
+
+                                $desde = date("My", strtotime($desde));
+                                $hasta = date("My", strtotime($hasta));
+
+                                if ($desde === $hasta) {
+                                    $intervalo = $desde;
+                                }
+                                else {
+                                    $intervalo = $desde." - ".$hasta;
+                                }
+                            @endphp
+                            {{$intervalo}}
+                        </th>
                     </tr>
                     <tr>
                         <th colspan="12">DATOS DEL PILOTO</th>
@@ -113,7 +137,7 @@ use Carbon\Carbon;
                 </thead>
 
                 <tbody>
-                    <!--DECLARACION DE VARIABLES-->
+                    <!-- DECLARACION DE VARIABLES NUEVAS -->
                     @php
                     $total_tiempo = 0;
                     $total_vfr_dia = 0;
@@ -164,27 +188,50 @@ use Carbon\Carbon;
                         <th>{{$total_simul}}</th>
                         <th>{{$total_combate}}</th>
                     </tr>
+                    <!-- DECLARACION DE VARIABLES ANTERIORES -->
+                    @php
+                        $tiempo_anterior = 0;
+                        $vfr_dia_anterior = 0;
+                        $ifr_dia_anterior = 0;
+                        $vfr_noche_anterior = 0;
+                        $ifr_noche_anterior = 0;
+                        $aterriz_anterior = 0;
+                        $simul_anterior = 0;
+                        $combate_anterior = 0;
+                    @endphp
+                    @foreach ($anteriores as $row)
+                        @php
+                            $tiempo_anterior = $tiempo_anterior + $row->hv;
+                            $vfr_dia_anterior = $vfr_dia_anterior + $row->hv;
+                            $ifr_dia_anterior = $ifr_dia_anterior + $row->hv;
+                            $vfr_noche_anterior = $vfr_noche_anterior + $row->hv;
+                            $ifr_noche_anterior = $ifr_noche_anterior + $row->hv;
+                            $aterriz_anterior = $aterriz_anterior + $row->aterriz;
+                            $simul_anterior = $simul_anterior + $row->aterriz;
+                            $combate_anterior = $combate_anterior + $row->aterriz;
+                        @endphp
+                    @endforeach
                     <tr>
                         <th align="left" colspan="4">24. TOTALES ANTERIORES</th>
-                        <th>{{$total_tiempo}}</th>
-                        <th>{{$total_vfr_dia}}</th>
-                        <th>{{$total_ifr_dia}}</th>
-                        <th>{{$total_vfr_noche}}</th>
-                        <th>{{$total_ifr_noche}}</th>
-                        <th>{{$total_aterriz}}</th>
-                        <th>{{$total_simul}}</th>
-                        <th>{{$total_combate}}</th>
+                        <th>{{$tiempo_anterior}}</th>
+                        <th>{{$vfr_dia_anterior}}</th>
+                        <th>{{$ifr_dia_anterior}}</th>
+                        <th>{{$vfr_noche_anterior}}</th>
+                        <th>{{$ifr_noche_anterior}}</th>
+                        <th>{{$aterriz_anterior}}</th>
+                        <th>{{$simul_anterior}}</th>
+                        <th>{{$combate_anterior}}</th>
                     </tr>
                     <tr>
                         <th align="left" colspan="4">25. TOTALES GENERALES</th>
-                        <th>{{$total_tiempo}}</th>
-                        <th>{{$total_vfr_dia}}</th>
-                        <th>{{$total_ifr_dia}}</th>
-                        <th>{{$total_vfr_noche}}</th>
-                        <th>{{$total_ifr_noche}}</th>
-                        <th>{{$total_aterriz}}</th>
-                        <th>{{$total_simul}}</th>
-                        <th>{{$total_combate}}</th>
+                        <th>{{$total_tiempo+$tiempo_anterior}}</th>
+                        <th>{{$total_vfr_dia+$vfr_dia_anterior}}</th>
+                        <th>{{$total_ifr_dia+$ifr_dia_anterior}}</th>
+                        <th>{{$total_vfr_noche+$vfr_noche_anterior}}</th>
+                        <th>{{$total_ifr_noche+$ifr_noche_anterior}}</th>
+                        <th>{{$total_aterriz+$aterriz_anterior}}</th>
+                        <th>{{$total_simul+$simul_anterior}}</th>
+                        <th>{{$total_combate+$combate_anterior}}</th>
                     </tr>
                 </tfoot>
             </table>
