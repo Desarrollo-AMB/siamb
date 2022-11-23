@@ -229,6 +229,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');
     Route::get('forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('forms.listado_pilotos');
     Route::get('forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('forms.ver_listado_piloto');
+    Route::get('forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('forms.reporte_vuelos');
+    Route::post('forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('forms.imprimir_reporte');
 
 });
 

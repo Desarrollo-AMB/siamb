@@ -1091,8 +1091,7 @@ class PersonalController extends Controller
         );
     }
 
-    public function escogerEscalafon()
-    {
+    public function escogerEscalafon() {
         $user_auth=auth()->user();
 
         $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])

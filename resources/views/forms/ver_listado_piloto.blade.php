@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Listado Individual del Piloto {{$datos->nombre1." ".$datos->apellido1}}</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ url('FormaFAM') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('forms.listado_pilotos') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -89,7 +89,12 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-danger">Imprimir</button>
+                    <a href="{{route('forms.reporte_vuelos')}}">
+                        <button class="btn btn-danger">
+                            <i class="fas fa-file-pdf fa-2x"></i>
+                            Imprimir Reporte
+                        </button>
+                    </a>
 
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -98,13 +103,12 @@
                                         <thead>
                                             <tr>
                                                 <th>OV/OTA/OM</th>
-                                                <th>Base</th>
+                                                <th>Fecha</th>
                                                 <th>Unidad</th>
                                                 <th>Modelo Aeronave</th>
                                                 <th>Serial</th>
                                                 <th>Matricula</th>
-                                                <th>Jefe de Maquina</th>
-                                                <th>Fecha</th>
+                                                <th>Base</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -131,13 +135,13 @@
             ajax: "{{ route('api.forms.ver_listado_piloto.data', $datos->cedula) }}",
             columns: [
                 {data: 'ov_ota_om',},
-                {data: 'base_estacion',},
+                {data: 'fecha',},
                 {data: 'unidad',},
-                {data: 'aeronave_modelo',},
+                {data: 'aeronave',},
                 {data: 'serial',},
                 {data: 'matricula',},
-                {data: 'jefe_maquina',},
-                {data: 'fecha',},
+                {data: 'base',},
+                
             ],
             search: {
                 return: true,
