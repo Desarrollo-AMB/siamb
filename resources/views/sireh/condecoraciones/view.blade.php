@@ -66,7 +66,7 @@
                                                 <select class="select2 form-control" name="categoria_militar" id="categoria_militar" >
                                                     <option value="">Seleccione...</option>
                                                     @foreach ($categorias_militares as $row)
-                                                        <option value="{{$row->codigo_categoria}}" {{$datos->nomina->datos_militares->codigo_categoria == $row->codigo_categoria ?  'selected': '' }}>{{ $row->descripcion }}</option>
+                                                        <option value="{{$row->codigo_categoria}}" {{$datos->nomina->datos_militares ? ( $datos->nomina->datos_militares->codigo_categoria == $row->codigo_categoria ?  'selected': '' ): '' }}>{{ $row->descripcion }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -77,7 +77,7 @@
                                             <div class="form-group">
                                                 <h6>Fecha Graduacion: <small></small></h6>
                                                 <input name="fecha_graduacion"  id="fecha_graduacion" type="date" class="form-control fecha" 
-                                                value="{{ $datos->nomina->datos_militares->fecha_graduacion }}"
+                                                value="{{ $datos->nomina->datos_militares ? ($datos->nomina->datos_militares->fecha_graduacion) : null }}"
                                                 >
                                             </div>
                                         </div> 
@@ -240,7 +240,7 @@
                         data: {"codigo_empleado": codigo_empleado}
                     },
             columns: [
-                {data: 'condecoracion', name:'condecoraciones.descripcion'},
+                {data: 'condecoracion', name:'condecoraciones_militares.descripcion'},
                 {data: 'fecha_condecoracion'},
                 {data: 'grado', name:'grados_militares.descripcion'},
                 {data: 'resuelto', },
