@@ -55,9 +55,9 @@
                                     <a href="{{ route('users.edit',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
-                                    <a href="#" class="confirm-delete" form-target="delete-form-{{  $user->id }}"
+                                    <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
-                                        <i class="cursor-pointer fas fa-trash text-secondary" aria-hidden="true"></i>
+                                        <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
                                     <form id="delete-form-{{  $user->id }}" action="{{ route('users.destroy',  $user->id) }}"
                                         method="POST" style="display: none;">
@@ -83,7 +83,6 @@
         var table = $('#table').DataTable({
             responsive: true,
             pageLength: 25,
-            deferRender: true,
             "language": {
                 "sProcessing":    "Procesando...",
                 "sLengthMenu":    "Mostrar _MENU_ registros",
@@ -110,7 +109,7 @@
             }
         });
         
-        $('.confirm-delete').on('click', function (event) {
+        $('#table').on('click', '.confirmar-delete', function (event) {
             event.preventDefault();
             var idForm= $(this).attr('form-target');
             Swal.fire({

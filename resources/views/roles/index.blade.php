@@ -46,7 +46,7 @@
                                 @can('Eliminar Roles')
                                 <a href="#" class="confirm-delete" form-target="delete-form-{{  $role->id }}"
                                     title="Eliminar" onclick="event.preventDefault();" >
-                                    <i class="cursor-pointer fas fa-trash text-secondary" aria-hidden="true"></i>
+                                    <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                 </a>
                                 <form id="delete-form-{{  $role->id }}" action="{{ route('roles.destroy',  $role->id) }}"
                                     method="POST" style="display: none;">

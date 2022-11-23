@@ -1,7 +1,7 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-
+  @hasexactroles('administrador')
     <div class="row my-4">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card ">
@@ -99,7 +99,7 @@
             <div class="row">
               <div class="col-9">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">sanciones Aprobadaso</p>
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">sanciones Aprobadas</p>
                   <h5 class="font-weight-bolder mb-0 mx-3">
                     # {{ number_format($sanciones_aprobadas,0,'','.') }}
                     <span class="text-success text-sm font-weight-bolder"></span>
@@ -382,13 +382,14 @@
       </div>
     </div>
   </div> --}}
+  @else
   <div class="row my-4">
     <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
       <div class="card ">
         <div class="card-header pb-0">
           <div class="row">
             <div class="col-lg-6 col-7">
-              <h6></h6>
+              <h6> Bienvenido...</h6>
               <p class="text-sm mb-0">
                 {{--<i class="fa fa-check text-info" aria-hidden="true"></i>--}}
                 <span class="font-weight-bold ms-1"></span> 
@@ -401,14 +402,14 @@
         </div>
         <div class="card-body px-0 pb-2">
         
-          {{--<img class="w-30 z-index-2 pt-1 mb-4" src="{{ asset('/template/assets/img/logo.png') }}" alt="rocket">--}}
-          
+          <img class="w-30 z-index-2 pt-1 mb-2 mx-auto d-block" src="{{ asset('/template/assets/img/logo.png') }}" alt="rocket">
           
         </div> 
       </div>
     </div>
 
   </div>
+  @endhasexactroles
 
 @endsection
 @push('dashboard')
