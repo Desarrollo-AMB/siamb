@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <a href="{{route('forms.reporte_vuelos')}}">
+                    <a href="{{ route('forms.reporte_vuelos', $datos->id) }}">
                         <button class="btn btn-danger">
                             <i class="fas fa-file-pdf fa-2x"></i>
                             Imprimir Reporte
@@ -126,7 +126,6 @@
 @parent
 <script>
     $(function () {
-
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -134,7 +133,7 @@
             pageLength: 25,
             ajax: "{{ route('api.forms.ver_listado_piloto.data', $datos->cedula) }}",
             columns: [
-                {data: 'ov_ota_om',},
+                {data: 'cedula',},
                 {data: 'fecha',},
                 {data: 'unidad',},
                 {data: 'aeronave',},

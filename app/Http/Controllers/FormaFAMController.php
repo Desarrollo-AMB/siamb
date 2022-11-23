@@ -719,15 +719,16 @@ class FormaFAMController extends Controller
     }
 
     //DATA TABLE PARA VER LOS VUELOS COMPLETADOS DEL PILOTO
-    public function verListadoPilotoData(Request $cedula){
+    public function verListadoPilotoData($cedula){
         $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$cedula)
-        /*->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
+        ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
         ->join('bases','bases.id','=','fam0001.base_estacion')
-        ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')*/
+        ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->where('fam0001_b1_tripulacion.completado','completado')
+        ->where('fam0001_b1_tripulacion.codigo_funcion','P')
         ->select(
-            'fam0001_b1_tripulacion.ov_ota_om',
+            'fam0001_b1_tripulacion.cedula',
             'bases.descripcion as base',
             'fam0001.unidad',
             'aeronave_modelo.aeronave as aeronave',
@@ -735,7 +736,6 @@ class FormaFAMController extends Controller
             'fam0001.matricula',
             'fam0001.fecha'
         );
-        //dd($piloto);
 
         $datatable= DataTables::of($piloto);
         return $datatable->make(true);
