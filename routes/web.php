@@ -176,9 +176,7 @@ Route::group(['middleware' => ['auth','access']], function() {
 
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('dashboard', function () {
-		return view('home');
-	})->name('dashboard');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('profile', [ProfilesController::class, 'show'])->name('profile');
     Route::post('update-profile/{user}', [ProfilesController::class, 'updateProfile'])->name('profile.update');
 

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.user_type.guest')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header">Restablecer contraseña</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,12 +13,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    
 
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">Correo electrónico</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -34,11 +35,20 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
+                                Enviar link de restablecimiento de contraseña
                                 </button>
                             </div>
                         </div>
                     </form>
+                    @if (Session::has('message'))
+
+                    <div class="alert alert-success" role="alert">
+
+                    {{ Session::get('message') }}
+
+                    </div>
+
+                    @endif
                 </div>
             </div>
         </div>

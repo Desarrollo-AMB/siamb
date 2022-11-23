@@ -77,6 +77,7 @@ FROM egresos;
 - familiares
 - militares_condecorados
 - tipo_de_baja
+- historico_ascensos
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales
@@ -88,12 +89,12 @@ FROM egresos;
 - cursos_realizados
 
 5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde las BDs SIREH/SEID/EDUCACION respectivamente:
-- ubicaciones 
-- cargos
-- ubicaciones_detalladas
-- especialidades_militares
-- grados_militares
-- conceptos_nomina
-- datos_militares
-- conceptos_pagados
-- condecoraciones_militares
+- ubicaciones	->	(SIREH)
+- cargos	->	(SIREH)
+- ubicaciones_detalladas 	->	(SIREH)
+- especialidades_militares 	->	(SIREH)
+- grados_militares 	->	(SIREH)
+- conceptos_nomina 	->	(SIREH)
+- datos_militares 	->	(SIREH)
+- conceptos_pagados 	->	(SIREH)
+- condecoraciones_militares 	->	(SIREH)

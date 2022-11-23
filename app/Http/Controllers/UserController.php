@@ -62,7 +62,7 @@ class UserController extends Controller
         $input = $request->except(['codigo_empleado']);
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
-        // $user->assignRole($request->input('roles'));
+
         $user->roles()->sync($request->input('roles'));
         if ($codigo_empleado){
             if($componente_aviacion==1){
@@ -102,7 +102,7 @@ class UserController extends Controller
         $user = User::with(['empleado'])->find($id);
         $roles = Role::all();
         $userRole =$user->roles->pluck('id','id')->all() ;
-        //dd($roles,$userRole);
+
         return view('users.edit',compact('user','roles','userRole'));
     }
 
@@ -115,7 +115,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->input('roles'));
+
         $this->validate($request, [
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
@@ -133,7 +133,6 @@ class UserController extends Controller
         $user->update($input);
         DB::table('model_has_roles')->where('model_id',$id)->delete();
         $user->roles()->sync($request->input('roles'));
-        //assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
             ->with('success','Usuario actualizado satisfactoriamente');
