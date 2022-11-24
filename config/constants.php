@@ -109,6 +109,11 @@ return [
         'H' => 'HIJO(A)',
         'E' => 'ESPOSO(A)',
         'C' => 'CONYUGUE',
-    ]
+    ],
 
+    'zur_der_amb' => [
+        'Z' => 'ZURDO(A)',
+        'D' => 'DERECHO(A)',
+        'A' => 'AMBIDIESTRO(A)',
+    ]
 ];

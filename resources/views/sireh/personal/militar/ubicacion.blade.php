@@ -7,13 +7,21 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
+    @php
+        if ($datos->nomina->fecha_inic_cargo != "") {
+            $fecha_inic_cargo = date("d/m/Y", strtotime($datos->nomina->fecha_inic_cargo));
+        }
+        else {
+            $fecha_inic_cargo = "";
+        }
+    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Militar</h5>
+                            <h5 class="mb-0">Ver y Asignar Ubicaciones al Profesional</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
                     </div>
@@ -40,6 +48,7 @@
                                         <h5 class="card-title">Datos Personales</h5>
                                     </div>
                                     <input id="codigo_empleado" type="hidden" class="form-control" name="codigo_empleado" value="{{ $datos->codigo_empleado }}">
+                                    <input id="id" type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -108,8 +117,8 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Fecha de Inicio de Cargo:</h6>
-                                                    {!! Form::text('fecha_inicio_cargo', $datos->nomina->fecha_inic_cargo, array('placeholder' => 'No Posee Fecha de Inicio de Cargo','class' => 'form-control','disabled')) !!}
+                                                    <h6>Fecha Inicio de Cargo:</h6>
+                                                    {!! Form::text('fecha_inicio_cargo', $fecha_inic_cargo, array('placeholder' => 'No Posee Fecha de Inicio de Cargo','class' => 'form-control','disabled')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -171,15 +180,14 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div class="form-group">
-                                                    <table class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-bordered table-hover w-100 nowrap">
                                                         <thead>
                                                             <tr>
-                                                                <th>Grado Militar </th>
+                                                                <th>Grado</th>
                                                                 <th>Ubicacion</th>
-                                                                <th>Ubicacion Detallada</th>
-                                                                <th>Cargo</th>
+                                                                <th>Ubicacion<br>Detallada</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -201,12 +209,6 @@
                                                                         @foreach ($ubicaciones_det as $ubic_det)
                                                                             @if ($ubic_det->codigo_ubicacion == $row->ubicacion_detallada)
                                                                                 <td>{{$ubic_det->descripcion}}</td>
-                                                                            @endif
-                                                                        @endforeach
-
-                                                                        @foreach ($cargos as $cargo)
-                                                                            @if ($cargo->codigo_cargo == $row->codigo_cargo)
-                                                                                <td>{{$cargo->nombre_cargo}}</td>
                                                                             @endif
                                                                         @endforeach
                                                                     </tr>
@@ -237,7 +239,7 @@
                                                     <select class="select2 form-control" name="ubicacion" id="ubicacion">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($ubicaciones as $row)
-                                                            <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->codigo_ubicacion == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            <option value="{{$row->codigo_ubicacion}}">{{ $row->descripcion }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -248,7 +250,7 @@
                                                     <select class="select2 form-control" name="ubicacion_detallada" id="ubicacion_detallada">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($ubicaciones_det as $row)
-                                                            <option value="{{$row->codigo_ubicacion}}" {{$datos->nomina->cod_ubicacion_detallada == $row->codigo_ubicacion ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            <option value="{{$row->codigo_ubicacion}}">{{ $row->descripcion }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

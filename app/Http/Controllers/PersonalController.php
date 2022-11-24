@@ -534,6 +534,7 @@ class PersonalController extends Controller
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
         $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -555,7 +556,7 @@ class PersonalController extends Controller
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones',
                 'categorias_militares','situaciones','promociones_militares',
-                'datos_militares','especialidades_militares'
+                'datos_militares','especialidades_militares','lateralidades'
             )
         );
     }
@@ -569,6 +570,7 @@ class PersonalController extends Controller
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
         $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -589,7 +591,7 @@ class PersonalController extends Controller
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones',
                 'datos_militares', 'categorias_militares', 'situaciones',
-                'promociones_militares'
+                'promociones_militares','lateralidades'
             )
         );
     }
@@ -637,26 +639,10 @@ class PersonalController extends Controller
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
-                //$path = $request->file("foto")->store($path);
                 Image::make($request->file('foto'))->save( public_path($path_foto));
             }else{
                 $path_foto = null;
             }
-
-            /*$datos_anteriores = Empleado::where('empleados.codigo_empleado',$request->codigo_empleado); 
-            $datos_anteriores->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-            $datos_anteriores->select(
-                'nomina.situacion as situacion',
-                'nomina.tipo_emp as tipo_emp',
-                'nomina.grado_militar as grado_militar',
-                'nomina.codigo_ubicacion as ubicacion',
-                'nomina.fecha_inic_ubicacion as fecha_ubicacion',
-                'nomina.nro_resolucion_ubicacion as resolucion_ubicacion',
-                'nomina.codigo_cargo as cargo',
-                'nomina.fecha_inic_cargo as fecha_cargo',
-                'nomina.nro_resolucion_cargo as resolucion_cargo',
-                'nomina.cod_ubicacion_detallada as ubicacion_detallada',
-            );*/
 
             $empleado = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
@@ -706,29 +692,19 @@ class PersonalController extends Controller
             $movimiento->codigo_empleado = $request->codigo_empleado;
             $movimiento->fecha_movimiento = date('Y-m-d');
             $movimiento->tipo_movimiento = 'Actualizacion de Datos Personales y Militares';
-            //$movimiento->situacion = $datos_anteriores->situacion;
-            //$movimiento->tipo_emp_anterior = $datos_anteriores->tipo_emp;
             $movimiento->tipo_emp_nuevo = $request->tipo_emp;
-            //$movimiento->codigo_grado_anterior = $datos_anteriores->grado_militar;
             $movimiento->codigo_grado = $request->grado_militar;
-            //$movimiento->ubicacion_anterior = $datos_anteriores->ubicacion;
             $movimiento->codigo_ubicacion = $request->ubicacion;
-            //$movimiento->fecha_ubicacion_anterior = $datos_anteriores->fecha_ubicacion;
             $movimiento->fecha_ubicacion = $request->fecha_ubicacion;
-            //$movimiento->resol_ubicacion_anterior = $datos_anteriores->resolucion_ubicacion;
             $movimiento->resol_ubicacion = $request->resolucion_ubicacion;
-            //$movimiento->cargo_anterior = $datos_anteriores->cargo;
             $movimiento->codigo_cargo = $request->cargo;
-            //$movimiento->fecha_cargo_anterior = $datos_anteriores->fecha_cargo;
             $movimiento->fecha_cargo = $request->fecha_cargo;
-            //$movimiento->resol_cargo_anterior = $datos_anteriores->resolucion_cargo;
             $movimiento->resol_cargo = $request->resolucion_cargo;
-            //$movimiento->ubicacion_detallada_anterior = $datos_anteriores->ubicacion_detallada;
             $movimiento->ubicacion_detallada = $request->ubicacion_detallada;
 
             $movimiento->save();
 
-            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se han actualizado los Datos del Profesional');
+            return redirect()->route('sireh.personal-militar.view', [$request->id])->with('success', 'Se han actualizado los Datos del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -798,7 +774,7 @@ class PersonalController extends Controller
             //dd($movimiento);
             $movimiento->save();
 
-            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado el Cargo del Profesional');
+            return redirect()->route('sireh.personal-militar.cargo', [$request->id])->with('success', 'Se ha actualizado el Cargo del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -872,7 +848,7 @@ class PersonalController extends Controller
 
             $movimiento->save();
 
-            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha actualizado la Ubicación del Profesional');
+            return redirect()->route('sireh.personal-militar.ubicacion', [$request->id])->with('success', 'Se ha actualizado la Ubicación del Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -1049,7 +1025,7 @@ class PersonalController extends Controller
             $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
             $movimiento->save();
 
-            return redirect()->route('sireh.personal-militar.index')->with('success', 'Se ha Egresado al Profesional');
+            return redirect()->route('sireh.personal-militar.bajas', [$request->id])->with('success', 'Se ha Egresado al Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -1106,6 +1082,14 @@ class PersonalController extends Controller
     }
 
     public function imprimirEscalafon(Request $request) {
+        $this->validate($request, 
+        [
+            'grado_militar' => 'required',
+        ],
+        [
+            'grado_militar.required' => 'El Grado Militar es requerido'
+        ]
+        );
         $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
         ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
         ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')

@@ -7,13 +7,42 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
+    @php
+        if ($datos->fecha_nacim != "") {
+            $fecha_nacim = date("d/m/Y", strtotime($datos->fecha_nacim));
+        }
+        else {
+            $fecha_nacim = "";
+        }
+        
+        if ($datos->datos_militares->fecha_graduacion != "") {
+            $fecha_graduacion = date("d/m/Y", strtotime($datos->datos_militares->fecha_graduacion));
+        }
+        else {
+            $fecha_graduacion = "";
+        }
+
+        if ($datos->datos_militares->fecha_ultimo_ascenso != "") {
+            $fecha_ultimo_ascenso = date("d/m/Y", strtotime($datos->datos_militares->fecha_ultimo_ascenso));
+        }
+        else {
+            $fecha_ultimo_ascenso = "";
+        }
+
+        if ($datos->datos_militares->fecha_retiro != "") {
+            $fecha_retiro = date("d/m/Y", strtotime($datos->datos_militares->fecha_retiro));
+        }
+        else {
+            $fecha_retiro = "";
+        }
+    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Militar</h5>
+                            <h5 class="mb-0">Ver Datos del Profesional</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
                     </div>
@@ -130,7 +159,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha Nacimiento:</h6>
-                                                {!! Form::text('fecha_nacim', $datos->fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_nacim', $fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -256,7 +285,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Talla de Calzado:</h6>
-                                                {!! Form::text('talla_calzado', $datos->talla_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
+                                                {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
@@ -341,7 +370,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Graduación:</h6>
-                                                {!! Form::text('fecha_graduacion', $datos->datos_militares ? $datos->datos_militares->fecha_graduacion : null, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_graduacion', $datos->datos_militares ? $fecha_graduacion : null, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -361,13 +390,13 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Ultimo Ascenso:</h6>
-                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares ? $datos->datos_militares->fecha_ultimo_ascenso : null, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares ? $fecha_ultimo_ascenso : null, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Retiro:</h6>
-                                                {!! Form::text('fecha_retiro', $datos->datos_militares ? $datos->datos_militares->fecha_retiro : null, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_retiro', $datos->datos_militares ? $fecha_retiro : null, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>

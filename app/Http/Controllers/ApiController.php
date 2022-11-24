@@ -26,10 +26,20 @@ class ApiController extends Controller
     }
 
     public function getGradosMilitares($tipo_emp=null){
-        if  ($tipo_emp == 'MIL' || $tipo_emp =='MEF'){
+        if  ($tipo_emp == 'MIL' || $tipo_emp == 'MEF'){
             $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->orderBy('codigo_grado','asc')->get();
         }else{
             $grados = GradosMilitares::orderBy('codigo_grado','asc')->get();
+        }
+        
+        return response()->json($grados);
+    }
+
+    public function getGradosMilitaresPersMil($tipo_emp=null){
+        if  ($tipo_emp == 'MIL' || $tipo_emp == 'MEX'){
+            $grados = GradosMilitares::where('tipo_emp','MIL')->orderBy('codigo_grado','asc')->get();
+        }else{
+            $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->orderBy('codigo_grado','asc')->get();
         }
         
         return response()->json($grados);
