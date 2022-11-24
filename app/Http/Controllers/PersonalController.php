@@ -1083,12 +1083,12 @@ class PersonalController extends Controller
 
     public function imprimirEscalafon(Request $request) {
         $this->validate($request, 
-        [
-            'grado_militar' => 'required',
-        ],
-        [
-            'grado_militar.required' => 'El Grado Militar es requerido'
-        ]
+            [
+                'grado_militar' => 'required',
+            ],
+            [
+                'grado_militar.required' => 'El Grado Militar es requerido'
+            ]
         );
         $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
         ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
