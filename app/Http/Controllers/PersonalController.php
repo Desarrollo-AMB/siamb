@@ -31,12 +31,9 @@ use App\Models\GradosMilitares;
 use App\Models\CategoriasMilitares;
 use App\Models\PromocionesMilitares;
 use App\Models\Movimientos;
-
 use App\Models\Cursos;
 use App\Models\CursosRealizados;
 use App\Models\IntelectualesCivil;
-use App\Models\Jubilados;
-
 use App\Models\TipoDeBaja;
 use App\Models\Egresos;
 use App\Models\FuncionTripulante;
@@ -1431,53 +1428,7 @@ class PersonalController extends Controller
         );
     } 
 
-    public function showJubiladoPersonalCivil(Request $request)
-    {
-        $jubilados = Nomina::where('codigo_empleado', $request->id)->get();
-        return response()->json([
-                'success' => true,
-                'message' => 'Data',
-                'data' => $jubilados,
-            ]
-        );
-    }
-
-    public function storeJubiladoPersonalCivil(Request $request)
-    {
-        $updateSituacion = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
-            'situacion' => 'E'
-        ]);
-        $updateSituacion = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
-            'situacion' => 'E'
-        ]);
-
-        $movimiento = new Movimientos;
-        $movimiento->fecha_movimiento = $request->fecha_jubi;
-        $movimiento->tipo_movimiento = 'JUBILACIÓN';
-        $movimiento->situacion = 'E';
-        $movimiento->observaciones = $request->observaciones_jubi;
-        $movimiento->codigo_empleado = $request->codigo_empleado;
-        $movimiento->save();
-
-        $movimiento = new Jubilados;
-        $movimiento->codigo_empleado = $request->codigo_empleado;
-        $movimiento->tipo_jubilar = $request->tipo_jubilar;
-        $movimiento->nombre_jubi = $request->nombre_jubi;
-        $movimiento->cedula_jubi = $request->cedula_jubi;
-        $movimiento->fecha_ingreso_jubi = $request->fecha_ingreso_jubi;
-        $movimiento->edad_jubi = $request->edad_jubi;
-        $movimiento->fecha_jubi = $request->fecha_jubi;
-        $movimiento->observaciones_jubi = $request->observaciones_jubi;
-        $movimiento->save();
-        
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Data inserted successfully',
-                'situacion' => $updateSituacion,
-            ]
-        );
-    }
+    
     public function editPersonalMilitarNoProf($id)
     {
         $user_auth=auth()->user();

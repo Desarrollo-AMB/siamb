@@ -79,8 +79,6 @@
 			{ "name": "Agregar Curso  Personal Civil",     "route_name": "sireh.personal-civil.agregarCurso" },
 			{ "name": "Editar Evaluacion  Datos Personal Civil",     "route_name": "sireh.personal-civil.editEvaluar" },
 			{ "name": "Actualizar Evaluacion Datos Personal Civil",     "route_name": "sireh.personal-civil.updateEvaluar" },
-			{ "name": "Mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
-			{ "name": "Guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" },
 			{ "name": "Listado del Personal Militar Activo",     "route_name": "sireh.personal-militar.index" },
 			{ "name": "Ver Datos Personal Militar",     "route_name": "sireh.personal-militar.view" },
 			{ "name": "Vista Editar Personal Militar",     "route_name": "sireh.personal-militar.edit" },
@@ -100,6 +98,15 @@
 			{ "name": "Modal Funcion Personal Militar",     "route_name": "sireh.personal-militar.showData" },
 			{ "name": "Guardar Funcion Personal Militar",   "route_name": "sireh.personal-militar.storeFuncion" },
 			{ "name": "Eliminar Funcion Personal Militar",  "route_name": "sireh.personal-militar.deleteFuncion" }
+		]
+	},
+	{
+		"group": "RRHH/JUbilados",
+		"labels": [
+			{ "name": "Modulo Jubilacion Personal Civil",     "route_name": "sireh.personal-civil-jubilables.index" },
+			{ "name": "Mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
+			{ "name": "Guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" },
+			{ "name": "Reporte Jubilados Personal CIvil",     "route_name": "sireh.personal-civil-jubilados.reporte.excel" }
 		]
 	},
 	{

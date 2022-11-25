@@ -90,6 +90,7 @@
 @parent
 <script>
     $(function () {
+        $.fn.dataTable.moment( 'DD-MM-YYYY' );
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -105,6 +106,7 @@
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
+            
             search: {
                 return: true,
             },

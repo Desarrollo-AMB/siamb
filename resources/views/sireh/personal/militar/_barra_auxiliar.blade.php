@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row justify-content-end">
     <div class="col-xl-3 col-md-3 col-sm-3 mb-xl-0 mb-3">
         <div class="card">
             <div class="card-body p-3">
