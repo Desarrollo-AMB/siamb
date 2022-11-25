@@ -709,7 +709,8 @@ class FormaFAMController extends Controller
         $funcion_tripulante = FuncionTripulante::all();
         $grados_militares = GradosMilitares::all();
         $ubicaciones = Ubicaciones::all();
-        $datos = Empleado::with(['nomina','funcion'])->find($id);
+        $datos = Empleado::with(['nomina'])->find($id);
+
         return view('forms.ver_listado_piloto', 
             compact(
                 'datos','funcion_tripulante','grados_militares','ubicaciones'
@@ -718,15 +719,16 @@ class FormaFAMController extends Controller
     }
 
     //DATA TABLE PARA VER LOS VUELOS COMPLETADOS DEL PILOTO
-    public function verListadoPilotoData(Request $cedula){
+    public function verListadoPilotoData($cedula){
         $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$cedula)
         ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
         ->join('bases','bases.id','=','fam0001.base_estacion')
         ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->where('fam0001_b1_tripulacion.completado','completado')
+        ->where('fam0001_b1_tripulacion.codigo_funcion','P')
         ->select(
-            'fam0001_b1_tripulacion.ov_ota_om',
+            'fam0001_b1_tripulacion.cedula',
             'bases.descripcion as base',
             'fam0001.unidad',
             'aeronave_modelo.aeronave as aeronave',
@@ -781,7 +783,19 @@ class FormaFAMController extends Controller
         ->get();
         //dd($piloto);
         
-        $pdf = \PDF::loadview('forms.imprimir_reporte', compact('piloto'));
+        $anteriores = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.codigo_funcion','=','P')
+        ->whereNotBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->select(
+            'fam0001_b1_tripulacion.hv as hv',
+            'fam0001.total_aterriz as aterriz'
+        )
+        ->orderBy('fam0001.fecha','asc')
+        ->get();
+        //dd($anteriores);
+        
+        $pdf = \PDF::loadview('forms.imprimir_reporte', compact('piloto', 'anteriores'));
 
         return $pdf->stream('REPORTE.pdf');
         //return view('forms.imprimir_reporte', compact('piloto'));

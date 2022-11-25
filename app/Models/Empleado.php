@@ -37,7 +37,7 @@ class Empleado extends Model
     }
 
     public function funcion() {
-        return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado');
+        return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado', 'codigo_empleado');
     }
     
     public function getActivitylogOptions(): LogOptions

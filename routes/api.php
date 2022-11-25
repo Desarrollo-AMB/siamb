@@ -87,6 +87,8 @@ Route::post('/sireh/personal-civil/activar',   [PersonalController::class, 'acti
 Route::post('/sireh/personal-civil/update',     [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
 
 Route::get('forms/listado_pilotos/data', [FormaFAMController::class, 'data_pilotos'])->name('api.forms.listado_pilotos.data');
-Route::get('forms/ver_listado_piloto/data/{id}', [FormaFAMController::class, 'verListadoPilotoData'])->name('api.forms.ver_listado_piloto.data');
 
 Route::get('sireh/personalcivil/jubilable', [JubiladosController::class, 'jubilablesPersonalCivil'])->name('api.sireh.personal-civil-jubilables.data');
+
+Route::get('forms/ver_listado_piloto/data/{cedula}', [FormaFAMController::class, 'verListadoPilotoData'])->name('api.forms.ver_listado_piloto.data');
+
