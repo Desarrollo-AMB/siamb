@@ -58,7 +58,7 @@
 
 
 @push('plugins-js')
-    <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+    
     <script src="{{ asset('vendor/select2/js/i18n/es.js') }}"></script> 
 
 @endpush

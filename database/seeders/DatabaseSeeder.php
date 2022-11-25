@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "conceptos_nomina" ejecutado!');
 
-        $this->command->info('Tabla "datos_militares", por favor espere...');
+        /*$this->command->info('Tabla "datos_militares", por favor espere...');
         $path = 'database/sql/datos_militares.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "datos_militares" ejecutado!');
@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Tabla "conceptos_pagados", por favor espere...');
         $path = 'database/sql/conceptos_pagados.sql';
         DB::unprepared(file_get_contents($path));
-        $this->command->info('SQL Insert tabla "conceptos_pagados" ejecutado!');
+        $this->command->info('SQL Insert tabla "conceptos_pagados" ejecutado!');*/
 
         /*$path = 'database/sql/estudios_realizados.sql';
         DB::unprepared(file_get_contents($path));

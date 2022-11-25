@@ -118,6 +118,7 @@
 	<script src="{{ asset('template/wizard/js/demo.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('template/wizard/js/paper-bootstrap-wizard.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     
     @stack('plugins-js')
     @yield('scripts')
