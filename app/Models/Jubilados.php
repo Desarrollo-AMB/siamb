@@ -12,4 +12,8 @@ class Jubilados extends Model
     protected $fillable = [
         '*'
     ];
+
+    public function tipo_empleado() {
+        return $this->belongsTo(TiposEmpleado::class, 'tipo_emp', 'tipo_emp');
+    }
 }

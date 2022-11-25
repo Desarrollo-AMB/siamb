@@ -15,16 +15,18 @@ return new class extends Migration
     {
         Schema::create('jubilados', function (Blueprint $table) {
             $table->id();
-
             $table->string('codigo_empleado',255)->nullable();
-            $table->string('tipo_jubilar',255)->nullable();
-            $table->string('nombre_jubi',255)->nullable();
-            $table->string('cedula_jubi',255)->nullable();
-            $table->date('fecha_ingreso_jubi',255)->nullable();
-            $table->string('edad_jubi',255)->nullable();
-            $table->date('fecha_jubi',255)->nullable();
-            $table->string('observaciones_jubi',255)->nullable();
-
+            $table->integer('cedula')->nullable();
+            $table->string('nombre1',50)->nullable();
+            $table->string('nombre2',50)->nullable();
+            $table->string('apellido1',50)->nullable();
+            $table->string('apellido2',50)->nullable();
+            $table->date('fecha_ingreso')->nullable();
+            $table->date('fecha_vigencia')->nullable();
+            $table->date('fecha_jubilacion')->nullable();
+            $table->string('tipo_emp',4)->nullable();
+            $table->string('observaciones',255)->nullable();
+            $table->string('usuario',255)->nullable();
             $table->timestamps();
         });
     }

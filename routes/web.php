@@ -21,6 +21,7 @@ use App\Http\Controllers\Auxiliares\ProfesionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
 use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
+use App\Http\Controllers\Civil\JubiladosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,8 +107,6 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::patch('/auxiliares/ubicacionesDetalladas/update/{ubicacionesDetalladas}', [UbicacionesDetalladasController::class, 'update'])->name('auxiliares.ubicacionesDetalladas.update');
     Route::delete('/auxiliares/ubicacionesDetalladas/delete/{id}', [UbicacionesDetalladasController::class, 'destroy'])->name('auxiliares.ubicacionesDetalladas.destroy');
 
-
-
     //CRUD Tabla Universidades
     Route::get('/auxiliares/universidades', [UniversidadesController::class, 'index'])->name('auxiliares.universidades.index');
     Route::get('/auxiliares/universidades/create', [UniversidadesController::class, 'create'])->name('auxiliares.universidades.create');
@@ -141,7 +140,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar/storeFuncion', [PersonalController::class, 'storeFuncionPersonalMilitar'])->name('sireh.personal-militar.storeFuncion');
     Route::post('/sireh/personal-militar/deleteFuncion',[PersonalController::class, 'deteleFuncionPersonalMilitar'])->name('sireh.personal-militar.deleteFuncion');
 
-    Route::get('/sireh/personal-civilf/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
+    Route::get('/sireh/personal-civil/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
     
     Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');
     Route::get('/sireh/personal-civil/edit/{id}',     [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');
@@ -154,8 +153,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-civil/agregarCurso', [PersonalController::class, 'AgregarCursoPersonalCivil'])->name('sireh.personal-civil.agregarCurso');
     Route::post('/sireh/personal-civil/editarEvalua', [PersonalController::class, 'EditEvaluarPersonalCivil'])->name('sireh.personal-civil.editEvaluar');
     Route::post('/sireh/personal-civil/updateEvaluar',[PersonalController::class, 'updateEvaluarPersonalCivil'])->name('sireh.personal-civil.updateEvaluar');
-    Route::post('/sireh/personal-civil/showJubilado', [PersonalController::class, 'showJubiladoPersonalCivil'])->name('sireh.personal-civil.showJubilado');
-    Route::post('/sireh/personal-civil/storeJubilado',[PersonalController::class, 'storeJubiladoPersonalCivil'])->name('sireh.personal-civil.storeJubilado');
+    Route::get('/sireh/personal-civil/jubilables/index', [JubiladosController::class, 'indexJubilablesCivil'])->name('sireh.personal-civil-jubilables.index');
+    Route::post('/sireh/personal-civil/showJubilado', [JubiladosController::class, 'showJubiladoPersonalCivil'])->name('sireh.personal-civil.showJubilado');
+    Route::post('/sireh/personal-civil/storeJubilado',[JubiladosController::class, 'storeJubiladoPersonalCivil'])->name('sireh.personal-civil.storeJubilado');
+    Route::get('/sireh/personal-civil/jubilados/reporte-excel', [JubiladosController::class, 'jubiladosReportExcel'])->name('sireh.personal-civil-jubilados.reporte.excel');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
 

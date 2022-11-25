@@ -25,7 +25,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <hr class="horizontal dark my-0">
+            <div class="row justify-content-end">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                     <div class="card-body p-3">
@@ -74,6 +75,29 @@
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
+                        <div class="card-body p-3">
+                            <a href="{{ route('sireh.personal-civil-jubilables.index')}}">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
+                                            <p class="font-weight-bolder mb-0">
+                                                Modulo Jubilacion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div style="background-image:linear-gradient(310deg,#3a9c9b,#087904)" class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="fa fa-house-user text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{--<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
                     <div class="card-body p-3">
                         <a href="#">
                             <div class="row">
@@ -94,7 +118,7 @@
                         </a>
                     </div>
                     </div>
-                </div>
+                </div>--}}
             </div>
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
@@ -565,71 +589,6 @@
                     }
                 });
             }
-        });
-
-        //JUBILAR
-        table.on('click', '.jubilar', function() {
-            var id = $(this).data("id");
-            $('#modal-view-jubilar').on('shown.bs.modal', function(e) {
-                $('#modal-view-jubilar #id_empleado_jubilar').val(id);
-            })
-            $.ajax({
-                url:"{{ route('sireh.personal-civil.showJubilado') }}",
-                method:'POST',
-                data:{id:id},
-                cache: false,
-                dataType: 'json',
-                success: function(response){
-                    if(response){
-                        let res = response.data[0]
-                        $('.id_empleado_jubilar').val(res.codigo_empleado)
-                        $('.tipo_jubilar').val(res.tipo_emp)
-                        $('.nombre_jubi').val(res.nombre1 +' '+ res.apellido1)
-                        $('.cedula_jubi').val(res.cedula)
-                        $('.fecha_ingreso_jubi').val(res.fecha_ingreso)
-                        $('#modal-view-jubilar').modal("show");
-                    }
-                    else{
-                        alert('Fallo en la peticion con el servidor')
-                    }
-                }
-            });
-        });
-        $(".enviar_jubilado").click(function(e){
-            e.preventDefault();
-            //ENVIAR
-            $.ajax({
-            url:"{{ route('sireh.personal-civil.storeJubilado') }}",
-            method:'POST',
-            data:{
-                    codigo_empleado:$('.id_empleado_jubilar').val(),
-                    tipo_jubilar:$('.tipo_jubilar').val(),
-                    nombre_jubi:$('.nombre_jubi').val(),
-                    cedula_jubi:$('.cedula_jubi').val(),
-                    fecha_ingreso_jubi:$('.fecha_ingreso_jubi').val(),
-                    edad_jubi:$('.edad_jubi').val(),
-                    fecha_jubi:$('.fecha_jubi').val(),
-                    observaciones_jubi:$('.observaciones_jubi').val(),
-                },
-                success:function(response){
-                    if(response.success){
-                        $('#modal-view-jubilar').modal('hide');
-                        Swal.fire({
-                            title: 'LISTO!',
-                            text: 'Empleado Jubilado Correctamente!',
-                            icon: 'success',
-                            timer: 3000,
-                            showConfirmButton: true,
-                        });
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1200);
-                    }
-                },
-                error:function(error){
-                    console.log(error)
-                }
-            });
         });
 
     });
