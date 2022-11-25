@@ -49,6 +49,7 @@
                                     </div>
 
                                     <input type="hidden" class="form-control" name="codigo_empleado" value="{{ $datos->codigo_empleado }}">
+                                    <input type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
 
                                     <div class="card-body">
                                         <div class="row">

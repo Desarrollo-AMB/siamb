@@ -7,13 +7,42 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
+    @php
+        if ($datos->fecha_nacim != "") {
+            $fecha_nacim = date("d/m/Y", strtotime($datos->fecha_nacim));
+        }
+        else {
+            $fecha_nacim = "";
+        }
+        
+        if ($datos->datos_militares->fecha_graduacion != "") {
+            $fecha_graduacion = date("d/m/Y", strtotime($datos->datos_militares->fecha_graduacion));
+        }
+        else {
+            $fecha_graduacion = "";
+        }
+
+        if ($datos->datos_militares->fecha_ultimo_ascenso != "") {
+            $fecha_ultimo_ascenso = date("d/m/Y", strtotime($datos->datos_militares->fecha_ultimo_ascenso));
+        }
+        else {
+            $fecha_ultimo_ascenso = "";
+        }
+
+        if ($datos->datos_militares->fecha_retiro != "") {
+            $fecha_retiro = date("d/m/Y", strtotime($datos->datos_militares->fecha_retiro));
+        }
+        else {
+            $fecha_retiro = "";
+        }
+    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Militar</h5>
+                            <h5 class="mb-0">Modificar Datos del Profesional</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
                     </div>
@@ -53,6 +82,7 @@
                                     </div>
 
                                     <input type="hidden" class="form-control" name="codigo_empleado" value="{{ $datos->codigo_empleado }}">
+                                    <input type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
 
                                     <div class="card-body">
                                         <div class="row">
@@ -70,19 +100,19 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Cédula:</h6>
-                                                    <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ $datos->cedula }}">
+                                                    <input id="cedula" type="text" class="form-control soloNumeros @error('cedula') is-invalid @enderror" name="cedula" value="{{ $datos->cedula }}">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Primer Nombre:</h6>
-                                                    {!! Form::text('nombre1', $datos->nombre1, array('placeholder' => 'No Posee Primer Nombre','class' => 'form-control')) !!}
+                                                    {!! Form::text('nombre1', $datos->nombre1, array('placeholder' => 'No Posee Primer Nombre','class' => 'form-control soloLetras', 'id' => 'nombre1')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Segundo Nombre:</h6>
-                                                    {!! Form::text('nombre2', $datos->nombre2, array('placeholder' => 'No Posee Segundo Nombre','class' => 'form-control')) !!}
+                                                    {!! Form::text('nombre2', $datos->nombre2, array('placeholder' => 'No Posee Segundo Nombre','class' => 'form-control soloLetras', 'id' => 'nombre2')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -90,13 +120,13 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Primer Apellido:</h6>
-                                                    {!! Form::text('apellido1', $datos->apellido1, array('placeholder' => 'No Posee Primer Apellido','class' => 'form-control')) !!}
+                                                    {!! Form::text('apellido1', $datos->apellido1, array('placeholder' => 'No Posee Primer Apellido','class' => 'form-control soloLetras', 'id' => 'apellido1')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Segundo Apellido:</h6>
-                                                    {!! Form::text('apellido2', $datos->apellido2, array('placeholder' => 'No Posee Segundo Apellido','class' => 'form-control')) !!}
+                                                    {!! Form::text('apellido2', $datos->apellido2, array('placeholder' => 'No Posee Segundo Apellido','class' => 'form-control soloLetras', 'id' => 'apellido2')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -132,19 +162,19 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Telefono:</h6>
-                                                    {!! Form::text('telefono_cel', $datos->telefono_cel, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                    {!! Form::text('telefono_cel', $datos->telefono_cel, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Telefono Casa:</h6>
-                                                    {!! Form::text('telefono', $datos->telefono, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                    {!! Form::text('telefono', $datos->telefono, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Telefono Oficina:</h6>
-                                                    {!! Form::text('telefono_ofi', $datos->telefono_ofi, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                    {!! Form::text('telefono_ofi', $datos->telefono_ofi, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -174,7 +204,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                                 <div class="form-group">
                                                     <h6>Direccion:</h6>
-                                                    {!! Form::text('direccion', $datos->direccion, array('placeholder' => 'No Posee Dirección','class' => 'form-control')) !!}
+                                                    {!! Form::text('direccion', $datos->direccion, array('placeholder' => 'No Posee Dirección','class' => 'form-control', 'id' => 'direccion')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -182,25 +212,30 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Correo:</h6>
-                                                    {!! Form::text('correo', $datos->correo, array('placeholder' => 'No Posee Correo','class' => 'form-control')) !!}
+                                                    {!! Form::text('correo', $datos->correo, array('placeholder' => 'No Posee Correo','class' => 'form-control', 'id' => 'correo')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Peso:</h6>
-                                                    {!! Form::text('peso', $datos->peso, array('placeholder' => 'No Posee Peso','class' => 'form-control')) !!}
+                                                    {!! Form::text('peso', $datos->peso, array('placeholder' => 'No Posee Peso','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Estatura:</h6>
-                                                    {!! Form::text('estatura', $datos->estatura, array('placeholder' => 'No Posee Estatura','class' => 'form-control')) !!}
+                                                    {!! Form::text('estatura', $datos->estatura, array('placeholder' => 'No Posee Estatura','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Lateralidad:</h6>
-                                                    {!! Form::text('zur_der_amb', $datos->zur_der_amb, array('placeholder' => 'No Posee Lateralidad','class' => 'form-control')) !!}
+                                                    <select name="zur_der_amb" id="zur_der_amb" class='form-control select2'>
+                                                        <option value="">SELECCIONE...</option>
+                                                        @foreach ($lateralidades as $key=>$value)
+                                                            <option value="{{$key}}" {{$datos->zur_der_amb == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -208,19 +243,19 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Color de Ojos:</h6>
-                                                    {!! Form::text('ojos', $datos->ojos, array('placeholder' => 'No Posee Color de Ojos','class' => 'form-control')) !!}
+                                                    {!! Form::text('ojos', $datos->ojos, array('placeholder' => 'No Posee Color de Ojos','class' => 'form-control soloLetras', 'id' => 'ojos')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Color de Cabello:</h6>
-                                                    {!! Form::text('cabellos', $datos->cabellos, array('placeholder' => 'No Posee Color de Cabello','class' => 'form-control')) !!}
+                                                    {!! Form::text('cabellos', $datos->cabellos, array('placeholder' => 'No Posee Color de Cabello','class' => 'form-control soloLetras', 'id' => 'cabellos')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Color de Piel:</h6>
-                                                    {!! Form::text('color', $datos->color, array('placeholder' => 'No Posee Color de Piel','class' => 'form-control')) !!}
+                                                    {!! Form::text('color', $datos->color, array('placeholder' => 'No Posee Color de Piel','class' => 'form-control soloLetras', 'id' => 'color')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -246,7 +281,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Talla de Calzado:</h6>
-                                                    {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
+                                                    {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
@@ -338,13 +373,13 @@
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                 <div class="form-group">
                                                     <h6>Nombre y Apellido (contacto de emergencia):</h6>
-                                                    {!! Form::text('persona_contacto', $datos->persona_contacto, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control')) !!}
+                                                    {!! Form::text('persona_contacto', $datos->persona_contacto, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control soloLetras', 'id' => 'persona_contacto')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
                                                     <h6>Telefono (contacto de emergencia):</h6>
-                                                    {!! Form::text('telefono_e', $datos->telefono_e, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control')) !!}
+                                                    {!! Form::text('telefono_e', $datos->telefono_e, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -370,6 +405,24 @@
 <script>
     $(function (){
         $('.select2').select2();
+
+        $(".soloLetras").on('keypress', function(event) {
+            var regex = new RegExp("^[a-zA-Z ]+$");
+            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $(".soloNumeros").on('keypress', function(event) {
+            var regex = new RegExp("^[0-9]+$");
+            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+        });
 
         //Para la foto
         var readURL = function(input) {
@@ -429,6 +482,7 @@
                 $.get('/api/categoria/' + tipo_emp,function(data) {
                     $('#categoria').empty();
                     if (tipo_emp == 'TRP') {
+                        $('#categoria').append('<option value="">SELECCIONE...</option>');
                         $.each(data, function(fetch, categoria){
                             $('#categoria').append('<option value="'+ categoria.codigo_categoria +'">'+ categoria.descripcion +'</option>');
                         });
@@ -442,7 +496,8 @@
                 });
 
                 $('#grado_militar').prop('disabled',false);
-                $.get('/api/grados-militares/' + tipo_emp,function(data) {
+                $.get('/api/grados-militares-persmil/' + tipo_emp,function(data) {
+                    console.log(data);
                     $('#grado_militar').empty();
                     $('#grado_militar').append('<option value="">SELECCIONE...</option>');
                     $.each(data, function(fetch, grados){
@@ -469,27 +524,6 @@
             }
         });
 
-        $('#ubicacion').on('change', function(e){
-            var ubicacion = e.target.value;
-            if (ubicacion == "") {
-                $('#ubicacion_detallada').prop('disabled',true);
-                $('#cargo').prop('disabled',true);
-            }
-            else {
-                $('#ubicacion_detallada').prop('disabled',false);
-                $('#cargo').prop('disabled',false);
-
-                $.get('/api/ubicaciones-detalladas/' + ubicacion,function(data) {
-                    console.log(data);
-                    $('#ubicacion_detallada').empty();
-                    $('#ubicacion_detallada').append('<option value="">SELECCIONE...</option>');
-                    $.each(data, function(fetch, ubicaciones_detalladas){
-                        $('#ubicacion_detallada').append('<option value="'+ ubicaciones_detalladas.codigo_ubicacion +'">'+ ubicaciones_detalladas.descripcion +'</option>');
-                    });
-                });
-            }
-        });
-
         $('#sexo').on('change', function(e){
             var sexo = e.target.value;
             if (sexo == "M") {
@@ -500,6 +534,18 @@
                 $('.falda').show();
                 $('input:text[name=talla_falda]').prop('disabled',false);
             }
+        });
+
+        $('#btn-actualizar').click(function(){
+            $('#nombre1').val($('#nombre1').val().toUpperCase());
+            $('#nombre2').val($('#nombre2').val().toUpperCase());
+            $('#apellido1').val($('#apellido1').val().toUpperCase());
+            $('#apellido2').val($('#apellido2').val().toUpperCase());
+            $('#correo').val($('#correo').val().toUpperCase());
+            $('#ojos').val($('#ojos').val().toUpperCase());
+            $('#cabellos').val($('#cabellos').val().toUpperCase());
+            $('#color').val($('#color').val().toUpperCase());
+            $('#persona_contacto').val($('#persona_contacto').val().toUpperCase());
         });
 
         inicializar();
@@ -540,16 +586,6 @@
         }
         else {
             $('#promocion').prop('disabled',false);
-        }
-
-        var ubicacion = $('#ubicacion').val();
-        if (ubicacion == "") {
-            $('#ubicacion_detallada').prop('disabled',true);
-            $('#cargo').prop('disabled',true);
-        }
-        else {
-            $('#ubicacion_detallada').prop('disabled',false);
-            $('#cargo').prop('disabled',false);
         }
     }
 </script>

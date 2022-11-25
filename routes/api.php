@@ -37,6 +37,7 @@ Route::get('personal/empleadosnotuser', [PersonalController::class, 'empleadosSi
 Route::get('personal/notempleadosnotuser', [PersonalController::class, 'notEmpleadosSinUser'])->name('api.personal.not-empleados.notuser');
 Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->name("api.ciudades");
 Route::get("grados-militares/{tipo_emp?}", [ApiController::class, 'getGradosMilitares'])->name("api.grados_militares");
+Route::get("grados-militares-persmil/{tipo_emp?}", [ApiController::class, 'getGradosMilitaresPersMil'])->name("api.grados_militares_persmil");
 Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('api.sireh.empleados.inactivos');
 Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('api.sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('api.sireh.personal.civil.data');

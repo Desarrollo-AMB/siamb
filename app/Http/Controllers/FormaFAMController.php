@@ -753,6 +753,16 @@ class FormaFAMController extends Controller
     }
 
     public function imprimir_reporte(Request $request) {
+        $this->validate($request, 
+            [
+                'desde' => 'required',
+                'hasta' => 'required',
+            ],
+            [
+                'desde.required' => 'La Fecha Desde es requerida',
+                'hasta.required' => 'La Fecha Hasta es requerida'
+            ]
+        );
         $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
         ->leftjoin('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
