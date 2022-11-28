@@ -31,9 +31,9 @@ data-bs-original-title="Evaluar" title="Evaluar">
 <i class="fa fa-file-signature text-secondary" aria-hidden="true"></i>
 </a>
 
-<a href="#" class="mx-3 jubilar" data-bs-toggle="tooltip" data-bs-original-title="Jubilar" title="Jubilar Empleado" data-id="{{ $codigo_empleado }}">
+{{--<a href="#" class="mx-3 jubilar" data-bs-toggle="tooltip" data-bs-original-title="Jubilar" title="Jubilar Empleado" data-id="{{ $codigo_empleado }}">
     <i class="fas fa-home text-primary" aria-hidden="true"></i>
-</a>
+</a>--}}
 
     {{-- <a href="{{ route('sireh.personal-civil.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Ver" title="Ver"
