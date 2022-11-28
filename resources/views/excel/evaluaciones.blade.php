@@ -14,13 +14,16 @@
 
     </tr>
     @foreach($evaluaciones as $row)
+    @php
+    $fecha_evaluacion = date("d/m/Y", strtotime($row->fecha_evaluacion));
+    @endphp
     <tr>
         <td>{{ $row->tipo_emp }}</td>
         <td>{{ $row->cedula }}</td>
         <td>{{ $row->nombre1." ".$row->nombre2." ".$row->apellido1." ".$row->apellido2 }}</td>
         <td>{{ $row->nota }}</td>
         <td>{{ $row->observaciones }}</td>
-        <td>{{ $row->fecha_evaluacion }}</td>
+        <td>{{ $fecha_evaluacion }}</td>
         <td>{{ $row->nombre_evaluador }}</td>
         <td>{{ $row->cedula_evaluador }}</td>
     </tr>

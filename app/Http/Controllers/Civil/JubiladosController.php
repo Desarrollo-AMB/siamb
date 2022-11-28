@@ -17,6 +17,7 @@ use App\Models\Nomina;
 use App\Models\Jubilados;
 use App\Models\Movimientos;
 use App\Exports\JubiladosExport;
+use App\Exports\PorJubilarExport;
 
 class JubiladosController extends Controller
 {
@@ -190,5 +191,56 @@ class JubiladosController extends Controller
         $nombre_archivo = sprintf('reporte de jubilados %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'jubilados');
         return Excel::download(new JubiladosExport($data), $nombre_archivo);
+    }
+
+    public function porJubilarReportExcel(Request $request)
+    {
+        $titulo = 'REPORTE POR JUBILARSE';
+        $jubilados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+        ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+        ->select(
+            'tipos_empleados.descripcion as tipo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'nomina.fecha_ingreso',
+            'empleados.fecha_nacim',
+            DB::raw("TIMESTAMPDIFF(YEAR,empleados.fecha_nacim,CURDATE()) as edad"),
+            DB::raw("TIMESTAMPDIFF(YEAR,nomina.fecha_ingreso,CURDATE()) as antiguedad"),
+        )->where(function($query) {
+            return $query
+                ->where('empleados.situacion','!=','E')
+                ->where('empleados.sexo', 'F')
+                ->where('nomina.tipo_emp', 'EMP')
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,empleados.fecha_nacim,CURDATE())"), '>', 54)
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,nomina.fecha_ingreso,CURDATE())"), '>=', 30);
+        })->orWhere(function($query) {
+            return $query
+                ->where('empleados.situacion','!=','E')
+                ->where('empleados.sexo', 'F')
+                ->where('nomina.tipo_emp', 'OBR')
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,empleados.fecha_nacim,CURDATE())"), '>', 54)
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,nomina.fecha_ingreso,CURDATE())"), '>=', 25);
+        })->orWhere(function($query) {
+            return $query
+                ->where('empleados.situacion','!=','E')
+                ->where('empleados.sexo', 'M')
+                ->whereIn('nomina.tipo_emp', ['EMP','DOC'])
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,empleados.fecha_nacim,CURDATE())"), '>', 59)
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,nomina.fecha_ingreso,CURDATE())"), '>=', 30);
+        })->orWhere(function($query) {
+            return $query
+                ->where('empleados.situacion','!=','E')
+                ->where('empleados.sexo', 'M')
+                ->where('nomina.tipo_emp', 'OBR')
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,empleados.fecha_nacim,CURDATE())"), '>', 59)
+                ->where(DB::raw("TIMESTAMPDIFF(YEAR,nomina.fecha_ingreso,CURDATE())"), '>=', 25);
+        })->orderBy('antiguedad', 'DESC')->get();
+        
+        $nombre_archivo = sprintf('reporte por jubilarse %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        $data = compact('titulo', 'jubilados');
+        return Excel::download(new PorJubilarExport($data), $nombre_archivo);
     }
 }

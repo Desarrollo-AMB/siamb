@@ -13,7 +13,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Escoger Fecha para Generar Reporte</h5>
+                            <h5 class="mb-0">Escoger Fecha para Generar Reporte de Evaluaciones Personal Civil</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-civil.index') }}">Volver</a>
                     </div>
