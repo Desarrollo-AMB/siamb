@@ -61,6 +61,7 @@
                                                 @foreach ($tipos_emp as $row)
                                                     @if ($datos->nomina->tipo_emp == $row->tipo_emp)
                                                         <input type="text" class="form-control @error('cedula') is-invalid @enderror" disabled  value="{{ $row->descripcion }}">
+                                                        <input type="hidden" id="tipo_emp"  value="{{ $datos->nomina->tipo_emp }}">
                                                     @endif
                                                 @endforeach
                                         </div>
@@ -144,18 +145,19 @@
                                 </div>
                                 <form>
                                     <div class="modal-body">
+                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id" type="hidden" value="{{$datos->id}}">
                                         <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado" type="hidden" value="{{$datos->codigo_empleado}}">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">fecha de evaluacion:</label>
-                                                    <input  type="date" class="form-control fecha_evaluacion" value="" id="">
+                                                    <input  type="date" class="form-control fecha_evaluacion" value="" id="fecha_evaluacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Cedula del Evaluador:</label>
-                                                    <input  type="number" class="form-control cedula_evaluador" value="" id="">
+                                                    <input  type="number" class="form-control cedula_evaluador" value="" id="cedula_evaluador">
                                                 </div>
                                             </div>
                                         </div>
@@ -163,13 +165,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nombres y Apellidos del Evaluador:</label>
-                                                    <input  type="text" class="form-control nombre_evaluador" value="" id="">
+                                                    <input  type="text" class="form-control nombre_evaluador" value="" id="nombre_evaluador">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nota:</label>
-                                                    <input  type="number" class="form-control nota" value="" id="">
+                                                    <input  type="number" class="form-control nota" value="" id="nota">
                                                 </div>
                                             </div>
                                         </div>
@@ -177,13 +179,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Rango de Actuacion:</label>
-                                                    <input  type="text" class="form-control rango_actuacion" value="" id="">
+                                                    <input  type="text" class="form-control rango_actuacion" value="" id="rango_actuacion" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Observaciones:</label>
-                                                    <input  type="text" class="form-control obervaciones" value="" id="">
+                                                    <input  type="text" class="form-control observaciones" value="" id="observaciones">
                                                 </div>
                                             </div>
                                         </div>
@@ -191,6 +193,7 @@
                                     <div class="modal-footer">
                                         <a class="btn bg-gradient-danger" data-bs-dismiss="modal" disabled="false">Atras</a>
                                         <a class="btn bg-gradient-success enviar_evaluacion" disabled="false">Confirmar</a>
+                                        <a class="btn bg-gradient-success update_evaluacion" disabled="false">Actualizar</a>
                                     </div>
                                 </form>
                             </div>
@@ -208,19 +211,19 @@
                                 </div>
                                 <form>
                                     <div class="modal-body">
-                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id" type="hidden" value="{{$datos->id}}">
-                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado" type="hidden" value="{{$datos->codigo_empleado}}">
+                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id" type="hidden" value="">
+                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado" type="hidden" value="">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">fecha de evaluacion:</label>
-                                                    <input  type="date" class="form-control fecha_evaluacion_load" value="" id="">
+                                                    <input  type="date" class="form-control fecha_evaluacion_load" value="" id="fecha_evaluacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Cedula del Evaluador:</label>
-                                                    <input  type="number" class="form-control cedula_evaluador_load" value="" id="">
+                                                    <input  type="number" class="form-control cedula_evaluador_load" value="" id="cedula_evaluador">
                                                 </div>
                                             </div>
                                         </div>
@@ -228,13 +231,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nombres y Apellidos del Evaluador:</label>
-                                                    <input  type="text" class="form-control nombre_evaluador_load" value="" id="">
+                                                    <input  type="text" class="form-control nombre_evaluador_load" value="" id="nombre_evaluador">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nota:</label>
-                                                    <input  type="number" class="form-control nota_load" value="" id="">
+                                                    <input  type="number" class="form-control nota_load" value="" id="nota">
                                                 </div>
                                             </div>
                                         </div>
@@ -242,13 +245,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Rango de Actuacion:</label>
-                                                    <input  type="text" class="form-control rango_actuacion_load" value="" id="">
+                                                    <input  type="text" class="form-control rango_actuacion_load" value="" id="rango_actuacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Observaciones:</label>
-                                                    <input  type="text" class="form-control obervaciones_load" value="" id="">
+                                                    <input  type="text" class="form-control obervaciones_load" value="" id="observaciones">
                                                 </div>
                                             </div>
                                         </div>
@@ -308,15 +311,43 @@
         });
 
         $(".evaluar").click(function(e){
-            $('#evaluar').modal("show");  
+            $('#evaluar').modal("show"); 
+            $(".update_evaluacion").hide(); 
         });
         $(".enviar_evaluacion").click(function(e){
             e.preventDefault();
-            var cedula_evaluador = $('.cedula_evaluador').val();
-            if(cedula_evaluador===""){
+            var cedula_evaluador = $('#cedula_evaluador').val();
+            var nombre_evaluador = $('#nombre_evaluador').val();
+            var nota = $('#nota').val();
+            var fecha_evaluacion = $('#fecha_evaluacion').val();
+            if(fecha_evaluacion===""){
                 Swal.fire({
                     title: 'Atención!',
-                    text: 'Debes Ingresar un motivo de Egreso.',
+                    text: 'Debes Ingresar la Fecha de Evaluacion.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (cedula_evaluador===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar la Cedula del Evaluador.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (nombre_evaluador===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar el Nombre del Evaluador.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (nota===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar una Nota.',
                     icon: 'warning',
                     timer: 3000,
                     showConfirmButton: true,
@@ -327,13 +358,13 @@
                 url:"{{ route('sireh.personal-civil.storeEvaluar') }}",
                 method:'POST',
                 data:{
-                        codigo_empleado:  $('.codigo_empleado').val(),
-                        fecha_evaluacion: $('.fecha_evaluacion').val(),
-                        cedula_evaluador: $('.cedula_evaluador').val(),
-                        nombre_evaluador: $('.nombre_evaluador').val().toUpperCase(),
-                        nota: $('.nota').val().toUpperCase(),
-                        rango_actuacion: $('.rango_actuacion').val(),
-                        obervaciones: $('.obervaciones').val().toUpperCase(),
+                        codigo_empleado:  $('#codigo_empleado').val(),
+                        fecha_evaluacion: $('#fecha_evaluacion').val(),
+                        cedula_evaluador: $('#cedula_evaluador').val(),
+                        nombre_evaluador: $('#nombre_evaluador').val().toUpperCase(),
+                        nota: $('#nota').val().toUpperCase(),
+                        rango_actuacion: $('#rango_actuacion').val(),
+                        obervaciones: $('#observaciones').val().toUpperCase(),
                     },
                     success:function(response){
                         if(response.success){
@@ -368,15 +399,17 @@
                 success: function(response){
                     if(response){
                         let res = response.data[0]
-                        $('.intelectual_id').val(res.id)
-                        $('.codigo_empleado_load').val(res.codigo_empleado)
-                        $('.fecha_evaluacion_load').val(res.fecha_evaluacion)
-                        $('.cedula_evaluador_load').val(res.cedula_evaluador)
-                        $('.nombre_evaluador_load').val(res.nombre_evaluador)
-                        $('.nota_load').val(res.nota)
-                        $('.rango_actuacion_load').val(res.rango_actuacion)
-                        $('.obervaciones_load').val(res.obervaciones)
-                        $('#editar').modal("show")
+                        $('#intelectual_id').val(res.id)
+                        $('#codigo_empleado').val(res.codigo_empleado)
+                        $('#fecha_evaluacion').val(res.fecha_evaluacion)
+                        $('#cedula_evaluador').val(res.cedula_evaluador)
+                        $('#nombre_evaluador').val(res.nombre_evaluador)
+                        $('#nota').val(res.nota)
+                        $('#rango_actuacion').val(res.rango_actuacion)
+                        $('#observaciones').val(res.obervaciones)
+                        $('#evaluar').modal("show")
+                        $(".update_evaluacion").show();
+                        $(".enviar_evaluacion").hide();
                     }
                     else{
                         alert('Fallo en la peticion con el servidor')
@@ -384,24 +417,62 @@
                 }
             }); 
         });
-        $(".update_evaluacion").click(function() {
+        $(".update_evaluacion").click(function(e) {
+            e.preventDefault();
+            var cedula_evaluador = $('#cedula_evaluador').val();
+            var nombre_evaluador = $('#nombre_evaluador').val();
+            var nota = $('#nota').val();
+            if(fecha_evaluacion===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar la Fecha de Evaluacion.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (cedula_evaluador===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar la Cedula del Evaluador.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (nombre_evaluador===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar el Nombre del Evaluador.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else if (nota===""){
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Ingresar una Nota.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                }); 
+            }else{
                 $.ajax({
                     url:"{{ route('sireh.personal-civil.updateEvaluar') }}",
                     method:'POST',
                     data:{
-                        id:$('.intelectual_id').val(),
-                        codigo_empleado:  $('.codigo_empleado_load').val(),
-                        fecha_evaluacion: $('.fecha_evaluacion_load').val(),
-                        cedula_evaluador: $('.cedula_evaluador_load').val(),
-                        nombre_evaluador: $('.nombre_evaluador_load').val().toUpperCase(),
-                        nota: $('.nota_load').val().toUpperCase(),
-                        rango_actuacion: $('.rango_actuacion_load_load').val(),
-                        obervaciones: $('.obervaciones_load').val().toUpperCase(),
+                        id:$('#intelectual_id').val(),
+                        codigo_empleado:  $('#codigo_empleado').val(),
+                        fecha_evaluacion: $('#fecha_evaluacion').val(),
+                        cedula_evaluador: $('#cedula_evaluador').val(),
+                        nombre_evaluador: $('#nombre_evaluador').val().toUpperCase(),
+                        nota: $('#nota').val(),
+                        rango_actuacion: $('#rango_actuacion').val().toUpperCase(),
+                        obervaciones: $('#observaciones').val().toUpperCase(),
                     }, 
                     cache: false,
                     dataType: 'json',
                     success: function(response){
                         if(response){
+                            $('#evaluar').modal('hide');
                             Swal.fire({
                                 title:'Actualizado!',
                                 text: 'Datos Actualizados Correctamente.',
@@ -415,7 +486,67 @@
                         }
                     }
                 });
-            });
+            }
+        });
+
+        $('#nota').blur( function() {
+            var valor = $('#nota').val();
+            var tipoe = $('#tipo_emp').val();
+
+            var valor_num = Number(valor);
+            var rango_actuacion = '';
+            if (tipoe == 'EMP' || tipoe == 'DOC') {
+
+                if (valor_num >= 100 && valor_num < 180) {
+                    rango_actuacion = 'ACTUACION MUY POR DEBAJO DE LO ESPERADO';
+                } else if (valor_num > 179 && valor_num <= 259) {
+                    rango_actuacion = 'ACTUACION POR DEBAJO DE LO ESPERADO';
+                } else if (valor_num > 259 && valor_num <= 339) {
+                    rango_actuacion = 'ACTUACION DETRO DE LO ESPERADO';
+                } else if (valor_num > 339 && valor_num <= 419) {
+                    rango_actuacion = 'ACTUACION SOBRE LO ESPERADO';
+                } else if (valor_num > 419 && valor_num <= 500) {
+                    rango_actuacion = 'DESENPEÑO EXCEPCIONAL';
+                } else {
+                    Swal.fire({
+                        title: 'Atención!',
+                        text: 'Verfique que la nota no sea menor a 100 ni mayor a ¡500!',
+                        icon: 'warning',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    }); 
+                    nota2 = '';
+                    $('#nota').val(nota2);
+                }
+
+                $('#rango_actuacion').val(rango_actuacion);
+            } else if (tipoe == 'OBR') {
+                
+                if (valor_num >= 20 && valor_num <= 36) {
+                    rango_actuacion = 'DEFICIENTE';
+                } else if (valor_num >= 36.5 && valor_num <= 52.5) {
+                    rango_actuacion = 'REGULAR';
+                } else if (valor_num >= 53 && valor_num <= 69) {
+                    rango_actuacion = 'BUENO';
+                } else if (valor_num >= 69.5 && valor_num <= 85.5) {
+                    rango_actuacion = 'MUY BUENO';
+                } else if (valor_num >= 86 && valor_num <= 100) {
+                    rango_actuacion = 'EXELENTE';
+                } else {
+                    Swal.fire({
+                        title: 'Atención!',
+                        text: 'Verfique que la nota no sea menor a 20 ni mayor a 100!',
+                        icon: 'warning',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    }); 
+                    nota2 = '';
+                    $('#nota').val(nota2);
+                    rango_actuacion = '';
+                }
+                $('#rango_actuacion').val(rango_actuacion);
+            }
+        })
 
     });
 </script>

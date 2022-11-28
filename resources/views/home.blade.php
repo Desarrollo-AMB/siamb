@@ -53,7 +53,7 @@
             <div class="row">
               <div class="col-9">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Pruefas físicas realizadas el año ({{$ultimo_year}})</p>
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Pruebas físicas realizadas el año ({{$ultimo_year}})</p>
                   <h5 class="font-weight-bolder mb-0 mx-3">
                     # {{ number_format($pafs,0,'','.') }}
                     <span class="text-success text-sm font-weight-bolder"></span>
