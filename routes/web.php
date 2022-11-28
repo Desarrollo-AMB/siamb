@@ -156,7 +156,8 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-civil/jubilables/index', [JubiladosController::class, 'indexJubilablesCivil'])->name('sireh.personal-civil-jubilables.index');
     Route::post('/sireh/personal-civil/showJubilado', [JubiladosController::class, 'showJubiladoPersonalCivil'])->name('sireh.personal-civil.showJubilado');
     Route::post('/sireh/personal-civil/storeJubilado',[JubiladosController::class, 'storeJubiladoPersonalCivil'])->name('sireh.personal-civil.storeJubilado');
-    Route::get('/sireh/personal-civil/jubilados/reporte-excel', [JubiladosController::class, 'jubiladosReportExcel'])->name('sireh.personal-civil-jubilados.reporte.excel');
+    Route::get('/sireh/personal-civil/jubilados/fecha-jubilados', [JubiladosController::class, 'jubiladosFecha'])->name('sireh.personal-civil.jubilados.fecha-jubilados');
+    Route::post('/sireh/personal-civil/jubilados/reporte-excel', [JubiladosController::class, 'jubiladosReportExcel'])->name('sireh.personal-civil-jubilados.reporte.excel');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
 

@@ -164,14 +164,29 @@ class JubiladosController extends Controller
         }
     }
 
+    public function jubiladosFecha() {
+        return view('sireh.personal.civil.jubilados.fecha-jubilados');
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function jubiladosReportExcel(Request $request)
     {
+        $this->validate($request, 
+            [
+                'desde' => 'required',
+                'hasta' => 'required',
+            ],
+            [
+                'desde.required' => 'La Fecha Desde es requerida',
+                'hasta.required' => 'La Fecha Hasta es requerida'
+            ]
+        );
         $titulo = 'REPORTE DE JUBILADOS';
-        $jubilados = Jubilados::with(['tipo_empleado'])->get();
+        $jubilados = Jubilados::whereBetween('fecha_jubilacion',[$request->desde,$request->hasta])->with(['tipo_empleado'])
+        ->get();
         $nombre_archivo = sprintf('reporte de jubilados %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'jubilados');
         return Excel::download(new JubiladosExport($data), $nombre_archivo);
