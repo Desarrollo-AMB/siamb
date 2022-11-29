@@ -106,7 +106,9 @@
 			{ "name": "Modulo Jubilacion Personal Civil",     "route_name": "sireh.personal-civil-jubilables.index" },
 			{ "name": "Mostrar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.showJubilado" },
 			{ "name": "Guardar Jubilados Personal Civil",     "route_name": "sireh.personal-civil.storeJubilado" },
-			{ "name": "Reporte Jubilados Personal CIvil",     "route_name": "sireh.personal-civil-jubilados.reporte.excel" }
+			{ "name": "Reporte Excel Jubilados Personal Civil",     "route_name": "sireh.personal-civil-jubilados.reporte.excel" },
+			{ "name": "Reporte Excel Por Jubilarse Personal Civil",     "route_name": "sireh.personal-civil-jubilados.por.jubilar" },
+			{ "name": "Parametros Reporte Excel Jubilados Personal Civil",     "route_name": "sireh.personal-civil.jubilados.fecha-jubilados" }
 		]
 	},
 	{
