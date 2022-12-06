@@ -31,8 +31,13 @@ class Empleado extends Model
         return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function egresos()
+    {
+        return $this->belongsTo(Egresos::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function funcion() {
-        return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado');
+        return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado', 'codigo_empleado');
     }
     
     public function getActivitylogOptions(): LogOptions
@@ -52,28 +57,17 @@ class Empleado extends Model
         return $this->hasOne(DatosMilitares::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function movimientos() {
+        return $this->belongsTo(Movimientos::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
     public function estudios_realizados() {
         return $this->hasOne(EstudiosRealizados::class, 'codigo_empleado', 'codigo_empleado');
     }
-    /*public function getSituacionAttribute()
+
+    public function familiares()
     {
-        switch ($this->situacion) {
-            case 'A':
-                $value= 'ACTIVO';
-                break;
-            case 'E':
-                $value= 'EGRESADO';
-                break;
-            case 'S':
-                $value= 'SUSPENDIDO';
-                break;
-            case 'I':
-                $value= 'INGRESO';
-                break;
-            default:
-                $value= '';
-                break;
-        }
-        return  $value;
-    }*/
+        return $this->hasMany(Familiares::class,'codigo_empleado','codigo_empleado');
+    }
+
 }

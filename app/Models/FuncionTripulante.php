@@ -10,9 +10,7 @@ class FuncionTripulante extends Model
     use HasFactory;
     protected $table = 'funcion_tripulante';
     protected $fillable = [
-        'funcion',
-        'codigo',
-        'flag_jefe_maquina'
+        '*'
     ];
 
     public function funcionTrip() {

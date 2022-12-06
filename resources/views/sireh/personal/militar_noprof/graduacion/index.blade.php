@@ -40,6 +40,7 @@
                     <div>
                         <h5 class="mb-0">Personal a Graduarse por Categoria</h5>
                     </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar-noprof.index') }}">Volver</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -436,7 +437,7 @@
 @section('scripts')
 @parent
 <script>
-
+    var gradosData = Array();
     $(document).ready(function() {
         grados();
         var table1 = $('#table1').DataTable({
@@ -444,7 +445,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesComando') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesComando') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -511,7 +512,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -578,7 +579,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicosSalud') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosSalud') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -645,7 +646,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTecnicos') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTecnicos') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -712,7 +713,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTropa') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTropa') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -779,7 +780,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesAsimilados') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesAsimilados') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -846,7 +847,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 10,
-            ajax: "{{ route('sireh.militar-noprof.graduacion.dataOficialesTropaProfesional') }}",
+            ajax: "{{ route('api.sireh.militar-noprof.graduacion.dataOficialesTropaProfesional') }}",
             columnDefs: [
                 {
                     targets: 0,
@@ -955,8 +956,6 @@
                         ids_selected.push(value.codigo_empleado);
                     });
                     fd.append('ids',JSON.parse(JSON.stringify(ids_selected)));
-                    
-                    //console.log(...fd);
 
                     $.ajax({
                         type:'POST',
@@ -994,7 +993,7 @@
     });
 
     function grados(){
-        $.get('/api/grados-militares/MEF'  ,function(data) {
+        $.get('/api/grados-militares'  ,function(data) {
             $.each(data, function(fetch, grado){ 
                 var objeto =   {
                     'codigo': grado.codigo_grado,
@@ -1007,7 +1006,9 @@
     }
 
     function buscarGrado(nuevoGrado){
-        var results = gradosData.filter(function (grados) { return grados.siglas == nuevoGrado; });
+        var results = gradosData.filter(function (grados) { 
+            return grados.siglas == nuevoGrado; 
+        });
         var firstObj = (results.length > 0) ? results[0] : null;
         return firstObj;
     }

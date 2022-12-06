@@ -8,7 +8,7 @@
         <div class="container">
           <div class="row">
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-              <div class="card card-plain mt-8">
+              <div class="card card-plain mt-6">
                 <div class="card-header pb-0 text-left bg-transparent">
                   <h3 class="font-weight-bolder text-info text-gradient">SIAMB - Sistema Integral de la Aviación Militar Bolivariana</h3>
                 </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <small class="text-muted">Olvidaste tu Contraseña?
-                    <a href="/login/forgot-password" class="text-info text-gradient font-weight-bold">aqui</a>
+                    <a href="{{ route('password.request')}}" class="text-info text-gradient font-weight-bold">aqui</a>
                   </small>
                 </div>
               </div>

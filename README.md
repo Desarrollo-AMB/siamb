@@ -15,6 +15,7 @@ SIAMB V.1.0
 - composer install
 - php artisan key:generate
 - php artisan migrate --seed
+- en el directorio "public", crear las carpetas "/fotos/empleados". En este directorio se guardaran las fotos de los empleados.
 
 ## Exportacion de Datos desde las BD anteriores
 1. BD SIREH: Ejecutar las siguientes SQL's y el resultado ejecutarlos como sentencias "INSERT" a la BD SIAMB:
@@ -57,11 +58,27 @@ SELECT `codigo_empleado`, `cedula` , `nombre1`, `nombre2`, `apellido1`, `apellid
 	CASE WHEN fecha_reincorporacion ='0000-00-00' THEN NULL ELSE fecha_reincorporacion END AS fecha_reincorporacion,
 	`codigo_reincorporacion`, `grado_tentativo`, `codigo_clase`, `categoria_clas`, `nivel_escala`, `codigo_clase1`,
 	`observaciones`
-FROM nomina
+FROM nomina;
+```
+* La tabla egresos:
+```
+SELECT id, codigo_empleado,
+	CASE WHEN fecha_salida ='0000-00-00' THEN NULL ELSE fecha_salida END AS fecha_salida,
+	causa_egreso,
+	nro_resuelto,
+	CASE WHEN fecha_resuelto ='0000-00-00' THEN NULL ELSE fecha_resuelto END AS fecha_resuelto,
+	CASE WHEN fecha_registro ='0000-00-00' THEN NULL ELSE fecha_registro END AS fecha_registro,
+	usuario
+FROM egresos;
 ```
 2. Con el manejador de Bases de Datos, exportar directamente desde la BD SIREH, las siguientes tablas:
 - datos_militares
 - conceptos_pagados
+- promociones_militares
+- familiares
+- militares_condecorados
+- tipo_de_baja
+- historico_ascensos
 
 3. Con el manejador de Bases de Datos, exportar directamente desde la BD SEID, las siguientes tablas:
 - intelectuales
@@ -70,12 +87,15 @@ FROM nomina
 
 4. Con el manejador de Bases de Datos, exportar directamente desde la BD EDUCACION, las siguientes tablas:
 - estudios_realizados
-- cursos_realizado
+- cursos_realizados
 
-5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde la BD SIREH:
-- ubicaciones 
-- cargos
-- ubicaciones_detalladas
-
-
-
+5. Actualmente las siguientes tablas se alimentan por ejecucion Insert/Seeder, cuando se establezca el proyecto SIAMB en Producción se deben Exportar con el manejador de Bases de Datos directamente desde las BDs SIREH/SEID/EDUCACION respectivamente:
+- ubicaciones	->	(SIREH)
+- cargos	->	(SIREH)
+- ubicaciones_detalladas 	->	(SIREH)
+- especialidades_militares 	->	(SIREH)
+- grados_militares 	->	(SIREH)
+- conceptos_nomina 	->	(SIREH)
+- datos_militares 	->	(SIREH)
+- conceptos_pagados 	->	(SIREH)
+- condecoraciones_militares 	->	(SIREH)

@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- <title>{{ config('app.name', 'SIAMB') }}</title> --}}
+    <title>SIAMB</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -117,6 +118,7 @@
 	<script src="{{ asset('template/wizard/js/demo.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('template/wizard/js/paper-bootstrap-wizard.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
     
     @stack('plugins-js')
     @yield('scripts')

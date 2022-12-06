@@ -65,10 +65,10 @@
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-shield"><title>SIREH</title></i>
+            <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
             
           </div>
-          <span class="nav-link-text ms-1">SIREH </span>
+          <span class="nav-link-text ms-1">RRHH </span>
         </a>
         
         <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
@@ -85,36 +85,50 @@
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>
             </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{-- (Request::is('/') ? 'active' : '') --}}" href="{{ url('/') }}">Bienestar Social</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{-- (Request::is('/') ? 'active' : '') --}}" href="{{ url('/') }}">Nomina</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="(Request::is('sireh/auxiliares') ? 'active' : '') " href="{{ route('sireh.auxiliares') }}">Tablas Auxiliares</a>
-            </li>
+
+            {{--<li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+
+            </li>--}}
           </ul>
         </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ (Request::is('auxiliares/*') || Request::is('auxiliares')) ? 'active' : '' }} " href="{{ url('auxiliares') }}">
+        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10"><title>Tablas Auxiliares</title></i>
+          </div>
+            <span class="nav-link-text ms-1">Tablas Auxiliares</span>
+        </a>
       </li>
       @endrole 
       @role('aviacion|administrador')
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-users"><title>Registros de vuelos</title></i>
-            
+            <i style="color:#3a416f" class="fa fa-plane"><title>Registros de vuelos</title></i>
           </div>
+
           <span class="nav-link-text ms-1">Registros de vuelos</span>
         </a>
-        <div class="panel-collapse collapse {{ ((Request::is('fam0001') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
+
+        <div class="panel-collapse collapse {{ ((Request::is('forms/*') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('fam0001') ? 'active' : '') }}" href="{{ url('fam0001') }}">- FAM-0002</a></li>
+
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('forms/listado_pilotos') ? 'active' : '') }}" href="{{ route('forms.listado_pilotos') }}">- Reporte de Pilotos</a></li>
           </ul>
         </div>
       </li>
+
+      {{--<li class="nav-item">
+        <a class="nav-link {{ (Request::is('forms/listado_pilotos'))}}" href="{{ route('forms.listado_pilotos') }}">
+        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fas fa-file-pdf text-lg"><title>Reporte de Pilotos</title></i>
+          </div>
+            <span class="nav-link-text ms-1">Reporte de Pilotos</span>
+        </a>
+      </li>--}}
       @endrole 
-      
       {{--
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>

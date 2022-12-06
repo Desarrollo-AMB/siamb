@@ -32,7 +32,9 @@
                                             <th>FECHA</th>
                                             <th>OV/OTA/OM</th>
                                             <th>AERONAVE</th>
-                                            {{-- <th>EN APOYO</th> --}}
+                                            @role('administrador')
+                                            <th>UNIDAD</th>
+                                            @endrole 
                                             <th>BASE</th>
                                             <th>ESTATUS</th>
                                             <th>ACCIONES</th>
@@ -44,7 +46,9 @@
                                                 <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                 <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                 <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                {{-- <th>EN APOYO</th> --}}
+                                                @role('administrador')
+                                                <th  class="font-weight-normal">{{$data->unidad}}</th>
+                                                @endrole  
                                                 <th class="font-weight-normal">
                                                     {{$data->base->siglas}}
                                                 </th>
@@ -56,13 +60,15 @@
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
+                                                    <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
+                                                        <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                    </a>
                                                     @if($data->completado == 'completado') 
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                            <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
-                                                        </a>
-                                                    @else
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                            <i class="fas fa-search text-secondary" aria-hidden="true"></i>
+                                                        {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                            <i class="fas fa-eye  text-info" aria-hidden="true"></i>
+                                                        </a> --}}
+                                                        <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
+                                                            <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
                                                         </a>
                                                     @endif
                                                 </th>
@@ -86,21 +92,7 @@
     $(function () {
         $('#vuelos').DataTable({
             processing: true,
-            // serverSide: true,
             responsive: true,
-            // ajax: "{{ route('fam0001') }}",
-            // columns: [
-            //     {data: 'fecha',},
-            //     {data: 'ov_ota_om',},
-            //     {data: 'aeronave_modelo'},
-            //     //{data: 'en_apoyo'},
-            //     {data: 'unidad'},
-            //     {data: 'completado'},
-            //     {data: 'actions', name: 'action', orderable: false, searchable: false},
-            // ],
-            // search: {
-            //     return: true,
-            // },
             "language": {
                 "sProcessing":    "Procesando...",
                 "sLengthMenu":    "Mostrar _MENU_ registros",

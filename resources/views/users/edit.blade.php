@@ -58,7 +58,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Roles:</strong>
-                            <select class="select2 form-control" name="roles" id="roles" multiple required>
+                            <select class="select2 form-control" name="roles[]" id="roles" multiple required>
                                 @foreach ($roles as $rol)
                                     <option {{ in_array($rol->id,$userRole) ? 'selected':'' }} value="{{$rol->id}}"
                                     >{{ $rol->name }} - {{ $rol->guard_name == 'web'? 'siamb':$rol->guard_name}}</option>

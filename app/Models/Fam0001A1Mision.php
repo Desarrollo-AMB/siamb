@@ -33,4 +33,8 @@ class Fam0001A1Mision extends Model
         'completado',
         'user_id'
     ];
+
+    public function consumibles() {
+        return $this->hasMany(Fam0001A1MisionConsumible::class, 'fam0001_a1_mision_id');
+    }
 }

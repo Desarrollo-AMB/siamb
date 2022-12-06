@@ -177,7 +177,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('personal.empleados.notuser') }}",
+            ajax: "{{ route('api.personal.empleados.notuser') }}",
             columns: [
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
                 {data: 'cedula',},
@@ -185,7 +185,7 @@
                 {data: 'apellido1'},
                 {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
                 {data: 'cargo', name: 'cargos.nombre_cargo'},
-                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion'},
             ],
             search: {
                 return: true,
@@ -253,7 +253,7 @@
             serverSide: true,
             responsive: true,
             pageLength: 25,
-            ajax: "{{ route('personal.not-empleados.notuser') }}",
+            ajax: "{{ route('api.personal.not-empleados.notuser') }}",
             columns: [
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
                 {data: 'cedula',},

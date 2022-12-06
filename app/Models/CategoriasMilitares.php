@@ -13,4 +13,8 @@ class CategoriasMilitares extends Model
         '*',
     ];
     public $timestamps = false;
+
+    public function datos_militares() {
+    	return $this->hasOne(DatosMilitares::class, 'codigo_categoria', 'codigo_categoria');
+    }
 }
