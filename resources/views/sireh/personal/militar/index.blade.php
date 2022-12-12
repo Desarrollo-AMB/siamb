@@ -137,10 +137,10 @@
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Seleccionar Función</label>
                                 <select class="form-control funcion select2" id="funcion" name="funcion[]" multiple="multiple" required>
-                                    <option value="">Seleccione...</option>
+                                    {{--<option value="">Seleccione...</option>
                                     @foreach($funcionEmpleado as $data) 
                                         <option value="{{$data->id}}">{{$data->funcion}}</option>
-                                    @endforeach
+                                    @endforeach--}}
                                 </select>
                             </div>
                         </div>
@@ -262,7 +262,6 @@
                     processData: false,
                     contentType: false,
                     success:function(res){
-                      
                         Swal.fire({
                             title: 'Egreso!',
                             text: 'Proceso realizado satisfactoriamente...',
@@ -302,7 +301,17 @@
                         $('#modal-view-funcion_empleado').on('shown.bs.modal', function(e) {
                             $('#modal-view-funcion_empleado #codigo_empleado_funcion').val(res.codigo_empleado);
                         })
-                        if (response.haveFuncion.length > 0) {
+                        
+                        $("#funcion").empty();
+                        $("#funcion").select2({ placeholder: "Seleccione la Funcion"});
+                        $.each(response.funcionTripulante, function (key, value){
+           
+                            $("#funcion").append("<option value=\""+value.id+"\">"+value.funcion+"</option>");
+                        });
+                        $('#funcion').val(response.idsFuncion);
+                        $('#funcion').trigger('change');
+                        
+                        /*if (response.haveFuncion.length > 0) {
                             $('.showLabel').prop('hidden', false);
                             $("#haveFuncion").empty(); 
                             $.each(response.haveFuncion, function (key, value){
@@ -324,7 +333,7 @@
                                     "
                                 );
                             })
-                        }
+                        }*/
                     }
                     else{
                         alert('Fallo en la peticion con el servidor')

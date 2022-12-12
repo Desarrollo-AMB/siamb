@@ -94,6 +94,7 @@ return [
     'tipo_unidad' =>[
         'F' =>  'FORANEA',
         'A' =>  'ADMINISTRATIVA',
+        'O' =>  'OPERATIVA'
     ],
     
     'situacion' =>[
