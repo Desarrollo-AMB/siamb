@@ -1577,35 +1577,46 @@ class PersonalController extends Controller
     public function showDataPersonalMilitar(Request $request)
     {
         $data = Nomina::where('codigo_empleado', $request->id)->get();
+        $funcionEmpleado = FuncionTripulante::get();
         $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
             ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
             ->select(
                 'empleado_funcion.id',
+                'empleado_funcion.id_funcion',
                 'funcion_tripulante.funcion',
             )
             ->get();
+        $idsFuncion = $haveFuncion->pluck('id_funcion')->toArray();
+        //dd($idsFuncion);
         return response()->json([
                 'success' => true,
                 'message' => 'Data',
                 'data' => $data,
                 'haveFuncion' => $haveFuncion,
+                'funcionTripulante' => $funcionEmpleado, 
+                'idsFuncion' => $idsFuncion
             ]
         );
     }
     public function storeFuncionPersonalMilitar(Request $request)
     {
-        $loop = count($request->funcion_id);
+       
+        $empleado= Empleado::where('codigo_empleado', $request->codigo_empleado)->first();
+       
+        $empleado->empleadoFuncion()->sync($request->funcion_id);
+       
+        /*$loop = count($request->funcion_id);
         for ($i=0; $i < $loop; $i++) { 
             $funcion = new EmpleadoFuncion;
             $funcion->codigo_empleado = $request->codigo_empleado;
             $funcion->id_funcion = $request->funcion_id[$i];
             $funcion->save();
-        }
+        }*/
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
-                'data' => $funcion,
+                //'data' => $funcion,
             ]
         );
     }
