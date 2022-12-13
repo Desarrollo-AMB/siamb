@@ -125,13 +125,13 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HOROMETRO A LA FECHA</small>
-                        <input name="horometro" type="text" class="form-control horometro load_horometro" style="text-transform: uppercase"> 
+                        <input name="horometro" type="number" class="form-control horometro load_horometro" {{--style="text-transform: uppercase"--}}> 
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">IND X CADA VUELO</small>
-                        <input name="ind_vuelo" type="text" class="form-control ind_vuelo load_ind_vuelo" style="text-transform: uppercase"> 
+                        <input name="ind_vuelo" type="number" class="form-control ind_vuelo load_ind_vuelo" {{--style="text-transform: uppercase"--}}> 
                     </div>
                 </div>
             </div>

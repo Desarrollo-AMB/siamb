@@ -39,6 +39,11 @@ class Empleado extends Model
     public function funcion() {
         return $this->hasMany(EmpleadoFuncion::class, 'codigo_empleado', 'codigo_empleado');
     }
+
+    // Relacion Muchos a Muchos para asignar la Funcion Tripulante al Empleado...
+    public function empleadoFuncion() {
+        return $this->belongsToMany(FuncionTripulante::class, 'empleado_funcion', 'codigo_empleado','id_funcion','codigo_empleado');
+     }
     
     public function getActivitylogOptions(): LogOptions
     {
