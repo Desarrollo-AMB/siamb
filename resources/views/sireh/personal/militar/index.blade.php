@@ -122,13 +122,13 @@
                         <div class="col-sm-8">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Nombre y Apellido</label>
-                                <input  type="text" class="form-control nombre_empleado" value="" id="" disabled>
+                                <input  type="text" class="form-control nombre_empleado" value="" id="nombre_empleado" disabled>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">cedula</label>
-                                <input  type="text" class="form-control cedula_empleado" value="" id="" disabled>
+                                <input  type="text" class="form-control cedula_empleado" value="" id="cedula_empleado" disabled>
                             </div>
                         </div>
                     </div>
@@ -210,13 +210,11 @@
 
         table.on('click', '.suspender_militar', function() {
             var id = $(this).data("id");
-            console.log(id);    
-   
+
+            $('#modal-view').modal("show");
             $('#modal-view').on('shown.bs.modal', function(e) {
                 $('#modal-view #id_empleado').val(id);
             })
-            $('#modal-view').modal("show");
-
             $("#id").val(id);
         });
 
@@ -296,19 +294,21 @@
                 success: function(response){
                     if(response){
                         let res = response.data[0]
-                        $('.nombre_empleado').val(res.nombre1 + ' ' +res.apellido1)
-                        $('.cedula_empleado').val(res.cedula)
-                        $('#modal-view-funcion_empleado').on('shown.bs.modal', function(e) {
+                        $('#modal-view-funcion_empleado #nombre_empleado').val(res.nombre1 + ' ' +res.apellido1)
+                        $('#modal-view-funcion_empleado #cedula_empleado').val(res.cedula);
+                        $('#modal-view-funcion_empleado #codigo_empleado_funcion').val(res.codigo_empleado);
+                        /*$('#modal-view-funcion_empleado').on('shown.bs.modal', function(e) {
                             $('#modal-view-funcion_empleado #codigo_empleado_funcion').val(res.codigo_empleado);
-                        })
+                        })*/
                         
                         $("#funcion").empty();
                         $("#funcion").select2({ placeholder: "Seleccione la Funcion"});
                         $.each(response.funcionTripulante, function (key, value){
-           
                             $("#funcion").append("<option value=\""+value.id+"\">"+value.funcion+"</option>");
                         });
+                       
                         $('#funcion').val(response.idsFuncion);
+                                    
                         $('#funcion').trigger('change');
                         
                         /*if (response.haveFuncion.length > 0) {
@@ -374,7 +374,7 @@
                             });
                             setTimeout(function () {
                                 window.location.reload();
-                            }, 1200);
+                            }, 1000);
                         }
                     },
                     error:function(error){
