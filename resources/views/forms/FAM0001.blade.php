@@ -67,9 +67,9 @@
                                                         {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                             <i class="fas fa-eye  text-info" aria-hidden="true"></i>
                                                         </a> --}}
-                                                        <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
+                                                        {{--<a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
                                                             <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
-                                                        </a>
+                                                        </a>--}}
                                                     @endif
                                                 </th>
                                             </tr>
