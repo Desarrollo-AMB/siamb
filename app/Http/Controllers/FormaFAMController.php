@@ -686,16 +686,21 @@ class FormaFAMController extends Controller
         $pilotos->join('empleado_funcion','empleado_funcion.codigo_empleado','=','empleados.codigo_empleado');
         $pilotos->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion');
         $pilotos->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $pilotos->join('fam0001_b1_tripulacion','empleados.cedula','=','fam0001_b1_tripulacion.cedula');
+        
+        $pilotos->where('fam0001_b1_tripulacion.completado','completado');
+        $pilotos->where('fam0001_b1_tripulacion.codigo_funcion','P');
         $pilotos->where('funcion_tripulante.codigo','P');
         
         $pilotos->select(
             'empleados.id',
-            'empleados.codigo_empleado',
-            'empleados.cedula',
+            'empleados.codigo_empleado as codigo_empleado',
+            'empleados.cedula as cedula',
             'empleados.nombre1',
             'empleados.apellido1',
             'grados_militares.siglas as grado',
         );
+        
 
         $datatable= DataTables::of($pilotos)
             ->addColumn('actions', 'forms._actions')
@@ -728,13 +733,13 @@ class FormaFAMController extends Controller
         ->where('fam0001_b1_tripulacion.completado','completado')
         ->where('fam0001_b1_tripulacion.codigo_funcion','P')
         ->select(
-            'fam0001_b1_tripulacion.cedula',
+            'fam0001_b1_tripulacion.cedula as cedula',
             'bases.descripcion as base',
-            'fam0001.unidad',
+            'fam0001.unidad as unidad',
             'aeronave_modelo.aeronave as aeronave',
-            'fam0001.serial',
-            'fam0001.matricula',
-            'fam0001.fecha'
+            'fam0001.serial as serial',
+            'fam0001.matricula as matricula',
+            'fam0001.fecha as fecha'
         );
 
         $datatable= DataTables::of($piloto);
@@ -791,7 +796,10 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
-        //dd($piloto);
+        if(count($piloto)==0){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros para el periodo solicitado');
+        };
         
         $anteriores = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
@@ -803,7 +811,6 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
-        //dd($anteriores);
         
         $pdf = \PDF::loadview('forms.imprimir_reporte', compact('piloto', 'anteriores'));
 
