@@ -63,10 +63,10 @@
             pageLength: 25,
             ajax: "{{ route('api.forms.listado_pilotos.data') }}",
             columns: [
-                {data: 'cedula',},
-                {data: 'grado',},
-                {data: 'nombre1',},
-                {data: 'apellido1',},
+                {data: 'cedula', name:'empleados.cedula'},
+                {data: 'grado', name:'grados_militares.siglas'},
+                {data: 'nombre1', name:'empleados.nombre1'},
+                {data: 'apellido1', name:'empleados.apellido1'},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
             search: {
