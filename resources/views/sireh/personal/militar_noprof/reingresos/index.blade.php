@@ -90,7 +90,7 @@
 @parent
 <script>
     $(function () {
-        $.fn.dataTable.moment( 'DD-MM-YYYY' );
+        //$.fn.dataTable.moment( 'DD-MM-YYYY' );
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
