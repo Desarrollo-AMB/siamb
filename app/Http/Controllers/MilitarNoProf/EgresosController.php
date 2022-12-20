@@ -69,18 +69,20 @@ class EgresosController extends Controller
                 ->get();
                 
             foreach($nominas as $nomina){
-                Empleado::where('codigo_empleado',$nomina->codigo_empleado)->update(['situacion'=>'E']);
-                Nomina::where('codigo_empleado',$nomina->codigo_empleado)->update(['situacion'=>'E']);
-                EgresosAlist::create(
-                    [
-                        'codigo_empleado'=> $nomina->codigo_empleado,
-                        'contingente'=>$contingente,
-                        'fecha_egreso' => $request->fecha_egreso,
-                        'resolucion'=> $request->resolucion,
-                        'username' => auth()->user()->username,
-                        'fecha_registro' => $fecha_registro,
-                    ]
-                );
+                DB::transaction(function() use ($nomina, $fecha_registro, $request)
+                {
+                    $egreso = new EgresosAlist();
+                    $egreso->codigo_empleado = $nomina->codigo_empleado;
+                    $egreso->contingente = $nomina->contingente;
+                    $egreso->fecha_egreso = $request->fecha_egreso;
+                    $egreso->resolucion = $request->resolucion;
+                    $egreso->username = auth()->user()->username;
+                    $egreso->fecha_registro = $fecha_registro;
+                    $egreso->save();
+                    Empleado::where('codigo_empleado',$nomina->codigo_empleado)->update(['situacion'=>'E']);
+                    Nomina::where('codigo_empleado',$nomina->codigo_empleado)->update(['situacion'=>'E']);
+                    
+                });
             }
             return response()->json(['success' => true]);
         } catch (Exception $e) {
