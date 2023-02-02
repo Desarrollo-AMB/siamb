@@ -29,7 +29,7 @@ SELECT codigo_empleado, cedula, nombre1, nombre2, apellido1, apellido2, situacio
 	estatura, color, cabellos, ojos, grupo_sanguineo, cara, frente, cejas, nariz, boca,
 	labios, barba, contextura, religion, correo, telefono_cel, telefono_ofi, persona_contacto,
 	talla_gorra, ubicacion_admpub, discapacidad, tipo_discapacidad, alergias	
-  FROM empleados
+  FROM empleados;
 ```
 * La tabla nomina:
 ```
