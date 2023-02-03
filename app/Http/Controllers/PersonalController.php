@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\User;
 use App\Models\Empleado;
@@ -38,6 +39,7 @@ use App\Models\TipoDeBaja;
 use App\Models\Egresos;
 use App\Models\FuncionTripulante;
 use App\Models\EmpleadoFuncion;
+use App\Exports\PersonalMilitarExport;
 
 class PersonalController extends Controller
 {
@@ -1630,5 +1632,120 @@ class PersonalController extends Controller
             ]
         );
     } 
+
+    public function reportesPersonalMilitarView()
+    {
+        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','MEX','TRP'])->get();
+        return view('sireh.personal.militar.reportes', compact(
+            'categorias_militares',
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reportesPersonalMilitar(Request $request)
+    {
+       
+        $this->validate($request, 
+            [
+                'reporte' => 'required',
+                'parametros' => 'required|array|min:1',
+                'parametros.*' => 'required|string|distinct',
+            ],
+            [
+                'parametros.*.required' => 'El Parametro es requerido',
+            ]
+            
+        );
+        $reporte=$request->reporte;
+        $nameParametro =array_key_first($request->parametros);
+        $valueParametro = $request->parametros[$nameParametro];
+      
+        $complementoTitulo='';
+        switch ($reporte) {
+            case 1:
+                $complementoTitulo= "DE BAJA POR CATEGORIA";
+                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                    ->where('datos_militares.codigo_categoria', $valueParametro)
+                    ->select(
+                    'empleados.id',
+                    'empleados.codigo_empleado',
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'grados_militares.siglas as siglas',
+                    'grados_militares.descripcion as grado_militar',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion',
+                    DB::raw("CASE nomina.situacion 
+                            WHEN 'A' THEN 'ACTIVO'
+                            WHEN 'E' THEN 'EGRESADO'
+                            WHEN 'S' THEN 'SUSPENDIDO'
+                            ELSE '' 
+                            END as situacion"),
+                    'datos_militares.codigo_categoria',
+                    'categorias_militares.descripcion as categoria_militar',
+            
+                );
+                $datos = $empleados->get();
+               
+                break;
+            case 2:
+                //dd($valueParametro);
+                $complementoTitulo= "DE BAJA POR SITUACION";
+                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                    ->where('nomina.situacion', $valueParametro)
+                    ->select(
+                    'empleados.id',
+                    'empleados.codigo_empleado',
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'grados_militares.siglas as siglas',
+                    'grados_militares.descripcion as grado_militar',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion',
+                    DB::raw("CASE nomina.situacion 
+                            WHEN 'A' THEN 'ACTIVO'
+                            WHEN 'E' THEN 'EGRESADO'
+                            WHEN 'S' THEN 'SUSPENDIDO'
+                            ELSE '' 
+                            END as situacion"),
+                    'datos_militares.codigo_categoria',
+                    'categorias_militares.descripcion as categoria_militar',
+            
+                );
+                $datos = $empleados->get();
+                break;
+        }
+
+        $titulo = 'REPORTE DE PERSONAL MILITAR '. $complementoTitulo;
+        
+        $nombre_archivo = sprintf('ReportePersonalMilitar %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        $data = compact('titulo', 'datos');
+        
+        return Excel::download(new PersonalMilitarExport($data), $nombre_archivo);
+    
+    }
 
 }

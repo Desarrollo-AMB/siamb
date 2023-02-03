@@ -178,6 +178,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/condecoraciones/store', [CondecoracionesController::class, 'store'])->name('sireh.condecoraciones.store');
     Route::get('/sireh/condecoraciones/edit/{id}', [CondecoracionesController::class, 'edit'])->name('sireh.condecoraciones.edit');
     Route::delete('/sireh/condecoraciones/delete/{id}', [CondecoracionesController::class, 'destroy'])->name('sireh.condecoraciones.destroy');
+
+    Route::get('/sireh/personal-militar/reportes', [PersonalController::class, 'reportesPersonalMilitarView'])->name('sireh.personal-militar.reportes');
+    Route::post('/sireh/personal-militar/reportes', [PersonalController::class, 'reportesPersonalMilitar'])->name('sireh.personal-militar.reportes.ejecutar');
+
 });
 
 
