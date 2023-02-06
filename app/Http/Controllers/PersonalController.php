@@ -40,6 +40,7 @@ use App\Models\Egresos;
 use App\Models\FuncionTripulante;
 use App\Models\EmpleadoFuncion;
 use App\Exports\PersonalMilitarExport;
+use App\Exports\PersonalMilitarEnFormacionExport;
 
 class PersonalController extends Controller
 {
@@ -1745,6 +1746,79 @@ class PersonalController extends Controller
         $data = compact('titulo', 'datos');
         
         return Excel::download(new PersonalMilitarExport($data), $nombre_archivo);
+    
+    }
+
+    public function reportesPersonalMilitarNoProfView()
+    {
+        $ubicaciones = Ubicaciones::all();
+        return view('sireh.personal.militar_noprof.reportes', compact(
+            'ubicaciones',
+        ));
+    }
+
+     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reportePersonalMilitarNoProfJerarquiaUbicacion(Request $request)
+    {
+       
+        $this->validate($request, 
+            [
+                'tipo_emp' => 'required',
+                'grado_militar' => 'required',
+                'ubicacion' => 'required',
+            ],
+            [
+                'tipo_emp' => 'El Parametro Tipo Empleado es Requerido',
+            ]
+            
+        );
+
+        $codigo_ubicacion = $request->ubicacion;
+        $grado_militar=$request->grado_militar;
+        $ubicacion_descripcion = '';
+        $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+            ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+            ->whereIn('nomina.tipo_emp',['MIL','MEF']);
+        if($grado_militar!=='0'){
+            $empleados->where('nomina.grado_militar', $grado_militar);
+        }
+        if($codigo_ubicacion!=='0'){
+            $empleados->where('nomina.codigo_ubicacion', $codigo_ubicacion);
+            $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion',$codigo_ubicacion)->first()->value('descripcion');
+            
+        }
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.siglas as siglas',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.codigo_ubicacion',
+            'ubicaciones.descripcion as ubicacion',
+        );
+
+        $datos = $empleados->get();
+        if(count($datos)>0){
+            \Session::flash('success','Reporte Ejecutado con exito !');
+            $titulo = 'LISTADO POR UBICACION DE MILITARES EN FORMACION Y/O LA TROPA ALISTADA';
+        
+            $nombre_archivo = sprintf('ReportePersonalMilitarNoProf %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+            $data = compact('titulo', 'datos','codigo_ubicacion','ubicacion_descripcion');
+            return Excel::download(new PersonalMilitarEnFormacionExport($data), $nombre_archivo);
+        }else {
+            return redirect()->back()->with('error', 'No hay Datos para generar el informe');
+        }
     
     }
 

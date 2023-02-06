@@ -93,3 +93,5 @@ Route::get('sireh/personalcivil/jubilable', [JubiladosController::class, 'jubila
 
 Route::get('forms/ver_listado_piloto/data/{cedula}', [FormaFAMController::class, 'verListadoPilotoData'])->name('api.forms.ver_listado_piloto.data');
 
+Route::get("grados-militares-noprof/{tipo_emp?}", [ApiController::class, 'getGradosMilitaresPersonalMilitarNoProf'])->name("api.grados_militares.noprof");
+

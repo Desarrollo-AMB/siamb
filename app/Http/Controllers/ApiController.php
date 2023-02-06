@@ -54,4 +54,12 @@ class ApiController extends Controller
         $ubicaciones_detalladas = UbicacionDetallada::where('codigo_ubic_nomina',$ubicacion)->orderBy('codigo_ubicacion','asc')->get();
         return response()->json($ubicaciones_detalladas);
     }
+
+    public function getGradosMilitaresPersonalMilitarNoProf($tipo_emp=null){
+        $grados = [];
+        if  ($tipo_emp){
+            $grados = GradosMilitares::where('tipo_emp',$tipo_emp)->orderBy('codigo_grado','asc')->get();        
+        }
+        return response()->json($grados);
+    }
 }
