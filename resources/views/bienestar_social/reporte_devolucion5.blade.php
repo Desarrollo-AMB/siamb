@@ -4,7 +4,7 @@ use Carbon\Carbon;
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Reporte de Devolucion 5%</title>
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
         <style>

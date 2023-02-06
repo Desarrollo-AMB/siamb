@@ -52,7 +52,7 @@
                                                     </div>
                                                     <div class="col-lg-8 col-sm-6">
                                                         <div id="Parametros1" class="parametros ">
-                                                            <form action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row">
+                                                            <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
                                                                 @csrf
                                                                 <div class="col-md-8">
                                                                     <div class="row">
@@ -172,6 +172,15 @@
             //$("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
+        });
+        $("#formDevolucion5").validate({
+            rules: {
+                cedula: { required: true, minlength: 8},
+            },
+            messages: {
+                cedula: "El parametro es obligatorio.",
+                
+            }
         });
     });
 </script>

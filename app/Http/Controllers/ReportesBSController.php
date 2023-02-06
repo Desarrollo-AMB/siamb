@@ -68,8 +68,6 @@ class ReportesBSController extends Controller
             ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
             ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-            //->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-            //->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
             ->where('empleados.cedula', $request->cedula)
             ->select(
             'empleados.id',
@@ -82,8 +80,6 @@ class ReportesBSController extends Controller
             'grados_militares.siglas as siglas',
             'grados_militares.descripcion as grado_militar', 
             'ubicaciones.descripcion as ubicacion',
-            /*'datos_militares.codigo_categoria',
-            'categorias_militares.descripcion as categoria_militar',*/
         )->first();
         if(!$data){
             return back()
@@ -97,11 +93,11 @@ class ReportesBSController extends Controller
             ->get();
         
         
-        
-        $pdf = \PDF::loadview('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
+        $pdf = \PDF::loadView('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
 
-        return $pdf->stream('REPORTE.pdf');
+        return $pdf->stream('Reporte Bienestar Social Devolucion.pdf',array('Attachment'=>0));
         //return view('bienestar_social.reporte_devolucion5', compact('data'));
+       
     }
 
 }
