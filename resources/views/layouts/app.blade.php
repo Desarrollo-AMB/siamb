@@ -7,7 +7,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- <title>{{ config('app.name', 'SIAMB') }}</title> --}}
     <title>SIAMB</title>
 
     <!-- Fonts -->
@@ -19,24 +18,23 @@
     
     <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" /> --}}
+    
 
     <link href="{{ asset('vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/fixedHeader.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/responsive.dataTables.min.css') }}" rel="stylesheet">
-    {{-- --}}
 
     {{-- ##########  TEMPLATE ########### --}}
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
     <!-- Nucleo Icons -->
     <link href="{{ asset('template/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
     <link href="{{ asset('template/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <link href="{{ asset('template/assets/css/themify-icons/themify-icons.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('template/assets/font-awesome/css/all.css') }}">
     <!-- Font Awesome Icons -->
-    {{-- <script src="{{ asset('template/assets/js/fontawesome.js') }}" crossorigin="anonymous"></script> --}}
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> 
     
     <!-- CSS Files -->
@@ -44,7 +42,6 @@
 
     {{-- WIZARD --}}
 	<!-- Fonts and Icons -->
-    <!-- <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet"> -->
 	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>  
 	<link href="{{ asset('template/wizard/css/themify-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('template/wizard/css/styling-wizard.css') }}" rel="stylesheet">
@@ -75,7 +72,6 @@
     
     <!--   Core JS Files   -->
     <script src="{{ asset('template/assets/js/core/popper.min.js') }}"></script>
-    {{--<script src="{{ asset('template/assets/js/core/bootstrap.min.js') }}"></script>--}}
     <script src="{{ asset('template/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/plugins/fullcalendar.min.js') }}"></script>
@@ -109,8 +105,7 @@
     <script src="{{ asset('vendor/datatables/dataTables.fixedHeader.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/dataTables.responsive.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/responsive.bootstrap.min.js') }}" ></script>
-    {{--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
-
+  
 
     {{-- wizard  --}}
     <script src="{{ asset('template/wizard/js/jquery.bootstrap.wizard.js') }}" type="text/javascript"></script>

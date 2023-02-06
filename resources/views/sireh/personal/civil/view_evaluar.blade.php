@@ -150,7 +150,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">fecha de evaluacion:</label>
+                                                    <label for="recipient-name" class="col-form-label">Fecha de Evaluacion:</label>
                                                     <input  type="date" class="form-control fecha_evaluacion" value="" id="fecha_evaluacion">
                                                 </div>
                                             </div>
