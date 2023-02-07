@@ -72,7 +72,7 @@
             <div class="card-body text-center p-2">
                 <a href="{{ route('sireh.personal-militar-noprof.reportes') }}">
                     <div class="icon icon-shape icon-xs bg-gradient-secondary shadow text-center border-radius-md">
-                        <i class="fa-file-excel-o text-xs opacity-10" aria-hidden="true"></i>
+                        <i class="fa fa-file-excel-o text-xs opacity-10" aria-hidden="true"></i>
                     </div>
                     <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                         <small class="font-weight-bolder mb-1">
