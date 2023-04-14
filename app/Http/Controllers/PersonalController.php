@@ -577,6 +577,7 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
         return view('sireh.personal.militar.edit',
