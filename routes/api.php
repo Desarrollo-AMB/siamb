@@ -17,6 +17,7 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Civil\JubiladosController;
+use App\Http\Controllers\PartegeneralController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::get('sireh/personalmilitar/bajas', [PersonalController::class, 'personalM
 Route::get('auxiliares/universidades/data', [UniversidadesController::class, 'universidadesData'])->name('api.auxiliares.universidades.data');
 Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profesionesData'])->name('api.auxiliares.profesiones.data');
 
+//parteGeneral//
+Route::get('sireh/personal-militar/parte', [PartegeneralController::class, 'PartegeneralData'])->name('api.sireh.personal.militar.parte.data');
 //ubucaciones//
 Route::get('auxiliares/ubicaciones/data', [UbicacionesController::class, 'ubicacionesData'])->name('api.auxiliares.ubicaciones.data');
 //Ubicaciones_detalladas////
