@@ -176,7 +176,7 @@ use Carbon\Carbon;
                                 </tr>
                         <tr>
                             <th>Presente</th>
-                            <td>{{ $datas->totalq }}</td>
+                            <td>{{ $datas->total1 }}</td>
                         </tr>
                         <tr>
                             <th>faltan</th>
@@ -184,67 +184,67 @@ use Carbon\Carbon;
                         </tr>
                         <tr>
                             <th>Servicio en la Unidad</th>
-                            <td>{{ $datas->total3 }}</td>
+                            <td>{{ $datas->total2 }}</td>
                         </tr>
                         <tr>
                             <th>Servicio feura de la unidad</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total3}}</td>
                         </tr>
                         <tr>
                             <th>Retardado</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total4}}</td>
                         </tr>
                         <tr>
                             <th>Permiso</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total5}}</td>
                         </tr>
                         <tr>
                             <th>Comisión País</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total6}}</td>
                         </tr>
                         <tr>
                             <th>Comisíon Exterior</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total7}}</td>
                         </tr>
                         <tr>
                             <th>Curso País</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total8}}</td>
                         </tr>
                         <tr>
                             <th>Curso Exterior</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total9}}</td>
                         </tr>
                         <tr>
                             <th>Ausente sin Causa Justificada</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total10}}</td>
                         </tr>
                         <tr>
                             <th>Destacado fuera de la Unidad</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total11}}</td>
                         </tr>
                         <tr>
                             <th>Consulta</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total12}}</td>
                         </tr>
                         <tr>
                             <th>Reposo</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total13}}</td>
                         </tr>
                         <tr>
                             <th>Hospiatalizado</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total14}}</td>
                         </tr>
                         <tr>
                             <th>Desertor</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total15}}</td>
                         </tr>
                         <tr>
                             <th>Privado de Libertad</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total16}}</td>
                         </tr>
                         <tr>
                             <th>Otro</th>
-                            <td>{{ $datas->total2}}</td>
+                            <td>{{ $datas->total17}}</td>
                         </tr>
 
                     </tbody>
@@ -308,196 +308,192 @@ use Carbon\Carbon;
                     <tbody>
                         <tr>
                             <th>G/J</th>
-                                <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                                <td>{{ $datas->coGJ}}</td>
+                                 <td>{{ $datas->ctrpGJ }}</td>
+                                 <td>{{ $datas->tecGJ}}</td>
+                                 <td>{{ $datas->asGJ }}</td>
+                                 <td>{{ $datas->AStecGJ }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalGJ}}</td>
                         </tr>
                         <tr>
                             <th>M/J</th>
 
-                                <td>{{ $datas->tecnico }}</td>
-                                <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coMJ}}</td>
+                            <td>{{ $datas->ctrpMJ}}</td>
+                            <td>{{ $datas->tecMJ}}</td>
+                            <td>{{ $datas->asMJ}}</td>
+                            <td>{{ $datas->AStecMJ}}</td>
+                            <td>0</td>
+                            <td>{{ $datas->totalMJ}}</td>
                         </tr>
                         <tr>
                             <th>G/D</th>
-                            <td>{{ $datas->tropacmd }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <<td>{{ $datas->coGD}}</td>
+                            <td>{{ $datas->ctrpGD }}</td>
+                            <td>{{ $datas->tecGD}}</td>
+                            <td>{{ $datas->asGD }}</td>
+                            <td>{{ $datas->AStecGD }}</td>
+                            <td>0</td>
+                            <td>{{ $datas->totalGD }}</td>
                         </tr>
                         <tr>
                             <th>G/B</th>
-                            <td>{{ $datas->asimiladotc }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coGB}}</td>
+                                 <td>{{ $datas->ctrpGB }}</td>
+                                 <td>{{ $datas->tecGB}}</td>
+                                 <td>{{ $datas->asGB }}</td>
+                                 <td>{{ $datas->AStecGB }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalGB }}</td>
                         </tr>
                         <tr>
                             <th>CNEL </th>
-                            <td>{{ $datas->asimilado }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coCNEL}}</td>
+                                 <td>{{ $datas->ctrpCNEL }}</td>
+                                 <td>{{ $datas->tecCNEL}}</td>
+                                 <td>{{ $datas->asCNEL }}</td>
+                                 <td>{{ $datas->AStecCNEL }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalCNEL }}</td>
                         </tr>
                         <tr>
                             <th>TCNEL</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coTCNEL}}</td>
+                                 <td>{{ $datas->ctrpTCNEL }}</td>
+                                 <td>{{ $datas->tecTCNEL}}</td>
+                                 <td>{{ $datas->asTCNEL }}</td>
+                                 <td>{{ $datas->AStecTCNEL }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalTCNEL }}</td>
                         </tr>
                         <tr>
                             <th>MAY</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coMY}}</td>
+                                 <td>{{ $datas->ctrpMY }}</td>
+                                 <td>{{ $datas->tecMY}}</td>
+                                 <td>{{ $datas->asMY }}</td>
+                                 <td>{{ $datas->AStecMY }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalMY}}</td>
                         </tr>
                         <tr>
                             <th>CAP</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coCAP}}</td>
+                                 <td>{{ $datas->ctrpCAP }}</td>
+                                 <td>{{ $datas->tecCAP}}</td>
+                                 <td>{{ $datas->asCAP }}</td>
+                                 <td>{{ $datas->AStecCAP }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalCAP }}</td>
                         </tr>
                         <tr>
                             <th>PTTE</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coPTTE}}</td>
+                                 <td>{{ $datas->ctrpPTTE }}</td>
+                                 <td>{{ $datas->tecPTTE}}</td>
+                                 <td>{{ $datas->asPTTE }}</td>
+                                 <td>{{ $datas->AStecPTTE }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalPTTE}}</td>
                         </tr>
                         <tr>
                             <th>TTE</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}
-
-
-
-                                </td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->coTTE}}</td>
+                                 <td>{{ $datas->ctrpTTE }}</td>
+                                 <td>{{ $datas->tecTTE}}</td>
+                                 <td>{{ $datas->asTTE }}</td>
+                                 <td>{{ $datas->AStecTTE }}</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->totalTTE }}</td>
                         </tr>
                         <tr>
                             <th>S/S</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->SS }}</td>
+                                 <td>{{ $datas->SS }}</td>
                         </tr>
                         <tr>
                             <th>S/A</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->SA }}</td>
+                                 <td>{{ $datas->SA }}</td>
                         </tr>
                         <tr>
                             <th>SM/1ERA</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->SM1 }}</td>
+                                 <td>{{ $datas->SM1 }}</td>
                         </tr>
                         <tr>
                             <th>SM/2DA</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->SM2}}</td>
+                                 <td>{{ $datas->SM2}}</td>
                         </tr>
                         <tr>
                             <th>SM/3RA</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->SM3 }}</td>
+                                 <td>{{ $datas->SM3 }}</td>
                         </tr>
                         <tr>
                             <th>S/1ERO</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->S1 }}</td>
+                                 <td>{{ $datas->S1 }}</td>
                         </tr>
                         <tr>
                             <th>S/2DO</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>0</td>
+                            <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>0</td>
+                                 <td>{{ $datas->S2}}</td>
+                                 <td>{{ $datas->S2}}</td>
                         </tr>
                         <tr>
                             <th>TOTAL</th>
-                            <td>{{ $datas->trp }}</td>
-                            <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
-                                 <td>{{ $datas->comando }}</td>
+                            <td>{{ $datas->TOTALcod }}</td>
+                            <td>{{ $datas->TOTALcmdtrp}}</td>
+                                 <td>{{ $datas->TOTALtec }}</td>
+                                 <td>{{ $datas->TOTALas }}</td>
+                                 <td>{{ $datas->TOTALastec }}</td>
+                                 <td>{{ $datas->TOTALtrp}}</td>
+                                 <td>{{ $datas->TOTAL}}</td>
                         </tr>
                     </tbody>
                 </table >
                 <br>
                 <table class="lista">
-                    <thead>
                         <tbody>
                             <tr>
+                                <th>Grado</th>
                                 <th>Nombre1</th>
                                 <th>Apellido</th>
                                 <th>Cedula </th>
@@ -505,15 +501,18 @@ use Carbon\Carbon;
                                 <th>Situacion</th>
                                 <th>Observaciones</th>
                             </tr>
-
                         </tbody>
-                        <td>{{$datas->nombre}}</td>
-                        <td>{{$datas->apellida}}</td>
-                        <td>{{ $datas->cedula }}</td>
-                        <td>ee</td>
-                        <td>{{ $datas->ubicacion }}</td>
+                        @foreach ($list as $liste)
+                        <thead>
+                            <td>{{ $liste->grado }}</td>
+                        <td>{{$liste->nombres}}</td>
+                        <td>{{$liste->apellido}}</td>
+                        <td>{{ $liste->cedula }}</td>
+                        <td>{{ $liste->categoria }}</td>
+                        <td>{{ $liste->situacion }}</td>
                         <td></td>
                     </thead>
+                    @endforeach
                 </table>
             </div>
 

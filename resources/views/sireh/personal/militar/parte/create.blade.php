@@ -71,12 +71,55 @@
                                                                 <option
                                                                     value="presente"{{ $nomina->situacion == 'Presente' ? 'selected' : '' }}>
                                                                     Presente</option>
-                                                                <option
-                                                                    value="comision"{{ $nomina->situacion == 'Comision' ? 'selected' : '' }}>
-                                                                    comision</option>
-                                                                <option
+                                                                    <option
+                                                                    value="Servicio en la Unidad"{{ $nomina->situacion == 'Servicio en la Unidad' ? 'selected' : '' }}>
+                                                                    Servicio en la Unidad</option>
+                                                                    <option
+                                                                    value="Servicio fuera de la Unidad"{{ $nomina->situacion == 'Servicio fuera de la Unidad' ? 'selected' : '' }}>
+                                                                    Servicio fuera de la Unidad</option>
+                                                                    <option
+                                                                    value="Retardado"{{ $nomina->situacion == 'Retardado' ? 'selected' : '' }}>
+                                                                    Retardado</option>
+                                                                    <option
+                                                                    value="Comision Pais"{{ $nomina->situacion == 'Comision Pais' ? 'selected' : '' }}>
+                                                                    Comision Pais</option>
+                                                                    <option
+                                                                    value="Comision Exterior"{{ $nomina->situacion == 'Comision Exterior' ? 'selected' : '' }}>
+                                                                    Comision Exterior</option>
+                                                                    <option
+                                                                    value="Cusrso Exterior"{{ $nomina->situacion == 'Cusrso Exterior' ? 'selected' : '' }}>
+                                                                    Cusrso Exterior</option>
+                                                                    <option
+                                                                    value="Curso Pais"{{ $nomina->situacion == 'Curso Pais' ? 'selected' : '' }}>
+                                                                    Curso Pais</option>
+                                                                    <option
+                                                                    value="Curso Exterior"{{ $nomina->situacion == 'Curso Exterior' ? 'selected' : '' }}>
+                                                                    Curso Exterior</option><option
+                                                                    value="Ausente sin causa Justificada"{{ $nomina->situacion == 'Ausente sin causa Justificada' ? 'selected' : '' }}>
+
+
+                                                                </option>
+                                                                    <option
+                                                                    value="Destacado fuera de la Unidad"{{ $nomina->situacion == 'Destacado fuera de la Unidad' ? 'selected' : '' }}>
+                                                                    Destacado fuera de la Unidad</option>
+                                                                    <option
+                                                                    value="Consulta"{{ $nomina->situacion == 'Consulta' ? 'selected' : '' }}>
+                                                                    Consulta</option>
+                                                                    <option
                                                                     value="Reposo"{{ $nomina->situacion == 'Reposo' ? 'selected' : '' }}>
                                                                     Reposo</option>
+                                                                    <option
+                                                                    value="Hospitalizado"{{ $nomina->situacion == 'Hospitalizado' ? 'selected' : '' }}>
+                                                                    Hospitalizado</option>
+                                                                    <option
+                                                                    value="Desertor"{{ $nomina->situacion == 'Desertor' ? 'selected' : '' }}>
+                                                                    Desertor</option>
+                                                                    <option
+                                                                    value="Privado de Libertad"{{ $nomina->situacion == 'Privado de Libertad' ? 'selected' : '' }}>
+                                                                    Privado de Libertad</option>
+                                                                    <option
+                                                                    value="Otro"{{ $nomina->situacion == 'Otro' ? 'selected' : '' }}>
+                                                                    Otro</option>
                                                             </select>
                                                         </td>
                                                         <td>
@@ -102,18 +145,20 @@
 @section('scripts')
     @parent
     <script>
-        $(document).ready(function() {
-
-            $('#nomina-table').DataTable({
-
-            });
-            new $.fn.DataTable.FixedHeader( table );
+        $(function() {
+            $('.select2').select2();
 
         });
-
+    </script>
+    <script>
         $(document).ready(function() {
+            $('#nomina-table').DataTable({
+                fixedHeader: true // Agregamos la opción de fixedHeader a la tabla
+            });
+
             $('#btn-guardar').click(function() {
                 var nominas = [];
+
                 $('#nomina-table tbody tr').each(function() {
                     var nomina = {
                         codigo_empleado: $(this).find('input[name="codigo_empleado"]').val(),
@@ -130,6 +175,20 @@
         });
 
         function store(nominas) {
+            var tableData = $('#nomina-table').DataTable().data().toArray();
+            var nominas = [];
+            tableData.forEach(function(row) {
+                var nomina = {
+                    codigo_empleado: row[0],
+                    codigo_ubicacion: row[1],
+                    codigo_categoria: row[2],
+                    grado_militar: row[3],
+                    situacion: row[4],
+                    observacion: row[5],
+                };
+                nominas.push(nomina);
+            });
+
             $.ajax({
                 url: "{{ route('sireh.personal.militar.parte') }}",
                 method: 'POST',
@@ -152,10 +211,5 @@
         }
         </script>
 
-    <script>
-        $(function() {
-            $('.select2').select2();
 
-        });
-    </script>
 @endsection

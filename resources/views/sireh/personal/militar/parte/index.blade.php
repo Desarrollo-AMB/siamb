@@ -188,187 +188,187 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($categorias as $categoria)
+                                        @foreach ($grados as $grado)
                                         <tr>
                                             <th>G/J</th>
-                                                <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coGJ}}</td>
+                                            <td>{{ $grado->ctrpGJ }}</td>
+                                            <td>{{ $grado->tecGJ}}</td>
+                                            <td>{{ $grado->asGJ }}</td>
+                                            <td>{{ $grado->AStecGJ }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalGJ }}</td>
                                         </tr>
                                         <tr>
                                             <th>M/J</th>
 
-                                                <td>{{ $categoria->tecnico }}</td>
-                                                <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coMJ}}</td>
+                                            <td>{{ $grado->ctrpMJ }}</td>
+                                            <td>{{ $grado->tecMJ}}</td>
+                                            <td>{{ $grado->asMJ }}</td>
+                                            <td>{{ $grado->AStecMJ }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalMJ }}</td>
                                         </tr>
                                         <tr>
                                             <th>G/D</th>
-                                            <td>{{ $categoria->tropacmd }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coGD}}</td>
+                                            <td>{{ $grado->ctrpGD }}</td>
+                                            <td>{{ $grado->tecGD}}</td>
+                                            <td>{{ $grado->asGD }}</td>
+                                            <td>{{ $grado->AStecGD }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalGD }}</td>
                                         </tr>
                                         <tr>
                                             <th>G/B</th>
-                                            <td>{{ $categoria->asimiladotc }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coGB}}</td>
+                                            <td>{{ $grado->ctrpGB }}</td>
+                                            <td>{{ $grado->tecGB}}</td>
+                                            <td>{{ $grado->asGB}}</td>
+                                            <td>{{ $grado->AStecGB}}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalGB }}</td>
                                         </tr>
                                         <tr>
                                             <th>CNEL </th>
-                                            <td>{{ $categoria->asimilado }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coCNEL}}</td>
+                                            <td>{{ $grado->ctrpCNEL }}</td>
+                                            <td>{{ $grado->tecCNEL}}</td>
+                                            <td>{{ $grado->asCNEL }}</td>
+                                            <td>{{ $grado->AStecCNEL }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalCNEL }}</td>
                                         </tr>
                                         <tr>
                                             <th>TCNEL</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coTCNEL}}</td>
+                                            <td>{{ $grado->ctrpTCNEL }}</td>
+                                            <td>{{ $grado->tecTCNEL}}</td>
+                                            <td>{{ $grado->asTCNEL }}</td>
+                                            <td>{{ $grado->AStecTCNEL }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalTCNEL }}</td>
                                         </tr>
                                         <tr>
                                             <th>MAY</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coMY}}</td>
+                                            <td>{{ $grado->ctrpMY }}</td>
+                                            <td>{{ $grado->tecMY}}</td>
+                                            <td>{{ $grado->asMY }}</td>
+                                            <td>{{ $grado->AStecMY }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalMY }}</td>
                                         </tr>
                                         <tr>
                                             <th>CAP</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coCAP}}</td>
+                                            <td>{{ $grado->ctrpCAP }}</td>
+                                            <td>{{ $grado->tecCAP}}</td>
+                                            <td>{{ $grado->asCAP }}</td>
+                                            <td>{{ $grado->AStecCAP }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalCAP}}</td>
                                         </tr>
                                         <tr>
                                             <th>PTTE</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coPTTE}}</td>
+                                            <td>{{ $grado->ctrpPTTE}}</td>
+                                            <td>{{ $grado->tecPTTE}}</td>
+                                            <td>{{ $grado->asPTTE }}</td>
+                                            <td>{{ $grado->AStecPTTE }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalPTTE }}</td>
                                         </tr>
                                         <tr>
                                             <th>TTE</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->coTTE}}</td>
+                                            <td>{{ $grado->ctrpTTE }}</td>
+                                            <td>{{ $grado->tecTTE}}</td>
+                                            <td>{{ $grado->asTTE }}</td>
+                                            <td>{{ $grado->AStecTTE }}</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->totalTTE}}</td>
                                         </tr>
                                         <tr>
                                             <th>S/S</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->SS}}</td>
+                                                 <td>{{ $grado->SS}}</td>
                                         </tr>
                                         <tr>
                                             <th>S/A</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->SA}}</td>
+                                                 <td>{{ $grado->SA}}</td>
                                         </tr>
                                         <tr>
                                             <th>SM/1ERA</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->SM1}}</td>
+                                                 <td>{{ $grado->SM1}}</td>
                                         </tr>
                                         <tr>
                                             <th>SM/2DA</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->SM2}}</td>
+                                                 <td>{{ $grado->SM2}}</td>
                                         </tr>
                                         <tr>
                                             <th>SM/3RA</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->SM3}}</td>
+                                                 <td>{{ $grado->SM3}}</td>
                                         </tr>
                                         <tr>
                                             <th>S/1ERO</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->S1}}</td>
+                                                 <td>{{ $grado->S1}}</td>
                                         </tr>
                                         <tr>
                                             <th>S/2DO</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>0</td>
+                                                 <td>{{ $grado->S2}}</td>
+                                                 <td>{{ $grado->S2}}</td>
                                         </tr>
                                         <tr>
                                             <th>TOTAL</th>
-                                            <td>{{ $categoria->trp }}</td>
-                                            <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
-                                                 <td>{{ $categoria->comando }}</td>
+                                            <td>{{ $grado->totalCOM }}</td>
+                                            <td>{{ $grado->totalCMDTRP}}</td>
+                                                 <td>{{ $grado->totalTEC }}</td>
+                                                 <td>{{ $grado->totalASIM }}</td>
+                                                 <td>{{ $grado->totalASTEC }}</td>
+                                                 <td>{{ $grado->totalTRP}}</td>
+                                                 <td>{{ $grado->TOTAL }}</td>
                                         </tr>
                                         @endforeach
 
