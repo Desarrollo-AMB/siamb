@@ -75,7 +75,7 @@ use Carbon\Carbon;
         <style>
              table.title {
                 border: 1px solid #ccc;
-                margin-left: 5px;
+                margin-left: 5px;         zxc<czc
                 margin-top: -9px;
                 }
                 table.title th, table.title td {
