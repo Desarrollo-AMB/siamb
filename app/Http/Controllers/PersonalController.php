@@ -52,7 +52,7 @@ class PersonalController extends Controller
     public function indexPersonalMilitar()
     {
         $funcionEmpleado = FuncionTripulante::get();
-        return view('sireh.personal.militar.index', 
+        return view('sireh.personal.militar.index',
             compact(
                 'funcionEmpleado'
             )
@@ -62,7 +62,7 @@ class PersonalController extends Controller
     public function indexPersonalCivil()
     {
         $cursos = Cursos::all();
-        return view('sireh.personal.civil.index', 
+        return view('sireh.personal.civil.index',
             compact(
                 'cursos'
             )
@@ -77,7 +77,7 @@ class PersonalController extends Controller
     public function ingresoPersonal()
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -90,7 +90,7 @@ class PersonalController extends Controller
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
 
-        return view('sireh.personal.ingreso', 
+        return view('sireh.personal.ingreso',
             compact(
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
@@ -101,7 +101,7 @@ class PersonalController extends Controller
 
     public function registraPersonal(Request $request){
 
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'tipo_emp' => 'required',
                 'cedula' => 'required|unique:empleados,cedula',
@@ -120,7 +120,7 @@ class PersonalController extends Controller
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'.$codigo_empleado . '.' . $ext;
-        
+
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
@@ -129,7 +129,7 @@ class PersonalController extends Controller
             }else{
                 $path_foto = null;
             }
-                                   
+
             $empleado = new Empleado;
             $empleado->codigo_empleado = $codigo_empleado;
             $empleado->cedula = $request->cedula;
@@ -164,9 +164,9 @@ class PersonalController extends Controller
             $nomina->tipo_emp = $request->tipo_emp;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null; 
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null;
             $nomina->tipo_ingreso = '1';
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null;
             $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
             $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
             $nomina->save();
@@ -195,7 +195,7 @@ class PersonalController extends Controller
     public function editIngresoPersonal($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -210,8 +210,8 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-       
-        return view('sireh.personal.edit-ingreso', 
+
+        return view('sireh.personal.edit-ingreso',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -223,7 +223,7 @@ class PersonalController extends Controller
 
     public function updatePersonal(Empleado $empleado,Request $request){
 
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'tipo_emp' => 'required',
                 'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
@@ -242,7 +242,7 @@ class PersonalController extends Controller
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
-        
+
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
@@ -252,7 +252,7 @@ class PersonalController extends Controller
             }else{
                 $path_foto = null;
             }
-                                   
+
             $empleado->cedula = $request->cedula;
             $empleado->nacionalidad = $request->nacionalidad;
             $empleado->nombre1 = $request->nombre1;
@@ -285,8 +285,8 @@ class PersonalController extends Controller
             $nomina->tipo_emp = $request->tipo_emp;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null; 
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : null;
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null;
             $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
             $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
             $nomina->save();
@@ -316,7 +316,7 @@ class PersonalController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Empleado  $empleado
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Empleado $empleado)
@@ -348,9 +348,9 @@ class PersonalController extends Controller
         }
     }
 
-    //Obtiene los empleados registrados aun sin activar el Ingreso, exclusivo por api para el Datatable 
+    //Obtiene los empleados registrados aun sin activar el Ingreso, exclusivo por api para el Datatable
     public function empleadosInactivos(Request $request){
-        $empleados = Empleado::where('empleados.situacion','I'); 
+        $empleados = Empleado::where('empleados.situacion','I');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -375,9 +375,9 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    //Obtiene el personal militar, exclusivo por api para el Datatable 
+    //Obtiene el personal militar, exclusivo por api para el Datatable
     public function personalMilitar(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados = Empleado::where('empleados.situacion','A');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -400,10 +400,10 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    //Obtiene el personal Civil, exclusivo por api para el Datatable 
+    //Obtiene el personal Civil, exclusivo por api para el Datatable
     public function personalCivil(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A'); 
-        //$empleados = Empleado::where('empleados.situacion', '<>',''); 
+        $empleados = Empleado::where('empleados.situacion','A');
+        //$empleados = Empleado::where('empleados.situacion', '<>','');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -428,9 +428,9 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    //Obtiene el personal militar no profesional, exclusivo por api para el Datatable 
+    //Obtiene el personal militar no profesional, exclusivo por api para el Datatable
     public function personalMilitarNoProf(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A'); 
+        $empleados = Empleado::where('empleados.situacion','A');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -453,9 +453,9 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    //Obtiene los empleados sin asociar Usuario, exclusivo por api para el Datatable 
+    //Obtiene los empleados sin asociar Usuario, exclusivo por api para el Datatable
     public function empleadosSinUser(Request $request){
-        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A'); 
+        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -477,9 +477,9 @@ class PersonalController extends Controller
         return $datatable->make(true);
     }
 
-    //Obtiene los empleados que no son del componente Aviacion sin asociar Usuario, exclusivo por api para el Datatable 
+    //Obtiene los empleados que no son del componente Aviacion sin asociar Usuario, exclusivo por api para el Datatable
     public function notEmpleadosSinUser(Request $request){
-        $empleados = EmpleadosOtroComponente::whereNull('user_id'); 
+        $empleados = EmpleadosOtroComponente::whereNull('user_id');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','empleados_otro_componente.codigo_ubicacion');
         $empleados->select(
             'empleados_otro_componente.id',
@@ -499,7 +499,7 @@ class PersonalController extends Controller
     public function viewPersonalMilitarNoProf($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -514,7 +514,7 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        return view('sireh.personal.militar_noprof.view', 
+        return view('sireh.personal.militar_noprof.view',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -527,7 +527,7 @@ class PersonalController extends Controller
     public function viewPersonalMilitar($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -543,19 +543,17 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos_militares = DatosMilitares::all();
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $especialidades_militares = EspecialidadesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares'])->find($id);
-        return view('sireh.personal.militar.view', 
+        return view('sireh.personal.militar.view',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'categorias_militares','situaciones','promociones_militares',
-                'datos_militares','especialidades_militares','lateralidades'
+                'categorias_militares','situaciones','promociones_militares','especialidades_militares','lateralidades'
             )
         );
     }
@@ -563,7 +561,7 @@ class PersonalController extends Controller
     public function editPersonalMilitar($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -579,25 +577,23 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos_militares = DatosMilitares::all();
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        return view('sireh.personal.militar.edit', 
+        return view('sireh.personal.militar.edit',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'datos_militares', 'categorias_militares', 'situaciones',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones', 'categorias_militares', 'situaciones',
                 'promociones_militares','lateralidades'
             )
         );
     }
 
     public function updatePersonalMilitar(Request $request){
-        
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'cedula' => 'required',
                 'nacionalidad' => 'required',
@@ -633,7 +629,7 @@ class PersonalController extends Controller
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'.$request->codigo_empleado . '.' . $ext;
-        
+
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
@@ -681,7 +677,7 @@ class PersonalController extends Controller
                 "tipo_emp" => $request->tipo_emp,
                 "grado_militar" => !empty($request->grado_militar) ? $request->grado_militar : null,
             ]);
-            
+
             $datos_militares = DatosMilitares::where('codigo_empleado',$request->codigo_empleado)->update([
                 "codigo_categoria" => $request->categoria,
                 "codigo_promocion" => !empty($request->promocion) ? $request->promocion : null,
@@ -713,7 +709,7 @@ class PersonalController extends Controller
     public function cargosPersonalMilitar($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -730,8 +726,8 @@ class PersonalController extends Controller
     }
 
     public function updateCargosPersonalMilitar(Request $request){
-        
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'cargo' => 'required',
                 'fecha_inic_cargo' => 'required',
@@ -783,7 +779,7 @@ class PersonalController extends Controller
     public function ubicacionesPersonalMilitar($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -791,7 +787,7 @@ class PersonalController extends Controller
         $grados_militares = GradosMilitares::all();
         $movimientos = Movimientos::all();
         $datos = Empleado::with(['nomina','movimientos'])->find($id);
-        return view('sireh.personal.militar.ubicacion', 
+        return view('sireh.personal.militar.ubicacion',
             compact(
                 'datos', 'grados_militares', 'user_auth', 'tipos_emp',
                 'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
@@ -800,8 +796,8 @@ class PersonalController extends Controller
     }
 
     public function updateUbicacionesPersonalMilitar(Request $request){
-        
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'ubicacion' => 'required',
                 'ubicacion_detallada' => 'required',
@@ -859,9 +855,9 @@ class PersonalController extends Controller
         return view('sireh.personal.militar.suspendidos.index');
     }
 
-    //Obtiene el personal militar suspendido, exclusivo por api para el Datatable 
+    //Obtiene el personal militar suspendido, exclusivo por api para el Datatable
     public function personalMilitarSuspendido(Request $request){
-        $empleados = Empleado::where('empleados.situacion','S'); 
+        $empleados = Empleado::where('empleados.situacion','S');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -909,7 +905,7 @@ class PersonalController extends Controller
         $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
 
         $movimiento->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -924,7 +920,7 @@ class PersonalController extends Controller
         return view('sireh.personal.militar.bajas.index');
     }
 
-    //Obtiene el personal militar egresado, exclusivo por api para el Datatable 
+    //Obtiene el personal militar egresado, exclusivo por api para el Datatable
     public function personalMilitarBaja(Request $request){
         $empleados = Empleado::where('empleados.situacion','E');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
@@ -955,17 +951,16 @@ class PersonalController extends Controller
     public function bajaPersonalMilitar($id)
     {
         $user_auth=auth()->user();
-      
+
         $situaciones = Config::get('constants.situacion');
         $ubicaciones = Ubicaciones::all();
         $grados_militares = GradosMilitares::all();
-        $datos_militares = DatosMilitares::all();
         $tipo_de_baja = TipoDeBaja::all();
         $datos = Empleado::with(['nomina','datos_militares'])->find($id);
-        return view('sireh.personal.militar.baja', 
+        return view('sireh.personal.militar.baja',
             compact(
                 'datos','grados_militares','situaciones',
-                'user_auth','ubicaciones','datos_militares',
+                'user_auth','ubicaciones',
                 'tipo_de_baja'
             )
         );
@@ -973,7 +968,7 @@ class PersonalController extends Controller
 
     public function darBajaPersonalMilitar(Request $request)
     {
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'causa_egreso' => 'required',
                 'fecha_ingreso' => 'required',
@@ -1056,7 +1051,7 @@ class PersonalController extends Controller
         $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
 
         $movimiento->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1073,7 +1068,7 @@ class PersonalController extends Controller
         ->orderBy('codigo_grado','asc')
         ->get();
 
-        return view('sireh.personal.militar.escalafon', 
+        return view('sireh.personal.militar.escalafon',
             compact(
                 'grados_militares'
             )
@@ -1081,7 +1076,7 @@ class PersonalController extends Controller
     }
 
     public function imprimirEscalafon(Request $request) {
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'grado_militar' => 'required',
             ],
@@ -1138,7 +1133,7 @@ class PersonalController extends Controller
     public function viewPersonalCivil($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -1156,12 +1151,12 @@ class PersonalController extends Controller
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
         $getEmpleadoCode = Empleado::select('codigo_empleado')->find($id);
         $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
-        return view('sireh.personal.civil.view', 
+        return view('sireh.personal.civil.view',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones', 
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
                 'cursosRealizados', 'cursos'
             )
         );
@@ -1185,7 +1180,7 @@ class PersonalController extends Controller
         $movimiento->codigo_empleado = $request->codigo_empleado;
 
         $movimiento->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1213,7 +1208,7 @@ class PersonalController extends Controller
         $movimiento->codigo_empleado = $request->codigo_empleado;
 
         $movimiento->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1238,7 +1233,7 @@ class PersonalController extends Controller
         $movimiento->codigo_empleado = $request->codigo_empleado;
 
         $movimiento->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1251,7 +1246,7 @@ class PersonalController extends Controller
     public function editPersonalCivil($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -1266,7 +1261,7 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        return view('sireh.personal.civil.edit', 
+        return view('sireh.personal.civil.edit',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -1278,7 +1273,7 @@ class PersonalController extends Controller
     public function updatePersonalCivil(Request $request)
     {
         $user_auth=auth()->user();
-      
+
         $updateNomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
             "tipo_emp" => $request->tipo_emp,
             "cedula" => $request->cedula,
@@ -1326,7 +1321,7 @@ class PersonalController extends Controller
         ]);
 
         return redirect()->route('sireh.personal-civil.index')->with('success', 'Se ha actualizado el Personal');
-    
+
     }
     public function personalCivilNoActive(){
         $noActive = Empleado::where('empleados.situacion','<>','A')
@@ -1339,7 +1334,7 @@ class PersonalController extends Controller
             ->where('nomina.tipo_emp','<>','ALI')
             ->get();
             //dd($noActive);
-        return view('sireh.personal.civil.view_civil_no_activo', 
+        return view('sireh.personal.civil.view_civil_no_activo',
             compact(
                 'noActive'
             )
@@ -1356,7 +1351,7 @@ class PersonalController extends Controller
         $cursos->codigo_empleado = $request->codigo_empleado;
 
         $cursos->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1369,7 +1364,7 @@ class PersonalController extends Controller
     public function evaluarPersonalCivil($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
@@ -1377,7 +1372,7 @@ class PersonalController extends Controller
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
         $evaluaciones = IntelectualesCivil::where('codigo_empleado', $datos->codigo_empleado)->get();
-        return view('sireh.personal.civil.view_evaluar', 
+        return view('sireh.personal.civil.view_evaluar',
             compact(
                 'datos','grados_militares',
                 'user_auth', 'tipos_emp', 'ubicaciones', 'ubicaciones_det',
@@ -1399,7 +1394,7 @@ class PersonalController extends Controller
         $evaluacion_civil->obervaciones = $request->obervaciones;
 
         $evaluacion_civil->save();
-        
+
         return response()->json(
             [
                 'success' => true,
@@ -1428,13 +1423,13 @@ class PersonalController extends Controller
                 'updateIntec' => $updateIntec
             ]
         );
-    } 
+    }
 
-    
+
     public function editPersonalMilitarNoProf($id)
     {
         $user_auth=auth()->user();
-      
+
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
@@ -1449,7 +1444,7 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $datos = Empleado::with(['nomina','nomina.cargo','estudios_realizados','nomina.datos_militares'])->find($id);
         $grados_militares = GradosMilitares::where('tipo_emp',$datos->nomina->tipo_emp)->get();
-        return view('sireh.personal.militar_noprof.edit', 
+        return view('sireh.personal.militar_noprof.edit',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
@@ -1458,10 +1453,10 @@ class PersonalController extends Controller
             )
         );
     }
-    
+
     public function updatePersonalMilitarNoProf(Empleado $empleado,Request $request){
-        
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
                 'nombre1' => 'required',
@@ -1477,7 +1472,7 @@ class PersonalController extends Controller
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
-        
+
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
@@ -1487,7 +1482,7 @@ class PersonalController extends Controller
             }else{
                 $path_foto = null;
             }
-                                   
+
             $empleado->cedula = $request->cedula;
             $empleado->nacionalidad = $request->nacionalidad;
             $empleado->nombre1 = $request->nombre1;
@@ -1519,8 +1514,8 @@ class PersonalController extends Controller
             $nomina->cedula = $empleado->cedula;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
-            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0; 
-            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null; 
+            $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0;
+            $nomina->grado_militar = !empty($request->grado_militar) ? $request->grado_militar : null;
             $nomina->cod_rac = !empty($request->cod_rac) ? $request->cod_rac : null;
             $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
             $nomina->save();
@@ -1548,11 +1543,11 @@ class PersonalController extends Controller
     }
 
     public function egresarMilitarNoProf(Request $request){
-        
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'fecha_egreso' => 'required',
-           
+
                 'observaciones' => 'required',
             ],
             [
@@ -1596,20 +1591,20 @@ class PersonalController extends Controller
                 'message' => 'Data',
                 'data' => $data,
                 'haveFuncion' => $haveFuncion,
-                'funcionTripulante' => $funcionEmpleado, 
+                'funcionTripulante' => $funcionEmpleado,
                 'idsFuncion' => $idsFuncion
             ]
         );
     }
     public function storeFuncionPersonalMilitar(Request $request)
     {
-       
+
         $empleado= Empleado::where('codigo_empleado', $request->codigo_empleado)->first();
-       
+
         $empleado->empleadoFuncion()->sync($request->funcion_id);
-       
+
         /*$loop = count($request->funcion_id);
-        for ($i=0; $i < $loop; $i++) { 
+        for ($i=0; $i < $loop; $i++) {
             $funcion = new EmpleadoFuncion;
             $funcion->codigo_empleado = $request->codigo_empleado;
             $funcion->id_funcion = $request->funcion_id[$i];
@@ -1626,13 +1621,13 @@ class PersonalController extends Controller
     public function deteleFuncionPersonalMilitar(Request $request)
     {
         EmpleadoFuncion::find($request->id)->delete();
-        
+
         return response()->json([
                 'success' => true,
                 'message' => 'Data Eliminada'
             ]
         );
-    } 
+    }
 
     public function reportesPersonalMilitarView()
     {
@@ -1648,8 +1643,8 @@ class PersonalController extends Controller
      */
     public function reportesPersonalMilitar(Request $request)
     {
-       
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'reporte' => 'required',
                 'parametros' => 'required|array|min:1',
@@ -1658,12 +1653,12 @@ class PersonalController extends Controller
             [
                 'parametros.*.required' => 'El Parametro es requerido',
             ]
-            
+
         );
         $reporte=$request->reporte;
         $nameParametro =array_key_first($request->parametros);
         $valueParametro = $request->parametros[$nameParametro];
-      
+
         $complementoTitulo='';
         switch ($reporte) {
             case 1:
@@ -1689,18 +1684,18 @@ class PersonalController extends Controller
                     'grados_militares.descripcion as grado_militar',
                     'ubicaciones.descripcion as ubicacion',
                     'datos_militares.fecha_graduacion',
-                    DB::raw("CASE nomina.situacion 
+                    DB::raw("CASE nomina.situacion
                             WHEN 'A' THEN 'ACTIVO'
                             WHEN 'E' THEN 'EGRESADO'
                             WHEN 'S' THEN 'SUSPENDIDO'
-                            ELSE '' 
+                            ELSE ''
                             END as situacion"),
                     'datos_militares.codigo_categoria',
                     'categorias_militares.descripcion as categoria_militar',
-            
+
                 );
                 $datos = $empleados->get();
-               
+
                 break;
             case 2:
                 //dd($valueParametro);
@@ -1726,27 +1721,27 @@ class PersonalController extends Controller
                     'grados_militares.descripcion as grado_militar',
                     'ubicaciones.descripcion as ubicacion',
                     'datos_militares.fecha_graduacion',
-                    DB::raw("CASE nomina.situacion 
+                    DB::raw("CASE nomina.situacion
                             WHEN 'A' THEN 'ACTIVO'
                             WHEN 'E' THEN 'EGRESADO'
                             WHEN 'S' THEN 'SUSPENDIDO'
-                            ELSE '' 
+                            ELSE ''
                             END as situacion"),
                     'datos_militares.codigo_categoria',
                     'categorias_militares.descripcion as categoria_militar',
-            
+
                 );
                 $datos = $empleados->get();
                 break;
         }
 
         $titulo = 'REPORTE DE PERSONAL MILITAR '. $complementoTitulo;
-        
+
         $nombre_archivo = sprintf('ReportePersonalMilitar %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'datos');
-        
+
         return Excel::download(new PersonalMilitarExport($data), $nombre_archivo);
-    
+
     }
 
     public function reportesPersonalMilitarNoProfView()
@@ -1763,8 +1758,8 @@ class PersonalController extends Controller
      */
     public function reportePersonalMilitarNoProfJerarquiaUbicacion(Request $request)
     {
-       
-        $this->validate($request, 
+
+        $this->validate($request,
             [
                 'tipo_emp' => 'required',
                 'grado_militar' => 'required',
@@ -1773,7 +1768,7 @@ class PersonalController extends Controller
             [
                 'tipo_emp' => 'El Parametro Tipo Empleado es Requerido',
             ]
-            
+
         );
 
         $codigo_ubicacion = $request->ubicacion;
@@ -1792,7 +1787,7 @@ class PersonalController extends Controller
         if($codigo_ubicacion!=='0'){
             $empleados->where('nomina.codigo_ubicacion', $codigo_ubicacion);
             $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion',$codigo_ubicacion)->first()->value('descripcion');
-            
+
         }
         $empleados->select(
             'empleados.id',
@@ -1812,14 +1807,14 @@ class PersonalController extends Controller
         if(count($datos)>0){
             \Session::flash('success','Reporte Ejecutado con exito !');
             $titulo = 'LISTADO POR UBICACION DE MILITARES EN FORMACION Y/O LA TROPA ALISTADA';
-        
+
             $nombre_archivo = sprintf('ReportePersonalMilitarNoProf %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
             $data = compact('titulo', 'datos','codigo_ubicacion','ubicacion_descripcion');
             return Excel::download(new PersonalMilitarEnFormacionExport($data), $nombre_archivo);
         }else {
             return redirect()->back()->with('error', 'No hay Datos para generar el informe');
         }
-    
+
     }
 
 }

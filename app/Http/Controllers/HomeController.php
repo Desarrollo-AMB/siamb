@@ -12,6 +12,7 @@ use App\Models\Cargos;
 use App\Models\GradosMilitares;
 use App\Models\Nivel;
 use App\Models\Fam0001;
+use App\Models\Partegenerales;
 use DB;
 use Carbon\Carbon;
 
@@ -42,8 +43,8 @@ class HomeController extends Controller
 
 
         $militares_activos = Empleado::with(['nomina'])
-                ->whereHas('nomina', function ($query) { 
-                    $query->where('situacion', 'A'); 
+                ->whereHas('nomina', function ($query) {
+                    $query->where('situacion', 'A');
                     $query->whereIn('tipo_emp',['MIL','MEX','TRP']);
                 }
             )
@@ -76,12 +77,12 @@ class HomeController extends Controller
         ->orderby('mes','asc')
         ->get();
         //dd($vuelos_completados);
-        
+
         //dd(DB::getQueryLog());
         //dd($militares_activos);
         //dd($evaluaciones,$date);
-        
-        return view('home', 
+
+        return view('home',
             compact(
                 'militares_activos', 'evaluaciones', 'pafs', 'ultimo_year',
                 'sanciones', 'sanciones_aprobadas', 'sanciones_denegadas',

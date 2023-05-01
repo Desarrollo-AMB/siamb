@@ -24,7 +24,12 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
+use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
+use App\Http\Controllers\Nomina\NominaController;
+
+
+use App\Http\Controllers\juntaperm\controllerjuntap;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +93,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     //NOMINA
     Route::get('sireh/nomina/primas', [NominaController::class, 'primas'])->name('sireh.nomina.primas');
     Route::get('sireh/nomina/nueva-prima', [NominaController::class, 'nueva'])->name('sireh.nomina.primas.nueva');
-    Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit'); 
+    Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit');
 
     Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
 
@@ -131,6 +136,18 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::patch('/auxiliares/profesiones/update/{profesion}', [ProfesionesController::class, 'update'])->name('auxiliares.profesiones.update');
     Route::delete('/auxiliares/profesiones/delete/{id}', [ProfesionesController::class, 'destroy'])->name('auxiliares.profesiones.destroy');
 
+
+
+    //Parte General//
+
+    Route::get('/sireh/personal-militar/parte', [PartegeneralController::class, 'index'])->name('sireh.personal.militar.parte.index');
+    Route::get('/sireh/personal-militar/parte/create', [PartegeneralController::class, 'indexparte'])->name('sireh.personal.militar.parte.create');
+    Route::post('/sireh/personal-militar/parte/create/store', [PartegeneralController::class, 'store'])->name('sireh.personal.militar.parte');
+
+    //Reporte de Parte General////
+    Route::post('/sireh/personal-militar/parte/reporte/reporteParteUnidad', [PartegeneralController::class, 'reporteParteUnidad'])->name('sireh.personal.militar.parte.reporte.reporteParteUnidad');
+    Route::get('/sireh/personal-militar/parte/reporte/reportes', [PartegeneralController::class, 'ParteReportes'])->name('sireh.personal.militar.parte.reporte.reportes');
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
 
@@ -149,6 +166,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar/deleteFuncion',[PersonalController::class, 'deteleFuncionPersonalMilitar'])->name('sireh.personal-militar.deleteFuncion');
 
     Route::get('/sireh/personal-civil/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
+
 
     Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');
     Route::get('/sireh/personal-civil/edit/{id}',     [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');
@@ -190,6 +208,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-militar/reportes', [PersonalController::class, 'reportesPersonalMilitar'])->name('sireh.personal-militar.reportes.ejecutar');
 
     Route::get('/bienestar-social/reportes', [ReportesBSController::class, 'reportesBienestarSocial'])->name('bienestar-social.reportes');
+
 
     Route::get('/sireh/personal-militar-noprof/reportes', [PersonalController::class, 'reportesPersonalMilitarNoProfView'])->name('sireh.personal-militar-noprof.reportes');
 
