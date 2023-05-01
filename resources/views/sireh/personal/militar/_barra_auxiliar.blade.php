@@ -1,102 +1,89 @@
 <div class="row justify-content-end">
-    <div class="col-xl-3 col-md-3 col-sm-3 mb-xl-0 mb-3">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
-                                Suspendidos
-                                <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
-                        </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('sireh.personal-militar.suspendido')}}">
+                    <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
+                        <i class="fas fa-user-minus text-lg opacity-10" aria-hidden="true"></i>
                     </div>
-                    <div class="col-3 text-end">
-                        <a href="{{ route('sireh.personal-militar.suspendido') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="fas fa-user-minus text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            Suspendidos
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('sireh.personal-militar.bajas')  }}">
+                    <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
+                        <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
                     </div>
-                </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            Dado de Baja
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('sireh.personal-militar.escalafon') }}">
+                    <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                        <i class="fas fa-file-pdf text-lg opacity-10" aria-hidden="true"></i>
+                    </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            Escalafon
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('sireh.personal.militar.parte.index') }}">
+                    <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                        <i class="fas fa-clipboard text-lg opacity-10" aria-hidden="true"></i>
+                    </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            Parte
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('sireh.personal-militar.reportes') }}">
+                    <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                        <i class="fa fa-file-excel-o text-lg opacity-10" aria-hidden="true"></i>
+                    </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                        Reportes
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-md-3 col-sm-3 mb-xl-0 mb-3">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
-                                Dado de Baja
-                                <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col-3 text-end">
-                        <a href="{{ route('sireh.personal-militar.bajas') }}">
-                            <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
-                                <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-xl-3 col-md-3 col-sm-3 mb-xl-0 mb-3">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
-                                Escalafon
-                                <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col-3 text-end">
-                        <a href="{{ route('sireh.personal-militar.escalafon') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="fas fa-file-pdf text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-3 col-sm-3 mb-xl-0 mb-3">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
-                                Reportes
-                                <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="col-3 text-end">
-                        <a href="{{ route('sireh.personal-militar.reportes') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="fa fa-file-excel-o text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-

@@ -14,11 +14,11 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles CSS -->
-    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> 
-    
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
-    
+
 
     <link href="{{ asset('vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
@@ -35,14 +35,14 @@
     <link href="{{ asset('template/assets/css/themify-icons/themify-icons.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('template/assets/font-awesome/css/all.css') }}">
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> 
-    
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('template/assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
 
     {{-- WIZARD --}}
 	<!-- Fonts and Icons -->
-	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>  
+	<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
 	<link href="{{ asset('template/wizard/css/themify-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('template/wizard/css/styling-wizard.css') }}" rel="stylesheet">
 
@@ -52,11 +52,11 @@
     <script src="{{ asset('vendor/jquery/jquery-3.6.1.min.js') }}" type="text/javascript" ></script>
     <script src="{{ asset('vendor/jquery/jquery.validate.js') }}" type="text/javascript"></script>
 </head>
-<body class="g-sidenav-show  bg-gray-100 ">        
+<body class="g-sidenav-show  bg-gray-100 ">
     @auth
         @yield('auth')
     @endauth
-    @guest 
+    @guest
         @yield('guest')
     @endguest
 
@@ -68,8 +68,8 @@
         <p class="m-0">{{ session('success')}}</p>
         </div>
     @endif
- 
-    
+
+
     <!--   Core JS Files   -->
     <script src="{{ asset('template/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -94,18 +94,18 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('template/assets/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
 
-    
+
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}" ></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}" ></script>
-    
 
-    
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}" ></script> 
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap5.min.js') }}" ></script> 
+
+
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}" ></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap5.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/dataTables.fixedHeader.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/dataTables.responsive.min.js') }}" ></script>
     <script src="{{ asset('vendor/datatables/responsive.bootstrap.min.js') }}" ></script>
-  
+
 
     {{-- wizard  --}}
     <script src="{{ asset('template/wizard/js/jquery.bootstrap.wizard.js') }}" type="text/javascript"></script>
@@ -114,7 +114,7 @@
 	<script src="{{ asset('template/wizard/js/paper-bootstrap-wizard.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
-    
+
     @stack('plugins-js')
     @yield('scripts')
 </body>

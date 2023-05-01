@@ -23,10 +23,12 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
+use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
 use App\Http\Controllers\Nomina\NominaController;
 
 
+use App\Http\Controllers\juntaperm\controllerjuntap;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +94,41 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/nomina/index', [NominaController::class, 'indexNomina'])->name('sireh.nomina.index');
     Route::get('/sireh/nomina/militar', [NominaController::class, 'militarNomina'])->name('sireh.nomina.militar');
 
+    //JUNTA P
+    Route::get('/juntapermanente/personalmilitar/index', [controllerjuntap::class, 'indexPersonalMilitarasc'])->name('juntap.personalm.index');
+    Route::post('/juntapermanente/personalmilitar/ascender', [controllerjuntap::class, 'ascenderPersonalMilitar'])->name('juntap.personalm.ascenderlos');
+    Route::post('/juntapermanente/personalmilitar/ascenderd', [controllerjuntap::class, 'ascDataPersonalMilitar'])->name('juntap.personalm.datas');
+   
+   
+    Route::get('/juntapermanente/ascenso', [controllerjuntap::class, 'juntap'])->name('juntap.ascenso.index');
+    Route::get('/juntapermanente/reportes', [controllerjuntap::class, 'indexreporte'])->name('juntap.reportes.index');
+   
+    Route::get('/juntapermanente/selector', [controllerjuntap::class, 'asccategoria'])->name('juntap.ascenso.categoria');
+    Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'ascjulio'])->name('juntap.ascenso.julio');
 
+    Route::post('/juntapermanente/ascenso/julio/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
+    
+    Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.comando');
+    Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.tecnico');
+    Route::get('/juntapermanente/ascenso/julio/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.ofitropa');
+    Route::get('/juntapermanente/ascenso/julio/asitecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.asitecnico');
+    Route::get('/juntapermanente/ascenso/julio/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.asimilado');
+    Route::get('/juntapermanente/ascenso/julio/tropap', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.tropap');
+    Route::get('/juntapermanente/ascenso/diciembre/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.ofitropa');
+    Route::get('/juntapermanente/ascenso/diciembre/asitecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.asitecnico');
+    Route::get('/juntapermanente/ascenso/diciembre/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.asimilado');
+
+   // Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('juntap.ascenso.julio');
+    //Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('juntap.ascenso.julio.select');
+    Route::get('/juntapermanente/ascenso/reportes/reporteascenso', [controllerjuntap::class, 'reportenasc'])->name('juntap.reportes.reporteascenso');
+    Route::post('/juntapermanente/ascenso/reportes/reporteascensos', [controllerjuntap::class, 'descargarEmpleados'])->name('juntap.reportes.ascrreporte');
+    Route::get('/juntapermanente/ascenso/diciembre', [controllerjuntap::class, 'ascdiciembre'])->name('juntap.ascenso.diciembre');
+
+    Route::post('/juntapermanente/reportespdf', [controllerjuntap::class, 'ascreporter2'])->name('juntap.reportes.reporteascPDF');
+
+
+    //Route::get('/juntapermanente/ascenso', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.ascenso.index');
+    //Route::get('/juntapermanente/reportes', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.reportes.index');
     //CRUD Tabla Cargos
     Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');
     Route::get('/auxiliares/cargos/create', [CargosController::class, 'create'])->name('auxiliares.cargos.create');
@@ -132,6 +168,18 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::patch('/auxiliares/profesiones/update/{profesion}', [ProfesionesController::class, 'update'])->name('auxiliares.profesiones.update');
     Route::delete('/auxiliares/profesiones/delete/{id}', [ProfesionesController::class, 'destroy'])->name('auxiliares.profesiones.destroy');
 
+
+
+    //Parte General//
+
+    Route::get('/sireh/personal-militar/parte', [PartegeneralController::class, 'index'])->name('sireh.personal.militar.parte.index');
+    Route::get('/sireh/personal-militar/parte/create', [PartegeneralController::class, 'indexparte'])->name('sireh.personal.militar.parte.create');
+    Route::post('/sireh/personal-militar/parte/create/store', [PartegeneralController::class, 'store'])->name('sireh.personal.militar.parte');
+
+    //Reporte de Parte General////
+    Route::post('/sireh/personal-militar/parte/reporte/reporteParteUnidad', [PartegeneralController::class, 'reporteParteUnidad'])->name('sireh.personal.militar.parte.reporte.reporteParteUnidad');
+    Route::get('/sireh/personal-militar/parte/reporte/reportes', [PartegeneralController::class, 'ParteReportes'])->name('sireh.personal.militar.parte.reporte.reportes');
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Route::get('/sireh/personal-militar-noprof/graduacion', [GraduacionController::class, 'index'])->name('sireh.personal-militar-noprof.graduacion');
     Route::post('/sireh/personal-militar-noprof/graduar', [GraduacionController::class, 'graduar'])->name('sireh.personal-militar-noprof.graduar');
 
@@ -143,6 +191,7 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
+    Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
  
 
     Route::post('/sireh/personal-militar/showData',     [PersonalController::class, 'showDataPersonalMilitar'])->name('sireh.personal-militar.showData');

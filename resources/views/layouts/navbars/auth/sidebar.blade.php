@@ -31,7 +31,7 @@
           <span class="nav-link-text ms-1">Vista Administrativa</span>
         </a>
       </li>
-      @endrole 
+      @endrole
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu del Sistema</h6>
       </li>
@@ -49,7 +49,7 @@
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-users"><title>Usuarios</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">Usuarios</span>
         </a>
@@ -66,11 +66,11 @@
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">RRHH </span>
         </a>
-        
+
         <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
@@ -91,15 +91,45 @@
           </ul>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4" class="collapsed nav-link " aria-controls="collapseExample" >
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fa fa-shield"><title>JUNTA PERMANENTE</title></i>
+
+          </div>
+          <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
+        </a>
+
+        <div class="panel-collapse collapse {{ (Request::is('juntap/*') ) ? 'show' : '' }}"  id="collapseListGroup4" >
+          <ul style="margin-left:40px;" class="list-group">
+          {{--
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
+            </li>--}}
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
+            </li>
+           
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">Bienestar Social </span>
         </a>
-        
+
         <div class="panel-collapse collapse {{ (Request::is('bienestar-social/*') ) ? 'show' : '' }}"  id="collapseListGroup3" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
@@ -115,8 +145,8 @@
           </div>
             <span class="nav-link-text ms-1">Tablas Auxiliares</span>
         </a>
-      </li>
-      @endrole 
+      
+      @endrole
       @role('aviacion|administrador')
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
@@ -144,7 +174,7 @@
             <span class="nav-link-text ms-1">Reporte de Pilotos</span>
         </a>
       </li>--}}
-      @endrole 
+      @endrole
       {{--
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>
@@ -168,7 +198,7 @@
           </div>
           <span class="nav-link-text ms-1">Tables</span>
         </a>
-      </li>      
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ (Request::is('virtual-reality') ? 'active' : '') }}" href="{{ url('virtual-reality') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -296,7 +326,7 @@
     </div>
   </div>
   <div class="sidenav-footer mx-3 ">
-  
+
   </div>
   {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
