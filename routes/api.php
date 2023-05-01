@@ -17,11 +17,8 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Civil\JubiladosController;
-<<<<<<< HEAD
 use App\Http\Controllers\PartegeneralController;
-=======
 use App\Http\Controllers\juntaperm\controllerjuntap;
->>>>>>> juntaP-Hidalgo
 
 /*
 |--------------------------------------------------------------------------
