@@ -24,6 +24,9 @@ use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
 use App\Http\Controllers\ReportesBSController;
+use App\Http\Controllers\Nomina\NominaController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +88,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
 
     Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
+    ////////////////////////////////////////////////////////////////////NOMINA///////////////////////////////////////////////////////////////////////
+    Route::get('/sireh/nomina/index', [NominaController::class, 'indexNomina'])->name('sireh.nomina.index');
+    Route::get('/sireh/nomina/militar', [NominaController::class, 'militarNomina'])->name('sireh.nomina.militar');
+
 
     //CRUD Tabla Cargos
     Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');

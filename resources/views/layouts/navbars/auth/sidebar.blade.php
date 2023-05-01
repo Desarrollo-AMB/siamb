@@ -85,6 +85,9 @@
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>
             </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/nomina/index') ? 'active' : '') }}" href="{{ route('sireh.nomina.index') }}">Nomina</a>
+            </li>
           </ul>
         </div>
       </li>

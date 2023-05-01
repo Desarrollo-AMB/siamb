@@ -17,6 +17,7 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Civil\JubiladosController;
+use App\Http\Controllers\Nomina\militarControllers; 
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,9 @@ Route::get('auxiliares/profesiones/data', [ProfesionesController::class, 'profes
 Route::get('auxiliares/ubicaciones/data', [UbicacionesController::class, 'ubicacionesData'])->name('api.auxiliares.ubicaciones.data');
 //Ubicaciones_detalladas////
 Route::get('auxiliares/ubicacionesDetalladas/data', [UbicacionesDetalladasController::class, 'ubicacionesDetalladasData'])->name('api.auxiliares.ubicacionesDetalladas.data');
+
+////////////////////////////////////////////////////NOMINA////////////////////////
+Route::get('sireh/nomina/data', [NominaController::class, 'NominaData'])->name('api.nomina.data');
 
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_comando', [GraduacionController::class, 'getOficialesComando'])->name('api.sireh.militar-noprof.graduacion.dataOficialesComando');
 Route::get('sireh/personalmilitarnoprof/graduacion/oficiales_tecnicos_medicina', [GraduacionController::class, 'getOficialesTecnicosMedicina'])->name('api.sireh.militar-noprof.graduacion.dataOficialesTecnicosMedicina');
