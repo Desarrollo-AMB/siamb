@@ -14,3 +14,4 @@ class ConceptosNomina extends Model
     ];
     public $timestamps = false;
 }
+ 
