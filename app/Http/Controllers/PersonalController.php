@@ -1632,8 +1632,11 @@ class PersonalController extends Controller
 
     public function reportesPersonalMilitarView()
     {
-        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','MEX','TRP'])->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])->orderBy('codigo_grado','asc')->get();
+        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','TRP'])
+        ->get();
         return view('sireh.personal.militar.reportes', compact(
+            'grados_militares',
             'categorias_militares',
         ));
     }
@@ -1650,20 +1653,30 @@ class PersonalController extends Controller
                 'reporte' => 'required',
                 'parametros' => 'required|array|min:1',
                 'parametros.*' => 'required|string|distinct',
+
+                'parametros1' => 'array|min:1',
+                'parametros1.*' => 'string|distinct',
             ],
             [
                 'parametros.*.required' => 'El Parametro es requerido',
+                'parametros1.*.required' => 'El Parametro es requerido',
             ]
 
         );
+
         $reporte=$request->reporte;
         $nameParametro =array_key_first($request->parametros);
         $valueParametro = $request->parametros[$nameParametro];
 
+        if($request->parametros1!="") {
+            $nameParametro1 =array_key_first($request->parametros1);
+            $valueParametro1 = $request->parametros1[$nameParametro1];
+        }
+
         $complementoTitulo='';
         switch ($reporte) {
             case 1:
-                $complementoTitulo= "DE BAJA POR CATEGORIA";
+                $complementoTitulo= "DE BAJA POR CATEGORIA Y GRADO";
                 $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
                     ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
                     ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
@@ -1672,6 +1685,7 @@ class PersonalController extends Controller
                     ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
                     ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                     ->where('datos_militares.codigo_categoria', $valueParametro)
+                    ->where('nomina.grado_militar', $valueParametro1)
                     ->select(
                     'empleados.id',
                     'empleados.codigo_empleado',
@@ -1695,6 +1709,7 @@ class PersonalController extends Controller
                     'categorias_militares.descripcion as categoria_militar',
 
                 );
+                //dd($valueParametro1);
                 $datos = $empleados->get();
 
                 break;
