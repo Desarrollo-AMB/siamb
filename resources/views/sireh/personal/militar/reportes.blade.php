@@ -55,17 +55,19 @@
                                                     <div class="col-lg-5 col-sm-5">
                                                         <div id="Parametros1" class="parametros row">
                                                             <div class="col-8">
-                                                                Categoria
-                                                                <select class="select2 form-control" name="parametros[categoria]" id="categoria">
-                                                                    <option value="">SELECCIONE...</option>
-                                                                    @foreach ($categorias_militares as $row)
-                                                                        <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-5 col-form-label">Categoria:</h6>
+                                                                    <select class="select2 form-control" name="parametros[categoria]" id="categoria">
+                                                                        <option value="">SELECCIONE...</option>
+                                                                        @foreach ($categorias_militares as $row)
+                                                                            <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                             </div>
 
                                                             <div class="col-8">
-                                                                Grado
+                                                                <h6 class="col-sm-5 col-form-label">Grado:</h6>
                                                                 <select class="select2 form-control" name="parametros1[grados]" id="grados">
                                                                     <option value="">SELECCIONE...</option>
                                                                     @foreach ($grados_militares as $row)
@@ -90,6 +92,7 @@
                                                     <div class="col-lg-6 col-sm-6">
                                                         <div id="Parametros2" class="parametros row" style="display: none;">
                                                             <div class="col-8">
+                                                                <h6 class="col-sm-5 col-form-label">Situación:</h6>
                                                                 <select name="parametros[situacion]" id="situacion" class="select2 form-control" disabled="disabled">
                                                                     <option value="">SELECCIONE...</option>
                                                                     <option value="A">ACTIVO</option>
