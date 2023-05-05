@@ -6,7 +6,7 @@
 </style>
 @endsection
 @section('content')
-    
+
     @if ($message = Session::get('success'))
     <div class="alert alert-success mx-4" role="alert">
         <span class="text-white">{{ $message }}</span>
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
@@ -52,9 +52,10 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-sm-6">
+                                                    <div class="col-lg-5 col-sm-5">
                                                         <div id="Parametros1" class="parametros row">
                                                             <div class="col-8">
+                                                                Categoria
                                                                 <select class="select2 form-control" name="parametros[categoria]" id="categoria">
                                                                     <option value="">SELECCIONE...</option>
                                                                     @foreach ($categorias_militares as $row)
@@ -62,8 +63,15 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="col-4">
-                                                                
+
+                                                            <div class="col-8">
+                                                                Grado
+                                                                <select class="select2 form-control" name="parametros1[grados]" id="grados">
+                                                                    <option value="">SELECCIONE...</option>
+                                                                    @foreach ($grados_militares as $row)
+                                                                        <option value="{{$row->codigo_grado}}" >{{ $row->descripcion }} </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -90,7 +98,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-4">
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -120,7 +128,7 @@
 
             $("div.parametros").hide();
             $("div.parametros *").attr("disabled", true);
-            //$("div.parametros").prop('disabled', 'disabled');
+            $("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
         });
