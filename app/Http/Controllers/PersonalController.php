@@ -119,7 +119,7 @@ class PersonalController extends Controller
             $codigo_empleado = Empleado::max('codigo_empleado')+1;
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$codigo_empleado . '.' . $ext;
+                $file_name = 'empleado_'. $request->cedula . '.' . $ext;
 
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
@@ -241,8 +241,7 @@ class PersonalController extends Controller
             //$codigo_empleado = Empleado::max('codigo_empleado')+1;
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
-
+                $file_name = 'empleado_'.$empleado->cedula . '.' . $ext;
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
@@ -626,15 +625,15 @@ class PersonalController extends Controller
             ]
         );
         try {
-            if ($request->file("foto")){
+            if ($request->file("foto")){   // Si se envia una foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$request->codigo_empleado . '.' . $ext;
+                $file_name = 'empleado_'.$request->cedula . '.' . $ext; // Nombre del archivo
 
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if(file_exists($path_foto)){
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
-                Image::make($request->file('foto'))->save( public_path($path_foto));
+                Image::make($request->file('foto'))->save( public_path($path_foto)); // Guardamos la imagen en la ruta especificada
             }else{
                 $path_foto = null;
             }

@@ -252,6 +252,22 @@ class PartegeneralController extends Controller
 
         return view('sireh.personal.militar.parte.create', compact('nominas','parte'));
     }
+    public function indexregistro(){
+    {
+        $ubicaciones = Ubicaciones::all();
+
+        $partesGenerales = parte_general::whereDate('fecha', Carbon::today())->get();
+        $partesGeneralesPorUbicacion = $partesGenerales->groupBy('codigo_ubicacion');
+
+        $ubicacionesConRegistro = $ubicaciones->filter(function ($ubicacion) use ($partesGeneralesPorUbicacion) {
+            return $partesGeneralesPorUbicacion->has($ubicacion->codigo_ubicacion);
+        })->values();
+
+        $ubicacionesSinRegistro = $ubicaciones->diff($ubicacionesConRegistro);
+
+        return view('sireh.personal.militar.parte.registro', compact('ubicacionesConRegistro', 'ubicacionesSinRegistro'));
+    }
+    }
 
 
 
@@ -316,42 +332,45 @@ class PartegeneralController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        try {
-            $nominas = $request->input('nominas');
-            $fecha = $request->input('fecha');
 
-            // Comprobar si la fecha ya existe para una ubicación específica
-            foreach ($nominas as $nomina) {
-                $parteExistente = parte_general::where([
-                    ['fecha', '=', $fecha],
-                    ['codigo_ubicacion', '=', $nomina['codigo_ubicacion']]
-                ])->first();
 
-                if ($parteExistente) {
-                    $mensajeError = 'Ya existe un parte para la fecha y ubicación especificadas';
-                    return redirect()->back()->withErrors( $mensajeError);
-                }
+{
+    try {
+        $nominas = $request->input('nominas');
+        $fecha = $request->input('fecha');
+
+        // Comprobar si la fecha ya existe para una ubicación específica
+        foreach ($nominas as $nomina) {
+            $parteExistente = parte_general::where([
+                ['fecha', '=', $fecha],
+                ['codigo_ubicacion', '=', $nomina['codigo_ubicacion']]
+            ])->first();
+
+            if ($parteExistente) {
+                $mensajeError = 'Ya existe un parte para la fecha y ubicación especificadas';
+                return redirect()->back()->withErrors($mensajeError);
             }
-
-            // Guardar las nuevas nominas
-            foreach ($nominas as $nomina) {
-                $parte = new parte_general;
-                $parte->fecha = $fecha;
-                $parte->codigo_empleado = $nomina['codigo_empleado'];
-                $parte->codigo_ubicacion = $nomina['codigo_ubicacion'];
-                $parte->codigo_categoria = $nomina['codigo_categoria'];
-                $parte->grado_militar = $nomina['grado_militar'];
-                $parte->situacion = $nomina['situacion'];
-                $parte->observacion = $nomina['observacion'];
-                $parte->save();
-            }
-
-            return redirect()->route('sireh.personal.militar.parte.create')->with('success_message', 'Parte fue ingresado con éxito');
-        } catch (\Exception $e) {
-            return redirect()->route('sireh.personal.militar.parte.create')->with('errors', 'Errors al guardar los datos: '.$e->getMessage());
         }
+
+        // Guardar las nuevas nominas
+        foreach ($nominas as $nomina) {
+            $parte = new parte_general;
+            $parte->fecha = $fecha;
+            $parte->codigo_empleado = $nomina['codigo_empleado'];
+            $parte->codigo_ubicacion = $nomina['codigo_ubicacion'];
+            $parte->codigo_categoria = $nomina['codigo_categoria'];
+            $parte->grado_militar = $nomina['grado_militar'];
+            $parte->situacion = $nomina['situacion'];
+            $parte->observacion = $nomina['observacion'];
+            $parte->save();
+        }
+
+        return redirect()->route('sireh.personal.militar.parte.create')->with('success_message', 'Parte fue ingresado con éxito');
+    } catch (\Exception $e) {
+        return redirect()->route('sireh.personal.militar.parte.create')->with('errors', 'Errors al guardar los datos: '.$e->getMessage());
     }
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -452,7 +471,7 @@ class PartegeneralController extends Controller
         ->count();
     $presente_count = DB::table('parte_general')
         ->join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->where('nomina.situacion', ['A', 'S'])
+        ->whereIn('nomina.situacion', ['A', 'S'])
         ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
         ->where('parte_general.situacion', 'presente')
         ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
@@ -466,18 +485,20 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
                 ->join('grados_militares','grados_militares.codigo_grado','=','parte_general.grado_militar')
                 ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
                 ->where('parte_general.fecha', [$fechas])
-                ->where('nomina.situacion', ['A', 'S'])
+                ->whereIn('nomina.situacion', ['A', 'S'])
                 ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
                 ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
                 'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
                 ,'categorias_militares.descripcion as categoria')
                 ->get();
+
 //dd($presente_count);
         $datas = Nomina::join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')
             ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
             ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->where('parte_general.fecha', [$fechas])
+            ->whereIn('nomina.situacion', ['A', 'S'])
             ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
             ->select('ubicaciones.descripcion as ubicacion',
                 \DB::raw('count(*) as total'),
@@ -616,8 +637,8 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
 
 
 
-        $pdf = \PDF::loadView('sireh.personal.militar.parte.reporte.rep_parte_unidad', compact('datas', 'nomina_count', 'ausentes_count','list'));
-
+        $pdf = \PDF::loadView('sireh.personal.militar.parte.reporte.rep_parte_unidad', compact('datas', 'nomina_count', 'ausentes_count','list'))
+        ->setOptions(['page-size' => 'letter']);
         return $pdf->stream('parte.pdf',array('Attachment'=>0));
         //return view('bienestar_social.reporte_devolucion5', compact('datas'));
 

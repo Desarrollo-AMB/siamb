@@ -11,7 +11,7 @@ use Carbon\Carbon;
         <style>
             /** Define the margins of your page **/
             @page {
-                margin: 150px 30px 60px;
+                margin: 100px 25px 50px 25px;
             }
 
             header {
@@ -48,9 +48,10 @@ use Carbon\Carbon;
             small {
                 color: white !important;
             }
-            .page-break {
-                page-break-after: always;
-            }
+            body {
+  font-family: Calibri, sans-serif;
+}
+
         </style>
         <style>
             table {
@@ -62,7 +63,7 @@ use Carbon\Carbon;
             #table2 {
               float: left;
               margin-left: 20px;
-              margin-top: 30px;
+              margin-top: 100px;
             }
 
 
@@ -75,7 +76,7 @@ use Carbon\Carbon;
         <style>
              table.title {
                 border: 1px solid #ccc;
-                margin-left: 5px;         zxc<czc
+                margin-left: 5px;
                 margin-top: -9px;
                 }
                 table.title th, table.title td {
@@ -92,15 +93,17 @@ use Carbon\Carbon;
   flex: 1;
 }
              table.centers {
-        border-collapse: collapse;
         border: 1px solid #ccc;
         margin-left: 50px;
+        margin-top: 100px
 
 
     }
     table.centers th, table.centers td {
         border: 1px solid #ccc;
         padding: 2px;
+        font-size: 11px;
+            font-family: Arial;
     }
             table.partes {
         border-collapse: collapse;
@@ -109,38 +112,44 @@ use Carbon\Carbon;
     table.partes th, table.partes td {
         border: 1px solid #ccc;
         padding: 2px;
+        font-size: 11px;
+            font-family: Calibri;
     }
 
 
     table.lista {
 
         border: 1px solid #ccc;
-        margin-left: -600px;
-        margin-top: 450px;
+
     }
     table.lista th, table.lista td {
         border: 1px solid #ccc;
         padding: 2px;
+        font-size: 11px;
+            font-family: Arial;
     }
     table.der {
-        border-collapse: collapse;
         border: 0px solid #ccc;
         margin-left: 450px;
-        margin-top: -1px;
+        margin-top: 100px;
     }
     table.der th, table.der td {
         border: 1px solid #ccc;
         padding: 2px;
+        font-size: 11px;
+            font-family: Arial;
     }
     th{
         font-size: 9.8px;
+
+            font-family: Arial;
     }
         </style>
     </head>
     <body>
-        <div class="row" style="margin-top:-120px">
+        <div class="row" style="margin-top:20px">
             <div class="col-xs-2">
-                <img src="{{asset('template/assets/img/logo.png')}}" width="70px" alt="logo">
+                <img src="{{asset('template/assets/img/logo.png')}}" width="30px" alt="logo">
             </div>
             <div class="col-xs-6" style="text-align: center;">
                 <h5>REPÚBLICA BOLIVARIANA DE VENEZUELA<br>
@@ -162,7 +171,7 @@ use Carbon\Carbon;
                     <tr><th>Ubicacion:</th>  <td>{{ $datas->ubicacion}}</td></tr>
                  </table>
                  <br>
-                <table class=" partes"style="float:left;">
+                <table class=" partes"style="float:left;margin-top:100px">
                     <thead>
                             <tr>
                                 <th scope="col" class="center" colspan="2">Parte General</th>
@@ -490,49 +499,46 @@ use Carbon\Carbon;
                     </tbody>
                 </table >
                 <br>
-                <table class="lista">
-                        <tbody>
-                            <tr>
-                                <th>Grado</th>
-                                <th>Nombre1</th>
-                                <th>Apellido</th>
-                                <th>Cedula </th>
-                                <th>Categoria</th>
-                                <th>Situacion</th>
-                                <th>Observaciones</th>
-                            </tr>
-                        </tbody>
-                        @foreach ($list as $liste)
-                        <thead>
-                            <td>{{ $liste->grado }}</td>
-                        <td>{{$liste->nombres}}</td>
-                        <td>{{$liste->apellido}}</td>
-                        <td>{{ $liste->cedula }}</td>
-                        <td>{{ $liste->categoria }}</td>
-                        <td>{{ $liste->situacion }}</td>
-                        <td></td>
-                    </thead>
-                    @endforeach
-                </table>
             </div>
 
 
-        <script type="text/php">
-            if ( isset($pdf) ) {
-                $pdf->page_script('
-                    $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
-                    $x = $pdf->get_width()-100; //510;
-                    $y = $pdf->get_height()-40; //815;
-                    $size = 10;
-                    $color = array(255,255,255);
-                    $word_space = 0.0;  //  default
-                    $char_space = 0.0;  //  default
-                    $angle = 0.0;   //  default
-                    $pdf->text($x, $y, "Pagina $PAGE_NUM de $PAGE_COUNT", $font, $size, $color, $word_space, $char_space, $angle);
-                ');
-            }
-        </script>
+
         </main>
     </body>
+    <body>
+        <div >
+            <table class= "lista">
+                    <tbody>
+                        <tr>
+                            <th>N°</th>
+                            <th>Grado</th>
+                            <th>Nombre1</th>
+                            <th>Apellido</th>
+                            <th>Cedula </th>
+                            <th>Categoria</th>
+                            <th>Situacion</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </tbody>
+                    @php
+                        $i=1;
+                    @endphp
+                    @foreach ($list as $liste)
+                    <thead>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $liste->grado }}</td>
+                    <td>{{$liste->nombres}}</td>
+                    <td>{{$liste->apellido}}</td>
+                    <td>{{ $liste->cedula }}</td>
+                    <td>{{ $liste->categoria }}</td>
+                    <td>{{ $liste->situacion }}</td>
+                    <td></td>
+                </thead>
+                @endforeach
+            </table>
+
+        </div>
+    </body>
+
     </html>
 
