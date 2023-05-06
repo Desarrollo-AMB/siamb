@@ -42,7 +42,7 @@ use App\Models\ConceptosPagados;
 
 class ReportesBSController extends Controller
 {
-    
+
 
     public function reportesBienestarSocial()
     {
@@ -53,17 +53,16 @@ class ReportesBSController extends Controller
     }
 
     public function reporteDevolucion5(Request $request) {
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'cedula' => 'required',
-                
             ],
             [
                 'cedula' => 'La Cedula es requerida',
             ]
         );
         $concepto_nomina = ConceptosNomina::where('codigo_concepto','101')->first();
-     
+
         $data = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
             ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
             ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
@@ -78,26 +77,75 @@ class ReportesBSController extends Controller
             'empleados.apellido1',
             'empleados.apellido2',
             'grados_militares.siglas as siglas',
-            'grados_militares.descripcion as grado_militar', 
+            'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         )->first();
         if(!$data){
             return back()
             ->with('warning','No se puede generar el reporte, no existen registros que corresponda a la cedula');
         };
-        
+
         $conceptos_pagados = ConceptosPagados::where('codigo_empleado',$data->codigo_empleado)
             ->whereIn('codigo_concepto',['101','105'])
             ->orderBy('fecha_pago','ASC')
             ->orderBy('codigo_concepto','DESC')
             ->get();
-        
-        
+            //dd($reporte);
+
         $pdf = \PDF::loadView('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
 
         return $pdf->stream('Reporte Bienestar Social Devolucion.pdf',array('Attachment'=>0));
         //return view('bienestar_social.reporte_devolucion5', compact('data'));
-       
     }
 
+    public function reporteCargaFamiliar(Request $request) {
+        $this->validate($request,
+            [
+                'lista1' => 'required',
+            ],
+            [
+                'lista1' => 'El Parametro es Requerido',
+            ]
+        );
+        $lista = $request->lista1;
+        /*$concepto_nomina = ConceptosNomina::where('codigo_concepto','101')->first();
+
+        $data = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+            ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->where('empleados.cedula', $request->cedula)
+            ->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.siglas as siglas',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        )->first();
+        if(!$data){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros que corresponda al parametro escogido');
+        };
+
+        $conceptos_pagados = ConceptosPagados::where('codigo_empleado',$data->codigo_empleado)
+            ->whereIn('codigo_concepto',['101','105'])
+            ->orderBy('fecha_pago','ASC')
+            ->orderBy('codigo_concepto','DESC')
+            ->get();*/
+            dd($lista);
+
+        //$pdf = \PDF::loadView('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
+
+        //return $pdf->stream('Reporte Bienestar Social Devolucion.pdf',array('Attachment'=>0));
+        return view('bienestar_social.reporte_devolucion5', compact('data'));
+    }
+
+    public function reporteBajas(Request $request) {
+
+    }
 }
