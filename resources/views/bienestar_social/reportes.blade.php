@@ -6,7 +6,7 @@
 </style>
 @endsection
 @section('content')
-    
+
     @if ($message = Session::get('success'))
     <div class="alert alert-success mx-4" role="alert">
         <span class="text-white">{{ $message }}</span>
@@ -34,122 +34,124 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
                                 <div class="card card-body border card-plain border-radius-lg bg-gray-100">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-sm-6">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
-                                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                                Reporte de Devolucion del 5%
-                                                            </label>
-                                                        </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Reporte de Devolucion del 5%
+                                                        </label>
                                                     </div>
+                                                </div>
+
+                                                <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
                                                     <div class="col-lg-8 col-sm-6">
                                                         <div id="Parametros1" class="parametros ">
-                                                            <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
-                                                                @csrf
-                                                                <div class="col-md-8">
-                                                                    <div class="row">
-                                                                        <h6 class="col-sm-3 col-form-label">Cédula:</h6>
-                                                                        <div class="col-sm-9">
-                                                                            <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"  
-                                                                            value="">
-                                                                        </div>
+                                                            <div class="col-md-8">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-3 col-form-label">Cédula:</h6>
+                                                                    <div class="col-sm-6">
+                                                                        <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
-                                                                    <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
-                                                                </div>
-                                                                
-                                                            </form>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="2">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            Reporte de Carga Familiar
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-sm-6">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="2">
-                                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                                Reporte de Carga Familiar
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-sm-6">
+
+                                                <form id="formCargaFamiliar" action="{{ route('bienestar-social.reporte.cargafamiliar')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
+                                                    <div class="col-lg-8 col-sm-8">
                                                         <div id="Parametros2" class="parametros" style="display: none;">
-                                                            <form action="" method="POST" class="row">
-                                                                @csrf
-                                                                <div class="col-md-8">
-                                                                    <div class="row">
-                                                                        <h6 class="col-sm-3 col-form-label">Filtro:</h6>
-                                                                        <div class="col-sm-9">
-                                                                            <select name="parametros[filtro]" id="filtro" class="select2 form-control" disabled="disabled">
-                                                                                <option value="">SELECCIONE...</option>
-                                                                                <option value="1">0 a 12 años</option>
-                                                                                <option value="2">0 a 26 años</option>
-                                                                                <option value="3">Madres AMB</option>
-                                                                                <option value="3">Padres AMB</option>
-                                                                                <option value="3">Matriz Completa</option>
-                                                                                <option value="3">Por Fecha</option>
-                                                                            </select>
-                                                                        </div>
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-4 col-form-label">Reporte a Expulsar:</h6>
+                                                                    <div class="col-sm-4">
+                                                                        <select name="lista1" id="lista1" class="select2 form-control" disabled="disabled">
+                                                                            <option value="">SELECCIONE...</option>
+                                                                            <option value="1">0 a 12 años</option>
+                                                                            <option value="2">0 a 26 años</option>
+                                                                            <option value="3">Madres AMB</option>
+                                                                            <option value="4">Padres AMB</option>
+                                                                            <option value="5">Matriz Completa</option>
+                                                                            <option value="6">Por Fecha</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-4">
-                                                                    
-                                                                </div>
-                                                            </form>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="3">
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            Reporte de Bajas
+                                                        </label>
                                                     </div>
                                                 </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-sm-6">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="3">
-                                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                                Reporte de Bajas
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-sm-6">
+
+                                                <form id="formBajas" action="{{ route('bienestar-social.reporte.bajas')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
+                                                    <div class="col-lg-8 col-sm-8">
                                                         <div id="Parametros3" class="parametros" style="display: none;">
-                                                            <form action="" method="POST" class="row">
-                                                                @csrf
-                                                                <div class="col-md-8">
-                                                                    <div class="row">
-                                                                        <h6 class="col-sm-3 col-form-label">Filtro:</h6>
-                                                                        <div class="col-sm-9">
-                                                                            <select name="parametros[filtroBajas]" id="filtro_bajas" class="select2 form-control" disabled="disabled">
-                                                                                <option value="">SELECCIONE...</option>
-                                                                                <option value="1">ESPECIALIDAD</option>
-                                                                                <option value="2">GRADO</option>
-                                                                                <option value="3">CATEGORIA</option>
-                                                                                <option value="4">SEXO</option>
-                                                                                <option value="5">FECHA EGRESO</option>
-                                                                                <option value="6">TIPO EGRESO</option>
-                                                                            </select>
-                                                                        </div>
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-2 col-form-label">Filtro:</h6>
+                                                                    <div class="col-sm-5">
+                                                                        <select name="lista2" id="lista2" class="select2 form-control" disabled="disabled">
+                                                                            <option value="">SELECCIONE...</option>
+                                                                            <option value="1">ESPECIALIDAD</option>
+                                                                            <option value="2">GRADO</option>
+                                                                            <option value="3">CATEGORIA</option>
+                                                                            <option value="4">SEXO</option>
+                                                                            <option value="5">FECHA EGRESO</option>
+                                                                            <option value="6">TIPO EGRESO</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-4">
-                                                                    
-                                                                </div>
-                                                            </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        
+                                                </form>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -169,18 +171,9 @@
 
             $("div.parametros").hide();
             $("div.parametros *").attr("disabled", true);
-            //$("div.parametros").prop('disabled', 'disabled');
+            $("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
-        });
-        $("#formDevolucion5").validate({
-            rules: {
-                cedula: { required: true, minlength: 8},
-            },
-            messages: {
-                cedula: "El parametro es obligatorio.",
-                
-            }
         });
     });
 </script>
