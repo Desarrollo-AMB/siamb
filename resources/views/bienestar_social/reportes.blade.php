@@ -53,15 +53,15 @@
 
                                                 <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
                                                     @csrf
-                                                    <div class="col-lg-8 col-sm-6">
+                                                    <div class="col-lg-12 col-sm-12">
                                                         <div id="Parametros1" class="parametros ">
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <div class="row">
-                                                                    <h6 class="col-sm-3 col-form-label">Cédula:</h6>
-                                                                    <div class="col-sm-6">
+                                                                    <h6 class="col-sm-4 col-form-label">Cédula:</h6>
+                                                                    <div class="col-sm-4">
                                                                         <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="">
                                                                     </div>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-4">
                                                                         <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
@@ -83,9 +83,9 @@
                                                     </div>
                                                 </div>
 
-                                                <form id="formCargaFamiliar" action="{{ route('bienestar-social.reporte.cargafamiliar')}}" method="POST" class="row" target="_blank">
+                                                <form id="formCargaFamiliar" action="{{route('bienestar-social.reporte.cargafamiliar')}}" method="POST" class="row" target="_blank">
                                                     @csrf
-                                                    <div class="col-lg-8 col-sm-8">
+                                                    <div class="col-lg-12 col-sm-12">
                                                         <div id="Parametros2" class="parametros" style="display: none;">
                                                             <div class="col-md-12">
                                                                 <div class="row">
@@ -100,9 +100,17 @@
                                                                             <option value="5">Matriz Completa</option>
                                                                             <option value="6">Por Fecha</option>
                                                                         </select>
+
+                                                                        <div id="Fecha" class="fecha" style="display: none">
+                                                                            <strong>Desde</strong>
+                                                                            <input type="date" name="desde" id="desde" class="form-control">
+
+                                                                            <strong>Hasta</strong>
+                                                                            <input type="date" name="hasta" id="hasta" class="form-control">
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                                                        <button id="ejecutar" value="1" class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -125,24 +133,65 @@
 
                                                 <form id="formBajas" action="{{ route('bienestar-social.reporte.bajas')}}" method="POST" class="row" target="_blank">
                                                     @csrf
-                                                    <div class="col-lg-8 col-sm-8">
+                                                    <div class="col-lg-12 col-sm-12">
                                                         <div id="Parametros3" class="parametros" style="display: none;">
                                                             <div class="col-md-12">
                                                                 <div class="row">
-                                                                    <h6 class="col-sm-2 col-form-label">Filtro:</h6>
-                                                                    <div class="col-sm-5">
+                                                                    <h6 class="col-sm-4 col-form-label">Reporte a Expulsar:</h6>
+                                                                    <div class="col-sm-4">
                                                                         <select name="lista2" id="lista2" class="select2 form-control" disabled="disabled">
                                                                             <option value="">SELECCIONE...</option>
                                                                             <option value="1">ESPECIALIDAD</option>
                                                                             <option value="2">GRADO</option>
                                                                             <option value="3">CATEGORIA</option>
                                                                             <option value="4">SEXO</option>
-                                                                            <option value="5">FECHA EGRESO</option>
-                                                                            <option value="6">TIPO EGRESO</option>
+                                                                            <option value="5">TIPO EGRESO</option>
+                                                                            <option value="6">FECHA EGRESO</option>
                                                                         </select>
+
+                                                                        <div id="especialidad" style="display: none">
+                                                                            <select name="especialidad" class="form-control">
+                                                                                <option value="">SELECCIONE...</option>
+                                                                                @foreach ($edos_civil as $key=>$value)
+                                                                                    <option value="{{$key}}" {{$datos->edo_civil == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="grado" style="display: none">
+                                                                            <select name="grado" id="grado" class="form-control">
+                                                                                <option value="">SELECCIONE...</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="categoria" style="display: none">
+                                                                            <select name="categoria" id="categoria" class="form-control">
+                                                                                <option value="">SELECCIONE...</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="sexo" style="display: none">
+                                                                            <select name="sexo" id="sexo" class="form-control">
+                                                                                <option value="">SELECCIONE...</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="tipo_egreso" style="display: none">
+                                                                            <select name="tipo_egreso" id="tipo_egreso" class="form-control">
+                                                                                <option value="">SELECCIONE...</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div id="fecha_egreso" style="display: none">
+                                                                            <strong>Desde</strong>
+                                                                            <input type="date" name="desde" id="desde" class="form-control">
+
+                                                                            <strong>Hasta</strong>
+                                                                            <input type="date" name="hasta" id="hasta" class="form-control">
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                                                        <button id="ejecutar1" value="1" class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -174,6 +223,152 @@
             $("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
+        });
+
+        $("#lista1").on('change', function() {
+            var test = $(this).val();
+
+            if (test == 6) {
+                $("#Fecha").show();
+
+                $("#ejecutar").click(function() {
+                    var desde = $("#desde").val();
+                    var hasta = $("#hasta").val();
+
+                    if (desde == "" || hasta == "") {
+                        alert("Los Campos Desde o Hasta estan Vacios");
+                        window.location.reload();
+                    }
+                });
+            }
+            else {
+                $("#Fecha").hide();
+            }
+        });
+
+        $("#lista2").on('change', function() {
+            var test = $(this).val();
+            console.log(test);
+
+            switch (test) {
+                case '1':
+                $("#especialidad").show();
+                $("#grado").hide();
+                $("#categoria").hide();
+                $("#sexo").hide();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#especialidad").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '2':
+                $("#especialidad").hide();
+                $("#grado").show();
+                $("#categoria").hide();
+                $("#sexo").hide();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#grado").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '3':
+                $("#especialidad").hide();
+                $("#grado").hide();
+                $("#categoria").show();
+                $("#sexo").hide();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#categoria").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '4':
+                $("#especialidad").hide();
+                $("#grado").hide();
+                $("#categoria").hide();
+                $("#sexo").show();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#sexo").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '5':
+                $("#especialidad").hide();
+                $("#grado").hide();
+                $("#categoria").hide();
+                $("#sexo").hide();
+                $("#tipo_egreso").show();
+                $("#fecha_egreso").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#tipo_egreso").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '6':
+                $("#especialidad").hide();
+                $("#grado").hide();
+                $("#categoria").hide();
+                $("#sexo").hide();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").show();
+
+                $("#ejecutar1").click(function() {
+                    var desde = $("#desde").val();
+                    var hasta = $("#hasta").val();
+
+                    if (desde == "" || hasta == "") {
+                        alert("Los Campos Desde o Hasta estan Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                default:
+                $("#especialidad").hide();
+                $("#grado").hide();
+                $("#categoria").hide();
+                $("#sexo").hide();
+                $("#tipo_egreso").hide();
+                $("#fecha_egreso").hide();
+                break;
+            }
         });
     });
 </script>

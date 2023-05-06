@@ -10,14 +10,14 @@ use Spatie\Activitylog\LogOptions;
 class Familiares extends Model
 {
     use HasFactory, LogsActivity;
-    
+
     protected $table = 'familiares';
-    
+
     protected $fillable = [
         '*'
     ];
 
-    public function empleado()
+    public function nomina()
     {
         return $this->belongsTo(Empleado::class,'codigo_empleado','codigo_empleado');
     }
@@ -28,8 +28,8 @@ class Familiares extends Model
         ->useLogName('Actividad tabla familiares')
         ->logOnly(
             [
-                'codigo_empleado', 'numero_familiar', 'cedula_familiar', 'nombre1', 'nombre2', 
-                'apellido1', 'apellido2', 'parentesco', 'fecha_nacimiento', 'sexo', 
+                'codigo_empleado', 'numero_familiar', 'cedula_familiar', 'nombre1', 'nombre2',
+                'apellido1', 'apellido2', 'parentesco', 'fecha_nacimiento', 'sexo',
                 'edo_civil', 'nivel_instruccion', 'pendiente', 'estudia', 'tiene_beca',
                 'status', 'fecha_registro', 'especial', 'hcm', 'asistencia_medica',
                 'fecha_fallecimiento', 'nacionalidad', 'telefono_oficina', 'telefono_movil', 'correo_electronico',
