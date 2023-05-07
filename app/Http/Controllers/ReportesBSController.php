@@ -50,9 +50,14 @@ class ReportesBSController extends Controller
 
     public function reportesBienestarSocial()
     {
+        $especialidades_militares = EspecialidadesMilitares::all();
+        $generos = Config::get('constants.sexo');
+        $tipo_egreso = TipoDeBaja::all();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','MEX','TRP'])->orderBy('codigo_grado','ASC')->get();
         $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','MEX','TRP'])->get();
         return view('bienestar_social.reportes', compact(
-            'categorias_militares',
+            'especialidades_militares', 'generos', 'tipo_egreso',
+            'grados_militares', 'categorias_militares',
         ));
     }
 
@@ -339,177 +344,66 @@ class ReportesBSController extends Controller
             ]
         );
         $lista = $request->lista2;
+        $especialidad = $request->especialidad;
+        $grado = $request->grado;
+        $categoria = $request->categoria;
+        $sexo = $request->sexo;
+        $tipo_egreso = $request->tipo_egreso;
         $desde = $request->desde;
         $hasta = $request->hasta;
 
         switch ($lista) {
             case 1:
-                $complementoTitulo= "REPORTE HIJOS DE 0 A 12 AÑOS";
-                $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
+                $complementoTitulo= "REPORTE DE BAJAS POR ESPECIALIDAD";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
                 ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                //->where('familiares.codigo_empleado', 62782)
-                ->where('familiares.parentesco', 'H')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 62705)
+                ->where('datos_militares.codigo_especialidad1', $especialidad)
+                //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
                 ->select(
                     'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
                     'nomina.cedula as cedula',
                     'nomina.nombre1 as nombre1',
                     'nomina.nombre2 as nombre2',
                     'nomina.apellido1 as apellido1',
                     'nomina.apellido2 as apellido2',
                     DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    //'datos_militares.codigo_especialidad1 as especialidad',
+                    //'datos_militares.codigo_categoria as categoria',
                     'ubicaciones.descripcion as ubicacion',
-                    'grados_militares.siglas as siglas',
-                    'familiares.nombre1 as nombref1',
-                    'familiares.nombre2 as nombref2',
-                    'familiares.apellido1 as apellidof1',
-                    'familiares.apellido2 as apellidof2',
-                    'familiares.fecha_nacimiento as fecha_nacimientof',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                    'familiares.fecha_registro',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
                 )
-                ->orderBy('codigo_empleado','ASC')
-                ->orderBy('edad','ASC')
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
                 ->get();
-                //dd($familiares);
+
+                $especialidades = EspecialidadesMilitares::where('especialidades_militares.codigo_especialidad', 'egresos.datos_militares.codigo_especialidad1')->get();
+                $categorias = CategoriasMilitares::where('categorias_militares.codigo_categoria', 'egresos.datos_militares.codigo_categoria')->get();
+                //dd($especialidades);
                 break;
 
             case 2:
-                $complementoTitulo= "REPORTE HIJOS DE 0 A 26 AÑOS";
-                $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
-                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                //->where('familiares.codigo_empleado', 62782)
-                ->where('familiares.parentesco', 'H')
-                ->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 27')
-                ->select(
-                    'nomina.codigo_empleado as codigo_empleado',
-                    'nomina.cedula as cedula',
-                    'nomina.nombre1 as nombre1',
-                    'nomina.nombre2 as nombre2',
-                    'nomina.apellido1 as apellido1',
-                    'nomina.apellido2 as apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'ubicaciones.descripcion as ubicacion',
-                    'grados_militares.siglas as siglas',
-                    'familiares.nombre1 as nombref1',
-                    'familiares.nombre2 as nombref2',
-                    'familiares.apellido1 as apellidof1',
-                    'familiares.apellido2 as apellidof2',
-                    'familiares.fecha_nacimiento as fecha_nacimientof',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                    'familiares.fecha_registro',
-                )
-                ->orderBy('codigo_empleado','ASC')
-                ->orderBy('edad','ASC')
-                ->get();
-                //dd($familiares);
+                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
                 break;
 
             case 3:
-                $complementoTitulo= "REPORTE DE MADRES AMB";
-                $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
-                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                //->where('familiares.codigo_empleado', 62782)
-                ->where('familiares.parentesco', 'H')
-                ->where('empleados.sexo', 'F')
-                ->select(
-                    'nomina.codigo_empleado as codigo_empleado',
-                    'nomina.cedula as cedula',
-                    'nomina.nombre1 as nombre1',
-                    'nomina.nombre2 as nombre2',
-                    'nomina.apellido1 as apellido1',
-                    'nomina.apellido2 as apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'ubicaciones.descripcion as ubicacion',
-                    'grados_militares.siglas as siglas',
-                    'familiares.nombre1 as nombref1',
-                    'familiares.nombre2 as nombref2',
-                    'familiares.apellido1 as apellidof1',
-                    'familiares.apellido2 as apellidof2',
-                    'familiares.fecha_nacimiento as fecha_nacimientof',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                    'familiares.fecha_registro',
-                )
-                ->orderBy('codigo_empleado','ASC')
-                ->orderBy('edad','ASC')
-                ->get();
-                //dd($familiares);
+                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
                 break;
 
             case 4:
-                $complementoTitulo= "REPORTE DE PADRES AMB";
-                $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
-                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                //->where('familiares.codigo_empleado', 62782)
-                ->where('familiares.parentesco', 'H')
-                ->where('empleados.sexo', 'M')
-                ->select(
-                    'nomina.codigo_empleado as codigo_empleado',
-                    'nomina.cedula as cedula',
-                    'nomina.nombre1 as nombre1',
-                    'nomina.nombre2 as nombre2',
-                    'nomina.apellido1 as apellido1',
-                    'nomina.apellido2 as apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'ubicaciones.descripcion as ubicacion',
-                    'grados_militares.siglas as siglas',
-                    'familiares.nombre1 as nombref1',
-                    'familiares.nombre2 as nombref2',
-                    'familiares.apellido1 as apellidof1',
-                    'familiares.apellido2 as apellidof2',
-                    'familiares.fecha_nacimiento as fecha_nacimientof',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                    'familiares.fecha_registro',
-                )
-                ->orderBy('codigo_empleado','ASC')
-                ->orderBy('edad','ASC')
-                ->get();
-                //dd($familiares);
+                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
                 break;
 
             case 5:
-                $complementoTitulo= "MATRIZ DE TODOS LOS HIJOS DE LOS PROFESIONALES DE LA AMB";
-                $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
-                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                //->where('familiares.codigo_empleado', 62782)
-                ->where('familiares.parentesco', 'H')
-                ->select(
-                    'nomina.codigo_empleado as codigo_empleado',
-                    'nomina.cedula as cedula',
-                    'nomina.nombre1 as nombre1',
-                    'nomina.nombre2 as nombre2',
-                    'nomina.apellido1 as apellido1',
-                    'nomina.apellido2 as apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'ubicaciones.descripcion as ubicacion',
-                    'grados_militares.siglas as siglas',
-                    'familiares.nombre1 as nombref1',
-                    'familiares.nombre2 as nombref2',
-                    'familiares.apellido1 as apellidof1',
-                    'familiares.apellido2 as apellidof2',
-                    'familiares.fecha_nacimiento as fecha_nacimientof',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                    'familiares.fecha_registro',
-                )
-                ->orderBy('codigo_empleado','ASC')
-                ->orderBy('edad','ASC')
-                ->get();
-                //dd($familiares);
+                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
                 break;
 
                 case 6:
@@ -553,6 +447,6 @@ class ReportesBSController extends Controller
         $data = compact('titulo', 'bajas');
 
         return Excel::download(new BajasExport($data), $nombre_archivo);*/
-        //return view('excel.bajas', compact('titulo','familiares'));
+        return view('excel.bajas', compact('titulo','especialidades','categorias','egresos'));
     }
 }

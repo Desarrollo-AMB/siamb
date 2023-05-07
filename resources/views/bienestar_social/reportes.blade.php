@@ -149,40 +149,52 @@
                                                                             <option value="6">FECHA EGRESO</option>
                                                                         </select>
 
-                                                                        <div id="especialidad" style="display: none">
-                                                                            <select name="especialidad" class="form-control">
+                                                                        <div id="div1" style="display: none">
+                                                                            <select id="especialidad" name="especialidad" class="select2 form-control">
                                                                                 <option value="">SELECCIONE...</option>
-                                                                                @foreach ($edos_civil as $key=>$value)
-                                                                                    <option value="{{$key}}" {{$datos->edo_civil == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                                                @foreach ($especialidades_militares as $row)
+                                                                                    <option value="{{$row->codigo_especialidad}}">{{ $row->descripcion }} </option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
 
-                                                                        <div id="grado" style="display: none">
-                                                                            <select name="grado" id="grado" class="form-control">
+                                                                        <div id="div2" style="display: none">
+                                                                            <select id="grado" name="grado" id="grado" class="select2 form-control">
                                                                                 <option value="">SELECCIONE...</option>
+                                                                                @foreach ($grados_militares as $row)
+                                                                                    <option value="{{$row->codigo_grado}}">{{ $row->descripcion }} </option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div>
 
-                                                                        <div id="categoria" style="display: none">
-                                                                            <select name="categoria" id="categoria" class="form-control">
+                                                                        <div id="div3" style="display: none">
+                                                                            <select id="categoria" name="categoria" id="categoria" class="select2 form-control">
                                                                                 <option value="">SELECCIONE...</option>
+                                                                                @foreach ($categorias_militares as $row)
+                                                                                    <option value="{{$row->codigo_categoria}}">{{ $row->descripcion }} </option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div>
 
-                                                                        <div id="sexo" style="display: none">
-                                                                            <select name="sexo" id="sexo" class="form-control">
+                                                                        <div id="div4" style="display: none">
+                                                                            <select id="sexo" name="sexo" id="sexo" class="select2 form-control">
                                                                                 <option value="">SELECCIONE...</option>
+                                                                                @foreach ($generos as $key=>$value)
+                                                                                    <option value="{{$key}}" >{{ $value }} </option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div>
 
-                                                                        <div id="tipo_egreso" style="display: none">
-                                                                            <select name="tipo_egreso" id="tipo_egreso" class="form-control">
+                                                                        <div id="div5" style="display: none">
+                                                                            <select id="tipo_egreso" name="tipo_egreso" id="tipo_egreso" class="select2 form-control">
                                                                                 <option value="">SELECCIONE...</option>
+                                                                                @foreach ($tipo_egreso as $row)
+                                                                                    <option value="{{$row->codigo_egreso}}">{{ $row->descripcion }} </option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div>
 
-                                                                        <div id="fecha_egreso" style="display: none">
+                                                                        <div id="div6" style="display: none">
                                                                             <strong>Desde</strong>
                                                                             <input type="date" name="desde" id="desde" class="form-control">
 
@@ -252,12 +264,12 @@
 
             switch (test) {
                 case '1':
-                $("#especialidad").show();
-                $("#grado").hide();
-                $("#categoria").hide();
-                $("#sexo").hide();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").hide();
+                $("#div1").show();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
 
                 $("#ejecutar1").click(function() {
                     var valor = $("#especialidad").val();
@@ -270,12 +282,12 @@
                 break;
 
                 case '2':
-                $("#especialidad").hide();
-                $("#grado").show();
-                $("#categoria").hide();
-                $("#sexo").hide();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").hide();
+                $("#div1").hide();
+                $("#div2").show();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
 
                 $("#ejecutar1").click(function() {
                     var valor = $("#grado").val();
@@ -288,12 +300,12 @@
                 break;
 
                 case '3':
-                $("#especialidad").hide();
-                $("#grado").hide();
-                $("#categoria").show();
-                $("#sexo").hide();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").hide();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").show();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
 
                 $("#ejecutar1").click(function() {
                     var valor = $("#categoria").val();
@@ -306,12 +318,12 @@
                 break;
 
                 case '4':
-                $("#especialidad").hide();
-                $("#grado").hide();
-                $("#categoria").hide();
-                $("#sexo").show();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").hide();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").show();
+                $("#div5").hide();
+                $("#div6").hide();
 
                 $("#ejecutar1").click(function() {
                     var valor = $("#sexo").val();
@@ -324,12 +336,12 @@
                 break;
 
                 case '5':
-                $("#especialidad").hide();
-                $("#grado").hide();
-                $("#categoria").hide();
-                $("#sexo").hide();
-                $("#tipo_egreso").show();
-                $("#fecha_egreso").hide();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").show();
+                $("#div6").hide();
 
                 $("#ejecutar1").click(function() {
                     var valor = $("#tipo_egreso").val();
@@ -342,12 +354,12 @@
                 break;
 
                 case '6':
-                $("#especialidad").hide();
-                $("#grado").hide();
-                $("#categoria").hide();
-                $("#sexo").hide();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").show();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").show();
 
                 $("#ejecutar1").click(function() {
                     var desde = $("#desde").val();
@@ -361,12 +373,12 @@
                 break;
 
                 default:
-                $("#especialidad").hide();
-                $("#grado").hide();
-                $("#categoria").hide();
-                $("#sexo").hide();
-                $("#tipo_egreso").hide();
-                $("#fecha_egreso").hide();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
                 break;
             }
         });
