@@ -374,8 +374,8 @@ class ReportesBSController extends Controller
                     'nomina.apellido1 as apellido1',
                     'nomina.apellido2 as apellido2',
                     DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    //'datos_militares.codigo_especialidad1 as especialidad',
-                    //'datos_militares.codigo_categoria as categoria',
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
                     'ubicaciones.descripcion as ubicacion',
                     'datos_militares.fecha_graduacion as fecha_graduacion',
                     'tipo_de_baja.descripcion as tipo_de_baja',
@@ -385,9 +385,16 @@ class ReportesBSController extends Controller
                 ->orderBy('fecha_salida','ASC')
                 ->get();
 
-                $especialidades = EspecialidadesMilitares::where('especialidades_militares.codigo_especialidad', 'egresos.datos_militares.codigo_especialidad1')->get();
-                $categorias = CategoriasMilitares::where('categorias_militares.codigo_categoria', 'egresos.datos_militares.codigo_categoria')->get();
-                //dd($especialidades);
+                $especialidades = EspecialidadesMilitares::where('especialidades_militares.codigo_especialidad','=',$especialidad)
+                ->select(
+                    'especialidades_militares.descripcion as especialidad',
+                )->get();
+
+                $categorias = CategoriasMilitares::where('categorias_militares.codigo_categoria','=',$categoria)
+                ->select(
+                    'categorias_militares.descripcion as categoria',
+                )->get();
+                //dd($categoria);
                 break;
 
             case 2:

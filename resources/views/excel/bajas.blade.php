@@ -5,6 +5,7 @@
     <tr>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">#</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">GRADO</td>
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">GRADO</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">CEDULA</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">NOMBRES</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">APELLIDOS</td>
@@ -23,6 +24,7 @@
     @foreach($egresos as $row)
         <tr>
             <td>{{ $i }}</td>
+            <td>{{ $row->codigo_empleado }}</td>
             <td>{{ $row->siglas }}</td>
             <td>{{ $row->cedula }}</td>
             <td>{{ $row->nombre1.' '.$row->nombre2 }}</td>
@@ -32,14 +34,14 @@
                 <td>{{ 'NO POSEE' }}</td>
                 <td>{{ 'NO POSEE' }}</td>
             @elseif($especialidades != "" && $categorias == '')
-                <td>{{ $especialidades->descripcion }}</td>
+                <td>{{ $row1->descripcion }}</td>
                 <td>{{ 'NO POSEE' }}</td>
             @elseif($especialidades == "" && $categorias != '')
                 <td>{{ 'NO POSEE' }}</td>
-                <td>{{ $categorias->descripcion }}</td>
+                <td>{{ $row2->descripcion }}</td>
             @elseif($especialidades != "" && $categorias != '')
-                <td>{{ $especialidades->descripcion }}</td>
-                <td>{{ $categorias->descripcion }}</td>
+                <td>{{ $row1->descripcion }}</td>
+                <td>{{ $row2->descripcion }}</td>
             @endif
             <td>{{ $row->ubicacion }}</td>
             <td>{{ $row->fecha_graduacion }}</td>
