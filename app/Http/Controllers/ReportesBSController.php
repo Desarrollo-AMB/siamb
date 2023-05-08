@@ -128,6 +128,7 @@ class ReportesBSController extends Controller
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                 ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
                 //->where('familiares.codigo_empleado', 62782)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('familiares.parentesco', 'H')
                 ->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
                 ->select(
@@ -162,6 +163,7 @@ class ReportesBSController extends Controller
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                 ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
                 //->where('familiares.codigo_empleado', 62782)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('familiares.parentesco', 'H')
                 ->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 27')
                 ->select(
@@ -196,6 +198,7 @@ class ReportesBSController extends Controller
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                 ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
                 //->where('familiares.codigo_empleado', 62782)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('familiares.parentesco', 'H')
                 ->where('empleados.sexo', 'F')
                 ->select(
@@ -230,6 +233,7 @@ class ReportesBSController extends Controller
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                 ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
                 //->where('familiares.codigo_empleado', 62782)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('familiares.parentesco', 'H')
                 ->where('empleados.sexo', 'M')
                 ->select(
@@ -264,6 +268,7 @@ class ReportesBSController extends Controller
                 ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                 ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
                 //->where('familiares.codigo_empleado', 62782)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('familiares.parentesco', 'H')
                 ->select(
                     'nomina.codigo_empleado as codigo_empleado',
@@ -349,8 +354,8 @@ class ReportesBSController extends Controller
         $categoria = $request->categoria;
         $sexo = $request->sexo;
         $tipo_egreso = $request->tipo_egreso;
-        $desde = $request->desde;
-        $hasta = $request->hasta;
+        $desde1 = $request->desde1;
+        $hasta1 = $request->hasta1;
 
         switch ($lista) {
             case 1:
@@ -362,7 +367,8 @@ class ReportesBSController extends Controller
                 ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
                 ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
                 ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
-                //->where('egresos.codigo_empleado', 62705)
+                //->where('egresos.codigo_empleado', 56007)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                 ->where('datos_militares.codigo_especialidad1', $especialidad)
                 //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
                 ->select(
@@ -385,75 +391,213 @@ class ReportesBSController extends Controller
                 ->orderBy('fecha_salida','ASC')
                 ->get();
 
-                $especialidades = EspecialidadesMilitares::where('especialidades_militares.codigo_especialidad','=',$especialidad)
-                ->select(
-                    'especialidades_militares.descripcion as especialidad',
-                )->get();
+                $especialidades = EspecialidadesMilitares::all();
 
-                $categorias = CategoriasMilitares::where('categorias_militares.codigo_categoria','=',$categoria)
-                ->select(
-                    'categorias_militares.descripcion as categoria',
-                )->get();
-                //dd($categoria);
+                $categorias = CategoriasMilitares::all();
+                //dd($categorias);
                 break;
 
             case 2:
-                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
+                $complementoTitulo= "REPORTE DE BAJAS POR GRADO";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 56007)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                ->where('nomina.grado_militar', $grado)
+                //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
+                ->select(
+                    'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
+                    'nomina.cedula as cedula',
+                    'nomina.nombre1 as nombre1',
+                    'nomina.nombre2 as nombre2',
+                    'nomina.apellido1 as apellido1',
+                    'nomina.apellido2 as apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
+                )
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
+                ->get();
+
+                $especialidades = EspecialidadesMilitares::all();
+
+                $categorias = CategoriasMilitares::all();
+                //dd($categorias);
                 break;
 
             case 3:
-                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
+                $complementoTitulo= "REPORTE DE BAJAS POR CATEGORIA";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 38016)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                ->where('datos_militares.codigo_categoria', $categoria)
+                //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
+                ->select(
+                    'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
+                    'nomina.cedula as cedula',
+                    'nomina.nombre1 as nombre1',
+                    'nomina.nombre2 as nombre2',
+                    'nomina.apellido1 as apellido1',
+                    'nomina.apellido2 as apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
+                )
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
+                ->get();
+                
+                $especialidades = EspecialidadesMilitares::all();
+
+                $categorias = CategoriasMilitares::all();
+                //dd($egresos);
                 break;
 
             case 4:
-                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
+                $complementoTitulo= "REPORTE DE BAJAS POR GENERO";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 38016)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                ->where('empleados.sexo', $sexo)
+                //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
+                ->select(
+                    'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
+                    'nomina.cedula as cedula',
+                    'nomina.nombre1 as nombre1',
+                    'nomina.nombre2 as nombre2',
+                    'nomina.apellido1 as apellido1',
+                    'nomina.apellido2 as apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
+                )
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
+                ->get();
+                
+                $especialidades = EspecialidadesMilitares::all();
+
+                $categorias = CategoriasMilitares::all();
+                //dd($egresos);
                 break;
 
             case 5:
-                $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
+                $complementoTitulo= "REPORTE DE BAJAS POR TIPO DE EGRESO";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 38016)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                ->where('egresos.causa_egreso', $tipo_egreso)
+                //->whereRaw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) < 13')
+                ->select(
+                    'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
+                    'nomina.cedula as cedula',
+                    'nomina.nombre1 as nombre1',
+                    'nomina.nombre2 as nombre2',
+                    'nomina.apellido1 as apellido1',
+                    'nomina.apellido2 as apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
+                )
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
+                ->get();
+                
+                $especialidades = EspecialidadesMilitares::all();
+
+                $categorias = CategoriasMilitares::all();
+                //dd($egresos);
                 break;
 
-                case 6:
-                    $complementoTitulo= "REPORTE DE HIJOS POR FECHA";
-                    $familiares = Familiares::join('nomina','nomina.codigo_empleado','=','familiares.codigo_empleado')
-                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                    ->join('empleados','empleados.codigo_empleado','=','familiares.codigo_empleado')
-                    ->whereBetween('familiares.fecha_registro', [$desde, $hasta])
-                    ->where('familiares.parentesco', 'H')
-                    ->select(
-                        'nomina.codigo_empleado as codigo_empleado',
-                        'nomina.cedula as cedula',
-                        'nomina.nombre1 as nombre1',
-                        'nomina.nombre2 as nombre2',
-                        'nomina.apellido1 as apellido1',
-                        'nomina.apellido2 as apellido2',
-                        DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                        'ubicaciones.descripcion as ubicacion',
-                        'grados_militares.siglas as siglas',
-                        'familiares.nombre1 as nombref1',
-                        'familiares.nombre2 as nombref2',
-                        'familiares.apellido1 as apellidof1',
-                        'familiares.apellido2 as apellidof2',
-                        'familiares.fecha_nacimiento as fecha_nacimientof',
-                        DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                        DB::raw('TIMESTAMPDIFF(YEAR, familiares.fecha_nacimiento, NOW()) as edad'),
-                        'familiares.fecha_registro',
-                    )
-                    ->orderBy('fecha_registro','ASC')
-                    ->orderBy('codigo_empleado','ASC')
-                    ->orderBy('edad','ASC')
-                    ->get();
-                    //dd($familiares);
-                    break;
+            case 6:
+                $complementoTitulo= "REPORTE DE BAJAS POR FECHA DE EGRESO";
+
+                $egresos = Egresos::join('nomina','nomina.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                ->join('empleados','empleados.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('datos_militares','datos_militares.codigo_empleado','=','egresos.codigo_empleado')
+                ->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso')
+                //->where('egresos.codigo_empleado', 38016)
+                ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                ->whereBetween('egresos.fecha_salida', [$desde1, $hasta1])
+                ->select(
+                    'nomina.codigo_empleado as codigo_empleado',
+                    'grados_militares.siglas as siglas',
+                    'nomina.cedula as cedula',
+                    'nomina.nombre1 as nombre1',
+                    'nomina.nombre2 as nombre2',
+                    'nomina.apellido1 as apellido1',
+                    'nomina.apellido2 as apellido2',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'datos_militares.codigo_especialidad1 as especialidad',
+                    'datos_militares.codigo_categoria as categoria',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion as fecha_graduacion',
+                    'tipo_de_baja.descripcion as tipo_de_baja',
+                    'egresos.fecha_salida as fecha_salida',
+                )
+                ->orderBy('causa_egreso','ASC')
+                ->orderBy('fecha_salida','ASC')
+                ->get();
+                
+                $especialidades = EspecialidadesMilitares::all();
+
+                $categorias = CategoriasMilitares::all();
+                //dd($egresos);
+                break;
         }
 
         $titulo = 'REPORTE BIENESTAR SOCIAL - '.$complementoTitulo;
 
-        /*$nombre_archivo = sprintf('ReporteBienestarSocial %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
-        $data = compact('titulo', 'bajas');
+        $nombre_archivo = sprintf('ReporteBienestarSocial %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        $data = compact('titulo','especialidades','categorias','egresos');
 
-        return Excel::download(new BajasExport($data), $nombre_archivo);*/
-        return view('excel.bajas', compact('titulo','especialidades','categorias','egresos'));
+        return Excel::download(new BajasExport($data), $nombre_archivo);
+        //return view('excel.bajas', compact('titulo','especialidades','categorias','egresos'));
     }
 }
