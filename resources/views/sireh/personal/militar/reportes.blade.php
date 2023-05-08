@@ -6,7 +6,7 @@
 </style>
 @endsection
 @section('content')
-    
+
     @if ($message = Session::get('success'))
     <div class="alert alert-success mx-4" role="alert">
         <span class="text-white">{{ $message }}</span>
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
@@ -52,18 +52,28 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-sm-6">
+                                                    <div class="col-lg-5 col-sm-5">
                                                         <div id="Parametros1" class="parametros row">
                                                             <div class="col-8">
-                                                                <select class="select2 form-control" name="parametros[categoria]" id="categoria">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-5 col-form-label">Categoria:</h6>
+                                                                    <select class="select2 form-control" name="parametros[categoria]" id="categoria">
+                                                                        <option value="">SELECCIONE...</option>
+                                                                        @foreach ($categorias_militares as $row)
+                                                                            <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-8">
+                                                                <h6 class="col-sm-5 col-form-label">Grado:</h6>
+                                                                <select class="select2 form-control" name="parametros1[grados]" id="grados">
                                                                     <option value="">SELECCIONE...</option>
-                                                                    @foreach ($categorias_militares as $row)
-                                                                        <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
+                                                                    @foreach ($grados_militares as $row)
+                                                                        <option value="{{$row->codigo_grado}}" >{{ $row->descripcion }} </option>
                                                                     @endforeach
                                                                 </select>
-                                                            </div>
-                                                            <div class="col-4">
-                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -82,6 +92,7 @@
                                                     <div class="col-lg-6 col-sm-6">
                                                         <div id="Parametros2" class="parametros row" style="display: none;">
                                                             <div class="col-8">
+                                                                <h6 class="col-sm-5 col-form-label">Situación:</h6>
                                                                 <select name="parametros[situacion]" id="situacion" class="select2 form-control" disabled="disabled">
                                                                     <option value="">SELECCIONE...</option>
                                                                     <option value="A">ACTIVO</option>
@@ -90,7 +101,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-4">
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -120,7 +131,7 @@
 
             $("div.parametros").hide();
             $("div.parametros *").attr("disabled", true);
-            //$("div.parametros").prop('disabled', 'disabled');
+            $("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
         });

@@ -38,24 +38,24 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
                                 <div class="card card-body border card-plain border-radius-lg bg-gray-100">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">                                               
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Reporte de por Jerarquia y/o Ubicación
-                                                </label>
-                                            </div>
+                                    <form action="{{ route('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion')}}" method="POST" class="row">
+                                        @csrf
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        Reporte por Jerarquia y/o Ubicación
+                                                    </label>
+                                                </div>
 
-                                            <div id="Parametros1" class="parametros row">
-                                                <div class="col-lg-12 col-sm-12">
-                                                    <form action="{{ route('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion')}}" method="POST" class="row">
-                                                        @csrf
+                                                <div id="Parametros1" class="parametros row">
+                                                    <div class="col-lg-12 col-sm-12">
                                                         <div class="col-md-6 col-sm-12">
                                                             <div class="row">
                                                                 <h6 class="col-sm-4 col-form-label">Tipo de Empleado:</h6>
@@ -94,41 +94,11 @@
                                                         <div class="col-md-3 col-sm-12">
                                                             <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
                                                         </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="2">
-                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                    Otro
-                                                </label>
-                                            </div>
-                                            <div id="Parametros2" class="row parametros" style="display: none;">
-                                                <div class="col-lg-12 col-sm-12">
-                                                    <form action="" method="POST" class="row">
-                                                        @csrf
-                                                        <div class="col-md-8">
-                                                            <div class="row">
-                                                                <h6 class="col-sm-3 col-form-label">Filtro:</h6>
-                                                                <div class="col-sm-9">
-                                                                    <select name="parametros[filtro]" id="filtro" class="select2 form-control" disabled="disabled">
-                                                                        <option value="">SELECCIONE...</option>
-                                                                        
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +118,7 @@
 
             $("div.parametros").hide();
             $("div.parametros *").attr("disabled", true);
-            //$("div.parametros").prop('disabled', 'disabled');
+            $("div.parametros").prop('disabled', 'disabled');
             $("#Parametros" + test).show();
             $("#Parametros" + test+' *').prop("disabled", false);
         });
@@ -156,18 +126,17 @@
         $("#tipo_emp").on('change', function(){
             var tipo_emp = this.value;
             if (tipo_emp == 'MEF' || tipo_emp == 'ALI' || tipo_emp == 'MIL' || tipo_emp == 'TRP'){
-               
                 $('#grado_militar').attr('required');
                 $.get('/api/grados-militares-noprof/' + tipo_emp,function(data) {
                     $('#grado_militar').empty();
                     $('#grado_militar').append('<option value="0">Todas las Jerarquias</option>');
-                    $.each(data, function(fetch, grado){          
+                    $.each(data, function(fetch, grado){
                         $('#grado_militar').append('<option value="'+ grado.codigo_grado +'">'+ grado.descripcion +'</option>');
                     });
                 });
-                
+
             }
-            
+
         });
     });
 </script>
