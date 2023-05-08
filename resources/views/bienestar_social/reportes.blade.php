@@ -196,10 +196,10 @@
 
                                                                         <div id="div6" style="display: none">
                                                                             <strong>Desde</strong>
-                                                                            <input type="date" name="desde" id="desde" class="form-control">
+                                                                            <input type="date" name="desde1" id="desde1" class="form-control">
 
                                                                             <strong>Hasta</strong>
-                                                                            <input type="date" name="hasta" id="hasta" class="form-control">
+                                                                            <input type="date" name="hasta1" id="hasta1" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -362,10 +362,10 @@
                 $("#div6").show();
 
                 $("#ejecutar1").click(function() {
-                    var desde = $("#desde").val();
-                    var hasta = $("#hasta").val();
+                    var desde1 = $("#desde1").val();
+                    var hasta1 = $("#hasta1").val();
 
-                    if (desde == "" || hasta == "") {
+                    if (desde1 == "" || hasta1 == "") {
                         alert("Los Campos Desde o Hasta estan Vacios");
                         window.location.reload();
                     }
