@@ -25,6 +25,7 @@
                         <div>
                             <h5 class="mb-0">Parte</h5>
                         </div>
+                        <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('sireh.personal.militar.parte.reporte.reportes') }}">Reporte</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
