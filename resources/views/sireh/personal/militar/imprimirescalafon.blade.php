@@ -23,7 +23,7 @@ use Carbon\Carbon;
                 background-color: #03a9f4;
                 color: white;
                 border-radius: 35px;
-                
+
                 line-height: 20px;
             }
 
@@ -37,11 +37,11 @@ use Carbon\Carbon;
             }
 
             footer {
-                position: fixed; 
-                bottom: -25px; 
-                left: 0px; 
+                position: fixed;
+                bottom: -25px;
+                left: 0px;
                 right: 0px;
-                height: 30px; 
+                height: 30px;
 
                 /** Extra personal styles **/
                 background-color: #03a9f4;
@@ -79,7 +79,7 @@ use Carbon\Carbon;
         <main>
             @php
             $i = 0;
-            
+
             @endphp
             @foreach ($agrupados as $key=>$empleados)
             <div>
@@ -96,9 +96,9 @@ use Carbon\Carbon;
                         <th align="left">Nombres y Apellidos</th>
                         <th align="left">Edad</th>
                         <th align="left">Sexo</th>
-                        <th align="left">O.M.P</th>
                         <th align="left">Fecha Graduación</th>
                         <th align="left">Fecha Ult. Asc.</th>
+                        <th align="left">O.M.P</th>
                         <th align="left">Fecha Retiro</th>
                         <th align="left">CEAMB-1</th>
                         <th align="left">CEAMB-2</th>
@@ -128,9 +128,9 @@ use Carbon\Carbon;
                             <td>{{$row->nombre1." ".$row->nombre2." ".$row->apellido1." ".$row->apellido2}}</td>
                             <td>{{$date}}</td>
                             <td>{{$sexo}}</td>
-                            <td align="center">{{$row->orden_merito."/".$row->total_merito}}</td>
                             <td>{{$graduacion}}</td>
                             <td>{{$ultimo_ascenso}}</td>
+                            <td align="center">{{$row->orden_merito."/".$row->total_merito}}</td>
                             <td>{{$retiro}}</td>
                             <td>{{$row->especialidad1}}</td>
                             <td>{{$row->especialidad2}}</td>
