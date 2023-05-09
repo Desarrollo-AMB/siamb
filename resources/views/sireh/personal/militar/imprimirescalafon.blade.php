@@ -123,7 +123,7 @@ use Carbon\Carbon;
                         $retiro = date("d/m/Y", strtotime($row->retiro));
                         @endphp
                         <tr>
-                            <td align="center">{{$i}}</td>
+                            <td align="center">{{-- $i --}}{{$row->grado_militar}}</td>
                             <td>{{$row->cedula}}</td>
                             <td>{{$row->nombre1." ".$row->nombre2." ".$row->apellido1." ".$row->apellido2}}</td>
                             <td>{{$date}}</td>
