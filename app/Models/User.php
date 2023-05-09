@@ -29,9 +29,9 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'name' => ''  
+        'name' => ''
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -59,15 +59,23 @@ class User extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->useLogName('Actividad tabla users')
-        ->logOnly(['username', 'email']);
+            ->useLogName('Actividad tabla users')
+            ->logOnly(['username', 'email']);
     }
 
-    public function empleado() {
+    public function empleado()
+    {
         return $this->hasOne(Empleado::class);
     }
 
-    public function notempleado() {
+    public function notempleado()
+    {
         return $this->hasOne(EmpleadosOtroComponente::class);
+    }
+
+    // Relacion Muchos a Muchos para asignar el Rol al Empleado
+    public function rolesUser()
+    {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
     }
 }

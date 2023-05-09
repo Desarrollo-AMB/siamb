@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Escoger Fecha para Generar Reporte</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('forms.listado_pilotos') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.operacionesAereasforms.listado_pilotos') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -29,10 +29,10 @@
                         </ul>
                     </div>
                     @endif
-                    <form class="row g-3 requires-validation" method="post" action="{{route('forms.imprimir_reporte')}}" enctype="multipart/form-data" >
+                    <form class="row g-3 requires-validation" method="post" action="{{route('dao.operacionesAereas.forms.imprimir_reporte')}}" enctype="multipart/form-data" >
                         @csrf
                         <!-- DATOS PERSONALES -->
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                                 <div class="card">
                                     <div class="card-body">
@@ -58,7 +58,7 @@
                         </div>
 
                         <!-- BOTON PARA GENERAR ESCALAFON -->
-                        <div class="row">    
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary" id="btn-reporte">Generar Reporte</button>
                             </div>

@@ -253,14 +253,24 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
+
 //RUTA FORMULARIO FAM002
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
+    //RUTAS DAO
+    Route::get('/dao/index', [FormaFAMController::class, 'daoIndex'])->name('dao.index');
+    Route::get('/dao/militar', [FormaFAMController::class, 'daoMilitar'])->name('dao.militar');
+    Route::get('/dao/aeronaves', [FormaFAMController::class, 'daoAeronaves'])->name('dao.aeronaves');
+    Route::get('/dao/ver-programacion', [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
+    Route::get('/dao/nueva-programacion', [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
+    Route::post('store_programacion',             [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
+
     //Route::group(['middleware' => ['role:aviacion']], function () {
         Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
         Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
+
     //});
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos');
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales');
@@ -296,10 +306,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');
 
     Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');
-    Route::get('forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('forms.listado_pilotos');
-    Route::get('forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('forms.ver_listado_piloto');
-    Route::get('forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('forms.reporte_vuelos');
-    Route::post('forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('forms.imprimir_reporte');
+    Route::get('dao/forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('dao.forms.listado_pilotos');
+    Route::get('dao/forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('dao.forms.ver_listado_piloto');
+    Route::get('dao/forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('dao.forms.reporte_vuelos');
+    Route::post('dao/forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('dao.forms.imprimir_reporte');
 
 });
 
