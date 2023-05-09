@@ -22,6 +22,12 @@ class Empleado extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Relacion Muchos a Muchos para asignar el Rol al Empleado...
+    public function rolesUser()
+    {
+        return $this->user->rolesUser();
+    }
+
     public function nomina() {
         return $this->hasOne(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
@@ -29,6 +35,10 @@ class Empleado extends Model
     public function data_empleado()
     {
         return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
+    public function rol() {
+        return $this->hasOne(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
     public function egresos()
@@ -44,7 +54,7 @@ class Empleado extends Model
     public function empleadoFuncion() {
         return $this->belongsToMany(FuncionTripulante::class, 'empleado_funcion', 'codigo_empleado','id_funcion','codigo_empleado');
      }
-    
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

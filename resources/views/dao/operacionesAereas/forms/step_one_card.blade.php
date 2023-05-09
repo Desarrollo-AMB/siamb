@@ -30,8 +30,8 @@
                     <h6 style="color: #212529;">Fecha: <small></small><span style="color: #67748e;" id="fecha"> </span></h6>
                 </div>
             </div> --}}
-            
-          </div>
+
+            </div>
         </div>
     </div>
 </div>

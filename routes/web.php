@@ -98,16 +98,16 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/juntapermanente/personalmilitar/index', [controllerjuntap::class, 'indexPersonalMilitarasc'])->name('juntap.personalm.index');
     Route::post('/juntapermanente/personalmilitar/ascender', [controllerjuntap::class, 'ascenderPersonalMilitar'])->name('juntap.personalm.ascenderlos');
     Route::post('/juntapermanente/personalmilitar/ascenderd', [controllerjuntap::class, 'ascDataPersonalMilitar'])->name('juntap.personalm.datas');
-   
-   
+
+
     Route::get('/juntapermanente/ascenso', [controllerjuntap::class, 'juntap'])->name('juntap.ascenso.index');
     Route::get('/juntapermanente/reportes', [controllerjuntap::class, 'indexreporte'])->name('juntap.reportes.index');
-   
+
     Route::get('/juntapermanente/selector', [controllerjuntap::class, 'asccategoria'])->name('juntap.ascenso.categoria');
     Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'ascjulio'])->name('juntap.ascenso.julio');
 
     Route::post('/juntapermanente/ascenso/julio/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
-    
+
     Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.comando');
     Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.tecnico');
     Route::get('/juntapermanente/ascenso/julio/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.ofitropa');
@@ -192,7 +192,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar-noprof/view/{id}', [PersonalController::class, 'viewPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.view');
     Route::get('/sireh/personal-militar-noprof/edit/{id}', [PersonalController::class, 'editPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.edit');
     Route::get('/sireh/personal-militar/view/{id}', [PersonalController::class, 'viewPersonalMilitar'])->name('sireh.personal-militar.view');
- 
+
 
     Route::post('/sireh/personal-militar/showData',     [PersonalController::class, 'showDataPersonalMilitar'])->name('sireh.personal-militar.showData');
     Route::post('/sireh/personal-militar/storeFuncion', [PersonalController::class, 'storeFuncionPersonalMilitar'])->name('sireh.personal-militar.storeFuncion');
@@ -253,14 +253,24 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
+
 //RUTA FORMULARIO FAM002
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
+    //RUTAS DAO
+    Route::get('/dao/index', [FormaFAMController::class, 'daoIndex'])->name('dao.index');
+    Route::get('/dao/militar', [FormaFAMController::class, 'daoMilitar'])->name('dao.militar');
+    Route::get('/dao/aeronaves', [FormaFAMController::class, 'daoAeronaves'])->name('dao.aeronaves');
+    Route::get('/dao/ver-programacion', [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
+    Route::get('/dao/nueva-programacion', [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
+    Route::post('store_programacion',             [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
+
     //Route::group(['middleware' => ['role:aviacion']], function () {
         Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
         Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');
+
     //});
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos');
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales');
@@ -296,10 +306,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('actualizar_a3',            [FormaFAMController::class, 'actualizar_a3'])->name('actualizar_a3');
 
     Route::post('pasoFinal',                [FormaFAMController::class, 'pasoFinal'])->name('pasoFinal');
-    Route::get('forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('forms.listado_pilotos');
-    Route::get('forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('forms.ver_listado_piloto');
-    Route::get('forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('forms.reporte_vuelos');
-    Route::post('forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('forms.imprimir_reporte');
+    Route::get('dao/forms/listado_pilotos',     [FormaFAMController::class, 'listado_pilotos'])->name('dao.forms.listado_pilotos');
+    Route::get('dao/forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('dao.forms.ver_listado_piloto');
+    Route::get('dao/forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('dao.forms.reporte_vuelos');
+    Route::post('dao/forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('dao.forms.imprimir_reporte');
 
 });
 
