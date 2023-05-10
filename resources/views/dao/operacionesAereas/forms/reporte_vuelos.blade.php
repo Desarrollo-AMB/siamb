@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Escoger Fecha para Generar Reporte</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.operacionesAereasforms.listado_pilotos') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.forms.listado_pilotos') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -29,7 +29,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form class="row g-3 requires-validation" method="post" action="{{route('dao.operacionesAereas.forms.imprimir_reporte')}}" enctype="multipart/form-data" >
+                    <form class="row g-3 requires-validation" method="post" action="{{route('dao.forms.imprimir_reporte')}}" enctype="multipart/form-data" >
                         @csrf
                         <!-- DATOS PERSONALES -->
                         <div class="row">

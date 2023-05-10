@@ -1,5 +1,5 @@
 
-    <a href="{{ route('auxiliares.cargos.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+    <a href="{{ route('dao.nuevaProgramacion') }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Editar" title="Editar"
     >
         <i class="fas fa-edit text-primary" aria-hidden="true"></i>

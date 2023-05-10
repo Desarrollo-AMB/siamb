@@ -70,100 +70,104 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <h6>MATRICULAS ALTERNAS</h6>
+                            </div>
+                            <div class="col-2">
+                                <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect" disabled="true">
+                                    <option value="">Seleccionar...</option>
+                                </select>
+                            </div>
+                            <div class="col-8" id="div_matricula_input">
+                                <input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%">
+                            </div>
+                        </div>
                         <!-- fin de otro formato -->
                     </div>
-                    <div class="row">
-                        <div class="card">
-                            <div class="table-responsive">
-                                <table id="responsiveA1" class="table align-items-center mb-0">
-                                    <thead style="background: #e1e1e0;">
-                                        <tr>
-                                            <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>ORDENADA POR</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>T. MISIÓN</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>CÓDIGO</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>SALIDA</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>RETORNO</h6></th>
-                                            <th class="text-uppercase font-weight-bolder"><h6>ACCIÓN</h6></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="A1_data">
-                                        <tr>
-                                            <td>
-                                                <span> v1 </span>
-                                            </td>
-                                            <td>
-                                                <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
-                                                    <option value=""></option>
-                                                    @foreach($vueloOrdenadaPor as $data)
-                                                        <option value="{{$data->codigo}}">{{$data->codigo}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="siglas" class="form-control siglas load_siglas">
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                    @foreach($codigoTipoMisionSiglas as $data)
-                                                        <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="codigo" class="form-control codigo load_codigo">
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                        @foreach($codigoMision as $data)
-                                                            <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
-                                                        @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                    @foreach($bases as $data)
-                                                        {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                        <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                    @foreach($bases as $data)
-                                                        {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
-                                                        <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
-                                            </td>
-                                            <td>
-                                                <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
-                                            </td>
-                                            <td>
+                </div>
+                <div class="card mb-4 mx-4">
+                    <div class="card-body px-2 pt-2 pb-2">
+                        <table id="responsiveA1" class="table align-items-center mb-0">
+                            <thead style="background: #e1e1e0;">
+                                <tr>
+                                    <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>ORDENADA POR</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>T. MISIÓN</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>CÓDIGO</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>SALIDA</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>RETORNO</h6></th>
+                                    <th class="text-uppercase font-weight-bolder"><h6>ACCIÓN</h6></th>
+                                </tr>
+                            </thead>
+                            <tbody id="A1_data">
+                                <tr>
+                                    <td>
+                                        <span> v1 </span>
+                                    </td>
+                                    <td>
+                                        <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
+                                            <option value=""></option>
+                                            @foreach($vueloOrdenadaPor as $data)
+                                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="siglas" class="form-control siglas load_siglas">
+                                            <option value="EVENTUAL">EVENTUAL</option>
+                                            @foreach($codigoTipoMisionSiglas as $data)
+                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="codigo" class="form-control codigo load_codigo">
+                                            <option value="EVENTUAL">EVENTUAL</option>
+                                                @foreach($codigoMision as $data)
+                                                    <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                                                @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
+                                            <option value="EVENTUAL">EVENTUAL</option>
+                                            @foreach($bases as $data)
+                                                {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
+                                            <option value="EVENTUAL">EVENTUAL</option>
+                                            @foreach($bases as $data)
+                                                {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
+                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
+                                    </td>
+                                    <td>
+                                        <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
+                                    </td>
+                                    <td>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div style="padding-top:5px" class="row">
-                            <div  class="pull-right">
-                                <button style="float: right; background: green;color: white;" type="button" class="btn-sm btn-success agregar_mision add_edit_input" id="agregar_mision" hidden="true">Agregar Pierna</button>
-                                <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input update_A1_clean">X</button>
-                                <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
-                            </div>
-                        </div>
-                        <div style="padding-top:5px" class="wizard-footer">
-                            <div class="col-md-12 text-center">
-                                <input id="enviar" style="background: #00168C" type='button'
-                                    class='btn mx-auto btn-next btn-fill btn-info btn-wd enviar' name='next'
-                                    value='Guardar' />
-                            </div>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="padding-top:5px" class="wizard-footer">
+                    <div class="col-md-12 text-center">
+                        <input id="enviar" style="background: #00168C" type='button'
+                            class='btn mx-auto btn-next btn-fill btn-info btn-wd enviar' name='next'
+                            value='Guardar' />
                     </div>
                 </div>
             </form>
@@ -178,6 +182,7 @@
             var id_fam0001;
             var fam0001_a1_mision_id;
             var ov_ota_om;
+            var matriculaOld;
 
             // Obtengo la fecha del día siguiente para usarla tanto en la cabecera como en la programación
             var fechaActual = new Date();
@@ -200,6 +205,7 @@
             //PASO 1 Convierto en select2 los campos que lo necesitan
             $('#naves').select2();
             $('#matricula').select2();
+            $('#matriculaSelect').select2();
             $('.base_estacion').select2();
             $('.ordenada_por').select2();
             $('.siglas').select2();
@@ -249,8 +255,10 @@
                             if (res) {
                                 $("#matricula").empty();
                                 $("#serial").val('');
+
                                 $("#matricula").append(
                                     '<option value="">Seleccionar..</option>');
+
                                 $.each(res, function(key, value) {
                                     $("#matricula").append(
                                         '<option class="load_matricula" value="' +
@@ -266,6 +274,9 @@
             $('#matricula').on('change', function() {
                 $("#serial").val('');
                 var matriculaId = $(this).val();
+                var naveId = $('#naves').val();
+
+
                 if (matriculaId) {
                     $.ajax({
                         type: "GET",
@@ -280,6 +291,71 @@
                                 $("#div_serial").append(
                                     '<h6>SERIAL</h6><input readonly="true" name="serial" type="text" id="serial" class="form-control serial" required="true" value="' +
                                     res[0].serial + '">');
+                            }
+                        }
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('matriculasAlternas') }}",
+                        data: {
+                            "id":  matriculaOld+', '+matriculaId,
+                            "naved": naveId
+                        },
+                        success: function(res) {
+                            if (res) {
+                                $('#matriculaSelect').prop('disabled', false);
+                                $("#matriculaSelect").empty();
+                                $("#matriculaSelect").append(
+                                    '<option value="">Seleccionar..</option>');
+
+                                $.each(res, function(key, value) {
+                                    $("#matriculaSelect").append(
+                                        '<option class="load_matricula" value="' +
+                                        value.matricula + '">' + value.matricula +
+                                        '</option>');
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#matriculaSelect').on('change', function() {
+                var matriculaAeronveSelect = $('#matricula').val();
+                var matriculaId = $(this).val();
+                var naveId = $('#naves').val();
+
+                if(matriculaOld == null){
+                    matriculaOld = matriculaId;
+                } else{
+                    matriculaOld = matriculaOld + ', ' + matriculaId;
+                }
+                if (matriculaId) {
+
+                    $("#div_matricula_input").empty();
+                    $("#div_matricula_input").append(
+                    '<input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%" value="'+matriculaOld+'">');
+                    $("#matriculaSelect").empty();
+                    $("#matriculaSelect").append(
+                        '<option value="">Seleccionar..</option>');
+
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('matriculasAlternas') }}",
+                        data: {
+                            "id": matriculaOld+', '+matriculaAeronveSelect,
+                            "naved": naveId
+                        },
+                        success: function(res) {
+                            if (res) {
+                                console.log(res[0].serial);
+
+                                $.each(res, function(key, value) {
+                                    $("#matriculaSelect").append(
+                                        '<option class="load_matricula" value="' +
+                                        value.matricula + '">' + value.matricula +
+                                        '</option>');
+                                });
                             }
                         }
                     });
@@ -308,10 +384,11 @@
                 var matricula = $('.matricula').val();
                 var base_estacion = $('.base_estacion').val();
                 var ordenada_por = $('.ordenada_por').val();
+                var matriculas_alternas = $('#matricula_alterna').val();
 
                 //VALIDAR PASO UNO HEADER
                 if (ov_ota_om === "" || base_estacion === "" || aeronave_modelo === "" || unidad === "" ||
-                    fecha === "" || serial === "" || matricula === "" || ordenada_por==="") {
+                    fecha === "" || serial === "" || matricula === "" || ordenada_por==="" || matricula_alterna==="") {
                     Swal.fire({
                         title: 'Atención!',
                         text: 'Debes completar ciertos campos para continuar.',
@@ -334,7 +411,8 @@
                             serial: serial,
                             matricula: matricula,
                             base_estacion: base_estacion,
-                            completado: "programacionEnv",
+                            completado: "programando",
+                            matriculas_alternas: matriculas_alternas
                         },
                         success: function(response) {
                             if (response.success) {
@@ -353,6 +431,7 @@
 
                                 guardar_a1_mision(id_fam0001, ov_ota_om);
                                 $('#agregar_mision').prop('hidden', false);
+                                $('#actualizar_a1_mision').prop('hidden', false);
 
                                 Swal.fire({
                                     title: 'Creado!',
@@ -376,11 +455,25 @@
                 var ordenada_por = $('.ordenada_por').val();
                 var sigla = $('.siglas').val();
                 var numero = $('.codigo').val();
-                var codigo = ""+sigla+"-"+numero+"";
                 var ruta_desde = $('.ruta_desde').val();
                 var ruta_hasta = $('.ruta_hasta').val();
                 var encend = $('.encend').val();
                 var apag = $('.apag').val();
+
+
+                if(encend === ""){
+                    encend = "00:00";
+                }
+                if(apag === ""){
+                    apag = "00:00";
+                }
+                if(sigla === "EVENTUAL" || sigla === "" || sigla === null || numero === "" || numero === null || numero === "EVENTUAL"){
+                    var codigo = "EVENTUAL";
+                }else{
+                    var codigo = ""+sigla+"-"+numero+"";
+                }
+
+
                 //VALIDAR PASO UNO HEADER
                 if(ordenada_por===""){
                     console.log('no puedes guardar datos vacios')
@@ -399,13 +492,13 @@
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
-                        completado: "misionEnv",
+                        completado: "programando",
                         },
                         success:function(response){
                             if(response.success){
 
-                                updateClean_A1()
-                                data_vuelos(id_fam0001);
+                                var fam_id = response.data[0].fam0001_id;
+                                window.location.href = "{{URL::to('/dao/editar-programacion')}}/" + fam_id;
 
                             }
                         },
@@ -416,52 +509,6 @@
                 }
 
             }
-
-            $("#agregar_mision").click(function () {
-
-                $.ajax({
-                    url:"{{ route('store_a1') }}",
-                    method:'POST',
-                    data:{
-                        ordenada_por:"",
-                        codigo:"",
-                        ruta_desde:"",
-                        ruta_hasta:"",
-                        encend:"",
-                        apag:"",
-
-                        ov_ota_om: ov_ota_om,
-                        fam0001_id: id_fam0001,
-                        completado: "misionEnv",
-                    },
-                        success:function(response){
-                            if(response.success){
-
-                                A1_id = response.A1_id[0];
-                                nuevaOperacionVuelo =
-                                '<tr id="row"><td><span>V'+A1_id.vuelo+'</span></td><td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value=""></option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value=""></option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo"><option value=""></option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde"><option value=""></option>@foreach($bases as $data){{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta"><option value=""></option>@foreach($bases as $data){{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td><input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value='+A1_id.id+' type="button" class="btn-sm btn-danger" id="DeleteRow"><i style="font-size: 15px; color:white;" class="ti-trash"></i></button></td></tr>';
-
-
-                                $('#A1_data').append(nuevaOperacionVuelo);
-                                $('.ordenada_por').select2();
-                                $('.siglas').select2();
-                                $('.codigo').select2();
-                                $('.ruta_desde').select2();
-                                $('.ruta_hasta').select2();
-
-
-                            }
-                        },
-                        error:function(error){
-                            console.log(error)
-                    }
-                });
-
-            });
-            $("body").on("click", "#DeleteRow", function () {
-            $(this).parents("#row").remove();
-        })
-
         });
     </script>
 @endsection
