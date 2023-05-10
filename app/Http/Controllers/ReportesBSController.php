@@ -331,6 +331,10 @@ class ReportesBSController extends Controller
         }
 
         $titulo = 'REPORTE BIENESTAR SOCIAL - '.$complementoTitulo;
+        if(!$familiares){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros que correspondan a su busqueda');
+        };
 
         $nombre_archivo = sprintf('ReporteBienestarSocial %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'familiares');
@@ -468,7 +472,7 @@ class ReportesBSController extends Controller
                 ->orderBy('causa_egreso','ASC')
                 ->orderBy('fecha_salida','ASC')
                 ->get();
-                
+
                 $especialidades = EspecialidadesMilitares::all();
 
                 $categorias = CategoriasMilitares::all();
@@ -507,7 +511,7 @@ class ReportesBSController extends Controller
                 ->orderBy('causa_egreso','ASC')
                 ->orderBy('fecha_salida','ASC')
                 ->get();
-                
+
                 $especialidades = EspecialidadesMilitares::all();
 
                 $categorias = CategoriasMilitares::all();
@@ -546,7 +550,7 @@ class ReportesBSController extends Controller
                 ->orderBy('causa_egreso','ASC')
                 ->orderBy('fecha_salida','ASC')
                 ->get();
-                
+
                 $especialidades = EspecialidadesMilitares::all();
 
                 $categorias = CategoriasMilitares::all();
@@ -584,7 +588,7 @@ class ReportesBSController extends Controller
                 ->orderBy('causa_egreso','ASC')
                 ->orderBy('fecha_salida','ASC')
                 ->get();
-                
+
                 $especialidades = EspecialidadesMilitares::all();
 
                 $categorias = CategoriasMilitares::all();
@@ -593,6 +597,11 @@ class ReportesBSController extends Controller
         }
 
         $titulo = 'REPORTE BIENESTAR SOCIAL - '.$complementoTitulo;
+
+        if(!$egresos){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros que correspondan a su busqueda');
+        };
 
         $nombre_archivo = sprintf('ReporteBienestarSocial %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo','especialidades','categorias','egresos');
