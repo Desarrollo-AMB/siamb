@@ -1086,7 +1086,7 @@ class PersonalController extends Controller
                 'grado_militar.required' => 'El Grado Militar es requerido'
             ]
         );
-        /*$grado_militar = $request->grado_militar;
+        $grado_militar = $request->grado_militar;
         if ($grado_militar == 'TODOS') {
             $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
             ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
@@ -1163,7 +1163,7 @@ class PersonalController extends Controller
             ->orderBy('datos_militares.fecha_graduacion','asc')
             ->orderBy('datos_militares.orden_merito','asc')
             ->get();
-        }*/
+        }
 
         /*foreach ($empleados as $row) {
             $escalafon = new Escalafon;
