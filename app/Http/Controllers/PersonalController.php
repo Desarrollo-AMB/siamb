@@ -1165,7 +1165,7 @@ class PersonalController extends Controller
             ->get();
         }
 
-        /*foreach ($empleados as $row) {
+        foreach ($empleados as $row) {
             $escalafon = new Escalafon;
             $escalafon->cedula = $row->cedula;
             $escalafon->nombre1 = $row->nombre1;
@@ -1186,13 +1186,13 @@ class PersonalController extends Controller
             $escalafon->ubicacion = $row->ubicacion;
             $escalafon->cargo = $row->cargo;
             $escalafon->save();
-        }*/
+        }
 
         $grados_mil = GradosMilitares::all();
         $categorias_mil = CategoriasMilitares::all();
 
         $escalafon = Escalafon::all();
-        //Escalafon::truncate();
+        Escalafon::truncate();
 
         $agrupados = $escalafon->groupBy(['grado_militar', 'categoria']);
 
