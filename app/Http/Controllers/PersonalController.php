@@ -1096,7 +1096,6 @@ class PersonalController extends Controller
             ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
             ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
             ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
-            ->whereIn('nomina.cedula',[22954712,6236281,9888039,10312774,12338039])
             ->where('nomina.situacion','A')
             ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
             ->select(
@@ -1124,31 +1123,6 @@ class PersonalController extends Controller
             ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
             ->orderBy('datos_militares.fecha_graduacion','asc')
             ->orderBy('datos_militares.orden_merito','asc')
-            ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
-            WHEN nomina.grado_militar = '015' THEN 2
-            WHEN nomina.grado_militar = '020' THEN 3
-            WHEN nomina.grado_militar = '030' THEN 4
-            WHEN nomina.grado_militar = '040' THEN 5
-            WHEN nomina.grado_militar = '050' THEN 6
-            WHEN nomina.grado_militar = '060' THEN 7
-            WHEN nomina.grado_militar = '070' THEN 8
-            WHEN nomina.grado_militar = '080' THEN 9
-            WHEN nomina.grado_militar = '090' THEN 10
-            WHEN nomina.grado_militar = '410' THEN 11
-            WHEN nomina.grado_militar = '420' THEN 12
-            WHEN nomina.grado_militar = '430' THEN 13
-            WHEN nomina.grado_militar = '440' THEN 14
-            WHEN nomina.grado_militar = '450' THEN 15
-            WHEN nomina.grado_militar = '460' THEN 16
-            WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
-            ->orderByRaw(
-            "CASE WHEN datos_militares.codigo_categoria = 1 THEN 1
-            WHEN datos_militares.codigo_categoria = 4 THEN 2
-            WHEN datos_militares.codigo_categoria = 5 THEN 3
-            WHEN datos_militares.codigo_categoria = 7 THEN 4
-            WHEN datos_militares.codigo_categoria = 2 THEN 5
-            WHEN datos_militares.codigo_categoria = 6 THEN 6
-            WHEN datos_militares.codigo_categoria = 8 THEN 7 END")
             ->get();
             //dd($empleados);
         }
@@ -1188,58 +1162,15 @@ class PersonalController extends Controller
             ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
             ->orderBy('datos_militares.fecha_graduacion','asc')
             ->orderBy('datos_militares.orden_merito','asc')
-            ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
-            WHEN nomina.grado_militar = '015' THEN 2
-            WHEN nomina.grado_militar = '020' THEN 3
-            WHEN nomina.grado_militar = '030' THEN 4
-            WHEN nomina.grado_militar = '040' THEN 5
-            WHEN nomina.grado_militar = '050' THEN 6
-            WHEN nomina.grado_militar = '060' THEN 7
-            WHEN nomina.grado_militar = '070' THEN 8
-            WHEN nomina.grado_militar = '080' THEN 9
-            WHEN nomina.grado_militar = '090' THEN 10
-            WHEN nomina.grado_militar = '410' THEN 11
-            WHEN nomina.grado_militar = '420' THEN 12
-            WHEN nomina.grado_militar = '430' THEN 13
-            WHEN nomina.grado_militar = '440' THEN 14
-            WHEN nomina.grado_militar = '450' THEN 15
-            WHEN nomina.grado_militar = '460' THEN 16
-            WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
-            ->orderByRaw(
-            "CASE WHEN datos_militares.codigo_categoria = 1 THEN 1
-            WHEN datos_militares.codigo_categoria = 4 THEN 2
-            WHEN datos_militares.codigo_categoria = 5 THEN 3
-            WHEN datos_militares.codigo_categoria = 7 THEN 4
-            WHEN datos_militares.codigo_categoria = 2 THEN 5
-            WHEN datos_militares.codigo_categoria = 6 THEN 6
-            WHEN datos_militares.codigo_categoria = 8 THEN 7 END")
             ->get();
         }
 
         $agrupados = $empleados->groupBy('categoria');
-        /*sortBy("CASE WHEN grado_militar = '010' THEN 1
-        WHEN grado_militar = '015' THEN 2
-        WHEN grado_militar = '020' THEN 3
-        WHEN grado_militar = '030' THEN 4
-        WHEN grado_militar = '040' THEN 5
-        WHEN grado_militar = '050' THEN 6
-        WHEN grado_militar = '060' THEN 7
-        WHEN grado_militar = '070' THEN 8
-        WHEN grado_militar = '080' THEN 9
-        WHEN grado_militar = '090' THEN 10
-        WHEN grado_militar = '410' THEN 11
-        WHEN grado_militar = '420' THEN 12
-        WHEN grado_militar = '430' THEN 13
-        WHEN grado_militar = '440' THEN 14
-        WHEN grado_militar = '450' THEN 15
-        WHEN grado_militar = '460' THEN 16
-        WHEN grado_militar = '470' THEN 17 END, grado_militar");*/
-        //dd($agrupados);
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'))->setPaper('a4', 'landscape');
+        /*$pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'))->setPaper('a4', 'landscape');
 
-        return $pdf->stream('escalafon.pdf');
-        //return view('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'));
+        return $pdf->stream('escalafon.pdf');*/
+        return view('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
