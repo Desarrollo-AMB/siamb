@@ -1118,7 +1118,7 @@ class PersonalController extends Controller
                 'ubicaciones.descripcion as ubicacion',
                 'cargos.nombre_cargo as cargo',
             )
-            //->limit(1000)
+            ->limit(2800)
             ->orderBy('nomina.grado_militar','asc')
             ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
             ->orderBy('datos_militares.fecha_graduacion','asc')
@@ -1199,7 +1199,7 @@ class PersonalController extends Controller
         $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','escalafon'))->setPaper('a4', 'landscape');
 
         return $pdf->stream('escalafon.pdf');
-        //return view('sireh.personal.militar.imprimirescalafon', compact('grados_mil','categorias_mil','agrupados','escalafon'));
+        //return view('sireh.personal.militar.imprimirescalafon', compact('grados_mil','categorias_mil','escalafon'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
