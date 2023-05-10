@@ -29,8 +29,8 @@ return new class extends Migration
             $table->date('graduacion')->nullable();
             $table->date('ultimo_ascenso')->nullable();
             $table->date('retiro')->nullable();
-            $table->string('especialidad1',6)->nullable();
-            $table->string('especialidad2',6)->nullable();
+            $table->string('especialidad1',50)->nullable();
+            $table->string('especialidad2',50)->nullable();
             $table->string('ubicacion',90)->nullable();
             $table->string('cargo',90)->nullable();
             $table->timestamps();
