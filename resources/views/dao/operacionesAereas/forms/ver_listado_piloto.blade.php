@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Listado Individual del Piloto {{$datos->nombre1." ".$datos->apellido1}}</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.operacionesAereas.forms.listado_pilotos') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.forms.listado_pilotos') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('dao.operacionesAereas.forms.reporte_vuelos', $datos->id) }}">
+                    <a href="{{ route('dao.forms.reporte_vuelos', $datos->id) }}">
                         <button class="btn btn-danger">
                             <i class="fas fa-file-pdf fa-2x"></i>
                             Imprimir Reporte

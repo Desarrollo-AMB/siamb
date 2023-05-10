@@ -455,7 +455,8 @@ class PersonalController extends Controller
 
     //Obtiene los empleados sin asociar Usuario, exclusivo por api para el Datatable
     public function empleadosSinUser(Request $request){
-        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A');
+        //$empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A');
+        $empleados = Empleado::where('empleados.situacion','A');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');

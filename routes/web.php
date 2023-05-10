@@ -265,6 +265,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/aeronaves', [FormaFAMController::class, 'daoAeronaves'])->name('dao.aeronaves');
     Route::get('/dao/ver-programacion', [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
     Route::get('/dao/nueva-programacion', [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
+    Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
+    Route::post('programacion_data',             [FormaFAMController::class, 'programacion_data'])->name('programacion_data');
     Route::post('store_programacion',             [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
 
     //Route::group(['middleware' => ['role:aviacion']], function () {
@@ -275,6 +277,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('aeronaves_grupos',          [FormaFAMController::class, 'aeronaves_grupos'])->name('aeronaves_grupos');
     Route::get('seriales',                  [FormaFAMController::class, 'seriales'])->name('seriales');
     Route::get('matriculas',                [FormaFAMController::class, 'matriculas'])->name('matriculas');
+    Route::get('matriculasAlternas',                [FormaFAMController::class, 'matriculasAlternas'])->name('matriculasAlternas');
 
     Route::post('steps',                    [FormaFAMController::class, 'steps'])->name('steps');
     Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status');
