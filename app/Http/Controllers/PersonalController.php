@@ -39,6 +39,7 @@ use App\Models\TipoDeBaja;
 use App\Models\Egresos;
 use App\Models\FuncionTripulante;
 use App\Models\EmpleadoFuncion;
+use App\Models\Escalafon;
 use App\Exports\PersonalMilitarExport;
 use App\Exports\PersonalMilitarEnFormacionExport;
 use PhpParser\Node\Stmt\Else_;
@@ -1086,7 +1087,7 @@ class PersonalController extends Controller
                 'grado_militar.required' => 'El Grado Militar es requerido'
             ]
         );
-        $grado_militar = $request->grado_militar;
+        /*$grado_militar = $request->grado_militar;
         if ($grado_militar == 'TODOS') {
             $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
             ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
@@ -1106,8 +1107,8 @@ class PersonalController extends Controller
                 'empleados.apellido2',
                 'empleados.fecha_nacim',
                 'empleados.sexo',
-                'categorias_militares.descripcion as categoria',
-                'grados_militares.descripcion as grado_militar',
+                'categorias_militares.codigo_categoria as categoria',
+                'grados_militares.codigo_grado as grado_militar',
                 'datos_militares.orden_merito as orden_merito',
                 'datos_militares.total_orden_merito as total_merito',
                 'datos_militares.fecha_graduacion as graduacion',
@@ -1163,14 +1164,43 @@ class PersonalController extends Controller
             ->orderBy('datos_militares.fecha_graduacion','asc')
             ->orderBy('datos_militares.orden_merito','asc')
             ->get();
-        }
+        }*/
 
-        $agrupados = $empleados->groupBy('categoria');
+        /*foreach ($empleados as $row) {
+            $escalafon = new Escalafon;
+            $escalafon->cedula = $row->cedula;
+            $escalafon->nombre1 = $row->nombre1;
+            $escalafon->nombre2 = $row->nombre2;
+            $escalafon->apellido1 = $row->apellido1;
+            $escalafon->apellido2 = $row->apellido2;
+            $escalafon->fecha_nacim = $row->fecha_nacim;
+            $escalafon->sexo = $row->sexo;
+            $escalafon->categoria = $row->categoria;
+            $escalafon->grado_militar = $row->grado_militar;
+            $escalafon->orden_merito = $row->orden_merito;
+            $escalafon->total_merito = $row->total_merito;
+            $escalafon->graduacion = $row->graduacion;
+            $escalafon->ultimo_ascenso = $row->ultimo_ascenso;
+            $escalafon->retiro = $row->retiro;
+            $escalafon->especialidad1 = $row->especialidad1;
+            $escalafon->especialidad2 = $row->especialidad2;
+            $escalafon->ubicacion = $row->ubicacion;
+            $escalafon->cargo = $row->cargo;
+            $escalafon->save();
+        }*/
 
-        /*$pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'))->setPaper('a4', 'landscape');
+        $grados_mil = GradosMilitares::all();
+        $categorias_mil = CategoriasMilitares::all();
 
-        return $pdf->stream('escalafon.pdf');*/
-        return view('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'));
+        $escalafon = Escalafon::all();
+        //Escalafon::truncate();
+
+        $agrupados = $escalafon->groupBy(['grado_militar', 'categoria']);
+
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','escalafon'))->setPaper('a4', 'landscape');
+
+        return $pdf->stream('escalafon.pdf');
+        //return view('sireh.personal.militar.imprimirescalafon', compact('grados_mil','categorias_mil','agrupados','escalafon'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
