@@ -81,10 +81,10 @@ use Carbon\Carbon;
             $i = 0;
 
             @endphp
-            @foreach ($empleados as $key=>$row)
+            @foreach ($agrupados as $key=>$empleados)
             <div>
-                <p>Grado: {{$row->grado_militar}}</p>
-                <p>Categoria: {{$row->categoria}}</p>
+                <p>Grado: {{$empleados[0]->grado_militar}}</p>
+                <p>Categoria: {{$key}}</p>
             </div>
             <hr>
 
@@ -96,9 +96,9 @@ use Carbon\Carbon;
                         <th align="left">Nombres y Apellidos</th>
                         <th align="left">Edad</th>
                         <th align="left">Sexo</th>
+                        <th align="left">O.M.P</th>
                         <th align="left">Fecha Graduación</th>
                         <th align="left">Fecha Ult. Asc.</th>
-                        <th align="left">O.M.P</th>
                         <th align="left">Fecha Retiro</th>
                         <th align="left">CEAMB-1</th>
                         <th align="left">CEAMB-2</th>
@@ -107,6 +107,7 @@ use Carbon\Carbon;
                 </thead>
 
                 <tbody>
+                    @foreach ($empleados as $row)
                         @php
                         if ($row->sexo === 'M') {
                             $sexo = 'MASCULINO';
@@ -127,15 +128,15 @@ use Carbon\Carbon;
                             <td>{{$row->nombre1." ".$row->nombre2." ".$row->apellido1." ".$row->apellido2}}</td>
                             <td>{{$date}}</td>
                             <td>{{$sexo}}</td>
+                            <td align="center">{{$row->orden_merito."/".$row->total_merito}}</td>
                             <td>{{$graduacion}}</td>
                             <td>{{$ultimo_ascenso}}</td>
-                            <td align="center">{{$row->orden_merito."/".$row->total_merito}}</td>
                             <td>{{$retiro}}</td>
                             <td>{{$row->especialidad1}}</td>
                             <td>{{$row->especialidad2}}</td>
                             <td>{{$row->cargo." - ".$row->ubicacion}}</td>
                         </tr>
-
+                    @endforeach
                 </tbody>
             </table>
             <div style="page-break-after:always;"></div>
