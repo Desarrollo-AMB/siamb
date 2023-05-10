@@ -81,10 +81,10 @@ use Carbon\Carbon;
             $i = 0;
 
             @endphp
-            @foreach ($agrupados as $key=>$empleados)
+            @foreach ($empleados as $key=>$row)
             <div>
-                <p>Grado: {{$empleados[0]->grado_militar}}</p>
-                <p>Categoria: {{$key}}</p>
+                <p>Grado: {{$row->grado_militar}}</p>
+                <p>Categoria: {{$row->categoria}}</p>
             </div>
             <hr>
 
@@ -107,7 +107,6 @@ use Carbon\Carbon;
                 </thead>
 
                 <tbody>
-                    @foreach ($empleados as $row)
                         @php
                         if ($row->sexo === 'M') {
                             $sexo = 'MASCULINO';
@@ -136,7 +135,7 @@ use Carbon\Carbon;
                             <td>{{$row->especialidad2}}</td>
                             <td>{{$row->cargo." - ".$row->ubicacion}}</td>
                         </tr>
-                    @endforeach
+
                 </tbody>
             </table>
             <div style="page-break-after:always;"></div>
