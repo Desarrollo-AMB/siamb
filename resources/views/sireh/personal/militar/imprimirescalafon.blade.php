@@ -79,12 +79,161 @@ use Carbon\Carbon;
         <main>
             @php
             $i = 0;
-
             @endphp
             @foreach($agrupados as $grado => $categorias)
-                <h3>Grado Militar: {{ $grado }}</h3>
+                @switch($grado)
+                    @case('10')
+                        @php
+                            $grado_desc = 'GENERAL EN JEFE';
+                        @endphp
+                    @break
+
+                    @case('15')
+                        @php
+                            $grado_desc = 'MAYOR GENERAL';
+                        @endphp
+                    @break
+
+                    @case('020')
+                        @php
+                            $grado_desc = 'GENERAL DE DIVISIÓN';
+                        @endphp
+                    @break
+
+                    @case('030')
+                        @php
+                            $grado_desc = 'GENERAL DE BRIGADA';
+                        @endphp
+                    @break
+
+                    @case('040')
+                        @php
+                            $grado_desc = 'CORONEL';
+                        @endphp
+                    @break
+
+                    @case('050')
+                        @php
+                            $grado_desc = 'TENIENTE CORONEL';
+                        @endphp
+                    @break
+
+                    @case('060')
+                        @php
+                            $grado_desc = 'MAYOR';
+                        @endphp
+                    @break
+
+                    @case('070')
+                        @php
+                            $grado_desc = 'CAPITAN';
+                        @endphp
+                    @break
+
+                    @case('080')
+                        @php
+                            $grado_desc = 'PRIMER TENIENTE';
+                        @endphp
+                    @break
+
+                    @case('090')
+                        @php
+                            $grado_desc = 'TENIENTE';
+                        @endphp
+                    @break
+
+                    @case('410')
+                        @php
+                            $grado_desc = 'SARGENTO SUPERVISOR';
+                        @endphp
+                    @break
+
+                    @case('420')
+                        @php
+                            $grado_desc = 'SARGENTO AYUDANTE';
+                        @endphp
+                    @break
+
+                    @case('430')
+                        @php
+                            $grado_desc = 'SARGENTO MAYOR DE PRIMERA';
+                        @endphp
+                    @break
+
+                    @case('440')
+                        @php
+                            $grado_desc = 'SARGENTO MAYOR DE SEGUNDA';
+                        @endphp
+                    @break
+
+                    @case('450')
+                        @php
+                            $grado_desc = 'SARGENTO MAYOR DE TERCERA';
+                        @endphp
+                    @break
+
+                    @case('460')
+                        @php
+                            $grado_desc = 'SARGENTO PRIMERO';
+                        @endphp
+                    @break
+
+                    @case('470')
+                        @php
+                            $grado_desc = 'SARGENTO SEGUNDO';
+                        @endphp
+                    @break
+
+                    @default
+                        @php
+                            $grado_desc = 'NO POSEE';
+                        @endphp
+                @endswitch
+                <h3>Grado Militar: {{ $grado_desc }}</h3>
                 @foreach($categorias as $categoria => $escalafon)
-                    <h3>Categoría: {{ $categoria }}</h3>
+                    @switch($categoria)
+                        @case('2')
+                            @php
+                                $categoria_desc = 'ASIMILADO';
+                            @endphp
+                        @break
+
+                        @case('4')
+                            @php
+                                $categoria_desc = 'EFECTIVO DE COMANDO';
+                            @endphp
+                        @break
+
+                        @case('5')
+                            @php
+                                $categoria_desc = 'EFECTIVO TECNICO';
+                            @endphp
+                        @break
+
+                        @case('6')
+                            @php
+                                $categoria_desc = 'ASIMILADO TECNICO';
+                            @endphp
+                        @break
+
+                        @case('7')
+                            @php
+                                $categoria_desc = 'EFECTIVO COMANDO DE TROPA';
+                            @endphp
+                        @break
+
+                        @case('8')
+                            @php
+                                $categoria_desc = 'TROPA PROFESIONAL';
+                            @endphp
+                        @break
+
+                        @default
+                            @php
+                                $categoria_desc = 'NO POSEE';
+                            @endphp
+                    @endswitch
+                    <h3>Categoría: {{ $categoria_desc }}</h3>
                     <hr>
 
                     <table>
