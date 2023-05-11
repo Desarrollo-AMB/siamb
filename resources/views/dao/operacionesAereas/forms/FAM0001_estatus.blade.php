@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div style="margin: 0 auto;" class="col-sm-11 col-sm-offset-2">
-                        @include('forms.step_one_card')
+                        @include('dao.operacionesAereas.forms.step_one_card')
                         <div class="wizard-container">
                             <div class="card wizard-card" data-color="orange" id="">
                                 <form action="" method="">
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
-                                             <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
                                         </div>
                                         <ul>
                                             <li>
@@ -88,7 +88,7 @@
                                                             <h6>COMPONENTE / ORGANISMO <small></small></h6>
                                                             <select name="componente_organismo" class="form-control componente_organismo load_componente_organismo" id="organismo">
                                                                 <option value="">Seleccionar..</option>
-                                                                @foreach($componentes as $data) 
+                                                                @foreach($componentes as $data)
                                                                     <option value="{{$data->organismo}}">{{$data->componente}} - {{$data->organismo}}</option>
                                                                 @endforeach
                                                             </select>
@@ -101,7 +101,7 @@
                                                             <h6>UNIDAD<small></small></h6>
                                                             <select name="unidad" class="form-control unidad load_unidad" id="grupos">
                                                                 <option value=""></option>
-                                                                @foreach($unidad as $data) 
+                                                                @foreach($unidad as $data)
                                                                     <option value="{{$data->codigos}}"><strong>{{$data->codigos}}</strong> - {{$data->unidad}}</option>
                                                                 @endforeach
                                                             </select>
@@ -117,8 +117,8 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>SERIAL</h6>
-                                                            <select name="serial" id="serial" class="form-control serial serial_naves load_serial">
+                                                            <h6>MATRICULA <small></small></h6>
+                                                            <select name="matricula" id="matricula" class="form-control matricula load_matricula">
                                                                 <option value=""></option>
                                                             </select>
                                                         </div>
@@ -127,18 +127,16 @@
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                            <h6>MATRICULA <small></small></h6>
-                                                            <select name="matricula" id="matricula" class="form-control matricula load_matricula">
-                                                                <option value=""></option>
-                                                            </select>
-                                                        </div> 
+                                                            <h6>SERIAL</h6>
+                                                            <input readonly="true" id="serial" name="serial" type="text" class="form-control serial load_serial blackInReadOnly" value="">
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
                                                         <div class="form-group">
                                                             <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                                             <select name="base_estacion" class="form-control base_estacion load_estacion">
                                                                 <option value=""></option>
-                                                                @foreach($bases as $data) 
+                                                                @foreach($bases as $data)
                                                                     <option value="{{$data->id}}">{{$data->descripcion}} - {{$data->siglas}}</option>
                                                                 @endforeach
                                                             </select>
@@ -149,7 +147,7 @@
                                                             <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
                                                             <select name="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
                                                                 <option value=""></option>
-                                                                @foreach($jefeMaquina as $data) 
+                                                                @foreach($jefeMaquina as $data)
                                                                     <option value="{{$data->empleado->codigo_empleado}}">{{$data->empleado->cedula}} - {{$data->empleado->nombre1}}  {{$data->empleado->apellido1}}</option>
                                                                 @endforeach
                                                             </select>
@@ -160,13 +158,13 @@
                                             <button value="" id="editar_paso1" hidden="true" style="background: rgb(190, 200, 227);color: rgb(0, 0, 0);" type="button" class="btn btn-fill btn-info btn-wd show_edit_paso1">ACTUALIZAR</button>
                                         </div>
                                         <div class="tab-pane" id="misionTap">
-                                            @include('forms.A1')
+                                            @include('dao.operacionesAereas.forms.A1')
                                         </div>
                                         <div class="tab-pane" id="b1tap">
-                                            @include('forms.B1')
+                                            @include('dao.operacionesAereas.forms.B1')
                                         </div>
                                         <div class="tab-pane" id="a3tap">
-                                            @include('forms.A3')
+                                            @include('dao.operacionesAereas.forms.A3')
                                         </div>
                                     </div>
                                     <br>
@@ -174,10 +172,10 @@
                                         <div class="pull-right">
                                             <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
                                             <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
-                                            
+
                                             <input id="finish" type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar'/>
                                         </div>
-    
+
                                         <div class="pull-left">
                                             <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Atras' />
                                         </div>
@@ -188,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </div>
@@ -196,12 +194,11 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function () {    
+    $(document).ready(function () {
         //PASO 1
         $('.componente_organismo').select2();
         $('#grupos').select2();
         $('#naves').select2();
-        $('#serial').select2();
         $('#matricula').select2();
         $('.base_estacion').select2();
         $('.jefe_maquina').select2();
@@ -280,7 +277,7 @@
             $('.carga').val('')
             $('.pers').val('')
         }
-        
+
         var id_fam0001;
         var fam0001_a1_mision_id;
 
@@ -299,17 +296,17 @@
                             $("#naves").append('<option class="load_aeronave" value="'+value.id+'">'+value.aeronave+' - '+value.modelo+'</option>');
                         });
                     }
-                }); 
+                });
             }
         });
         $('#naves').on('change',function(){
-            var naveId = $(this).val();  
+            var naveId = $(this).val();
             if(naveId){
                 $.ajax({
                     type:"GET",
                     url:"{{ route('seriales') }}",
                     data : { "id" : naveId },
-                    success:function(res){        
+                    success:function(res){
                         if(res){
                             $("#serial").empty();
                             $("#serial").append('<option value="">Seleccionar..</option>');
@@ -323,7 +320,7 @@
                     type:"GET",
                     url:"{{ route('matriculas') }}",
                     data : { "id" : naveId },
-                    success:function(res){        
+                    success:function(res){
                         if(res){
                             $("#matricula").empty();
                             $("#matricula").append('<option value="">Seleccionar..</option>');
@@ -340,7 +337,7 @@
         //TRAER DATA DEL PRIMER PASO
         $.ajax({
             url:"{{ route('steps_status') }}",
-            method:'POST', 
+            method:'POST',
             data:{
                 _token:'{{ csrf_token() }}',
                 data_id:data_id
@@ -366,35 +363,33 @@
                                 $("#aeronave_modelo").text(famSteps.componente_organismo);
                                 $("#fecha").text(famSteps.fecha);
 
-                                //CARGAR DATOS DE PASOS 
+                                //CARGAR DATOS DE PASOS
                                 $('#stepInputData').prop('hidden', true);
                                 $('#stepInputDataNext').prop('hidden', false);
                                 $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
-                                
-                                $(".load_fecha").val(famSteps.fecha)
-                                $(".load_ov_ota_om").val(famSteps.ov_ota_om)
 
-                                setTimeout(function() { 
+                                $(".load_fecha").val(famSteps.fecha);
+                                $(".load_ov_ota_om").val(famSteps.ov_ota_om);
+
+                                $("#serial").val(famSteps.serial);
+
+                                setTimeout(function() {
                                     $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
                                 }, 1000);
 
                                 $(".load_unidad").val(famSteps.unidad).trigger('change')
 
                                 cargarAeronavesModelos(famSteps.unidad)
-                                setTimeout(function() { 
+                                setTimeout(function() {
                                     $(".load_aeronave").val(famSteps.aeronave_modelo).trigger('change')
                                 }, 1200);
-                                
-                                cargarSeriales(famSteps.aeronave_modelo)
-                                setTimeout(function() { 
-                                    $(".load_serial").val(famSteps.serial).trigger('change')
-                                }, 3200);
-                                
+
                                 cargarMatriculas(famSteps.aeronave_modelo)
-                                setTimeout(function() { 
+                                setTimeout(function() {
                                     $(".load_matricula").val(famSteps.matricula).trigger('change')
                                 }, 3300);
-                                
+
+
                                 $(".load_estacion").val(famSteps.base_estacion).trigger('change')
                                 $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
 
@@ -402,7 +397,7 @@
                                 let A1Steps = response.A1_data
                                 if (A1Steps.length>0) {
                                     $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
-                                    
+
                                     var counter = 1;
                                     $.each(A1Steps, function (key, value){
                                     $('#A1_data').append(
@@ -449,7 +444,7 @@
                                                     icon: 'success',
                                                     timer: 3000,
                                                     showConfirmButton: true,
-                                                });   
+                                                });
                                             }
                                         });
                                     });
@@ -466,7 +461,7 @@
                                             success: function(response){
                                                 if(response){
                                                     let res = response.data[0]
-                                                    edit_A1(res) 
+                                                    edit_A1(res)
                                                     let consumblesEdit = response.consumibles
                                                 }
                                                 else{
@@ -505,7 +500,7 @@
                                                 en_apoyo_A2:$(".load_en_apoyo_A2").val(),
                                                 descripcion_A2:$('.load_descripcion_A2').val(),
                                                 completado: A1Steps[0].completado=="completado"?"completado":"paso2",
-                                            }, 
+                                            },
                                             cache: false,
                                             dataType: 'json',
                                             success: function(response){
@@ -522,7 +517,7 @@
                                                         icon: 'success',
                                                         timer: 3000,
                                                         showConfirmButton: true,
-                                                    }); 
+                                                    });
                                                 }
                                             }
                                         });
@@ -530,7 +525,7 @@
                                     updateClean_A1()
                                 }
 
-                                //EDITAR PASO 1 
+                                //EDITAR PASO 1
                                 $("#editar_paso1").click(function() {
                                     var id_edit = $(this).val();
                                     $.ajax({
@@ -560,14 +555,14 @@
                                                     icon: 'success',
                                                     timer: 3000,
                                                     showConfirmButton: true,
-                                                }); 
+                                                });
                                             }
                                             else{
                                                 alert('Fallo en la peticion con el servidor')
                                             }
                                         }
                                     });
-                                    
+
                                 });
                                 data_vuelos(id_fam0001);
                                 //CARGAR PASO 3
@@ -587,7 +582,7 @@
                                             success: function(response){
                                                 if(response){
                                                     let res = response.data[0]
-                                                    edit_B1(res) 
+                                                    edit_B1(res)
                                                 }
                                                 else{
                                                     alert('Fallo en la peticion con el servidor')
@@ -631,12 +626,12 @@
                                                     icon: 'success',
                                                     timer: 3000,
                                                     showConfirmButton: true,
-                                                });   
+                                                });
                                             }
                                         });
                                     });
                                     data_vuelos(id_fam0001);
-                                    
+
                                 }
                                 //CARGAR PASO 4
                                 let A3Steps = response.A3_data
@@ -662,7 +657,7 @@
                                             success: function(response){
                                                 if(response){
                                                     let res = response.data[0]
-                                                    edit_A3(res) 
+                                                    edit_A3(res)
                                                 }
                                                 else{
                                                     alert('Fallo en la peticion con el servidor')
@@ -675,7 +670,7 @@
                                     //BOTON ACTUALIZAR DINAMICO CERRAR
                                     updateClean_A3()
                                 }
-                                
+
                             }
                     }
                 }
@@ -735,7 +730,7 @@
                             $('#stepInputDataNext').prop('hidden', false);
 
                             $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
-                            
+
                             Swal.fire({
                                 title: 'Creado!',
                                 text: 'Se Creo Correctamente.',
@@ -751,7 +746,7 @@
                 });
             }
         });
-        
+
         //PASO #2 - AGREGAR CONSUMIBLES
         $("#rowAdder").click(function () {
             newRowAdd =
@@ -759,7 +754,7 @@
             '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES</small> <select name="unidades[]" class="form-control unidades" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value=""></option></select> </div></div>'+
             '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small><input name="cantidad[]" type="number" class="form-control cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></div></div>'+
             '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-            
+
             $('#newinput').append(newRowAdd);
 
             $('.consumibles').select2();
@@ -768,7 +763,7 @@
             $.ajax({
                 url:"{{ route('consumibles') }}",
                 method:'POST',
-                data:{ 
+                data:{
                     _token:'{{ csrf_token() }}'
                 },
                 cache: false,
@@ -780,7 +775,7 @@
                         $.each(response.consumibles ,function(key,value){
                             $(".consumibles").append('<option class="load_consumible" value="'+key.id+'">'+value.consumible+'</option>');
                         });
-                        
+
                         //$(".unidades").empty();
                         $(".unidades").append('<option value=""></option>');
                         $.each(response.unidades ,function(key,value){
@@ -789,7 +784,7 @@
                     }
                 }
             });
-            
+
         });
         $("body").on("click", "#DeleteRow", function () {
             $(this).parents("#row").remove();
@@ -816,7 +811,7 @@
             var ciclos_tren = $('.ciclos_tren').val();
             var en_apoyo_A2 = $('.en_apoyo_A2').val();
             var descripcion_A2 = $('.descripcion_A2').val();
-            
+
             //VALIDAR PASO UNO HEADER
             if(ordenada_por===""){
                 console.log('no puedes guardar datos vacios')
@@ -859,11 +854,11 @@
                                 icon: 'success',
                                 timer: 3000,
                                 showConfirmButton: true,
-                            });  
+                            });
                             //GUARDAR CONSUMIBLES
                             let misionID = response.A1_id[0].id;
                             guardarConsumo(misionID);
-                            
+
                             //MOSTRAR A1
                             let res = response.data;
                             var counter = 1;
@@ -914,7 +909,7 @@
                                             icon: 'success',
                                             timer: 3000,
                                             showConfirmButton: true,
-                                        });   
+                                        });
                                     }
                                 });
                             });
@@ -931,14 +926,14 @@
                                     success: function(response){
                                         if(response){
                                             let res = response.data[0]
-                                            edit_A1(res) 
+                                            edit_A1(res)
                                         }
                                         else{
                                             alert('Fallo en la peticion con el servidor')
                                         }
                                     }
                                 });
-                                
+
                             });
 
                             //ACTUALIZAR MISION (METER EN HELPER)
@@ -973,7 +968,7 @@
                                         descripcion_A2:$('.load_descripcion_A2').val(),
 
                                         completado: "paso2",
-                                    }, 
+                                    },
                                     cache: false,
                                     dataType: 'json',
                                     success: function(response){
@@ -990,7 +985,7 @@
                                                 icon: 'success',
                                                 timer: 3000,
                                                 showConfirmButton: true,
-                                            }); 
+                                            });
                                         }
                                     }
                                 });
@@ -1004,12 +999,12 @@
                     }
                 });
             }
-            
+
         });
 
         //PASO #3 - BOTON AGREGAR OPERACIONES EN VUELO
         $("#OV_ADD").click(function () {
-            nuevaOperacionVuelo = 
+            nuevaOperacionVuelo =
             '<div id="operacionVuelo"><div style="margin-bottom: 0;" class="input-group">'+
             '<div style="padding:10px" class="col-sm-2"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">HV</small> <input type="number" name="HV[]" id="HV" class="form-control HV load_HV" style="height: 37px;border: 1px solid #a5a9bf7a;"></input> </div></div>'+
             '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="BorrarOperacionVuelo" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
@@ -1034,7 +1029,7 @@
                 $.ajax({
                     url:"{{ route('codigos_aterrizaje_json') }}",
                     method:'POST',
-                    data:{ 
+                    data:{
                         _token:'{{ csrf_token() }}'
                     },
                     cache: false,
@@ -1085,7 +1080,7 @@
                             }
                         });
                     }
-                }); 
+                });
             }
         });
         //PASO #3 - MOSTRAR DATOS DE VUELO
@@ -1107,7 +1102,7 @@
                         $('.v_mision').val(data.vuelo)
                         $('.load_registro_hv').val(data.registro_manual)
                     }
-                }); 
+                });
             }
         }).change();
         //PASO #3 - DATOS DEL TRIPULANTE DE VUELO
@@ -1124,10 +1119,10 @@
                         $(".load_cedula_empleado").text(emp.empleado.cedula)
                         $(".cedula_empleado").val(emp.empleado.cedula)
                     }
-                }); 
+                });
             }
         });
-        //PASO #3 - GUARDAR DATOS TRIPULACION 
+        //PASO #3 - GUARDAR DATOS TRIPULACION
         $(".enviar_b1_tripulacion").click(function(e){
             e.preventDefault();
             //VALIDAR PASO UNO HEADER
@@ -1168,14 +1163,14 @@
                             guardarAterrizajes(misionID);
 
                             $(".step_three_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
-                            
+
                             Swal.fire({
                                 title:'Creado!',
                                 text: 'Tripulación registrada Exitosamente!',
                                 icon: 'success',
                                 timer: 3000,
                                 showConfirmButton: true,
-                            }); 
+                            });
                         }
                         if (response.error) {
                             let b1_data_error = response.data
@@ -1186,7 +1181,7 @@
                                 icon: 'warning',
                                 timer: 3000,
                                 showConfirmButton: true,
-                            });  
+                            });
                         }
                         //PASO #3 - EDITAR TRIPULACION
                         $(".editar_B1_trip").click(function() {
@@ -1200,14 +1195,14 @@
                                 success: function(response){
                                     if(response){
                                         let res = response.data[0]
-                                        edit_B1(res) 
+                                        edit_B1(res)
                                     }
                                     else{
                                         alert('Fallo en la peticion con el servidor')
                                     }
                                 }
                             });
-                            
+
                         });
                         //PASO #3 - UPDATE TRIPULACION
                         update_B1()
@@ -1245,7 +1240,7 @@
                                         icon: 'success',
                                         timer: 3000,
                                         showConfirmButton: true,
-                                    });   
+                                    });
                                 }
                             });
                         });
@@ -1270,7 +1265,7 @@
                         let data = res[0]
                         $(".apoyo_carga").val(data.en_apoyo)
                     }
-                }); 
+                });
             }
         }).change();
 
@@ -1320,7 +1315,7 @@
                             icon: 'success',
                             timer: 3000,
                             showConfirmButton: true,
-                        }); 
+                        });
                         //PASO #4 - DELETE CARGA
                         $(".borrar_A3").click(function() {
                             var id = $(this).val();
@@ -1338,7 +1333,7 @@
                                 success: function(response){
                                     if(response){
                                         let res = response.data[0]
-                                        edit_A3(res) 
+                                        edit_A3(res)
                                     }
                                     else{
                                         alert('Fallo en la peticion con el servidor')
@@ -1407,17 +1402,17 @@
                             $("#naves").append('<option class="load_aeronave" value="'+value.id+'">'+value.aeronave+' - '+value.modelo+'</option>');
                         });
                     }
-                }); 
-                
+                });
+
             }
         }
-        function cargarSeriales(naveId) {
-            if(naveId){
+        function cargarSeriales(matricula) {
+            if(matricula){
                 $.ajax({
                     type:"GET",
                     url:"{{ route('seriales') }}",
-                    data : { "id" : naveId },
-                    success:function(res){        
+                    data : { "id" : matricula },
+                    success:function(res){
                         if(res){
                             $("#serial").empty();
                             $("#serial").append('<option>Cargando..</option>');
@@ -1435,7 +1430,7 @@
                     type:"GET",
                     url:"{{ route('matriculas') }}",
                     data : { "id" : naveId },
-                    success:function(res){        
+                    success:function(res){
                         if(res){
                             $("#matricula").empty();
                             $("#matricula").append('<option value="">Seleccionar..</option>');
@@ -1475,7 +1470,7 @@
 
             $(".load_en_apoyo_A2").val(res.en_apoyo_A2).trigger('change')
             $('.load_descripcion_A2').val(res.descripcion_A2)
-            
+
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
 
@@ -1488,7 +1483,7 @@
                     '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">UNIDADES</small> <select name="unidades[]" class="form-control unidades" style="height: 37px;border: 1px solid #a5a9bf7a;"><option value="'+data[index].id+'">'+data[index].unidad+'</option></select> </div></div>'+
                     '<div style="padding:10px" class="col-sm-3"><div style="margin-bottom: 0;" class="form-group"><small style="font-weight: bold; color:#67748e;">CANTIDAD</small><input value="'+data[index].cantidad+'" name="cantidad[]" type="number" class="form-control cantidad" style="height: 37px;border: 1px solid #a5a9bf7a;"></div></div>'+
                     '<div style="padding:10px" class="col-sm-1"><div style="margin-bottom: 0;" class="form-group"><button style="margin-top: 20px; background:red;" class="btn btn-danger" id="DeleteRow" type="button"><i style="font-size: 22px; color:white;" class="ti-trash"></i></button></div></div></div></div>';
-                    
+
                     $('#newinput').append(newRowAdd);
 
                 }
@@ -1527,7 +1522,7 @@
         //             consumiblesArray:consumiblesArray[index].consumible,
         //             unidadesArray:unidadesArray[index].unidades
         //         });
-        //     } 
+        //     }
         //     console.log(consumiblesDATA)
         //     if (loop>0) {
         //         //GUARDAR CONSUMIBLES
@@ -1580,7 +1575,7 @@
                     consumiblesArray:consumiblesArray[index].consumible,
                     unidadesArray:unidadesArray[index].unidades
                 });
-            } 
+            }
             console.log(consumiblesDATA)
             if (loop>0) {
                 //GUARDAR CONSUMIBLES
@@ -1600,7 +1595,7 @@
                     }
                 });
             }
-            
+
         }
         function data_vuelos(fam0001_id) {
             var id = fam0001_id;
@@ -1622,7 +1617,7 @@
                             $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
                         });
                     }
-                }); 
+                });
             }
         }
         function datos_tripulacion(res) {
@@ -1668,7 +1663,7 @@
                     TIP_ATERRIZAJE: TipoAtr[index] === undefined?null:TipoAtr[index].TipoAtr,
                     CANTIDAD:  cantidadAtr[index] === undefined?null:cantidadAtr[index].cantidadAtr
                 });
-            } 
+            }
             if (loop>0) {
                 //GUARDAR ATERRIZAJE
                 $.ajax({
@@ -1694,10 +1689,10 @@
             var despeg = $('.despeg').val();
             var aterriz = $('.aterriz').val();
             var apag = $('.apag').val();
-                
+
             var segEncend = new Date("01/01/2007 " + encend).getTime();
             var segDespeg = new Date("01/01/2007 " + despeg).getTime();
-            
+
             // if($('.encend').val()!=""){
             //     var minDiffSeg = ((ssegDespeg - segEncend)/60)/1000;
             // }
@@ -1707,12 +1702,12 @@
             }
 
             var segAterriz = new Date("01/01/2007 " + aterriz).getTime();
-            
+
             if( $('.aterriz').val()!=""){
                 if(segDespeg>segAterriz){
                     alert('No puedes registrar una hora menor a la de Despegue')
                 }else{
-                    var dataStep = ((segAterriz - segDespeg)/60)/1000; 
+                    var dataStep = ((segAterriz - segDespeg)/60)/1000;
                     minDiffSeg = dataStep + minDiffSeg
                 }
             }
@@ -1723,10 +1718,10 @@
                 if(segAterriz>segApag){
                     alert('No puedes registrar una hora menor a la de Aterrizaje')
                 }
-                var dataStep2 = ((segApag - segAterriz)/60)/1000; 
+                var dataStep2 = ((segApag - segAterriz)/60)/1000;
                 minDiffSeg = dataStep2 + minDiffSeg
             }
-            
+
             $(".pasar_calculo").val(((minDiffSeg*0.1)/6).toFixed(1))
         }
         $(".calculateTime").change(calculateTime);
@@ -1734,29 +1729,29 @@
         $('.sendingData').keyup(function () {
             $('.sameData').val($(this).val());
         });
-        
+
         function edit_B1(res) {
-            
+
             $('.load_id_trip').val(res.id)
 
-            setTimeout(function() { 
+            setTimeout(function() {
                 $(".funcion").val(res.funcion).trigger('change')
             }, 1400);
-            setTimeout(function() { 
+            setTimeout(function() {
                 $(".grado_nombre").val(res.grado_nombre_id).trigger('change')
             }, 1600);
-                           
+
             $('.tipo_despegue').val(res.tipo_despegue).trigger('change')
 
             $(".v_trip").val(res.fam0001_a1_mision_id).trigger('change')
-            
+
             $('.codigo_trip').val(res.COD)
             $('.load_registro_hv').val(res.hv)
             $('.load_cedula_empleado').val(res.cedula)
 
             $('.edit_input_b1').prop('hidden', false);
             $('.add_edit_b1_input').prop('hidden', true);
-            
+
         }
         function update_B1(B1Steps){
             $(".actualizar_b1").click(function() {
@@ -1780,7 +1775,7 @@
                         COD:$('.codigo_trip').val(),
                         HV:$('.load_registro_hv').val(),
                         completado: B1Steps[0].completado=="completado"?"completado":"paso3",
-                    }, 
+                    },
                     cache: false,
                     dataType: 'json',
                     success: function(response){
@@ -1797,7 +1792,7 @@
                                 icon: 'success',
                                 timer: 3000,
                                 showConfirmButton: true,
-                            }); 
+                            });
                         }
                     }
                 });
@@ -1861,7 +1856,7 @@
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: true,
-                    });   
+                    });
                 }
             });
         }
@@ -1884,7 +1879,7 @@
             $('.cant_animales').val(res.cant_animales),
             $('.carga').val(res.carga),
             $('.pers').val(res.pers)
-            
+
             $('.edit_input_a3').prop('hidden', false);
             $('.add_edit_carga_input').prop('hidden', true);
         }
@@ -1915,7 +1910,7 @@
                         carga: $('.carga').val(),
                         pers: $('.pers').val(),
                         completado: A3Steps[0].completado=="completado"?"completado":"paso4",
-                    }, 
+                    },
                     cache: false,
                     dataType: 'json',
                     success: function(response){
@@ -1928,7 +1923,7 @@
                                 icon: 'success',
                                 timer: 3000,
                                 showConfirmButton: true,
-                            }); 
+                            });
                         }
                     }
                 });

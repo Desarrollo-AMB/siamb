@@ -15,7 +15,7 @@
                         <div>
                             <h5 class="mb-0">Listado Individual del Piloto {{$datos->nombre1." ".$datos->apellido1}}</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('forms.listado_pilotos') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.operacionesAereas.forms.listado_pilotos') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -31,18 +31,18 @@
                     @endif
 
                     <!-- DATOS PERSONALES -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                     <h5 class="card-title">Datos Personales</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row"> 
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                                             <div class="form-group">
                                                 <h6>Cédula:</h6>
-                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled 
+                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled
                                                     value="{{ $datos->cedula }}"
                                                 >
                                             </div>
@@ -64,7 +64,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Nombre y Apellidos:</h6>
-                                                <input id="nombres" type="text" class="form-control" name="nombres" disabled 
+                                                <input id="nombres" type="text" class="form-control" name="nombres" disabled
                                                     value="{{ $datos->nombre1." ".$datos->nombre2." ".$datos->apellido1." ".$datos->apellido2 }}"
                                                 >
                                             </div>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('forms.reporte_vuelos', $datos->id) }}">
+                    <a href="{{ route('dao.operacionesAereas.forms.reporte_vuelos', $datos->id) }}">
                         <button class="btn btn-danger">
                             <i class="fas fa-file-pdf fa-2x"></i>
                             Imprimir Reporte
@@ -140,7 +140,7 @@
                 {data: 'serial',},
                 {data: 'matricula',},
                 {data: 'base',},
-                
+
             ],
             search: {
                 return: true,

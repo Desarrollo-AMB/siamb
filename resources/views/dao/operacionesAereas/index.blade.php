@@ -13,15 +13,16 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
+            <hr class="horizontal dark my-0">
+            @include('dao.operacionesAereas._barra_auxiliar')
+            <hr class="horizontal dark my-0">
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Registros de Vuelo</h5>
+                        <h5 class="mb-0">Operaciones Aéreas del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
                     </div>
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
                 </div>
             </div>
-            <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
@@ -29,13 +30,14 @@
                                 <table id="vuelos" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            <th>FECHA</th>
-                                            <th>OV/OTA/OM</th>
-                                            <th>AERONAVE</th>
-                                            @role('administrador')
+                                            @role('aviacion_dao|administrador')
                                             <th>UNIDAD</th>
-                                            @endrole 
+                                            @endrole
+                                            <th>MATRICULA</th>
+                                            <th>AERONAVE</th>
                                             <th>BASE</th>
+                                            <th>OV/OTA/OM</th>
+                                            <th>FECHA</th>
                                             <th>ESTATUS</th>
                                             <th>ACCIONES</th>
                                         </tr>
@@ -43,27 +45,38 @@
                                     <tbody>
                                         @foreach ($fam0001 as $data)
                                             <tr>
-                                                <th  class="font-weight-normal">{{$data->fecha}}</th>
-                                                <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
-                                                <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                @role('administrador')
+                                                @role('aviacion_dao|administrador')
                                                 <th  class="font-weight-normal">{{$data->unidad}}</th>
-                                                @endrole  
+                                                @endrole
+                                                <th class="font-weight-normal">{{$data->matricula}}</th>
+                                                <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
                                                 <th class="font-weight-normal">
                                                     {{$data->base->siglas}}
                                                 </th>
+                                                <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
+                                                <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                 <th class="font-weight-normal">
-                                                    @if($data->completado == 'completado') 
+                                                    @if($data->completado == 'completado')
                                                         <label class="badge bg-gradient-success">{{$data->completado}}</label>
-                                                    @else
-                                                        <label class="badge bg-gradient-warning">PENDIENTE</label>       
+                                                    @elseif ($data->completado == 'programacionEnv')
+                                                        <label class="badge bg-gradient-warning">ENVIADO</label>
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
+                                                    @role('aviacion_grupo_aereo|administrador')
                                                     <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                         <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                     </a>
-                                                    @if($data->completado == 'completado') 
+                                                    @endrole
+                                                    @role('aviacion_dao')
+                                                        @if($data->completado == 'programacionEnv')
+                                                            <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3 btn-sm btn-success" data-bs-toggle="tooltip" data-bs-original-title="Autorizar Vuelo">
+                                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                                                Autorizar
+                                                            </a>
+                                                        @endif
+                                                    @endrole
+                                                    @if($data->completado == 'completado')
                                                         {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                             <i class="fas fa-eye  text-info" aria-hidden="true"></i>
                                                         </a> --}}
@@ -89,6 +102,13 @@
 @section('scripts')
 @parent
 <script>
+
+    $(document).ready(function() {
+        var fechaActual = new Date().toISOString().slice(0, 10);
+        var fecha_inv = fechaActual.split('-').reverse().join('-');
+        $('#fecha_cabecera').text(fecha_inv);
+    });
+
     $(function () {
         $('#vuelos').DataTable({
             processing: true,

@@ -56,7 +56,7 @@
 			{ "name": "Guardar Empleado",     "route_name": "sireh.ingreso-personal.store" },
 			{ "name": "Ingreso de Personal",     "route_name": "sireh.ingreso-personal.index" },
 			{ "name": "Modulo Ascensos Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.ascensos" },
-			{ "name": "Modulo Egresos de Alistados",     "route_name": "sireh.personal-militar-noprof.egresos-alistados" },	
+			{ "name": "Modulo Egresos de Alistados",     "route_name": "sireh.personal-militar-noprof.egresos-alistados" },
 			{ "name": "Modulo Graduación Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.graduacion" },
 			{ "name": "Modulo Reingresos Militar No Profesional",     "route_name": "sireh.personal-militar-noprof.reingresos" },
 			{ "name": "Nuevo Empleado",     "route_name": "sireh.ingreso-personal.new" },
@@ -181,7 +181,7 @@
 			{ "name": "Editar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.edit" },
 			{ "name": "Guardar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.store" },
 			{ "name": "Actualizar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.update" },
-			{ "name": "Eliminar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.destroy" }			
+			{ "name": "Eliminar Ubicación Detallada",     "route_name": "auxiliares.ubicacionesDetalladas.destroy" }
 		]
 	},
 	{
@@ -195,7 +195,7 @@
 			{ "name": "Editar Condecoracion ", 		"route_name": "sireh.condecoraciones.edit" },
 			{ "name": "Guardar/Actualizar Condecoracion", 		"route_name": "sireh.condecoraciones.store" },
 			{ "name": "Eliminar Condecoracion", 		"route_name": "sireh.condecoraciones.destroy" }
-			
+
 		]
 	}
 ]

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use App\Models\AeronaveUnidades;
 use App\Models\AeronaveModelo;
 use App\Models\AeronaveMatricula;
@@ -28,6 +29,7 @@ use App\Models\Fam0001B1TripulacionAterrizajes;
 use App\Models\GradosMilitares;
 use App\Models\Ubicaciones;
 use DataTables;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -38,34 +40,135 @@ class FormaFAMController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function fam0001() 
+    public function daoIndex()
     {
+
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
         $user_id = auth()->id();
-        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado')->get();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
         if(count($empleado)>0){
-            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];        
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
-            if(count($ubicacion)>0){
-                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+            if ($rol_user == 'aviacion_dao') {
+                $fam0001 = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->get();
+            }
+            elseif(count($ubicacion)>0){
+                $fam0001 = Fam0001::whereDate('fecha', $fecha)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
         }else{
-            $fam0001 = Fam0001::with('aeronaves')->get();
+            $fam0001 = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->get();
         }
 
-        return view('forms.FAM0001', compact('fam0001'));
+        return view('dao.operacionesAereas.index', compact('fam0001'));
+
     }
-    public function FormaFAM_status($fam_id) 
+
+    public function daoMilitar()
+    {
+        $funcionEmpleado = FuncionTripulante::get();
+        return view('dao.personal.militar.index',
+            compact(
+                'funcionEmpleado'
+            )
+        );
+    }
+
+    public function daoAeronaves()
+    {
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
+        if(count($empleado)>0){
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+
+            if ($rol_user == 'aviacion_dao') {
+                $aeronaves = DB::table('aeronave_matricula')
+                ->join('aeronave_modelo', 'aeronave_matricula.aeronave_id', '=', 'aeronave_modelo.id')
+                ->get();
+            }
+            elseif(count($ubicacion)>0){
+                $aeronaves = DB::table('aeronave_matricula')
+                ->join('aeronave_modelo', 'aeronave_matricula.aeronave_id', '=', 'aeronave_modelo.id')
+                ->where('codigo_unidad', $ubicacion[0]['codigos'])
+                ->get();
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+
+        }else{
+            $aeronaves = DB::table('aeronave_matricula')
+                ->join('aeronave_modelo', 'aeronave_matricula.aeronave_id', '=', 'aeronave_modelo.id')
+                ->get();
+        }
+
+        return view('dao.aeronaves.index',
+            compact(
+                'aeronaves'
+            )
+        );
+    }
+
+
+    //Obtiene el personal militar, exclusivo por api para el Datatable
+    public function personalMilitarDao(Request $request){
+
+        $empleados = Empleado::where('empleados.situacion','A');
+        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+        $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
+        $datatable= Datatables::of($empleados)
+            ->addColumn('actions', 'dao.personal.militar._actions')
+            ->rawColumns(['actions']);
+        return $datatable->make(true);
+    }
+
+    public function nuevaProgramacion()
     {
         //HEADER
-        $aeronaveModelos = AeronaveModelo::get();
-        $matriculas = AeronaveMatricula::get();
-        $unidad = AeronaveUnidades::get();
+        // Se obtiene el id del usuario logueado para luego obtener el id del empleado y codigo de ubicacion
+        // Con codigo de ubicacion se obtienen las aeronaves disponibles solo de ese grupo aereo
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+        if(count($empleado)>0){
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+            if(count($ubicacion)>0){
+                $unidad = $ubicacion;
+                $aeronaveModelos = AeronaveModelo::where('codigo_unidad',$unidad[0]->codigos)->get();
+                $matriculas = AeronaveMatricula::get();
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+        }else{
+            dd('este usuario no tiene acceso a esta area');
+        }
+
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
         $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
-    
+
         //A1-MISION
         $vueloOrdenadaPor = VueloOrdenadaPor::get();
         $enApoyo = VueloEnApoyo::get();
@@ -76,11 +179,90 @@ class FormaFAMController extends Controller
         //B1-TRIPULACION
         $A1_mision = Fam0001A1Mision::get();
         $funcion = FuncionTripulante::get();
-        $despegue = CodigoDespegue::get(); 
+        $despegue = CodigoDespegue::get();
+
+        $clasificacion = Config::get('constants.clasificacion_cargo');
+
+        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+    }
+
+
+    public function fam0001()
+    {
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+        if(count($empleado)>0){
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+            if ($rol_user == 'aviacion_dao') {
+                $fam0001 = Fam0001::with('aeronaves')->get();
+            }
+            elseif(count($ubicacion)>0){
+                $fam0001 = Fam0001::where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+        }else{
+            $fam0001 = Fam0001::with('aeronaves')->get();
+        }
+
+        return view('dao.operacionesAereas.forms.FAM0001', compact('fam0001'));
+    }
+
+    public function verProgramacion()
+    {
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
+        if(count($empleado)>0){
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+            if ($rol_user == 'aviacion_dao') {
+                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->with('aeronaves')->get();
+            }
+            elseif(count($ubicacion)>0){
+                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+        }else{
+            $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->with('aeronaves')->get();
+        }
+
+        return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
+    }
+
+    public function FormaFAM_status($fam_id)
+    {
+        //HEADER
+        $aeronaveModelos = AeronaveModelo::get();
+        $matriculas = AeronaveMatricula::get();
+        $unidad = AeronaveUnidades::get();
+        $componentes = ComponenteOrganismo::get();
+        $bases = Base::get();
+        $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
+
+        //A1-MISION
+        $vueloOrdenadaPor = VueloOrdenadaPor::get();
+        $enApoyo = VueloEnApoyo::get();
+        $consumibles = UnidadesConsumible::get();
+        $unidadesMedida = UnidadesMedidas::get();
+        $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        //B1-TRIPULACION
+        $A1_mision = Fam0001A1Mision::get();
+        $funcion = FuncionTripulante::get();
+        $despegue = CodigoDespegue::get();
 
         $fam0001 = $fam_id;
-        return view('forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
-    
+        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+
     }
 
     public function index()
@@ -105,7 +287,7 @@ class FormaFAMController extends Controller
         $despegue = CodigoDespegue::get();
 
         //dd($jefeMaquina);
-        return view('forms.index', compact('codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('dao.operacionesAereas.forms.index', compact('codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
     public function aeronaves_grupos(Request $request)
@@ -116,7 +298,7 @@ class FormaFAMController extends Controller
 
     public function seriales(Request $request)
     {
-        $selectedUnidad = AeronaveMatricula::where('aeronave_id', $request->id)->whereNotNull('serial')->get();
+        $selectedUnidad = AeronaveMatricula::where('matricula', $request->id)->whereNotNull('serial')->get();
         return response()->json($selectedUnidad);
     }
 
@@ -133,7 +315,7 @@ class FormaFAMController extends Controller
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('completado',"paso3")->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         $A3_data = Fam0001A3CargaPasajeros::where('completado',"paso4")->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         return response()->json([
-            "headerData"=>$headerData, 
+            "headerData"=>$headerData,
             "A1_data"=>$A1_data,
             "B1_data"=>$B1_data,
             "A3_data"=>$A3_data,
@@ -146,7 +328,7 @@ class FormaFAMController extends Controller
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         return response()->json([
-            "headerData"=>$headerData, 
+            "headerData"=>$headerData,
             "A1_data"=>$A1_data,
             "B1_data"=>$B1_data,
             "A3_data"=>$A3_data,
@@ -166,16 +348,52 @@ class FormaFAMController extends Controller
         $fam0001->base_estacion = $request->base_estacion;
         $fam0001->jefe_maquina = $request->jefe_maquina;
         $fam0001->completado = $request->completado;
-        
+
         $fam0001->user_id = auth()->id();
 
         $fam0001->save();
 
         $dataFam001 = [
             "id" => $fam0001->id,
-            "ov_ota_om" => $request->ov_ota_om, 
+            "ov_ota_om" => $request->ov_ota_om,
         ];
-            
+
+        //return response()->json($request);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $dataFam001,
+            ]
+        );
+    }
+
+    public function storeProgramacion(Request $request)
+    {
+        $fam0001 = new Fam0001;
+        $fam0001->fecha = $request->fecha;
+        $fam0001->ov_ota_om = $request->ov_ota_om;
+        $fam0001->componente_organismo = $request->componente_organismo;
+        $fam0001->unidad = $request->unidad;
+        $fam0001->aeronave_modelo = $request->aeronave_modelo;
+        $fam0001->serial = $request->serial;
+        $fam0001->matricula = $request->matricula;
+        $fam0001->base_estacion = $request->base_estacion;
+        $fam0001->jefe_maquina = $request->jefe_maquina;
+        $fam0001->completado = $request->completado;
+
+        $fam0001->user_id = auth()->id();
+
+        $fam0001->save();
+
+        $dataFam001 = [
+            "id" => $fam0001->id,
+            "ov_ota_om" => $request->ov_ota_om,
+            "fecha" => $request->fecha,
+            "componente_organismo" => $request->componente_organismo,
+            "unidad" => $request->unidad
+        ];
+
         //return response()->json($request);
         return response()->json(
             [
@@ -196,12 +414,12 @@ class FormaFAMController extends Controller
                 'editMision' => $editPaso1
             ]
         );
-    } 
+    }
 
     public function store_a1(Request $request)
     {
         $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
-       
+
         $flyLoop = count($checkVuelo);
 
         $A1 = new Fam0001A1Mision;
@@ -227,15 +445,15 @@ class FormaFAMController extends Controller
 
         $A1->en_apoyo_A2 = $request->en_apoyo_A2;
         $A1->descripcion_A2 = $request->descripcion_A2;
-    
+
         $A1->completado = $request->completado;
 
         $A1->user_id = auth()->id();
         $A1->save();
 
-        $A1_id = Fam0001A1Mision::select('id')->where('id',$A1->id)->get();
+        $A1_id = Fam0001A1Mision::where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
-   
+
         return response()->json(
             [
                 'success' => true,
@@ -259,7 +477,7 @@ class FormaFAMController extends Controller
 
         $loop = count($request->consumiblesDATA);
 
-        for ($i=0; $i < $loop; $i++) { 
+        for ($i=0; $i < $loop; $i++) {
             $A1_cosumibles = new Fam0001A1MisionConsumible;
             $A1_cosumibles->ov_ota_om = $request->consumiblesDATA[$i]['ov_ota_om'];
             $A1_cosumibles->fam0001_id = $request->consumiblesDATA[$i]['fam0001_id'];
@@ -270,7 +488,7 @@ class FormaFAMController extends Controller
             $A1_cosumibles->cantidad = $request->consumiblesDATA[$i]['cantidad'];
 
             $A1_cosumibles->save();
-        
+
         }
         return response()->json(
             [
@@ -285,13 +503,13 @@ class FormaFAMController extends Controller
     {
         Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
         Fam0001A1Mision::find($request->id)->delete();
-        
+
         return response()->json([
                 'success' => true,
                 'message' => 'Data Eliminada'
             ]
         );
-    } 
+    }
 
     public function editar_a1_mision(Request $request)
     {
@@ -312,8 +530,8 @@ class FormaFAMController extends Controller
 
         // $loop = count($request->consumiblesDATA);
         // if($loop>0){
-        //     for ($i=0; $i < $loop; $i++) { 
-        //         $updateConsumibles = Fam0001A1MisionConsumible::where('id', $request->id_consumible)->update($request->except('id'));     
+        //     for ($i=0; $i < $loop; $i++) {
+        //         $updateConsumibles = Fam0001A1MisionConsumible::where('id', $request->id_consumible)->update($request->except('id'));
         //     }
         // }
 
@@ -323,7 +541,7 @@ class FormaFAMController extends Controller
                 'editMision' => $editMision
             ]
         );
-    } 
+    }
 
     public function codigos_mision_json()
     {
@@ -393,7 +611,7 @@ class FormaFAMController extends Controller
 
     public function store_b1(Request $request)
     {
-        
+
         $B1_funcion = Fam0001B1Tripulacion::select('codigo_funcion')
             ->where('v_trip',$request->v_trip)
             ->where('fam0001_id',$request->fam0001_id)
@@ -422,7 +640,7 @@ class FormaFAMController extends Controller
 
                 $B1->grado_nombre_id = $request->grado_nombre_id;
                 $B1->grado_nombre_data = $request->grado_nombre_data;
-                
+
                 $B1->cedula = $request->cedula;
 
                 $B1->codigo_funcion = $request->codigo_funcion;
@@ -432,14 +650,14 @@ class FormaFAMController extends Controller
 
                 $B1->COD = $request->COD;
                 $B1->hv = $request->HV;
-                
+
                 $B1->completado = $request->completado;
                 $B1->user_id = auth()->id();
                 $B1->save();
-                
+
                 $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
                 $B1_id = Fam0001B1Tripulacion::select('id')->where('id',$B1->id)->get();
-    
+
                 return response()->json(
                     [
                         'success' => true,
@@ -459,7 +677,7 @@ class FormaFAMController extends Controller
 
             $B1->grado_nombre_id = $request->grado_nombre_id;
             $B1->grado_nombre_data = $request->grado_nombre_data;
-            
+
             $B1->cedula = $request->cedula;
 
             $B1->codigo_funcion = $request->codigo_funcion;
@@ -469,11 +687,11 @@ class FormaFAMController extends Controller
 
             $B1->COD = $request->COD;
             $B1->hv = $request->HV;
-            
+
             $B1->completado = $request->completado;
             $B1->user_id = auth()->id();
             $B1->save();
-            
+
             $B1_data = Fam0001B1Tripulacion::where('fam0001_id',$request->fam0001_id)->get();
             $B1_id = Fam0001B1Tripulacion::select('id')->where('id',$B1->id)->get();
 
@@ -494,7 +712,7 @@ class FormaFAMController extends Controller
 
         $loop = count($request->aterrizajeData);
 
-        for ($i=0; $i < $loop; $i++) { 
+        for ($i=0; $i < $loop; $i++) {
             $B1_aterrizajes = new Fam0001B1TripulacionAterrizajes;
 
             $B1_aterrizajes->ov_ota_om = $request->aterrizajeData[$i]['ov_ota_om'];
@@ -505,7 +723,7 @@ class FormaFAMController extends Controller
             $B1_aterrizajes->CANTIDAD = $request->aterrizajeData[$i]['CANTIDAD'];
 
             $B1_aterrizajes->save();
-        
+
         }
         return response()->json(
             [
@@ -537,19 +755,19 @@ class FormaFAMController extends Controller
                 'editTrip' => $editTrip
             ]
         );
-    } 
+    }
 
     public function delete_b1(Request $request)
     {
         //Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
         Fam0001B1Tripulacion::find($request->id)->delete();
-        
+
         return response()->json([
                 'success' => true,
                 'message' => 'Data Eliminada'
             ]
         );
-    } 
+    }
 
     public function store_a3(Request $request)
     {
@@ -559,10 +777,10 @@ class FormaFAMController extends Controller
         $A3->ov_ota_om = $request->ov_ota_om;
         $A3->fam0001_id = $request->fam0001_id;
         $A3->fam0001_a1_mision_id = $request->fam0001_a1_mision_id;
-        
+
         $A3->n_vuelo = $request->n_vuelo;
         $A3->apoyo_carga = $request->apoyo_carga;
-       
+
         $A3->pesocargaTotal = $request->pesocargaTotal;
         $A3->volCargaTotal = $request->volCargaTotal;
 
@@ -580,12 +798,12 @@ class FormaFAMController extends Controller
         $A3->cant_animales = $request->cant_animales;
         $A3->carga = $request->carga;
         $A3->pers = $request->pers;
-        
+
         $A3->completado = $request->completado;
         $A3->user_id = auth()->id();
 
         $A3->save();
-        
+
         $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->fam0001_id)->get();
         // $A3_id = Fam0001B1Tripulacion::select('id')->where('id',$A3->id)->get();
 
@@ -606,7 +824,7 @@ class FormaFAMController extends Controller
                 'message' => 'Data Eliminada'
             ]
         );
-    } 
+    }
 
     public function editar_a3(Request $request)
     {
@@ -627,20 +845,20 @@ class FormaFAMController extends Controller
                 'updateA3' => $updateA3
             ]
         );
-    } 
+    }
     public function pasoFinal(Request $request)
     {
         $id_fam0001 = $request->id_fam0001;
         $get_data = Fam0001A1Mision::where('fam0001_id',$id_fam0001)->get();
         $count_date = count($get_data);
-        $total_registro_manual = 0; 
-        $total_ind_vuelo = 0; 
-        $total_toque_desp = 0; 
-        $total_low_go = 0; 
-        $total_aterriz = 0; 
-        $total_ciclos_tren = 0; 
-        $total_consumibles = 0; 
-        for ($i=0; $i < $count_date; $i++) { 
+        $total_registro_manual = 0;
+        $total_ind_vuelo = 0;
+        $total_toque_desp = 0;
+        $total_low_go = 0;
+        $total_aterriz = 0;
+        $total_ciclos_tren = 0;
+        $total_consumibles = 0;
+        for ($i=0; $i < $count_date; $i++) {
             $total_registro_manual += $get_data[$i]['registro_manual'];
             $total_ind_vuelo += $get_data[$i]['ind_vuelo'];
             $total_toque_desp += $get_data[$i]['toque_desp'];
@@ -650,13 +868,13 @@ class FormaFAMController extends Controller
             //$total_consumibles += $get_data[$i]['total_consumibles'];
         }
         $FAM0001 = Fam0001::where('completado',"paso1")->where('id',$id_fam0001)->where('user_id',auth()->id())->update([
-            'total_registro_manual' => $total_registro_manual, 
-            'total_ind_vuelo' => $total_ind_vuelo, 
-            'total_toque_desp' => $total_toque_desp, 
-            'total_low_go' => $total_low_go, 
-            'total_aterriz' => $total_aterriz, 
-            'total_ciclos_tren' => $total_ciclos_tren, 
-            //'total_consumibles' => $total_consumibles, 
+            'total_registro_manual' => $total_registro_manual,
+            'total_ind_vuelo' => $total_ind_vuelo,
+            'total_toque_desp' => $total_toque_desp,
+            'total_low_go' => $total_low_go,
+            'total_aterriz' => $total_aterriz,
+            'total_ciclos_tren' => $total_ciclos_tren,
+            //'total_consumibles' => $total_consumibles,
             'completado' => 'completado',
         ]);
         $A1_data = Fam0001A1Mision::where('completado',"paso2")->where('fam0001_id',$id_fam0001)->where('user_id',auth()->id())->update([
@@ -676,22 +894,23 @@ class FormaFAMController extends Controller
     }
 
     public function listado_pilotos(){
-        return view('forms.listado_pilotos');
+        return view('dao.forms.listado_pilotos');
     }
 
     //DATA TABLE PARA LLAMAR A LOS PILOTOS QUE TIENEN VUELOS COMPLETADOS
     public function data_pilotos(){
-        $pilotos = Empleado::where('empleados.situacion','A'); 
+        $pilotos = Empleado::where('empleados.situacion','A');
         $pilotos->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $pilotos->join('empleado_funcion','empleado_funcion.codigo_empleado','=','empleados.codigo_empleado');
         $pilotos->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion');
         $pilotos->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $pilotos->join('fam0001_b1_tripulacion','empleados.cedula','=','fam0001_b1_tripulacion.cedula');
-        
+
+        //  chequear porque antes solo traia los datos de solo los pilotos
         $pilotos->where('fam0001_b1_tripulacion.completado','completado');
-        $pilotos->where('fam0001_b1_tripulacion.codigo_funcion','P');
-        $pilotos->where('funcion_tripulante.codigo','P');
-        
+        $pilotos->whereIn('fam0001_b1_tripulacion.codigo_funcion', ['PI', 'CP']);
+        $pilotos->whereIn('funcion_tripulante.codigo', ['PI', 'CP']);
+
         $pilotos->select(
             'empleados.id',
             'empleados.codigo_empleado as codigo_empleado',
@@ -700,23 +919,23 @@ class FormaFAMController extends Controller
             'empleados.apellido1',
             'grados_militares.siglas as grado',
         );
-        
+
 
         $datatable= DataTables::of($pilotos)
-            ->addColumn('actions', 'forms._actions')
+            ->addColumn('actions', 'dao.operacionesAereas.forms._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     public function ver_listado_piloto($id){
         $user_auth=auth()->user();
-      
+
         $funcion_tripulante = FuncionTripulante::all();
         $grados_militares = GradosMilitares::all();
         $ubicaciones = Ubicaciones::all();
         $datos = Empleado::with(['nomina'])->find($id);
 
-        return view('forms.ver_listado_piloto', 
+        return view('dao.operacionesAereas.forms.ver_listado_piloto',
             compact(
                 'datos','funcion_tripulante','grados_militares','ubicaciones'
             )
@@ -750,7 +969,7 @@ class FormaFAMController extends Controller
         $user_auth=auth()->user();
 
         $datos = Empleado::find($id);
-        return view('forms.reporte_vuelos',
+        return view('dao.operacionesAereas.forms.reporte_vuelos',
             compact(
                 'datos'
             )
@@ -758,7 +977,7 @@ class FormaFAMController extends Controller
     }
 
     public function imprimir_reporte(Request $request) {
-        $this->validate($request, 
+        $this->validate($request,
             [
                 'desde' => 'required',
                 'hasta' => 'required',
@@ -800,7 +1019,7 @@ class FormaFAMController extends Controller
             return back()
             ->with('warning','No se puede generar el reporte, no existen registros para el periodo solicitado');
         };
-        
+
         $anteriores = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
         ->where('fam0001_b1_tripulacion.codigo_funcion','=','P')
@@ -811,10 +1030,10 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
-        
-        $pdf = \PDF::loadview('forms.imprimir_reporte', compact('piloto', 'anteriores'));
+
+        $pdf = \PDF::loadview('dao.operacionesAereas.forms.imprimir_reporte', compact('piloto', 'anteriores'));
 
         return $pdf->stream('REPORTE.pdf');
-        //return view('forms.imprimir_reporte', compact('piloto'));
+        //return view('dao.forms.imprimir_reporte', compact('piloto'));
     }
 }
