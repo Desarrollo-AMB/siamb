@@ -1,0 +1,117 @@
+@extends('layouts.user_type.auth')
+@section('title', 'Usuarios')
+@section('content')
+@if ($message = Session::get('success'))
+<div class="alert alert-success mx-4" role="alert">
+    <span class="text-white">{{ $message }}</span>
+</div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">ASIGNAR NUEVA PRIMA</h5>
+                    </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.asignacionprima') }}">Volver</a>
+
+                </div>
+                <div class="card-body px-2 pt-2 pb-2" >
+                    {!! Form::open(array('route' => 'sireh.nomina.primas.asignacionNuevaPrima','method'=>'POST', 'id' => 'asignar-prima-form')) !!}
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 ">
+                            <div class="form-group">
+                                <strong>Primas Disponibles:</strong>
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
+                                {!! Form::hidden('cedula', $dataemp['cedula']) !!}
+                                {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
+                                {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
+                                {!! Form::hidden('codigo_empleado', $dataemp['codigo_empleado']) !!}
+                                {!! Form::hidden('tipo', 'A') !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Asignar</button>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+
+
+
+                </div>
+            </div>
+            <hr class="horizontal dark my-0">
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    $(function (){
+        var table = $('#table').DataTable({
+            responsive: true,
+            pageLength: 25,
+
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+
+        $('#table').on('click', '.confirmar-delete', function (event) {
+            event.preventDefault();
+            var idForm= $(this).attr('form-target');
+            Swal.fire({
+                title: 'Estas Seguro de Eliminar?',
+                text: "No podrás revertir esto.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#'+idForm).submit();
+                    Swal.fire({
+                        title: 'Eliminado!',
+                        text: 'La prima ha sido eliminada con exito.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+@endsection
