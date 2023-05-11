@@ -44,7 +44,7 @@
                                         {!! Form::open(array('route' => 'users.store','method'=>'POST', 'id'=>'crear_usuario')) !!}
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="row">
+                                                <div class="row"> 
                                                     {{--<div class="col-xs-12 col-sm-12 col-md-12">
                                                         <div class="form-group">
                                                             <strong>Nombre:</strong>
