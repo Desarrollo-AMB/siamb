@@ -18,4 +18,8 @@ class parte_general extends Model
         'situacion',
         'observacion',
     ];
+    public function ubicacion()
+    {
+        return $this->belongsTo(Ubicaciones::class, 'codigo_ubicacion');
+    }
 }

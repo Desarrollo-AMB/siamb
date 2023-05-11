@@ -54,7 +54,7 @@
                                             @foreach ($parte_generales as $parte_general)
                                             <tr>
                                                 <th>Presente</th>
-                                                <td>{{ $parte_general->totalq }}</td>
+                                                <td>{{ $parte_general->total1 }}</td>
                                             </tr>
                                             <tr>
                                                 <th>faltan</th>
@@ -62,67 +62,67 @@
                                             </tr>
                                             <tr>
                                                 <th>Servicio en la Unidad</th>
-                                                <td>{{ $parte_general->total3 }}</td>
+                                                <td>{{ $parte_general->total2 }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Servicio feura de la unidad</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total3}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Retardado</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total4}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Permiso</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total5}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Comisión País</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total6}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Comisíon Exterior</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total7}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Curso País</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total8}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Curso Exterior</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total9}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Ausente sin Causa Justificada</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total10}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Destacado fuera de la Unidad</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total11}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Consulta</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total12}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Reposo</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total13}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Hospiatalizado</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total14}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Desertor</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total15}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Privado de Libertad</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total16}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Otro</th>
-                                                <td>{{ $parte_general->total2}}</td>
+                                                <td>{{ $parte_general->total17}}</td>
                                             </tr>
 
                                             @endforeach
