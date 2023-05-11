@@ -1118,7 +1118,7 @@ class PersonalController extends Controller
                 'ubicaciones.descripcion as ubicacion',
                 'cargos.nombre_cargo as cargo',
             )
-            ->limit(2800)
+            //->limit(2800)
             ->orderBy('nomina.grado_militar','asc')
             ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
             ->orderBy('datos_militares.fecha_graduacion','asc')
