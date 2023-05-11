@@ -23,27 +23,47 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
-                                    <select name="base_estacion" class="form-control base_estacion load_estacion">
-                                        <option value=""></option>
-                                        @foreach ($bases as $data)
-                                            <option value="{{ $data->id }}">{{ $data->descripcion }} -
-                                                {{ $data->siglas }}</option>
-                                        @endforeach
-                                    </select>
+                                    @role('aviacion_dao')
+                                        <select name="base_estacion" class="form-control base_estacion load_estacion" disabled="true">
+                                            <option value="{{ $baseSelect->id }}">{{ $baseSelect->descripcion }} - {{ $baseSelect->siglas }}</option>
+                                        </select>
+                                    @endrole
+                                    @role('aviacion_grupo_aereo|administrador')
+                                        <select name="base_estacion" class="form-control base_estacion load_estacion">
+                                            <option value="{{ $baseSelect->id }}">{{ $baseSelect->descripcion }} - {{ $baseSelect->siglas }}</option>
+                                            @foreach ($bases as $data)
+                                                <option value="{{ $data->id }}">{{ $data->descripcion }} -
+                                                    {{ $data->siglas }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endrole
                                 </div>
                             </div>
                             <div class="col-2">
                                 <h6>Selecionar</h6>
-                                <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect">
-                                    <option value="">Seleccionar...</option>
-                                    @foreach($matriculas as $data)
-                                            <option value="{{$data->matricula}}">{{$data->matricula}}</option>
-                                    @endforeach
-                                </select>
+                                @role('aviacion_dao')
+                                    <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect"
+                                    disabled>
+                                        <option value="">Seleccionar...</option>
+                                    </select>
+                                @endrole
+                                @role('aviacion_grupo_aereo|administrador')
+                                    <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect">
+                                        <option value="">Seleccionar...</option>
+                                        @foreach($matriculas as $data)
+                                                <option value="{{$data->matricula}}">{{$data->matricula}}</option>
+                                        @endforeach
+                                    </select>
+                                @endrole
                             </div>
                             <div class="col-6" id="div_matricula_input">
                                 <h6>MATRICULAS ALTERNAS</h6>
-                                <input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%" value="{{ $headerFam0001[0]->matriculas_alternas }}">
+                                @role('aviacion_dao')
+                                    <input readonly type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%" value="{{ $headerFam0001[0]->matriculas_alternas }}">
+                                @endrole
+                                @role('aviacion_grupo_aereo|administrador')
+                                    <input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%" value="{{ $headerFam0001[0]->matriculas_alternas }}">
+                                @endrole
                             </div>
                         </div>
                         <!-- fin de otro formato -->
@@ -66,69 +86,78 @@
                                 </tr>
                             </thead>
                             <tbody id="A1_data">
-                                <tr>
-                                    <td>
-                                        <span> v1 </span>
-                                    </td>
-                                    <td>
-                                        <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
-                                            <option value=""></option>
-                                            @foreach($vueloOrdenadaPor as $data)
-                                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="siglas" class="form-control siglas load_siglas">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($codigoTipoMisionSiglas as $data)
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="codigo" class="form-control codigo load_codigo">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                                @foreach($codigoMision as $data)
-                                                    <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                                @foreach ($A1_mision as $data)
+                                    <tr>
+                                        <td>
+                                            <span> v {{ $data->vuelo }} </span>
+                                        </td>
+                                        <td>
+                                            <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
+                                                <option value="{{ $data->ordenada_por }}">{{ $data->ordenada_por }}</option>
+                                                @foreach($vueloOrdenadaPor as $datosOrdenadaPor)
+                                                    <option value="{{$datosOrdenadaPor->codigo}}">{{$datosOrdenadaPor->codigo}}</option>
                                                 @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($bases as $data)
-                                                {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($bases as $data)
-                                                {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
-                                    </td>
-                                    <td>
-                                        <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
-                                    </td>
-                                    <td>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="siglas" class="form-control siglas load_siglas">
+                                                <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                                @foreach($codigoTipoMisionSiglas as $datos)
+                                                    <option value="{{$datos->siglas}}">{{$datos->siglas}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="codigo" class="form-control codigo load_codigo">
+                                                <option value="{{ $data->numero }}">{{ $data->numero }}</option>
+                                                    @foreach($codigoMision as $datoscodigo)
+                                                        <option title="{{$datoscodigo->nombre}}" value="{{$datos->datoscodigo}}">{{$datos->datoscodigo}}</option>
+                                                    @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
+                                                <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}</option>
+                                                @foreach($bases as $dataruta_desde)
+                                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                    <option value="{{$dataruta_desde->siglas}}">{{$dataruta_desde->siglas}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
+                                                <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}</option>
+                                                @foreach($bases as $dataruta_hasta)
+                                                    {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
+                                                    <option value="{{$dataruta_hasta->siglas}}">{{$dataruta_hasta->siglas}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase" value="{{ $data->encend }}">
+                                        </td>
+                                        <td>
+                                            <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase" value="{{ $data->apag }}">
+                                        </td>
+                                        <td>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div style="padding-top:5px" class="row">
-                            <div  class="pull-right">
-                                <button style="float: right; background: green;color: white;" type="button" class="btn-sm btn-success agregar_mision add_edit_input" id="agregar_mision">Agregar Pierna</button>
-                                <button style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision" id="actualizar_a1_mision">ACTUALIZAR</button>
-                            </div>
+                            @role('aviacion_grupo_aereo|administrador')
+                                <div  class="pull-right">
+                                    <button style="float: right; background: green;color: white;" type="button" class="btn-sm btn-success agregar_mision add_edit_input" id="agregar_mision">Agregar Pierna</button>
+                                    <button style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision" id="actualizar_a1_mision">ACTUALIZAR</button>
+                                </div>
+                            @endrole
+                            @role('aviacion_dao|administrador')
+                                <div style="text-align: center;">
+                                    <button style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success" id="">REVISADO</button>
+                                </div>
+                            @endrole
                         </div>
                     </div>
                 </div>
@@ -143,7 +172,10 @@
             var id_fam0001;
             var fam0001_a1_mision_id;
             var ov_ota_om;
+            var base_estacion;
+            var siglasUnidad;
 
+            base_estacion = $('.base_estacion').val();
 
             //PASO 1 Convierto en select2 los campos que lo necesitan
             $('.base_estacion').select2();
@@ -153,6 +185,11 @@
             $('.ruta_desde').select2();
             $('.ruta_hasta').select2();
             $('#matriculaSelect').select2();
+
+            $('.base_estacion').change(function(e) {
+                e.preventDefault();
+                base_estacion = $('.base_estacion').val();
+            });
 
 
             //LIMPIAR A1
@@ -363,89 +400,16 @@
                                 //PASOS COMPLETADOS
                                 if(dataHeader>0){
                                     var unidad = response.unidad[0].unidad;
+                                    siglasUnidad = famSteps.unidad;
                                     $("#ov_ota_om").text(famSteps.ov_ota_om);
                                     $("#aeronave").text(famSteps.aeronaves.aeronave+ " - MATRÍCULA: " +famSteps.matricula);
                                     $("#unidad_componente").text(unidad+ " - " +famSteps.componente_organismo);
-
                                     //CARGAR DATOS DE PASOS
 
                                     $("#fecha_cabecera").val(famSteps.fecha);
-
                                     $("#serial").val(famSteps.serial);
-
                                     $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
-
                                     $(".load_unidad").val(famSteps.unidad).trigger('change')
-
-                                    cargarAeronavesModelos(famSteps.unidad)
-                                    setTimeout(function() {
-                                        $(".load_aeronave").val(famSteps.aeronave_modelo).trigger('change')
-                                    }, 1200);
-
-                                    cargarMatriculas(famSteps.aeronave_modelo)
-                                    setTimeout(function() {
-                                        $(".load_matricula").val(famSteps.matricula).trigger('change')
-                                    }, 3300);
-
-
-                                    $(".load_estacion").val(famSteps.base_estacion).trigger('change')
-                                    $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
-
-                                    //CARGAR PASO 2
-                                    let A1Steps = response.A1_data
-                                    if (A1Steps.length>0) {
-                                        $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
-
-                                        var counter = 1;
-                                        $.each(A1Steps, function (key, value){
-                                        $('#A1_data').append(
-                                            "<tr id='delete_a1_mision"+value.id+"'>\
-                                            <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                            <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                            <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                            <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                            <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                            <td style='padding-left: 20px;'><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
-                                            </tr>");
-                                            counter += 1;
-                                        })
-
-                                        /*$('.delete_a1_mision').on('click', function (event) {
-                                        event.preventDefault();
-                                        var id = $(this).val();
-                                            Swal.fire({
-                                                title: 'Estas Seguro de Eliminar?',
-                                                text: "No podrás revertir esto.!",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                confirmButtonText: 'Si!'
-                                                }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    $.ajax({
-                                                        url:"{{ route('delete_a1_mision') }}",
-                                                        method:'POST',
-                                                        data:{id:id},
-                                                        cache: false,
-                                                        dataType: 'json',
-                                                        success: function(response){
-                                                            if(response){
-                                                                cleanA1()
-                                                                $("#delete_a1_mision"+id+"").remove();
-                                                            }
-                                                        }
-                                                    });
-                                                    Swal.fire({
-                                                        title: 'Eliminado!',
-                                                        text: 'La Misión ha sido eliminado.',
-                                                        icon: 'success',
-                                                        timer: 3000,
-                                                        showConfirmButton: true,
-                                                    });
-                                                }
-                                            });
-                                        }); */
 
                                         //EDITAR MISION
                                         /*$(".editar_a1_mision").click(function() {
@@ -521,7 +485,7 @@
                                             });
                                         });
                                         updateClean_A1() */
-                                    }
+
 
                                     //EDITAR PASO 1
                                     /*$("#editar_paso1").click(function() {
@@ -577,12 +541,12 @@
                     url:"{{ route('store_a1') }}",
                     method:'POST',
                     data:{
-                        ordenada_por:"",
-                        codigo:"",
-                        ruta_desde:"",
-                        ruta_hasta:"",
-                        encend:"",
-                        apag:"",
+                        ordenada_por:siglasUnidad,
+                        codigo:"EVENTUAL",
+                        ruta_desde:"EVENTUAL",
+                        ruta_hasta:"EVENTUAL",
+                        encend:"00:00",
+                        apag:"00:00",
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
@@ -593,7 +557,7 @@
 
                                 A1_id = response.A1_id[0];
                                 nuevaOperacionVuelo =
-                                '<tr id="row"><td><span>V'+A1_id.vuelo+'</span></td><td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value=""></option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value=""></option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo"><option value=""></option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde"><option value=""></option>@foreach($bases as $data){{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta"><option value=""></option>@foreach($bases as $data){{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td><input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value='+A1_id.id+' style="background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger" id="DeleteRow">X</button></td></tr>';
+                                '<tr id="row"><td><span>V'+A1_id.vuelo+'</span></td><td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value="'+siglasUnidad+'">'+siglasUnidad+'</option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value="EVENTUAL">EVENTUAL</option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo"><option value="EVENTUAL">EVENTUAL</option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde"><option value="EVENTUAL">EVENTUAL</option>@foreach($bases as $data){{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta"><option value="EVENTUAL">EVENTUAL</option>@foreach($bases as $data){{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td><input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value='+A1_id.id+' style="background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger" id="DeleteRow">X</button></td></tr>';
 
 
                                 $('#A1_data').append(nuevaOperacionVuelo);

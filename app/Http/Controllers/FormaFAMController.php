@@ -206,11 +206,26 @@ class FormaFAMController extends Controller
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
         $A1_mision = Fam0001A1Mision::where('fam0001_id',$fam_id)->get();
+        foreach ($A1_mision as $mision) {
+            if($mision->codigo == null || $mision->codigo == '' || $mision->codigo == 'EVENTUAL'){
+                $mision->codigo = 'EVENTUAL';
+                $mision->siglas = 'EVENTUAL';
+                $mision->numero = 'EVENTUAL';
+            } else{
+                $codigo = $mision->codigo;
+                $siglas = substr($codigo, 0, 1);
+                $numero = substr($codigo, 2);
+                $mision->siglas = $siglas;
+                $mision->numero = $numero;
+            }
+        }
         $headerFam0001 = Fam0001::where('id',$fam_id)->with('aeronaves')->get();
         $matriculas = AeronaveMatricula::whereNotIn('matricula', [$headerFam0001[0]->matricula])->where('aeronave_id', [$headerFam0001[0]->aeronave_modelo])->get();
+        $baseSelect = Base::where('id',$headerFam0001[0]->base_estacion)->get();
+        $baseSelect = $baseSelect[0];
         $fam0001 = $fam_id;
 
-        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001'));
+        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'baseSelect'));
     }
 
     public function programacion_data(Request $request)
@@ -268,16 +283,19 @@ class FormaFAMController extends Controller
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha_manana)->where('completado', 'enviado')->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                $fam0001_data = Fam0001::whereDate('fecha', $fecha_manana)->where('completado', 'enviado')->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','actualizado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_data = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','actualizado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
                     $fam0001[$value['unidad']][] = $value;
                 }
+                return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
             }
             elseif(count($ubicacion)>0){
                 $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+                $unidad = $ubicacion[0]['codigos'];
+                return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001','unidad'));
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
@@ -289,9 +307,8 @@ class FormaFAMController extends Controller
             foreach ($fam0001_unidad as $key => $value) {
                 $fam0001[$value['unidad']][] = $value;
             }
+            return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
         }
-
-        return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
     }
 
     public function FormaFAM_status($fam_id)
@@ -315,7 +332,6 @@ class FormaFAMController extends Controller
         $A1_mision = Fam0001A1Mision::get();
         $funcion = FuncionTripulante::get();
         $despegue = CodigoDespegue::get();
-
         $fam0001 = $fam_id;
         return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
 
@@ -464,6 +480,22 @@ class FormaFAMController extends Controller
                 'success' => true,
                 'message' => 'Data inserted successfully',
                 'data' => $dataFam001,
+            ]
+        );
+    }
+
+
+    public function enviarProgramacionDao(Request $request)
+    {
+        $enviar_programacion = Fam0001::where('unidad', $request->unidad)->where('fecha',$request->fecha)->update(['completado' => 'enviado',
+        ]);
+
+        //return response()->json($request);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'enviada con éxito',
+                'data' => $enviar_programacion,
             ]
         );
     }
