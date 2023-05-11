@@ -207,6 +207,8 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     //Route::get('/juntapermanente/ascenso', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.ascenso.index');
     //Route::get('/juntapermanente/reportes', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.reportes.index');
+
+    Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
     //CRUD Tabla Cargos
     Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');
     Route::get('/auxiliares/cargos/create', [CargosController::class, 'create'])->name('auxiliares.cargos.create');
