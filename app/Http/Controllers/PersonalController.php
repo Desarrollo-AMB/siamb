@@ -1457,7 +1457,7 @@ class PersonalController extends Controller
 
         $this->validate($request,
             [
-                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
+                'cedula' => 'required',
                 'nombre1' => 'required',
                 'apellido1' => 'required',
                 'ubicacion' => 'required',
