@@ -1959,7 +1959,7 @@ class controllerjuntap extends Controller
         $grado = $request->input('select_comando1');
 
         $categoria = $request->input('categoria');
-
+        $fecha = $request->input('fecha');
         $empleados = [];
 
 
