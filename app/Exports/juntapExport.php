@@ -53,6 +53,8 @@ class juntapExport implements FromCollection, WithHeadings, WithStyles, WithTitl
             'Apellido',
             
             'Grado a Ascender',
+            'punto',
+            'Demerito',
         ];
     }
 
