@@ -59,7 +59,7 @@
                                         <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_1" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -106,13 +106,13 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="flush-headingTwo">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                                Oficiales Técnicos Medicina 
+                                                Oficiales Técnicos Medicina
                                             </button>
                                         </h2>
                                         <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_2" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -152,7 +152,7 @@
                                                             </tr>
                                                         </thead>
                                                     </table>
-                                                </form>        
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                         <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_3" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -218,7 +218,7 @@
                                         <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_4" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -271,7 +271,7 @@
                                         <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_5" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -324,7 +324,7 @@
                                         <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_6" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -377,7 +377,7 @@
                                         <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 <form name="graduar"  id="graduar_7" class="form-graduar"
-                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}" 
+                                                    method="post" action="{{route('sireh.personal-militar-noprof.graduar')}}"
                                                     >
                                                     @csrf
                                                     <div class="row align-items-center">
@@ -432,7 +432,7 @@
 </div>
 @endsection
 @push('plugins-js')
-    <script src="{{ asset('vendor/datatables/dataTables.checkboxes.min.js') }}" ></script> 
+    <script src="{{ asset('vendor/datatables/dataTables.checkboxes.min.js') }}" ></script>
 @endpush
 @section('scripts')
 @parent
@@ -440,6 +440,7 @@
     var gradosData = Array();
     $(document).ready(function() {
         grados();
+        
         var table1 = $('#table1').DataTable({
             processing: true,
             serverSide: true,
@@ -465,16 +466,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -532,16 +533,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -599,16 +600,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -666,16 +667,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -733,16 +734,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -800,16 +801,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('TE');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -867,16 +868,16 @@
                 {data: 'cedula',},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: null, render: function ( data, type, row ) {
-                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1; 
+                    return data.nombre1 +' '+data.nombre2 +', '+data.apellido1;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`; 
+                    return `MIL`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
                     var grado=buscarGrado('S/2');
-                    return grado.descripcion; 
+                    return grado.descripcion;
                     }
                 },
             ],
@@ -967,7 +968,7 @@
                             $("#fecha_ascenso",form).val('');
                             $("#fecha_resuelto",form).val('');
                             $("#numero_resuelto",form).val('');
-                            $('#table'+numThis).DataTable().ajax.reload(); 
+                            $('#table'+numThis).DataTable().ajax.reload();
                             Swal.fire({
                                 title: 'Graduacion!',
                                 text: 'Proceso realizado satisfactoriamente...',
@@ -976,8 +977,8 @@
                                 showConfirmButton: true,
                             });
                         }
-                    }); 
-                }                
+                    });
+                }
             }else {
                 Swal.fire(
                     {
@@ -987,27 +988,27 @@
                         timer: 5000,
                         showConfirmButton: true,
                     }
-                );   
+                );
             }
         });
     });
 
     function grados(){
         $.get('/api/grados-militares'  ,function(data) {
-            $.each(data, function(fetch, grado){ 
+            $.each(data, function(fetch, grado){
                 var objeto =   {
                     'codigo': grado.codigo_grado,
                     'siglas': grado.siglas,
                     'descripcion': grado.descripcion,
-                };       
+                };
                 gradosData.push(objeto);
             });
-        }); 
+        });
     }
 
     function buscarGrado(nuevoGrado){
-        var results = gradosData.filter(function (grados) { 
-            return grados.siglas == nuevoGrado; 
+        var results = gradosData.filter(function (grados) {
+            return grados.siglas == nuevoGrado;
         });
         var firstObj = (results.length > 0) ? results[0] : null;
         return firstObj;

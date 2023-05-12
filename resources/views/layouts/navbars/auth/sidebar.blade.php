@@ -31,7 +31,7 @@
           <span class="nav-link-text ms-1">Vista Administrativa</span>
         </a>
       </li>
-      @endrole 
+      @endrole
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu del Sistema</h6>
       </li>
@@ -49,7 +49,7 @@
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-users"><title>Usuarios</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">Usuarios</span>
         </a>
@@ -66,11 +66,11 @@
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">RRHH </span>
         </a>
-        
+
         <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
@@ -85,6 +85,37 @@
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>
             </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                <a class="{{ (Request::is('sireh/nomina/index') ? 'active' : '') }}" href="{{ route('sireh.nomina.index') }}">Nomina</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4" class="collapsed nav-link " aria-controls="collapseExample" >
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fa fa-shield"><title>JUNTA PERMANENTE</title></i>
+
+          </div>
+          <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
+        </a>
+
+        <div class="panel-collapse collapse {{ (Request::is('juntap/*') ) ? 'show' : '' }}"  id="collapseListGroup4" >
+          <ul style="margin-left:40px;" class="list-group">
+          {{--
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
+            </li>--}}
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
+            </li>
+
           </ul>
         </div>
       </li>
@@ -92,11 +123,11 @@
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
-            
+
           </div>
           <span class="nav-link-text ms-1">Bienestar Social </span>
         </a>
-        
+
         <div class="panel-collapse collapse {{ (Request::is('bienestar-social/*') ) ? 'show' : '' }}"  id="collapseListGroup3" >
           <ul style="margin-left:40px;" class="list-group">
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
@@ -113,27 +144,50 @@
             <span class="nav-link-text ms-1">Tablas Auxiliares</span>
         </a>
       </li>
-      @endrole 
-      @role('aviacion|administrador')
+      @endrole
+      @role('aviacion_dao|aviacion_grupo_aereo|administrador')
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-plane"><title>Registros de vuelos</title></i>
-          </div>
+            <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="color:#3a416f" class="fa fa-plane">
+                    <title>Direción de Apresto Operacional</title>
+                </i>
+            </div>
 
-          <span class="nav-link-text ms-1">Registros de vuelos</span>
-        </a>
+                        <span class="nav-link-text ms-1">DAO</span>
+                    </a>
 
-        <div class="panel-collapse collapse {{ ((Request::is('forms/*') ) ? 'show' : '') }}"  id="collapseListGroupFam" >
-          <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('fam0001') ? 'active' : '') }}" href="{{ url('fam0001') }}">- FAM-0002</a></li>
+                    <div class="panel-collapse collapse {{ Request::is('dao.forms/*') ? 'show' : '' }}"
+                        id="collapseListGroupFam">
 
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('forms/listado_pilotos') ? 'active' : '') }}" href="{{ route('forms.listado_pilotos') }}">- Reporte de Pilotos</a></li>
-          </ul>
-        </div>
-      </li>
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/index') ? 'active' : '' }}" href="{{ route('dao.index') }}">-
+                                    Operaciones Aéreas
+                                </a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/militar') ? 'active' : '' }}" href="{{ route('dao.militar') }}">-
+                                    Personal
+                                </a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/aeronaves') ? 'active' : '' }}" href="{{ route('dao.aeronaves') }}">-
+                                    Aeronaves
+                                </a>
+                            </li>
+                            {{-- <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
+                                    class="{{ Request::is('fam0001') ? 'active' : '' }}" href="{{ url('fam0001') }}">-
+                                    FAM-0002</a></li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
+                                    class="{{ Request::is('forms/listado_pilotos') ? 'active' : '' }}"
+                                    href="{{ route('forms.listado_pilotos') }}">- Reporte de Pilotos</a></li> --}}
+                        </ul>
+                    </div>
+                </li>
 
-      {{--<li class="nav-item">
+                {{-- <li class="nav-item">
         <a class="nav-link {{ (Request::is('forms/listado_pilotos'))}}" href="{{ route('forms.listado_pilotos') }}">
         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i style="color:#3a416f" class="fas fa-file-pdf text-lg"><title>Reporte de Pilotos</title></i>
@@ -141,7 +195,7 @@
             <span class="nav-link-text ms-1">Reporte de Pilotos</span>
         </a>
       </li>--}}
-      @endrole 
+      @endrole
       {{--
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>
@@ -165,7 +219,7 @@
           </div>
           <span class="nav-link-text ms-1">Tables</span>
         </a>
-      </li>      
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ (Request::is('virtual-reality') ? 'active' : '') }}" href="{{ url('virtual-reality') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -253,7 +307,7 @@
         </a>
       </li> --}}
 
-      {{-- <li class="nav-item">
+            {{-- <li class="nav-item">
         <a class="nav-link  " href="{{ url('static-sign-up') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -275,7 +329,7 @@
           <span class="nav-link-text ms-1">Sign Up</span>
         </a>
       </li> --}}
-      {{-- <li class="nav-link mb-0">
+            {{-- <li class="nav-link mb-0">
         <a href="https://www.creative-tim.com/product/soft-ui-dashboard-pro-laravel" class="btn btn-primary btn-md active px-5 text-white" target="_blank" role="button" aria-pressed="true">
             Upgrade to PRO</a>
       </li> --}}
@@ -293,7 +347,7 @@
     </div>
   </div>
   <div class="sidenav-footer mx-3 ">
-  
+
   </div>
   {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">

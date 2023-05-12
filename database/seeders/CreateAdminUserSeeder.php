@@ -45,6 +45,10 @@ class CreateAdminUserSeeder extends Seeder
         $role = Role::create(['name' => 'personal_civil', 'guard_name'=>'web']);
         $role = Role::create(['name' => 'personal_militar', 'guard_name'=>'web']);
         $role = Role::create(['name' => 'consulta', 'guard_name'=>'web']);
+        $permissions = Permission::pluck('id','id')->all();
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
 
+        
     }
 }

@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12">
                             <div class="card-body">
-                                <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                <table id="table" class="table table-striped table-bordered nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
                                             <th>Cedula</th>
@@ -138,7 +138,7 @@
                                 <label for="recipient-name" class="col-form-label">Seleccionar Función</label>
                                 <select class="form-control funcion select2" id="funcion" name="funcion[]" multiple="multiple" required>
                                     {{--<option value="">Seleccione...</option>
-                                    @foreach($funcionEmpleado as $data) 
+                                    @foreach($funcionEmpleado as $data)
                                         <option value="{{$data->id}}">{{$data->funcion}}</option>
                                     @endforeach--}}
                                 </select>
@@ -271,7 +271,7 @@
                             window.location.reload();
                         }
                     }
-                }); 
+                });
             }
         });
 
@@ -280,7 +280,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         //FUNCIONES PARA LOS EMPLEADOS
         table.on('click', '.funcion_empleado', function() {
             var id = $(this).data("id");
@@ -300,20 +300,20 @@
                         /*$('#modal-view-funcion_empleado').on('shown.bs.modal', function(e) {
                             $('#modal-view-funcion_empleado #codigo_empleado_funcion').val(res.codigo_empleado);
                         })*/
-                        
+
                         $("#funcion").empty();
                         $("#funcion").select2({ placeholder: "Seleccione la Funcion"});
                         $.each(response.funcionTripulante, function (key, value){
                             $("#funcion").append("<option value=\""+value.id+"\">"+value.funcion+"</option>");
                         });
-                       
+
                         $('#funcion').val(response.idsFuncion);
-                                    
+
                         $('#funcion').trigger('change');
-                        
+
                         /*if (response.haveFuncion.length > 0) {
                             $('.showLabel').prop('hidden', false);
-                            $("#haveFuncion").empty(); 
+                            $("#haveFuncion").empty();
                             $.each(response.haveFuncion, function (key, value){
                                 $('#haveFuncion').append(
                                     "<div id='row'>\
@@ -339,8 +339,8 @@
                         alert('Fallo en la peticion con el servidor')
                     }
                 }
-            });  
-            $('#modal-view-funcion_empleado').modal("show");  
+            });
+            $('#modal-view-funcion_empleado').modal("show");
         });
         $(".enviar_funcion").click(function(e){
             e.preventDefault();
@@ -352,7 +352,7 @@
                     icon: 'warning',
                     timer: 3000,
                     showConfirmButton: true,
-                }); 
+                });
             }else{
                 //ENVIAR
                 $.ajax({
@@ -414,7 +414,7 @@
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: true,
-                    });   
+                    });
                 }
             });
         })
