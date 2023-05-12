@@ -37,6 +37,8 @@
                 <th>Apellido</th>
                 <th>Grado militar</th>
                 <th>Grado a ascender</th>
+                <th>punto</th>
+                <th>demerito</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +50,8 @@
                 <td>{{ $empleado->apellido1 }}</td>
                 <td>{{ $empleado->grado_militar }}</td>
                 <td>{{ $empleado->grado_ascender }}</td>
+                <td>{{ $empleado->punto }}</td>
+                <td>{{ $empleado->demerito }}</td>
             </tr>
             @endforeach
         </tbody>

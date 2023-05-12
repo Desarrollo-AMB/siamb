@@ -57,9 +57,9 @@
                                             <option selected>Seleccionar...</option>
                                             <option value="comando">Oficiales de Comando</option>
                                             <option value="tecnico">Oficiales Técnicos</option>
-                                            <option value="ofitropa">Oficiales de Tropa</option>
-                                            <option value="asimiladotec">Oficiales Asimilado Técnico</option>
+                                            <option value="ofitropa">Oficiales de Tropa</option>                                           
                                             <option value="asimilado">Oficiales Asimilados</option>
+                                            <option value="asimiladotec">Oficiales Asimilado Técnico</option>
                                             <option value="tropaprofesional">Tropa Profesional</option>
                                             
                                           </select>  
@@ -113,9 +113,9 @@
                                         selectCategoria.innerHTML = `
                                           <option selected>Seleccionar...</option>
                                           
-                                          <option value="ofitropa">Oficiales de Tropa</option>
-                                          <option value="asimiladotec">Oficiales Asimilado Técnico</option>
+                                          <option value="ofitropa">Oficiales de Tropa</option>                                         
                                           <option value="asimilado">Oficiales Asimilados</option>
+                                          <option value="asimiladotec">Oficiales Asimilado Técnico</option>
                                         `;
                                       } else {
                                         selectCategoria.innerHTML = `
@@ -123,8 +123,8 @@
                                           <option value="comando">Oficiales de Comando</option>
                                           <option value="tecnico">Oficiales Técnicos</option>
                                           <option value="ofitropa">Oficiales de Tropa</option>
-                                          <option value="asimiladotec">Oficiales Asimilado Técnico</option>
                                           <option value="asimilado">Oficiales Asimilados</option>
+                                          <option value="asimiladotec">Oficiales Asimilado Técnico</option>
                                           <option value="tropaprofesional">Tropa Profesional</option>
                                         `;
                                       }

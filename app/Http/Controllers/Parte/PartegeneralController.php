@@ -25,12 +25,12 @@ class PartegeneralController extends Controller
     public function index()
     {
 
-        $nomina_count = Nomina::where('situacion', ['A', 'S'])
+        $nomina_count = Nomina::whereIn('situacion', ['A', 'S'])
             ->whereIn('tipo_emp', ['MIL', 'TRP'])
             ->count();
         $presente_count = DB::table('parte_general')
             ->join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
-            ->where('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.situacion', ['A', 'S'])
             ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->where('parte_general.situacion', 'presente')
             ->count();
@@ -187,8 +187,9 @@ class PartegeneralController extends Controller
         )->get();
         // Conteo de la tabla parte_general
                  $parte_generales = Nomina::join('parte_general', 'nomina.codigo_empleado', '=', 'parte_general.codigo_empleado')
-            ->where('Nomina.situacion', ['A', 'S'])
+            ->whereIn('Nomina.situacion', ['A', 'S'])
             ->whereIn('Nomina.tipo_emp', ['MIL', 'TRP'])
+            ->whereDate('parte_general.fecha', now()->toDateString())
             ->select(
                 \DB::raw('count(*) as total'),
                 \DB::raw('sum(parte_general.situacion = "presente") as total1'),
@@ -211,7 +212,6 @@ class PartegeneralController extends Controller
 
 
             )
-            ->groupBy('Nomina.situacion')
             ->get();
 
 
@@ -232,10 +232,12 @@ class PartegeneralController extends Controller
         $parte = parte_general::
         select('fecha');
         $nominas = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+
             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
             ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
             ->where('ubicaciones.codigo_ubicacion', '=', $codigo_ubicacion)
+            ->whereIn('nomina.situacion',['A', 'S'])
             ->select(
                 'nomina.grado_militar',
                 'empleados.nombre1',
@@ -247,10 +249,53 @@ class PartegeneralController extends Controller
                 'nomina.codigo_ubicacion',
                 'nomina.grado_militar'
             )
+            ->orderByRaw("CASE WHEN Nomina.grado_militar = '010' THEN 1
+            WHEN Nomina.grado_militar = '015' THEN 2
+            WHEN Nomina.grado_militar = '020' THEN 3
+            WHEN Nomina.grado_militar = '030' THEN 4
+            WHEN Nomina.grado_militar = '040' THEN 5
+            WHEN Nomina.grado_militar = '050' THEN 6
+            WHEN Nomina.grado_militar = '060' THEN 7
+            WHEN Nomina.grado_militar = '070' THEN 8
+            WHEN Nomina.grado_militar = '080' THEN 9
+            WHEN Nomina.grado_militar = '090' THEN 10
+            WHEN Nomina.grado_militar = '410' THEN 11
+            WHEN Nomina.grado_militar = '420' THEN 12
+            WHEN Nomina.grado_militar = '430' THEN 13
+            WHEN Nomina.grado_militar = '440' THEN 14
+            WHEN Nomina.grado_militar = '450' THEN 15
+            WHEN Nomina.grado_militar = '460' THEN 16
+            WHEN Nomina.grado_militar = '470' THEN 17 END, Nomina.grado_militar")
+            ->orderByRaw("CASE
+                            WHEN datos_militares.codigo_categoria = 1 THEN 1
+                            WHEN datos_militares.codigo_categoria = 4 THEN 2
+                            WHEN datos_militares.codigo_categoria = 5 THEN 3
+                            WHEN datos_militares.codigo_categoria = 7 THEN 4
+                            WHEN datos_militares.codigo_categoria = 2 THEN 5
+                            WHEN datos_militares.codigo_categoria = 6 THEN 6
+                            WHEN datos_militares.codigo_categoria = 8 THEN 7
+                        END")
             ->get();
 
 
+
         return view('sireh.personal.militar.parte.create', compact('nominas','parte'));
+    }
+    public function indexregistro(){
+    {
+        $ubicaciones = Ubicaciones::all();
+
+        $partesGenerales = parte_general::whereDate('fecha', Carbon::today())->get();
+        $partesGeneralesPorUbicacion = $partesGenerales->groupBy('codigo_ubicacion');
+
+        $ubicacionesConRegistro = $ubicaciones->filter(function ($ubicacion) use ($partesGeneralesPorUbicacion) {
+            return $partesGeneralesPorUbicacion->has($ubicacion->codigo_ubicacion);
+        })->values();
+
+        $ubicacionesSinRegistro = $ubicaciones->diff($ubicacionesConRegistro);
+
+        return view('sireh.personal.militar.parte.registro', compact('ubicacionesConRegistro', 'ubicacionesSinRegistro'));
+    }
     }
 
 
@@ -316,42 +361,45 @@ class PartegeneralController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        try {
-            $nominas = $request->input('nominas');
-            $fecha = $request->input('fecha');
 
-            // Comprobar si la fecha ya existe para una ubicación específica
-            foreach ($nominas as $nomina) {
-                $parteExistente = parte_general::where([
-                    ['fecha', '=', $fecha],
-                    ['codigo_ubicacion', '=', $nomina['codigo_ubicacion']]
-                ])->first();
 
-                if ($parteExistente) {
-                    $mensajeError = 'Ya existe un parte para la fecha y ubicación especificadas';
-                    return redirect()->back()->withErrors( $mensajeError);
-                }
+{
+    try {
+        $nominas = $request->input('nominas');
+        $fecha = $request->input('fecha');
+
+        // Comprobar si la fecha ya existe para una ubicación específica
+        foreach ($nominas as $nomina) {
+            $parteExistente = parte_general::where([
+                ['fecha', '=', $fecha],
+                ['codigo_ubicacion', '=', $nomina['codigo_ubicacion']]
+            ])->first();
+
+            if ($parteExistente) {
+                $mensajeError = 'Ya existe un parte para la fecha y ubicación especificadas';
+                return redirect()->back()->withErrors($mensajeError);
             }
-
-            // Guardar las nuevas nominas
-            foreach ($nominas as $nomina) {
-                $parte = new parte_general;
-                $parte->fecha = $fecha;
-                $parte->codigo_empleado = $nomina['codigo_empleado'];
-                $parte->codigo_ubicacion = $nomina['codigo_ubicacion'];
-                $parte->codigo_categoria = $nomina['codigo_categoria'];
-                $parte->grado_militar = $nomina['grado_militar'];
-                $parte->situacion = $nomina['situacion'];
-                $parte->observacion = $nomina['observacion'];
-                $parte->save();
-            }
-
-            return redirect()->route('sireh.personal.militar.parte.create')->with('success_message', 'Parte fue ingresado con éxito');
-        } catch (\Exception $e) {
-            return redirect()->route('sireh.personal.militar.parte.create')->with('errors', 'Errors al guardar los datos: '.$e->getMessage());
         }
+
+        // Guardar las nuevas nominas
+        foreach ($nominas as $nomina) {
+            $parte = new parte_general;
+            $parte->fecha = $fecha;
+            $parte->codigo_empleado = $nomina['codigo_empleado'];
+            $parte->codigo_ubicacion = $nomina['codigo_ubicacion'];
+            $parte->codigo_categoria = $nomina['codigo_categoria'];
+            $parte->grado_militar = $nomina['grado_militar'];
+            $parte->situacion = $nomina['situacion'];
+            $parte->observacion = $nomina['observacion'];
+            $parte->save();
+        }
+
+        return redirect()->route('sireh.personal.militar.parte.create')->with('success_message', 'Parte fue ingresado con éxito');
+    } catch (\Exception $e) {
+        return redirect()->route('sireh.personal.militar.parte.create')->with('errors', 'Errors al guardar los datos: '.$e->getMessage());
     }
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -445,14 +493,14 @@ class PartegeneralController extends Controller
         $fechas = $request->fecha;
 //dd([$valueParametro]);
 ////obtener los datos del la tabala nomina////////////
-           $nomina_count = Nomina::where('situacion', ['A', 'S'])
+           $nomina_count = Nomina::whereIn('situacion', ['A', 'S'])
         ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
 
         ->whereIn('nomina.codigo_ubicacion', [$valueParametro])
         ->count();
     $presente_count = DB::table('parte_general')
         ->join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->where('nomina.situacion', ['A', 'S'])
+        ->whereIn('nomina.situacion', ['A', 'S'])
         ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
         ->where('parte_general.situacion', 'presente')
         ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
@@ -466,20 +514,51 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
                 ->join('grados_militares','grados_militares.codigo_grado','=','parte_general.grado_militar')
                 ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
                 ->where('parte_general.fecha', [$fechas])
-                ->where('nomina.situacion', ['A', 'S'])
+                ->whereIn('nomina.situacion', ['A', 'S'])
                 ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
                 ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
                 'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
                 ,'categorias_militares.descripcion as categoria')
-                ->get();
+                ->orderByRaw("CASE WHEN Nomina.grado_militar = '010' THEN 1
+                WHEN Nomina.grado_militar = '015' THEN 2
+                WHEN Nomina.grado_militar = '020' THEN 3
+                WHEN Nomina.grado_militar = '030' THEN 4
+                WHEN Nomina.grado_militar = '040' THEN 5
+                WHEN Nomina.grado_militar = '050' THEN 6
+                WHEN Nomina.grado_militar = '060' THEN 7
+                WHEN Nomina.grado_militar = '070' THEN 8
+                WHEN Nomina.grado_militar = '080' THEN 9
+                WHEN Nomina.grado_militar = '090' THEN 10
+                WHEN Nomina.grado_militar = '410' THEN 11
+                WHEN Nomina.grado_militar = '420' THEN 12
+                WHEN Nomina.grado_militar = '430' THEN 13
+                WHEN Nomina.grado_militar = '440' THEN 14
+                WHEN Nomina.grado_militar = '450' THEN 15
+                WHEN Nomina.grado_militar = '460' THEN 16
+                WHEN Nomina.grado_militar = '470' THEN 17 END, Nomina.grado_militar")
+                ->orderByRaw("CASE
+                                WHEN categorias_militares.codigo_categoria = 1 THEN 1
+                                WHEN categorias_militares.codigo_categoria = 4 THEN 2
+                                WHEN categorias_militares.codigo_categoria = 5 THEN 3
+                                WHEN categorias_militares.codigo_categoria = 7 THEN 4
+                                WHEN categorias_militares.codigo_categoria = 2 THEN 5
+                                WHEN categorias_militares.codigo_categoria = 6 THEN 6
+                                WHEN categorias_militares.codigo_categoria = 8 THEN 7
+                            END")
+
+
+            ->get();
+
+
 //dd($presente_count);
         $datas = Nomina::join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')
             ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
             ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->where('parte_general.fecha', [$fechas])
+            ->whereIn('nomina.situacion', ['A', 'S'])
             ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
-            ->select('ubicaciones.descripcion as ubicacion',
+            ->select('ubicaciones.descripcion as ubicacion','parte_general.fecha as fecha',
                 \DB::raw('count(*) as total'),
                 \DB::raw('sum(parte_general.situacion = "presente") as total1'),
                 \DB::raw('sum(parte_general.situacion = "Servicio en la Unidad") as total2'),
@@ -616,8 +695,8 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
 
 
 
-        $pdf = \PDF::loadView('sireh.personal.militar.parte.reporte.rep_parte_unidad', compact('datas', 'nomina_count', 'ausentes_count','list'));
-
+        $pdf = \PDF::loadView('sireh.personal.militar.parte.reporte.rep_parte_unidad', compact('datas', 'nomina_count', 'ausentes_count','list'))
+        ->setPaper('letter', 'portrait');
         return $pdf->stream('parte.pdf',array('Attachment'=>0));
         //return view('bienestar_social.reporte_devolucion5', compact('datas'));
 

@@ -25,6 +25,7 @@
                         <div>
                             <h5 class="mb-0">Parte</h5>
                         </div>
+                        <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('sireh.personal.militar.parte.reporte.reportes') }}">Reporte</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -40,7 +41,7 @@
                                         <table id="nomina-table"
                                             class="table table-sm table-bordered table-hover w-100 nowrap" >
                                             <thead>
-                                                <tr>
+                                                <tr><th>N°</th>
                                                     <th>Grado</th>
                                                     <th>Nombre </th>
                                                     <th>Apellido</th>
@@ -50,8 +51,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php
+                                                    $i = 1;
+                                                @endphp
                                                 @foreach ($nominas as $nomina)
                                                     <tr>
+                                                        <td>{{ $i++ }}</td>
                                                         <td>{{ $nomina->siglas }}
                                                             <input type="hidden" name="codigo_empleado"
                                                                 value="{{ $nomina->codigo_empleado }}">
@@ -150,15 +155,22 @@
 
         });
     </script>
-    <script>
+       <script>
         $(document).ready(function() {
-            $('#nomina-table').DataTable({
-                fixedHeader: true // Agregamos la opción de fixedHeader a la tabla
-            });
 
+            $('#nomina-table').DataTable({
+                paging: false, // Desactivamos la paginación. Con esto evitamos que la tabla se divida en varias páginas
+                fixedHeader: true, // Agregamos la opción de fixedHeader a la tabla
+                scrollY: "900px", // Altura de la tabla
+                scrollCollapse: true // Colapsar el tamaño de la tabla cuando no haya datos suficientes para llenar la altura
+            });
+            new $.fn.DataTable.FixedHeader( table );
+
+        });
+
+        $(document).ready(function() {
             $('#btn-guardar').click(function() {
                 var nominas = [];
-
                 $('#nomina-table tbody tr').each(function() {
                     var nomina = {
                         codigo_empleado: $(this).find('input[name="codigo_empleado"]').val(),
@@ -175,20 +187,6 @@
         });
 
         function store(nominas) {
-            var tableData = $('#nomina-table').DataTable().data().toArray();
-            var nominas = [];
-            tableData.forEach(function(row) {
-                var nomina = {
-                    codigo_empleado: row[0],
-                    codigo_ubicacion: row[1],
-                    codigo_categoria: row[2],
-                    grado_militar: row[3],
-                    situacion: row[4],
-                    observacion: row[5],
-                };
-                nominas.push(nomina);
-            });
-
             $.ajax({
                 url: "{{ route('sireh.personal.militar.parte') }}",
                 method: 'POST',
