@@ -309,4 +309,6 @@ Route::get('no_authorize', function () {
 })->name('no_authorize');
 
 Route::post('/bienestar-social/reporte/devolucion5', [ReportesBSController::class, 'reporteDevolucion5'])->name('bienestar-social.reporte.devolucion5');
+Route::post('/bienestar-social/reporte/cargafamiliar', [ReportesBSController::class, 'reporteCargaFamiliar'])->name('bienestar-social.reporte.cargafamiliar');
+Route::post('/bienestar-social/reporte/bajas', [ReportesBSController::class, 'reporteBajas'])->name('bienestar-social.reporte.bajas');
 Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [PersonalController::class, 'reportePersonalMilitarNoProfJerarquiaUbicacion'])->name('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion');
