@@ -77,16 +77,16 @@
                                                                         <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
                                                                         <th  class="font-weight-normal">{{$datamision->fecha}}</th>
                                                                         <th class="font-weight-normal">
-                                                                            @if($datamision->completado == 'actualizado')
-                                                                                <label class="badge bg-gradient-info">{{$datamision->completado}}</label>
+                                                                            @if($datamision->completado == 'revisado')
+                                                                                <label class="badge bg-gradient-info status-programacion-ceo">REVISADO</label>
                                                                             @elseif ($datamision->completado == 'enviado')
-                                                                                <label class="badge bg-gradient-primary">ENVIADO</label>
+                                                                                <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
                                                                             @endif
-                                                                        </th>
+                                                                        </th> 
                                                                         <th class="font-weight-normal">
                                                                             @role('aviacion_dao|administrador')
-                                                                            <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                                            <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
+                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i> Revisar
                                                                             </a>
                                                                             @endrole
                                                                         </th>
@@ -101,6 +101,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button id="enviarReporteCeo" disabled class="btn btn-info" value="">Enviar y Generar Reporte</button>
                         </div>
                     </div>
                 </div>
@@ -139,6 +142,8 @@
                                                             <label class="badge bg-gradient-primary status-programacion">ENVIADO</label>
                                                         @elseif ($data->completado == 'actualizado')
                                                             <label class="badge bg-gradient-info status-programacion">ACTUALIZADO</label>
+                                                        @elseif ($data->completado == 'revisado')
+                                                            <label class="badge bg-gradient-success status-programacion">REVISADO</label>
                                                         @endif
                                                     </th>
                                                     <th class="font-weight-normal">
@@ -154,7 +159,7 @@
                                     </table>
                                 </div>
                                 <div style="text-align: center;">
-                                    <button id="enviarProgramacionDao" class="btn btn-info" value="{{ $unidad }}">Enviar Programación</button>
+                                    <button id="enviarProgramacionDao" disabled class="btn btn-info" value="{{ $unidad }}">Enviar Programación</button>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +183,26 @@
 
 
         // Comprobar si hay programacion sin enviar o actualizada
+        var completadoReporteCeo = true;
+        var existe = 0;
+        $(".status-programacion-ceo").each(function() {
+            existe = 1;
+            if ($(this).text() === "ENVIADO") {
+                $("#enviarReporteCeo").prop("disabled", true);
+                completadoReporteCeo = false;
+                return false;
+            }
+        });
+        if (completadoReporteCeo) {
+            $("#enviarReporteCeo").prop("disabled", false);
+        }
+
+        if (existe == 0) {
+            $("#enviarReporteCeo").prop("disabled", true);
+        }
+
+
+        // Comprobar si hay programacion sin enviar o actualizada
         var completadoEnviado = true;
         $(".status-programacion").each(function() {
             if ($(this).text() === "PROGRAMANDO") {
@@ -189,9 +214,6 @@
                 $("#enviarProgramacionDao").prop("disabled", false);
                 completadoEnviado = false;
                 return false;
-            }
-            if ($(this).text() !== "ENVIADO") {
-                completadoEnviado = false;
             }
         });
         if (completadoEnviado) {
@@ -251,6 +273,36 @@
                     }
                 });
             }
+        });
+
+        $("#enviarReporteCeo").click(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('enviarReporteCeo') }}",
+                method: 'POST',
+                data: {
+                    fecha: fechaManana
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response)
+
+                        Swal.fire({
+                            title: 'Programación Enviada con éxito!',
+                            text: 'Se Creo Correctamente.',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+
+                        window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
         });
 
     });

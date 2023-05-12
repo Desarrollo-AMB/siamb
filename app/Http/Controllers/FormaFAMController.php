@@ -288,7 +288,7 @@ class FormaFAMController extends Controller
     }
 
 
-    public function fam0001()
+    public function fam0001() 
     {
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
@@ -327,8 +327,8 @@ class FormaFAMController extends Controller
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','actualizado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                $fam0001_data = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','actualizado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','revisado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_data = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','revisado'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
@@ -337,7 +337,7 @@ class FormaFAMController extends Controller
                 return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
             }
             elseif(count($ubicacion)>0){
-                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->whereIn('completado', ['enviado','revisado','actualizado','programando'])->where('user_id',$user_id)->with('aeronaves')->get();
                 $unidad = $ubicacion[0]['codigos'];
                 return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001','unidad'));
             }else{
@@ -529,10 +529,23 @@ class FormaFAMController extends Controller
     }
 
 
+    public function enviarReporteCeo(Request $request)
+    {
+        $enviar_reporte_ceo = Fam0001::where('fecha',$request->fecha)->where('completado', 'revisado')->update(['completado' => 'paso1']);
+
+        //return response()->json($request);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'enviada con éxito',
+                'data' => $enviar_reporte_ceo,
+            ]
+        );
+    }
+
     public function enviarProgramacionDao(Request $request)
     {
-        $enviar_programacion = Fam0001::where('unidad', $request->unidad)->where('fecha',$request->fecha)->update(['completado' => 'enviado',
-        ]);
+        $enviar_programacion = Fam0001::where('unidad', $request->unidad)->where('fecha',$request->fecha)->whereIn('completado', ['programando', 'actualizado'])->update(['completado' => 'enviado']);
 
         //return response()->json($request);
         return response()->json(
@@ -540,6 +553,20 @@ class FormaFAMController extends Controller
                 'success' => true,
                 'message' => 'enviada con éxito',
                 'data' => $enviar_programacion,
+            ]
+        );
+    }
+
+    public function revisarProgramacion(Request $request)
+    {
+        $programacion_revisada = Fam0001::where('id',$request->id)->update(['completado' => 'revisado']);
+
+        //return response()->json($request);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'enviada con éxito',
+                'data' => $programacion_revisada,
             ]
         );
     }
@@ -559,6 +586,8 @@ class FormaFAMController extends Controller
     public function store_a1(Request $request)
     {
         $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
+
+        $programacion_actualizada = Fam0001::where('id',$request->fam0001_id)->update(['completado' => 'actualizado']);
 
         $flyLoop = count($checkVuelo);
 
