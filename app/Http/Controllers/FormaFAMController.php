@@ -200,25 +200,47 @@ class FormaFAMController extends Controller
     }
 
     public function imprimirProgramacion() {
-
-
         $hoy = Carbon::now();
-        $hoy = $hoy->format('d-m-Y H:i:s');
-        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy;
+        $hoy_condicion = $hoy->addDay();
+        $hoy_condicion = $hoy_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
+
+        $mision = Fam0001A1Mision::all();
+        $vuelo = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
+        //->join('aeronave_modelo','aeronave_modelo.modelo','=','fam0001.aeronave_modelo')
+        ->where('fam0001_a1_mision.completado','=','programando')
+        ->where('fam0001.fecha','=',$hoy_condicion)
+        ->select(
+            'fam0001.unidad AS unidad',
+            'fam0001.aeronave_modelo AS aeronave_modelo',
+            'fam0001.matricula AS matricula',
+            //'fam0001.matriculas_alternas AS matriculas_alternas',
+            'fam0001_a1_mision.ordenada_por AS ordenada_por',
+            'fam0001_a1_mision.codigo AS codigo',
+            'fam0001_a1_mision.ruta_desde AS ruta_desde',
+            'fam0001_a1_mision.ruta_hasta AS ruta_hasta',
+            'fam0001_a1_mision.encend AS encend',
+            'fam0001_a1_mision.apag AS apag'
+        )
+        ->get();
+
+        dd($vuelo);
+
+        $hoy_titulo = $hoy->format('d-m-Y H:i:s');
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
         //dd($nombre_archivo);
 
-        /*if(!$familiares){
+        if(!$vuelo){
             return back()
-            ->with('warning','No se puede generar el reporte, no existen registros que correspondan a su busqueda');
-        };*/
+            ->with('warning','No se puede generar el reporte, no existen registros');
+        };
 
         $nombre_archivo = sprintf('PROGRAMACIÓN DE VUELOS %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
 
-        $data = compact('titulo');
+        //$data = compact('titulo');
         //dd($nombre_archivo);
 
         //return Excel::download(new CargaFamiliarExport($data), $nombre_archivo);
-        return view('excel.programacion_vuelos', compact('titulo'));
+        return view('excel.programacion_vuelos', compact('titulo','vuelo'));
     }
 
     public function editProgramacion($fam_id)

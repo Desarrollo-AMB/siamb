@@ -83,7 +83,7 @@
     <tr>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">GRUPO</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">SISTEMA/MATRICULA</td>
-        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MATRICULAS ALTERNAS</td>
+        {{-- <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MATRICULAS ALTERNAS</td> --}}
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">A LA ORDEN DE</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MISIÓN/RUTA</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" colspan="2">HORA</td>
@@ -96,20 +96,32 @@
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">MILITAR</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">CIVIL</td>
     </tr>
-    {{-- @foreach($datos as $row)
+    @foreach($vuelo as $row)
         @php
-            $fecha_graduacion = date("d/m/Y", strtotime($row->fecha_graduacion));
+            $codigo = $row->codigo;
+            $codigo = preg_replace('/[^0-9]/', '', $codigo);
+
+            /*switch ($codigo) {
+                case 'value':
+                    # code...
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }*/
         @endphp
         <tr>
-            <td>{{ $row->siglas . ' - ' . $row->grado_militar }}</td>
-            <td> {{ $row->cedula }}</td>
-            <td>{{ $row->nombre . ' '. $row->nombre2  }}</td>
-            <td>{{ $row->apellido1.' '. $row->apellido2  }}</td>
-            <td>{{ $row->genero }}</td>
-            <td>{{ $row->categoria_militar }}</td>
-            <td>{{ $row->situacion }}</td>
-            <td>{{ $fecha_graduacion }}</td>
-            <td>{{ $row->ubicacion }}</td>
+            <td>{{ $row->unidad }}</td>
+            <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
+            {{-- <td>{{ $row->matriculas_alternas }}</td> --}}
+            <td>{{ $row->ordenada_por }}</td>
+            <td>{{ $row->codigo.', '.$codigo.', '.$row->ruta_desde.'-'.$row->ruta_hasta }}</td>
+            <td>{{ $row->encend }}</td>
+            <td>{{ $row->apag }}</td>
+            <td>{{ 'militar' }}</td>
+            <td>{{ 'civil' }}</td>
+            <td>{{ 'carga libras' }}</td>
         </tr>
-    @endforeach--}}
+    @endforeach
 </table>
