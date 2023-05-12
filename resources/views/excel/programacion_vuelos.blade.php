@@ -116,7 +116,7 @@
             <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
             {{-- <td>{{ $row->matriculas_alternas }}</td> --}}
             <td>{{ $row->ordenada_por }}</td>
-            <td>{{ $row->codigo.', '.$codigo.', '.$row->ruta_desde.'-'.$row->ruta_hasta }}</td>
+            <td>{{ $row->codigo.', '.$row->ruta_desde.'-'.$row->ruta_hasta }}</td>
             <td>{{ $row->encend }}</td>
             <td>{{ $row->apag }}</td>
             <td>{{ 'militar' }}</td>
