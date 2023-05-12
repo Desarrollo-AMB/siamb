@@ -223,7 +223,7 @@ class FormaFAMController extends Controller
         )
         ->get();
 
-        //dd($vuelo);
+        dd($vuelo);
 
         $hoy_titulo = $hoy->format('d-m-Y H:i:s');
         $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
