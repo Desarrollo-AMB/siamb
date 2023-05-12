@@ -155,7 +155,7 @@
                             @endrole
                             @role('aviacion_dao|administrador')
                                 <div style="text-align: center;">
-                                    <button style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success" id="">REVISADO</button>
+                                    <button style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success" id="revisado">REVISADO</button>
                                 </div>
                             @endrole
                         </div>
@@ -578,6 +578,38 @@
             });
             $("body").on("click", "#DeleteRow", function () {
                 $(this).parents("#row").remove();
+            });
+
+             //PASO #1 - revisar Programacion
+            $("#revisado").click(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('revisarProgramacion') }}",
+                    method: 'POST',
+                    data: {
+                        id: id_fam0001
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response)
+
+                            Swal.fire({
+                                title: 'Programación Enviada con éxito!',
+                                text: 'Se Creo Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+
+                            window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                });
+                
             });
         });
     </script>
