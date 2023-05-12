@@ -82,7 +82,7 @@
                                                                             @elseif ($datamision->completado == 'enviado')
                                                                                 <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
                                                                             @endif
-                                                                        </th> 
+                                                                        </th>
                                                                         <th class="font-weight-normal">
                                                                             @role('aviacion_dao|administrador')
                                                                             <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">

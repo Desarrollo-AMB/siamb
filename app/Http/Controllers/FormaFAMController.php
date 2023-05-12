@@ -288,7 +288,7 @@ class FormaFAMController extends Controller
     }
 
 
-    public function fam0001() 
+    public function fam0001()
     {
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
