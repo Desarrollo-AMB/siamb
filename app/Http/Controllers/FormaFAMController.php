@@ -30,6 +30,7 @@ use App\Models\GradosMilitares;
 use App\Models\Ubicaciones;
 use DataTables;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
@@ -198,6 +199,27 @@ class FormaFAMController extends Controller
         return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
     }
 
+    public function imprimirProgramacion() {
+
+
+        $hoy = Carbon::now();
+        $hoy = $hoy->format('d-m-Y H:i:s');
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy;
+        //dd($nombre_archivo);
+
+        /*if(!$familiares){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros que correspondan a su busqueda');
+        };*/
+
+        $nombre_archivo = sprintf('PROGRAMACIÓN DE VUELOS %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+
+        $data = compact('titulo');
+        //dd($nombre_archivo);
+
+        //return Excel::download(new CargaFamiliarExport($data), $nombre_archivo);
+        return view('excel.programacion_vuelos', compact('titulo'));
+    }
 
     public function editProgramacion($fam_id)
     {

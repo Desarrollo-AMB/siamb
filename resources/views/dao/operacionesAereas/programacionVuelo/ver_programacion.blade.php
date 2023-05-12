@@ -29,7 +29,7 @@
                         @role('aviacion_grupo_aereo|administrador')
                         <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
                         @endrole
-                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Descargar Programación</a>
+                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
                     </div>
                 </div>
             </div>
