@@ -55,7 +55,7 @@ class FormaFAMController extends Controller
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha)->whereIn('completado', ['paso1', 'paso2', 'paso3', 'paso4'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
                 $fam0001_data = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
                 # Ordenar por unidad
                 $fam0001 = [];
