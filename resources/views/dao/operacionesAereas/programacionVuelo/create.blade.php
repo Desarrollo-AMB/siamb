@@ -467,7 +467,7 @@
                 if(apag === ""){
                     apag = "00:00";
                 }
-                
+
                 if(sigla === "EVENTUAL" || sigla === "" || sigla === null || numero === "" || numero === null || numero === "EVENTUAL"){
                     var codigo = "EVENTUAL";
                 }else{

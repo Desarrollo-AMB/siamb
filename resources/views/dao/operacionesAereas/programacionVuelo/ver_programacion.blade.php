@@ -25,9 +25,12 @@
                     <div class="col-4">
                         <h5 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
                     </div>
-                    @role('aviacion_grupo_aereo|administrador')
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
-                    @endrole
+                    <div class="col-2">
+                        @role('aviacion_grupo_aereo|administrador')
+                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
+                        @endrole
+                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Descargar Programación</a>
+                    </div>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
