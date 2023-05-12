@@ -42,6 +42,7 @@
                                                     <h6>Grado Militar:</h6>
                                                     <select class="select2 form-control" name="grado_militar" id="grado_militar">
                                                         <option value="">SELECCIONE...</option>
+                                                        <option value="TODOS">TODOS LOS GRADOS</option>
                                                         @foreach ($grados_militares as $row)
                                                             <option value="{{$row->codigo_grado}}">{{ $row->descripcion }} </option>
                                                         @endforeach

@@ -39,8 +39,10 @@ use App\Models\TipoDeBaja;
 use App\Models\Egresos;
 use App\Models\FuncionTripulante;
 use App\Models\EmpleadoFuncion;
+use App\Models\Escalafon;
 use App\Exports\PersonalMilitarExport;
 use App\Exports\PersonalMilitarEnFormacionExport;
+use PhpParser\Node\Stmt\Else_;
 
 class PersonalController extends Controller
 {
@@ -1085,49 +1087,120 @@ class PersonalController extends Controller
                 'grado_militar.required' => 'El Grado Militar es requerido'
             ]
         );
-        $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-        ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-        ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-        ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
-        ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
-        ->where('empleados.situacion','A')
-        ->where('nomina.grado_militar',$request->grado_militar)
-        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-        ->select(
-            'empleados.cedula',
-            'empleados.nombre1',
-            'empleados.nombre2',
-            'empleados.apellido1',
-            'empleados.apellido2',
-            'empleados.fecha_nacim',
-            'empleados.sexo',
-            'categorias_militares.descripcion as categoria',
-            'grados_militares.descripcion as grado_militar',
-            'datos_militares.orden_merito as orden_merito',
-            'datos_militares.total_orden_merito as total_merito',
-            'datos_militares.fecha_graduacion as graduacion',
-            'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
-            'datos_militares.fecha_retiro as retiro',
-            'em1.descripcion as especialidad1',
-            'em2.descripcion as especialidad2',
-            'ubicaciones.descripcion as ubicacion',
-            'cargos.nombre_cargo as cargo',
-        )
-        //->limit(50)
-        ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
-        ->orderBy('datos_militares.fecha_graduacion','asc')
-        ->orderBy('datos_militares.orden_merito','asc')
-        ->get();
+        $grado_militar = $request->grado_militar;
+        if ($grado_militar == 'TODOS') {
+            $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+            ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+            ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+            ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+            ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
+            ->where('nomina.situacion','A')
+            ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+            ->select(
+                'empleados.cedula',
+                'empleados.nombre1',
+                'empleados.nombre2',
+                'empleados.apellido1',
+                'empleados.apellido2',
+                'empleados.fecha_nacim',
+                'empleados.sexo',
+                'categorias_militares.codigo_categoria as categoria',
+                'grados_militares.codigo_grado as grado_militar',
+                'datos_militares.orden_merito as orden_merito',
+                'datos_militares.total_orden_merito as total_merito',
+                'datos_militares.fecha_graduacion as graduacion',
+                'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
+                'datos_militares.fecha_retiro as retiro',
+                'em1.descripcion as especialidad1',
+                'em2.descripcion as especialidad2',
+                'ubicaciones.descripcion as ubicacion',
+                'cargos.nombre_cargo as cargo',
+            )
+            //->limit(100)
+            ->orderBy('nomina.grado_militar','asc')
+            ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
+            ->orderBy('datos_militares.fecha_graduacion','asc')
+            ->orderBy('datos_militares.orden_merito','asc')
+            ->get();
+            //dd($empleados);
+        }
+        else {
+            $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+            ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+            ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+            ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+            ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
+            ->where('empleados.situacion','A')
+            ->where('nomina.grado_militar',$grado_militar)
+            ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+            ->select(
+                'empleados.cedula',
+                'empleados.nombre1',
+                'empleados.nombre2',
+                'empleados.apellido1',
+                'empleados.apellido2',
+                'empleados.fecha_nacim',
+                'empleados.sexo',
+                'categorias_militares.descripcion as categoria',
+                'grados_militares.descripcion as grado_militar',
+                'datos_militares.orden_merito as orden_merito',
+                'datos_militares.total_orden_merito as total_merito',
+                'datos_militares.fecha_graduacion as graduacion',
+                'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
+                'datos_militares.fecha_retiro as retiro',
+                'em1.descripcion as especialidad1',
+                'em2.descripcion as especialidad2',
+                'ubicaciones.descripcion as ubicacion',
+                'cargos.nombre_cargo as cargo',
+            )
+            ->limit(50)
+            ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
+            ->orderBy('datos_militares.fecha_graduacion','asc')
+            ->orderBy('datos_militares.orden_merito','asc')
+            ->get();
+        }
 
-        $agrupados = $empleados->groupBy('categoria');
+        foreach ($empleados as $row) {
+            $escalafon = new Escalafon;
+            $escalafon->cedula = $row->cedula;
+            $escalafon->nombre1 = $row->nombre1;
+            $escalafon->nombre2 = $row->nombre2;
+            $escalafon->apellido1 = $row->apellido1;
+            $escalafon->apellido2 = $row->apellido2;
+            $escalafon->fecha_nacim = $row->fecha_nacim;
+            $escalafon->sexo = $row->sexo;
+            $escalafon->categoria = $row->categoria;
+            $escalafon->grado_militar = $row->grado_militar;
+            $escalafon->orden_merito = $row->orden_merito;
+            $escalafon->total_merito = $row->total_merito;
+            $escalafon->graduacion = $row->graduacion;
+            $escalafon->ultimo_ascenso = $row->ultimo_ascenso;
+            $escalafon->retiro = $row->retiro;
+            $escalafon->especialidad1 = $row->especialidad1;
+            $escalafon->especialidad2 = $row->especialidad2;
+            $escalafon->ubicacion = $row->ubicacion;
+            $escalafon->cargo = $row->cargo;
+            $escalafon->save();
+        }
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','empleados'))->setPaper('a4', 'landscape');
+        $grados_mil = GradosMilitares::all();
+        $categorias_mil = CategoriasMilitares::all();
+
+        $escalafon = Escalafon::all();
+        Escalafon::truncate();
+
+        $agrupados = $escalafon->groupBy(['grado_militar', 'categoria']);
+
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','escalafon'))->setPaper('a4', 'landscape');
 
         return $pdf->stream('escalafon.pdf');
-        //return view('sireh.personal.militar.imprimirescalafon', compact('agrupados'));
+        //return view('sireh.personal.militar.imprimirescalafon', compact('grados_mil','categorias_mil','escalafon'));
     }
 
     //PERSONAL CIVIL FUNCTIONS
@@ -1632,8 +1705,11 @@ class PersonalController extends Controller
 
     public function reportesPersonalMilitarView()
     {
-        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','MEX','TRP'])->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])->orderBy('codigo_grado','asc')->get();
+        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','TRP'])
+        ->get();
         return view('sireh.personal.militar.reportes', compact(
+            'grados_militares',
             'categorias_militares',
         ));
     }
@@ -1650,20 +1726,30 @@ class PersonalController extends Controller
                 'reporte' => 'required',
                 'parametros' => 'required|array|min:1',
                 'parametros.*' => 'required|string|distinct',
+
+                'parametros1' => 'array|min:1',
+                'parametros1.*' => 'string|distinct',
             ],
             [
                 'parametros.*.required' => 'El Parametro es requerido',
+                'parametros1.*.required' => 'El Parametro es requerido',
             ]
 
         );
+
         $reporte=$request->reporte;
         $nameParametro =array_key_first($request->parametros);
         $valueParametro = $request->parametros[$nameParametro];
 
+        if($request->parametros1!="") {
+            $nameParametro1 =array_key_first($request->parametros1);
+            $valueParametro1 = $request->parametros1[$nameParametro1];
+        }
+
         $complementoTitulo='';
         switch ($reporte) {
             case 1:
-                $complementoTitulo= "DE BAJA POR CATEGORIA";
+                $complementoTitulo= "DE BAJA POR CATEGORIA Y GRADO";
                 $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
                     ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
                     ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
@@ -1672,6 +1758,7 @@ class PersonalController extends Controller
                     ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
                     ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
                     ->where('datos_militares.codigo_categoria', $valueParametro)
+                    ->where('nomina.grado_militar', $valueParametro1)
                     ->select(
                     'empleados.id',
                     'empleados.codigo_empleado',
@@ -1695,6 +1782,7 @@ class PersonalController extends Controller
                     'categorias_militares.descripcion as categoria_militar',
 
                 );
+                //dd($valueParametro1);
                 $datos = $empleados->get();
 
                 break;
@@ -1747,8 +1835,10 @@ class PersonalController extends Controller
 
     public function reportesPersonalMilitarNoProfView()
     {
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['ALI'])->orderBy('codigo_grado','asc')->orderBy('codigo_grado','asc')->get();
         $ubicaciones = Ubicaciones::all();
         return view('sireh.personal.militar_noprof.reportes', compact(
+            'grados_militares',
             'ubicaciones',
         ));
     }
@@ -1762,6 +1852,7 @@ class PersonalController extends Controller
 
         $this->validate($request,
             [
+                'reporte' => 'required',
                 'tipo_emp' => 'required',
                 'grado_militar' => 'required',
                 'ubicacion' => 'required',
@@ -1772,39 +1863,47 @@ class PersonalController extends Controller
 
         );
 
+        $reporte=$request->reporte;
         $codigo_ubicacion = $request->ubicacion;
         $grado_militar=$request->grado_militar;
         $ubicacion_descripcion = '';
-        $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-            ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-            ->whereIn('nomina.tipo_emp',['MIL','MEF']);
-        if($grado_militar!=='0'){
-            $empleados->where('nomina.grado_militar', $grado_militar);
-        }
-        if($codigo_ubicacion!=='0'){
-            $empleados->where('nomina.codigo_ubicacion', $codigo_ubicacion);
-            $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion',$codigo_ubicacion)->first()->value('descripcion');
 
-        }
-        $empleados->select(
-            'empleados.id',
-            'empleados.codigo_empleado',
-            'empleados.cedula',
-            'empleados.nombre1',
-            'empleados.nombre2',
-            'empleados.apellido1',
-            'empleados.apellido2',
-            'grados_militares.siglas as siglas',
-            'grados_militares.descripcion as grado_militar',
-            'ubicaciones.codigo_ubicacion',
-            'ubicaciones.descripcion as ubicacion',
-        );
+        switch ($reporte) {
+            case 1:
+                $complementoTitulo= "POR JERARQUIA Y UBICACIÓN";
+                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp',['ALI','MEF']);
+                if($grado_militar!=='0'){
+                    $empleados->where('nomina.grado_militar', $grado_militar);
+                }
+                if($codigo_ubicacion!=='0'){
+                    $empleados->where('nomina.codigo_ubicacion', $codigo_ubicacion);
+                    $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion',$codigo_ubicacion)->first()->value('descripcion');
 
-        $datos = $empleados->get();
+                }
+                $empleados->select(
+                    'empleados.id',
+                    'empleados.codigo_empleado',
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                    'grados_militares.siglas as siglas',
+                    'grados_militares.descripcion as grado_militar',
+                    'ubicaciones.codigo_ubicacion',
+                    'ubicaciones.descripcion as ubicacion',
+                );
+                //dd($complementoTitulo);
+                $datos = $empleados->get();
+
+            break;
+        }
         if(count($datos)>0){
             \Session::flash('success','Reporte Ejecutado con exito !');
             $titulo = 'LISTADO POR UBICACION DE MILITARES EN FORMACION Y/O LA TROPA ALISTADA';
