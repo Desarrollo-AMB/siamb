@@ -204,14 +204,14 @@ class FormaFAMController extends Controller
         $hoy_condicion = $hoy->addDay();
         $hoy_condicion = $hoy_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
 
-        $mision = Fam0001A1Mision::all();
+        /*$mision = Fam0001A1Mision::all();*/
         $vuelo = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
-        //->join('aeronave_modelo','aeronave_modelo.modelo','=','fam0001.aeronave_modelo')
+        ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->where('fam0001_a1_mision.completado','=','programando')
         ->where('fam0001.fecha','=',$hoy_condicion)
         ->select(
             'fam0001.unidad AS unidad',
-            'fam0001.aeronave_modelo AS aeronave_modelo',
+            'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
             //'fam0001.matriculas_alternas AS matriculas_alternas',
             'fam0001_a1_mision.ordenada_por AS ordenada_por',
@@ -223,7 +223,7 @@ class FormaFAMController extends Controller
         )
         ->get();
 
-        dd($vuelo);
+        //dd($vuelo);
 
         $hoy_titulo = $hoy->format('d-m-Y H:i:s');
         $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
