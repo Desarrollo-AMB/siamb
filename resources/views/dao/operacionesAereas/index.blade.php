@@ -70,6 +70,12 @@
                                                                                 <label class="badge bg-gradient-success">{{$datamision->completado}}</label>
                                                                             @elseif ($datamision->completado == 'paso1')
                                                                                 <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso2')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso3')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso4')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
                                                                             @endif
                                                                         </th>
                                                                         <th class="font-weight-normal">
