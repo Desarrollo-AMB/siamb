@@ -202,14 +202,14 @@ class FormaFAMController extends Controller
 
     public function imprimirProgramacion() {
         $hoy = Carbon::now();
-        $hoy_condicion = $hoy->addDay();
-        $hoy_condicion = $hoy_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
+        $mañana_condicion = $hoy->addDay();
+        $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
 
         /*$mision = Fam0001A1Mision::all();*/
         $vuelo = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
         ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
-        ->where('fam0001_a1_mision.completado','=','programando')
-        ->where('fam0001.fecha','=',$hoy_condicion)
+        ->where('fam0001.completado','=','revisado')
+        ->where('fam0001.fecha','=',$mañana_condicion)
         ->select(
             'fam0001.unidad AS unidad',
             'aeronave_modelo.modelo AS aeronave_modelo',
@@ -222,18 +222,19 @@ class FormaFAMController extends Controller
             'fam0001_a1_mision.encend AS encend',
             'fam0001_a1_mision.apag AS apag'
         )
+        ->orderBy('unidad','ASC')
         ->get();
 
         //dd($vuelo);
 
-        $hoy_titulo = $hoy->format('d-m-Y H:i:s');
-        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
-        //dd($nombre_archivo);
-
         if(!$vuelo){
             return back()
             ->with('warning','No se puede generar el reporte, no existen registros');
-        };
+        }
+
+        $hoy_titulo = $hoy->format('d-m-Y H:i:s');
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
+        //dd($nombre_archivo);
 
         $nombre_archivo = sprintf('PROGRAMACIÓN DE VUELOS %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
 
