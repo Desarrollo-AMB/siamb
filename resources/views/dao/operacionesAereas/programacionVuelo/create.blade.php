@@ -467,6 +467,7 @@
                 if(apag === ""){
                     apag = "00:00";
                 }
+
                 if(sigla === "EVENTUAL" || sigla === "" || sigla === null || numero === "" || numero === null || numero === "EVENTUAL"){
                     var codigo = "EVENTUAL";
                 }else{
@@ -498,7 +499,7 @@
                             if(response.success){
 
                                 var fam_id = response.data[0].fam0001_id;
-                                window.location.href = "{{URL::to('/dao/editar-programacion')}}/" + fam_id;
+                                window.location.href = "{{URL::to('/dao/ver-programacion')}}";
 
                             }
                         },

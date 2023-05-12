@@ -68,14 +68,20 @@
                                                                         <th class="font-weight-normal">
                                                                             @if($datamision->completado == 'completado')
                                                                                 <label class="badge bg-gradient-success">{{$datamision->completado}}</label>
-                                                                            @elseif ($datamision->completado == 'programacionEnv')
-                                                                                <label class="badge bg-gradient-warning">ENVIADO</label>
+                                                                            @elseif ($datamision->completado == 'paso1')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso2')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso3')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                            @elseif ($datamision->completado == 'paso4')
+                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
                                                                             @endif
                                                                         </th>
                                                                         <th class="font-weight-normal">
-                                                                            @role('aviacion_grupo_aereo|administrador')
-                                                                            <a href="{{route('FormaFAM.status', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
-                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                                            @role('aviacion_dao|administrador')
+                                                                            <a href="{{route('FormaFAM.status', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                                                <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
                                                                             </a>
                                                                             @endrole
                                                                         </th>
@@ -102,9 +108,6 @@
                                     <table id="vuelos" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
                                             <tr>
-                                                @role('aviacion_dao|administrador')
-                                                <th>UNIDAD</th>
-                                                @endrole
                                                 <th>MATRICULA</th>
                                                 <th>AERONAVE</th>
                                                 <th>BASE</th>
@@ -117,9 +120,6 @@
                                         <tbody>
                                             @foreach ($fam0001 as $data)
                                                 <tr>
-                                                    @role('aviacion_dao|administrador')
-                                                    <th  class="font-weight-normal">{{$data->unidad}}</th>
-                                                    @endrole
                                                     <th class="font-weight-normal">{{$data->matricula}}</th>
                                                     <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
                                                     <th class="font-weight-normal">
@@ -130,8 +130,8 @@
                                                     <th class="font-weight-normal">
                                                         @if($data->completado == 'completado')
                                                             <label class="badge bg-gradient-success">{{$data->completado}}</label>
-                                                        @elseif ($data->completado == 'programacionEnv')
-                                                            <label class="badge bg-gradient-warning">ENVIADO</label>
+                                                        @elseif ($data->completado == 'paso1')
+                                                            <label class="badge bg-gradient-warning">PENDIENTE</label>
                                                         @endif
                                                     </th>
                                                     <th class="font-weight-normal">
@@ -140,22 +140,6 @@
                                                             <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                         @endrole
-                                                        @role('aviacion_dao')
-                                                            @if($data->completado == 'programacionEnv')
-                                                                <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3 btn-sm btn-success" data-bs-toggle="tooltip" data-bs-original-title="Autorizar Vuelo">
-                                                                    <i class="fas fa-check" aria-hidden="true"></i>
-                                                                    Autorizar
-                                                                </a>
-                                                            @endif
-                                                        @endrole
-                                                        @if($data->completado == 'completado')
-                                                            {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                                <i class="fas fa-eye  text-info" aria-hidden="true"></i>
-                                                            </a> --}}
-                                                            {{--<a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
-                                                                <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
-                                                            </a>--}}
-                                                        @endif
                                                     </th>
                                                 </tr>
                                             @endforeach

@@ -15,12 +15,22 @@
         <div class="card mb-4 mx-4">
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
-                    <div>
+                    <div class="col-2">
+                        <h5 class="mb-0">
+                            <a class="btn-sm btn-dark btn-sm mb-0" href="{{ route('dao.index') }}">
+                                <i class="ti-arrow-left" aria-hidden="true"><title>Volver</title></i> &nbsp; Volver
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="col-4">
                         <h5 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
                     </div>
-                    @role('aviacion_grupo_aereo|administrador')
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
-                    @endrole
+                    <div class="col-2">
+                        @role('aviacion_grupo_aereo|administrador')
+                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
+                        @endrole
+                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
+                    </div>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -38,7 +48,7 @@
                                                         {{$key}}
                                                     </button>
                                                 </h2>
-                                                <div id="flush-collapse{{$key}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
+                                                <div id="flush-collapse{{$key}}" class="accordion-collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
                                                         <table id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
                                                             <thead>
@@ -67,16 +77,16 @@
                                                                         <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
                                                                         <th  class="font-weight-normal">{{$datamision->fecha}}</th>
                                                                         <th class="font-weight-normal">
-                                                                            @if($datamision->completado == 'completado')
-                                                                                <label class="badge bg-gradient-success">{{$datamision->completado}}</label>
+                                                                            @if($datamision->completado == 'revisado')
+                                                                                <label class="badge bg-gradient-info status-programacion-ceo">REVISADO</label>
                                                                             @elseif ($datamision->completado == 'enviado')
-                                                                                <label class="badge bg-gradient-primary">ENVIADO</label>
+                                                                                <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
                                                                             @endif
                                                                         </th>
                                                                         <th class="font-weight-normal">
-                                                                            @role('aviacion_grupo_aereo|administrador')
-                                                                            <a href="{{route('FormaFAM.status', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
-                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                                            @role('aviacion_dao|administrador')
+                                                                            <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
+                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i> Revisar
                                                                             </a>
                                                                             @endrole
                                                                         </th>
@@ -92,6 +102,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: center;">
+                            <button id="enviarReporteCeo" disabled class="btn btn-info" value="">Enviar y Generar Reporte</button>
+                        </div>
                     </div>
                 </div>
             @endrole
@@ -103,9 +116,6 @@
                                     <table id="vuelos" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
                                             <tr>
-                                                @role('aviacion_dao|administrador')
-                                                <th>UNIDAD</th>
-                                                @endrole
                                                 <th>MATRICULA</th>
                                                 <th>AERONAVE</th>
                                                 <th>BASE</th>
@@ -118,9 +128,6 @@
                                         <tbody>
                                             @foreach ($fam0001 as $data)
                                                 <tr>
-                                                    @role('aviacion_dao|administrador')
-                                                    <th  class="font-weight-normal">{{$data->unidad}}</th>
-                                                    @endrole
                                                     <th class="font-weight-normal">{{$data->matricula}}</th>
                                                     <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
                                                     <th class="font-weight-normal">
@@ -129,10 +136,14 @@
                                                     <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                     <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                     <th class="font-weight-normal">
-                                                        @if($data->completado == 'enviado')
-                                                            <label class="badge bg-gradient-success">{{$data->completado}}</label>
+                                                        @if($data->completado == 'programando')
+                                                            <label class="badge bg-gradient-danger status-programacion">PROGRAMANDO</label>
                                                         @elseif ($data->completado == 'enviado')
-                                                            <label class="badge bg-gradient-warning">ENVIADO</label>
+                                                            <label class="badge bg-gradient-primary status-programacion">ENVIADO</label>
+                                                        @elseif ($data->completado == 'actualizado')
+                                                            <label class="badge bg-gradient-info status-programacion">ACTUALIZADO</label>
+                                                        @elseif ($data->completado == 'revisado')
+                                                            <label class="badge bg-gradient-success status-programacion">REVISADO</label>
                                                         @endif
                                                     </th>
                                                     <th class="font-weight-normal">
@@ -141,27 +152,14 @@
                                                             <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                         @endrole
-                                                        @role('aviacion_dao')
-                                                            @if($data->completado == 'programacionEnv')
-                                                                <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3 btn-sm btn-success" data-bs-toggle="tooltip" data-bs-original-title="Autorizar Vuelo">
-                                                                    <i class="fas fa-check" aria-hidden="true"></i>
-                                                                    Autorizar
-                                                                </a>
-                                                            @endif
-                                                        @endrole
-                                                        @if($data->completado == 'completado')
-                                                            {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                                <i class="fas fa-eye  text-info" aria-hidden="true"></i>
-                                                            </a> --}}
-                                                            {{--<a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Imprimir">
-                                                                <i class="fas fa-solid fa-file-pdf text" aria-hidden="true" style="color: #ff0000b3;"></i>
-                                                            </a>--}}
-                                                        @endif
                                                     </th>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <div style="text-align: center;">
+                                    <button id="enviarProgramacionDao" disabled class="btn btn-info" value="{{ $unidad }}">Enviar Programación</button>
                                 </div>
                             </div>
                         </div>
@@ -182,6 +180,131 @@
         var fechaManana = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
         var fecha_inv = fechaManana.split('-').reverse().join('-');
         $('#fecha_cabecera').text(fecha_inv);
+
+
+        // Comprobar si hay programacion sin enviar o actualizada
+        var completadoReporteCeo = true;
+        var existe = 0;
+        $(".status-programacion-ceo").each(function() {
+            existe = 1;
+            if ($(this).text() === "ENVIADO") {
+                $("#enviarReporteCeo").prop("disabled", true);
+                completadoReporteCeo = false;
+                return false;
+            }
+        });
+        if (completadoReporteCeo) {
+            $("#enviarReporteCeo").prop("disabled", false);
+        }
+
+        if (existe == 0) {
+            $("#enviarReporteCeo").prop("disabled", true);
+        }
+
+
+        // Comprobar si hay programacion sin enviar o actualizada
+        var completadoEnviado = true;
+        $(".status-programacion").each(function() {
+            if ($(this).text() === "PROGRAMANDO") {
+                $("#enviarProgramacionDao").prop("disabled", false);
+                completadoEnviado = false;
+                return false;
+            }
+            if ($(this).text() === "ACTUALIZADO") {
+                $("#enviarProgramacionDao").prop("disabled", false);
+                completadoEnviado = false;
+                return false;
+            }
+        });
+        if (completadoEnviado) {
+            $("#enviarProgramacionDao").prop("disabled", true);
+        }
+
+
+
+        //FORMULARIO GUARDAR
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //PASO #1 - Enviar Programacion a la DAO
+        $("#enviarProgramacionDao").click(function(e) {
+            e.preventDefault();
+            var unidad = $("#enviarProgramacionDao").val();
+
+            //VALIDAR PASO UNO HEADER
+            if (unidad === "") {
+                Swal.fire({
+                    title: 'Atención!',
+                    text: 'Debes Tener un usuario para la unidad.',
+                    icon: 'warning',
+                    timer: 3000,
+                    showConfirmButton: true,
+                });
+                console.log('no puedes guardar datos vacios')
+            } else {
+                //ENVIAR
+
+                $.ajax({
+                    url: "{{ route('enviarProgramacionDao') }}",
+                    method: 'POST',
+                    data: {
+                        fecha: fechaManana,
+                        unidad: unidad,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response)
+
+                            Swal.fire({
+                                title: 'Programación Enviada con éxito!',
+                                text: 'Se Creo Correctamente.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+
+                            window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
+        $("#enviarReporteCeo").click(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('enviarReporteCeo') }}",
+                method: 'POST',
+                data: {
+                    fecha: fechaManana
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response)
+
+                        Swal.fire({
+                            title: 'Programación Enviada con éxito!',
+                            text: 'Se Creo Correctamente.',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+
+                        window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        });
+
     });
 
     $(function () {
