@@ -99,6 +99,10 @@ Route::get('forms/listado_pilotos/data', [FormaFAMController::class, 'data_pilot
 
 Route::get('sireh/personalcivil/jubilable', [JubiladosController::class, 'jubilablesPersonalCivil'])->name('api.sireh.personal-civil-jubilables.data');
 
+
+
+Route::get('dao/personalmilitar', [FormaFAMController::class, 'personalMilitarDao'])->name('api.dao.personal.militar.data');
+
 Route::get('forms/ver_listado_piloto/data/{cedula}', [FormaFAMController::class, 'verListadoPilotoData'])->name('api.forms.ver_listado_piloto.data');
 
 Route::get("grados-militares-noprof/{tipo_emp?}", [ApiController::class, 'getGradosMilitaresPersonalMilitarNoProf'])->name("api.grados_militares.noprof");
@@ -123,6 +127,8 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
  //Route::post('/juntapermanente/ascenso/reportes/reporteascenso', [controllerjuntap::class, 'ascreporte'])->name('api.juntap.reportes.ascrreporte');
  Route::post('/ascender/julio', [controllerjuntap::class, 'ascender_julio'])->name('api.juntap.ascenso.julio.ascender');
  Route::post('/ascender/diciembre', [controllerjuntap::class, 'ascender_diciembre'])->name('api.juntap.ascenso.diciembre.ascender');
+ Route::post('/juntapermanente/categoria/personal', [controllerjuntap::class, 'cambio_categoria_personal'])->name('api.juntap.cambio.categoria.personal');
+ Route::post('/juntapermanente/ascenso/personal', [controllerjuntap::class, 'ascender_personal'])->name('api.juntap.ascenso.personal');
   //JUNTA P2
  // Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.ascenso.index');
   //Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.reportes.index');

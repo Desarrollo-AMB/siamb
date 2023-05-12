@@ -1,0 +1,320 @@
+@extends('layouts.user_type.auth')
+@section('title', 'Usuarios')
+@section('content')
+@if (count($errors) > 0)
+<div class="alert alert-danger mx-4" role="alert">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Nueva Prima</h5>
+                    </div>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.primas') }}">Volver</a>
+                </div>
+            </div>
+            <hr class="horizontal dark my-0">
+            <div class="card-body px-2 pt-2 pb-2">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                            <div class="card-header p-0 pt-1 border-bottom-0">
+                                <ul class="nav nav-tabs" id="custom-tabs-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="custom-tabs-form-tab" data-bs-toggle="tab" href="#custom-tabs-form" role="tab" aria-controls="custom-tabs-form" aria-selected="false">Creación de prima</a>
+                                    </li>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-tabContent">
+                                    <div class="tab-pane fade active show" id="custom-tabs-form" role="tabpanel" aria-labelledby="custom-tabs-form-tab">
+                                        {!! Form::open(array('route' => 'sireh.nomina.primas.nueva','method'=>'POST', 'id'=>'crear_usuario')) !!}
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="row">
+                                                    {{--<div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Nombre:</strong>
+                                                            {!! Form::text('name', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>--}}
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Código de prima</strong>
+                                                            {!! Form::text('codigo', null, array('placeholder' => 'Código','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-10 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Nombre:</strong>
+                                                            {!! Form::text('nombre', null, array('placeholder' => 'Nombre','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <strong>Porcentaje:</strong>
+                                                            {!! Form::number('porcentaje', array('placeholder' => 'Porcentaje','class' => 'form-control')) !!}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                                        <div class="border-0 d-none d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg" id="div_seleccion">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-3 text-sm">Selección/Asociación Empleado/No Empleado</h6>
+                                                                <span class="mb-2 text-xs">
+                                                                    Cedula:
+                                                                    <span class="text-dark font-weight-bold ms-sm-2" id="seleccion_cedula"></span>
+                                                                </span>
+                                                                <span class="mb-2 text-xs">
+                                                                    Nombre y Apellido:
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_nombre"></span>
+                                                                </span>
+                                                                <span class="mb-2 text-xs">
+                                                                    Cargo:
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_cargo"></span>
+                                                                </span>
+                                                                <span class="text-xs">
+                                                                Ubicación:
+                                                                    <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_ubicacion"></span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                                <input  type="hidden" id="codigo_empleado" name="codigo_empleado" value="">
+                                                <input  type="hidden" id="componente_aviacion" name="componente_aviacion" value="true">
+                                                <button id="btn-submit" type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </div>
+                                        {!! Form::close() !!}
+                                    </div>
+                                    <div class="tab-pane fade " id="custom-tabs-empleados" role="tabpanel" aria-labelledby="custom-tabs-empleados-tab">
+                                        <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="false">Asociar</th>
+                                                    <th>Cedula</th>
+                                                    <th>Nombre </th>
+                                                    <th>Apellido</th>
+                                                    <th>Tipo Empleado</th>
+                                                    <th>Cargo</th>
+                                                    <th>Ubicacion</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade " id="custom-tabs-empleados2" role="tabpanel" aria-labelledby="custom-tabs-empleados2-tab">
+                                        <table id="table2" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                                            <thead>
+                                                <tr>
+                                                    <th data-sortable="false">Asociar</th>
+                                                    <th>Cedula</th>
+                                                    <th>Nombre </th>
+                                                    <th>Apellido</th>
+                                                    <th>Ubicacion</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(function () {
+        $('#roles').select2({
+                allowClear: true,
+                minimumResultsForSearch: -1,
+                width: 300
+             });
+        var table = $('#table').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            pageLength: 25,
+            ajax: "{{ route('api.personal.empleados.notuser') }}",
+            columns: [
+                {data: 'actions', name: 'action', orderable: false, searchable: false},
+                {data: 'cedula',},
+                {data: 'nombre1'},
+                {data: 'apellido1'},
+                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
+                {data: 'cargo', name: 'cargos.nombre_cargo'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion'},
+            ],
+            search: {
+                return: true,
+            },
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+
+        $('#table').on('click', '.confirm-asociar', function (event) {
+            event.preventDefault();
+            var codigo_empleado= $(this).data('id');
+            var cedula= $(this).data('cedula');
+            var name= $(this).data('name');
+            var cargo= $(this).data('cargo');
+            var ubicacion= $(this).data('ubicacion');
+            Swal.fire({
+                title: 'Empleado Seleccionado!',
+                text: "Esta seguro de asociarlo al usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#codigo_empleado').val(codigo_empleado);
+                    $('#componente_aviacion').val(1);
+                    $('#div_seleccion').removeClass("d-none");
+                    $('#seleccion_cedula').text(cedula);
+                    $('#seleccion_nombre').text(name);
+                    $('#seleccion_cargo').text(cargo);
+                    $('#seleccion_ubicacion').text(ubicacion);
+                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
+                }
+            });
+
+            return false;
+
+        });
+
+        var table2 = $('#table2').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            pageLength: 25,
+            ajax: "{{ route('api.personal.not-empleados.notuser') }}",
+            columns: [
+                {data: 'actions', name: 'action', orderable: false, searchable: false},
+                {data: 'cedula',},
+                {data: 'nombre1'},
+                {data: 'apellido1'},
+                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+            ],
+            search: {
+                return: true,
+            },
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+
+        $('#table2').on('click', '.confirm-asociar2', function (event) {
+            event.preventDefault();
+            var codigo_empleado= $(this).data('id');
+            var cedula= $(this).data('cedula');
+            var name= $(this).data('name');
+            var ubicacion= $(this).data('ubicacion');
+            Swal.fire({
+                title: 'Empleado Otro componente Seleccionado!',
+                text: "Esta seguro de asociarlo al usuario?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#codigo_empleado').val(codigo_empleado);
+                    $('#componente_aviacion').val(0);
+                    $('#div_seleccion').removeClass("d-none");
+                    $('#seleccion_cedula').text(cedula);
+                    $('#seleccion_nombre').text(name);
+                    $('#seleccion_ubicacion').text(ubicacion);
+                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
+                }
+            });
+
+            return false;
+
+        });
+
+        $('#btn-submit').on('click', function (event) {
+            event.preventDefault();
+            if ($('#codigo_empleado').val().length != 0){
+                $('#crear_usuario').submit();
+            }else{
+                Swal.fire({
+                    title: 'No tiene Asociado el empleado!',
+                    text: "Estas Seguro de Crear el Usuario?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#crear_usuario').submit();
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+@endsection

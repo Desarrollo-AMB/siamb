@@ -44,7 +44,7 @@
                                         {!! Form::open(array('route' => 'users.store','method'=>'POST', 'id'=>'crear_usuario')) !!}
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="row">
+                                                <div class="row"> 
                                                     {{--<div class="col-xs-12 col-sm-12 col-md-12">
                                                         <div class="form-group">
                                                             <strong>Nombre:</strong>
@@ -96,19 +96,19 @@
                                                             <div class="d-flex flex-column">
                                                                 <h6 class="mb-3 text-sm">Selección/Asociación Empleado/No Empleado</h6>
                                                                 <span class="mb-2 text-xs">
-                                                                    Cedula: 
+                                                                    Cedula:
                                                                     <span class="text-dark font-weight-bold ms-sm-2" id="seleccion_cedula"></span>
                                                                 </span>
                                                                 <span class="mb-2 text-xs">
-                                                                    Nombre y Apellido: 
+                                                                    Nombre y Apellido:
                                                                     <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_nombre"></span>
                                                                 </span>
                                                                 <span class="mb-2 text-xs">
-                                                                    Cargo: 
+                                                                    Cargo:
                                                                     <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_cargo"></span>
                                                                 </span>
                                                                 <span class="text-xs">
-                                                                Ubicación: 
+                                                                Ubicación:
                                                                     <span class="text-dark ms-sm-2 font-weight-bold" id="seleccion_ubicacion"></span>
                                                                 </span>
                                                             </div>
@@ -171,7 +171,7 @@
                 allowClear: true,
                 minimumResultsForSearch: -1,
                 width: 300
-             });
+            });
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -243,9 +243,9 @@
                     $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });
-           
+
             return false;
-            
+
         });
 
         var table2 = $('#table2').DataTable({
@@ -315,11 +315,11 @@
                     $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
                 }
             });
-           
+
             return false;
-            
+
         });
-       
+
         $('#btn-submit').on('click', function (event) {
             event.preventDefault();
             if ($('#codigo_empleado').val().length != 0){
@@ -339,7 +339,7 @@
                     }
                 });
             }
-            
+
         });
     });
 </script>

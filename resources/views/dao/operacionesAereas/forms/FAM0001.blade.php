@@ -16,9 +16,11 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Registros de Vuelo</h5>
+                        <h5 class="mb-0">Programación de vuelo de Vuelo</h5>
                     </div>
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('FormaFAM') }}">+&nbsp;Nuevo Vuelo</a>
+                    @role('aviacion_grupo_aereo|administrador')
+                    <a class="btn btn-bg-gradient-primary btn-sm mb-0 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Nuevo Vuelo</a>
+                    @endrole
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -32,9 +34,9 @@
                                             <th>FECHA</th>
                                             <th>OV/OTA/OM</th>
                                             <th>AERONAVE</th>
-                                            @role('administrador')
+                                            @role('aviacion_dao|administrador')
                                             <th>UNIDAD</th>
-                                            @endrole 
+                                            @endrole
                                             <th>BASE</th>
                                             <th>ESTATUS</th>
                                             <th>ACCIONES</th>
@@ -46,24 +48,26 @@
                                                 <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                 <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                 <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                @role('administrador')
+                                                @role('aviacion_dao|administrador')
                                                 <th  class="font-weight-normal">{{$data->unidad}}</th>
-                                                @endrole  
+                                                @endrole
                                                 <th class="font-weight-normal">
                                                     {{$data->base->siglas}}
                                                 </th>
                                                 <th class="font-weight-normal">
-                                                    @if($data->completado == 'completado') 
+                                                    @if($data->completado == 'completado')
                                                         <label class="badge bg-gradient-success">{{$data->completado}}</label>
                                                     @else
-                                                        <label class="badge bg-gradient-warning">PENDIENTE</label>       
+                                                        <label class="badge bg-gradient-warning">PENDIENTE</label>
                                                     @endif
                                                 </th>
                                                 <th class="font-weight-normal">
+                                                    @role('aviacion_grupo_aereo|administrador')
                                                     <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                         <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                     </a>
-                                                    @if($data->completado == 'completado') 
+                                                    @endrole
+                                                    @if($data->completado == 'completado')
                                                         {{-- <a href="#"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                             <i class="fas fa-eye  text-info" aria-hidden="true"></i>
                                                         </a> --}}

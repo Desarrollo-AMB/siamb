@@ -248,6 +248,8 @@
         </div>
       </div>
     </div>
+  @endhasexactroles
+  @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador')
     <div class="row mt-4">
       <div class="col-lg-12">
         <div class="card z-index-2">
@@ -262,7 +264,7 @@
         </div>
       </div>
     </div>
-  @endhasexactroles
+    @endhasanyrole
 
 @endsection
 @push('dashboard')

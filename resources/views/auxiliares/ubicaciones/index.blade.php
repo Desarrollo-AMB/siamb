@@ -120,7 +120,7 @@
             var url =$(this).data('target') ;
             Swal.fire({
                 title: 'Eliminar Ubicacion',
-                text: "Esta seguro???",
+                text: "Esta seguro???", 
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
