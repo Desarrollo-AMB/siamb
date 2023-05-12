@@ -31,6 +31,7 @@ use App\Models\Ubicaciones;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProgramacionVueloExport;
 
 use Illuminate\Http\Request;
 
@@ -236,11 +237,11 @@ class FormaFAMController extends Controller
 
         $nombre_archivo = sprintf('PROGRAMACIÓN DE VUELOS %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
 
-        //$data = compact('titulo');
+        $data = compact('titulo','vuelo');
         //dd($nombre_archivo);
 
-        //return Excel::download(new CargaFamiliarExport($data), $nombre_archivo);
-        return view('excel.programacion_vuelos', compact('titulo','vuelo'));
+        return Excel::download(new ProgramacionVueloExport($data), $nombre_archivo);
+        //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
     }
 
     public function editProgramacion($fam_id)

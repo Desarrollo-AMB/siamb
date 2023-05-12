@@ -99,29 +99,37 @@
     @foreach($vuelo as $row)
         @php
             $codigo = $row->codigo;
-            $codigo = preg_replace('/[^0-9]/', '', $codigo);
+            $nombre_codigo_mision = preg_replace('/[^0-9]/', '', $codigo);/*CODIGO DE MISION PARA OBTENER LA DESCRIPCION DE LA MISION*/
 
-            /*switch ($codigo) {
-                case 'value':
-                    # code...
-                    break;
+            if ($row->codigo === 'EVENTUAL') {
+                $codigo = "NO POSEE";
+            } else {
+                $codigo = $row->codigo;
+            }
 
-                default:
-                    # code...
-                    break;
-            }*/
+            if ($row->ruta_desde === 'EVENTUAL') {
+                $ruta_desde = "NO POSEE";
+            } else {
+                $ruta_desde = $row->ruta_desde;
+            }
+
+            if ($row->ruta_hasta === 'EVENTUAL') {
+                $ruta_hasta = "NO POSEE";
+            } else {
+                $ruta_hasta = $row->ruta_hasta;
+            }
         @endphp
         <tr>
-            <td>asdasdasd{{ $row->unidad }}</td>
+            <td>{{ $row->unidad }}</td>
             <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
             {{-- <td>{{ $row->matriculas_alternas }}</td>--}}
             <td>{{ $row->ordenada_por }}</td>
-            <td>{{ $row->codigo.', '.$row->ruta_desde.'-'.$row->ruta_hasta }}</td>
+            <td>{{ $codigo.', '.$ruta_desde.'-'.$ruta_hasta }}</td>
             <td>{{ $row->encend }}</td>
             <td>{{ $row->apag }}</td>
-            <td>{{ 'militar' }}</td>
-            <td>{{ 'civil' }}</td>
-            <td>{{ 'carga libras' }}</td>
+            <td>{{ 'NO POSEE' }}</td>
+            <td>{{ 'NO POSEE' }}</td>
+            <td>{{ 'NO POSEE' }}</td>
         </tr>
     @endforeach
 </table>
