@@ -112,7 +112,7 @@
             }*/
         @endphp
         <tr>
-            <td>sdfsdf{{ $row->unidad }}SAsAasdas</td>
+            <td>asdasdasd{{ $row->unidad }}</td>
             <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
             {{-- <td>{{ $row->matriculas_alternas }}</td>--}}
             <td>{{ $row->ordenada_por }}</td>
