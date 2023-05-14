@@ -38,8 +38,8 @@ class PartegeneralController extends Controller
         $ausentes_count = $nomina_count - $presente_count;
 
         $categorias = Nomina::join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->whereIn('Nomina.situacion', ['A', 'S'])
-            ->whereIn('Nomina.tipo_emp', ['MIL', 'TRP'])
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->select(
                 \DB::raw('count(*) as total'),
                 \DB::raw('sum(case when datos_militares.codigo_categoria in ("1","4") then 1 else 0 end) as comando'),
@@ -187,8 +187,8 @@ class PartegeneralController extends Controller
         )->get();
         // Conteo de la tabla parte_general
                  $parte_generales = Nomina::join('parte_general', 'nomina.codigo_empleado', '=', 'parte_general.codigo_empleado')
-            ->whereIn('Nomina.situacion', ['A', 'S'])
-            ->whereIn('Nomina.tipo_emp', ['MIL', 'TRP'])
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->whereDate('parte_general.fecha', now()->toDateString())
             ->select(
                 \DB::raw('count(*) as total'),
@@ -249,23 +249,23 @@ class PartegeneralController extends Controller
                 'nomina.codigo_ubicacion',
                 'nomina.grado_militar'
             )
-            ->orderByRaw("CASE WHEN Nomina.grado_militar = '010' THEN 1
-            WHEN Nomina.grado_militar = '015' THEN 2
-            WHEN Nomina.grado_militar = '020' THEN 3
-            WHEN Nomina.grado_militar = '030' THEN 4
-            WHEN Nomina.grado_militar = '040' THEN 5
-            WHEN Nomina.grado_militar = '050' THEN 6
-            WHEN Nomina.grado_militar = '060' THEN 7
-            WHEN Nomina.grado_militar = '070' THEN 8
-            WHEN Nomina.grado_militar = '080' THEN 9
-            WHEN Nomina.grado_militar = '090' THEN 10
-            WHEN Nomina.grado_militar = '410' THEN 11
-            WHEN Nomina.grado_militar = '420' THEN 12
-            WHEN Nomina.grado_militar = '430' THEN 13
-            WHEN Nomina.grado_militar = '440' THEN 14
-            WHEN Nomina.grado_militar = '450' THEN 15
-            WHEN Nomina.grado_militar = '460' THEN 16
-            WHEN Nomina.grado_militar = '470' THEN 17 END, Nomina.grado_militar")
+            ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+            WHEN nomina.grado_militar = '015' THEN 2
+            WHEN nomina.grado_militar = '020' THEN 3
+            WHEN nomina.grado_militar = '030' THEN 4
+            WHEN nomina.grado_militar = '040' THEN 5
+            WHEN nomina.grado_militar = '050' THEN 6
+            WHEN nomina.grado_militar = '060' THEN 7
+            WHEN nomina.grado_militar = '070' THEN 8
+            WHEN nomina.grado_militar = '080' THEN 9
+            WHEN nomina.grado_militar = '090' THEN 10
+            WHEN nomina.grado_militar = '410' THEN 11
+            WHEN nomina.grado_militar = '420' THEN 12
+            WHEN nomina.grado_militar = '430' THEN 13
+            WHEN nomina.grado_militar = '440' THEN 14
+            WHEN nomina.grado_militar = '450' THEN 15
+            WHEN nomina.grado_militar = '460' THEN 16
+            WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
             ->orderByRaw("CASE
                             WHEN datos_militares.codigo_categoria = 1 THEN 1
                             WHEN datos_militares.codigo_categoria = 4 THEN 2
@@ -519,23 +519,23 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
                 ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
                 'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
                 ,'categorias_militares.descripcion as categoria')
-                ->orderByRaw("CASE WHEN Nomina.grado_militar = '010' THEN 1
-                WHEN Nomina.grado_militar = '015' THEN 2
-                WHEN Nomina.grado_militar = '020' THEN 3
-                WHEN Nomina.grado_militar = '030' THEN 4
-                WHEN Nomina.grado_militar = '040' THEN 5
-                WHEN Nomina.grado_militar = '050' THEN 6
-                WHEN Nomina.grado_militar = '060' THEN 7
-                WHEN Nomina.grado_militar = '070' THEN 8
-                WHEN Nomina.grado_militar = '080' THEN 9
-                WHEN Nomina.grado_militar = '090' THEN 10
-                WHEN Nomina.grado_militar = '410' THEN 11
-                WHEN Nomina.grado_militar = '420' THEN 12
-                WHEN Nomina.grado_militar = '430' THEN 13
-                WHEN Nomina.grado_militar = '440' THEN 14
-                WHEN Nomina.grado_militar = '450' THEN 15
-                WHEN Nomina.grado_militar = '460' THEN 16
-                WHEN Nomina.grado_militar = '470' THEN 17 END, Nomina.grado_militar")
+                ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                WHEN nomina.grado_militar = '015' THEN 2
+                WHEN nomina.grado_militar = '020' THEN 3
+                WHEN nomina.grado_militar = '030' THEN 4
+                WHEN nomina.grado_militar = '040' THEN 5
+                WHEN nomina.grado_militar = '050' THEN 6
+                WHEN nomina.grado_militar = '060' THEN 7
+                WHEN nomina.grado_militar = '070' THEN 8
+                WHEN nomina.grado_militar = '080' THEN 9
+                WHEN nomina.grado_militar = '090' THEN 10
+                WHEN nomina.grado_militar = '410' THEN 11
+                WHEN nomina.grado_militar = '420' THEN 12
+                WHEN nomina.grado_militar = '430' THEN 13
+                WHEN nomina.grado_militar = '440' THEN 14
+                WHEN nomina.grado_militar = '450' THEN 15
+                WHEN nomina.grado_militar = '460' THEN 16
+                WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
                 ->orderByRaw("CASE
                                 WHEN categorias_militares.codigo_categoria = 1 THEN 1
                                 WHEN categorias_militares.codigo_categoria = 4 THEN 2
