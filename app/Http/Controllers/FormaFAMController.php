@@ -8,6 +8,7 @@ use App\Models\AeronaveModelo;
 use App\Models\AeronaveMatricula;
 use App\Models\ComponenteOrganismo;
 use App\Models\Base;
+use App\Models\Aeropuerto;
 use App\Models\EmpleadoFuncion;
 use App\Models\Empleado;
 use App\Models\Nomina;
@@ -181,6 +182,7 @@ class FormaFAMController extends Controller
 
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
+        $aeropuertos = Aeropuerto::get();
         $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
 
         //A1-MISION
@@ -197,7 +199,7 @@ class FormaFAMController extends Controller
 
         $clasificacion = Config::get('constants.clasificacion_cargo');
 
-        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
+        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'aeropuertos'));
     }
 
     public function imprimirProgramacion() {
@@ -248,6 +250,7 @@ class FormaFAMController extends Controller
     public function editProgramacion($fam_id)
     {
         $bases = Base::get();
+        $aeropuertos = Aeropuerto::get();
         $vueloOrdenadaPor = VueloOrdenadaPor::get();
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
@@ -271,7 +274,7 @@ class FormaFAMController extends Controller
         $baseSelect = $baseSelect[0];
         $fam0001 = $fam_id;
 
-        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'baseSelect'));
+        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'baseSelect', 'aeropuertos'));
     }
 
     public function programacion_data(Request $request)
@@ -495,8 +498,14 @@ class FormaFAMController extends Controller
 
     public function storeProgramacion(Request $request)
     {
+
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+
         $fam0001 = new Fam0001;
-        $fam0001->fecha = $request->fecha;
+        $fam0001->fecha = $fecha_manana;
         $fam0001->ov_ota_om = $request->ov_ota_om;
         $fam0001->componente_organismo = $request->componente_organismo;
         $fam0001->unidad = $request->unidad;
@@ -533,6 +542,7 @@ class FormaFAMController extends Controller
 
     public function enviarReporteCeo(Request $request)
     {
+
         $enviar_reporte_ceo = Fam0001::where('fecha',$request->fecha)->where('completado', 'revisado')->update(['completado' => 'paso1']);
 
         //return response()->json($request);
@@ -547,7 +557,11 @@ class FormaFAMController extends Controller
 
     public function enviarProgramacionDao(Request $request)
     {
-        $enviar_programacion = Fam0001::where('unidad', $request->unidad)->where('fecha',$request->fecha)->whereIn('completado', ['programando', 'actualizado'])->update(['completado' => 'enviado']);
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+        $enviar_programacion = Fam0001::where('unidad', $request->unidad)->where('fecha',$fecha_manana)->whereIn('completado', ['programando', 'actualizado'])->update(['completado' => 'enviado']);
 
         //return response()->json($request);
         return response()->json(
@@ -709,6 +723,24 @@ class FormaFAMController extends Controller
         return response()->json([
                 'success' => true,
                 'message' => 'Data',
+                'editMision' => $editMision
+            ]
+        );
+    }
+
+    public function actualizarProgramacionA1(Request $request)
+    {
+        //$programacion_actualizada = Fam0001::where('id',$request->id_fam0001)->update(['completado' => 'actualizado']);
+        $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
+        // $loop = count($request->consumiblesDATA);
+        // if($loop>0){
+        //     for ($i=0; $i < $loop; $i++) {
+        //         $updateConsumibles = Fam0001A1MisionConsumible::where('id', $request->id_consumible)->update($request->except('id'));
+        //     }
+        // }
+
+        return response()->json([
+                'success' => true,
                 'editMision' => $editMision
             ]
         );

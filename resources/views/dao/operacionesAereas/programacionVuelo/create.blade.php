@@ -19,7 +19,7 @@
                 <div class="card mb-4 mx-4">
                     <div class="card-body px-2 pt-2 pb-2">
                         <!-- el otro formato -->
-                        <div class="row">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
                             <input hidden="true" name="ov_ota_om"
                                     style="width: 100%; border: none !important; text-transform: uppercase" type="text"
                                     class="unidad load_unidad" id="grupos" placeholder="" required="true"
@@ -28,7 +28,7 @@
                                 style="width: 100%; border: none !important; text-transform: uppercase" type="text"
                                 class="mb-0 componente_organismo load_componente_organismo" placeholder=""
                                 required="true" value="{{ $componentes[0]->organismo }}">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>AERONAVE / MODELO</h6>
                                     <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave"
@@ -41,7 +41,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>MATRICULA <small></small></h6>
                                     <select name="matricula" id="matricula"
@@ -50,14 +50,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2 mb-2 mb-sm-0">
                                 <div class="form-group" id="div_serial">
                                     <h6>SERIAL</h6>
                                     <input readonly="true" name="serial" id="serial" type="text"
                                         class="form-control serial" required="true" value="">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                     <select name="base_estacion" class="form-control base_estacion load_estacion">
@@ -70,16 +70,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-2">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                            <div class="col-sm-2 mb-2 mb-sm-0">
                                 <h6>MATRICULAS ALTERNAS</h6>
                             </div>
-                            <div class="col-2">
+                            <div class="col-sm-2 mb-2 mb-sm-0">
                                 <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect" disabled="true">
                                     <option value="">Seleccionar...</option>
                                 </select>
                             </div>
-                            <div class="col-8" id="div_matricula_input">
+                            <div class="col-sm-8 mb-2 mb-sm-0" id="div_matricula_input">
                                 <input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%">
                             </div>
                         </div>
@@ -88,79 +88,81 @@
                 </div>
                 <div class="card mb-4 mx-4">
                     <div class="card-body px-2 pt-2 pb-2">
-                        <table id="responsiveA1" class="table align-items-center mb-0">
-                            <thead style="background: #e1e1e0;">
-                                <tr>
-                                    <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>ORDENADA POR</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>T. MISIÓN</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>CÓDIGO</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>SALIDA</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>RETORNO</h6></th>
-                                    <th class="text-uppercase font-weight-bolder"><h6>ACCIÓN</h6></th>
-                                </tr>
-                            </thead>
-                            <tbody id="A1_data">
-                                <tr>
-                                    <td>
-                                        <span> v1 </span>
-                                    </td>
-                                    <td>
-                                        <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
-                                            <option value=""></option>
-                                            @foreach($vueloOrdenadaPor as $data)
-                                                <option value="{{$data->codigo}}">{{$data->codigo}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="siglas" class="form-control siglas load_siglas">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($codigoTipoMisionSiglas as $data)
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="codigo" class="form-control codigo load_codigo">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                                @foreach($codigoMision as $data)
-                                                    <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                        <div class="table-responsive">
+                            <table id="responsiveA1" class="table align-items-center mb-0 table-responsive table-bordered">
+                                <thead style="background: #e1e1e0;">
+                                    <tr>
+                                        <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>ORDENADA POR</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>T. MISIÓN</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>CÓDIGO</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>SALIDA</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>RETORNO</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>ACCIÓN</h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="A1_data">
+                                    <tr>
+                                        <td>
+                                            <span> v1 </span>
+                                        </td>
+                                        <td>
+                                            <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
+                                                <option value=""></option>
+                                                @foreach($vueloOrdenadaPor as $data)
+                                                    <option value="{{$data->codigo}}">{{$data->codigo}}</option>
                                                 @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($bases as $data)
-                                                {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
-                                            <option value="EVENTUAL">EVENTUAL</option>
-                                            @foreach($bases as $data)
-                                                {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
-                                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
-                                    </td>
-                                    <td>
-                                        <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="siglas" class="form-control siglas load_siglas">
+                                                <option value="EVENTUAL">EVENTUAL</option>
+                                                @foreach($codigoTipoMisionSiglas as $data)
+                                                    <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="codigo" class="form-control codigo load_codigo">
+                                                <option value="EVENTUAL">EVENTUAL</option>
+                                                    @foreach($codigoMision as $data)
+                                                        <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                                                    @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
+                                                <option value="EVENTUAL">EVENTUAL</option>
+                                                @foreach($aeropuertos as $data)
+                                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
+                                                <option value="EVENTUAL">EVENTUAL</option>
+                                                @foreach($aeropuertos as $data)
+                                                    {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
+                                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
+                                        </td>
+                                        <td>
+                                            <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
+                                        </td>
+                                        <td>
+    
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div style="padding-top:5px" class="wizard-footer">
@@ -186,7 +188,7 @@
 
             // Obtengo la fecha del día siguiente para usarla tanto en la cabecera como en la programación
             var fechaActual = new Date();
-            var fechaManana = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+            var fechaManana = new Date(fechaActual.getTime() + 20 * 60 * 60 * 1000).toISOString().slice(0, 10);
             var fecha_inv = fechaManana.split('-').reverse().join('-');
 
             // Obtengo la unidad
@@ -403,7 +405,6 @@
                         url: "{{ route('store_programacion') }}",
                         method: 'POST',
                         data: {
-                            fecha: fecha,
                             ov_ota_om: ov_ota_om.toUpperCase(),
                             componente_organismo: componente_organismo,
                             unidad: unidad,

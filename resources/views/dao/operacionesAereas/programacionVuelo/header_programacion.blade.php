@@ -9,11 +9,11 @@
             <input readonly="true" class="fecha" id="fecha_cabecera" type="date" style="background-color: transparent; border: none !important; color: white;" value="">
         </h6>
         <div class="card-body panel-collapse collapse show" id="collapseStepOne" style="padding: 15px 10px 0;">
-            <div class="row">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
                 <h6>DATOS AERONAVE</h6>
             </div>
-            <div class="row">
-                <div class="col-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                <div class="col-sm-4 mb-2 mb-sm-0">
                     <div class="form-group ov-ota-om-header">
                         <!-- <h6>OV / OTA / OM <small></small></h6> -->
                         <div class="form-check form-check-inline">

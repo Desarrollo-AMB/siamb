@@ -13,24 +13,24 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
-            <div class="card-header pb-0 mb-2">
-                <div class="d-flex flex-row justify-content-between">
-                    <div class="col-2">
-                        <h5 class="mb-0">
-                            <a class="btn-sm btn-dark btn-sm mb-0" href="{{ route('dao.index') }}">
-                                <i class="ti-arrow-left" aria-hidden="true"><title>Volver</title></i> &nbsp; Volver
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="col-4">
-                        <h5 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
-                    </div>
-                    <div class="col-2">
-                        @role('aviacion_grupo_aereo|administrador')
-                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
-                        @endrole
-                        <a class="btn btn-bg-gradient-primary btn-sm new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
-                    </div>
+            <div class="card-header pb-0 mb-2 d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                <div class="col-sm-2 mb-2 mb-sm-0">
+                    <h5 class="mb-0">
+                        <a class="btn btn-dark btn-block my-2" href="{{ route('dao.index') }}">
+                            <i class="ti-arrow-left" aria-hidden="true"><title>Volver</title></i> &nbsp; Volver
+                        </a>
+                    </h5>
+                </div>
+                <div class="col-sm-4 text-center mb-2 mb-sm-0">
+                    <h5 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
+                </div>
+                <div class="col-sm-2 mb-2 mb-sm-0">
+                    @role('aviacion_grupo_aereo|administrador')
+                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
+                    @endrole
+                    @role('aviacion_dao|administrador')
+                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
+                    @endrole
                 </div>
             </div>
             <hr class="horizontal dark my-0">
@@ -50,7 +50,7 @@
                                                 </h2>
                                                 <div id="flush-collapse{{$key}}" class="accordion-collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
-                                                        <table id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
+                                                        <table id="table{{$key}}" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" style="width:100%">
                                                             <thead>
                                                                 <tr>
                                                                     <th>UNIDAD</th>
@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                                 <div class="card-body">
-                                    <table id="vuelos" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
+                                    <table id="vuelos" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
                                             <tr>
                                                 <th>MATRICULA</th>
@@ -176,8 +176,10 @@
 <script>
 
     $(document).ready(function() {
+
+
         var fechaActual = new Date();
-        var fechaManana = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+        var fechaManana = new Date(fechaActual.getTime() + 20 * 60 * 60 * 1000).toISOString().slice(0, 10);
         var fecha_inv = fechaManana.split('-').reverse().join('-');
         $('#fecha_cabecera').text(fecha_inv);
 
@@ -250,7 +252,6 @@
                     url: "{{ route('enviarProgramacionDao') }}",
                     method: 'POST',
                     data: {
-                        fecha: fechaManana,
                         unidad: unidad,
                     },
                     success: function(response) {

@@ -41,7 +41,7 @@
                                                     <div class="accordion-body">
                                                         <table id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
                                                             <thead>
-                                                                <tr>
+                                                                <tr> 
                                                                     <th>UNIDAD</th>
                                                                     <th>MATRICULA</th>
                                                                     <th>AERONAVE</th>
