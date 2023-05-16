@@ -350,6 +350,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
     Route::post('programacion_data', [FormaFAMController::class, 'programacion_data'])->name('programacion_data');
     Route::post('store_programacion', [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
+    Route::post('actualizar_programacion', [FormaFAMController::class, 'actualizarProgramacionA1'])->name('actualizarProgramacionA1');
     Route::post('enviar-programacion-dao', [FormaFAMController::class, 'enviarProgramacionDao'])->name('enviarProgramacionDao');
     Route::post('enviar-reporte-ceo',             [FormaFAMController::class, 'enviarReporteCeo'])->name('enviarReporteCeo');
     Route::post('revisar-programacion',             [FormaFAMController::class, 'revisarProgramacion'])->name('revisarProgramacion');
