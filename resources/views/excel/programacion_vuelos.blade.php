@@ -82,8 +82,8 @@
     </tr>
     <tr>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">GRUPO</td>
-        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">SISTEMA/MATRICULA</td>
-        {{-- <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MATRICULAS ALTERNAS</td> --}}
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;"rowspan="2">SISTEMA/MATRICULA</td>
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;"rowspan="2">MATRICULAS ALTERNAS</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">A LA ORDEN DE</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MISIÓN/RUTA</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" colspan="2">HORA</td>
@@ -102,34 +102,29 @@
             $nombre_codigo_mision = preg_replace('/[^0-9]/', '', $codigo);/*CODIGO DE MISION PARA OBTENER LA DESCRIPCION DE LA MISION*/
 
             if ($row->codigo === 'EVENTUAL') {
-                $codigo = "NO POSEE";
+                $codigo = "EVENTUAL";
             } else {
                 $codigo = $row->codigo;
             }
 
-            if ($row->ruta_desde === 'EVENTUAL') {
-                $ruta_desde = "NO POSEE";
+            if ($row->ruta_desde === 'EVENTUAL' || $row->ruta_desde === 'EVENTUAL') {
+                $ruta = "EVENTUAL";
             } else {
-                $ruta_desde = $row->ruta_desde;
+                $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
             }
 
-            if ($row->ruta_hasta === 'EVENTUAL') {
-                $ruta_hasta = "NO POSEE";
-            } else {
-                $ruta_hasta = $row->ruta_hasta;
-            }
         @endphp
         <tr>
-            <td>{{ $row->unidad }}</td>
-            <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
-            {{-- <td>{{ $row->matriculas_alternas }}</td>--}}
-            <td>{{ $row->ordenada_por }}</td>
-            <td>{{ $codigo.', '.$ruta_desde.'-'.$ruta_hasta }}</td>
-            <td>{{ $row->encend }}</td>
-            <td>{{ $row->apag }}</td>
-            <td>{{ 'NO POSEE' }}</td>
-            <td>{{ 'NO POSEE' }}</td>
-            <td>{{ 'NO POSEE' }}</td>
+            <td style="text-align: center;">{{ $row->unidad }}</td>
+            <td style="text-align: center;">{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
+            <td style="text-align: center;">{{ $row->matriculas_alternas }}</td>
+            <td style="text-align: center;">{{ $row->ordenada_por }}</td>
+            <td style="text-align: center;">{{ $codigo.' / '.$ruta }}</td>
+            <td style="text-align: center;">{{ $row->encend }}</td>
+            <td style="text-align: center;">{{ $row->apag }}</td>
+            <td style="text-align: center;">{{ '-' }}</td>
+            <td style="text-align: center;">{{ '-' }}</td>
+            <td style="text-align: center;">{{ '-' }}</td>
         </tr>
     @endforeach
 </table>
