@@ -1,45 +1,43 @@
 @extends('layouts.user_type.auth')
 @section('title', 'Personal Civil')
 @section('content')
-@push('plugins-css')
-<link href="{{ asset('vendor/datatables/dataTables.checkboxes.css') }}" rel="stylesheet">
-<style>
-    label.error {
-        color: red;
-        font-size: 1rem;
-        display: block;
-        margin-top: 5px;
-    }
+    @push('plugins-css')
+        <link href="{{ asset('vendor/datatables/dataTables.checkboxes.css') }}" rel="stylesheet">
+        <style>
+            label.error {
+                color: red;
+                font-size: 1rem;
+                display: block;
+                margin-top: 5px;
+            }
 
-    input.error {
-        border: 1px dashed red;
-        font-weight: 300;
-        color: red;
-    }
+            input.error {
+                border: 1px dashed red;
+                font-weight: 300;
+                color: red;
+            }
 
-    #aviso_datos {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50%;
-        max-width: 400px;
-        height: 10%;
+            #aviso_datos {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 50%;
+                max-width: 400px;
+                height: 10%;
 
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        font-size: 150%;
-        color: black;
-        z-index: 9999;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-
-
-</style>
-@endpush
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                font-size: 150%;
+                color: black;
+                z-index: 9999;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            }
+        </style>
+    @endpush
     @if (count($errors) > 0)
         <div class="alert alert-danger mx-4" role="alert">
             <ul>
@@ -104,7 +102,7 @@
                                                 aria-label="Default select example">
                                                 <option selected>Seleccionar...</option>
                                                 <option value="excel">Excel</option>
-                                                <option value="pdf">PDF</option>
+                                                <option value="pdf" id="f">PDF</option>
 
                                             </select>
                                         </div>
@@ -188,7 +186,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-3 text-center" name="select_TP" id="select_TP" style="display:none;">
+                                    <div class="col-3 text-center" name="select_TP" id="select_TP"
+                                        style="display:none;">
 
                                         <div class="form-group">
                                             <h6 for="Grado">Grado: <small></small></h6>
@@ -224,6 +223,13 @@
                                     {{ $mensaje }}
                                 </div>
                             @endif
+
+                            @if (isset($mensaje_error))
+                                <div id="mensaje_error" name="mensaje_error" class="alert alert-danger"
+                                    style="margin: 10px 0 0 0; ">
+                                    {{ $mensaje_error }}
+                                </div>
+                            @endif
                             <div id="error" name="error" class="alert alert-danger"
                                 style="display:none;  margin: 10px 0 0 0;">
 
@@ -233,10 +239,9 @@
 
                             </div>
 
-                            <div class="alert alert-warning" id="aviso_datos"
-                            name="aviso_datos"style="display:none;">
-                            Completar todos los campos
-                        </div>
+                            <div class="alert alert-warning" id="aviso_datos" name="aviso_datos"style="display:none;">
+                                Completar todos los campos
+                            </div>
 
 
 
@@ -276,77 +281,84 @@
         // mensaje.style.display = "block";
 
         // Ocultar el mensaje después de 3 segundos (3000 milisegundos)
-      
+
         setTimeout(function() {
             mensaje.style.display = "none";
+        }, 30000);
+
+        var mensaje_error = document.getElementById("mensaje_error");
+
+        setTimeout(function() {
+            mensaje_error.style.display = "none";
         }, 3000);
 
 
-function avisoDatos() {
+        function avisoDatos() {
 
 
-$('#aviso_datos').fadeOut(500, function() {
-    $('#aviso_datos').fadeIn(500);
-});
-setTimeout(function() {
-    $('#aviso_datos').hide();
-}, 3000);
-}
-
-
-
-
-       $(document).ready(function() {
-          
+            $('#aviso_datos').fadeOut(500, function() {
+                $('#aviso_datos').fadeIn(500);
+            });
+            setTimeout(function() {
+                $('#aviso_datos').hide();
+            }, 3000);
+        }
 
 
 
-  $('#parte_todo').on('change', function() {
-    
 
-
-    var selectedValue = $(this).val();
-console.log(selectedValue);
-    // hide all select elements
-    $('#select, #oficiales, #tp').hide();
-if(selectedValue === 'todo'){
-
-
-    $('#select_cat, #select_OF, #select_TP').hide();
+        $(document).ready(function() {
 
 
 
-  
 
-}else if(selectedValue === 'cat'){
-    // show select element based on user choice
-    
-    $('#select_cat').show();
+            $('#parte_todo').on('change', function() {
 
 
 
-}else if (selectedValue === 'grado'){
+                var selectedValue = $(this).val();
+                console.log(selectedValue);
+                // hide all select elements
+                $('#select, #oficiales, #tp').hide();
+                if (selectedValue === 'todo') {
 
-    $('#select_cat').show();
+
+                    $('#select_cat, #select_OF, #select_TP').hide();
+
+                    $('#f').hide();
 
 
-    const categoriaSelect = document.getElementById("select_categoria");
-        const ofSelect = document.getElementById("select_OF");
-        const tpSelect = document.getElementById("select_TP");
-        const selectPeriodo = document.getElementById("periodo");
-        const selectCategoria = document.getElementById("select_categoria");
 
-        selectPeriodo.onchange = function() {
-            if (selectPeriodo.value === "diciembre") {
-                selectCategoria.innerHTML = `
+                } else if (selectedValue === 'cat') {
+                    // show select element based on user choice
+
+                    $('#select_cat').show();
+                    $('#select_OF').hide();
+                    $('#select_TP').hide();
+                    $('#f').hide();
+
+                } else if (selectedValue === 'grado') {
+
+                    $('#select_cat').show();
+                    $('#f').show();
+
+                    const categoriaSelect = document.getElementById("select_categoria");
+                    const ofSelect = document.getElementById("select_OF");
+                    const tpSelect = document.getElementById("select_TP");
+                    const selectPeriodo = document.getElementById("periodo");
+                    const selectCategoria = document.getElementById("select_categoria");
+
+                    selectPeriodo.onchange = function() {
+                        if (selectPeriodo.value === "diciembre") {
+                            selectCategoria.innerHTML = `
                                           <option selected>Seleccionar...</option>
                                           
                                           <option value="7">Oficiales de Tropa</option>
                                                 <option value="6">Oficiales Asimilado Técnico</option>
                                                 <option value="2">Oficiales Asimilados</option>
                                         `;
-            } else {
-                selectCategoria.innerHTML = `
+                        } else {
+                            selectCategoria.innerHTML = `
                                           <option selected>Seleccionar...</option>
                                           <option value="4">Oficiales de Comando</option>
                                                 <option value="5">Oficiales Técnicos</option>
@@ -355,90 +367,92 @@ if(selectedValue === 'todo'){
                                                 <option value="2">Oficiales Asimilados</option>
                                                 <option value="8">Tropa Profesional</option>
                                         `;
-            }
-        }
+                        }
+                    }
 
 
-        categoriaSelect.addEventListener("change", function() {
-            if (categoriaSelect.value === "4" || categoriaSelect.value === "5" || categoriaSelect
-                .value === "7" || categoriaSelect.value === "6" || categoriaSelect.value ===
-                "2") {
-                ofSelect.style.display = "block";
-                tpSelect.style.display = "none";
-            } else if (categoriaSelect.value === "8") {
-                ofSelect.style.display = "none";
-                tpSelect.style.display = "block";
-            } else {
-                ofSelect.style.display = "none";
-                tpSelect.style.display = "none";
-            }
+                    categoriaSelect.addEventListener("change", function() {
+                        if (categoriaSelect.value === "4" || categoriaSelect.value === "5" ||
+                            categoriaSelect
+                            .value === "7" || categoriaSelect.value === "6" || categoriaSelect
+                            .value ===
+                            "2") {
+                            ofSelect.style.display = "block";
+                            tpSelect.style.display = "none";
+                        } else if (categoriaSelect.value === "8") {
+                            ofSelect.style.display = "none";
+                            tpSelect.style.display = "block";
+                        } else {
+                            ofSelect.style.display = "none";
+                            tpSelect.style.display = "none";
+                        }
+                    });
+
+
+                } else {
+
+                    console.log('no hay nada');
+
+                    $('#aviso_datos').show();
+
+                    setTimeout(avisoDatos, 1000);
+                    //mensaje de debes seleccionar una opcion
+                }
+
+
+            });
+
+
+
+
         });
-  
 
-}else{
+        /*
 
-   console.log('no hay nada');
- 
-    $('#aviso_datos').show();
+                const categoriaSelect = document.getElementById("select_categoria");
+                const ofSelect = document.getElementById("select_OF");
+                const tpSelect = document.getElementById("select_TP");
+                const selectPeriodo = document.getElementById("periodo");
+                const selectCategoria = document.getElementById("select_categoria");
 
-setTimeout(avisoDatos, 1000);
-    //mensaje de debes seleccionar una opcion
-}
-
-
-  });
-
-
-
-
-});
-
-/*
-
-        const categoriaSelect = document.getElementById("select_categoria");
-        const ofSelect = document.getElementById("select_OF");
-        const tpSelect = document.getElementById("select_TP");
-        const selectPeriodo = document.getElementById("periodo");
-        const selectCategoria = document.getElementById("select_categoria");
-
-        selectPeriodo.onchange = function() {
-            if (selectPeriodo.value === "diciembre") {
-                selectCategoria.innerHTML = `
-                                          <option selected>Seleccionar...</option>
-                                          
-                                          <option value="7">Oficiales de Tropa</option>
-                                                <option value="6">Oficiales Asimilado Técnico</option>
-                                                <option value="2">Oficiales Asimilados</option>
-                                        `;
-            } else {
-                selectCategoria.innerHTML = `
-                                          <option selected>Seleccionar...</option>
-                                          <option value="4">Oficiales de Comando</option>
-                                                <option value="5">Oficiales Técnicos</option>
-                                                <option value="7">Oficiales de Tropa</option>
-                                                <option value="6">Oficiales Asimilado Técnico</option>
-                                                <option value="2">Oficiales Asimilados</option>
-                                                <option value="8">Tropa Profesional</option>
-                                        `;
-            }
-        }
+                selectPeriodo.onchange = function() {
+                    if (selectPeriodo.value === "diciembre") {
+                        selectCategoria.innerHTML = `
+                                              <option selected>Seleccionar...</option>
+                                              
+                                              <option value="7">Oficiales de Tropa</option>
+                                                    <option value="6">Oficiales Asimilado Técnico</option>
+                                                    <option value="2">Oficiales Asimilados</option>
+                                            `;
+                    } else {
+                        selectCategoria.innerHTML = `
+                                              <option selected>Seleccionar...</option>
+                                              <option value="4">Oficiales de Comando</option>
+                                                    <option value="5">Oficiales Técnicos</option>
+                                                    <option value="7">Oficiales de Tropa</option>
+                                                    <option value="6">Oficiales Asimilado Técnico</option>
+                                                    <option value="2">Oficiales Asimilados</option>
+                                                    <option value="8">Tropa Profesional</option>
+                                            `;
+                    }
+                }
 
 
-        categoriaSelect.addEventListener("change", function() {
-            if (categoriaSelect.value === "4" || categoriaSelect.value === "5" || categoriaSelect
-                .value === "7" || categoriaSelect.value === "6" || categoriaSelect.value ===
-                "2") {
-                ofSelect.style.display = "block";
-                tpSelect.style.display = "none";
-            } else if (categoriaSelect.value === "8") {
-                ofSelect.style.display = "none";
-                tpSelect.style.display = "block";
-            } else {
-                ofSelect.style.display = "none";
-                tpSelect.style.display = "none";
-            }
-        });
-            
-            */
+                categoriaSelect.addEventListener("change", function() {
+                    if (categoriaSelect.value === "4" || categoriaSelect.value === "5" || categoriaSelect
+                        .value === "7" || categoriaSelect.value === "6" || categoriaSelect.value ===
+                        "2") {
+                        ofSelect.style.display = "block";
+                        tpSelect.style.display = "none";
+                    } else if (categoriaSelect.value === "8") {
+                        ofSelect.style.display = "none";
+                        tpSelect.style.display = "block";
+                    } else {
+                        ofSelect.style.display = "none";
+                        tpSelect.style.display = "none";
+                    }
+                });
+                    
+                    */
     </script>
 @endsection

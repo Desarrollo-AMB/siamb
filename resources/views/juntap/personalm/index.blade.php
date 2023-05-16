@@ -841,7 +841,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -911,7 +911,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1009,7 +1009,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1085,7 +1085,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1230,7 +1230,7 @@ console.log("codigo_empleado:"+$('#codigo_empleado_cat').val());
                                 $('#modal-view-categoria_personal').modal('hide');
                                 Swal.fire({
                                     title: 'LISTO!',
-                                    text: 'Personal Ascendido Correctamente!',
+                                    text: 'Personal Cambio Correctamente de Categoria!',
                                     icon: 'success',
                                     timer: 3000,
                                     showConfirmButton: true,
