@@ -167,6 +167,11 @@
         responsive: true
     });
 }
+$(document).ready(function() {
+    $('#vuelos').DataTable({
+        responsive: true
+    });
+}
 
 
 
