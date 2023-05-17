@@ -25,17 +25,20 @@ class PartegeneralController extends Controller
     public function index()
     {
 
-        $nomina_count = Nomina::whereIn('situacion', ['A', 'S'])
-            ->whereIn('tipo_emp', ['MIL', 'TRP'])
+        $nomina_count = Nomina::join('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->count();
         $presente_count = DB::table('parte_general')
             ->join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
             ->whereIn('nomina.situacion', ['A', 'S'])
             ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+            ->whereDate('parte_general.fecha', now()->toDateString())
             ->where('parte_general.situacion', 'presente')
             ->count();
 
         $ausentes_count = $nomina_count - $presente_count;
+
 
         $categorias = Nomina::join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
             ->whereIn('Nomina.situacion', ['A', 'S'])
@@ -578,7 +581,7 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
                 \DB::raw('sum(parte_general.situacion = "Ausente sin causa Justificada") as total10'),
                 \DB::raw('sum(parte_general.situacion = "Destacado fuera de la Unidad") as total11'),
                 \DB::raw('sum(parte_general.situacion = "Consulta") as total12'),
-                \DB::raw('sum(parte_general.situacion = "reposo") as total3'),
+                \DB::raw('sum(parte_general.situacion = "reposo") as total13'),
                 \DB::raw('sum(parte_general.situacion = "Hospitalizado") as total14'),
                 \DB::raw('sum(parte_general.situacion = "Desertor") as total15'),
                 \DB::raw('sum(parte_general.situacion = "Privado de Libertad") as total16'),

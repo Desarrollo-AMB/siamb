@@ -271,10 +271,6 @@ margin: 0 auto;
                         <td>{{ $datas->total10 }}</td>
                     </tr>
                     <tr>
-                        <th>Destacado fuera de la Unidad</th>
-                        <td>{{ $datas->total11 }}</td>
-                    </tr>
-                    <tr>
                         <th>Consulta</th>
                         <td>{{ $datas->total12 }}</td>
                     </tr>
