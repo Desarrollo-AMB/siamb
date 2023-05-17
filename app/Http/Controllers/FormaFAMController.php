@@ -435,15 +435,25 @@ class FormaFAMController extends Controller
 
     public function matriculas(Request $request)
     {
-        $selectedMatricula = AeronaveMatricula::where('aeronave_id', $request->id)->get();
-        return response()->json($selectedMatricula);
+        if ($request->id == 20 || $request->id == 23) {
+            $selectedMatricula = AeronaveMatricula::whereIn('aeronave_id', [20, 23])->get();
+            return response()->json($selectedMatricula);
+        } else{
+            $selectedMatricula = AeronaveMatricula::where('aeronave_id', $request->id)->get();
+            return response()->json($selectedMatricula);
+        }
     }
 
     public function matriculasAlternas(Request $request)
     {
         $matriculas = explode(", ", $request->id);
-        $selectedMatriculaAlternas = AeronaveMatricula::whereNotIn('matricula', $matriculas)->where('aeronave_id', $request->naved)->get();
-        return response()->json($selectedMatriculaAlternas);
+        if ($request->naved == 20 || $request->naved == 23) {
+            $selectedMatriculaAlternas = AeronaveMatricula::whereNotIn('matricula', $matriculas)->whereIn('aeronave_id', [20, 23])->get();
+            return response()->json($selectedMatriculaAlternas);
+        } else {
+            $selectedMatriculaAlternas = AeronaveMatricula::whereNotIn('matricula', $matriculas)->where('aeronave_id', $request->naved)->get();
+            return response()->json($selectedMatriculaAlternas);
+        }
     }
 
     public function steps(Request $request)
@@ -788,7 +798,7 @@ class FormaFAMController extends Controller
             ->join('nomina','nomina.codigo_empleado','=','empleado_funcion.codigo_empleado')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->orderBy('nomina.grado_militar', 'asc')
-            ->where('id_funcion', $request->id_funcion)
+            //->where('id_funcion', $request->id_funcion)
             ->select(
                 'empleado_funcion.*',
                 'grados_militares.siglas'
