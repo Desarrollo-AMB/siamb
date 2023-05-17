@@ -163,9 +163,12 @@
     $('#table').DataTable({
         responsive: true
     });
+    if (!$('#vuelos').hasClass('dataTable')) {
     $('#vuelos').DataTable({
         responsive: true
     });
+}
+
 });
 
     $(document).ready(function() {
