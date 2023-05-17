@@ -174,6 +174,14 @@
 @section('scripts')
 @parent
 <script>
+    $(document).ready(function() {
+    $('#table{{$key}}').DataTable({
+        responsive: true
+    });
+    $('#vuelos').DataTable({
+        responsive: true
+    });
+});
 
     $(document).ready(function() {
 

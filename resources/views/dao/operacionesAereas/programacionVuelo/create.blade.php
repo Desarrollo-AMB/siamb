@@ -158,7 +158,7 @@
                                             <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
                                         </td>
                                         <td>
-    
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -180,6 +180,11 @@
 
 @section('scripts')
     <script>
+           $(document).ready(function() {
+    $('#responsiveA1').DataTable({
+        responsive: true
+    });
+});
         $(document).ready(function() {
 
             var id_fam0001;
@@ -499,7 +504,7 @@
                 var ordenada_por = $('.ordenada_por').val();
                 var sigla = $('.siglas').val();
                 var numero = $('.codigo').val();
-                
+
                 //VALIDAR PASO UNO HEADER
                 if(ordenada_por==="" || sigla===""){
                     console.log('no puedes guardar datos vacios')
