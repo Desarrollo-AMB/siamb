@@ -39,7 +39,7 @@
                                                 </h2>
                                                 <div id="flush-collapse{{$key}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
-                                                        <table id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
+                                                        <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
                                                             <thead>
                                                                 <tr>
                                                                     <th>UNIDAD</th>
@@ -160,7 +160,7 @@
 @parent
 <script>
        $(document).ready(function() {
-    $('#table{{$key}}').DataTable({
+    $('#table').DataTable({
         responsive: true
     });
     $('#vuelos').DataTable({
