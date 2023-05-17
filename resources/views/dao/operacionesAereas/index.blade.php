@@ -39,7 +39,7 @@
                                                 </h2>
                                                 <div id="flush-collapse{{$key}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
-                                                        <table id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
+                                                        <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
                                                             <thead>
                                                                 <tr>
                                                                     <th>UNIDAD</th>
@@ -160,12 +160,15 @@
 @parent
 <script>
        $(document).ready(function() {
-    $('#table{{$key}}').DataTable({
+    $('#table').DataTable({
         responsive: true
     });
+    if (!$('#vuelos').hasClass('dataTable')) {
     $('#vuelos').DataTable({
         responsive: true
     });
+}
+
 });
 
     $(document).ready(function() {
@@ -174,34 +177,7 @@
         var fecha_inv = fechaActual.split('-').reverse().join('-');
         $('#fecha_cabecera').text(fecha_inv);
 
-        $('#vuelos').DataTable({
-            processing: true,
-            responsive: true,
-            "language": {
-                "sProcessing":    "Procesando...",
-                "sLengthMenu":    "Mostrar _MENU_ registros",
-                "sZeroRecords":   "No se encontraron resultados",
-                "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":   "",
-                "sSearch":        "Buscar:",
-                "sUrl":           "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":    "Último",
-                    "sNext":    "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
+       
 
         /*$('.accordion-button').on('click', function() {
             var idCollapse = $(this).attr('id'); // Obtener el valor del atributo data-bs-target
