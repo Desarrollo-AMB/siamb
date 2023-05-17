@@ -57,8 +57,10 @@ class FormaFAMController extends Controller
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                $fam0001_data = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_unidad = Fam0001::wereIn('completado', ['paso1','paso2','paso3','paso4']   )
+                ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_data = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])
+                ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
@@ -66,13 +68,14 @@ class FormaFAMController extends Controller
                 }
             }
             elseif(count($ubicacion)>0){
-                $fam0001 = Fam0001::whereDate('fecha', $fecha)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+                $fam0001 = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
         }else{
-            $fam0001_unidad = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
-            $fam0001_data = Fam0001::whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+            $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+            $fam0001_data = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])
+            ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
             # Ordenar por unidad
             $fam0001 = [];
             foreach ($fam0001_unidad as $key => $value) {
