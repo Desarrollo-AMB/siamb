@@ -178,9 +178,11 @@
     $('#table').DataTable({
         responsive: true
     });
+    if (!$('#table1').hasClass('dataTable')) {
     $('#vuelos').DataTable({
         responsive: true
     });
+}
 });
 
     $(document).ready(function() {
