@@ -160,7 +160,7 @@
 @parent
 <script>
        $(document).ready(function() {
-    $('#table').DataTable({
+        $('table[name="table"]').DataTable({
         responsive: true
     });
     if (!$('#vuelos').hasClass('dataTable')) {
@@ -177,7 +177,7 @@
         var fecha_inv = fechaActual.split('-').reverse().join('-');
         $('#fecha_cabecera').text(fecha_inv);
 
-       
+
 
         /*$('.accordion-button').on('click', function() {
             var idCollapse = $(this).attr('id'); // Obtener el valor del atributo data-bs-target

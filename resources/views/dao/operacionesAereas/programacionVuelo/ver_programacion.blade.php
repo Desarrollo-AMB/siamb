@@ -175,7 +175,7 @@
 @parent
 <script>
     $(document).ready(function() {
-    $('#table').DataTable({
+        $('table[name="table"]').DataTable({
         responsive: true
     });
     if (!$('#vuelos').hasClass('dataTable')) {
