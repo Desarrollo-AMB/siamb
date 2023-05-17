@@ -162,7 +162,7 @@
        $(document).ready(function() {
         $('table[name="table"]').DataTable({
         responsive: true
-    });
+        });
     $('#vuelos').DataTable({
         responsive: true
     });
