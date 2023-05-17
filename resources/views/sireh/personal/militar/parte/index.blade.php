@@ -36,7 +36,7 @@
             <div class="card_responsive">
                 <div class="d-flex flex-row justify-content-between">
                     <div class="card" style="width: 30rem;">
-                        <img src="{{ asset('imagenes/images.JPG') }}" alt="mi foto">
+                        <img src="{{ asset('imagenes/images.jpg') }}" alt="mi foto">
                         <div class="card-body">
                             <table class="table table-sm table-bordered table-hover w-100 nowrap">
                                 <thead>
