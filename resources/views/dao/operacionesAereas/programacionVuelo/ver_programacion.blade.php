@@ -175,10 +175,10 @@
 @parent
 <script>
     $(document).ready(function() {
-    $('#table{{$key}}').DataTable({
+    $('#table').DataTable({
         responsive: true
     });
-    if (!$('#table1').hasClass('dataTable')) {
+    if (!$('#vuelos').hasClass('dataTable')) {
     $('#vuelos').DataTable({
         responsive: true
     });
