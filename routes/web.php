@@ -341,18 +341,18 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('fam0001',                   [FormaFAMController::class, 'fam0001'])->name('fam0001');
 
     //RUTAS DAO
-    Route::get('/dao/index', [FormaFAMController::class, 'daoIndex'])->name('dao.index');
-    Route::get('/dao/militar', [FormaFAMController::class, 'daoMilitar'])->name('dao.militar');
-    Route::get('/dao/aeronaves', [FormaFAMController::class, 'daoAeronaves'])->name('dao.aeronaves');
-    Route::get('/dao/ver-programacion', [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
-    Route::get('/dao/nueva-programacion', [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
-    Route::get('/dao/imprimir-programacion', [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
+    Route::get('/dao/index',                        [FormaFAMController::class, 'daoIndex'])->name('dao.index');
+    Route::get('/dao/militar',                      [FormaFAMController::class, 'daoMilitar'])->name('dao.militar');
+    Route::get('/dao/aeronaves',                    [FormaFAMController::class, 'daoAeronaves'])->name('dao.aeronaves');
+    Route::get('/dao/ver-programacion',             [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
+    Route::get('/dao/nueva-programacion',           [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
+    Route::get('/dao/imprimir-programacion',        [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
     Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
-    Route::post('programacion_data', [FormaFAMController::class, 'programacion_data'])->name('programacion_data');
-    Route::post('store_programacion', [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
-    Route::post('actualizar_programacion', [FormaFAMController::class, 'actualizarProgramacionA1'])->name('actualizarProgramacionA1');
-    Route::post('enviar-programacion-dao', [FormaFAMController::class, 'enviarProgramacionDao'])->name('enviarProgramacionDao');
-    Route::post('enviar-reporte-ceo',             [FormaFAMController::class, 'enviarReporteCeo'])->name('enviarReporteCeo');
+    Route::post('programacion_data',                [FormaFAMController::class, 'programacion_data'])->name('programacion_data');
+    Route::post('store_programacion',               [FormaFAMController::class, 'storeProgramacion'])->name('store_programacion');
+    Route::post('actualizar_programacion',          [FormaFAMController::class, 'actualizarProgramacionA1'])->name('actualizarProgramacionA1');
+    Route::post('enviar-programacion-dao',          [FormaFAMController::class, 'enviarProgramacionDao'])->name('enviarProgramacionDao');
+    Route::post('enviar-reporte-ceo',               [FormaFAMController::class, 'enviarReporteCeo'])->name('enviarReporteCeo');
     Route::post('revisar-programacion',             [FormaFAMController::class, 'revisarProgramacion'])->name('revisarProgramacion');
 
     //Route::group(['middleware' => ['role:aviacion']], function () {

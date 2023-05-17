@@ -86,10 +86,13 @@
                                 </tr>
                             </thead>
                             <tbody id="A1_data">
+                                @php
+                                    $contador = 1; // Inicializamos el contador en 1
+                                @endphp
                                 @foreach ($A1_mision as $data)
                                     <tr id="delete_a1_mision{{ $data->id }}">
                                         <td>
-                                            <span> v </span>
+                                            <span> v {{ $contador++ }}</span>
                                             <input type="hidden" name="id" value="{{ $data->id }}">
                                         </td>
                                         <td>
@@ -101,44 +104,86 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="siglas" class="form-control siglas load_siglas">
-                                                <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                            <select name="siglas" class="form-control siglas load_siglas" id="{{ $data->id }}">
+                                                @if ($data->siglas == "ALERTA")
+                                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>  
+                                                @else
+                                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                                    <option value="ALERTA">ALERTA</option>
+                                                @endif
                                                 @foreach($codigoTipoMisionSiglas as $datos)
                                                     <option value="{{$datos->siglas}}">{{$datos->siglas}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="codigo" class="form-control codigo load_codigo">
-                                                <option value="{{ $data->numero }}">{{ $data->numero }}</option>
-                                                    @foreach($codigoMision as $datoscodigo)
-                                                        <option title="{{$datoscodigo->nombre}}" value="{{$datoscodigo->codigo}}">{{$datoscodigo->codigo}}</option>
+                                            @if ($data->siglas == "ALERTA")
+                                                <select name="codigo" disabled class="form-control codigo load_codigo" id="codigo{{ $data->id }}">
+                                                    <option value="{{ $data->numero }}">{{ $data->numero }}</option>
+                                                        @foreach($codigoMision as $datoscodigo)
+                                                            <option title="{{$datoscodigo->nombre}}" value="{{$datoscodigo->codigo}}">{{$datoscodigo->codigo}}</option>
+                                                        @endforeach
+                                                </select>
+                                            @else
+                                                <select name="codigo" class="form-control codigo load_codigo" id="codigo{{ $data->id }}">
+                                                    <option value="{{ $data->numero }}">{{ $data->numero }}</option>
+                                                        @foreach($codigoMision as $datoscodigo)
+                                                            <option title="{{$datoscodigo->nombre}}" value="{{$datoscodigo->codigo}}">{{$datoscodigo->codigo}}</option>
+                                                        @endforeach
+                                                </select>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->siglas == "ALERTA")
+                                                <select name="ruta_desde" disabled class="form-control ruta_desde load_ruta_desde" id="ruta_desde{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}</option>
+                                                    @foreach($aeropuertos as $dataruta_desde)
+                                                        {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                        <option title="{{$dataruta_desde->nombre}}" value="{{$dataruta_desde->codigo_icao}}">{{$dataruta_desde->codigo_icao}}</option>
                                                     @endforeach
-                                            </select>
+                                                </select>
+                                            @else
+                                                <select name="ruta_desde" disabled class="form-control ruta_desde load_ruta_desde" id="ruta_desde{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}</option>
+                                                    @foreach($aeropuertos as $dataruta_desde)
+                                                        {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                        <option title="{{$dataruta_desde->nombre}}" value="{{$dataruta_desde->codigo_icao}}">{{$dataruta_desde->codigo_icao}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
                                         </td>
                                         <td>
-                                            <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
-                                                <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}</option>
-                                                @foreach($aeropuertos as $dataruta_desde)
-                                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                    <option title="{{$dataruta_desde->nombre}}" value="{{$dataruta_desde->codigo_icao}}">{{$dataruta_desde->codigo_icao}}</option>
-                                                @endforeach
-                                            </select>
+                                            @if ($data->siglas == "ALERTA")
+                                                <select disabled name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" id="ruta_hasta{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}</option>
+                                                    @foreach($aeropuertos as $dataruta_hasta)
+                                                        {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
+                                                        <option title="{{$dataruta_hasta->nombre}}" value="{{$dataruta_hasta->codigo_icao}}">{{$dataruta_hasta->codigo_icao}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" id="ruta_hasta{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}</option>
+                                                    @foreach($aeropuertos as $dataruta_hasta)
+                                                        {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
+                                                        <option title="{{$dataruta_hasta->nombre}}" value="{{$dataruta_hasta->codigo_icao}}">{{$dataruta_hasta->codigo_icao}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
                                         </td>
                                         <td>
-                                            <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
-                                                <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}</option>
-                                                @foreach($aeropuertos as $dataruta_hasta)
-                                                    {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
-                                                    <option title="{{$dataruta_hasta->nombre}}" value="{{$dataruta_hasta->codigo_icao}}">{{$dataruta_hasta->codigo_icao}}</option>
-                                                @endforeach
-                                            </select>
+                                            @if ($data->siglas == "ALERTA")
+                                                <input hidden name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase" value="{{ $data->encend }}" id="encend{{ $data->id }}">
+                                            @else
+                                                <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase" value="{{ $data->encend }}" id="encend{{ $data->id }}">    
+                                            @endif
                                         </td>
                                         <td>
-                                            <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase" value="{{ $data->encend }}">
-                                        </td>
-                                        <td>
-                                            <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase" value="{{ $data->apag }}">
+                                            @if ($data->siglas == "ALERTA")
+                                                <input hidden name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase" value="{{ $data->apag }}" id="apag{{ $data->id }}">
+                                            @else
+                                                <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase" value="{{ $data->apag }}" id="apag{{ $data->id }}"> 
+                                            @endif
                                         </td>
                                         <td style="padding-left: 20px;">
                                             @if($data->vuelo > 1)
@@ -194,6 +239,26 @@
                 base_estacion = $('.base_estacion').val();
             });
 
+            $('.siglas').on('change', function() {
+                var siglaId = $(this).val();
+                var id = $(this).attr('id');
+                if (siglaId) {
+                    if(siglaId == 'ALERTA'){
+                        $("#codigo"+id).prop('disabled', true);
+                        $("#ruta_desde"+id).prop('disabled', true);
+                        $("#ruta_hasta"+id).prop('disabled', true);
+                        $("#encend"+id).prop('hidden', true);
+                        $("#apag"+id).prop('hidden', true);
+                    }else{
+                        $("#codigo"+id).prop('disabled', false);
+                        $("#ruta_desde"+id).prop('disabled', false);
+                        $("#ruta_hasta"+id).prop('disabled', false);
+                        $("#encend"+id).prop('hidden', false);
+                        $("#apag"+id).prop('hidden', false);
+                    }
+                }
+            });
+
 
             //LIMPIAR A1
             function cleanA1() {
@@ -211,174 +276,6 @@
                 }
             });
 
-            //PASO #1 - GUARDAR HEADER
-            /*$(".enviar").click(function(e) {
-                e.preventDefault();
-                var fecha = $('.fecha').val();
-                var fecha_inv = fecha.split('-').reverse().join('-');
-                var unidad = $('.unidad').val();
-                var unidad_ov = unidad.replace('-', '');
-                var ov_ota_om = $('input:radio[name=ov_ota_om]:checked').val()+"-"+unidad_ov+"-"+fecha_inv;
-                var componente_organismo = $('.componente_organismo').val();
-                var aeronave_modelo = $('.aeronaves').val();
-                var serial = $('.serial').val();
-                var matricula = $('.matricula').val();
-                var base_estacion = $('.base_estacion').val();
-                var ordenada_por = $('.ordenada_por').val();
-
-                //VALIDAR PASO UNO HEADER
-                if (ov_ota_om === "" || base_estacion === "" || aeronave_modelo === "" || unidad === "" ||
-                    fecha === "" || serial === "" || matricula === "" || ordenada_por==="") {
-                    Swal.fire({
-                        title: 'Atención!',
-                        text: 'Debes completar ciertos campos para continuar.',
-                        icon: 'warning',
-                        timer: 3000,
-                        showConfirmButton: true,
-                    });
-                    console.log('no puedes guardar datos vacios')
-                } else {
-                    //ENVIAR
-                    $.ajax({
-                        url: "{{ route('store_programacion') }}",
-                        method: 'POST',
-                        data: {
-                            fecha: fecha,
-                            ov_ota_om: ov_ota_om.toUpperCase(),
-                            componente_organismo: componente_organismo,
-                            unidad: unidad,
-                            aeronave_modelo: aeronave_modelo,
-                            serial: serial,
-                            matricula: matricula,
-                            base_estacion: base_estacion,
-                            completado: "programacionEnv",
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                console.log(response)
-
-                                id_fam0001 = response.data.id;
-                                ov_ota_om = response.data.ov_ota_om;
-
-                                $(".ov-ota-om-header").empty();
-                                $(".ov-ota-om-header").append('<h6><span style="color: black;">OV / OTA / OM: </span><span>'+ov_ota_om+'</span></h6>');
-
-                                $('#enviar').prop('hidden', true);
-                                $('#naves').prop('disabled', true);
-                                $('#matricula').prop('disabled', true);
-
-
-                                guardar_a1_mision(id_fam0001, ov_ota_om);
-                                $('#agregar_mision').prop('hidden', false);
-                                $('#actualizar_a1_mision').prop('hidden', false);
-
-                                Swal.fire({
-                                    title: 'Creado!',
-                                    text: 'Se Creo Correctamente.',
-                                    icon: 'success',
-                                    timer: 3000,
-                                    showConfirmButton: true,
-                                });
-                            }
-                        },
-                        error: function(error) {
-                            console.log(error)
-                        }
-                    });
-                }
-            });*/
-
-                //PASO #2 - GUARDAR A1 MISION
-            /* function guardar_a1_mision(id_fam0001){
-
-                var ordenada_por = $('.ordenada_por').val();
-                var sigla = $('.siglas').val();
-                var numero = $('.codigo').val();
-                var codigo = ""+sigla+"-"+numero+"";
-                var ruta_desde = $('.ruta_desde').val();
-                var ruta_hasta = $('.ruta_hasta').val();
-                var encend = $('.encend').val();
-                var apag = $('.apag').val();
-                //VALIDAR PASO UNO HEADER
-                if(ordenada_por===""){
-                    console.log('no puedes guardar datos vacios')
-                }else{
-                    //ENVIAR
-                    $.ajax({
-                    url:"{{ route('store_a1') }}",
-                    method:'POST',
-                    data:{
-                        ordenada_por:ordenada_por,
-                        codigo:codigo.toUpperCase(),
-                        ruta_desde:ruta_desde,
-                        ruta_hasta:ruta_hasta,
-                        encend:encend.toUpperCase(),
-                        apag:apag.toUpperCase(),
-
-                        ov_ota_om: ov_ota_om,
-                        fam0001_id: id_fam0001,
-                        completado: "misionEnv",
-                        },
-                        success:function(response){
-                            if(response.success){
-
-                                updateClean_A1()
-                                data_vuelos(id_fam0001);
-
-                            }
-                        },
-                        error:function(error){
-                            console.log(error)
-                        }
-                    });
-                }
-
-            } */
-
-            /* $("#agregar_mision").click(function () {
-
-                $.ajax({
-                    url:"{{ route('store_a1') }}",
-                    method:'POST',
-                    data:{
-                        ordenada_por:"",
-                        codigo:"",
-                        ruta_desde:"",
-                        ruta_hasta:"",
-                        encend:"",
-                        apag:"",
-
-                        ov_ota_om: ov_ota_om,
-                        fam0001_id: id_fam0001,
-                        completado: "misionEnv",
-                    },
-                        success:function(response){
-                            if(response.success){
-
-                                A1_id = response.A1_id[0];
-                                nuevaOperacionVuelo =
-                                '<tr id="row"><td><span>V'+A1_id.vuelo+'</span></td><td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value=""></option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value=""></option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo"><option value=""></option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde"><option value=""></option>@foreach($bases as $data){{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta"><option value=""></option>@foreach($bases as $data){{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td><input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value='+A1_id.id+' style="background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger" id="DeleteRow">X</button></td></tr>';
-
-
-                                $('#A1_data').append(nuevaOperacionVuelo);
-                                $('.ordenada_por').select2();
-                                $('.siglas').select2();
-                                $('.codigo').select2();
-                                $('.ruta_desde').select2();
-                                $('.ruta_hasta').select2();
-
-
-                            }
-                        },
-                        error:function(error){
-                            console.log(error)
-                    }
-                });
-
-            });
-            $("body").on("click", "#DeleteRow", function () {
-                $(this).parents("#row").remove();
-            }) */
 
             var data_id = parseInt('{{$fam0001}}')
             //TRAER DATA DEL PRIMER PASO
@@ -544,12 +441,13 @@
                     url:"{{ route('store_a1') }}",
                     method:'POST',
                     data:{
+                        pierna:1,
                         ordenada_por:siglasUnidad,
-                        codigo:"EVENTUAL",
+                        codigo:"ALERTA",
                         ruta_desde:"EVENTUAL",
                         ruta_hasta:"EVENTUAL",
-                        encend:"00:00",
-                        apag:"00:00",
+                        encend:"EVENTUAL",
+                        apag:"EVENTUAL",
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
@@ -562,7 +460,7 @@
                                 nuevaOperacionVuelo =
                                 '<tr id="delete_a1_mision'+A1_id.id+'">\
                                     <td><span>V</span><input type="hidden" name="id" value="'+A1_id.id+'"></td>\
-                                    <td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value="'+siglasUnidad+'">'+siglasUnidad+'</option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value="EVENTUAL">EVENTUAL</option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo"><option value="EVENTUAL">EVENTUAL</option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde"><option value="EVENTUAL">EVENTUAL</option>@foreach($aeropuertos as $data){{-- <option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option> --}}<option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta"><option value="EVENTUAL">EVENTUAL</option>@foreach($aeropuertos as $data){{--<option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>--}}<option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>@endforeach</select></td><td><input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td><input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value="'+A1_id.id+'" style="background: rgb(189, 0, 0);color: white;" type="button" class="delete_a1_mision btn btn-danger" id="DeleteRow">X</button></td></tr>';
+                                    <td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value="'+A1_id.ordenada_por+'">'+A1_id.ordenada_por+'</option>@foreach($vueloOrdenadaPor as $data)<option value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value="ALERTA">ALERTA</option>@foreach($codigoTipoMisionSiglas as $data)<option value="{{$data->siglas}}">{{$data->siglas}}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo" disabled><option value=""></option>@foreach($codigoMision as $data)<option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde" disabled><option value="EVENTUAL">EVENTUAL</option>@foreach($aeropuertos as $data){{-- <option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option> --}}<option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" disabled><option value="EVENTUAL">EVENTUAL</option>@foreach($aeropuertos as $data){{--<option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>--}}<option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>@endforeach</select></td><td><input hidden name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td><input hidden name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value="'+A1_id.id+'" style="background: rgb(189, 0, 0);color: white;" type="button" class="delete_a1_mision btn btn-danger" id="DeleteRow">X</button></td></tr>';
 
 
                                 $('#A1_data').append(nuevaOperacionVuelo);
@@ -572,7 +470,7 @@
                                 $('.ruta_desde').select2();
                                 $('.ruta_hasta').select2();
 
-
+                                window.location.href = "{{URL::to('/dao/editar-programacion')}}/"+id_fam0001;
                             }
                         },
                         error:function(error){
@@ -652,60 +550,119 @@
             $("#actualizar_a1_mision").click(function(e){
                 e.preventDefault();
 
-                // recorrer cada fila de la tabla
-                $('table tbody tr').each(function() {
-                    // recorrer cada celda de la fila
-
-                        var rowData = {};
-
-                        // Obtener los valores de los inputs y selects de cada fila
-                        rowData.id = $(this).find("input[name='id']").val();
-                        rowData.ordenada_por = $(this).find("select[name='ordenada_por']").val();
-                        var siglas = $(this).find("select[name='siglas']").val();
-                        var numero = $(this).find("select[name='codigo']").val();
-
-                        if(siglas == "EVENTUAL" || numero == "EVENTUAL" || numero == "" || siglas == "" || numero == null || siglas == null){
-                            rowData.codigo = "EVENTUAL";
-                        }
-                        else{
-                            rowData.codigo = siglas+"-"+numero;
-                        }
-
-                        rowData.ruta_desde = $(this).find("select[name='ruta_desde']").val();
-                        rowData.ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
-
-                        rowData.encend = $(this).find("input[name='encend']").val();
-                        rowData.apag = $(this).find("input[name='apag']").val();
-                        //rowData.id_fam0001 = id_fam0001;
-                        rowData.completado = 'actualizado';
-
-                        //FORMULARIO GUARDAR
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                try {
+                    
+                    // recorrer cada fila de la tabla
+                    $('table tbody tr').each(function() {
+                        // recorrer cada celda de la fila
+    
+                            var rowData = {};
+    
+                            // Obtener los valores de los inputs y selects de cada fila
+                            var id = $(this).find("input[name='id']").val();
+                            var ordenada_por = $(this).find("select[name='ordenada_por']").val();
+                            var siglas = $(this).find("select[name='siglas']").val();
+                            var numero = $(this).find("select[name='codigo']").val();
+    
+    
+                            if(siglas === "ALERTA"){
+                                rowData.codigo = "ALERTA";
+                                var ruta_desde = "EVENTUAL";
+                                var ruta_hasta = "EVENTUAL";
+                                var encend = "EVENTUAL";
+                                var apag = "EVENTUAL";
                             }
-                        });
-                            // // enviar los datos de la fila actual al servidor
-                        $.ajax({
-                            url: "{{ route('actualizarProgramacionA1') }}",
-                            method: "POST",
-                            data: rowData,
-                            success: function(response) {
-                            },
-                            error: function(error) {
-                                console.log(error)
+                            else{
+                                rowData.codigo = siglas+"-"+numero;
+                                var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                                var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
+                                var encend = $(this).find("input[name='encend']").val();
+                                var apag = $(this).find("input[name='apag']").val();
+    
+                                if(encend === ""){
+                                    encend = "EVENTUAL";
+                                }
+                                if(apag === ""){
+                                    apag = "EVENTUAL";
+                                }
                             }
-                        });
+    
+                            rowData.id = id;
+                            rowData.ordenada_por = ordenada_por;
+                            rowData.ruta_desde = ruta_desde;
+                            rowData.ruta_hasta = ruta_hasta;
+                            rowData.encend = encend;
+                            rowData.apag = apag;
+                            rowData.completado = 'actualizado';
+    
+                            if(siglas !== "ALERTA"){
+                                if(numero === ""){
+                                    throw new Error("El codigo de la mision no puede estar vacio mientras la misión no sea de alerta.");
+                                } else if(ruta_desde === "EVENTUAL" || ruta_hasta === "EVENTUAL"){
+                                    throw new Error("Las Rutas de la misión no pueden ser EVENTUALES mientras la misión no sea de alerta.");
+                                } 
+                                else{
+    
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+                                        // // enviar los datos de la fila actual al servidor
+                                    $.ajax({
+                                        url: "{{ route('actualizarProgramacionA1') }}",
+                                        method: "POST",
+                                        data: rowData,
+                                        success: function(response) {
+                                        },
+                                        error: function(error) {
+                                            console.log(error)
+                                        }
+                                    });
+                                }
+                            } 
+                            else {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                    // // enviar los datos de la fila actual al servidor
+                                $.ajax({
+                                    url: "{{ route('actualizarProgramacionA1') }}",
+                                    method: "POST",
+                                    data: rowData,
+                                    success: function(response) {
+                                    },
+                                    error: function(error) {
+                                        console.log(error)
+                                    }
+                                });
+                            }
+    
+                            //FORMULARIO GUARDAR
+    
+                    });
+    
+                    Swal.fire({
+                        title: 'Programación Actualizada con éxito!',
+                        text: 'Se Actualizó con éxito.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });
+                    window.location.href = "{{URL::to('/dao/editar-programacion')}}/"+id_fam0001;
+                } catch (error) {
+                    console.error(error);
 
-                });
-
-                Swal.fire({
-                    title: 'Programación Actualizada     con éxito!',
-                    text: 'Se Actualizó con éxito.',
-                    icon: 'success',
-                    timer: 3000,
-                    showConfirmButton: true,
-                });
+                    Swal.fire({
+                        title: 'Error!',
+                        text: error,
+                        icon: 'error',
+                        timer: 6000,
+                        showConfirmButton: true,
+                    });
+                }
             });
         });
 
@@ -741,6 +698,7 @@
                         timer: 3000,
                         showConfirmButton: true,
                     });
+                    window.location.href = "{{URL::to('/dao/editar-programacion')}}/"+id_fam0001;
                 }
             });
         });

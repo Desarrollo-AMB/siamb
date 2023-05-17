@@ -169,10 +169,20 @@ class FormaFAMController extends Controller
         if(count($empleado)>0){
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+
             if(count($ubicacion)>0){
                 $unidad = $ubicacion;
                 $aeronaveModelos = AeronaveModelo::where('codigo_unidad',$unidad[0]->codigos)->get();
                 $matriculas = AeronaveMatricula::get();
+                $vinvuloGrupoAereo = Config::get('constants.vinvulo_grupo_aereo');
+
+                if (isset($vinvuloGrupoAereo[$unidad[0]->codigos])) {
+                    $nomenclaturaUnidad = $vinvuloGrupoAereo[$unidad[0]->codigos];
+                } else {
+                    $nomenclaturaUnidad = ''; // Manejar el caso en que no se encuentre la unidad en la constante
+                }
+
+
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
@@ -199,7 +209,7 @@ class FormaFAMController extends Controller
 
         $clasificacion = Config::get('constants.clasificacion_cargo');
 
-        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'aeropuertos'));
+        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'aeropuertos', 'nomenclaturaUnidad'));
     }
 
     public function imprimirProgramacion() {
@@ -216,7 +226,7 @@ class FormaFAMController extends Controller
             'fam0001.unidad AS unidad',
             'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
-            //'fam0001.matriculas_alternas AS matriculas_alternas',
+            'fam0001.matriculas_alternas AS matriculas_alternas',
             'fam0001_a1_mision.ordenada_por AS ordenada_por',
             'fam0001_a1_mision.codigo AS codigo',
             'fam0001_a1_mision.ruta_desde AS ruta_desde',
@@ -256,10 +266,10 @@ class FormaFAMController extends Controller
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
         $A1_mision = Fam0001A1Mision::where('fam0001_id',$fam_id)->get();
         foreach ($A1_mision as $mision) {
-            if($mision->codigo == null || $mision->codigo == '' || $mision->codigo == 'EVENTUAL'){
-                $mision->codigo = 'EVENTUAL';
-                $mision->siglas = 'EVENTUAL';
-                $mision->numero = 'EVENTUAL';
+            if($mision->codigo == 'ALERTA'){
+                $mision->codigo = 'ALERTA';
+                $mision->siglas = 'ALERTA';
+                $mision->numero = '';
             } else{
                 $codigo = $mision->codigo;
                 $siglas = substr($codigo, 0, 1);
@@ -605,12 +615,24 @@ class FormaFAMController extends Controller
 
         $programacion_actualizada = Fam0001::where('id',$request->fam0001_id)->update(['completado' => 'actualizado']);
 
+        $vinvuloGrupoAereo = Config::get('constants.vinvulo_grupo_aereo');
+
+        if($request->pierna == 1){
+            if (isset($vinvuloGrupoAereo[$request->ordenada_por])) {
+                $ordenada_por = $vinvuloGrupoAereo[$request->ordenada_por];
+            } else {
+                $ordenada_por = ''; // Manejar el caso en que no se encuentre la unidad en la constante
+            }
+        } else{
+            $ordenada_por = $request->ordenada_por;
+        }
+
         $flyLoop = count($checkVuelo);
 
         $A1 = new Fam0001A1Mision;
         $A1->vuelo = $flyLoop < 1 ? $A1->vuelo = 1: $A1->vuelo = $flyLoop + 1;
 
-        $A1->ordenada_por = $request->ordenada_por;
+        $A1->ordenada_por = $ordenada_por;
         $A1->en_apoyo = $request->en_apoyo;
         $A1->codigo = $request->codigo;
         $A1->ruta_desde = $request->ruta_desde;

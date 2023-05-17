@@ -110,23 +110,24 @@
                                         </td>
                                         <td>
                                             <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
-                                                <option value=""></option>
+                                                <option value="{{ $nomenclaturaUnidad }}">{{ $nomenclaturaUnidad }}</option>
                                                 @foreach($vueloOrdenadaPor as $data)
                                                     <option value="{{$data->codigo}}">{{$data->codigo}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="siglas" class="form-control siglas load_siglas">
-                                                <option value="EVENTUAL">EVENTUAL</option>
+                                            <select name="siglas" id="siglas" class="form-control siglas load_siglas">
+                                                <option value=""></option>
+                                                <option value="ALERTA">ALERTA</option>
                                                 @foreach($codigoTipoMisionSiglas as $data)
                                                     <option value="{{$data->siglas}}">{{$data->siglas}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="codigo" class="form-control codigo load_codigo">
-                                                <option value="EVENTUAL">EVENTUAL</option>
+                                            <select name="codigo" id="codigo" class="form-control codigo load_codigo">
+                                                <option value=""></option>
                                                     @foreach($codigoMision as $data)
                                                         <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                                                     @endforeach
@@ -243,6 +244,25 @@
 
 
             //SELECT DINAMICOS PASO #1
+
+            $('.siglas').on('change', function() {
+                var siglaId = $(this).val();
+                if (siglaId) {
+                    if(siglaId == 'ALERTA'){
+                        $(".codigo").prop('disabled', true);
+                        $(".ruta_desde").prop('disabled', true);
+                        $(".ruta_hasta").prop('disabled', true);
+                        $(".encend").prop('hidden', true);
+                        $(".apag").prop('hidden', true);
+                    }else{
+                        $(".codigo").prop('disabled', false);
+                        $(".ruta_desde").prop('disabled', false);
+                        $(".ruta_hasta").prop('disabled', false);
+                        $(".encend").prop('hidden', false);
+                        $(".apag").prop('hidden', false);
+                    }
+                }
+            });
 
             $('#naves').on('change', function() {
                 var naveId = $(this).val();
@@ -386,11 +406,24 @@
                 var matricula = $('.matricula').val();
                 var base_estacion = $('.base_estacion').val();
                 var ordenada_por = $('.ordenada_por').val();
+                var sigla = $('.siglas').val();
+                var numero = $('.codigo').val();
                 var matriculas_alternas = $('#matricula_alterna').val();
+                var ruta_desde = "";
+                var ruta_hasta = "";
+
+                if(sigla ==="ALERTA"){
+                    numero = "EVENTUAL";
+                    ruta_desde = "";
+                    ruta_hasta = "";
+                } else {
+                    ruta_desde = $('.ruta_desde').val();
+                    ruta_hasta = $('.ruta_hasta').val();
+                }
 
                 //VALIDAR PASO UNO HEADER
                 if (ov_ota_om === "" || base_estacion === "" || aeronave_modelo === "" || unidad === "" ||
-                    fecha === "" || serial === "" || matricula === "" || ordenada_por==="" || matricula_alterna==="") {
+                    fecha === "" || serial === "" || matricula === "" || ordenada_por==="" || matriculas_alternas==="" || sigla==="" || numero === "") {
                     Swal.fire({
                         title: 'Atención!',
                         text: 'Debes completar ciertos campos para continuar.',
@@ -399,7 +432,17 @@
                         showConfirmButton: true,
                     });
                     console.log('no puedes guardar datos vacios')
-                } else {
+                } else if(ruta_desde === "EVENTUAL" || ruta_hasta === "EVENTUAL"){
+                    Swal.fire({
+                        title: 'Atención!',
+                        text: 'Las rutas no pueden ser eventuales a menos que sea una alerta!.',
+                        icon: 'warning',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });
+                    console.log('no puedes guardar las rutas eventuales')
+                }
+                else {
                     //ENVIAR
                     $.ajax({
                         url: "{{ route('store_programacion') }}",
@@ -456,35 +499,40 @@
                 var ordenada_por = $('.ordenada_por').val();
                 var sigla = $('.siglas').val();
                 var numero = $('.codigo').val();
-                var ruta_desde = $('.ruta_desde').val();
-                var ruta_hasta = $('.ruta_hasta').val();
-                var encend = $('.encend').val();
-                var apag = $('.apag').val();
-
-
-                if(encend === ""){
-                    encend = "00:00";
-                }
-                if(apag === ""){
-                    apag = "00:00";
-                }
-
-                if(sigla === "EVENTUAL" || sigla === "" || sigla === null || numero === "" || numero === null || numero === "EVENTUAL"){
-                    var codigo = "EVENTUAL";
-                }else{
-                    var codigo = ""+sigla+"-"+numero+"";
-                }
-
-
+                
                 //VALIDAR PASO UNO HEADER
-                if(ordenada_por===""){
+                if(ordenada_por==="" || sigla===""){
                     console.log('no puedes guardar datos vacios')
                 }else{
+
+                    if(sigla ==="ALERTA"){
+                        var codigo = "ALERTA";
+                        var ruta_desde = "EVENTUAL";
+                        var ruta_hasta = "EVENTUAL";
+                        var encend = "EVENTUAL";
+                        var apag = "EVENTUAL";
+                    } else {
+
+                        var codigo = sigla+"-"+numero;
+                        var ruta_desde = $('.ruta_desde').val();
+                        var ruta_hasta = $('.ruta_hasta').val();
+                        var encend = $('.encend').val();
+                        var apag = $('.apag').val();
+                        if(encend === ""){
+                            encend = "EVENTUAL";
+                        }
+                        if(apag === ""){
+                            apag = "EVENTUAL";
+                        }
+
+                    }
+
                     //ENVIAR
                     $.ajax({
                     url:"{{ route('store_a1') }}",
                     method:'POST',
                     data:{
+                        pierna:0,
                         ordenada_por:ordenada_por,
                         codigo:codigo.toUpperCase(),
                         ruta_desde:ruta_desde,
@@ -500,7 +548,7 @@
                             if(response.success){
 
                                 var fam_id = response.data[0].fam0001_id;
-                                window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                                window.location.href = "{{URL::to('/dao/editar-programacion')}}/"+fam_id;
 
                             }
                         },
