@@ -96,10 +96,7 @@
                                                 <th>Ausente sin Causa Justificada</th>
                                                 <td>{{ $parte_general->total10}}</td>
                                             </tr>
-                                            <tr>
-                                                <th>Destacado fuera de la Unidad</th>
-                                                <td>{{ $parte_general->total11}}</td>
-                                            </tr>
+                                
                                             <tr>
                                                 <th>Consulta</th>
                                                 <td>{{ $parte_general->total12}}</td>

@@ -10,7 +10,7 @@
   <hr class="horizontal dark mt-0">
   <div style="height: 100%;" class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      @role('administrador')
+      @role('administrador|consulta')
       <li class="nav-item">
         <a  class="nav-link {{ (Request::is('dashboard') ? 'active' : '') }}" href="{{ url('dashboard') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -195,6 +195,31 @@
             <span class="nav-link-text ms-1">Reporte de Pilotos</span>
         </a>
       </li>--}}
+      @endrole
+{{--  Xcomentario  siderbar de roles de aviacion consulta y jefe de personal--}}
+      @role('consulta|jefe-personal')
+
+
+      <li class="nav-item">
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
+
+          </div>
+          <span class="nav-link-text ms-1">RRHH </span>
+        </a>
+
+        <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
+          <ul style="margin-left:40px;" class="list-group">
+
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('sireh/personal-militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+            </li>
+
+
+          </ul>
+        </div>
+      </li>
       @endrole
       {{--
       <li class="nav-item mt-2">

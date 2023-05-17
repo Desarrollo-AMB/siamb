@@ -1,7 +1,7 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-  @hasexactroles('administrador')
+@hasanyrole('administrador|consulta')
     <div class="row my-4">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card ">
@@ -248,8 +248,8 @@
         </div>
       </div>
     </div>
-  @endhasexactroles
-  @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador')
+    @endhasanyrole
+  @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador|consulta')
     <div class="row mt-4">
       <div class="col-lg-12">
         <div class="card z-index-2">
