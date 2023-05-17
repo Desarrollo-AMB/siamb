@@ -86,10 +86,21 @@ class FormaFAMController extends Controller
 
     public function daoMilitar()
     {
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
+        if(count($empleado)>0){
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+        } else {
+            $rol_user = 'administrador';
+            $codigo_ubicacion = 0;
+        }
+
         $funcionEmpleado = FuncionTripulante::get();
         return view('dao.personal.militar.index',
             compact(
-                'funcionEmpleado'
+                'funcionEmpleado', 'rol_user', 'codigo_ubicacion'
             )
         );
     }
@@ -135,13 +146,29 @@ class FormaFAMController extends Controller
     //Obtiene el personal militar, exclusivo por api para el Datatable
     public function personalMilitarDao(Request $request){
 
+        $rolUser = $request->input('rolUser');
+        $codigoUbicacion = $request->input('codigoUbicacion');
+        //$user_id = auth()->id();
+        $numero= 1;
+        //$empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
         $empleados = Empleado::where('empleados.situacion','A');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
-        $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+
+        if($rolUser === 'aviacion_dao'){
+            $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+        } elseif($rolUser === 'aviacion_grupo_aereo'){
+            $empleados->where('ubicaciones.codigo_ubicacion',$codigoUbicacion);
+        } elseif($rolUser === 'administrador'){
+            $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+        }
+
+
+
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -153,6 +180,8 @@ class FormaFAMController extends Controller
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         );
+
+
         $datatable= Datatables::of($empleados)
             ->addColumn('actions', 'dao.personal.militar._actions')
             ->rawColumns(['actions']);
