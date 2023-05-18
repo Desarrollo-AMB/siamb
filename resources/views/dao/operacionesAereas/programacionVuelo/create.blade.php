@@ -71,16 +71,13 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                            <div class="col-sm-2 mb-2 mb-sm-0">
-                                <h6>MATRICULAS ALTERNAS</h6>
-                            </div>
-                            <div class="col-sm-2 mb-2 mb-sm-0">
-                                <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect" disabled="true">
-                                    <option value="">Seleccionar...</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-8 mb-2 mb-sm-0" id="div_matricula_input">
-                                <input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>MATRICULAS ALTERNAS:</strong>
+                                    <br>
+                                    <select class="select2 form-control" name="matricula_alterna" id="matricula_alterna" multiple required disabled>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- fin de otro formato -->
@@ -180,7 +177,7 @@
 
 @section('scripts')
     <script>
-           $(document).ready(function() {
+        $(document).ready(function() {
     $('#responsiveA1').DataTable({
         responsive: true
     });
@@ -190,7 +187,6 @@
             var id_fam0001;
             var fam0001_a1_mision_id;
             var ov_ota_om;
-            var matriculaOld;
 
             // Obtengo la fecha del día siguiente para usarla tanto en la cabecera como en la programación
             var fechaActual = new Date();
@@ -204,6 +200,13 @@
             // Obtengo la OV
             var ov_ota_om = $('input:radio[name=ov_ota_om]:checked').val()+"-"+unidad_ov+"-"+fecha_inv;
 
+            $('#matricula_alterna').select2({
+                allowClear: true,
+                minimumResultsForSearch: -1,
+                width: 300
+            });
+            $("#matricula_alterna").prop('disabled', true);
+
 
             $('.aeronaves').val('').trigger('change');
             $('#fecha_cabecera').val(fechaManana);
@@ -213,7 +216,6 @@
             //PASO 1 Convierto en select2 los campos que lo necesitan
             $('#naves').select2();
             $('#matricula').select2();
-            $('#matriculaSelect').select2();
             $('.base_estacion').select2();
             $('.ordenada_por').select2();
             $('.siglas').select2();
@@ -270,6 +272,8 @@
             });
 
             $('#naves').on('change', function() {
+                $("#matricula_alterna").empty();
+                $("#serial").val('');
                 var naveId = $(this).val();
                 if (naveId) {
                     $.ajax({
@@ -299,10 +303,11 @@
             });
 
             $('#matricula').on('change', function() {
+                $("#matricula_alterna").empty();
+                $("#matricula_alterna").prop('disabled', false);
                 $("#serial").val('');
                 var matriculaId = $(this).val();
                 var naveId = $('#naves').val();
-
 
                 if (matriculaId) {
                     $.ajax({
@@ -325,70 +330,30 @@
                         type: "GET",
                         url: "{{ route('matriculasAlternas') }}",
                         data: {
-                            "id":  matriculaOld+', '+matriculaId,
+                            "id":  matriculaId,
                             "naved": naveId
                         },
                         success: function(res) {
                             if (res) {
-                                $('#matriculaSelect').prop('disabled', false);
-                                $("#matriculaSelect").empty();
-                                $("#matriculaSelect").append(
-                                    '<option value="">Seleccionar..</option>');
 
-                                $.each(res, function(key, value) {
-                                    $("#matriculaSelect").append(
-                                        '<option class="load_matricula" value="' +
-                                        value.matricula + '">' + value.matricula +
-                                        '</option>');
-                                });
+                                if(res.length == 0){
+
+                                    $("#matricula_alterna").append(
+                                        '<option value="SIN MATRICULAS ALTERNAS">Sin Alternas</option>');
+                                } else{
+
+                                    $.each(res, function(key, value) {
+                                        $("#matricula_alterna").append(
+                                            '<option class="load_matricula" value="' +
+                                            value.matricula + '">' + value.matricula +
+                                            '</option>');
+                                    });
+                                }
                             }
                         }
                     });
                 }
             });
-
-            $('#matriculaSelect').on('change', function() {
-                var matriculaAeronveSelect = $('#matricula').val();
-                var matriculaId = $(this).val();
-                var naveId = $('#naves').val();
-
-                if(matriculaOld == null){
-                    matriculaOld = matriculaId;
-                } else{
-                    matriculaOld = matriculaOld + ', ' + matriculaId;
-                }
-                if (matriculaId) {
-
-                    $("#div_matricula_input").empty();
-                    $("#div_matricula_input").append(
-                    '<input type="text" name="matricula_alterna" id="matricula_alterna" class="form-control matricula_alterna" width="100%" value="'+matriculaOld+'">');
-                    $("#matriculaSelect").empty();
-                    $("#matriculaSelect").append(
-                        '<option value="">Seleccionar..</option>');
-
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('matriculasAlternas') }}",
-                        data: {
-                            "id": matriculaOld+', '+matriculaAeronveSelect,
-                            "naved": naveId
-                        },
-                        success: function(res) {
-                            if (res) {
-                                console.log(res[0].serial);
-
-                                $.each(res, function(key, value) {
-                                    $("#matriculaSelect").append(
-                                        '<option class="load_matricula" value="' +
-                                        value.matricula + '">' + value.matricula +
-                                        '</option>');
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-
 
             //FORMULARIO GUARDAR
             $.ajaxSetup({
@@ -413,7 +378,8 @@
                 var ordenada_por = $('.ordenada_por').val();
                 var sigla = $('.siglas').val();
                 var numero = $('.codigo').val();
-                var matriculas_alternas = $('#matricula_alterna').val();
+                var array_matriculas_alternas = $('#matricula_alterna').select2().val();
+                var matriculas_alternas = array_matriculas_alternas.join(' - ');
                 var ruta_desde = "";
                 var ruta_hasta = "";
 
@@ -564,6 +530,79 @@
                 }
 
             }
+
+
+            //PASO #5 - GUARDAR SIN PROGRAMACION
+            $("#enviarSinProgramacion").click(function(e) {
+                e.preventDefault();
+                var unidad = $('.unidad').val();
+
+                //ENVIAR
+                $.ajax({
+                    url: "{{ route('store_programacion') }}",
+                    method: 'POST',
+                    data: {
+                        ov_ota_om: '',
+                        componente_organismo: '',
+                        unidad: unidad,
+                        aeronave_modelo: 1,
+                        serial: '',
+                        matricula: '',
+                        base_estacion: '',
+                        completado: "sinProg",
+                        matriculas_alternas: ''
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log(response)
+
+                            //ENVIAR
+                            $.ajax({
+                            url:"{{ route('store_a1') }}",
+                            method:'POST',
+                            data:{
+                                pierna:0,
+                                ordenada_por:'',
+                                codigo:'',
+                                ruta_desde:'',
+                                ruta_hasta:'',
+                                encend:'',
+                                apag:'',
+
+                                ov_ota_om: '',
+                                fam0001_id: response.data.id,
+                                completado: "sinProg",
+                                },
+                                success:function(response){
+                                    if(response.success){
+
+                                        Swal.fire({
+                                            title: '¡Sin Programación!',
+                                            text: 'Se ha reportado sin programación de vuelo.',
+                                            icon: 'warning',
+                                            timer: 3000,
+                                            showConfirmButton: true,
+                                        });
+
+                                        setTimeout(function () {
+                                            window.location = "{{ route('dao.ver_programacion') }}"
+                                        }, 2000);
+
+                                    }
+                                },
+                                error:function(error){
+                                    console.log(error)
+                                }
+                            });
+
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                });
+
+            });
         });
     </script>
 @endsection
