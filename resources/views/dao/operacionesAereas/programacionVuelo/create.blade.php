@@ -61,11 +61,21 @@
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                     <select name="base_estacion" class="form-control base_estacion load_estacion">
-                                        <option value=""></option>
+                                        <option value="">Selecione..</option>
                                         @foreach ($bases as $data)
-                                            <option value="{{ $data->id }}">{{ $data->descripcion }} -
+                                            <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
                                                 {{ $data->siglas }}</option>
                                         @endforeach
+                                        <option value="">_______PARROQUIA__________</option>
+                                        @foreach ($parroquias as $data)
+                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                            </option>
+                                    @endforeach
+                                    <option value="">_______AEROPUERTOS_________</option>
+                                    @foreach($aeropuertos as $data)
+                                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                                @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -140,6 +150,16 @@
                                                     {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
                                                 @endforeach
+                                                <option value="">_______PARROQUIA__________</option>
+                                                @foreach ($parroquias as $data)
+                                                <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                                    </option>
+                                            @endforeach
+                                            <option value="">_______BASE__________</option>
+                                            @foreach ($bases as $data)
+                                            <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                                {{ $data->siglas }}</option>
+                                        @endforeach
                                             </select>
                                         </td>
                                         <td>
@@ -149,6 +169,16 @@
                                                     {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
                                                 @endforeach
+                                                <option value="">_______PARROQUIA__________</option>
+                                        @foreach ($parroquias as $data)
+                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                            </option>
+                                    @endforeach
+                                    <option value="">_______BASE__________</option>
+                                    @foreach ($bases as $data)
+                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                        {{ $data->siglas }}</option>
+                                @endforeach
                                             </select>
                                         </td>
                                         <td>

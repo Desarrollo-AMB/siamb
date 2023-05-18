@@ -33,7 +33,7 @@ use DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProgramacionVueloExport;
-
+use App\Models\Parroquias;
 use Illuminate\Http\Request;
 
 class FormaFAMController extends Controller
@@ -224,6 +224,7 @@ class FormaFAMController extends Controller
 
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
+        $parroquias = Parroquias::get();
         $aeropuertos = Aeropuerto::get();
         $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
 
@@ -241,7 +242,7 @@ class FormaFAMController extends Controller
 
         $clasificacion = Config::get('constants.clasificacion_cargo');
 
-        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'aeropuertos', 'nomenclaturaUnidad'));
+        return view('dao.operacionesAereas.programacionVuelo.create', compact('clasificacion','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'aeropuertos', 'nomenclaturaUnidad','parroquias'));
     }
 
     public function imprimirProgramacion() {
@@ -292,6 +293,7 @@ class FormaFAMController extends Controller
     public function editProgramacion($fam_id)
     {
         $bases = Base::get();
+        $parroquias = Parroquias::get();
         $aeropuertos = Aeropuerto::get();
         $vueloOrdenadaPor = VueloOrdenadaPor::get();
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
@@ -312,11 +314,15 @@ class FormaFAMController extends Controller
         }
         $headerFam0001 = Fam0001::where('id',$fam_id)->with('aeronaves')->get();
         $matriculas = AeronaveMatricula::whereNotIn('matricula', [$headerFam0001[0]->matricula])->where('aeronave_id', [$headerFam0001[0]->aeronave_modelo])->get();
-        $baseSelect = Base::where('id',$headerFam0001[0]->base_estacion)->get();
-        $baseSelect = $baseSelect[0];
+        /*$baseSelect = Base::where('id',$headerFam0001[0]->base_estacion)->get();
+        $baseSelect = $baseSelect[0];*/
         $fam0001 = $fam_id;
 
-        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'baseSelect', 'aeropuertos'));
+        $ubicacion= Fam0001::where('id',$fam_id)
+        ->select('base_estacion')
+        ->get();
+
+        return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'parroquias', 'aeropuertos' ,'ubicacion'));
     }
 
     public function programacion_data(Request $request)
