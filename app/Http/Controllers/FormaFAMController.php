@@ -736,6 +736,36 @@ class FormaFAMController extends Controller
 
     }
 
+
+    public function store_a1_sinProgramacion(Request $request)
+    {
+        $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
+
+        $flyLoop = count($checkVuelo);
+
+        $A1 = new Fam0001A1Mision;
+        $A1->vuelo = $flyLoop < 1 ? $A1->vuelo = 1: $A1->vuelo = $flyLoop + 1;
+        $A1->ov_ota_om = $request->ov_ota_om;
+        $A1->fam0001_id = $request->fam0001_id;
+        $A1->completado = $request->completado;
+        $A1->user_id = auth()->id();
+        $A1->save();
+
+        $A1_id = Fam0001A1Mision::where('id',$A1->id)->get();
+        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'data' => $A1_data,
+                'A1_id' => $A1_id
+            ]
+        );
+
+    }
+
+
     public function consumibles()
     {
         $consumibles = UnidadesConsumible::get();

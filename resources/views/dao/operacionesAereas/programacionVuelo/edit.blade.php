@@ -182,7 +182,7 @@
 
                                                     </select>
                                                 @else
-                                                    <select name="ruta_desde" disabled
+                                                    <select name="ruta_desde"
                                                         class="form-control ruta_desde load_ruta_desde"
                                                         id="ruta_desde{{ $data->id }}">
                                                         <option value="{{ $data->ruta_desde}}">{{ $data->ruta_desde }}
@@ -219,7 +219,7 @@
 
                                                     </select>
                                                 @else
-                                                    <select name="ruta_hasta" disabled
+                                                    <select name="ruta_hasta"
                                                         class="form-control ruta_hasta load_ruta_hasta"
                                                         id="ruta_hasta{{ $data->id }}">
                                                         <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}

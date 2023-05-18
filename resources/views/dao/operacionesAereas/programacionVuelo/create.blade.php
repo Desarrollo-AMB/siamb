@@ -588,16 +588,9 @@
 
                             //ENVIAR
                             $.ajax({
-                            url:"{{ route('store_a1') }}",
+                            url:"{{ route('store_a1_sinProgramacion') }}",
                             method:'POST',
                             data:{
-                                pierna:0,
-                                ordenada_por:'',
-                                codigo:'',
-                                ruta_desde:'',
-                                ruta_hasta:'',
-                                encend:'',
-                                apag:'',
 
                                 ov_ota_om: '',
                                 fam0001_id: response.data.id,

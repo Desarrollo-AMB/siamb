@@ -369,6 +369,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('steps_status',             [FormaFAMController::class, 'steps_status'])->name('steps_status');
     Route::post('store_header',             [FormaFAMController::class, 'store'])->name('store_header');
     Route::post('store_a1',                 [FormaFAMController::class, 'store_a1'])->name('store_a1');
+    Route::post('store_a1_sinProgramacion', [FormaFAMController::class, 'store_a1_sinProgramacion'])->name('store_a1_sinProgramacion');
     Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles');
     Route::post('store_a1_consumibles',     [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
     Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');
