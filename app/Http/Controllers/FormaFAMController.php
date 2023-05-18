@@ -1309,4 +1309,28 @@ class FormaFAMController extends Controller
         return $pdf->stream('REPORTE.pdf');
         //return view('dao.forms.imprimir_reporte', compact('piloto'));
     }
+
+    public function ProFin ()
+    {
+        $user = auth()->user()->id;
+
+        $ubicacion = Nomina::select('nomina.codigo_ubicacion as ubicacion')
+        ->join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
+        ->where('empleados.user_id','=',$user)
+        ->first();
+
+        $aeronave = AeronaveUnidades::select('aeronave_unidad.codigos as aeronave')
+        ->join('nomina','nomina.codigo_ubicacion','=','aeronave_unidad.codigo_ubicacion')
+        ->where('aeronave_unidad.codigo_ubicacion','=',$ubicacion->ubicacion)
+        ->first();
+
+
+
+        $aeronaveM = AeronaveModelo::select('aeronave_modelo.aeronave as modelo','aeronave_matricula.matricula as matricula')
+        ->join('aeronave_matricula','aeronave_matricula.aeronave_id','=','aeronave_modelo.id')
+        ->where('aeronave_modelo.codigo_unidad','=',$aeronave->aeronave)  ->get();
+
+        return view('dao.operacionesAereas.create',compact('ubicacion','aeronave','aeronaveM'));
+    }
 }
+
