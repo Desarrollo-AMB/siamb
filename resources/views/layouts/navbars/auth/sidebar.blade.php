@@ -197,7 +197,7 @@
       </li>--}}
       @endrole
 {{--  Xcomentario  siderbar de roles de aviacion consulta y jefe de personal--}}
-      @role('consulta|jefe-personal')
+      @role('consulta|jefe_de_personal')
 
 
       <li class="nav-item">
