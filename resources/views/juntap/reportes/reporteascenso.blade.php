@@ -335,7 +335,7 @@
                     $('#select_cat').show();
                     $('#select_OF').hide();
                     $('#select_TP').hide();
-                    $('#f').hide();
+                   // $('#f').hide();
 
                 } else if (selectedValue === 'grado') {
 

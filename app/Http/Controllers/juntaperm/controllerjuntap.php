@@ -48,6 +48,7 @@ use Intervention\Image\Facades\Image;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\PdfMerger;
+use DateTime;
 
 
 class controllerjuntap extends Controller
@@ -80,7 +81,7 @@ class controllerjuntap extends Controller
 
     public function asccategoria()
     {
-        return view('juntap.ascenso.categoria');
+        return view('juntap.ascenso.index');
     } //
     public function indexPersonalMilitarasc()
     {
@@ -429,7 +430,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -476,7 +480,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -520,7 +527,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -564,7 +574,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -628,7 +641,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -688,7 +704,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -747,7 +766,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -806,7 +828,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -867,7 +892,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -980,7 +1008,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -1027,7 +1058,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -1071,7 +1105,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -1115,7 +1152,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1179,7 +1219,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1239,7 +1282,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1298,7 +1344,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1357,7 +1406,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1418,7 +1470,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1531,7 +1586,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -1578,7 +1636,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -1622,7 +1683,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -1666,7 +1730,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1730,7 +1797,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1790,7 +1860,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1849,7 +1922,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1908,7 +1984,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -1969,7 +2048,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -2082,7 +2164,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2129,7 +2214,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -2173,7 +2261,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -2217,7 +2308,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2281,7 +2375,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2341,7 +2438,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2400,7 +2500,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2459,7 +2562,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2520,7 +2626,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2632,7 +2741,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2679,7 +2791,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -2723,7 +2838,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -2767,7 +2885,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2831,7 +2952,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2891,7 +3015,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -2950,7 +3077,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3009,7 +3139,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3070,7 +3203,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3182,7 +3318,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3229,7 +3368,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -3273,7 +3415,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -3317,7 +3462,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3381,7 +3529,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3441,7 +3592,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3500,7 +3654,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3559,7 +3716,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3620,7 +3780,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3733,7 +3896,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3780,7 +3946,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -3824,7 +3993,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -3868,7 +4040,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3932,7 +4107,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -3992,7 +4170,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4051,7 +4232,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4110,7 +4294,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4171,7 +4358,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4283,7 +4473,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             //  ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4330,7 +4523,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -4374,7 +4570,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->where(function ($query) {
@@ -4418,7 +4617,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4482,7 +4684,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4542,7 +4747,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4601,7 +4809,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4660,7 +4871,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4721,7 +4935,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -4834,7 +5051,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -4899,7 +5119,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -4961,7 +5184,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -5022,7 +5248,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -5084,7 +5313,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -5147,7 +5379,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->where(function ($query) {
                                 $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -5259,7 +5494,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5300,7 +5538,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5339,7 +5580,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5379,7 +5623,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -5438,7 +5685,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -5494,7 +5744,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -5549,7 +5802,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -5605,7 +5861,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -5662,7 +5921,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -5735,7 +5997,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5776,7 +6041,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5815,7 +6083,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -5855,7 +6126,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -5914,7 +6188,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -5970,7 +6247,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6025,7 +6305,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -6081,7 +6364,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -6138,7 +6424,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -6214,7 +6503,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6255,7 +6547,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6294,7 +6589,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6334,7 +6632,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6393,7 +6694,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6449,7 +6753,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6504,7 +6811,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -6560,7 +6870,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -6617,7 +6930,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -6688,7 +7004,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6729,7 +7048,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6768,7 +7090,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -6808,7 +7133,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6867,7 +7195,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6923,7 +7254,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -6978,7 +7312,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7034,7 +7371,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7091,7 +7431,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -7164,7 +7507,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -7205,7 +7551,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -7244,7 +7593,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -7284,7 +7636,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -7343,7 +7698,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -7399,7 +7757,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -7454,7 +7815,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7510,7 +7874,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7567,7 +7934,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -7637,7 +8007,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -7693,7 +8066,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
@@ -7750,7 +8126,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7808,7 +8187,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7867,7 +8249,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
                             ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
@@ -7923,7 +8308,10 @@ class controllerjuntap extends Controller
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                             ->where('datos_militares.codigo_categoria', $categoria)
                             ->where('nomina.grado_militar', '=', $grado)
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereRaw("MONTH(fecha_graduacion) = 7")
 
@@ -8123,6 +8511,8 @@ class controllerjuntap extends Controller
             }
         } else {
 
+          
+
             if ($select_just == 'no') {
 
                 DB::table('datos_militares')
@@ -8142,7 +8532,7 @@ class controllerjuntap extends Controller
                 // Editar la tabla "nomina"
                 $result = DB::table('nomina')
                     ->where('codigo_empleado', $codigo_empleado)
-                    ->update(['grado_militar' => $codigo_grado]);
+                    ->update(['grado_militar' => $select_ofi]);
 
 
                 DB::table('historico_ascensos')->insert([
@@ -8254,13 +8644,50 @@ class controllerjuntap extends Controller
         $fecha_cat = $request->input('fecha_cat');
         $resuelto_cat = $request->input('resuelto_cat');
 
+        $select_tp_cat = $request->input('select_tp_cat');
+
+//dd($select_ofi_cat);
+
+if($select_ofi_cat == null){
+
+    $result =  DB::table('datos_militares')
+            ->where('codigo_empleado', $codigo_empleado_cat)
+            ->update([
+                'codigo_categoria' => $select_categoria,
+                'fecha_ultimo_ascenso' => $fecha_cat,
+                'orden_merito' => $om_cat,
+                'total_orden_merito' => $omt_cat
+            ]);
+
+
+        $desc_grado = DB::table('grados_militares')
+            ->where('codigo_grado', $select_tp_cat)
+            ->pluck('siglas')
+            ->first();
+
+        // Editar la tabla "nomina"
+        $result11 =  DB::table('nomina')
+            ->where('codigo_empleado', $codigo_empleado_cat)
+            ->update(['grado_militar' => $select_tp_cat]);
+//dd($result11);
+
+        DB::table('historico_ascensos')->insert([
+            'codigo_empleado' => $codigo_empleado_cat,
+            'codigo_grado' => $select_tp_cat,
+            'fecha_ascenso' => $fecha_cat,
+            'orden_merito_ascenso' => $om_cat,
+            'total_orden_merito_ascenso' => $omt_cat,
+            'orden_merito_junta' => $om_cat,
+            'total_orden_merito_junta' => $omt_cat,
+            'resolucion' => $resuelto_cat
+
+        ]);
+
+    }else{
 
 
 
-
-
-
-        DB::table('datos_militares')
+        $result =   DB::table('datos_militares')
             ->where('codigo_empleado', $codigo_empleado_cat)
             ->update([
                 'codigo_categoria' => $select_categoria,
@@ -8276,10 +8703,10 @@ class controllerjuntap extends Controller
             ->first();
 
         // Editar la tabla "nomina"
-        $result = DB::table('nomina')
+       $res=  DB::table('nomina')
             ->where('codigo_empleado', $codigo_empleado_cat)
             ->update(['grado_militar' => $select_ofi_cat]);
-
+//dd($res);
 
         DB::table('historico_ascensos')->insert([
             'codigo_empleado' => $codigo_empleado_cat,
@@ -8294,15 +8721,18 @@ class controllerjuntap extends Controller
         ]);
 
 
+
+
+    }
         if ($result) {
-            $mensaje = 'Ascenso Exitoso para el Empleado con el Código: [' . $codigo_empleado_cat . ']';
+            $mensaje = 'Cambio de Categoria Exitoso para el Empleado con el Código: [' . $codigo_empleado_cat . ']';
             $response = [
                 'data' => $mensaje,
                 'success' => true,
                 //'message' => $mensaje
             ]; // Incrementar el contador de empleados ascendidos
         } else {
-            $mensaje = 'Error al Ascender el Empleado con el Código: [' . $codigo_empleado_cat . ']';
+            $mensaje = 'Error Cambio de Categoria del Empleado con el Código: [' . $codigo_empleado_cat . ']';
             $response = [
                 'data' => $mensaje,
                 'success' => false,
@@ -8317,6 +8747,11 @@ class controllerjuntap extends Controller
 
 
         return response()->json($response);
+
+
+
+
+
     }
 
     public function ascreporter(Request $request)
@@ -8354,7 +8789,10 @@ class controllerjuntap extends Controller
             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             ->where('datos_militares.codigo_categoria', $categoria)
             ->where('nomina.grado_militar', '=', $ofi)
-            ->where('empleados.situacion', 'A')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
             ->where(function ($query) {
@@ -8410,7 +8848,10 @@ class controllerjuntap extends Controller
             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             ->where('datos_militares.codigo_categoria', $coma)
             ->where('nomina.grado_militar', '=', $ofi)
-            ->where('empleados.situacion', 'A')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
             ->where(function ($query) {
@@ -8486,24 +8927,39 @@ class controllerjuntap extends Controller
 
     public function personalMilitarasc(Request $request)
     {
-        $empleados = Empleado::where('empleados.situacion', 'A');
-        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
-        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
-        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
-        $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+       // $empleados = Empleado::where('empleados.situacion', 'A');
 
-        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
-        $empleados->select(
-            'empleados.id',
-            'empleados.codigo_empleado',
-            'empleados.cedula',
-            'empleados.nombre1',
-            'empleados.nombre2',
-            'empleados.apellido1',
-            'empleados.apellido2',
-            'grados_militares.descripcion as grado_militar',
-            'ubicaciones.descripcion as ubicacion',
-        );
+
+
+
+       $empleados = Empleado::where(function ($query) {
+        $query->where('nomina.situacion', 'A')
+            ->orWhere('nomina.situacion', 'S');
+    });
+    $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+    $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+    $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+    $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+
+    $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
+    $empleados->select(
+        'empleados.id',
+        'empleados.codigo_empleado',
+        'empleados.cedula',
+        'empleados.nombre1',
+        'empleados.nombre2',
+        'empleados.apellido1',
+        'empleados.apellido2',
+        'grados_militares.descripcion as grado_militar',
+        'ubicaciones.descripcion as ubicacion',
+    );
+
+
+
+
+      
+  
+       
         $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'juntap.personalm._actions')
             ->rawColumns(['actions']);
@@ -8523,10 +8979,13 @@ class controllerjuntap extends Controller
             ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+           // ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             // ->where('nomina.codigo_empleado', '=',$data->codigo_empleado)
             ->whereIn('nomina.codigo_empleado', $id_array)
-            ->where('empleados.situacion', 'A')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
 
@@ -8598,7 +9057,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -8641,7 +9103,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -8684,7 +9149,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -8727,7 +9195,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -8790,7 +9261,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -8849,7 +9323,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -8905,7 +9382,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -8965,7 +9445,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9022,7 +9505,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9097,7 +9583,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9139,7 +9628,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9181,7 +9673,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9223,7 +9718,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9285,7 +9783,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9343,7 +9844,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9398,7 +9902,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9457,7 +9964,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9513,7 +10023,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 7")
@@ -9587,7 +10100,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9631,7 +10147,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9674,7 +10193,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -9718,7 +10240,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -9780,7 +10305,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -9840,7 +10368,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -9897,7 +10428,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -9958,7 +10492,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10016,7 +10553,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10090,7 +10630,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -10133,7 +10676,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -10175,7 +10721,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
 
                         ->where(function ($query) {
@@ -10218,7 +10767,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10279,7 +10831,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10338,7 +10893,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10394,7 +10952,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10454,7 +11015,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10511,7 +11075,10 @@ class controllerjuntap extends Controller
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->where('datos_militares.codigo_categoria', $categoria)
                         ->where('nomina.grado_militar', '=', $ofi)
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where(function ($query) {
                             $query->whereRaw("MONTH(fecha_graduacion) = 11")
@@ -10639,7 +11206,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -10700,7 +11270,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -10760,7 +11333,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -10818,7 +11394,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -10880,7 +11459,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -10941,7 +11523,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $grado)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11115,7 +11700,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11177,7 +11765,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11238,7 +11829,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11297,7 +11891,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11360,7 +11957,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $tropap)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11422,7 +12022,10 @@ class controllerjuntap extends Controller
                                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                                         ->where('datos_militares.codigo_categoria', $categoria)
                                         ->where('nomina.grado_militar', '=', $grado)
-                                        ->where('empleados.situacion', 'A')
+                                        ->where(function ($query) {
+                                            $query->where('empleados.situacion', 'A')
+                                                ->orWhere('empleados.situacion', 'S');
+                                        })
                                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                                         ->where(function ($query) {
                                             $query->whereRaw("MONTH(fecha_graduacion) = 4")
@@ -11548,7 +12151,10 @@ class controllerjuntap extends Controller
                         ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -11610,7 +12216,7 @@ class controllerjuntap extends Controller
     WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         )
-                       
+
 
                         ->get()
                         ->toArray();
@@ -11628,7 +12234,10 @@ class controllerjuntap extends Controller
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -11688,7 +12297,7 @@ class controllerjuntap extends Controller
     WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         )
-                    
+
 
                         ->get()
                         ->toArray();
@@ -11706,7 +12315,10 @@ class controllerjuntap extends Controller
                         ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -11787,7 +12399,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -11928,7 +12543,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -11990,7 +12608,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
     WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         )
-                       
+
 
                         ->get();
 
@@ -12007,7 +12625,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -12067,7 +12688,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
     WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         )
-                    
+
 
                         ->get();
 
@@ -12084,7 +12705,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -12164,7 +12788,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                        ->where('empleados.situacion', 'A')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->whereIn('datos_militares.codigo_categoria', [$categoria])
                         ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -12304,7 +12931,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                     ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                     ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                    ->where('empleados.situacion', 'A')
+                    ->where(function ($query) {
+                        $query->where('empleados.situacion', 'A')
+                            ->orWhere('empleados.situacion', 'S');
+                    })
                     ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                     ->whereIn('datos_militares.codigo_categoria', [4, 5, 6, 7, 2])
                     ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -12413,7 +13043,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereIn('datos_militares.codigo_categoria', [8])
                             ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -12443,7 +13076,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                     ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                     ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
 
-                    ->where('empleados.situacion', 'A')
+                    ->where(function ($query) {
+                        $query->where('empleados.situacion', 'A')
+                            ->orWhere('empleados.situacion', 'S');
+                    })
                     ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                     ->whereIn('datos_militares.codigo_categoria', [4, 5, 6, 7, 2])
                     ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -12552,7 +13188,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
                             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
                             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('empleados.situacion', 'A')
+                            ->where(function ($query) {
+                                $query->where('empleados.situacion', 'A')
+                                    ->orWhere('empleados.situacion', 'S');
+                            })
                             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                             ->whereIn('datos_militares.codigo_categoria', [8])
                             ->whereIn('nomina.grado_militar', [420, 430, 440, 450, 460, 470])
@@ -12813,37 +13452,37 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         //return $mensaje;
                         // Retorna un mensaje JSON si no hay resultados
 
-                      }  else if ($tipo == "pdf") {
+                    } else if ($tipo == "pdf") {
 
-                            // dd($empleados);
-    
-    
-    
-                            ini_set('max_execution_time', 3600);
-    
-    
-                            $empleados = $this->cat_reporte_pdf($periodo, $fecha, $categoria);
-    
-                            //dd($empleados);
-    
-    
-    /*
+                        // dd($empleados);
+
+
+
+                        ini_set('max_execution_time', 3600);
+
+
+                        $empleados = $this->cat_reporte_pdf($periodo, $fecha, $categoria);
+
+                        //dd($empleados);
+
+
+                        /*
                             $empleados = array_map(function ($fila) {
                                 unset($fila['punto']);
                                 return $fila;
                             }, $empleados);
     */
-                            $pdf = \PDF::loadview('juntap.reportes.reporteascPDF', compact('empleados'))->setPaper('a4', 'landscape');
-                            $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
-    
-                            return $pdf->download($fileName);
-                        } else {
-    
-                            $mensaje = "Error al Completar los Campos.";
-                            // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                            // return echo "<script>mostrarMensaje('$mensaje');</script>";
-                            return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
-                        }
+                        $pdf = \PDF::loadview('juntap.reportes.reporteascPDF', compact('empleados'))->setPaper('a4', 'landscape');
+                        $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
+
+                        return $pdf->download($fileName);
+                    } else {
+
+                        $mensaje = "Error al Completar los Campos.";
+                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
+                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                        return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+                    }
                 }
             }
         } else if ($parte_todo == 'grado') {
@@ -12916,7 +13555,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                         //dd($empleados);
 
 
-/*
+                        /*
                         $empleados = array_map(function ($fila) {
                             unset($fila['punto']);
                             return $fila;
@@ -13022,7 +13661,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                             $empleados = $this->ascreporte_pdf($periodo, $categoria, $ofi, $tropap, $fecha);
-/*
+                            /*
   $empleados = array_map(function ($fila) {
                                 unset($fila['punto']);
                                 return $fila;
@@ -13452,7 +14091,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
     public function personalMilitarJunta(Request $request)
     {
 
-        $empleados = Empleado::where('empleados.situacion', 'A');
+        $empleados = Empleado::where(function ($query) {
+            $query->where('nomina.situacion', 'A')
+                ->orWhere('nomina.situacion', 'S');
+        });
         $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
         $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
@@ -13480,7 +14122,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
     //Obtiene el personal Civil, exclusivo por api para el Datatable
     public function personalCivil(Request $request)
     {
-        $empleados = Empleado::where('empleados.situacion', 'A');
+        $empleados = Empleado::where(function ($query) {
+            $query->where('empleados.situacion', 'A')
+                ->orWhere('empleados.situacion', 'S');
+        });
         //$empleados = Empleado::where('empleados.situacion', '<>','');
         $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
@@ -13509,7 +14154,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
     //Obtiene el personal militar no profesional, exclusivo por api para el Datatable
     public function personalMilitarNoProf(Request $request)
     {
-        $empleados = Empleado::where('empleados.situacion', 'A');
+        $empleados = Empleado::where(function ($query) {
+            $query->where('empleados.situacion', 'A')
+                ->orWhere('empleados.situacion', 'S');
+        });
         $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
         $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
@@ -13643,6 +14291,205 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
         $historico_ascensos = HistoricoAscensos::all();
         $especialidades_militares = EspecialidadesMilitares::all();
         $datos = Empleado::with(['nomina', 'datos_militares'])->find($id);
+        $empleado = Empleado::find($id);
+        $codigo_empleado = $empleado->codigo_empleado;
+
+        $categoriasPermitidas = [2, 4, 5, 6, 7, 8];
+
+        $categoria = DB::table('datos_militares')
+            ->where('codigo_empleado', $codigo_empleado)
+            ->value('codigo_categoria');
+            $fecha_ult = DB::table('datos_militares')
+            ->where('codigo_empleado', $codigo_empleado)
+            ->value('fecha_ultimo_ascenso');
+
+        $grado = DB::table('nomina')
+            ->where('codigo_empleado', $codigo_empleado)
+            ->pluck('grado_militar')
+            ->first();
+
+
+
+if($grado==410 || $grado == 10){
+
+ // El personal no está tentativo a ascender
+ $empleados = 'false';
+ // Tu lógica aquí
+ $fechaAscenso=0;
+
+
+
+}elseif(in_array($categoria, $categoriasPermitidas)){
+    if (strtotime($fecha_ult) === false || $fecha_ult === "0000-00-00") {
+        $empleados = 'null';
+        $fechaAscenso=0;
+    }else{
+
+   
+    if ($categoria == 8) {
+
+
+
+
+        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
+            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+            ->whereIn('datos_militares.codigo_categoria', [$categoria])
+            ->whereIn('nomina.grado_militar', [$grado])
+            ->where('empleados.codigo_empleado', $codigo_empleado)
+            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+           CASE
+               WHEN nomina.grado_militar IN (470) THEN 3
+               WHEN nomina.grado_militar IN (460, 450, 440) THEN 5
+               WHEN nomina.grado_militar IN (430, 420) THEN 4
+               ELSE 0
+           END YEAR) AS fecha_ascenso')
+            ->first();
+
+        if ($empleados == null) {
+
+            $empleados = 'null';
+            $fechaAscenso=0;
+
+
+
+        } else {
+
+
+            $fechaAscenso = $empleados->fecha_ascenso;
+
+
+
+
+
+            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+
+
+            $anioActual = date('Y'); // Obtener el año actual
+
+            // Obtener el año de la fecha de ascenso
+            $anioAscenso = date('Y', strtotime($fechaAscenso));
+
+            if ($anioAscenso == $anioActual) {
+                // El personal está tentativo a ascender este año
+                $empleados = 'true';
+                // Tu lógica aquí
+            } elseif ($anioAscenso < $anioActual) {
+                // El personal está tentativo a ascender también este año
+
+                $fechaObj = new DateTime($fechaAscenso);
+
+                // Actualizar el año
+                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+
+                // Obtener la nueva fecha modificada
+                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                $fechaAscenso = $nuevaFechaAsc;
+
+                $empleados = 'true';
+                // Tu lógica aquí
+            } elseif ($anioAscenso > $anioActual) {
+                // El personal no está tentativo a ascender
+                $empleados = 'false';
+                // Tu lógica aquí
+
+            }
+        }
+    } else {
+
+
+        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
+            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+            ->whereIn('datos_militares.codigo_categoria', [$categoria])
+            ->whereIn('nomina.grado_militar', [$grado])
+            ->where('empleados.codigo_empleado', $codigo_empleado)
+            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+           CASE
+            WHEN nomina.grado_militar IN (090,030, 020, 15) THEN 3
+            WHEN nomina.grado_militar IN (080,070) THEN 5
+            WHEN nomina.grado_militar IN (060,050, 040) THEN 4
+                ELSE 0
+            END YEAR) AS fecha_ascenso')
+            ->first();
+        if ($empleados == null) {
+$empleados = 'null';
+    $fechaAscenso=0;
+        } else {
+
+
+            $fechaAscenso = $empleados->fecha_ascenso;
+
+
+            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+
+
+            $anioActual = date('Y'); // Obtener el año actual
+
+            // Obtener el año de la fecha de ascenso
+            $anioAscenso = date('Y', strtotime($fechaAscenso));
+
+            if ($anioAscenso == $anioActual) {
+                // El personal está tentativo a ascender este año
+                $empleados = 'true';
+                // Tu lógica aquí
+            } elseif ($anioAscenso < $anioActual) {
+                // El personal está tentativo a ascender también este año
+                $fechaObj = new DateTime($fechaAscenso);
+
+                // Actualizar el año
+                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+
+                // Obtener la nueva fecha modificada
+                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                $fechaAscenso = $nuevaFechaAsc;
+                $empleados = 'true';
+                // Tu lógica aquí
+            } elseif ($anioAscenso > $anioActual) {
+                // El personal no está tentativo a ascender
+                $empleados = 'false';
+                // Tu lógica aquí
+
+            }
+
+
+
+
+
+
+        }
+
+
+       
+
+    }
+}
+}else{
+
+    $empleados = 'null';
+    $fechaAscenso=0;
+
+    }
+
+
         return view(
             'juntap.personalm.view',
 
@@ -13668,11 +14515,143 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                 'datos_militares',
                 'especialidades_militares',
                 'lateralidades',
-                'historico_ascensos'
+                'historico_ascensos',
+                'fechaAscenso',
+                'empleados'
             )
         );
     }
+    public function verificar_ascenso(Request $request)
+    {
 
+        try {
+
+            $codigo_empleado = $request->input('codigoEmpleado');
+
+
+
+
+            ini_set('max_execution_time', 3600);
+
+
+            $empleados = [];
+            $datos = "";
+            $complementoTitulo = '';
+            $grado = '';
+
+            $fechaActual = date('Y-m-d');
+
+            $categoria = DB::table('datos_militares')
+                ->where('codigo_empleado', $codigo_empleado)
+                ->pluck('codigo_categoria')
+                ->first();
+
+            $grado = DB::table('nomina')
+                ->where('codigo_empleado', $codigo_empleado)
+                ->pluck('grado_militar')
+                ->first();
+
+            if ($categoria == 8) {
+
+
+
+
+                $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                    ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                    ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                    ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                    ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                    ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                    ->where(function ($query) {
+                        $query->where('empleados.situacion', 'A')
+                            ->orWhere('empleados.situacion', 'S');
+                    })
+                    ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                    ->whereIn('datos_militares.codigo_categoria', $categoria)
+                    ->whereIn('nomina.grado_militar', $grado)
+                    ->where('empleados.codigo_empleado', $codigo_empleado)
+                    ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+                    ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+        CASE
+            WHEN nomina.grado_militar IN (470) THEN 3
+            WHEN nomina.grado_militar IN (460, 450, 440) THEN 5
+            WHEN nomina.grado_militar IN (430, 420) THEN 4
+            ELSE 0
+        END YEAR) AS fecha_ascenso')
+                    ->first();
+
+                $fechaAscenso = $empleados->fecha_ascenso;
+
+
+                //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+
+
+                $anioActual = date('Y'); // Obtener el año actual
+
+                // Obtener el año de la fecha de ascenso
+                $anioAscenso = date('Y', strtotime($fechaAscenso));
+
+                if ($anioAscenso == $anioActual) {
+                    // El personal está tentativo a ascender este año
+                    return $empleados = true;
+                    // Tu lógica aquí
+                } elseif ($anioAscenso < $anioActual) {
+                    // El personal está tentativo a ascender también este año
+                    return $empleados = true;
+                    // Tu lógica aquí
+                } elseif ($anioAscenso > $anioActual) {
+                    // El personal no está tentativo a ascender
+                    return $empleados = false;
+                    // Tu lógica aquí
+
+                }
+            } else {
+                $fecha = 0;
+                $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                    ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                    ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                    ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                    ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                    ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+
+                    ->where('empleados.situacion', 'A')
+                    ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                    ->whereIn('datos_militares.codigo_categoria', [$categoria])
+                    ->whereIn('nomina.grado_militar', [15, 20, 30, 40, 50, 60, 70, 80, 90])
+
+                    ->where(function ($query) use ($fecha) {
+                        $query->whereRaw("DATEDIFF('$fecha', datos_militares.fecha_ultimo_ascenso) >= CASE
+        WHEN nomina.grado_militar IN (090,030, 020, 15) THEN 3*365
+        WHEN nomina.grado_militar IN (080,070) THEN 5*365
+        WHEN nomina.grado_militar IN (060,050, 040) THEN 4*365
+        ELSE 0
+        END");
+                    })
+                    ->select(
+                        'empleados.codigo_empleado',
+                        'datos_militares.codigo_categoria as categoria',
+                        'empleados.cedula as cedula',
+                        'empleados.nombre1 as nombre1',
+                        'empleados.apellido1 as apellido1',
+                        'grados_militares.descripcion as grado_militar',
+                        'grados_militares.grado_a_ascender as grado_ascender',
+
+                    )
+
+
+                    ->get()
+                    ->toArray();
+
+
+
+                return response()->json($empleados);
+            }
+        } catch (\Exception $e) {
+            $mensaje = "Error en la consulta: " . $e->getMessage();
+
+            return response()->json($mensaje);
+        }
+    }
     public function editPersonalMilitar($id)
     {
         $user_auth = auth()->user();
@@ -14274,7 +15253,10 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
             ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             ->leftjoin('especialidades_militares as em1', 'em1.codigo_especialidad', '=', 'datos_militares.codigo_especialidad1')
             ->leftjoin('especialidades_militares as em2', 'em2.codigo_especialidad', '=', 'datos_militares.codigo_especialidad2')
-            ->where('empleados.situacion', 'A')
+            ->where(function ($query) {
+                $query->where('empleados.situacion', 'A')
+                    ->orWhere('empleados.situacion', 'S');
+            })
             ->where('nomina.grado_militar', $request->grado_militar)
             ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
             ->select(

@@ -100,7 +100,7 @@
             font-family: Arial;
         }
 
-
+       
         body {
             font-family: Arial, sans-serif;
         }
@@ -124,6 +124,9 @@
         th {
             background-color: #f2f2f2;
         }
+        #tabla-empleados tbody td {
+        font-size: 10px; /* Tamaño de fuente deseado */
+    }
     </style>
 </head>
 
@@ -148,7 +151,7 @@
         </div>
         <div class="row">
             <h1>REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO</h1>
-            <table>
+            <table id="tabla-empleados">
                 <thead>
                     <tr>
                         <th>#</th>
