@@ -50,37 +50,37 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-2 mb-2 mb-sm-0">
-                                <div class="form-group" id="div_serial">
-                                    <h6>SERIAL</h6>
-                                    <input readonly="true" name="serial" id="serial" type="text"
-                                        class="form-control serial" required="true" value="">
-                                </div>
-                            </div>
-                            <div class="col-sm-4 mb-2 mb-sm-0">
+                            <div class="col-sm-5 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                     <select name="base_estacion" class="form-control base_estacion load_estacion">
-                                        <option value="">Selecione..</option>
+                                        <option value=""  disabled selected>Selecione..</option>
                                         @foreach ($bases as $data)
-                                            <option value="{{ $data->siglas }}">{{ $data->descripcion }}</option>
+                                            <option value="{{ $data->siglas }}">{{ $data->descripcion }} - ({{ $data->siglas }})</option>
                                         @endforeach
-                                        <option value="">_______PARROQUIA__________</option>
+                                        <option value="" disabled selected>_______PARROQUIA__________</option>
                                         @foreach ($parroquias as $data)
-                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}}
+                                            <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
                                             </option>
-                                    @endforeach
-                                    <option value="">_______AEROPUERTOS_________</option>
-                                    @foreach($aeropuertos as $data)
-                                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
-                                                @endforeach
+                                        @endforeach
+                                            <option value="" disabled selected>_______AEROPUERTOS_________</option>
+                                        @foreach($aeropuertos as $data)
+                                                {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                            <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                            <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                <div class="form-group" style="margin-top: 0; display: flex; align-items: flex-start;" id="div_serial">
+                                    <strong style="margin-bottom: 0; margin-top: 0; margin-left: 15px; margin-right: 15px;">SERIAL:</strong>
+                                    <input readonly="true" name="serial" id="serial" type="text"
+                                        class="form-control serial" required="true" value="" style="margin-right: 15px; padding: 5px; margin-top: 0;">
+                                </div>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9">
                                 <div class="form-group">
                                     <strong>MATRICULAS ALTERNAS:</strong>
                                     <br>
@@ -146,16 +146,16 @@
                                                     {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
                                                 @endforeach
-                                                <option value="">_______PARROQUIA__________</option>
+                                                    <option value="">_______PARROQUIA__________</option>
                                                 @foreach ($parroquias as $data)
-                                                <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
                                                     </option>
-                                            @endforeach
-                                            <option value="">_______BASE__________</option>
-                                            @foreach ($bases as $data)
-                                            <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
-                                                {{ $data->siglas }}</option>
-                                        @endforeach
+                                                @endforeach
+                                                    <option value="">_______BASE__________</option>
+                                                @foreach ($bases as $data)
+                                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                                    ({{ $data->siglas }})</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td>
@@ -166,15 +166,13 @@
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
                                                 @endforeach
                                                 <option value="">_______PARROQUIA__________</option>
-                                        @foreach ($parroquias as $data)
-                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
-                                            </option>
-                                    @endforeach
-                                    <option value="">_______BASE__________</option>
-                                    @foreach ($bases as $data)
-                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
-                                        {{ $data->siglas }}</option>
-                                @endforeach
+                                                @foreach ($parroquias as $data)
+                                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }} </option>
+                                                @endforeach
+                                                    <option value="">_______BASE__________</option>
+                                                @foreach ($bases as $data)
+                                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} - ({{ $data->siglas }})</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td>
@@ -285,6 +283,7 @@
                 var siglaId = $(this).val();
                 if (siglaId) {
                     if(siglaId == 'ALERTA'){
+                        $('.codigo').val('').trigger('change');
                         $(".codigo").prop('disabled', true);
                         $(".ruta_desde").prop('disabled', true);
                         $(".ruta_hasta").prop('disabled', true);

@@ -178,7 +178,7 @@
                                                         @endforeach
                                                             <option value="">_______PARROQUIA__________</option>
                                                         @foreach ($parroquias as $dataParroquia)
-                                                            <option value="{{ $dataParroquia->parroquia}}">{{ $dataParroquia->parroquia}}
+                                                            <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                             </option>
                                                         @endforeach
                                                             <option value="">_______BASE__________</option>
@@ -201,7 +201,7 @@
                                                                 @endforeach
                                                                     <option value="">_______PARROQUIA__________</option>
                                                                 @foreach ($parroquias as $dataParroquia)
-                                                                    <option value="{{ $dataParroquia->parroquia}}">{{ $dataParroquia->parroquia}}
+                                                                    <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                                     </option>
                                                                 @endforeach
                                                                     <option value="">_______BASE__________</option>
@@ -227,7 +227,7 @@
                                                         @endforeach
                                                             <option value="">_______PARROQUIA__________</option>
                                                         @foreach ($parroquias as $dataParroquia)
-                                                            <option value="{{ $dataParroquia->parroquia}}">{{ $dataParroquia->parroquia}}
+                                                            <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                             </option>
                                                         @endforeach
                                                             <option value="">_______BASE__________</option>
@@ -251,7 +251,7 @@
                                                             @endforeach
                                                                 <option value="">_______PARROQUIA__________</option>
                                                             @foreach ($parroquias as $dataParroquia)
-                                                                <option value="{{ $dataParroquia->parroquia}}">{{ $dataParroquia->parroquia}}
+                                                                <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                                 </option>
                                                             @endforeach
                                                                 <option value="">_______BASE__________</option>
@@ -360,6 +360,7 @@
                 var id = $(this).attr('id');
                 if (siglaId) {
                     if (siglaId == 'ALERTA') {
+                        $("#codigo" + id).val('').trigger('change');
                         $("#codigo" + id).prop('disabled', true);
                         $("#ruta_desde" + id).prop('disabled', true);
                         $("#ruta_hasta" + id).prop('disabled', true);
@@ -810,9 +811,9 @@
 
                     Swal.fire({
                         title: 'Programación Actualizada con éxito!',
-                        text: 'Se Actualizó con éxito.',
+                        text: '¡EN ALAS VENCEREMOS!',
                         icon: 'success',
-                        timer: 3000,
+                        timer: 6000,
                         showConfirmButton: true,
                     });
                     window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
