@@ -187,22 +187,21 @@
                                                         id="ruta_desde{{ $data->id }}">
                                                         <option value="{{ $data->ruta_desde}}">{{ $data->ruta_desde }}
                                                         </option>
-                                                        @foreach ($aeropuertos as $dataruta_desde)
-                                                            {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                            <option title="{{ $dataruta_desde->nombre }}"
-                                                                value="{{ $dataruta_desde->codigo_icao }}">
-                                                                {{ $dataruta_desde->codigo_icao }}</option>
+                                                                @foreach ($aeropuertos as $dataruta_desde)
+                                                                    <option title="{{ $dataruta_desde->nombre }}"
+                                                                    value="{{ $dataruta_desde->codigo_icao }}">
+                                                                    {{ $dataruta_desde->codigo_icao }}</option>
                                                                 @endforeach
-                                                                <option value="">_______PARROQUIA__________</option>
+                                                                    <option value="">_______PARROQUIA__________</option>
                                                                 @foreach ($parroquias as $data)
-                                                                <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                                                    <option value="{{ $data->parroquia}}">{{ $data->parroquia}}
                                                                     </option>
-                                                            @endforeach
-                                                            <option value="">_______BASE__________</option>
-                                                            @foreach ($bases as $data)
-                                                            <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
-                                                                {{ $data->siglas }}</option>
-                                                        @endforeach
+                                                                @endforeach
+                                                                    <option value="">_______BASE__________</option>
+                                                                @foreach ($bases as $data)
+                                                                    <option value="{{ $data->siglas }}">{{ $data->descripcion }} -
+                                                                    {{ $data->siglas }}</option>
+                                                                @endforeach
 
                                                     </select>
                                                 @endif
@@ -213,7 +212,7 @@
                                                     <select disabled name="ruta_hasta"
                                                         class="form-control ruta_hasta load_ruta_hasta"
                                                         id="ruta_hasta{{ $data->id }}">
-                                                        <option value="{{ $$A1_mision->ruta_hasta }}">{{ $data->ruta_hasta}}
+                                                        <option value="{{ $A1_mision->ruta_hasta }}">{{ $data->ruta_hasta }}
                                                         </option>
 
 
@@ -224,22 +223,21 @@
                                                         id="ruta_hasta{{ $data->id }}">
                                                         <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
                                                         </option>
-                                                        @foreach ($aeropuertos as $dataruta_hasta)
-                                                            {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
-                                                            <option title="{{ $dataruta_hasta->nombre }}"
+                                                            @foreach ($aeropuertos as $dataruta_hasta)
+                                                                <option title="{{ $dataruta_hasta->nombre }}"
                                                                 value="{{ $dataruta_hasta->codigo_icao }}">
                                                                 {{ $dataruta_hasta->codigo_icao }}</option>
-                                                        @endforeach
-                                                        <option value="">_______PARROQUIA__________</option>
-                                                        @foreach ($parroquias as $data)
-                                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
-                                                            </option>
-                                                    @endforeach
-                                                    <option value="">_______BASE__________</option>
-                                                    @foreach ($bases as $data)
-                                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
-                                                        {{ $data->siglas }}</option>
-                                                @endforeach
+                                                            @endforeach
+                                                                <option value="">_______PARROQUIA__________</option>
+                                                            @foreach ($parroquias as $data)
+                                                                <option value="{{ $data->parroquia}}">{{ $data->parroquia}}
+                                                                </option>
+                                                            @endforeach
+                                                                <option value="">_______BASE__________</option>
+                                                            @foreach ($bases as $data)
+                                                                <option value="{{ $data->siglas }}">{{ $data->descripcion }} -
+                                                                {{ $data->siglas }}</option>
+                                                            @endforeach
                                                     </select>
                                                 @endif
                                             </td>
@@ -560,11 +558,42 @@
                             A1_id = response.A1_id[0];
                             nuevaOperacionVuelo =
                                 '<tr id="delete_a1_mision' + A1_id.id + '">\
-                                        <td><span>V</span><input type="hidden" name="id" value="' + A1_id.id +
-                                '"></td>\
-                                        <td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por"><option value="' + A1_id.ordenada_por + '">' +
-                                A1_id.ordenada_por +
-                                '</option>@foreach ($vueloOrdenadaPor as $data)<option value="{{ $data->codigo }}">{{ $data->codigo }}</option>@endforeach</select></td><td><select name="siglas" class="form-control siglas load_siglas"><option value="ALERTA">ALERTA</option>@foreach ($codigoTipoMisionSiglas as $data)<option value="{{ $data->siglas }}">{{ $data->siglas }}</option>@endforeach</select></td><td><select name="codigo" class="form-control codigo load_codigo" disabled><option value=""></option>@foreach ($codigoMision as $data)<option title="{{ $data->nombre }}" value="{{ $data->codigo }}">{{ $data->codigo }}</option>@endforeach</select></td><td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde" disabled><option value="EVENTUAL">EVENTUAL</option>@foreach ($aeropuertos as $data){{-- <option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option> --}}<option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">{{ $data->codigo_icao }}</option>@endforeach</select></td><td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" disabled><option value="EVENTUAL">EVENTUAL</option>@foreach ($aeropuertos as $data){{-- <option value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option> --}}<option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">{{ $data->codigo_icao }}</option>@endforeach</select></td><td><input hidden name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td><input hidden name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value="' +
+                                        <td>\
+                                            <span>V</span>\
+                                            <input type="hidden" name="id" value="' + A1_id.id +'">\
+                                        </td>\
+                                        <td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">\
+                                            <option value="' + A1_id.ordenada_por + '">' + A1_id.ordenada_por +'</option>\
+                                                @foreach ($vueloOrdenadaPor as $data)\
+                                                    <option value="{{ $data->codigo }}">{{ $data->codigo }}</option>\
+                                                @endforeach\
+                                        </select></td>\
+                                        <td><select name="siglas" class="form-control siglas load_siglas">\
+                                            <option value="ALERTA">ALERTA</option>\
+                                                @foreach ($codigoTipoMisionSiglas as $data)\
+                                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                                @endforeach\
+                                                </select></td>\
+                                        <td><select name="codigo" class="form-control codigo load_codigo" disabled>\
+                                            <option value=""></option>\
+                                            @foreach ($codigoMision as $data)\
+                                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{ $data->codigo }}\
+                                                </option>\
+                                            @endforeach\
+                                        </select></td>\
+                                        <td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde" disabled>\
+                                            <option value="EVENTUAL">EVENTUAL</option>\
+                                                @foreach ($aeropuertos as $data)\
+                                                    <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">{{ $data->codigo_icao }}</option>\
+                                                @endforeach\
+                                        </select></td>\
+                                        <td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" disabled>\
+                                            <option value="EVENTUAL">EVENTUAL</option>\
+                                            @foreach ($aeropuertos as $data)\
+                                                <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">\
+                                                {{ $data->codigo_icao }}</option>\
+                                            @endforeach\
+                                        </select></td><td><input hidden name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase"></td><td><input hidden name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;"><button value="' +
                                 A1_id.id +
                                 '" style="background: rgb(189, 0, 0);color: white;" type="button" class="delete_a1_mision btn btn-danger" id="DeleteRow">X</button></td></tr>';
 
