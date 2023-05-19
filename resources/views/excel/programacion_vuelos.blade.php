@@ -117,7 +117,7 @@
         @if ($row->completado === 'sinProg')
             <tr>
                 <td style="text-align: center;">{{ $row->unidad }}</td>
-                <td class="text-center" colspan="9" style="text-align: center;">{{ 'NO HAY VUELOS PROGRAMADOS' }}</td>
+                <td class="text-center" colspan="9" style="text-align: center;">{{ 'NO POSEE VUELOS PROGRAMADOS' }}</td>
             </tr>
         @else
             <tr>
