@@ -54,7 +54,13 @@
                                                 </h2>
                                                 <div id="flush-collapse{{$key}}" class="accordion-collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
-                                                        @if ($data[0]['completado'] == 'sinProg')
+                                                        @php $unidadprogramo = 'si'; @endphp
+                                                        @foreach ($data as $dataunidad)
+                                                            @if ($dataunidad->completado == 'sinProg')
+                                                                @php $unidadprogramo = 'no' @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        @if ($unidadprogramo == 'no')
                                                             <div class="alert alert-warning mx-4" role="alert">
                                                                 <ul>
                                                                     <li><h5>No se ha programado vuelos para esta unidad</h5></li>
@@ -78,12 +84,12 @@
                                                                     @foreach ($data as $datamision)
                                                                         <tr>
                                                                             @role('aviacion_dao|administrador')
-                                                                            <th  class="font-weight-normal">{{$datamision->unidad}}</th>
+                                                                            <th  class="font-weight-normal">{{$datamision->codigos}}</th>
                                                                             @endrole
                                                                             <th class="font-weight-normal">{{$datamision->matricula}}</th>
                                                                             <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
                                                                             <th class="font-weight-normal">
-                                                                                {{$datamision->base->siglas}}
+                                                                                {{$datamision->base_estacion}}
                                                                             </th>
                                                                             <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
                                                                             <th  class="font-weight-normal">{{$datamision->fecha}}</th>

@@ -63,12 +63,11 @@
                                     <select name="base_estacion" class="form-control base_estacion load_estacion">
                                         <option value="">Selecione..</option>
                                         @foreach ($bases as $data)
-                                            <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
-                                                {{ $data->siglas }}</option>
+                                            <option value="{{ $data->siglas }}">{{ $data->descripcion }}</option>
                                         @endforeach
                                         <option value="">_______PARROQUIA__________</option>
                                         @foreach ($parroquias as $data)
-                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}} -
+                                        <option value="{{ $data->parroquia}}">{{ $data->parroquia}}
                                             </option>
                                     @endforeach
                                     <option value="">_______AEROPUERTOS_________</option>

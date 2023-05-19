@@ -156,18 +156,23 @@ class FormaFAMController extends Controller
         //$empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
 
         $empleados = Empleado::where('empleados.situacion','A');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->leftJoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->leftJoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->leftJoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
 
         if($rolUser === 'aviacion_dao'){
             $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+
+            // CON CODIGOS DE PRODUCCION
+            //$empleados->whereIn('ubicaciones.codigo_ubicacion', [0010, 0408, 0409, 0410, 0411, 0412, 0413, 0414, 0415, 0416, 0417, 0418, 0419, 0420, 0421, 0428, 0429]);
         } elseif($rolUser === 'aviacion_grupo_aereo'){
             $empleados->where('ubicaciones.codigo_ubicacion',$codigoUbicacion);
         } elseif($rolUser === 'administrador'){
             $empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
+            // CON CODIGOS DE PRODUCCION
+            /*$empleados->whereIn('ubicaciones.codigo_ubicacion', [0010, 0408, 0409, 0410, 0411, 0412, 0413, 0414, 0415, 0416, 0417, 0418, 0419, 0420, 0421, 0428, 0429]);*/
         }
 
 
@@ -253,6 +258,7 @@ class FormaFAMController extends Controller
         /*$mision = Fam0001A1Mision::all();*/
         $vuelo = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
         ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
+        ->join('aeronave_unidad','aeronave_unidad.codigos','=','fam0001.unidad')
         //->where('fam0001.completado','=','revisado')
         //->where('fam0001.completado','=','sinProg')
         ->where(function ($query) {
@@ -272,7 +278,7 @@ class FormaFAMController extends Controller
             'fam0001_a1_mision.apag AS apag',
             'fam0001.completado AS completado'
         )
-        ->orderBy('unidad','ASC')
+        ->orderBy('aeronave_unidad.id', 'asc')
         ->get();
 
         //dd($vuelo);
@@ -385,13 +391,26 @@ class FormaFAMController extends Controller
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','revisado', 'sinProg'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                $fam0001_data = Fam0001::whereDate('fecha', $fecha_manana)->whereIn('completado', ['enviado','revisado', 'sinProg'])->with('aeronaves')->orderBy('unidad', 'desc')->get();
+
+                $fam0001_unidad = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
+                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
+                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
+                ->with('aeronaves')
+                ->orderBy('aeronave_unidad.id', 'asc')->get();
+
+                $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
+                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
+                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
+                ->with('aeronaves')
+                ->orderBy('aeronave_unidad.id', 'asc')->get();
+
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
-                    $fam0001[$value['unidad']][] = $value;
+                    $fam0001[$value['codigos']][] = $value;
                 }
+
+                //dd($fam0001);
 
                 return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
             }
