@@ -177,6 +177,11 @@
                                     Aeronaves
                                 </a>
                             </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/agenda') ? 'active' : '' }}" href="{{ route('dao.agenda') }}">-
+                                   Agenda de Operaciones
+                                </a>
+                            </li>
                             {{-- <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
                                     class="{{ Request::is('fam0001') ? 'active' : '' }}" href="{{ url('fam0001') }}">-
                                     FAM-0002</a></li>

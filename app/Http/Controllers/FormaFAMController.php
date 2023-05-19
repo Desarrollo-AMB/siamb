@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Exports\ProgramacionFinExport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use App\Models\AeronaveUnidades;
@@ -1406,4 +1408,46 @@ class FormaFAMController extends Controller
         return redirect()->route('dao.forms.ProFin')->with('success', 'Ubicaciones creadas satisfactoriamente');
     }
 
+    public function programacioReportExcel(Request $request) {
+
+
+        $titulo = 'AGENDA DE OPERACIONES AÉREAS DE LA DIRECCIÓN DE APRESTO OPERACIONAL
+        CORRESPONDIENTE AL FIN DE SEMANA';
+        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion'
+
+    )->get();
+
+
+        $nombre_archivo = sprintf('reporte de programacion de fin de semana %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        $data = compact('titulo', 'programacion');
+        return Excel::download(new ProgramacionFinExport($data), $nombre_archivo);
+    }
+
+
+
+    public function imprimir_reportepfd(Request $request) {
+
+
+
+        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion'
+
+    )->get();
+
+        $pdf = \PDF::loadview('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion'))
+        ->setPaper('legal', 'landscape');
+        return $pdf->stream('REPORTE.pdf');
+       // return view('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion'));
+    }
+
+
+
+    public function daoAgenda(){
+
+        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion')
+        ->get();
+
+        return view('dao.agenda.index',compact('programacion'));
+
+
+    }
 }
