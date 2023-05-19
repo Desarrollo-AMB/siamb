@@ -370,6 +370,9 @@
                                         '<option value="SIN MATRICULAS ALTERNAS">Sin Alternas</option>');
                                 } else{
 
+                                    $("#matricula_alterna").append(
+                                        '<option value="SIN MATRICULAS ALTERNAS">Sin Alternas</option>');
+
                                     $.each(res, function(key, value) {
                                         $("#matricula_alterna").append(
                                             '<option class="load_matricula" value="' +
