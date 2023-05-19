@@ -166,7 +166,7 @@ class FormaFAMController extends Controller
             //$empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
 
             // CON CODIGOS DE PRODUCCION
-            $empleados->whereIn('ubicaciones.codigo_ubicacion', [0010, 0408, 0409, 0410, 0411, 0412, 0413, 0414, 0415, 0416, 0417, 0418, 0419, 0420, 0421, 0428, 0429]);
+            $empleados->whereIn('ubicaciones.codigo_ubicacion', ['0010', '0408', '0409', '0410', '0411', '0412', '0413', '0414', '0415', '0416', '0417', '0418', '0419', '0420', '0421', '0428', '0429']);
 
         } elseif($rolUser === 'aviacion_grupo_aereo'){
             $empleados->where('ubicaciones.codigo_ubicacion',$codigoUbicacion);
@@ -174,7 +174,7 @@ class FormaFAMController extends Controller
         } elseif($rolUser === 'administrador'){
             //$empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
             // CON CODIGOS DE PRODUCCION
-            $empleados->whereIn('ubicaciones.codigo_ubicacion', [0010, 0408, 0409, 0410, 0411, 0412, 0413, 0414, 0415, 0416, 0417, 0418, 0419, 0420, 0421, 0428, 0429]);
+            $empleados->whereIn('ubicaciones.codigo_ubicacion', ['0010', '0408', '0409', '0410', '0411', '0412', '0413', '0414', '0415', '0416', '0417', '0418', '0419', '0420', '0421', '0428', '0429']);
         }
 
 
