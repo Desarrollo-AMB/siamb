@@ -33,13 +33,13 @@
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <label for="desde">Desde:</label>
-                                    <input type="date" name="desde[]" class="form-control">
+                                    <input type="date" name="desde[]" class="form-control" value="{{ $fechaDomingo }}" readonly>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <label for="hasta">Hasta:</label>
-                                    <input type="date" name="hasta[]" class="form-control">
+                                    <input type="date" name="hasta[]" class="form-control" value="{{ $fechaSabado }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -126,13 +126,13 @@
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="form-group">
                                             <label for="desde">Desde:</label>
-                                            <input type="date" name="desde[]" class="form-control">
+                                            <input type="date" name="desde[]" class="form-control" value="{{ $fechaDomingo }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="form-group">
                                             <label for="hasta">Hasta:</label>
-                                            <input type="date" name="hasta[]" class="form-control">
+                                            <input type="date" name="hasta[]" class="form-control" value="{{ $fechaSabado }}" readonly>
                                         </div>
                                     </div>
                                 </div>
