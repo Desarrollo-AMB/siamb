@@ -402,9 +402,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('dao/operacionesAereas/create',     [FormaFAMController::class, 'ProFin'])->name('dao.forms.ProFin');
     Route::post('dao/operacionesAereas/store',     [FormaFAMController::class, 'storeProFin'])->name('dao.forms.storeProFin');
     Route::get('dao/operacionesAereas/programacionVuelo/progracionFinExcel',     [FormaFAMController::class, 'programacioReportExcel'])->name('dao.forms.programacionVuelo.progracionFinExcel');
-    Route::get('dao/operacionesAereas/programacionVuelo/programacionfinpdf',     [FormaFAMController::class, 'imprimir_reportepfd'])->name('dao.forms.programacionVuelo.progracionFinPDF');
+    Route::post('dao/operacionesAereas/programacionVuelo/programacionfinpdf',     [FormaFAMController::class, 'imprimir_reportepfd'])->name('dao.forms.programacionVuelo.progracionFinPDF');
     Route::get('/dao/Agenda',                    [FormaFAMController::class, 'daoAgenda'])->name('dao.agenda');
+    Route::get('/dao/Agenda/reportes',                    [FormaFAMController::class, 'PReporte'])->name('dao.reportes');
 });
+
 
 Route::get('no_authorize', function () {
     return view('no_authorize');

@@ -80,7 +80,7 @@
               <a class="{{ (Request::is('sireh/personal-militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
             </li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/personal-civil/index') ? 'active' : '') }}" href="{{ route('sireh.personal-civil.index') }}">Personal Civil</a>
+              <a class="{{ (Request::is('sireh/personal-civil/index') ? 'active' : '') }}" href="{{ route('sireh.personal-civil.index') }}">Personal no Militar</a>
             </li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>

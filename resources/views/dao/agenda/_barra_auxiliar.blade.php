@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-
+    @can('programacion')
     <div class="col-xl-4 col-md-4 col-sm-4 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
@@ -23,8 +23,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    @endcan
+    @can('ver-reporte-agenda')
     <div class="col-xl-4 col-md-4 col-sm-4 mb-xl-0 mb-4">
         <div class="card">
             <div class="card-body p-3">
@@ -39,10 +39,9 @@
                         </div>
                     </div>
                     <div class="col-3 text-end">
-                        <a href="{{ route('dao.forms.programacionVuelo.progracionFinPDF') }}">
-                      {{--    <a href="{{ route('dao.forms.programacionVuelo.progracionFinExcel') }}">--}}
+                        <a href="{{ route('dao.reportes') }}">
                             <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
-                                <i class="fa fa-plane text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fas fa-file-pdf text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
@@ -50,6 +49,6 @@
             </div>
         </div>
     </div>
-
+@endcan
 </div>
 

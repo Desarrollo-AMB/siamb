@@ -9,6 +9,11 @@
             </ul>
         </div>
     @endif
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
     <div class="card-body px-2 pt-2 pb-2">
         <div class="row">
             <div class="col-8">
@@ -18,12 +23,26 @@
                             <div>
                                 <h5 class="mb-0">Programacion fin de Semana</h5>
                             </div>
-                            <a class="btn btn-secondary btn-sm mb-0" href="{{ route('auxiliares.ubicaciones.index') }}">Volver</a>
+                            <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.agenda') }}">Volver</a>
                         </div>
                     </div>
                     <hr class="horizontal dark my-0">
                     <div class="card-body px-2 pt-2 pb-2">
                         {!! Form::open(['route' => 'dao.forms.storeProFin', 'method' => 'POST']) !!}
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="desde">Desde:</label>
+                                    <input type="date" name="desde[]" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="hasta">Hasta:</label>
+                                    <input type="date" name="hasta[]" class="form-control">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
@@ -103,6 +122,20 @@
                     <div class="formulario-adicional mt-3">
                         <div class="card">
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label for="desde">Desde:</label>
+                                            <input type="date" name="desde[]" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label for="hasta">Hasta:</label>
+                                            <input type="date" name="hasta[]" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                         <div class="form-group">

@@ -2,7 +2,8 @@
 
 
 @php
-    use Carbon\Carbon;
+   use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 
 @endphp
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Parte por Unidad </title>
+    <title>Agenda </title>
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
     <style>
         /** Define the margins of your page **/
@@ -29,7 +30,7 @@
             background-color: #4e99e4;
             color: rgb(17, 17, 17);
             opacity: 10;
-          margin-top: 50px;
+            margin-top: 50px;
             line-height: 20px;
             z-index: -44;
             /* Agrega esta línea */
@@ -68,9 +69,6 @@
             float: left;
         }
 
-
-
-
         th,
         td {
             border: 1px solid black;
@@ -83,9 +81,9 @@
 <body>
     <div class="row" style="margin-top:2px">
         <div class="col-xs-2">
-            <img src="{{ public_path('template/assets/img/logo.png') }}"style="margin-left:55px;margin-top:-50px" width="70px" alt="logo">
+            <img src="{{ public_path('template/assets/img/logo.png') }}" style="margin-left:55px;margin-top:-50px" width="70px" alt="logo">
         </div>
-        <div class="col-xs-6" style="text-align: center; margin-top:-60px ;margin-left:55px;" >
+        <div class="col-xs-6" style="text-align: center; margin-top:-60px ;margin-left:55px;">
             <h5>REPÚBLICA BOLIVARIANA DE VENEZUELA<br>
                 MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<br>
                 AVIACIÓN MILITAR BOLIVARIANA<br>
@@ -93,64 +91,73 @@
                 <small> </small>
             </h5>
         </div>
-        <div class="col-xs-3"style="margin-right:150px;">
-            <img src="{{ public_path('template/assets/img/logo.png') }}"style="margin-right:150px;margin-top:-50px" width="70px" alt="logo">
+        <div class="col-xs-3" style="margin-right:150px;">
+            <img src="{{ public_path('template/assets/img/DAO.png') }}" style="margin-right:150px;margin-top:-50px" width="70px" alt="logo">
         </div>
         <br>
-       {{-- <div style="text-align: left;">
-            <label for="" style="margin-right: 50px; text-align: right;">Fecha:</label>
-            <input type="text"  value="" style="text-align: right;border: none;">
-        </div>--}}
-        <br>
 
-        <div  style="text-align: center; margin-top:25px " >
+        <div style="text-align: right;">
+            <span style="margin-right: 150px;" id="fecha_cabecerai" class="mb-0">{{ $fecha_inv }}</span>
+        </div>
+        <br>
+        <div style="text-align: center; margin-top:25px ">
+            @foreach ($programacion as $data)
+        @php
+          $fechaDesde = \Carbon\Carbon::parse($data->desde)->formatLocalized('%d%b%y');
+        $fechaHasta = \Carbon\Carbon::parse($data->hasta)->formatLocalized('%d%b%y');
+        $fechaDesde = strtoupper($fechaDesde);
+        $fechaHasta = strtoupper($fechaHasta);
+        break;
+        @endphp
+    @endforeach
+
             <h5>AGENDA DE OPERACIONES AEREAS DE LA DIRECCION DE APRESTO OPERACIONAL<br>
-                CORRESPONDIENTE A LA SEMANA <br>
+                CORRESPONDIENTE A LA SEMANA  <span id="fecha_cabecerai" class="mb-0">{{  $fechaDesde  }} - {{ $fechaHasta }}</span></h5> <br>
+
+                <small> </small>
+            </h5>
+
+    </div>
+        <table style="margin:0 auto;">
+
+            <thead>
+
+                <tr>
+                    <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">N°</th>
+                    <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">SISTEMA</th>
+                    <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">UNIDAD</th>
+                    <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">SITUACION</th>
+                    <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">OBSERVACION</th>
+                </tr>
+
+            <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach ($programacion as $liste)
+                    <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $liste->sistema }}</td>
+                        <td>{{ $liste->unidad }}</td>
+                        <td>{{ $liste->situacion }}</td>
+                        <td>{{ $liste->observacion }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </thead>
+
+
+        </table>
+
+        <div style="text-align: center; margin-top:300px ">
+            <H6>__________________________________________</H6>
+            <h5>SANTIAGO ALEJANDRO INFANGTE INTRIAGO<br>
+                MAYOR GENERAL<br>
+                COMANDANTE DE LA AVIAION MILITAR BOLIVARIANA<br>
 
                 <small> </small>
             </h5>
         </div>
-
-            <table style="margin:0 auto;" >
-
-                <thead>
-
-                    <tr>
-                        <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">N°</th>
-                        <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">SISTEMA</th>
-                        <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">UNIDAD</th>
-                        <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">SITUACION</th>
-                        <th style="background-color: #3468AF; color: #080808; font-weight: bold; text-align: center; font-size: 10pt;">OBSERVACION</th>
-                    </tr>
-
-                    <tbody>
-                        @php
-                            $i = 1;
-                        @endphp
-                        @foreach ($programacion as $liste)
-                            <tr>
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $liste->sistema }}</td>
-                                <td>{{ $liste->unidad }}</td>
-                                <td>{{ $liste->situacion }}</td>
-                                <td>{{ $liste->observacion }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-            </thead>
-
-
-            </table>
-
-            <div  style="text-align: center; margin-top:450px " >
-                <H6>__________________________________________</H6>
-                <h5>SANTIAGO ALEJANDRO INFANGTE INTRIAGO<br>
-                    MAYOR GENERAL<br>
-                    COMANDANTE DE LA AVIAION MILITAR BOLIVARIANA<br>
-
-                    <small> </small>
-                </h5>
-            </div>
 
     <footer>
         <div style="display: flex; justify-content: space-between;">
@@ -160,6 +167,12 @@
     </footer>
 </body>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fechaActual = new Date().toISOString().slice(0, 10);
+        var fecha_inv = fechaActual.split('-').reverse().join('-');
+        document.getElementById('fecha_cabecera').innerHTML = fecha_inv;
+    });
+</script>
 
 </html>

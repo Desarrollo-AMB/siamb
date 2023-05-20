@@ -1379,6 +1379,7 @@ class FormaFAMController extends Controller
         ->join('aeronave_matricula','aeronave_matricula.aeronave_id','=','aeronave_modelo.id')
         ->where('aeronave_modelo.codigo_unidad','=',$aeronave->aeronave)  ->get();
 
+
         return view('dao.operacionesAereas.create',compact('ubicacion','aeronave','aeronaveM'));
     }
     public function storeProFin(Request $request)
@@ -1387,13 +1388,17 @@ class FormaFAMController extends Controller
             'sistema.*' => 'required',
             'unidad.*' => 'required',
             'situacion.*' => 'required',
-            'observacion.*' => 'required'
+            'observacion.*' => 'required',
+            'desde.*'=>'required',
+            'hasta.*'=>'required'
         ]);
         if ($request->has('sistema')) {
             $sistemas = $request->input('sistema');
             $unidades = $request->input('unidad');
             $situaciones = $request->input('situacion');
             $observaciones = $request->input('observacion');
+            $desde = $request->input('desde');
+            $hasta = $request->input('hasta');
 
             foreach ($sistemas as $key => $sistema) {
                 $programacion = new ProgramacionFin();
@@ -1401,11 +1406,13 @@ class FormaFAMController extends Controller
                 $programacion->unidad = $unidades[$key];
                 $programacion->situacion = $situaciones[$key];
                 $programacion->observacion = $observaciones[$key];
+                $programacion->desde = $desde[$key];
+                $programacion->hasta = $hasta[$key];
                 $programacion->save();
             }
         }
 
-        return redirect()->route('dao.forms.ProFin')->with('success', 'Ubicaciones creadas satisfactoriamente');
+        return redirect()->route('dao.forms.ProFin')->with('success','Programacion de fin de semana creada correctamente');
     }
 
     public function programacioReportExcel(Request $request) {
@@ -1416,7 +1423,8 @@ class FormaFAMController extends Controller
         $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion'
 
     )->get();
-
+    $fechaActual = Carbon::now()->format('dMY');
+    $fecha_inv = Carbon::now()->format('dMY');
 
         $nombre_archivo = sprintf('reporte de programacion de fin de semana %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'programacion');
@@ -1427,27 +1435,73 @@ class FormaFAMController extends Controller
 
     public function imprimir_reportepfd(Request $request) {
 
+        $this->validate($request, [
+            'fecha' => 'required'
 
+        ]);
 
-        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion'
+        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion','desde as desde','hasta as hasta'
+        )->where('desde','=',$request->fecha)
+        ->get();
+        setlocale(LC_TIME, 'es_ES'); // Establecer la configuración regional en español
+        $fechaActual = Carbon::now();
+        $diaSemana = ucfirst(strftime('%A', $fechaActual->timestamp));
+        $dia = $fechaActual->format('d');
+        $mes = ucfirst(strftime('%B', $fechaActual->timestamp));
+        $anio = $fechaActual->format('Y');
 
-    )->get();
-
-        $pdf = \PDF::loadview('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion'))
+        $fecha_inve = $diaSemana . ', ' . $dia . ' ' . $mes . ' DE ' . $anio;
+        $fecha_inv= strtoupper($fecha_inve);
+        $pdf = \PDF::loadview('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion','fecha_inv'))
         ->setPaper('legal', 'landscape');
         return $pdf->stream('REPORTE.pdf');
-       // return view('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion'));
+       //return view('dao.operacionesAereas.programacionVuelo.programacionfinpdf', compact('programacion','fecha_inv'));
     }
 
 
 
-    public function daoAgenda(){
+    public function daoAgenda()
+{
+    $user = auth()->user();
+    $ubicacion = null;
+    $aeronave = null;
+    $programacion = null;
 
-        $programacion = ProgramacionFin::select('sistema','unidad','situacion','observacion')
-        ->get();
+    if ($user->hasRole('aviacion_dao')) {
+        // Si el usuario tiene el rol "aviacion_dao", mostrar todos los registros
+        $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
+        ->whereDate('desde', now()->toDateString());
+    } else {
+        // Obtener la ubicación del usuario
+        $ubicacion = Nomina::select('nomina.codigo_ubicacion as ubicacion')
+            ->join('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->where('empleados.user_id', '=', $user->id)
+            ->first();
 
-        return view('dao.agenda.index',compact('programacion'));
+        if ($ubicacion) {
+            // Obtener la aeronave de la ubicación
+            $aeronave = AeronaveUnidades::select('aeronave_unidad.codigos as aeronave')
+                ->join('nomina', 'nomina.codigo_ubicacion', '=', 'aeronave_unidad.codigo_ubicacion')
+                ->where('aeronave_unidad.codigo_ubicacion', '=', $ubicacion->ubicacion)
+                ->first();
+
+            if ($aeronave) {
+                // Obtener los registros de la programación según la aeronave
+                $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
+                    ->where('unidad', '=', $aeronave->aeronave)
+                    ->whereDate('desde', now()->toDateString())
+                    ->get();
+            }
+        }
+    }
+
+    return view('dao.agenda.index', compact('programacion'));
+}
 
 
+
+public function PReporte()
+    {
+        return view('dao.agenda.reportes');
     }
 }
