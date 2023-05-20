@@ -11,7 +11,10 @@ class AeronaveMatricula extends Model
     protected $table = 'aeronave_matricula';
     protected $fillable = [
         'matricula',
-        'aeronave_id'
+        'aeronave_id',
+        'estatus',
+        'porcentaje_disponibilidad',
+        'observacion',
     ];
     public function aeronaves()
     {

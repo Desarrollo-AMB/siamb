@@ -35,6 +35,7 @@
                                             <th>AERONAVE</th>
                                             <th>MATRICULA</th>
                                             <th>SERIAL</th>
+                                            <th>ESTATUS</th>
                                             <th>ACCIONES</th>
                                         </tr>
                                     </thead>
@@ -48,8 +49,17 @@
                                                 <th class="font-weight-normal">{{$data->matricula}}</th>
                                                 <th class="font-weight-normal">{{$data->serial}}</th>
                                                 <th class="font-weight-normal">
+                                                    @if($data->estatus == 'DISPONIBLE')
+                                                        <label class="badge bg-gradient-success">DISPONIBLE</label>
+                                                    @elseif($data->estatus == 'INDISPONIBLE')
+                                                        <label class="badge bg-gradient-warning">NO DISPONIBLE</label>
+                                                    @elseif($data->estatus == 'SINIESTRADA')
+                                                        <label class="badge bg-gradient-danger">SINIESTRADA</label>
+                                                    @endif
+                                                </th>
+                                                <th class="font-weight-normal">
                                                     @role('aviacion_grupo_aereo|administrador|aviacion_dao')
-                                                    <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver">
+                                                    <a href="{{route('dao.editDisponAeronaves', $data->id)}}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar disponibilidad">
                                                         <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                     </a>
                                                     @endrole
