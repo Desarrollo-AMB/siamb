@@ -27,7 +27,7 @@ use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
 use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
-
+use App\Exports\ProgramacionFinExport;
 use App\Http\Controllers\juntaperm\controllerjuntap;
 
 /*
@@ -400,8 +400,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('dao/forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('dao.forms.ver_listado_piloto');
     Route::get('dao/forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('dao.forms.reporte_vuelos');
     Route::post('dao/forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('dao.forms.imprimir_reporte');
-
+    Route::get('dao/operacionesAereas/create',     [FormaFAMController::class, 'ProFin'])->name('dao.forms.ProFin');
+    Route::post('dao/operacionesAereas/store',     [FormaFAMController::class, 'storeProFin'])->name('dao.forms.storeProFin');
+    Route::get('dao/operacionesAereas/programacionVuelo/progracionFinExcel',     [FormaFAMController::class, 'programacioReportExcel'])->name('dao.forms.programacionVuelo.progracionFinExcel');
+    Route::post('dao/operacionesAereas/programacionVuelo/programacionfinpdf',     [FormaFAMController::class, 'imprimir_reportepfd'])->name('dao.forms.programacionVuelo.progracionFinPDF');
+    Route::get('/dao/Agenda',                    [FormaFAMController::class, 'daoAgenda'])->name('dao.agenda');
+    Route::get('/dao/Agenda/reportes',                    [FormaFAMController::class, 'PReporte'])->name('dao.reportes');
 });
+
 
 Route::get('no_authorize', function () {
     return view('no_authorize');
