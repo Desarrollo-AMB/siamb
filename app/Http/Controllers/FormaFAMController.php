@@ -263,8 +263,6 @@ class FormaFAMController extends Controller
         $vuelo = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
         ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->join('aeronave_unidad','aeronave_unidad.codigos','=','fam0001.unidad')
-        //->where('fam0001.completado','=','revisado')
-        //->where('fam0001.completado','=','sinProg')
         ->where(function ($query) {
             $query->where('fam0001.completado', '=', 'revisado')
                 ->orWhere('fam0001.completado', '=', 'sinProg');
@@ -848,6 +846,9 @@ class FormaFAMController extends Controller
 
     public function store_a1_sinProgramacion(Request $request)
     {
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+
         $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
 
         $flyLoop = count($checkVuelo);
@@ -862,6 +863,21 @@ class FormaFAMController extends Controller
 
         $A1_id = Fam0001A1Mision::where('id',$A1->id)->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+
+        // Eliminar registros de Fam0001A1Mision
+        Fam0001A1Mision::whereIn('fam0001_id', function ($query) use ($fecha_manana, $request) {
+            $query->select('id')
+                ->from('fam0001')
+                ->whereDate('fecha', $fecha_manana)
+                ->where('unidad', $request->unidad)
+                ->where('completado', '<>', 'sinProg');
+        })->delete();
+
+        // Eliminar registros de Fam0001
+        Fam0001::whereDate('fecha', $fecha_manana)
+            ->where('unidad', $request->unidad)
+            ->where('completado', '<>', 'sinProg')
+            ->delete();
 
         return response()->json(
             [

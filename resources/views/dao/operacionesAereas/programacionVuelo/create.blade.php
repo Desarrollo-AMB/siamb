@@ -396,6 +396,9 @@
             //PASO #1 - GUARDAR HEADER
             $(".enviar").click(function(e) {
                 e.preventDefault();
+                //Desabilitar el boton de enviar hasta confirmar el registro
+                $(this).prop('disabled', true);
+
                 var fecha = $('.fecha').val();
                 var fecha_inv = fecha.split('-').reverse().join('-');
                 var unidad = $('.unidad').val();
@@ -433,7 +436,9 @@
                         timer: 3000,
                         showConfirmButton: true,
                     });
+                    $(this).prop('disabled', false);
                     console.log('no puedes guardar datos vacios')
+
                 } else if(ruta_desde === "EVENTUAL" || ruta_hasta === "EVENTUAL"){
                     Swal.fire({
                         title: 'Atención!',
@@ -442,6 +447,7 @@
                         timer: 3000,
                         showConfirmButton: true,
                     });
+                    $(this).prop('disabled', false);
                     console.log('no puedes guardar las rutas eventuales')
                 }
                 else {
@@ -568,63 +574,77 @@
                 e.preventDefault();
                 var unidad = $('.unidad').val();
 
-                //ENVIAR
-                $.ajax({
-                    url: "{{ route('store_programacion') }}",
-                    method: 'POST',
-                    data: {
-                        ov_ota_om: '',
-                        componente_organismo: '',
-                        unidad: unidad,
-                        aeronave_modelo: 1,
-                        serial: '',
-                        matricula: '',
-                        base_estacion: '',
-                        completado: "sinProg",
-                        matriculas_alternas: ''
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            console.log(response)
+                Swal.fire({
+                title: '¿Estas Seguro de no enviar programación?',
+                text: "¡Atención.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-                            //ENVIAR
-                            $.ajax({
-                            url:"{{ route('store_a1_sinProgramacion') }}",
-                            method:'POST',
-                            data:{
+                    //ENVIAR
+                    $.ajax({
+                        url: "{{ route('store_programacion') }}",
+                        method: 'POST',
+                        data: {
+                            ov_ota_om: '',
+                            componente_organismo: '',
+                            unidad: unidad,
+                            aeronave_modelo: 1,
+                            serial: '',
+                            matricula: '',
+                            base_estacion: '',
+                            completado: "sinProg",
+                            matriculas_alternas: ''
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                console.log(response)
 
-                                ov_ota_om: '',
-                                fam0001_id: response.data.id,
-                                completado: "sinProg",
-                                },
-                                success:function(response){
-                                    if(response.success){
+                                //ENVIAR
+                                $.ajax({
+                                url:"{{ route('store_a1_sinProgramacion') }}",
+                                method:'POST',
+                                data:{
+                                    unidad: unidad,
+                                    ov_ota_om: '',
+                                    fam0001_id: response.data.id,
+                                    completado: "sinProg",
+                                    },
+                                    success:function(response){
+                                        if(response.success){
 
-                                        Swal.fire({
-                                            title: '¡Sin Programación!',
-                                            text: 'Se ha reportado sin programación de vuelo.',
-                                            icon: 'warning',
-                                            timer: 3000,
-                                            showConfirmButton: true,
-                                        });
+                                            Swal.fire({
+                                                title: '¡Sin Programación!',
+                                                text: 'Se ha reportado sin programación de vuelo.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
 
-                                        setTimeout(function () {
-                                            window.location = "{{ route('dao.ver_programacion') }}"
-                                        }, 2000);
+                                            setTimeout(function () {
+                                                window.location = "{{ route('dao.ver_programacion') }}"
+                                            }, 2000);
 
+                                        }
+                                    },
+                                    error:function(error){
+                                        console.log(error)
                                     }
-                                },
-                                error:function(error){
-                                    console.log(error)
-                                }
-                            });
+                                });
 
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error)
                         }
-                    },
-                    error: function(error) {
-                        console.log(error)
-                    }
-                });
+                    });
+                }
+            });
+
 
             });
         });
