@@ -1378,9 +1378,10 @@ class FormaFAMController extends Controller
         $aeronaveM = AeronaveModelo::select('aeronave_modelo.aeronave as modelo','aeronave_matricula.matricula as matricula')
         ->join('aeronave_matricula','aeronave_matricula.aeronave_id','=','aeronave_modelo.id')
         ->where('aeronave_modelo.codigo_unidad','=',$aeronave->aeronave)  ->get();
+        $fechaSabado = Carbon::now()->startOfWeek()->addWeek()->next(Carbon::SATURDAY)->format('Y-m-d');
+        $fechaDomingo = Carbon::now()->startOfWeek()->next(Carbon::SUNDAY)->format('Y-m-d');
 
-
-        return view('dao.operacionesAereas.create',compact('ubicacion','aeronave','aeronaveM'));
+        return view('dao.operacionesAereas.create',compact('ubicacion','aeronave','aeronaveM','fechaDomingo','fechaSabado'));
     }
     public function storeProFin(Request $request)
     {
