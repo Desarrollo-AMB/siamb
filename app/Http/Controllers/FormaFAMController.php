@@ -1579,7 +1579,8 @@ class FormaFAMController extends Controller
     if ($user->hasRole('aviacion_dao')) {
         // Si el usuario tiene el rol "aviacion_dao", mostrar todos los registros
         $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
-        ->whereDate('desde', now()->toDateString());
+        ->whereDate('created_at', now()->toDateString())
+        ->get();
     } else {
         // Obtener la ubicación del usuario
         $ubicacion = Nomina::select('nomina.codigo_ubicacion as ubicacion')
@@ -1598,7 +1599,7 @@ class FormaFAMController extends Controller
                 // Obtener los registros de la programación según la aeronave
                 $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
                     ->where('unidad', '=', $aeronave->aeronave)
-                    ->whereDate('desde', now()->toDateString())
+                    ->whereDate('created_at', now()->toDateString())
                     ->get();
             }
         }
