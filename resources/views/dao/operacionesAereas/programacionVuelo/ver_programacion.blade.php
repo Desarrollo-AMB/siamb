@@ -27,7 +27,7 @@
                 <div class="col-sm-2 mb-2 mb-sm-0">
                     @role('aviacion_grupo_aereo|administrador')
                         @if ( $programacion == 0 )
-                            <button class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}" disabled>+&nbsp;Agregar Programación</button>
+                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{route('revertirSinproP', ['unidad' => $unidad])}}">Revertir sin Programación</a>
                             <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacionGrupoAereo', ['unidad' => $unidad]) }}">+&nbsp;Descargar Programación</a>
                         @elseif ( $programacion == 1 )
                             <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>

@@ -8,7 +8,7 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                             <h5 class="font-weight-bolder mb-0">
-                               Programacion fin de Semana
+                                Programacion fin de Semana
                                 <span class="text-success text-sm font-weight-bolder"></span>
                             </h5>
                         </div>

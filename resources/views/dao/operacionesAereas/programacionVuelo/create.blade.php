@@ -105,7 +105,7 @@
                                         <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
                                         <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
                                         <th class="text-uppercase font-weight-bolder"><h6>SALIDA</h6></th>
-                                        <th class="text-uppercase font-weight-bolder"><h6>RETORNO</h6></th>
+                                        <th class="text-uppercase font-weight-bolder"><h6>LLEGADA</h6></th>
                                         <th class="text-uppercase font-weight-bolder"><h6>ACCIÓN</h6></th>
                                     </tr>
                                 </thead>
@@ -124,8 +124,9 @@
                                         </td>
                                         <td>
                                             <select name="siglas" id="siglas" class="form-control siglas load_siglas">
-                                                <option value=""></option>
+                                                <option value="" selected>...</option>
                                                 <option value="ALERTA">ALERTA</option>
+                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCEND. Y CHEQ. EN TIERRA</option>
                                                 @foreach($codigoTipoMisionSiglas as $data)
                                                     <option value="{{$data->siglas}}">{{$data->siglas}}</option>
                                                 @endforeach
@@ -142,6 +143,7 @@
                                         <td>
                                             <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
                                                 <option value="EVENTUAL">EVENTUAL</option>
+                                                <option value="LOCAL">LOCAL</option>
                                                 @foreach($aeropuertos as $data)
                                                     {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
@@ -161,6 +163,7 @@
                                         <td>
                                             <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
                                                 <option value="EVENTUAL">EVENTUAL</option>
+                                                <option value="LOCAL">LOCAL</option>
                                                 @foreach($aeropuertos as $data)
                                                     {{--<option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>--}}
                                                     <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
@@ -184,6 +187,9 @@
                                         <td>
 
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <small><strong>NOTA:</strong> Al dejar la hora en blanco, se tomará el valor de <strong>"EVENTUAL"</strong></small>
                                     </tr>
                                 </tbody>
                             </table>
@@ -282,11 +288,19 @@
             $('.siglas').on('change', function() {
                 var siglaId = $(this).val();
                 if (siglaId) {
-                    if(siglaId == 'ALERTA'){
+                    if(siglaId === 'ALERTA'){
                         $('.codigo').val('').trigger('change');
                         $(".codigo").prop('disabled', true);
-                        $(".ruta_desde").prop('disabled', true);
-                        $(".ruta_hasta").prop('disabled', true);
+                        $(".ruta_desde").val('EVENTUAL').trigger('change');
+                        $(".ruta_hasta").val('EVENTUAL').trigger('change');
+                        $(".encend").prop('hidden', true);
+                        $(".apag").prop('hidden', true);
+                    }
+                    else if(siglaId === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                        $('.codigo').val('').trigger('change');
+                        $(".codigo").prop('disabled', true);
+                        $(".ruta_desde").val('LOCAL').trigger('change');
+                        $(".ruta_hasta").val('LOCAL').trigger('change');
                         $(".encend").prop('hidden', true);
                         $(".apag").prop('hidden', true);
                     }else{
@@ -396,6 +410,9 @@
             //PASO #1 - GUARDAR HEADER
             $(".enviar").click(function(e) {
                 e.preventDefault();
+                //Desabilitar el boton de enviar hasta confirmar el registro
+                $(this).prop('disabled', true);
+
                 var fecha = $('.fecha').val();
                 var fecha_inv = fecha.split('-').reverse().join('-');
                 var unidad = $('.unidad').val();
@@ -416,8 +433,13 @@
 
                 if(sigla ==="ALERTA"){
                     numero = "EVENTUAL";
-                    ruta_desde = "";
-                    ruta_hasta = "";
+                    ruta_desde = $('.ruta_desde').val();
+                    ruta_hasta = $('.ruta_hasta').val();
+                }
+                else if(sigla === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                    numero = "ENCENDIDO Y CHEQUEO EN TIERRA";
+                    ruta_desde = $('.ruta_desde').val();
+                    ruta_hasta = $('.ruta_hasta').val();
                 } else {
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
@@ -433,16 +455,9 @@
                         timer: 3000,
                         showConfirmButton: true,
                     });
+                    $(this).prop('disabled', false);
                     console.log('no puedes guardar datos vacios')
-                } else if(ruta_desde === "EVENTUAL" || ruta_hasta === "EVENTUAL"){
-                    Swal.fire({
-                        title: 'Atención!',
-                        text: 'Las rutas no pueden ser eventuales a menos que sea una alerta!.',
-                        icon: 'warning',
-                        timer: 3000,
-                        showConfirmButton: true,
-                    });
-                    console.log('no puedes guardar las rutas eventuales')
+
                 }
                 else {
                     //ENVIAR
@@ -513,6 +528,13 @@
                         var ruta_hasta = "EVENTUAL";
                         var encend = "EVENTUAL";
                         var apag = "EVENTUAL";
+                    }
+                    if(sigla ==="ENCENDIDO Y CHEQUEO EN TIERRA"){
+                        var codigo = "ENCENDIDO Y CHEQUEO EN TIERRA";
+                        var ruta_desde = $('.ruta_desde').val();
+                        var ruta_hasta = $('.ruta_hasta').val();
+                        var encend = "EVENTUAL";
+                        var apag = "EVENTUAL";
                     } else {
 
                         var codigo = sigla+"-"+numero;
@@ -568,63 +590,77 @@
                 e.preventDefault();
                 var unidad = $('.unidad').val();
 
-                //ENVIAR
-                $.ajax({
-                    url: "{{ route('store_programacion') }}",
-                    method: 'POST',
-                    data: {
-                        ov_ota_om: '',
-                        componente_organismo: '',
-                        unidad: unidad,
-                        aeronave_modelo: 1,
-                        serial: '',
-                        matricula: '',
-                        base_estacion: '',
-                        completado: "sinProg",
-                        matriculas_alternas: ''
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            console.log(response)
+                Swal.fire({
+                title: '¿Estas Seguro de no enviar programación?',
+                text: "¡Atención.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-                            //ENVIAR
-                            $.ajax({
-                            url:"{{ route('store_a1_sinProgramacion') }}",
-                            method:'POST',
-                            data:{
+                    //ENVIAR
+                    $.ajax({
+                        url: "{{ route('store_programacion') }}",
+                        method: 'POST',
+                        data: {
+                            ov_ota_om: '',
+                            componente_organismo: '',
+                            unidad: unidad,
+                            aeronave_modelo: 1,
+                            serial: '',
+                            matricula: '',
+                            base_estacion: '',
+                            completado: "sinProg",
+                            matriculas_alternas: ''
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                console.log(response)
 
-                                ov_ota_om: '',
-                                fam0001_id: response.data.id,
-                                completado: "sinProg",
-                                },
-                                success:function(response){
-                                    if(response.success){
+                                //ENVIAR
+                                $.ajax({
+                                url:"{{ route('store_a1_sinProgramacion') }}",
+                                method:'POST',
+                                data:{
+                                    unidad: unidad,
+                                    ov_ota_om: '',
+                                    fam0001_id: response.data.id,
+                                    completado: "sinProg",
+                                    },
+                                    success:function(response){
+                                        if(response.success){
 
-                                        Swal.fire({
-                                            title: '¡Sin Programación!',
-                                            text: 'Se ha reportado sin programación de vuelo.',
-                                            icon: 'warning',
-                                            timer: 3000,
-                                            showConfirmButton: true,
-                                        });
+                                            Swal.fire({
+                                                title: '¡Sin Programación!',
+                                                text: 'Se ha reportado sin programación de vuelo.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
 
-                                        setTimeout(function () {
-                                            window.location = "{{ route('dao.ver_programacion') }}"
-                                        }, 2000);
+                                            setTimeout(function () {
+                                                window.location = "{{ route('dao.ver_programacion') }}"
+                                            }, 2000);
 
+                                        }
+                                    },
+                                    error:function(error){
+                                        console.log(error)
                                     }
-                                },
-                                error:function(error){
-                                    console.log(error)
-                                }
-                            });
+                                });
 
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error)
                         }
-                    },
-                    error: function(error) {
-                        console.log(error)
-                    }
-                });
+                    });
+                }
+            });
+
 
             });
         });

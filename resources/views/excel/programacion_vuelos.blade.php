@@ -109,7 +109,10 @@
 
             if ($row->ruta_desde === 'EVENTUAL' || $row->ruta_desde === 'EVENTUAL') {
                 $ruta = "EVENTUAL";
-            } else {
+            } else if ($row->ruta_desde === 'LOCAL' || $row->ruta_desde === 'LOCAL') {
+                $ruta = $row->base_estacion;
+            }
+            else {
                 $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
             }
 
