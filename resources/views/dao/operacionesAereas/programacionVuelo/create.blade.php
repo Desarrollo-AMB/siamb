@@ -521,7 +521,6 @@
                 if(ordenada_por==="" || sigla===""){
                     console.log('no puedes guardar datos vacios')
                 }else{
-
                     if(sigla ==="ALERTA"){
                         var codigo = "ALERTA";
                         var ruta_desde = "EVENTUAL";
@@ -529,7 +528,7 @@
                         var encend = "EVENTUAL";
                         var apag = "EVENTUAL";
                     }
-                    if(sigla ==="ENCENDIDO Y CHEQUEO EN TIERRA"){
+                    else if(sigla ==="ENCENDIDO Y CHEQUEO EN TIERRA"){
                         var codigo = "ENCENDIDO Y CHEQUEO EN TIERRA";
                         var ruta_desde = $('.ruta_desde').val();
                         var ruta_hasta = $('.ruta_hasta').val();

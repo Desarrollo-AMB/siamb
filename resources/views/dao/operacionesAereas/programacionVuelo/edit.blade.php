@@ -607,6 +607,7 @@
                             }
                         }
 
+                        rowData.id_fam0001 = id_fam0001;
                         rowData.id = id;
                         rowData.ordenada_por = ordenada_por;
                         rowData.ruta_desde = ruta_desde;

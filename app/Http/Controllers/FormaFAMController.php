@@ -27,6 +27,7 @@ use App\Models\FuncionTripulante;
 use App\Models\CodigoDespegue;
 use App\Models\CodigoTipoMisionSiglas;
 use App\Models\CodigoAterrizaje;
+use App\Models\ProgramacionVuelo;
 use App\Models\Fam0001A3CargaPasajeros;
 use App\Models\Fam0001B1TripulacionAterrizajes;
 use App\Models\GradosMilitares;
@@ -59,26 +60,31 @@ class FormaFAMController extends Controller
             $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+
+            // ROLL DE LA DAO
             if ($rol_user == 'aviacion_dao') {
                 $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4']   )
                 ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                $fam0001_data = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])
-                ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
                     $fam0001[$value['unidad']][] = $value;
                 }
+
             }
+
+            // SI TIENE UBIACION ES GRUPO AEREO
             elseif(count($ubicacion)>0){
                 $fam0001 = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
         }else{
+
+            // SI NO ES ADMINISTRADOR
             $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
-            $fam0001_data = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])
-            ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+
             # Ordenar por unidad
             $fam0001 = [];
             foreach ($fam0001_unidad as $key => $value) {
@@ -328,8 +334,10 @@ class FormaFAMController extends Controller
             $query->where('fam0001.completado', '=', 'revisado')
                 ->orWhere('fam0001.completado', '=', 'sinProg');
         })
+        ->whereDate('fam0001.fecha', '=', $mañana_condicion)
         ->select(
             'fam0001.unidad AS unidad',
+            'fam0001.fecha AS fecha',
             'fam0001.base_estacion AS base_estacion',
             'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
@@ -344,8 +352,6 @@ class FormaFAMController extends Controller
         )
         ->orderBy('aeronave_unidad.id', 'asc')
         ->get();
-
-        //dd($vuelo);
 
         if(!$vuelo){
             return back()
@@ -382,8 +388,10 @@ class FormaFAMController extends Controller
                 ->orWhere('fam0001.completado', '=', 'sinProg');
         })
         ->where('fam0001.unidad', '=', $unidad)
+        ->whereDate('fam0001.fecha', '=', $mañana_condicion)
         ->select(
             'fam0001.unidad AS unidad',
+            'fam0001.fecha AS fecha',
             'fam0001.base_estacion AS base_estacion',
             'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
@@ -618,11 +626,12 @@ class FormaFAMController extends Controller
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
         //B1-TRIPULACION
         $A1_mision = Fam0001A1Mision::get();
+        $fam0001data = Fam0001::where('id', $fam_id)->get();
+        $fam0001data = $fam0001data[0];
         $funcion = FuncionTripulante::get();
         $despegue = CodigoDespegue::get();
         $fam0001 = $fam_id;
-        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases'));
-
+        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'fam0001data'));
     }
 
     public function index()
@@ -701,7 +710,7 @@ class FormaFAMController extends Controller
     public function steps_status(Request $request)
     {
         $headerData = Fam0001::where('id',$request->data_id)->get();
-        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
+        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->data_id)->get();
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         return response()->json([
@@ -791,17 +800,136 @@ class FormaFAMController extends Controller
 
     public function enviarReporteCeo(Request $request)
     {
+        try {
+            // Código para obtener los datos y crear el modelo ProgramacionVuelo
+            $hoy = Carbon::now();
+            $mañana_condicion = $hoy->addDay();
+            $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
+    
+            /*$mision = Fam0001A1Mision::all();*/
+            $programacion = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
+            ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
+            ->join('aeronave_unidad','aeronave_unidad.codigos','=','fam0001.unidad')
+            ->where(function ($query) {
+                $query->where('fam0001.completado', '=', 'revisado')
+                    ->orWhere('fam0001.completado', '=', 'sinProg');
+            })
+            ->whereDate('fam0001.fecha', '=', $mañana_condicion)
+            ->select(
+                'fam0001.id AS fam0001_id',
+                'fam0001_a1_mision.id AS fam0001_a1_mision_id',
+                'fam0001.fecha AS fecha',
+                'fam0001.unidad AS unidad',
+                'fam0001.base_estacion AS base_estacion',
+                'aeronave_modelo.modelo AS aeronave_modelo',
+                'fam0001.matricula AS matricula',
+                'fam0001.matriculas_alternas AS matriculas_alternas',
+                'fam0001_a1_mision.ordenada_por AS ordenada_por',
+                'fam0001_a1_mision.codigo AS codigo',
+                'fam0001_a1_mision.ruta_desde AS ruta_desde',
+                'fam0001_a1_mision.ruta_hasta AS ruta_hasta',
+                'fam0001_a1_mision.encend AS encend',
+                'fam0001_a1_mision.apag AS apag',
+                'fam0001.completado AS completado'
+            )
+            ->orderBy('aeronave_unidad.id', 'asc')
+            ->get();
+    
+            foreach ($programacion as $row) {
+    
+                if ($row->completado == 'revisado') {
 
-        $enviar_reporte_ceo = Fam0001::where('fecha',$request->fecha)->where('completado', 'revisado')->update(['completado' => 'paso1']);
+                    $sistema_matricula = $row->aeronave_modelo.' / '.$row->matricula;
+
+                    if($row->ruta_desde == 'EVENTUAL' && $row->ruta_hasta == 'EVENTUAL'){
+                        $mision_ruta = $row->codigo.' / EVENTUAL';
+                    } elseif($row->ruta_desde == 'LOCAL' && $row->ruta_hasta == 'LOCAL'){
+                        $mision_ruta = $row->codigo.' / '.$row->base_estacion;
+                    } else{
+                        $mision_ruta = $row->codigo.' / '.$row->ruta_desde.' - '.$row->ruta_hasta;
+                    }
+
+
+                    ProgramacionVuelo::create([
+                        'fam0001_id' => $row->fam0001_id,
+                        'fam0001_a1_mision_id' => $row->fam0001_a1_mision_id,
+                        'fecha' => $row->fecha,
+                        'unidad' => $row->unidad,
+                        'sistema_matricula' => $sistema_matricula,
+                        'matriculas_alternas' => $row->matriculas_alternas,
+                        'ordenada_por' => $row->ordenada_por,
+                        'mision_ruta' => $mision_ruta,
+                        'salida' => $row->encend,
+                        'retorno' => $row->apag,
+                        'militar' => '-',
+                        'civil' => '-',
+                        'carga' => '-',
+                        // Otros campos que deseas insertar
+                    ]);
+
+                } else {
+                    ProgramacionVuelo::create([
+                        'fam0001_id' => $row->fam0001_id,
+                        'fam0001_a1_mision_id' => $row->fam0001_a1_mision_id,
+                        'fecha' => $row->fecha,
+                        'unidad' => $row->unidad,
+                        'sistema_matricula' => 'SP',
+                        'matriculas_alternas' => 'SP',
+                        'ordenada_por' => 'SP',
+                        'mision_ruta' => 'SIN PROGRAMACION',
+                        'salida' => 'SP',
+                        'retorno' => 'SP',
+                        'militar' => 'SP',
+                        'civil' => 'SP',
+                        'carga' => 'SP',
+                        // Otros campos que deseas insertar
+                    ]);
+                }
+    
+            }
+
+            Fam0001A1Mision::whereIn('fam0001_id', function ($query) use ($request) {
+                $query->select('id')
+                    ->from('fam0001')
+                    ->where('fecha',$request->fecha)
+                    ->where('completado', 'revisado');
+            })->update(['completado' => 'paso2']);
+
+            Fam0001A1Mision::whereIn('fam0001_id', function ($query) use ($request) {
+                $query->select('id')
+                    ->from('fam0001')
+                    ->where('fecha',$request->fecha)
+                    ->where('completado', 'sinProg');
+            })->update(['completado' => 'sinProgEnv']);
+
+            Fam0001::where('fecha',$request->fecha)->where('completado', 'revisado')->update(['completado' => 'paso1']);
+
+            Fam0001::where('fecha',$request->fecha)->where('completado', 'sinProg')->update(['completado' => 'sinProgEnv']);
+            
+            // Realizar otras acciones si la inserción es exitosa
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'enviada con éxito',
+                    'data' => $programacion,
+                ]
+            );
+
+        } catch (\Exception $e) {
+            // Manejo de la excepción
+            return response()->json(['error' => $e->getMessage()]);
+        }
+
+
 
         //return response()->json($request);
-        return response()->json(
+        /* return response()->json(
             [
                 'success' => true,
                 'message' => 'enviada con éxito',
-                'data' => $enviar_reporte_ceo,
+                'data' => $programacion,
             ]
-        );
+        ); */
     }
 
     public function enviarProgramacionDao(Request $request)
@@ -1062,7 +1190,7 @@ class FormaFAMController extends Controller
 
     public function actualizarProgramacionA1(Request $request)
     {
-        //$programacion_actualizada = Fam0001::where('id',$request->id_fam0001)->update(['completado' => 'actualizado']);
+        $programacion_actualizada = Fam0001::where('id',$request->id_fam0001)->update(['completado' => 'actualizado']);
         $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
         // $loop = count($request->consumiblesDATA);
         // if($loop>0){
