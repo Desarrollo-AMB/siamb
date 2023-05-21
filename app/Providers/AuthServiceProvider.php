@@ -27,12 +27,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('ver-reporte-agenda', function ($user) {
-            return $user->hasRole('aviacion_dao');
+            return $user->hasRole('aviacion_dao|administrador');
         });
         Gate::define('programacion', function ($user) {
             return $user->hasRole('aviacion_grupo_aereo');
         });
-
+        Gate::define('modificar', function ($user) {
+            return $user->hasRole('personal_militar|administrador|consulta');
+        });
         //
     }
 }
