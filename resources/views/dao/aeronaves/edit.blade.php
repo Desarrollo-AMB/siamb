@@ -30,6 +30,7 @@
                                     <select name="estatus" id="estatus" class="form-control estatus">
                                         <option value="{{ $aeronave->estatus }}">{{ $aeronave->estatus }}</option>
                                         <option value="DISPONIBLE">DISPONIBLE</option>
+                                        <option value="DISPONIBLE PARA EL COMBATE">DISPONIBLE PARA EL COMBATE</option>
                                         <option value="INDISPONIBLE">INDISPONIBLE</option>
                                         <option value="SINIESTRADA">SINIESTRADA</option>
                                     </select>

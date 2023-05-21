@@ -330,6 +330,7 @@ class FormaFAMController extends Controller
         })
         ->select(
             'fam0001.unidad AS unidad',
+            'fam0001.base_estacion AS base_estacion',
             'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
             'fam0001.matriculas_alternas AS matriculas_alternas',
@@ -383,6 +384,7 @@ class FormaFAMController extends Controller
         ->where('fam0001.unidad', '=', $unidad)
         ->select(
             'fam0001.unidad AS unidad',
+            'fam0001.base_estacion AS base_estacion',
             'aeronave_modelo.modelo AS aeronave_modelo',
             'fam0001.matricula AS matricula',
             'fam0001.matriculas_alternas AS matriculas_alternas',
@@ -431,7 +433,12 @@ class FormaFAMController extends Controller
                 $mision->codigo = 'ALERTA';
                 $mision->siglas = 'ALERTA';
                 $mision->numero = '';
-            } else{
+            }elseif($mision->codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                $mision->codigo = 'ENCENDIDO Y CHEQUEO EN TIERRA';
+                $mision->siglas = 'ENCENDIDO Y CHEQUEO EN TIERRA';
+                $mision->numero = '';
+            }
+            else{
                 $codigo = $mision->codigo;
                 $siglas = substr($codigo, 0, 1);
                 $numero = substr($codigo, 2);

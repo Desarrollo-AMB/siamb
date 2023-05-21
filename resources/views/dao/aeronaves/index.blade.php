@@ -51,6 +51,8 @@
                                                 <th class="font-weight-normal">
                                                     @if($data->estatus == 'DISPONIBLE')
                                                         <label class="badge bg-gradient-success">DISPONIBLE</label>
+                                                    @elseif($data->estatus == 'DISPONIBLE PARA EL COMBATE')
+                                                        <label class="badge bg-gradient-success">DISPONIBLE PARA EL COMBATE</label>
                                                     @elseif($data->estatus == 'INDISPONIBLE')
                                                         <label class="badge bg-gradient-warning">NO DISPONIBLE</label>
                                                     @elseif($data->estatus == 'SINIESTRADA')

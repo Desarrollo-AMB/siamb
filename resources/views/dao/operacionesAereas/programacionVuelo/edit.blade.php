@@ -132,9 +132,14 @@
                                                     id="{{ $data->id }}">
                                                     @if ($data->siglas == 'ALERTA')
                                                         <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                                        <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCENDIDO Y CHEQUEO EN TIERRA</option>
+                                                    @elseif($data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
+                                                        <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                                        <option value="ALERTA">ALERTA</option>
                                                     @else
                                                         <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
                                                         <option value="ALERTA">ALERTA</option>
+                                                        <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCENDIDO Y CHEQUEO EN TIERRA</option>
                                                     @endif
                                                     @foreach ($codigoTipoMisionSiglas as $datos)
                                                         <option value="{{ $datos->siglas }}">{{ $datos->siglas }}</option>
@@ -142,7 +147,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                @if ($data->siglas == 'ALERTA')
+                                                @if ($data->siglas == 'ALERTA' || $data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
                                                     <select name="codigo" disabled class="form-control codigo load_codigo"
                                                         id="codigo{{ $data->id }}">
                                                         <option value="{{ $data->numero }}">{{ $data->numero }}</option>
@@ -165,105 +170,57 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($data->siglas == 'ALERTA')
-                                                    <select name="ruta_desde" disabled
-                                                        class="form-control ruta_desde load_ruta_desde"
-                                                        id="ruta_desde{{ $data->id }}">
-                                                        <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
+                                                <select name="ruta_desde"
+                                                    class="form-control ruta_desde load_ruta_desde"
+                                                    id="ruta_desde{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
+                                                    </option>
+                                                    <option value="EVENTUAL">EVENTUAL</option>
+                                                    <option value="LOCAL">LOCAL</option>
+                                                    @foreach ($aeropuertos as $dataruta_desde)
+                                                        <option title="{{ $dataruta_desde->nombre }}"
+                                                        value="{{ $dataruta_desde->codigo_icao }}">
+                                                        {{ $dataruta_desde->codigo_icao }}</option>
+                                                    @endforeach
+                                                        <option value="">_______PARROQUIA__________</option>
+                                                    @foreach ($parroquias as $dataParroquia)
+                                                        <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                         </option>
-                                                        @foreach ($aeropuertos as $dataruta_desde)
-                                                            <option title="{{ $dataruta_desde->nombre }}"
-                                                            value="{{ $dataruta_desde->codigo_icao }}">
-                                                            {{ $dataruta_desde->codigo_icao }}</option>
-                                                        @endforeach
-                                                            <option value="">_______PARROQUIA__________</option>
-                                                        @foreach ($parroquias as $dataParroquia)
-                                                            <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
-                                                            </option>
-                                                        @endforeach
-                                                            <option value="">_______BASE__________</option>
-                                                        @foreach ($bases as $dataBase)
-                                                            <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
-                                                            {{ $dataBase->siglas }}</option>
-                                                        @endforeach
-
-                                                    </select>
-                                                @else
-                                                    <select name="ruta_desde"
-                                                        class="form-control ruta_desde load_ruta_desde"
-                                                        id="ruta_desde{{ $data->id }}">
-                                                        <option value="{{ $data->ruta_desde}}">{{ $data->ruta_desde }}
-                                                        </option>
-                                                                @foreach ($aeropuertos as $dataruta_desde)
-                                                                    <option title="{{ $dataruta_desde->nombre }}"
-                                                                    value="{{ $dataruta_desde->codigo_icao }}">
-                                                                    {{ $dataruta_desde->codigo_icao }}</option>
-                                                                @endforeach
-                                                                    <option value="">_______PARROQUIA__________</option>
-                                                                @foreach ($parroquias as $dataParroquia)
-                                                                    <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
-                                                                    </option>
-                                                                @endforeach
-                                                                    <option value="">_______BASE__________</option>
-                                                                @foreach ($bases as $dataBase)
-                                                                    <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
-                                                                    {{ $dataBase->siglas }}</option>
-                                                                @endforeach
-
-                                                    </select>
-                                                @endif
+                                                    @endforeach
+                                                        <option value="">_______BASE__________</option>
+                                                    @foreach ($bases as $dataBase)
+                                                        <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
+                                                        {{ $dataBase->siglas }}</option>
+                                                    @endforeach
+                                                </select>
                                             </td>
                                             <td>
-                                                @if ($data->siglas == 'ALERTA')
-                                                    <select disabled name="ruta_hasta"
-                                                        class="form-control ruta_hasta load_ruta_hasta"
-                                                        id="ruta_hasta{{ $data->id }}">
-                                                        <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
+                                                <select name="ruta_hasta"
+                                                    class="form-control ruta_hasta load_ruta_hasta"
+                                                    id="ruta_hasta{{ $data->id }}">
+                                                    <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
+                                                    </option>
+                                                    <option value="EVENTUAL">EVENTUAL</option>
+                                                    <option value="LOCAL">LOCAL</option>
+                                                    @foreach ($aeropuertos as $dataruta_hasta)
+                                                        <option title="{{ $dataruta_hasta->nombre }}"
+                                                        value="{{ $dataruta_hasta->codigo_icao }}">
+                                                        {{ $dataruta_hasta->codigo_icao }}</option>
+                                                    @endforeach
+                                                        <option value="">_______PARROQUIA__________</option>
+                                                    @foreach ($parroquias as $dataParroquia)
+                                                        <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
                                                         </option>
-                                                        @foreach ($aeropuertos as $dataruta_hasta)
-                                                            <option title="{{ $dataruta_hasta->nombre }}"
-                                                            value="{{ $dataruta_hasta->codigo_icao }}">
-                                                            {{ $dataruta_hasta->codigo_icao }}</option>
-                                                        @endforeach
-                                                            <option value="">_______PARROQUIA__________</option>
-                                                        @foreach ($parroquias as $dataParroquia)
-                                                            <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
-                                                            </option>
-                                                        @endforeach
-                                                            <option value="">_______BASE__________</option>
-                                                        @foreach ($bases as $dataBase)
-                                                            <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
-                                                            {{ $dataBase->siglas }}</option>
-                                                        @endforeach
-
-
-                                                    </select>
-                                                @else
-                                                    <select name="ruta_hasta"
-                                                        class="form-control ruta_hasta load_ruta_hasta"
-                                                        id="ruta_hasta{{ $data->id }}">
-                                                        <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
-                                                        </option>
-                                                            @foreach ($aeropuertos as $dataruta_hasta)
-                                                                <option title="{{ $dataruta_hasta->nombre }}"
-                                                                value="{{ $dataruta_hasta->codigo_icao }}">
-                                                                {{ $dataruta_hasta->codigo_icao }}</option>
-                                                            @endforeach
-                                                                <option value="">_______PARROQUIA__________</option>
-                                                            @foreach ($parroquias as $dataParroquia)
-                                                                <option value="{{ mb_strtoupper($dataParroquia->parroquia) }}">{{ mb_strtoupper($dataParroquia->parroquia) }}
-                                                                </option>
-                                                            @endforeach
-                                                                <option value="">_______BASE__________</option>
-                                                            @foreach ($bases as $dataBase)
-                                                                <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
-                                                                {{ $dataBase->siglas }}</option>
-                                                            @endforeach
-                                                    </select>
-                                                @endif
+                                                    @endforeach
+                                                        <option value="">_______BASE__________</option>
+                                                    @foreach ($bases as $dataBase)
+                                                        <option value="{{ $dataBase->siglas }}">{{ $dataBase->descripcion }} -
+                                                        {{ $dataBase->siglas }}</option>
+                                                    @endforeach
+                                                </select>
                                             </td>
                                             <td>
-                                                @if ($data->siglas == 'ALERTA')
+                                                @if ($data->siglas == 'ALERTA' || $data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
                                                     <input hidden name="encend" type="time"
                                                         class="form-control encend load_encend calculateTime"
                                                         style="text-transform: uppercase" value="{{ $data->encend }}"
@@ -276,7 +233,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($data->siglas == 'ALERTA')
+                                                @if ($data->siglas == 'ALERTA' || $data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
                                                     <input hidden name="apag" type="time"
                                                         class="form-control apag load_apag calculateTime"
                                                         style="text-transform: uppercase" value="{{ $data->apag }}"
@@ -359,17 +316,25 @@
                 var siglaId = $(this).val();
                 var id = $(this).attr('id');
                 if (siglaId) {
-                    if (siglaId == 'ALERTA') {
-                        $("#codigo" + id).val('').trigger('change');
+                    if(siglaId == 'ALERTA'){
+                        $('#codigo' + id).val('');
                         $("#codigo" + id).prop('disabled', true);
-                        $("#ruta_desde" + id).prop('disabled', true);
-                        $("#ruta_hasta" + id).prop('disabled', true);
+                        $("#ruta_desde" + id).val('EVENTUAL');
+                        $("#ruta_hasta" + id).val('EVENTUAL');
                         $("#encend" + id).prop('hidden', true);
                         $("#apag" + id).prop('hidden', true);
-                    } else {
+                    }
+                    else if(siglaId == 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                        $('#codigo' + id).val('');
+                        $("#codigo" + id).prop('disabled', true);
+                        $("#ruta_desde" + id).val('LOCAL');
+                        $("#ruta_hasta" + id).val('LOCAL');
+                        $("#encend" + id).prop('hidden', true);
+                        $("#apag" + id).prop('hidden', true);
+                    }else{
                         $("#codigo" + id).prop('disabled', false);
                         $("#ruta_desde" + id).prop('disabled', false);
-                        $("#ruta_hasta" + id).prop('disabled',false);
+                        $("#ruta_hasta" + id).prop('disabled', false);
                         $("#encend" + id).prop('hidden', false);
                         $("#apag" + id).prop('hidden', false);
                     }
@@ -475,6 +440,7 @@
                                         </select></td>\
                                         <td><select name="siglas" class="form-control siglas load_siglas">\
                                             <option value="ALERTA">ALERTA</option>\
+                                            <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCEND. Y CHEQ. EN TIERRA</option>\
                                                 @foreach ($codigoTipoMisionSiglas as $data)\
                                                     <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
                                                 @endforeach\
@@ -486,14 +452,16 @@
                                                 </option>\
                                             @endforeach\
                                         </select></td>\
-                                        <td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde" disabled>\
+                                        <td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">\
                                             <option value="EVENTUAL">EVENTUAL</option>\
+                                            <option value="LOCAL">LOCAL</option>\
                                                 @foreach ($aeropuertos as $data)\
                                                     <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">{{ $data->codigo_icao }}</option>\
                                                 @endforeach\
                                         </select></td>\
-                                        <td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta" disabled>\
+                                        <td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">\
                                             <option value="EVENTUAL">EVENTUAL</option>\
+                                            <option value="LOCAL">LOCAL</option>\
                                             @foreach ($aeropuertos as $data)\
                                                 <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">\
                                                 {{ $data->codigo_icao }}</option>\
@@ -612,11 +580,16 @@
                         var siglas = $(this).find("select[name='siglas']").val();
                         var numero = $(this).find("select[name='codigo']").val();
 
-
-                        if (siglas === "ALERTA") {
-                            rowData.codigo = "ALERTA";
-                            var ruta_desde = "EVENTUAL";
-                            var ruta_hasta = "EVENTUAL";
+                        if (siglas == 'ALERTA') {
+                            rowData.codigo = 'ALERTA';
+                            var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                            var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
+                            var encend = "EVENTUAL";
+                            var apag = "EVENTUAL";
+                        } else if (siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                            rowData.codigo = 'ENCENDIDO Y CHEQUEO EN TIERRA';
+                            var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                            var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
                             var encend = "EVENTUAL";
                             var apag = "EVENTUAL";
                         } else {
@@ -642,14 +615,10 @@
                         rowData.apag = apag;
                         rowData.completado = 'actualizado';
 
-                        if (siglas !== "ALERTA") {
+                        if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
                             if (numero === "") {
                                 throw new Error(
                                     "El codigo de la mision no puede estar vacio mientras la misión no sea de alerta."
-                                    );
-                            } else if (ruta_desde === "EVENTUAL" || ruta_hasta === "EVENTUAL") {
-                                throw new Error(
-                                    "Las Rutas de la misión no pueden ser EVENTUALES mientras la misión no sea de alerta."
                                     );
                             } else {
 
