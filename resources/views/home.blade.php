@@ -1,7 +1,7 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-@hasanyrole('administrador|consulta')
+@hasanyrole('administrador|consulta|jefe_de_personal|personal_militar|personal_militar_noprof|personal_civil|bienestar_social|junta_permanente')
     <div class="row my-4">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card ">
