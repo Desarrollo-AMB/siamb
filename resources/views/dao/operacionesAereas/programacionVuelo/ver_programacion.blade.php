@@ -26,7 +26,13 @@
                 </div>
                 <div class="col-sm-2 mb-2 mb-sm-0">
                     @role('aviacion_grupo_aereo|administrador')
-                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
+                        @if ( $programacion == 0 )
+                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{route('revertirSinproP', ['unidad' => $unidad])}}">Revertir sin Programación</a>
+                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacionGrupoAereo', ['unidad' => $unidad]) }}">+&nbsp;Descargar Programación</a>
+                        @elseif ( $programacion == 1 )
+                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
+                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacionGrupoAereo', ['unidad' => $unidad]) }}">+&nbsp;Descargar Programación</a>
+                        @endif
                     @endrole
                     @role('aviacion_dao|administrador')
                     <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
@@ -50,50 +56,64 @@
                                                 </h2>
                                                 <div id="flush-collapse{{$key}}" class="accordion-collapse" aria-labelledby="flush-heading{{$key}}" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body">
-                                                        <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" style="width:100%">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>UNIDAD</th>
-                                                                    <th>MATRICULA</th>
-                                                                    <th>AERONAVE</th>
-                                                                    <th>BASE</th>
-                                                                    <th>OV/OTA/OM</th>
-                                                                    <th>FECHA</th>
-                                                                    <th>ESTATUS</th>
-                                                                    <th>ACCIONES</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($data as $datamision)
+                                                        @php $unidadprogramo = 'si'; @endphp
+                                                        @foreach ($data as $dataunidad)
+                                                            @if ($dataunidad->completado == 'sinProg')
+                                                                @php $unidadprogramo = 'no' @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        @if ($unidadprogramo == 'no')
+                                                            <div class="alert alert-warning mx-4" role="alert">
+                                                                <ul>
+                                                                    <li><h5>No se ha programado vuelos para esta unidad</h5></li>
+                                                                </ul>
+                                                            </div>
+                                                        @else
+                                                            <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" style="width:100%">
+                                                                <thead>
                                                                     <tr>
-                                                                        @role('aviacion_dao|administrador')
-                                                                        <th  class="font-weight-normal">{{$datamision->unidad}}</th>
-                                                                        @endrole
-                                                                        <th class="font-weight-normal">{{$datamision->matricula}}</th>
-                                                                        <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
-                                                                        <th class="font-weight-normal">
-                                                                          {{$datamision->base_estacion}}
-                                                                        </th>
-                                                                        <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
-                                                                        <th  class="font-weight-normal">{{$datamision->fecha}}</th>
-                                                                        <th class="font-weight-normal">
-                                                                            @if($datamision->completado == 'revisado')
-                                                                                <label class="badge bg-gradient-info status-programacion-ceo">REVISADO</label>
-                                                                            @elseif ($datamision->completado == 'enviado')
-                                                                                <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
-                                                                            @endif
-                                                                        </th>
-                                                                        <th class="font-weight-normal">
-                                                                            @role('aviacion_dao|administrador')
-                                                                            <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
-                                                                                <i class="fas fa-edit text-secondary" aria-hidden="true"></i> Revisar
-                                                                            </a>
-                                                                            @endrole
-                                                                        </th>
+                                                                        <th>UNIDAD</th>
+                                                                        <th>MATRICULA</th>
+                                                                        <th>AERONAVE</th>
+                                                                        <th>BASE</th>
+                                                                        <th>OV/OTA/OM</th>
+                                                                        <th>FECHA</th>
+                                                                        <th>ESTATUS</th>
+                                                                        <th>ACCIONES</th>
                                                                     </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach ($data as $datamision)
+                                                                        <tr>
+                                                                            @role('aviacion_dao|administrador')
+                                                                            <th  class="font-weight-normal">{{$datamision->codigos}}</th>
+                                                                            @endrole
+                                                                            <th class="font-weight-normal">{{$datamision->matricula}}</th>
+                                                                            <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
+                                                                            <th class="font-weight-normal">
+                                                                                {{$datamision->base_estacion}}
+                                                                            </th>
+                                                                            <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
+                                                                            <th  class="font-weight-normal">{{$datamision->fecha}}</th>
+                                                                            <th class="font-weight-normal">
+                                                                                @if($datamision->completado == 'revisado')
+                                                                                    <label class="badge bg-gradient-info status-programacion-ceo">REVISADO</label>
+                                                                                @elseif ($datamision->completado == 'enviado')
+                                                                                    <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
+                                                                                @endif
+                                                                            </th>
+                                                                            <th class="font-weight-normal">
+                                                                                @role('aviacion_dao|administrador')
+                                                                                <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
+                                                                                    <i class="fas fa-edit text-secondary" aria-hidden="true"></i> Revisar
+                                                                                </a>
+                                                                                @endrole
+                                                                            </th>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,6 +132,17 @@
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
+                            @if ( $programacion == 0 )
+                                <div class="card-body">
+                                    <table style="margin: 0 auto;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;"><h3>Sin Programación de Vuelo</h3></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            @elseif ( $programacion == 1 )
                                 <div class="card-body">
                                     <table id="vuelos" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
@@ -158,6 +189,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            @endif
                                 <div style="text-align: center;">
                                     <button id="enviarProgramacionDao" disabled class="btn btn-info" value="{{ $unidad }}">Enviar Programación</button>
                                 </div>

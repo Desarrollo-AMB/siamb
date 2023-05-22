@@ -109,22 +109,32 @@
 
             if ($row->ruta_desde === 'EVENTUAL' || $row->ruta_desde === 'EVENTUAL') {
                 $ruta = "EVENTUAL";
-            } else {
+            } else if ($row->ruta_desde === 'LOCAL' || $row->ruta_desde === 'LOCAL') {
+                $ruta = $row->base_estacion;
+            }
+            else {
                 $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
             }
 
         @endphp
-        <tr>
-            <td style="text-align: center;">{{ $row->unidad }}</td>
-            <td style="text-align: center;">{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
-            <td style="text-align: center;">{{ $row->matriculas_alternas }}</td>
-            <td style="text-align: center;">{{ $row->ordenada_por }}</td>
-            <td style="text-align: center;">{{ $codigo.' / '.$ruta }}</td>
-            <td style="text-align: center;">{{ $row->encend }}</td>
-            <td style="text-align: center;">{{ $row->apag }}</td>
-            <td style="text-align: center;">{{ '-' }}</td>
-            <td style="text-align: center;">{{ '-' }}</td>
-            <td style="text-align: center;">{{ '-' }}</td>
-        </tr>
+        @if ($row->completado === 'sinProg')
+            <tr>
+                <td style="text-align: center;">{{ $row->unidad }}</td>
+                <td class="text-center" colspan="9" style="text-align: center;">{{ 'NO POSEE VUELOS PROGRAMADOS' }}</td>
+            </tr>
+        @else
+            <tr>
+                <td style="text-align: center;">{{ $row->unidad }}</td>
+                <td style="text-align: center;">{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
+                <td style="text-align: center;">{{ $row->matriculas_alternas }}</td>
+                <td style="text-align: center;">{{ $row->ordenada_por }}</td>
+                <td style="text-align: center;">{{ $codigo.' / '.$ruta }}</td>
+                <td style="text-align: center;">{{ $row->encend }}</td>
+                <td style="text-align: center;">{{ $row->apag }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+            </tr>
+        @endif
     @endforeach
 </table>

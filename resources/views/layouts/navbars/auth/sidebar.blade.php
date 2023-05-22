@@ -1,159 +1,211 @@
-
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
-  <div class="sidenav-header">
-    <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
-        <img  src="{{ asset('template/assets/img/logo.png') }}"  class="navbar-brand-img h-100" alt="...">
-        <span class="ms-3 font-weight-bold">SIAMB</span>
-    </a>
-  </div>
-  <hr class="horizontal dark mt-0">
-  <div style="height: 100%;" class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
-    <ul class="navbar-nav">
-      @role('administrador|consulta')
-      <li class="nav-item">
-        <a  class="nav-link {{ (Request::is('dashboard') ? 'active' : '') }}" href="{{ url('dashboard') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <title>dashboard </title>
-              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                  <g transform="translate(1716.000000, 291.000000)">
-                    <g transform="translate(0.000000, 148.000000)">
-                      <path class="color-background opacity-6" d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"></path>
-                      <path class="color-background" d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"></path>
-                    </g>
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </div>
-          <span class="nav-link-text ms-1">Vista Administrativa</span>
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+    id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+            aria-hidden="true" id="iconSidenav"></i>
+        <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ route('dashboard') }}">
+            <img src="{{ asset('template/assets/img/logo.png') }}" class="navbar-brand-img h-100" alt="...">
+            <span class="ms-3 font-weight-bold">SIAMB</span>
         </a>
-      </li>
-      @endrole
-      <li class="nav-item mt-2">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu del Sistema</h6>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {{ (Request::is('profile') ? 'active' : '') }} " href="{{ url('profile') }}">
-        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-user"><title>Perfil</title></i>
-          </div>
-            <span class="nav-link-text ms-1">Perfil</span>
-        </a>
-      </li>
-
-      @role('administrador')
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-users"><title>Usuarios</title></i>
-
-          </div>
-          <span class="nav-link-text ms-1">Usuarios</span>
-        </a>
-        <div class="panel-collapse collapse {{ ((Request::is('users') || Request::is('roles') || Request::is('permissions')) ? 'show' : '') }}"  id="collapseListGroup1" >
-          <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('users') ? 'active' : '') }}" href="{{ url('users') }}">- Lista de Usuarios</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('roles') ? 'active' : '') }}" href="{{ url('roles') }}">- Roles</a></li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a class="{{ (Request::is('permissions') ? 'active' : '') }}" href="{{ url('permissions') }}">- Permisos</a></li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
-
-          </div>
-          <span class="nav-link-text ms-1">RRHH </span>
-        </a>
-
-        <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
-          <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/ingreso-personal/index') ? 'active' : '') }}" href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div style="height: 100%;" class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            @role('administrador|consulta|jefe_de_personal|personal_militar|personal_civil|aviacion_dao|aviacion_grupo_aereo|personal_militar_noprof|bienestar_social|junta_permanente')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('dashboard') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>dashboard </title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(0.000000, 148.000000)">
+                                                <path class="color-background opacity-6"
+                                                    d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
+                                                </path>
+                                                <path class="color-background"
+                                                    d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Vista Administrativa</span>
+                    </a>
+                </li>
+            @endrole
+            <li class="nav-item mt-2">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu del Sistema</h6>
             </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/personal-militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('profile') ? 'active' : '' }} " href="{{ url('profile') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i style="color:#3a416f" class="fa fa-user">
+                            <title>Perfil</title>
+                        </i>
+                    </div>
+                    <span class="nav-link-text ms-1">Perfil</span>
+                </a>
             </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/personal-civil/index') ? 'active' : '') }}" href="{{ route('sireh.personal-civil.index') }}">Personal no Militar</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/personal-militar-noprof/index') ? 'active' : '') }}" href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No Profesional</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                <a class="{{ (Request::is('sireh/nomina/index') ? 'active' : '') }}" href="{{ route('sireh.nomina.index') }}">Nomina</a>
-            </li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-shield"><title>JUNTA PERMANENTE</title></i>
 
-          </div>
-          <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
-        </a>
+            @role('administrador')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-users">
+                                <title>Usuarios</title>
+                            </i>
 
-        <div class="panel-collapse collapse {{ (Request::is('juntap/*') ) ? 'show' : '' }}"  id="collapseListGroup4" >
-          <ul style="margin-left:40px;" class="list-group">
-          {{--
+                        </div>
+                        <span class="nav-link-text ms-1">Usuarios</span>
+                    </a>
+                    <div class="panel-collapse collapse {{ Request::is('users') || Request::is('roles') || Request::is('permissions') ? 'show' : '' }}"
+                        id="collapseListGroup1">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
+                                    class="{{ Request::is('users') ? 'active' : '' }}" href="{{ url('users') }}">- Lista
+                                    de Usuarios</a></li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
+                                    class="{{ Request::is('roles') ? 'active' : '' }}" href="{{ url('roles') }}">-
+                                    Roles</a></li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
+                                    class="{{ Request::is('permissions') ? 'active' : '' }}"
+                                    href="{{ url('permissions') }}">- Permisos</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>RRHH</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">RRHH </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('sireh/*') ? 'show' : '' }}"
+                        id="collapseListGroup2">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/ingreso-personal/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-civil/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.personal-civil.index') }}">Personal no Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar-noprof/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No
+                                    Profesional</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/nomina/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.nomina.index') }}">Nomina</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>JUNTA PERMANENTE</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('juntap/*') ? 'show' : '' }}"
+                        id="collapseListGroup4">
+                        <ul style="margin-left:40px;" class="list-group">
+                            {{--
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
-            </li>--}}
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
-            </li>
+            </li> --}}
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.reportes.index') }}">Reportes</a>
+                            </li>
 
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fas fa-people-arrows">
+                                <title>Bienestar Social</title>
+                            </i>
 
-          </div>
-          <span class="nav-link-text ms-1">Bienestar Social </span>
-        </a>
+                        </div>
+                        <span class="nav-link-text ms-1">Bienestar Social </span>
+                    </a>
 
-        <div class="panel-collapse collapse {{ (Request::is('bienestar-social/*') ) ? 'show' : '' }}"  id="collapseListGroup3" >
-          <ul style="margin-left:40px;" class="list-group">
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('bienestar-social/reportes') ? 'active' : '') }}" href="{{ route('bienestar-social.reportes') }}"><i style="color:#3a416f" class="fas fa-file-alt"></i> Reportes</a>
-            </li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {{ (Request::is('auxiliares/*') || Request::is('auxiliares')) ? 'active' : '' }} " href="{{ url('auxiliares') }}">
-        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10"><title>Tablas Auxiliares</title></i>
-          </div>
-            <span class="nav-link-text ms-1">Tablas Auxiliares</span>
-        </a>
-      </li>
-      @endrole
-      @role('aviacion_dao|aviacion_grupo_aereo|administrador')
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam" class="collapsed nav-link "  aria-controls="collapseExample" >
-            <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i style="color:#3a416f" class="fa fa-plane">
-                    <title>Direción de Apresto Operacional</title>
-                </i>
-            </div>
+                    <div class="panel-collapse collapse {{ Request::is('bienestar-social/*') ? 'show' : '' }}"
+                        id="collapseListGroup3">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('bienestar-social/reportes') ? 'active' : '' }}"
+                                    href="{{ route('bienestar-social.reportes') }}"><i style="color:#3a416f"
+                                        class="fas fa-file-alt"></i> Reportes</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('auxiliares/*') || Request::is('auxiliares') ? 'active' : '' }} "
+                        href="{{ url('auxiliares') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10">
+                                <title>Tablas Auxiliares</title>
+                            </i>
+                        </div>
+                        <span class="nav-link-text ms-1">Tablas Auxiliares</span>
+                    </a>
+                </li>
+            @endrole
+            @role('aviacion_dao|aviacion_grupo_aereo|administrador')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-plane">
+                                <title>Direción de Apresto Operacional</title>
+                            </i>
+                        </div>
 
                         <span class="nav-link-text ms-1">DAO</span>
                     </a>
@@ -163,23 +215,27 @@
 
                         <ul style="margin-left:40px;" class="list-group">
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('dao/index') ? 'active' : '' }}" href="{{ route('dao.index') }}">-
+                                <a class="{{ Request::is('dao/index') ? 'active' : '' }}"
+                                    href="{{ route('dao.index') }}">-
                                     Operaciones Aéreas
                                 </a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('dao/militar') ? 'active' : '' }}" href="{{ route('dao.militar') }}">-
+                                <a class="{{ Request::is('dao/militar') ? 'active' : '' }}"
+                                    href="{{ route('dao.militar') }}">-
                                     Personal
                                 </a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('dao/aeronaves') ? 'active' : '' }}" href="{{ route('dao.aeronaves') }}">-
+                                <a class="{{ Request::is('dao/aeronaves') ? 'active' : '' }}"
+                                    href="{{ route('dao.aeronaves') }}">-
                                     Aeronaves
                                 </a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('dao/agenda') ? 'active' : '' }}" href="{{ route('dao.agenda') }}">-
-                                   Agenda de Operaciones
+                                <a class="{{ Request::is('dao/agenda') ? 'active' : '' }}"
+                                    href="{{ route('dao.agenda') }}">-
+                                    Agenda de Operaciones
                                 </a>
                             </li>
                             {{-- <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
@@ -199,34 +255,213 @@
           </div>
             <span class="nav-link-text ms-1">Reporte de Pilotos</span>
         </a>
-      </li>--}}
-      @endrole
-{{--  Xcomentario  siderbar de roles de aviacion consulta y jefe de personal--}}
-      @role('consulta|jefe-personal')
+      </li> --}}
+            @endrole
+            {{--  Xcomentario  siderbar de roles de aviacion consulta y jefe de personal --}}
+            @role('consulta|jefe_de_personal')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>RRHH</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">RRHH </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('sireh/*') ? 'show' : '' }}"
+                        id="collapseListGroup2">
+                        <ul style="margin-left:40px;" class="list-group">
+
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
 
 
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-shield"><title>RRHH</title></i>
+                        </ul>
+                    </div>
+                </li>
+            @endrole
+            @role('personal_militar')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>RRHH</title>
+                            </i>
 
-          </div>
-          <span class="nav-link-text ms-1">RRHH </span>
-        </a>
+                        </div>
+                        <span class="nav-link-text ms-1">RRHH </span>
+                    </a>
 
-        <div class="panel-collapse collapse {{ (Request::is('sireh/*') ) ? 'show' : '' }}"  id="collapseListGroup2" >
-          <ul style="margin-left:40px;" class="list-group">
+                    <div class="panel-collapse collapse {{ Request::is('sireh/*') ? 'show' : '' }}"
+                        id="collapseListGroup2">
+                        <ul style="margin-left:40px;" class="list-group">
 
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
+
+
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('auxiliares/*') || Request::is('auxiliares') ? 'active' : '' }} "
+                        href="{{ url('auxiliares') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10">
+                                <title>Tablas Auxiliares</title>
+                            </i>
+                        </div>
+                        <span class="nav-link-text ms-1">Tablas Auxiliares</span>
+                    </a>
+                </li>
+            @endrole
+            @role('personal_civil')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>RRHH</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">RRHH </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('sireh/*') ? 'show' : '' }}"
+                        id="collapseListGroup2">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/ingreso-personal/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a>
+                            </li>
+
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-civil/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.personal-civil.index') }}">Personal no Militar</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+            @endrole
+            @role('personal_militar_noprof')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup2"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>RRHH</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">RRHH </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('sireh/*') ? 'show' : '' }}"
+                        id="collapseListGroup2">
+                        <ul style="margin-left:40px;" class="list-group">
+
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/ingreso-personal/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.ingreso-personal.index') }}">Ingreso de Personal</a>
+                            </li>
+
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar-noprof/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.personal-militar-noprof.index') }}">Personal Militar No
+                                    Profesional</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+            @endrole
+            @role('bienestar_social')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fas fa-people-arrows">
+                                <title>Bienestar Social</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Bienestar Social </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('bienestar-social/*') ? 'show' : '' }}"
+                        id="collapseListGroup3">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('bienestar-social/reportes') ? 'active' : '' }}"
+                                    href="{{ route('bienestar-social.reportes') }}"><i style="color:#3a416f"
+                                        class="fas fa-file-alt"></i> Reportes</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+            @endrole
+            @role('junta_permanente')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>Junta Permanente</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Junta Permanente </span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('juntap/*') ? 'show' : '' }}"
+                        id="collapseListGroup4">
+                        <ul style="margin-left:40px;" class="list-group">
+                            {{--
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('sireh/personal-militar/index') ? 'active' : '') }} " href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
-            </li>
+              <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
+            </li> --}}
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
+                                    href="{{ route('juntap.reportes.index') }}">Reportes</a>
+                            </li>
 
-
-          </ul>
-        </div>
-      </li>
-      @endrole
-      {{--
+                        </ul>
+                    </div>
+                </li>
+            @endrole
+            {{--
       <li class="nav-item mt-2">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Example pages</h6>
       </li>
@@ -364,22 +599,20 @@
             Upgrade to PRO</a>
       </li> --}}
 
-    </ul>
-    <div>
-      @if(session()->has('warning'))
-        <div x-data="{ show: true}"
-            x-init="setTimeout(() => show = false, 5000)"
-            x-show="show"
-            class="position-fixed bg-warning rounded right-3 text-sm py-2 px-4">
-          <p class="m-0" style="white-space: break-word;">{{ session('warning')}}</p>
+        </ul>
+        <div>
+            @if (session()->has('warning'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show"
+                    class="position-fixed bg-warning rounded right-3 text-sm py-2 px-4">
+                    <p class="m-0" style="white-space: break-word;">{{ session('warning') }}</p>
+                </div>
+            @endif
         </div>
-      @endif
     </div>
-  </div>
-  <div class="sidenav-footer mx-3 ">
+    <div class="sidenav-footer mx-3 ">
 
-  </div>
-  {{-- <div class="sidenav-footer mx-3 ">
+    </div>
+    {{-- <div class="sidenav-footer mx-3 ">
     <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
       <div class="full-background" style="background-image: url('../assets/img/curved-images/white-curved.jpeg')"></div>
       <div class="card-body text-start p-3 w-100">

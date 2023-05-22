@@ -134,11 +134,8 @@
                                                     <div class="col-sm-4 col-sm-offset-1">
                                                         <div class="form-group">
                                                             <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
-                                                            <select disabled name="base_estacion" class="form-control base_estacion load_estacion">
-                                                                <option value=""></option>
-                                                                @foreach($bases as $data)
-                                                                    <option value="{{$data->id}}">{{$data->descripcion}} - {{$data->siglas}}</option>
-                                                                @endforeach
+                                                            <select disabled id="base_estacion"  name="base_estacion" class="form-control base_estacion load_estacion">
+                                                                <option value="{{ $fam0001data->base_estacion }}">{{ $fam0001data->base_estacion }}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -353,6 +350,7 @@
                     for (let i = 0; i < loopSteps; i++) {
                         let famSteps = response.headerData[i]
                         id_fam0001 = famSteps.id;
+                        //alert(JSON.stringify(response));
                         var dataHeader = 1;
                             //PASOS COMPLETADOS
                             if(dataHeader>0){
@@ -373,6 +371,8 @@
 
                                 setTimeout(function() {
                                     $(".load_componente_organismo").val(famSteps.componente_organismo).trigger('change')
+                                    $("#base_estacion").val(famSteps.base_estacion).trigger('change')
+                                    $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
                                 }, 1000);
 
                                 $(".load_unidad").val(famSteps.unidad).trigger('change')
@@ -391,9 +391,6 @@
                                 setTimeout(function() {
                                     $(".load_matricula").val(famSteps.matricula).trigger('change')
                                 }, 3300);
-
-                                $(".load_estacion").val(famSteps.base_estacion).trigger('change')
-                                $(".load_jefe_maquina").val(famSteps.jefe_maquina).trigger('change')
 
                                 //CARGAR PASO 2
                                 let A1Steps = response.A1_data
