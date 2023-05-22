@@ -136,7 +136,7 @@
                                                     </th>
                                                     <th class="font-weight-normal">
                                                         @role('aviacion_grupo_aereo|administrador')
-                                                        <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
+                                                        <a href="{{route('dao.agenda.edit', $programa->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                             <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                         @endrole

@@ -1489,7 +1489,7 @@ class FormaFAMController extends Controller
 
             if ($aeronave) {
                 // Obtener los registros de la programación según la aeronave
-                $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
+                $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion','id')
                     ->where('unidad', '=', $aeronave->aeronave)
                     ->whereDate('created_at', now()->toDateString())
                     ->get();
@@ -1505,5 +1505,33 @@ class FormaFAMController extends Controller
 public function PReporte()
     {
         return view('dao.agenda.reportes');
+    }
+    public function editAgenda($id)
+    {
+
+
+
+        $user = auth()->user()->id;
+
+        $ubicacion = Nomina::select('nomina.codigo_ubicacion as ubicacion')
+        ->join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
+        ->where('empleados.user_id','=',$user)
+        ->first();
+
+        $aeronave = AeronaveUnidades::select('aeronave_unidad.codigos as aeronave')
+        ->join('nomina','nomina.codigo_ubicacion','=','aeronave_unidad.codigo_ubicacion')
+        ->where('aeronave_unidad.codigo_ubicacion','=',$ubicacion->ubicacion)
+        ->first();
+
+
+
+        $aeronaveM = AeronaveModelo::select('aeronave_modelo.aeronave as modelo','aeronave_matricula.matricula as matricula')
+        ->join('aeronave_matricula','aeronave_matricula.aeronave_id','=','aeronave_modelo.id')
+        ->where('aeronave_modelo.codigo_unidad','=',$aeronave->aeronave)  ->get();
+        $fechaSabado = Carbon::now()->startOfWeek()->addWeek()->next(Carbon::SATURDAY)->format('Y-m-d');
+        $fechaDomingo = Carbon::now()->startOfWeek()->next(Carbon::SUNDAY)->format('Y-m-d');
+        $programacion = ProgramacionFin::find($id);
+        return view('dao.agenda.edit',compact('aeronave','aeronaveM','fechaDomingo','fechaSabado','programacion'));
+
     }
 }
