@@ -28,18 +28,18 @@
                     </div>
                     <hr class="horizontal dark my-0">
                     <div class="card-body px-2 pt-2 pb-2">
-                        {!! Form::open(['route' => 'dao.forms.storeProFin', 'method' => 'POST']) !!}
+                        {!! Form::model($programacion, ['method' => 'PATCH','route' => ['dao.agenda.update', $programacion->id]]) !!}
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <label for="desde">Desde:</label>
-                                    <input type="date" name="desde[]" class="form-control" value="{{ $fechaDomingo }}" readonly>
+                                    <input type="date" name="desde" class="form-control" value="{{ $fechaDomingo }}" readonly>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <label for="hasta">Hasta:</label>
-                                    <input type="date" name="hasta[]" class="form-control" value="{{ $fechaSabado }}" readonly>
+                                    <input type="date" name="hasta" class="form-control" value="{{ $fechaSabado }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <strong>Sistema:</strong>
-                                    <select class="select2 form-control" name="sistema[]" required>
+                                    <select class="select2 form-control" name="sistema" required>
                                         <option value="{{ $programacion->sistema }}">{{ $programacion->sistema }}</option>
                                         @foreach ($aeronaveM as $data)
                                             <option value="{{ $data->modelo }} - {{ $data->matricula }}">{{ $data->modelo }} - {{ $data->matricula }}</option>
@@ -58,7 +58,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <strong>Unidad:</strong>
-                                    {!! Form::text('unidad[]', $aeronave->aeronave, [
+                                    {!! Form::text('unidad', $aeronave->aeronave, [
                                         'placeholder' => 'Unidad',
                                         'class' => 'form-control',
                                         'readonly' => 'readonly',
@@ -70,13 +70,13 @@
                             <div class="col-xs-12 col-sm-12 col-md-8">
                                 <div class="form-group">
                                     <strong>Situacion:</strong>
-                                    {!! Form::text('descripcion', $programacion->situacion, array('placeholder' => 'Situacion','class' => 'form-control', 'id'=>'situacion')) !!}
+                                    {!! Form::text('situacion', $programacion->situacion, array('placeholder' => 'situacion','class' => 'form-control', 'id'=>'situacion')) !!}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-8">
                                 <div class="form-group">
                                     <strong>Observacion:</strong>
-                                    {!! Form::text('observacon[]', $programacion->observacion, array('placeholder' => 'observacion','class' => 'form-control', 'id'=>'observacion')) !!}
+                                    {!! Form::text('observacion', $programacion->observacion, array('placeholder' => 'observacion','class' => 'form-control', 'id'=>'observacion')) !!}
                                 </div>
                             </div>
                         </div>

@@ -1890,4 +1890,29 @@ public function PReporte()
         return view('dao.agenda.edit',compact('aeronave','aeronaveM','fechaDomingo','fechaSabado','programacion'));
 
     }
+
+    public function updateAgenda($id)
+    {
+
+        $this->validate(request(), [
+            'sistema' => 'required',
+            'unidad' => 'required',
+            'situacion' => 'required',
+            'observacion' => 'required',
+            'desde'=>'required',
+            'hasta'=>'required'
+        ]);
+
+
+
+        $programacion = ProgramacionFin::find($id);
+        $programacion->sistema = request('sistema');
+        $programacion->unidad = request('unidad');
+        $programacion->situacion = request('situacion');
+        $programacion->observacion = request('observacion');
+        $programacion->desde = request('desde');
+        $programacion->hasta = request('hasta');
+        $programacion->save();
+        return redirect()->route('dao.agenda')->with('success','Programacion de fin de semana actualizada correctamente');
+    }
 }
