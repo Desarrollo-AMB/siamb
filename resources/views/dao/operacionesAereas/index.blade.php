@@ -61,7 +61,7 @@
                                                                         <th class="font-weight-normal">{{$datamision->matricula}}</th>
                                                                         <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
                                                                         <th class="font-weight-normal">
-                                                                            {{$datamision->base->siglas}}
+                                                                            {{$datamision->base_estacion}}
                                                                         </th>
                                                                         <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
                                                                         <th  class="font-weight-normal">{{$datamision->fecha}}</th>
@@ -123,7 +123,7 @@
                                                     <th class="font-weight-normal">{{$data->matricula}}</th>
                                                     <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
                                                     <th class="font-weight-normal">
-                                                        {{$data->base->siglas}}
+                                                        {{$data->base_estacion}}
                                                     </th>
                                                     <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                     <th  class="font-weight-normal">{{$data->fecha}}</th>
