@@ -241,6 +241,7 @@ class PartegeneralController extends Controller
             ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
             ->where('ubicaciones.codigo_ubicacion', '=', $codigo_ubicacion)
             ->whereIn('nomina.situacion',['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->select(
                 'nomina.grado_militar',
                 'empleados.nombre1',
