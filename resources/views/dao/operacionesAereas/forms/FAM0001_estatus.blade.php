@@ -350,7 +350,7 @@
                     for (let i = 0; i < loopSteps; i++) {
                         let famSteps = response.headerData[i]
                         id_fam0001 = famSteps.id;
-                        alert(JSON.stringify(response));
+                        //alert(JSON.stringify(response));
                         var dataHeader = 1;
                             //PASOS COMPLETADOS
                             if(dataHeader>0){
