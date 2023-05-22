@@ -24,13 +24,13 @@
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
                                     @role('aviacion_dao')
-                                        <select name="base_estacion" class="form-control base_estacion load_estacion"
+                                        <select name="base_estacion" class="form-control select2 base_estacion load_estacion"
                                             disabled="true">
                                             <option value="{{ $headerFam0001[0]->base_estacion }}">{{ $headerFam0001[0]->base_estacion }}</option>
                                         </select>
                                     @endrole
                                     @role('aviacion_grupo_aereo|administrador')
-                                        <select name="base_estacion" class="form-control base_estacion load_estacion" disabled>
+                                        <select name="base_estacion" class="form-control select2 base_estacion load_estacion" disabled>
                                             <option value="{{ $headerFam0001[0]->base_estacion }}">{{ $headerFam0001[0]->base_estacion }}</option>
                                         </select>
                                     @endrole
@@ -39,14 +39,14 @@
                             <div class="col-2">
                                 <h6>Selecionar</h6>
                                 @role('aviacion_dao')
-                                    <select name="matriculaSelect" id="matriculaSelect" class="form-control matriculaSelect"
+                                    <select name="matriculaSelect" id="matriculaSelect" class="form-control select2 matriculaSelect"
                                         disabled>
                                         <option value="">Seleccionar...</option>
                                     </select>
                                 @endrole
                                 @role('aviacion_grupo_aereo|administrador')
                                     <select disabled name="matriculaSelect" id="matriculaSelect"
-                                        class="form-control matriculaSelect">
+                                        class="form-control select2 matriculaSelect">
                                         <option value="">Seleccionar...</option>
                                         @foreach ($matriculas as $data)
                                             <option value="{{ $data->matricula }}">{{ $data->matricula }}</option>
@@ -74,7 +74,7 @@
                 <div class="card mb-4 mx-4">
                     <div class="card-body px-2 pt-2 pb-2">
                         <div class="table_responsive">
-                            <table id="responsiveA1" class="table align-items-center mb-0">
+                            <table id="responsiveA1" class="table table_responsive align-items-center mb-0">
                                 <thead style="background: #e1e1e0;">
                                     <tr>
                                         <th class="text-uppercase font-weight-bolder">
@@ -99,14 +99,19 @@
                                             <h6>SALIDA</h6>
                                         </th>
                                         <th class="text-uppercase font-weight-bolder">
-                                            <h6>RETORNO</h6>
+                                            <h6>LLEGADA</h6>
                                         </th>
                                         <th class="text-uppercase font-weight-bolder">
                                             <h6>ACCIÓN</h6>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody id="A1_data">
+                                <tbody id="cargandotable">
+                                    <tr>
+                                        <td colspan="9" style="text-align: center; vertical-align: middle;"><h5><strong>Cargando...</strong></h5></td>
+                                    </tr>
+                                </tbody>
+                                <tbody id="A1_data" hidden>
                                     @php
                                         $contador = 1; // Inicializamos el contador en 1
                                     @endphp
@@ -118,7 +123,7 @@
                                             </td>
                                             <td>
                                                 <select name="ordenada_por"
-                                                    class="form-control ordenada_por load_ordenado_por enviables">
+                                                    class="form-control select2 ordenada_por load_ordenado_por enviables">
                                                     <option value="{{ $data->ordenada_por }}">{{ $data->ordenada_por }}
                                                     </option>
                                                     @foreach ($vueloOrdenadaPor as $datosOrdenadaPor)
@@ -128,7 +133,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="siglas" class="form-control siglas load_siglas"
+                                                <select name="siglas" class="form-control select2 siglas load_siglas"
                                                     id="{{ $data->id }}">
                                                     @if ($data->siglas == 'ALERTA')
                                                         <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
@@ -148,7 +153,7 @@
                                             </td>
                                             <td>
                                                 @if ($data->siglas == 'ALERTA' || $data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
-                                                    <select name="codigo" disabled class="form-control codigo load_codigo"
+                                                    <select name="codigo" disabled class="form-control select2 codigo load_codigo"
                                                         id="codigo{{ $data->id }}">
                                                         <option value="{{ $data->numero }}">{{ $data->numero }}</option>
                                                         @foreach ($codigoMision as $datoscodigo)
@@ -158,7 +163,7 @@
                                                         @endforeach
                                                     </select>
                                                 @else
-                                                    <select name="codigo" class="form-control codigo load_codigo"
+                                                    <select name="codigo" class="form-control select2 codigo load_codigo"
                                                         id="codigo{{ $data->id }}">
                                                         <option value="{{ $data->numero }}">{{ $data->numero }}</option>
                                                         @foreach ($codigoMision as $datoscodigo)
@@ -171,7 +176,7 @@
                                             </td>
                                             <td>
                                                 <select name="ruta_desde"
-                                                    class="form-control ruta_desde load_ruta_desde"
+                                                    class="form-control select2 ruta_desde load_ruta_desde"
                                                     id="ruta_desde{{ $data->id }}">
                                                     <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
                                                     </option>
@@ -196,7 +201,7 @@
                                             </td>
                                             <td>
                                                 <select name="ruta_hasta"
-                                                    class="form-control ruta_hasta load_ruta_hasta"
+                                                    class="form-control select2 ruta_hasta load_ruta_hasta"
                                                     id="ruta_hasta{{ $data->id }}">
                                                     <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
                                                     </option>
@@ -284,28 +289,63 @@
 
 @section('scripts')
     <script>
+
         $(document).ready(function() {
-    $('#responsiveA1').DataTable({
-        responsive: true
-    });
-});
-        $(document).ready(function() {
+
+
+            setTimeout(function() {
+                // Mostrar el tbody de datos y ocultar el tbody de carga
+                $('#A1_data').removeAttr('hidden');
+                $('#cargandotable').attr('hidden', true);
+                    $('#responsiveA1').DataTable({
+                    processing: true,
+                    //serverSide: true,
+                    responsive: true,
+                    pageLength: 25,
+                    search: {
+                        return: true,
+                    },
+                    "language": {
+                        "sProcessing":    "Procesando...",
+                        "sLengthMenu":    "Mostrar _MENU_ registros",
+                        "sZeroRecords":   "No se encontraron resultados",
+                        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":   "",
+                        "sSearch":        "Buscar:",
+                        "sUrl":           "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":    "Último",
+                            "sNext":    "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                });
+
+            }, 2000);
+                
+
+            //$('#A1_data').removeAttr('hidden');
+            //$('#A1_data').removeAttr('hidden');
+
             var id_fam0001;
             var fam0001_a1_mision_id;
             var ov_ota_om;
             var base_estacion;
             var siglasUnidad;
-
             base_estacion = $('.base_estacion').val();
 
             //PASO 1 Convierto en select2 los campos que lo necesitan
-            $('.base_estacion').select2();
-            $('.ordenada_por').select2();
-            $('.siglas').select2();
-            $('.codigo').select2();
-            $('.ruta_desde').select2();
-            $('.ruta_hasta').select2();
-            $('#matriculaSelect').select2();
+            $('.select2').select2();
 
             $('.base_estacion').change(function(e) {
                 e.preventDefault();
@@ -341,7 +381,6 @@
                 }
             });
 
-
             //LIMPIAR A1
             function cleanA1() {
                 $('.ordenada_por').val('').trigger('change');
@@ -349,15 +388,12 @@
                 $('.codigo').val('').trigger('change');
             }
 
-
-
             //FORMULARIO GUARDAR
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
 
             var data_id = parseInt('{{ $fam0001 }}')
             //TRAER DATA DEL PRIMER PASO
@@ -403,9 +439,8 @@
 
             });
 
-
             $("#agregar_mision").click(function() {
-
+                $(this).prop('disabled', true);
                 $.ajax({
                     url: "{{ route('store_a1') }}",
                     method: 'POST',
@@ -420,69 +455,10 @@
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
-                        completado: "programando",
+                        completado: "actualizado",
                     },
                     success: function(response) {
                         if (response.success) {
-
-                            A1_id = response.A1_id[0];
-                            nuevaOperacionVuelo =
-                                '<tr id="delete_a1_mision' + A1_id.id + '">\
-                                        <td>\
-                                            <span>V</span>\
-                                            <input type="hidden" name="id" value="' + A1_id.id +'">\
-                                        </td>\
-                                        <td><select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">\
-                                            <option value="' + A1_id.ordenada_por + '">' + A1_id.ordenada_por +'</option>\
-                                                @foreach ($vueloOrdenadaPor as $data)\
-                                                    <option value="{{ $data->codigo }}">{{ $data->codigo }}</option>\
-                                                @endforeach\
-                                        </select></td>\
-                                        <td><select name="siglas" class="form-control siglas load_siglas">\
-                                            <option value="ALERTA">ALERTA</option>\
-                                            <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCEND. Y CHEQ. EN TIERRA</option>\
-                                                @foreach ($codigoTipoMisionSiglas as $data)\
-                                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
-                                                @endforeach\
-                                                </select></td>\
-                                        <td><select name="codigo" class="form-control codigo load_codigo" disabled>\
-                                            <option value=""></option>\
-                                            @foreach ($codigoMision as $data)\
-                                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{ $data->codigo }}\
-                                                </option>\
-                                            @endforeach\
-                                        </select></td>\
-                                        <td><select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">\
-                                            <option value="EVENTUAL">EVENTUAL</option>\
-                                            <option value="LOCAL">LOCAL</option>\
-                                                @foreach ($aeropuertos as $data)\
-                                                    <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">{{ $data->codigo_icao }}</option>\
-                                                @endforeach\
-                                        </select></td>\
-                                        <td><select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">\
-                                            <option value="EVENTUAL">EVENTUAL</option>\
-                                            <option value="LOCAL">LOCAL</option>\
-                                            @foreach ($aeropuertos as $data)\
-                                                <option title="{{ $data->nombre }}" value="{{ $data->codigo_icao }}">\
-                                                {{ $data->codigo_icao }}</option>\
-                                            @endforeach\
-                                        </select></td>\
-                                        <td>\
-                                            <input hidden name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">\
-                                        </td>\
-                                        <td>\
-                                            <input hidden name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase"></td><td style="padding-left: 20px;">\
-                                                <button value="' + A1_id.id +'" style="background: rgb(189, 0, 0);color: white;" type="button" class="delete_a1_mision btn btn-danger" id="DeleteRow">X</button>\
-                                        </td></tr>';
-
-
-                            $('#A1_data').append(nuevaOperacionVuelo);
-                            $('.ordenada_por').select2();
-                            $('.siglas').select2();
-                            $('.codigo').select2();
-                            $('.ruta_desde').select2();
-                            $('.ruta_hasta').select2();
-
                             window.location.href =
                                 "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
                         }
@@ -493,48 +469,11 @@
                 });
 
             });
-            $('.delete_a1_mision').on('click', function(event) {
-                event.preventDefault();
-                var id = $(this).val();
-                Swal.fire({
-                    title: 'Estas Seguro de Eliminar?',
-                    text: "No podrás revertir esto.!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('delete_a1_mision') }}",
-                            method: 'POST',
-                            data: {
-                                id: id
-                            },
-                            cache: false,
-                            dataType: 'json',
-                            success: function(response) {
-                                if (response) {
-                                    $("#delete_a1_mision" + id + "").remove();
-                                }
-                            }
-                        });
-                        Swal.fire({
-                            title: 'Eliminado!',
-                            text: 'La Misión ha sido eliminado.',
-                            icon: 'success',
-                            timer: 3000,
-                            showConfirmButton: true,
-                        });
-                    }
-                });
-            });
 
             //PASO #1 - revisar Programacion
             $("#revisado").click(function(e) {
                 e.preventDefault();
-
+                $(this).prop('disabled', true);
                 $.ajax({
                     url: "{{ route('revisarProgramacion') }}",
                     method: 'POST',
@@ -565,7 +504,7 @@
 
             $("#actualizar_a1_mision").click(function(e) {
                 e.preventDefault();
-
+                $(this).prop('disabled', true);
                 try {
 
                     // recorrer cada fila de la tabla
@@ -684,45 +623,48 @@
                     });
                 }
             });
+
+            $('.delete_a1_mision').on('click', function(event) {
+                event.preventDefault();
+                var id = $(this).val();
+                
+                Swal.fire({
+                    title: 'Estas Seguro de Eliminar?',
+                    text: "No podrás revertir esto.!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).prop('disabled', true);
+                        $.ajax({
+                            url: "{{ route('delete_a1_mision') }}",
+                            method: 'POST',
+                            data: {
+                                id: id
+                            },
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response) {
+                                    Swal.fire({
+                                        title: 'Eliminado!',
+                                        text: 'La Misión ha sido eliminado.',
+                                        icon: 'success',
+                                        timer: 3000,
+                                        showConfirmButton: true,
+                                    });
+                                    window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
         });
 
-        $('.delete_a1_mision').on('click', function(event) {
-            event.preventDefault();
-            var id = $(this).val();
-            Swal.fire({
-                title: 'Estas Seguro de Eliminar?',
-                text: "No podrás revertir esto.!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "{{ route('delete_a1_mision') }}",
-                        method: 'POST',
-                        data: {
-                            id: id
-                        },
-                        cache: false,
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response) {
-                                $("#delete_a1_mision" + id + "").remove();
-                            }
-                        }
-                    });
-                    Swal.fire({
-                        title: 'Eliminado!',
-                        text: 'La Misión ha sido eliminado.',
-                        icon: 'success',
-                        timer: 3000,
-                        showConfirmButton: true,
-                    });
-                    window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
-                }
-            });
-        });
     </script>
 @endsection

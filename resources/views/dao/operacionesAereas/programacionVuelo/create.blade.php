@@ -179,10 +179,10 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
+                                            <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
                                         </td>
                                         <td>
-                                            <input name="encend" type="time" class="form-control encend load_encend calculateTime" style="text-transform: uppercase">
+                                            <input name="apag" type="time" class="form-control apag load_apag calculateTime" style="text-transform: uppercase">
                                         </td>
                                         <td>
 
