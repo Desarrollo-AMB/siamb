@@ -524,6 +524,7 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
                 ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
                 ->where('parte_general.fecha', [$fechas])
                 ->whereIn('nomina.situacion', ['A', 'S'])
+                ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
                 ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
                 ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
                 'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
@@ -566,6 +567,7 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->where('parte_general.fecha', [$fechas])
             ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
             ->select('ubicaciones.descripcion as ubicacion','parte_general.fecha as fecha',
                 \DB::raw('count(*) as total'),
