@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('aviacion_grupo_aereo');
         });
         Gate::define('modificar', function ($user) {
-            return $user->hasRole('personal_militar|administrador|consulta');
+            return $user->hasRole('administrador');
         });
         //
     }
