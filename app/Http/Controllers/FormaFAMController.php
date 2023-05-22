@@ -65,7 +65,7 @@ class FormaFAMController extends Controller
             if ($rol_user == 'aviacion_dao') {
                 $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4']   )
                 ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
-                
+
                 # Ordenar por unidad
                 $fam0001 = [];
                 foreach ($fam0001_unidad as $key => $value) {
@@ -805,7 +805,7 @@ class FormaFAMController extends Controller
             $hoy = Carbon::now();
             $mañana_condicion = $hoy->addDay();
             $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
-    
+
             /*$mision = Fam0001A1Mision::all();*/
             $programacion = Fam0001::join('fam0001_a1_mision','fam0001_a1_mision.fam0001_id','=','fam0001.id')
             ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
@@ -834,9 +834,9 @@ class FormaFAMController extends Controller
             )
             ->orderBy('aeronave_unidad.id', 'asc')
             ->get();
-    
+
             foreach ($programacion as $row) {
-    
+
                 if ($row->completado == 'revisado') {
 
                     $sistema_matricula = $row->aeronave_modelo.' / '.$row->matricula;
@@ -885,7 +885,7 @@ class FormaFAMController extends Controller
                         // Otros campos que deseas insertar
                     ]);
                 }
-    
+
             }
 
             Fam0001A1Mision::whereIn('fam0001_id', function ($query) use ($request) {
@@ -905,7 +905,7 @@ class FormaFAMController extends Controller
             Fam0001::where('fecha',$request->fecha)->where('completado', 'revisado')->update(['completado' => 'paso1']);
 
             Fam0001::where('fecha',$request->fecha)->where('completado', 'sinProg')->update(['completado' => 'sinProgEnv']);
-            
+
             // Realizar otras acciones si la inserción es exitosa
             return response()->json(
                 [
@@ -1190,8 +1190,11 @@ class FormaFAMController extends Controller
 
     public function actualizarProgramacionA1(Request $request)
     {
-        $programacion_actualizada = Fam0001::where('id',$request->id_fam0001)->update(['completado' => 'actualizado']);
+
         $editMision = Fam0001A1Mision::where('id', $request->id)->update($request->except('id'));
+
+        $pAid = Fam0001A1Mision::where('id', $request->id)->select('fam0001_id')->get();
+        Fam0001::where('id',$pAid[0]->fam0001_id)->update(['completado' => 'actualizado']);
         // $loop = count($request->consumiblesDATA);
         // if($loop>0){
         //     for ($i=0; $i < $loop; $i++) {
@@ -1201,7 +1204,7 @@ class FormaFAMController extends Controller
 
         return response()->json([
                 'success' => true,
-                'editMision' => $editMision
+                'editMision' => $pAid[0]->fam0001_id
             ]
         );
     }
