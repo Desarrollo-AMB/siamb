@@ -76,6 +76,12 @@ class HomeController extends Controller
         ->orderby('anno','asc')
         ->orderby('mes','asc')
         ->get();
+
+        $data = [
+            'labels' => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+            'values' => [120, 150, 180, 90, 200],
+        ];
+
         //dd($vuelos_completados);
 
         //dd(DB::getQueryLog());
@@ -89,7 +95,7 @@ class HomeController extends Controller
                 'sanciones_pendientes', 'sanciones_registradas_year',
                 'sanciones_aprobadas_year', 'sanciones_denegadas_year',
                 'procedimientos_devueltos','vuelos_registrados','ultimo_mes_completo','hoy',
-                'vuelos_completados'
+                'vuelos_completados','data'
             )
         );
     }
