@@ -348,7 +348,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/dao/actualizar-dispon-aeronave',   [FormaFAMController::class, 'actuDisponibilidadAeronave'])->name('dao.actuDisponibilidadAeronave');
     Route::get('/dao/ver-programacion',             [FormaFAMController::class, 'verProgramacion'])->name('dao.ver_programacion');
     Route::get('/dao/nueva-programacion',           [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
-    Route::get('/dao/imprimir-programacion',        [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
+    Route::get('/dao/imprimir-programacion/{tipo}', [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
     Route::get('/dao/imprimir-programacion-grupo-aereo/{unidad}',        [FormaFAMController::class, 'imprimirProgramacionGrupoAereo'])->name('dao.imprimirProgramacionGrupoAereo');
     Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
     Route::post('programacion_data',                [FormaFAMController::class, 'programacion_data'])->name('programacion_data');

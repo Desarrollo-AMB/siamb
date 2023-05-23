@@ -35,7 +35,8 @@
                         @endif
                     @endrole
                     @role('aviacion_dao|administrador')
-                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion') }}">+&nbsp;Descargar Programación</a>
+                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion', ['tipo' => 'ce']) }}">+&nbsp;Descargar Programación Caza - Entrenamiento</a>
+                    <a class="btn btn-bg-gradient-info btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion', ['tipo' => 'th']) }}">+&nbsp;Descargar Programación Transporte - Ala Rotatoria</a>
                     @endrole
                 </div>
             </div>

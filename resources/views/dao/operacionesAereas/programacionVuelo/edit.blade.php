@@ -178,10 +178,20 @@
                                                 <select name="ruta_desde"
                                                     class="form-control select2 ruta_desde load_ruta_desde"
                                                     id="ruta_desde{{ $data->id }}">
-                                                    <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
-                                                    </option>
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                    <option value="LOCAL">LOCAL</option>
+                                                    @if ($data->ruta_desde == 'EVENTUAL')
+                                                        <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
+                                                        </option>
+                                                        <option value="LOCAL">LOCAL</option>
+                                                    @elseif($data->ruta_desde == 'LOCAL')
+                                                        <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
+                                                        </option>
+                                                        <option value="EVENTUAL">EVENTUAL</option>
+                                                    @else
+                                                        <option value="{{ $data->ruta_desde }}">{{ $data->ruta_desde }}
+                                                        </option>
+                                                        <option value="EVENTUAL">EVENTUAL</option>
+                                                        <option value="LOCAL">LOCAL</option>
+                                                    @endif
                                                     @foreach ($aeropuertos as $dataruta_desde)
                                                         <option title="{{ $dataruta_desde->nombre }}"
                                                         value="{{ $dataruta_desde->codigo_icao }}">
@@ -203,10 +213,20 @@
                                                 <select name="ruta_hasta"
                                                     class="form-control select2 ruta_hasta load_ruta_hasta"
                                                     id="ruta_hasta{{ $data->id }}">
-                                                    <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
-                                                    </option>
-                                                    <option value="EVENTUAL">EVENTUAL</option>
-                                                    <option value="LOCAL">LOCAL</option>
+                                                    @if ($data->ruta_hasta == 'EVENTUAL')
+                                                        <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
+                                                        </option>
+                                                        <option value="LOCAL">LOCAL</option>
+                                                    @elseif($data->ruta_hasta == 'LOCAL')
+                                                        <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
+                                                        </option>
+                                                        <option value="EVENTUAL">EVENTUAL</option>
+                                                    @else
+                                                        <option value="{{ $data->ruta_hasta }}">{{ $data->ruta_hasta }}
+                                                        </option>
+                                                        <option value="EVENTUAL">EVENTUAL</option>
+                                                        <option value="LOCAL">LOCAL</option>
+                                                    @endif
                                                     @foreach ($aeropuertos as $dataruta_hasta)
                                                         <option title="{{ $dataruta_hasta->nombre }}"
                                                         value="{{ $dataruta_hasta->codigo_icao }}">
@@ -332,7 +352,7 @@
                 });
 
             }, 2000);
-                
+
 
             //$('#A1_data').removeAttr('hidden');
             //$('#A1_data').removeAttr('hidden');
@@ -357,24 +377,27 @@
                 var id = $(this).attr('id');
                 if (siglaId) {
                     if(siglaId == 'ALERTA'){
-                        $('#codigo' + id).val('');
+                        $('#codigo' + id).val('').trigger('change');
                         $("#codigo" + id).prop('disabled', true);
-                        $("#ruta_desde" + id).val('EVENTUAL');
-                        $("#ruta_hasta" + id).val('EVENTUAL');
+                        $("#ruta_desde" + id).val('EVENTUAL').trigger('change');
+                        $("#ruta_hasta" + id).val('EVENTUAL').trigger('change');
                         $("#encend" + id).prop('hidden', true);
                         $("#apag" + id).prop('hidden', true);
                     }
                     else if(siglaId == 'ENCENDIDO Y CHEQUEO EN TIERRA'){
-                        $('#codigo' + id).val('');
+                        $('#codigo' + id).val('').trigger('change');
                         $("#codigo" + id).prop('disabled', true);
-                        $("#ruta_desde" + id).val('LOCAL');
-                        $("#ruta_hasta" + id).val('LOCAL');
+                        $("#ruta_desde" + id).val('LOCAL').trigger('change');
+                        $("#ruta_hasta" + id).val('LOCAL').trigger('change');
                         $("#encend" + id).prop('hidden', true);
                         $("#apag" + id).prop('hidden', true);
                     }else{
                         $("#codigo" + id).prop('disabled', false);
+                        $('#codigo' + id).val('').trigger('change');
                         $("#ruta_desde" + id).prop('disabled', false);
                         $("#ruta_hasta" + id).prop('disabled', false);
+                        $('#ruta_desde' + id).val('EVENTUAL').trigger('change');
+                        $('#ruta_hasta' + id).val('EVENTUAL').trigger('change');
                         $("#encend" + id).prop('hidden', false);
                         $("#apag" + id).prop('hidden', false);
                     }
@@ -459,6 +482,13 @@
                     },
                     success: function(response) {
                         if (response.success) {
+                            Swal.fire({
+                                title: 'Misión Agregada Correctamente!',
+                                text: '¡EN ALAS VENCEREMOS!.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
                             window.location.href =
                                 "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
                         }
@@ -554,7 +584,7 @@
                         rowData.encend = encend;
                         rowData.apag = apag;
                         rowData.completado = 'actualizado';
-
+                        
                         if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
                             if (numero === "") {
                                 throw new Error(
@@ -592,7 +622,8 @@
                                 url: "{{ route('actualizarProgramacionA1') }}",
                                 method: "POST",
                                 data: rowData,
-                                success: function(response) {},
+                                success: function(response) {
+                                },
                                 error: function(error) {
                                     console.log(error)
                                 }
@@ -602,7 +633,6 @@
                         //FORMULARIO GUARDAR
 
                     });
-
                     Swal.fire({
                         title: 'Programación Actualizada con éxito!',
                         text: '¡EN ALAS VENCEREMOS!',
@@ -613,7 +643,7 @@
                     window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
                 } catch (error) {
                     console.error(error);
-
+                    $(this).prop('disabled', false);
                     Swal.fire({
                         title: 'Error!',
                         text: error,
@@ -627,7 +657,7 @@
             $('.delete_a1_mision').on('click', function(event) {
                 event.preventDefault();
                 var id = $(this).val();
-                
+
                 Swal.fire({
                     title: 'Estas Seguro de Eliminar?',
                     text: "No podrás revertir esto.!",
