@@ -45,6 +45,7 @@
                                                                     <th>UNIDAD</th>
                                                                     <th>SITUACION</th>
                                                                     <th>OBSERVACION</th>
+                                                                    <th>ACCIONES</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -54,6 +55,13 @@
                                                                         <td>{{ $programa->unidad }}</td>
                                                                         <td>{{ $programa->situacion }}</td>
                                                                         <td>{{ $programa->observacion }}</td>
+                                                                        <td class="font-weight-normal">
+                                                                            @role('aviacion_grupo_aereo|administrador')
+                                                                            <a href="{{route('dao.agenda.edit', $programa->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
+                                                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                                                            </a>
+                                                                            @endrole
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

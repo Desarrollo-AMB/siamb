@@ -410,6 +410,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('dao/operacionesAereas/programacionVuelo/programacionfinpdf',     [FormaFAMController::class, 'imprimir_reportepfd'])->name('dao.forms.programacionVuelo.progracionFinPDF');
     Route::get('/dao/Agenda',                    [FormaFAMController::class, 'daoAgenda'])->name('dao.agenda');
     Route::get('/dao/Agenda/reportes',                    [FormaFAMController::class, 'PReporte'])->name('dao.reportes');
+    Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
+    Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
+    Route::patch('/dao/Agenda/update/{id}', [FormaFAMController::class, 'updateAgenda'])->name('dao.agenda.update');
 });
 
 
