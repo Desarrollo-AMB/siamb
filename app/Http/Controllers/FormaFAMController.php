@@ -280,7 +280,7 @@ class FormaFAMController extends Controller
             if(count($ubicacion)>0){
                 $unidad = $ubicacion;
                 $aeronaveModelos = AeronaveModelo::where('codigo_unidad',$unidad[0]->codigos)->get();
-                $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->get();
+                $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->get();
                 $vinvuloGrupoAereo = Config::get('constants.vinvulo_grupo_aereo');
 
                 if (isset($vinvuloGrupoAereo[$unidad[0]->codigos])) {
@@ -494,7 +494,7 @@ class FormaFAMController extends Controller
             }
         }
         $headerFam0001 = Fam0001::where('id',$fam_id)->with('aeronaves')->get();
-        $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->whereNotIn('matricula', [$headerFam0001[0]->matricula])->where('aeronave_id', [$headerFam0001[0]->aeronave_modelo])->get();
+        $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->whereNotIn('matricula', [$headerFam0001[0]->matricula])->where('aeronave_id', [$headerFam0001[0]->aeronave_modelo])->get();
         /*$baseSelect = Base::where('id',$headerFam0001[0]->base_estacion)->get();
         $baseSelect = $baseSelect[0];*/
         $fam0001 = $fam_id;
@@ -650,7 +650,7 @@ class FormaFAMController extends Controller
     {
         //HEADER
         $aeronaveModelos = AeronaveModelo::get();
-        $matriculas = AeronaveMatricula::whereIn('estatus', ['DISPONIBLE', 'INDISPONIBLE'])->get();
+        $matriculas = AeronaveMatricula::whereIn('estatus', ['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->get();
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
@@ -677,7 +677,7 @@ class FormaFAMController extends Controller
     {
         //HEADER
         $aeronaveModelos = AeronaveModelo::get();
-        $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->get();
+        $matriculas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->get();
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
@@ -713,10 +713,10 @@ class FormaFAMController extends Controller
     public function matriculas(Request $request)
     {
         if ($request->id == 20 || $request->id == 23) {
-            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->whereIn('aeronave_id', [20, 23])->get();
+            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->whereIn('aeronave_id', [20, 23])->get();
             return response()->json($selectedMatricula);
         } else{
-            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->where('aeronave_id', $request->id)->get();
+            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->where('aeronave_id', $request->id)->get();
             return response()->json($selectedMatricula);
         }
     }
@@ -725,10 +725,10 @@ class FormaFAMController extends Controller
     {
         $matricula = $request->id;
         if ($request->naved == 20 || $request->naved == 23) {
-            $selectedMatriculaAlternas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->whereNot('matricula', $matricula)->whereIn('aeronave_id', [20, 23])->get();
+            $selectedMatriculaAlternas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->whereNot('matricula', $matricula)->whereIn('aeronave_id', [20, 23])->get();
             return response()->json($selectedMatriculaAlternas);
         } else {
-            $selectedMatriculaAlternas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'INDISPONIBLE'])->whereNot('matricula', $matricula)->where('aeronave_id', $request->naved)->get();
+            $selectedMatriculaAlternas = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->whereNot('matricula', $matricula)->where('aeronave_id', $request->naved)->get();
             return response()->json($selectedMatriculaAlternas);
         }
     }
