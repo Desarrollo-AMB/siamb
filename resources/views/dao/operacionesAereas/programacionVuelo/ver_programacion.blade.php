@@ -13,6 +13,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
+            <hr class="horizontal dark my-0">
             <div class="card-header pb-0 mb-2 d-flex flex-column flex-sm-row justify-content-between align-items-center">
                 <div class="col-sm-2 mb-2 mb-sm-0">
                     <h5 class="mb-0">
@@ -21,26 +22,12 @@
                         </a>
                     </h5>
                 </div>
-                <div class="col-sm-4 text-center mb-2 mb-sm-0">
-                    <h5 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h5>
-                </div>
-                <div class="col-sm-2 mb-2 mb-sm-0">
-                    @role('aviacion_grupo_aereo|administrador')
-                        @if ( $programacion == 0 )
-                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{route('revertirSinproP', ['unidad' => $unidad])}}">Revertir sin Programación</a>
-                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacionGrupoAereo', ['unidad' => $unidad]) }}">+&nbsp;Descargar Programación</a>
-                        @elseif ( $programacion == 1 )
-                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.nuevaProgramacion') }}">+&nbsp;Agregar Programación</a>
-                            <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacionGrupoAereo', ['unidad' => $unidad]) }}">+&nbsp;Descargar Programación</a>
-                        @endif
-                    @endrole
-                    @role('aviacion_dao|administrador')
-                    <a class="btn btn-bg-gradient-primary btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion', ['tipo' => 'ce']) }}">+&nbsp;Descargar Programación Caza - Entrenamiento</a>
-                    <a class="btn btn-bg-gradient-info btn-block my-2 new_fly_bt" href="{{ route('dao.imprimirProgramacion', ['tipo' => 'th']) }}">+&nbsp;Descargar Programación Transporte - Ala Rotatoria</a>
-                    @endrole
+                <div class="col-sm-5 text-center mb-2 mb-sm-0">
+                    <h4 class="mb-0">Programación de vuelo del día: <span id="fecha_cabecera" class="mb-0"></span></h4>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
+            @include('dao.operacionesAereas.programacionVuelo._barra_auxiliar')
             @role('aviacion_dao|administrador')
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
@@ -106,7 +93,7 @@
                                                                             <th class="font-weight-normal">
                                                                                 @role('aviacion_dao|administrador')
                                                                                 <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
-                                                                                    <i class="fas fa-edit text-secondary" aria-hidden="true"></i> Revisar
+                                                                                    <i class="fas fa-eye text-info" aria-hidden="true"></i> Revisar
                                                                                 </a>
                                                                                 @endrole
                                                                             </th>
@@ -181,7 +168,10 @@
                                                     <th class="font-weight-normal">
                                                         @role('aviacion_grupo_aereo|administrador')
                                                         <a href="{{route('dao.editProgramacion', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
-                                                            <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
+                                                            <i class="fas fa-edit  text-primary" aria-hidden="true"></i> Editar
+                                                        </a>
+                                                        <a href="#" class="eliminarProgramacion mx-3" data-id="{{ $data->id }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Eliminar Vuelo">
+                                                            <i class="fas fa-trash text-danger" aria-hidden="true"></i> Eliminar
                                                         </a>
                                                         @endrole
                                                     </th>
@@ -348,6 +338,132 @@
                 }
             });
         });
+
+
+        $('.eliminarProgramacion').click(function(e) {
+            e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+            var fam_id = $(this).data('id');
+
+            Swal.fire({
+                title: '¿Estas Seguro de eliminar esta programación?',
+                text: "¡Atención.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "{{ route('dao.deleteProgramacion') }}",
+                        method: 'POST',
+                        data: {
+                            fam_id: fam_id
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                console.log(response)
+
+                                Swal.fire({
+                                    title: 'Programación Eliminada con éxito!',
+                                    text: 'Se Creo Correctamente.',
+                                    icon: 'success',
+                                    timer: 3000,
+                                    showConfirmButton: true,
+                                });
+
+                                window.location.href = "{{URL::to('/dao/ver-programacion')}}";
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    });
+                    
+                }
+            });
+        });
+
+        //PASO #5 - GUARDAR SIN PROGRAMACION
+        $("#enviarSinProgramacion").click(function(e) {
+                e.preventDefault();
+                var unidad = $('#unidadEnv').val();
+
+                Swal.fire({
+                title: '¿Estas Seguro de no enviar programación?',
+                text: "¡Atención.!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        //ENVIAR
+                        $.ajax({
+                            url: "{{ route('store_programacion') }}",
+                            method: 'POST',
+                            data: {
+                                ov_ota_om: '',
+                                componente_organismo: '',
+                                unidad: unidad,
+                                aeronave_modelo: 1,
+                                serial: '',
+                                matricula: '',
+                                base_estacion: '',
+                                completado: "sinProg",
+                                matriculas_alternas: ''
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    console.log(response)
+
+                                    //ENVIAR
+                                    $.ajax({
+                                    url:"{{ route('store_a1_sinProgramacion') }}",
+                                    method:'POST',
+                                    data:{
+                                        unidad: unidad,
+                                        ov_ota_om: '',
+                                        fam0001_id: response.data.id,
+                                        completado: "sinProg",
+                                        },
+                                        success:function(response){
+                                            if(response.success){
+
+                                                Swal.fire({
+                                                    title: '¡Sin Programación!',
+                                                    text: 'Se ha reportado sin programación de vuelo.',
+                                                    icon: 'warning',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+
+                                                setTimeout(function () {
+                                                    window.location = "{{ route('dao.ver_programacion') }}"
+                                                }, 2000);
+
+                                            }
+                                        },
+                                        error:function(error){
+                                            console.log(error)
+                                        }
+                                    });
+
+                                }
+                            },
+                            error: function(error) {
+                                console.log(error)
+                            }
+                        });
+                    }
+                });
+
+
+            });
 
     });
 

@@ -101,19 +101,23 @@
             $codigo = $row->codigo;
             $nombre_codigo_mision = preg_replace('/[^0-9]/', '', $codigo);/*CODIGO DE MISION PARA OBTENER LA DESCRIPCION DE LA MISION*/
 
-            if ($row->codigo === 'EVENTUAL') {
-                $codigo = "EVENTUAL";
-            } else {
-                $codigo = $row->codigo;
-            }
-
-            if ($row->ruta_desde === 'EVENTUAL' || $row->ruta_desde === 'EVENTUAL') {
-                $ruta = "EVENTUAL";
-            } else if ($row->ruta_desde === 'LOCAL' || $row->ruta_desde === 'LOCAL') {
+            if ($row->codigo === 'ALERTA') {
                 $ruta = $row->base_estacion;
+                $codigo = $row->codigo;
+            } else if ($row->codigo === 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                $ruta = $row->base_estacion;
+                $codigo = $row->codigo;
             } 
             else {
-                $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
+                $codigo = $row->codigo;
+                if ($row->ruta_desde === 'EVENTUAL' && $row->ruta_hasta === 'EVENTUAL') {
+                    $ruta = "EVENTUAL";
+                } else if ($row->ruta_desde === 'LOCAL' && $row->ruta_hasta === 'LOCAL') {
+                    $ruta = 'LOCAL';
+                } 
+                else {
+                    $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
+                }
             }
 
         @endphp

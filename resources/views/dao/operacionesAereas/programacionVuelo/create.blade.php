@@ -363,7 +363,8 @@
                                 console.log(res[0].serial);
                                 $("#div_serial").empty();
                                 $("#div_serial").append(
-                                    '<h6>SERIAL</h6><input readonly="true" name="serial" type="text" id="serial" class="form-control serial" required="true" value="' +
+                                    '<strong style="margin-bottom: 0; margin-top: 0; margin-left: 15px; margin-right: 15px;">SERIAL:</strong>\
+                                    <input readonly="true" name="serial" id="serial" type="text"class="form-control serial" required="true" style="margin-right: 15px; padding: 5px; margin-top: 0;" value="' +
                                     res[0].serial + '">');
                             }
                         }
@@ -583,85 +584,6 @@
 
             }
 
-
-            //PASO #5 - GUARDAR SIN PROGRAMACION
-            $("#enviarSinProgramacion").click(function(e) {
-                e.preventDefault();
-                var unidad = $('.unidad').val();
-
-                Swal.fire({
-                title: '¿Estas Seguro de no enviar programación?',
-                text: "¡Atención.!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    //ENVIAR
-                    $.ajax({
-                        url: "{{ route('store_programacion') }}",
-                        method: 'POST',
-                        data: {
-                            ov_ota_om: '',
-                            componente_organismo: '',
-                            unidad: unidad,
-                            aeronave_modelo: 1,
-                            serial: '',
-                            matricula: '',
-                            base_estacion: '',
-                            completado: "sinProg",
-                            matriculas_alternas: ''
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                console.log(response)
-
-                                //ENVIAR
-                                $.ajax({
-                                url:"{{ route('store_a1_sinProgramacion') }}",
-                                method:'POST',
-                                data:{
-                                    unidad: unidad,
-                                    ov_ota_om: '',
-                                    fam0001_id: response.data.id,
-                                    completado: "sinProg",
-                                    },
-                                    success:function(response){
-                                        if(response.success){
-
-                                            Swal.fire({
-                                                title: '¡Sin Programación!',
-                                                text: 'Se ha reportado sin programación de vuelo.',
-                                                icon: 'warning',
-                                                timer: 3000,
-                                                showConfirmButton: true,
-                                            });
-
-                                            setTimeout(function () {
-                                                window.location = "{{ route('dao.ver_programacion') }}"
-                                            }, 2000);
-
-                                        }
-                                    },
-                                    error:function(error){
-                                        console.log(error)
-                                    }
-                                });
-
-                            }
-                        },
-                        error: function(error) {
-                            console.log(error)
-                        }
-                    });
-                }
-            });
-
-
-            });
         });
     </script>
 @endsection

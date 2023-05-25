@@ -484,6 +484,12 @@ class FormaFAMController extends Controller
                 $mision->codigo = 'ENCENDIDO Y CHEQUEO EN TIERRA';
                 $mision->siglas = 'ENCENDIDO Y CHEQUEO EN TIERRA';
                 $mision->numero = '';
+            } elseif(substr($mision->codigo, 0, 2) == "AC"){
+                $codigo = $mision->codigo;
+                $siglas = substr($codigo, 0, 2);
+                $numero = substr($codigo, 3);
+                $mision->siglas = $siglas;
+                $mision->numero = $numero;
             }
             else{
                 $codigo = $mision->codigo;
@@ -504,6 +510,34 @@ class FormaFAMController extends Controller
         ->get();
 
         return view('dao.operacionesAereas.programacionVuelo.edit', compact('fam0001','codigoTipoMisionSiglas','A1_mision','codigoMision','vueloOrdenadaPor', 'bases', 'matriculas', 'headerFam0001', 'parroquias', 'aeropuertos' ,'ubicacion'));
+    }
+
+
+    public function deleteProgramacion(Request $request)
+    {
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+
+        // Eliminar registros de Fam0001A1Mision
+        Fam0001A1Mision::whereIn('fam0001_id', function ($query) use ($fecha_manana, $request) {
+            $query->select('id')
+                ->from('fam0001')
+                ->whereDate('fecha', $fecha_manana)
+                ->where('id', $request->fam_id);
+        })->delete();
+
+        // Eliminar registros de Fam0001
+        Fam0001::whereDate('fecha', $fecha_manana)
+        ->where('id', $request->fam_id)
+        ->delete();
+
+        //return response()->json($request);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully'
+            ]
+        );
     }
 
     public function programacion_data(Request $request)
@@ -643,6 +677,108 @@ class FormaFAMController extends Controller
             }
 
             return view('dao.operacionesAereas.programacionVuelo.ver_programacion', compact('fam0001'));
+        }
+    }
+
+
+    public function programacionesListas()
+    {
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day')); // Sumar un día a la fecha y obtener la fecha de mañana
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
+        if(count($empleado)>0){
+
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+
+            if ($rol_user == 'aviacion_dao') {
+
+                $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
+                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
+                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
+                ->with('aeronaves')
+                ->select(
+                    'fam0001.id as id',
+                    'aeronave_unidad.id as id_unidad',
+                    'fam0001.fecha as fecha',
+                    'fam0001.ov_ota_om as ov_ota_om',
+                    'fam0001.componente_organismo as organismo',
+                    'fam0001.unidad as unidad',
+                    'fam0001.aeronave_modelo as aeronave_modelo',
+                    'fam0001.serial as serial',
+                    'fam0001.matricula as matricula',
+                    'fam0001.base_estacion as base_estacion',
+                    'fam0001.completado as completado',
+                    'fam0001.user_id as user_id',
+                    'fam0001.created_at as created_at',
+                    'fam0001.updated_at as updated_at',
+                    'fam0001.matriculas_alternas as matriculas_alternas',
+                    'aeronave_unidad.codigos as codigos',
+                    'aeronave_unidad.codigo_ubicacion as codigo_ubicacion'
+                )
+                ->orderBy('aeronave_unidad.id', 'asc')->get();
+
+                # Ordenar por unidad
+                $fam0001 = [];
+                foreach ($fam0001_data as $key => $value) {
+                    $fam0001[$value['codigos']][] = $value;
+                }
+
+                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001'));
+            }
+            elseif(count($ubicacion)>0){
+                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->whereIn('completado', ['enviado','revisado','actualizado','programando'])->where('user_id',$user_id)->with('aeronaves')->get();
+                $unidad = $ubicacion[0]['codigos'];
+
+                // Verificar si la unidad tiene programacion para el dia siguiente
+                $progra = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->where('completado', 'sinProg');
+                if($progra->count() > 0){
+                    $programacion = 0;
+                }else{
+                    $programacion = 1;
+                }
+
+                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001','unidad', 'programacion'));
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+        }else{
+            $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
+                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
+                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
+                ->with('aeronaves')
+                ->select(
+                    'fam0001.id as id',
+                    'aeronave_unidad.id as id_unidad',
+                    'fam0001.fecha as fecha',
+                    'fam0001.ov_ota_om as ov_ota_om',
+                    'fam0001.componente_organismo as organismo',
+                    'fam0001.unidad as unidad',
+                    'fam0001.aeronave_modelo as aeronave_modelo',
+                    'fam0001.serial as serial',
+                    'fam0001.matricula as matricula',
+                    'fam0001.base_estacion as base_estacion',
+                    'fam0001.completado as completado',
+                    'fam0001.user_id as user_id',
+                    'fam0001.created_at as created_at',
+                    'fam0001.updated_at as updated_at',
+                    'fam0001.matriculas_alternas as matriculas_alternas',
+                    'aeronave_unidad.codigos as codigos',
+                    'aeronave_unidad.codigo_ubicacion as codigo_ubicacion'
+                )
+                ->orderBy('aeronave_unidad.id', 'asc')->get();
+            # Ordenar por unidad
+            $fam0001 = [];
+            foreach ($fam0001_data as $key => $value) {
+                $fam0001[$value['unidad']][] = $value;
+            }
+
+            return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001'));
         }
     }
 

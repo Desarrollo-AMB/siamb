@@ -10,10 +10,6 @@
                     Nuevo Vuelo del día:
                     <input readonly="true" class="fecha" id="fecha_cabecera" type="date" style="background-color: transparent; border: none !important; color: white;" value="">
                 </div>
-                <div>
-                    <a class="btn-sm btn-dark" id="enviarSinProgramacion" href="#"><title>Sin Programación de Vuelo</title></i>Sin Programación
-                    </a>
-                </div>
             </div>
         </h6>
         <div class="card-body panel-collapse collapse show" id="collapseStepOne" style="padding: 15px 10px 0;">
