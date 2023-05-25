@@ -27,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('aeronave_matricula', function (Blueprint $table) {
-            //
+            $table->dropColumn('estatus');
+            $table->dropColumn('observacion');
         });
     }
 };
