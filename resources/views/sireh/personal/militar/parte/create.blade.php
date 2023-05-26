@@ -1,7 +1,11 @@
 @extends('layouts.user_type.auth')
 @section('title', 'Parte')
 @section('content')
-
+<style>
+    .text-danger {
+    color: red;
+}
+</style>
 
 
     <div id="mensaje" name="mensaje" class="alert alert-success" style="margin: 10px 0 0 0;display:none; ">
@@ -10,7 +14,14 @@
     {{--  <div id="mensaje2" name="mensaje2" class="alert alert-danger" style="margin: 10px 0 0 0; display:none;">
 
     </div>--}}
-
+    <div class="card mb-8 mx-auto bg-warning" id="cargando" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+        <div class="card-body text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2">Cargando...</p>
+        </div>
+      </div>
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
@@ -36,7 +47,10 @@
                                 <input type="date" id="fecha" name="fecha" class="form-control"
                                     style="display: text-align: right; w width: 80px; " value="{{ date('Y-m-d') }}"
                                     required>
+                                    <span id="fecha-error" class="text-danger" style="display: none;">El campo de fecha es requerido.</span>
                                 <div class="card-body">
+
+
                                     <table id="nomina-table" class="table table-sm table-bordered table-hover w-100 nowrap">
                                         <thead>
                                             <tr>
@@ -170,71 +184,78 @@
 
         });
 
-        $(document).ready(function() {
-            $('#btn-guardar').click(function(event) {
-                event.preventDefault();
-                var nominas = [];
-                $('#nomina-table tbody tr').each(function() {
-                    var nomina = {
-                        codigo_empleado: $(this).find('input[name="codigo_empleado"]').val(),
-                        codigo_ubicacion: $(this).find('input[name="codigo_ubicacion"]').val(),
-                        codigo_categoria: $(this).find('input[name="codigo_categoria"]').val(),
-                        grado_militar: $(this).find('input[name="grado_militar"]').val(),
-                        situacion: $(this).find('select[name="sitaucion"]').val(),
-                        observacion: $(this).find('textarea[name="observacion"]').val(),
-                    };
-                    nominas.push(nomina);
-                });
-                store(nominas);
-            });
+        function confirmarGuardar() {
+    var confirmacion = confirm("¿Estás seguro de que deseas guardar los cambios? Esta acción no se puede deshacer.");
+
+    if (confirmacion) {
+        var cargandoDiv = $('#cargando');
+        cargandoDiv.show();
+
+        var nominas = [];
+        $('#nomina-table tbody tr').each(function() {
+            var nomina = {
+                codigo_empleado: $(this).find('input[name="codigo_empleado"]').val(),
+                codigo_ubicacion: $(this).find('input[name="codigo_ubicacion"]').val(),
+                codigo_categoria: $(this).find('input[name="codigo_categoria"]').val(),
+                grado_militar: $(this).find('input[name="grado_militar"]').val(),
+                situacion: $(this).find('select[name="sitaucion"]').val(),
+                observacion: $(this).find('textarea[name="observacion"]').val(),
+            };
+            nominas.push(nomina);
         });
+        store(nominas, cargandoDiv);
+    }
+}
 
-        function store(nominas) {
-            $.ajax({
-                url: "{{ route('sireh.personal.militar.parte') }}",
-                method: 'post',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    nominas: nominas,
-                    fecha: $('#fecha').val(),
-                },
-                success: function(response) {
-                    console.log(response);
-
-                    if (response.success) {
-                        //alert('hola'+response);
-                        var mensaje = document.getElementById("mensaje");
-
-                        // Mostrar el mensaje
-                        // mensaje.style.display = "block";
-
-                        // Ocultar el mensaje después de 3 segundos (3000 milisegundos)
-                        $('#mensaje').show();
-                        setTimeout(function() {
-                            mensaje.style.display = "none";
-                        }, 5000);
-                        $('#mensaje').removeClass('alert-danger').addClass('alert-success').html(
-                            'Parte fue ingresado con éxito.').show();
-
-                    } else {
-                        var mensaje = document.getElementById("mensaje");
-
-                        // Mostrar el mensaje
-                        // mensaje.style.display = "block";
-
-                        // Ocultar el mensaje después de 3 segundos (3000 milisegundos)
-                        $('#mensaje').show();
-                        setTimeout(function() {
-                            mensaje.style.display = "none";
-                        }, 5000);
-                        $('#mensaje').removeClass('alert-success').addClass('alert-danger').html(
-                            'Error ya Existe un parte .').show();
-
-                    }
-                },
-
-            });
+$(document).ready(function() {
+    $('#btn-guardar').click(function(event) {
+        event.preventDefault();
+        if ($('#fecha').val() === '') {
+            $('#fecha-error').show();
+        } else {
+            $('#fecha-error').hide();
+            confirmarGuardar();
         }
+    });
+});
+
+function store(nominas, cargandoDiv) {
+    $.ajax({
+        url: "{{ route('sireh.personal.militar.parte') }}",
+        method: 'post',
+        data: {
+            _token: '{{ csrf_token() }}',
+            nominas: nominas,
+            fecha: $('#fecha').val(),
+        },
+        success: function(response) {
+            console.log(response);
+
+            if (response.success) {
+                var mensaje = document.getElementById("mensaje");
+
+                $('#mensaje').show();
+                setTimeout(function() {
+                    mensaje.style.display = "none";
+                }, 5000);
+                $('#mensaje').removeClass('alert-danger').addClass('alert-success').html('Parte fue ingresado con éxito.').show();
+
+            } else {
+                var mensaje = document.getElementById("mensaje");
+
+                $('#mensaje').show();
+                setTimeout(function() {
+                    mensaje.style.display = "none";
+                }, 5000);
+                $('#mensaje').removeClass('alert-success').addClass('alert-danger').html('Error ya Existe un parte.').show();
+
+            }
+        },
+        complete: function() {
+            cargandoDiv.hide();
+        }
+    });
+}
     </script>
 
 

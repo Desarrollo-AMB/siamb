@@ -142,31 +142,25 @@
                             {{--
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
-            </li> --}}
-                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
-                                    href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
-                            </li>
-                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
-                                    href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
-                            </li>
-                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
-                                    href="{{ route('juntap.reportes.index') }}">Reportes</a>
-                            </li>
+            </li>--}}
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+            </li>
+            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
+            </li>
 
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3"
-                        class="collapsed nav-link " aria-controls="collapseExample">
-                        <div
-                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i style="color:#3a416f" class="fas fa-people-arrows">
-                                <title>Bienestar Social</title>
-                            </i>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
 
                         </div>
                         <span class="nav-link-text ms-1">Bienestar Social </span>

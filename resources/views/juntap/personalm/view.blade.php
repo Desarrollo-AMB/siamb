@@ -59,6 +59,31 @@
                     </div>
                     @endif
 
+                     <!-- Aviso De Ascenso -->
+
+                   
+                     
+                     @if($empleados=='true')
+                     <div id="mensaje" name="mensaje" class="alert alert-success"
+                     style=" text-align: center;font-weight: bold;color: #000;">
+                     Personal esta Tentativo a Ascenso para la Fecha {{$fechaAscenso}}
+                 </div>
+
+
+                 @elseif($empleados=='null')
+                 <div id="mensaje" name="mensaje" class="alert alert-warning"
+                 style=" text-align: center;font-weight: bold;color: #000;">
+               Error en Base de datos
+             </div>
+
+
+
+                @else
+                <div id="mensaje" name="mensaje" class="alert alert-danger"
+                style=" display: none;text-align: center;font-weight: bold;color: #000;">
+Personal no esta Tentativo a Ascenso
+            </div>
+                @endif
                     <!-- FOTO DE PERFIL -->
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -566,6 +591,9 @@
             </div>
         </div>
     </div>
+    <div id="datos-personales" class="datos-personales" data-codigo-empleado="{{ $datos->datos_militares->codigo_empleado }}" >
+        <!-- Contenido de los datos personales -->
+      </div>
 @endsection
 
 @section('scripts')
@@ -594,5 +622,10 @@
             $('.falda').hide();
         }
     }
+
+
+
+
+
 </script>
 @endsection

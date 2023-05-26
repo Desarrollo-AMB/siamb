@@ -53,114 +53,123 @@
         </div>
     </div>
     </div>
-{{-- Modal para Suspender Profesional --}}
-<div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-    <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Suspención del Profesional</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    {{-- Modal para Suspender Profesional --}}
+    <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle"
+        aria-hidden="true">
+        <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Suspención del Profesional</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    @csrf
+                    <input type="hidden" value="" name="id" id="id">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
+                                    <input style="height: 35px" type="date" class="form-control" value=""
+                                        name="fechaSuspencion" id="fechaSuspencion">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
+                                    <select class="form-control motivo" id="motivo" name="motivo" required>
+                                        <option value="">Seleccione...</option>
+                                        <option value="DESERTOR">DESERTOR</option>
+                                        <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
+                                        <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Observaciones</label>
+                                    <textarea style="text-transform: uppercase; height: 100px" class="form-control" name="observaciones" id="observaciones"
+                                        rows="7"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
+                        <button type="submit" class="btn bg-gradient-success" id="btn-suspender_militar">Confirmar</button>
+                    </div>
+                </form>
             </div>
-            <form>
-                @csrf
-                <input type="hidden" value="" name="id" id="id">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Fecha de Suspención</label>
-                                <input style="height: 35px" type="date" class="form-control" value="" name="fechaSuspencion" id="fechaSuspencion">
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
-                                <select class="form-control motivo" id="motivo" name="motivo" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="DESERTOR">DESERTOR</option>
-                                    <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
-                                    <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Observaciones</label>
-                                <textarea style="text-transform: uppercase; height: 100px" class="form-control" name="observaciones" id="observaciones" rows="7"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Atras</button>
-                    <button type="submit" class="btn bg-gradient-success" id="btn-suspender_militar">Confirmar</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-{{-- /.modal --}}
+    {{-- /.modal --}}
 
-{{-- MODAL FUNCION EMPLEADO --}}
-<div class="modal fade" id="modal-view-funcion_empleado" tabindex="-1" role="dialog" aria-labelledby="egresarTitle" aria-hidden="true">
-    <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Asignar Función</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form>
-                <div class="modal-body">
-                    <input class="codigo_empleado_funcion" name="codigo_empleado_funcion" id="codigo_empleado_funcion" type="hidden" value="">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Nombre y Apellido</label>
-                                <input  type="text" class="form-control nombre_empleado" value="" id="nombre_empleado" disabled>
+    {{-- MODAL FUNCION EMPLEADO --}}
+    <div class="modal fade" id="modal-view-funcion_empleado" tabindex="-1" role="dialog" aria-labelledby="egresarTitle"
+        aria-hidden="true">
+        <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Asignar Función</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <input class="codigo_empleado_funcion" name="codigo_empleado_funcion"
+                            id="codigo_empleado_funcion" type="hidden" value="">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Nombre y Apellido</label>
+                                    <input type="text" class="form-control nombre_empleado" value=""
+                                        id="nombre_empleado" disabled>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">cedula</label>
+                                    <input type="text" class="form-control cedula_empleado" value=""
+                                        id="cedula_empleado" disabled>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">cedula</label>
-                                <input  type="text" class="form-control cedula_empleado" value="" id="cedula_empleado" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Seleccionar Función</label>
-                                <select class="form-control funcion select2" id="funcion" name="funcion[]" multiple="multiple" required>
-                                    {{--<option value="">Seleccione...</option>
-                                    @foreach($funcionEmpleado as $data)
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Seleccionar Función</label>
+                                    <select class="form-control funcion select2" id="funcion" name="funcion[]"
+                                        multiple="multiple" required>
+                                        {{-- <option value="">Seleccione...</option>
+                                    @foreach ($funcionEmpleado as $data)
                                         <option value="{{$data->id}}">{{$data->funcion}}</option>
-                                    @endforeach--}}
-                                </select>
+                                    @endforeach --}}
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                        <div id="haveFuncion">
+                            <label class='col-form-label showLabel' hidden="true">Funciones del Empleado</label>
+                        </div>
                     </div>
-                    <div id="haveFuncion">
-                        <label class='col-form-label showLabel' hidden="true">Funciones del Empleado</label>
+                    <div class="modal-footer">
+                        <a class="btn bg-gradient-danger close-modal" data-bs-dismiss="modal" disabled="false">Atras</a>
+                        <a class="btn bg-gradient-success enviar_funcion" disabled="false">Confirmar</a>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn bg-gradient-danger close-modal" data-bs-dismiss="modal" disabled="false">Atras</a>
-                    <a class="btn bg-gradient-success enviar_funcion" disabled="false">Confirmar</a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
     {{-- MODAL ascenso EMPLEADO --}}
-    <div class="modal fade" id="modal-view-ascenso_personal" tabindex="-1" role="dialog" aria-labelledby="egresarTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="modal-view-ascenso_personal" tabindex="-1" role="dialog"
+        aria-labelledby="egresarTitle" aria-hidden="true">
         <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -209,7 +218,8 @@
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Orden de Merito</label>
 
-                                    <input type="Number" class="form-control" name="om" id="om" min="0">
+                                    <input type="Number" class="form-control" name="om" id="om"
+                                        min="0">
 
 
                                 </div>
@@ -218,7 +228,8 @@
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Orden de Merito Total</label>
 
-                                    <input type="Number" class="form-control" name="omt" id="omt" min="0">
+                                    <input type="Number" class="form-control" name="omt" id="omt"
+                                        min="0">
 
 
                                 </div>
@@ -434,7 +445,31 @@
                
                          justify-content: space-around;
                             ">
+
                             <div class="col-sm-4 text-center">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Categoria</label>
+
+
+
+                                    <select class="form-select" name="select_categoria"
+                                        id="select_categoria"aria-label="Default select example">
+                                        <option selected>Seleccionar...</option>
+                                        <option value="04">Oficial Comando</option>
+                                        <option value="05">Oficial Técnico</option>
+                                        <option value="07">Oficial Tropa</option>
+                                        <option value="02">Oficial Asimilado</option>
+                                        <option value="06">Oficial Asimilado Técnico</option>
+                                        <option value="08">Tropa Profesional</option>
+
+                                    </select>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 text-center" id="select_OFI_C">
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Grado</label>
 
@@ -459,27 +494,27 @@
 
                                 </div>
                             </div>
-                            <div class="col-sm-4 text-center">
+
+                            <div class="col-4 text-center" name="select_TP_C" id="select_TP_C" style="display:none;">
+
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Categoria</label>
-
-
-
-                                    <select class="form-select" name="select_categoria"
-                                        id="select_categoria"aria-label="Default select example">
+                                    <label for="recipient-name" class="col-form-label">Grado</label>
+                                    <select class="form-select" name="select_tp_cat"
+                                        id="select_tp_cat"aria-label="Default select example">
                                         <option selected>Seleccionar...</option>
-                                        <option value="04">Oficial Comando</option>
-                                        <option value="05">Oficial Técnico</option>
-                                        <option value="07">Oficial Tropa</option>
-                                        <option value="02">Oficial Asimilado</option>
-                                        <option value="06">Oficial Asimilado Técnico</option>
-
+                                        <option value="420">SA</option>
+                                        <option value="430">SM1</option>
+                                        <option value="440">SM2</option>
+                                        <option value="450">SM3</option>
+                                        <option value="460">S1</option>
+                                        <option value="470">S2</option>
                                     </select>
-
-
-
                                 </div>
                             </div>
+
+
+
+
 
                         </div>
                         <div class="row"
@@ -663,77 +698,77 @@
             });
 
             table.on('click', '.suspender_militar', function() {
-            var id = $(this).data("id");
+                var id = $(this).data("id");
 
-            $('#modal-view').modal("show");
-            $('#modal-view').on('shown.bs.modal', function(e) {
-                $('#modal-view #id_empleado').val(id);
-            })
-            $("#id").val(id);
-        });
-
-        $('#btn-suspender_militar').on('click', function(){
-            console.log('Suspender');
-            var fd = new FormData();
-            var form = $(this).parents('form:first');
-            var validator= form.validate({
-                rules: {
-                    fechaSuspencion : {
-                        required: true,
-                    },
-                    motivo : {
-                        required: true,
-                    },
-                    observaciones : {
-                        required: true,
-                    },
-                },
-                messages : {
-                    fechaSuspencion: {
-                        required: "Fecha de Suspencion es requerida"
-                    },
-                    motivo : {
-                        required: "Motivo de Suspencion es requerido"
-                    },
-                    observaciones: {
-                        required: "Las Observaciones de Suspencion es requerido"
-                    },
-                }
+                $('#modal-view').modal("show");
+                $('#modal-view').on('shown.bs.modal', function(e) {
+                    $('#modal-view #id_empleado').val(id);
+                })
+                $("#id").val(id);
             });
-            if(validator.form()){
-                var other_data = form.serializeArray();
-                ///Obtener inputs
-                $.each(other_data,function(key,input){
-                    fd.append(input.name,input.value);
-                });
 
-                $.ajax({
-                    type:'POST',
-                    url:'{{ route("sireh.personal-militar.suspender") }}',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    success:function(res){
-                        Swal.fire({
-                            title: 'Egreso!',
-                            text: 'Proceso realizado satisfactoriamente...',
-                            icon: 'success',
-                            timer: 3000,
-                            showConfirmButton: true,
-                        });
-                        if(res.success){
-                            window.location.reload();
-                        }
+            $('#btn-suspender_militar').on('click', function() {
+                console.log('Suspender');
+                var fd = new FormData();
+                var form = $(this).parents('form:first');
+                var validator = form.validate({
+                    rules: {
+                        fechaSuspencion: {
+                            required: true,
+                        },
+                        motivo: {
+                            required: true,
+                        },
+                        observaciones: {
+                            required: true,
+                        },
+                    },
+                    messages: {
+                        fechaSuspencion: {
+                            required: "Fecha de Suspencion es requerida"
+                        },
+                        motivo: {
+                            required: "Motivo de Suspencion es requerido"
+                        },
+                        observaciones: {
+                            required: "Las Observaciones de Suspencion es requerido"
+                        },
                     }
                 });
-            }
-        });
+                if (validator.form()) {
+                    var other_data = form.serializeArray();
+                    ///Obtener inputs
+                    $.each(other_data, function(key, input) {
+                        fd.append(input.name, input.value);
+                    });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('sireh.personal-militar.suspender') }}',
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            Swal.fire({
+                                title: 'Egreso!',
+                                text: 'Proceso realizado satisfactoriamente...',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                            if (res.success) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
 
 
@@ -823,6 +858,8 @@
                                     grado_empleado: $('#grado_empleado').val(),
                                     select_ofi: select_ofi,
                                     select_just: select_just,
+                                    fecha: fecha,
+                                    resuelto: resuelto,
                                     om: om,
                                     omt: omt
                                 },
@@ -841,7 +878,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -893,6 +930,8 @@
                                     grado_empleado: $('#grado_empleado').val(),
                                     select_tropap: select_tropap,
                                     select_just: select_just,
+                                    fecha: fecha,
+                                    resuelto: resuelto,
                                     om: om,
                                     omt: omt
                                 },
@@ -911,7 +950,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1009,7 +1048,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1085,7 +1124,7 @@
                                         }, 1000);
                                     } else {
 
-                                        $('#modal-view-categoria_personal').modal('hide');
+                                        $('#modal-view-ascenso_personal').modal('hide');
                                         Swal.fire({
                                             title: 'ERROR!',
                                             text: 'Error al Ascender este Empleado!',
@@ -1117,6 +1156,24 @@
 
 
 
+
+
+            });
+            //
+            $('#select_OFI_C').hide();
+            $('#select_TP_C').hide();
+            $('#select_categoria').on('change', function() {
+
+                var selectedValue = $(this).val();
+                console.log(selectedValue);
+
+                if (selectedValue === '08') {
+                    $('#select_TP_C').show();
+                    $('#select_OFI_C').hide();
+                } else {
+                    $('#select_TP_C').hide();
+                    $('#select_OFI_C').show();
+                }
 
 
             });
@@ -1171,7 +1228,7 @@
 
             $(".enviar_categoria").click(function(e) {
                 e.preventDefault();
-
+                var select_tp_cat = $('select[name="select_tp_cat"]').val();
                 var select_ofi_cat = $('select[name="select_ofi_cat"]').val();
                 var select_categoria = $('select[name="select_categoria"]').val();
                 var om_cat = $("#om_cat").val();
@@ -1187,10 +1244,12 @@
                 console.log(select_categoria.trim() + " categora.trim()");
                 console.log(om_cat.trim() + " omt.trim()");
                 console.log(omt_cat.trim() + " jomr.trim()");
-console.log("codigo_empleado:"+$('#codigo_empleado_cat').val());
+                console.log(select_tp_cat.trim() + " select_tp.trim()");
 
-                if (select_ofi_cat.trim() === "" || select_ofi_cat.trim() === "Seleccionar..." ||
-                    select_categoria.trim() === "Seleccionar..." ||
+
+                console.log("codigo_empleado:" + $('#codigo_empleado_cat').val());
+
+                if (select_categoria.trim() === "Seleccionar..." ||
                     om_cat.trim() === "" || omt_cat.trim() === "" || fecha_cat.trim() === "" || resuelto_cat
                     .trim() === "") {
 
@@ -1204,19 +1263,42 @@ console.log("codigo_empleado:"+$('#codigo_empleado_cat').val());
 
 
 
-                } else {
-                    console.log("entro");
+                } else if (select_tp_cat.trim() !== "Seleccionar..." && select_ofi_cat.trim() !==
+                    "Seleccionar...") {
+
+
+                        Swal.fire({
+                        title: 'Atención!',
+                        text: 'Error al Completar los Campos debes Actualizar la Pagina.',
+                        icon: 'warning',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });
 
 
 
-                    console.log("entroofi2222");
+                    }
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                else if (select_tp_cat.trim() !== "Seleccionar..." && select_ofi_cat.trim() ===
+                    "Seleccionar...") {
+
+                    console.log("tp_entro");
+                    console.log(select_tp_cat.trim());
                     $.ajax({
                         url: "{{ route('api.juntap.cambio.categoria.personal') }}",
                         method: 'POST',
                         data: {
                             codigo_empleado_cat: $('#codigo_empleado_cat').val(),
                             grado_empleado: $('#grado_empleado_cat').val(),
-                            select_ofi_cat: select_ofi_cat,
+                            select_tp_cat: select_tp_cat,
                             fecha_cat: fecha_cat,
                             resuelto_cat: resuelto_cat,
                             select_categoria: select_categoria,
@@ -1230,7 +1312,71 @@ console.log("codigo_empleado:"+$('#codigo_empleado_cat').val());
                                 $('#modal-view-categoria_personal').modal('hide');
                                 Swal.fire({
                                     title: 'LISTO!',
-                                    text: 'Personal Ascendido Correctamente!',
+                                    text: 'Personal Cambio Correctamente de Categoria!',
+                                    icon: 'success',
+                                    timer: 3000,
+                                    showConfirmButton: true,
+                                });
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 1000);
+
+
+
+                            } else {
+
+                                $('#modal-view-categoria_personal').modal('hide');
+                                Swal.fire({
+                                    title: 'ERROR!',
+                                    text: 'Error al Cambiar la Categoria del Empleado!',
+                                    icon: 'success',
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                });
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 1000);
+
+
+
+
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    });
+
+
+
+                } else {
+                    console.log("ofi_entro");
+
+
+
+                    console.log("entroofi2222");
+                    $.ajax({
+                        url: "{{ route('api.juntap.cambio.categoria.personal') }}",
+                        method: 'POST',
+                        data: {
+                            codigo_empleado_cat: $('#codigo_empleado_cat').val(),
+                            grado_empleado: $('#grado_empleado_cat').val(),
+                            select_ofi_cat: select_ofi_cat,
+
+                            fecha_cat: fecha_cat,
+                            resuelto_cat: resuelto_cat,
+                            select_categoria: select_categoria,
+                            om_cat: om_cat,
+                            omt_cat: omt_cat
+                        },
+                        success: function(response) {
+                            if (response.success) {
+
+
+                                $('#modal-view-categoria_personal').modal('hide');
+                                Swal.fire({
+                                    title: 'LISTO!',
+                                    text: 'Personal Cambio Correctamente de Categoria!',
                                     icon: 'success',
                                     timer: 3000,
                                     showConfirmButton: true,
