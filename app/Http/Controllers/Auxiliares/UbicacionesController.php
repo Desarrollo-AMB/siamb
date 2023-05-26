@@ -35,7 +35,7 @@ class UbicacionesController extends Controller
         $ubicaciones->join('nomina','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion');
         $ubicaciones->join('estados','estados.id_estado','=','ubicaciones.codigo_estado'*/
 
-        $ubicaciones = Ubicaciones::join('estados','estados.id_estado','=','ubicaciones.codigo_estado');
+        $ubicaciones = Ubicaciones::leftjoin('estados','estados.id_estado','=','ubicaciones.codigo_estado');
 
         $ubicaciones->select(
             'id','codigo_ubicacion','descripcion','tipo_unidad_organizacional',
