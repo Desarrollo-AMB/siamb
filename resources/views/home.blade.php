@@ -365,10 +365,10 @@
         }, {
             name: 'completados',
             data: datosCompletados
-        }, {
+        }/*, {
             name: 'pendientes',
             data: datosPendientes
-        }],
+        }*/],
         xaxis: {
             categories: categorias
         }
