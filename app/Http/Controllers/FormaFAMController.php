@@ -36,6 +36,7 @@ use DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProgramacionVueloExport;
+use App\Exports\ProgramacionVueloVExport;
 use App\Models\Parroquias;
 use App\Models\ProgramacionFin;
 use Illuminate\Http\Request;
@@ -466,6 +467,78 @@ class FormaFAMController extends Controller
         //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
     }
 
+    public function imprimirProgramacionV($tipo) {
+
+        Carbon::setLocale('es');
+        $nombre_mes = Carbon::now()->format('M');
+        $nombre_mes_mayusculas = mb_strtoupper($nombre_mes);
+        $hoy = Carbon::now();
+        $mañana_condicion = $hoy->addDay();
+        $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
+
+        if($tipo == 'ce'){
+            
+            $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $mañana_condicion)
+                ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+            ->get();
+
+            $nombre_archivo = sprintf('01) PROGRAMACIÓN DE VUELO %s.xlsx', Carbon::now()->format('d') . $nombre_mes_mayusculas . Carbon::now()->format('y'));
+
+        }else {
+            $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $mañana_condicion)
+                ->whereIn('programacion_vuelo.unidad', ['G-4','G-5','G-6','G-8','G-9','G-10','G-17'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+            ->get();
+
+            $nombre_archivo = sprintf('05) PROGRAMACIÓN DE VUELO GRUPOS DE TRANSPORTE %s.xlsx', Carbon::now()->format('d') . $nombre_mes_mayusculas . Carbon::now()->format('y'));
+        }
+        /*$mision = Fam0001A1Mision::all();*/
+
+        if(!$programacion){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros');
+        }
+
+        $hoy_titulo = $hoy->format('d-m-Y H:i:s');
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
+        //dd($nombre_archivo);
+
+        $data = compact('titulo','programacion');
+        //dd($nombre_archivo);
+
+        return Excel::download(new ProgramacionVueloVExport($data), $nombre_archivo);
+        //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
+    }
+
     public function editProgramacion($fam_id)
     {
         $bases = Base::get();
@@ -690,95 +763,179 @@ class FormaFAMController extends Controller
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
 
+        $checkProgramacion = ProgramacionVuelo::where('fecha', $fecha_manana)
+        ->get();
+
+        $fecha_vigente = $checkProgramacion->isEmpty() ? $fecha : $fecha_manana;
+        $fecha_vigente_invertida = date('d-m-Y', strtotime($fecha_vigente));
+
         if(count($empleado)>0){
 
             $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
-            if ($rol_user == 'aviacion_dao') {
+            if ($rol_user == 'aviacion_dao' || $rol_user == 'aviacion_ceo') {
 
-                $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
-                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
-                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
-                ->with('aeronaves')
+                $programacionCE = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
+                ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
                 ->select(
-                    'fam0001.id as id',
-                    'aeronave_unidad.id as id_unidad',
-                    'fam0001.fecha as fecha',
-                    'fam0001.ov_ota_om as ov_ota_om',
-                    'fam0001.componente_organismo as organismo',
-                    'fam0001.unidad as unidad',
-                    'fam0001.aeronave_modelo as aeronave_modelo',
-                    'fam0001.serial as serial',
-                    'fam0001.matricula as matricula',
-                    'fam0001.base_estacion as base_estacion',
-                    'fam0001.completado as completado',
-                    'fam0001.user_id as user_id',
-                    'fam0001.created_at as created_at',
-                    'fam0001.updated_at as updated_at',
-                    'fam0001.matriculas_alternas as matriculas_alternas',
-                    'aeronave_unidad.codigos as codigos',
-                    'aeronave_unidad.codigo_ubicacion as codigo_ubicacion'
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
                 )
-                ->orderBy('aeronave_unidad.id', 'asc')->get();
+                ->orderByRaw("CASE 
+                    WHEN programacion_vuelo.unidad = 'G-4' THEN 1
+                    WHEN programacion_vuelo.unidad = 'G-5' THEN 2
+                    WHEN programacion_vuelo.unidad = 'G-6' THEN 3
+                    WHEN programacion_vuelo.unidad = 'G-7' THEN 4
+                    WHEN programacion_vuelo.unidad = 'G-8' THEN 5
+                    WHEN programacion_vuelo.unidad = 'G-9' THEN 6
+                    WHEN programacion_vuelo.unidad = 'G-10' THEN 7
+                    WHEN programacion_vuelo.unidad = 'G-11' THEN 8
+                    WHEN programacion_vuelo.unidad = 'G-12' THEN 9
+                    WHEN programacion_vuelo.unidad = 'G-13' THEN 10
+                    WHEN programacion_vuelo.unidad = 'G-14' THEN 11
+                    WHEN programacion_vuelo.unidad = 'G-15' THEN 12
+                    WHEN programacion_vuelo.unidad = 'G-16' THEN 13
+                    WHEN programacion_vuelo.unidad = 'G-17' THEN 14
+                    WHEN programacion_vuelo.unidad = 'G-18' THEN 15
+                    WHEN programacion_vuelo.unidad = 'G-19' THEN 16
+                END, programacion_vuelo.unidad")
+                ->get();
 
-                # Ordenar por unidad
-                $fam0001 = [];
-                foreach ($fam0001_data as $key => $value) {
-                    $fam0001[$value['codigos']][] = $value;
-                }
+                $programacionTA = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
+                ->whereIn('programacion_vuelo.unidad', ['G-4','G-5','G-6','G-8','G-9','G-10','G-17'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw("CASE 
+                    WHEN programacion_vuelo.unidad = 'G-4' THEN 1
+                    WHEN programacion_vuelo.unidad = 'G-5' THEN 2
+                    WHEN programacion_vuelo.unidad = 'G-6' THEN 3
+                    WHEN programacion_vuelo.unidad = 'G-7' THEN 4
+                    WHEN programacion_vuelo.unidad = 'G-8' THEN 5
+                    WHEN programacion_vuelo.unidad = 'G-9' THEN 6
+                    WHEN programacion_vuelo.unidad = 'G-10' THEN 7
+                    WHEN programacion_vuelo.unidad = 'G-11' THEN 8
+                    WHEN programacion_vuelo.unidad = 'G-12' THEN 9
+                    WHEN programacion_vuelo.unidad = 'G-13' THEN 10
+                    WHEN programacion_vuelo.unidad = 'G-14' THEN 11
+                    WHEN programacion_vuelo.unidad = 'G-15' THEN 12
+                    WHEN programacion_vuelo.unidad = 'G-16' THEN 13
+                    WHEN programacion_vuelo.unidad = 'G-17' THEN 14
+                    WHEN programacion_vuelo.unidad = 'G-18' THEN 15
+                    WHEN programacion_vuelo.unidad = 'G-19' THEN 16
+                END, programacion_vuelo.unidad")
+                ->get();
 
-                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001'));
+                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('programacionCE', 'programacionTA', 'fecha_vigente', 'fecha_vigente_invertida'));
             }
             elseif(count($ubicacion)>0){
-                $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->whereIn('completado', ['enviado','revisado','actualizado','programando'])->where('user_id',$user_id)->with('aeronaves')->get();
-                $unidad = $ubicacion[0]['codigos'];
 
-                // Verificar si la unidad tiene programacion para el dia siguiente
-                $progra = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->where('completado', 'sinProg');
-                if($progra->count() > 0){
-                    $programacion = 0;
-                }else{
-                    $programacion = 1;
-                }
+                $programacion = ProgramacionVuelo::where('fecha', $fecha_vigente)
+                ->where('unidad', $ubicacion[0]['codigos'])
+                ->get();
 
-                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001','unidad', 'programacion'));
+                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('programacion', 'fecha_vigente', 'fecha_vigente_invertida'));
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
         }else{
-            $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
-                ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
-                ->whereIn('fam0001.completado', ['enviado','revisado', 'sinProg'])
-                ->with('aeronaves')
-                ->select(
-                    'fam0001.id as id',
-                    'aeronave_unidad.id as id_unidad',
-                    'fam0001.fecha as fecha',
-                    'fam0001.ov_ota_om as ov_ota_om',
-                    'fam0001.componente_organismo as organismo',
-                    'fam0001.unidad as unidad',
-                    'fam0001.aeronave_modelo as aeronave_modelo',
-                    'fam0001.serial as serial',
-                    'fam0001.matricula as matricula',
-                    'fam0001.base_estacion as base_estacion',
-                    'fam0001.completado as completado',
-                    'fam0001.user_id as user_id',
-                    'fam0001.created_at as created_at',
-                    'fam0001.updated_at as updated_at',
-                    'fam0001.matriculas_alternas as matriculas_alternas',
-                    'aeronave_unidad.codigos as codigos',
-                    'aeronave_unidad.codigo_ubicacion as codigo_ubicacion'
-                )
-                ->orderBy('aeronave_unidad.id', 'asc')->get();
-            # Ordenar por unidad
-            $fam0001 = [];
-            foreach ($fam0001_data as $key => $value) {
-                $fam0001[$value['unidad']][] = $value;
-            }
 
-            return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('fam0001'));
+            $programacionCE = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
+                ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw("CASE 
+                    WHEN programacion_vuelo.unidad = 'G-4' THEN 1
+                    WHEN programacion_vuelo.unidad = 'G-5' THEN 2
+                    WHEN programacion_vuelo.unidad = 'G-6' THEN 3
+                    WHEN programacion_vuelo.unidad = 'G-7' THEN 4
+                    WHEN programacion_vuelo.unidad = 'G-8' THEN 5
+                    WHEN programacion_vuelo.unidad = 'G-9' THEN 6
+                    WHEN programacion_vuelo.unidad = 'G-10' THEN 7
+                    WHEN programacion_vuelo.unidad = 'G-11' THEN 8
+                    WHEN programacion_vuelo.unidad = 'G-12' THEN 9
+                    WHEN programacion_vuelo.unidad = 'G-13' THEN 10
+                    WHEN programacion_vuelo.unidad = 'G-14' THEN 11
+                    WHEN programacion_vuelo.unidad = 'G-15' THEN 12
+                    WHEN programacion_vuelo.unidad = 'G-16' THEN 13
+                    WHEN programacion_vuelo.unidad = 'G-17' THEN 14
+                    WHEN programacion_vuelo.unidad = 'G-18' THEN 15
+                    WHEN programacion_vuelo.unidad = 'G-19' THEN 16
+                END, programacion_vuelo.unidad")
+                ->get();
+
+                $programacionTA = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
+                ->whereIn('programacion_vuelo.unidad', ['G-4','G-5','G-6','G-8','G-9','G-10','G-17'])
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw("CASE 
+                    WHEN programacion_vuelo.unidad = 'G-4' THEN 1
+                    WHEN programacion_vuelo.unidad = 'G-5' THEN 2
+                    WHEN programacion_vuelo.unidad = 'G-6' THEN 3
+                    WHEN programacion_vuelo.unidad = 'G-7' THEN 4
+                    WHEN programacion_vuelo.unidad = 'G-8' THEN 5
+                    WHEN programacion_vuelo.unidad = 'G-9' THEN 6
+                    WHEN programacion_vuelo.unidad = 'G-10' THEN 7
+                    WHEN programacion_vuelo.unidad = 'G-11' THEN 8
+                    WHEN programacion_vuelo.unidad = 'G-12' THEN 9
+                    WHEN programacion_vuelo.unidad = 'G-13' THEN 10
+                    WHEN programacion_vuelo.unidad = 'G-14' THEN 11
+                    WHEN programacion_vuelo.unidad = 'G-15' THEN 12
+                    WHEN programacion_vuelo.unidad = 'G-16' THEN 13
+                    WHEN programacion_vuelo.unidad = 'G-17' THEN 14
+                    WHEN programacion_vuelo.unidad = 'G-18' THEN 15
+                    WHEN programacion_vuelo.unidad = 'G-19' THEN 16
+                END, programacion_vuelo.unidad")
+                ->get();
+
+            return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('programacionCE', 'programacionTA', 'fecha_vigente', 'fecha_vigente_invertida'));
         }
     }
 
@@ -848,11 +1005,23 @@ class FormaFAMController extends Controller
 
     public function matriculas(Request $request)
     {
+        $matriculasUsadas = Fam0001::where('aeronave_modelo', $request->id)
+        ->pluck('matricula')
+        ->toArray();
+
         if ($request->id == 20 || $request->id == 23) {
-            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->whereIn('aeronave_id', [20, 23])->get();
+            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])
+            ->whereIn('aeronave_id', [20, 23])
+            ->whereNotIn('matricula', $matriculasUsadas)
+            ->get();
+
             return response()->json($selectedMatricula);
         } else{
-            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])->where('aeronave_id', $request->id)->get();
+            $selectedMatricula = AeronaveMatricula::whereIn('estatus',['DISPONIBLE', 'DISPONIBLE PARA EL COMBATE', 'INDISPONIBLE'])
+            ->where('aeronave_id', $request->id)
+            ->whereNotIn('matricula', $matriculasUsadas)
+            ->get();
+
             return response()->json($selectedMatricula);
         }
     }
@@ -1016,12 +1185,21 @@ class FormaFAMController extends Controller
 
                     $sistema_matricula = $row->aeronave_modelo.' / '.$row->matricula;
 
-                    if($row->ruta_desde == 'EVENTUAL' && $row->ruta_hasta == 'EVENTUAL'){
-                        $mision_ruta = $row->codigo.' / EVENTUAL';
-                    } elseif($row->ruta_desde == 'LOCAL' && $row->ruta_hasta == 'LOCAL'){
+                    if ($row->codigo === 'ALERTA') {
                         $mision_ruta = $row->codigo.' / '.$row->base_estacion;
-                    } else{
-                        $mision_ruta = $row->codigo.' / '.$row->ruta_desde.' - '.$row->ruta_hasta;
+                    } else if ($row->codigo === 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                        $mision_ruta = $row->codigo.' / '.$row->base_estacion;
+                    } 
+                    else {
+                        $codigo = $row->codigo;
+                        if ($row->ruta_desde === 'EVENTUAL' && $row->ruta_hasta === 'EVENTUAL') {
+                            $mision_ruta = $row->codigo.' / EVENTUAL';
+                        } else if ($row->ruta_desde === 'LOCAL' && $row->ruta_hasta === 'LOCAL') {
+                            $mision_ruta = $row->codigo.' / '.$row->base_estacion;
+                        } 
+                        else {
+                            $mision_ruta = $row->codigo.' / '.$row->ruta_desde.' - '.$row->ruta_hasta;
+                        }
                     }
 
 

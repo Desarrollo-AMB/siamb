@@ -350,6 +350,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/ver-programaciones-listas',    [FormaFAMController::class, 'programacionesListas'])->name('dao.programacionesListas');
     Route::get('/dao/nueva-programacion',           [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
     Route::get('/dao/imprimir-programacion/{tipo}', [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
+    Route::get('/dao/imprimir-programacion-v/{tipo}', [FormaFAMController::class, 'imprimirProgramacionV'])->name('dao.imprimirProgramacionV');
     Route::get('/dao/imprimir-programacion-grupo-aereo/{unidad}',        [FormaFAMController::class, 'imprimirProgramacionGrupoAereo'])->name('dao.imprimirProgramacionGrupoAereo');
     Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
     Route::post('/dao/eliminar-programacion',       [FormaFAMController::class, 'deleteProgramacion'])->name('dao.deleteProgramacion');
