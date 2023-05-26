@@ -36,7 +36,7 @@
 @section('content')
 <script src="{{ asset('js/apexcharts.min.js') }}"></script>
 <script src="{{ asset('js/chart.js') }}"></script>
-@hasanyrole('administrador|consulta|jefe_de_personal|personal_militar|personal_militar_noprof|personal_civil|bienestar_social|junta_permanente')
+@hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador|consulta|jefe_de_personal|personal_militar|personal_militar_noprof|personal_civil|bienestar_social|junta_permanente')
 <div class="container-fluid card z-index-3 custom-card dark-gradient">
     <div class="row my-4">
         <div class="col-sm-4 mb-xl-0 mb-4">
