@@ -238,24 +238,37 @@
                                     Agenda de Operaciones
                                 </a>
                             </li>
-                            {{-- <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
-                                    class="{{ Request::is('fam0001') ? 'active' : '' }}" href="{{ url('fam0001') }}">-
-                                    FAM-0002</a></li>
-                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item"><a
-                                    class="{{ Request::is('forms/listado_pilotos') ? 'active' : '' }}"
-                                    href="{{ route('forms.listado_pilotos') }}">- Reporte de Pilotos</a></li> --}}
                         </ul>
                     </div>
                 </li>
+            @endrole
+            @role('aviacion_ceo|administrador')
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-plane">
+                                <title>MEDIOS AÉREOS CEOFANB</title>
+                            </i>
+                        </div>
 
-                {{-- <li class="nav-item">
-        <a class="nav-link {{ (Request::is('forms/listado_pilotos'))}}" href="{{ route('forms.listado_pilotos') }}">
-        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fas fa-file-pdf text-lg"><title>Reporte de Pilotos</title></i>
-          </div>
-            <span class="nav-link-text ms-1">Reporte de Pilotos</span>
-        </a>
-      </li> --}}
+                        <span class="nav-link-text ms-1">Medios Aéreos CEO</span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('dao.forms/*') ? 'show' : '' }}"
+                        id="collapseListGroupFam">
+
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/ver-programaciones-listas') ? 'active' : '' }}"
+                                    href="{{ route('dao.programacionesListas') }}">-
+                                    Programación de Vuelo
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             @endrole
             {{--  Xcomentario  siderbar de roles de aviacion consulta y jefe de personal --}}
             @role('consulta|jefe_de_personal')
