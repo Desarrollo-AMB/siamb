@@ -47,13 +47,14 @@ class juntapExport implements FromCollection, WithHeadings, WithStyles, WithTitl
     {
         return [
             'CódigoE',
-            'Grado',
+            'Categoria',
+            
             'Cédula',
             'Nombre',
             'Apellido',
-            
+            'Grado',
             'Grado a Ascender',
-            'punto',
+          //'punto',
             'Demerito',
         ];
     }
@@ -71,7 +72,7 @@ public function title(): string
 public function styles(Worksheet $sheet)
 {
     $sheet->setCellValue('A1', $this->titulo);
-    $sheet->mergeCells('A1:G1');
+    $sheet->mergeCells('A1:H1');
    // $sheet->getColumnDimension('A')->setWidth(45);
    // $sheet->getDefaultColumnDimension()->setWidth(25);
    //$sheet->getRowDimension(1)->setRowHeight(30);

@@ -56,7 +56,7 @@
     <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
             <div class="card-body text-center p-2">
-                <a href="{{ route('juntap.ascenso.categoria') }}">
+                <a href="{{ route('juntap.ascenso.index') }}">
                     <div class="icon icon-shape bg-gradient-secondary shadow text-center border-radius-md">
                         <i class="fas fa-user-plus text-lg opacity-10" aria-hidden="true"></i>
                     
