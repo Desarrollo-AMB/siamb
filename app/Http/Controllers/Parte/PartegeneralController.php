@@ -713,6 +713,216 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
         //return view('bienestar_social.reporte_devolucion5', compact('datas'));
 
     }
+    public function ParteUnidad(Request $request) {
+
+
+        $user_id = auth()->user()->id; //obtener el id del usuario que ha iniciado sesión
+
+        $codigo_ubicacion = DB::table('nomina')
+            ->join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->where('empleados.user_id', '=', $user_id)
+            ->select('nomina.codigo_ubicacion')
+            ->first()
+            ->codigo_ubicacion;
+
+           $nomina_count = Nomina::whereIn('situacion', ['A', 'S'])
+        ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+        ->where('nomina.codigo_ubicacion', $codigo_ubicacion)
+        ->count();
+    $presente_count = DB::table('parte_general')
+        ->join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->whereIn('nomina.situacion', ['A', 'S'])
+        ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+        ->where('parte_general.situacion', 'presente')
+        ->where('parte_general.codigo_ubicacion', $codigo_ubicacion)
+        ->whereDate('parte_general.fecha', now()->toDateString())
+        ->count();
+             $ausentes_count = $nomina_count - $presente_count;
+
+             ///OBTENER LISTA DEL PERSONAL //
+$list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')
+                ->join('categorias_militares','parte_general.codigo_categoria','=','categorias_militares.codigo_categoria')
+                ->join('grados_militares','grados_militares.codigo_grado','=','parte_general.grado_militar')
+                ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
+                ->whereDate('parte_general.fecha', now()->toDateString())
+                ->whereIn('nomina.situacion', ['A', 'S'])
+                ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+                ->where('parte_general.codigo_ubicacion', $codigo_ubicacion)
+                ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
+                'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
+                ,'categorias_militares.descripcion as categoria')
+                ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                WHEN nomina.grado_militar = '015' THEN 2
+                WHEN nomina.grado_militar = '020' THEN 3
+                WHEN nomina.grado_militar = '030' THEN 4
+                WHEN nomina.grado_militar = '040' THEN 5
+                WHEN nomina.grado_militar = '050' THEN 6
+                WHEN nomina.grado_militar = '060' THEN 7
+                WHEN nomina.grado_militar = '070' THEN 8
+                WHEN nomina.grado_militar = '080' THEN 9
+                WHEN nomina.grado_militar = '090' THEN 10
+                WHEN nomina.grado_militar = '410' THEN 11
+                WHEN nomina.grado_militar = '420' THEN 12
+                WHEN nomina.grado_militar = '430' THEN 13
+                WHEN nomina.grado_militar = '440' THEN 14
+                WHEN nomina.grado_militar = '450' THEN 15
+                WHEN nomina.grado_militar = '460' THEN 16
+                WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
+                ->orderByRaw("CASE
+                                WHEN categorias_militares.codigo_categoria = 1 THEN 1
+                                WHEN categorias_militares.codigo_categoria = 4 THEN 2
+                                WHEN categorias_militares.codigo_categoria = 5 THEN 3
+                                WHEN categorias_militares.codigo_categoria = 7 THEN 4
+                                WHEN categorias_militares.codigo_categoria = 2 THEN 5
+                                WHEN categorias_militares.codigo_categoria = 6 THEN 6
+                                WHEN categorias_militares.codigo_categoria = 8 THEN 7
+                            END")
+
+
+            ->get();
+
+
+//dd($presente_count);
+        $datas = Nomina::join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')
+            ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
+            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+            ->whereDate('parte_general.fecha', now()->toDateString())
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+            ->where('parte_general.codigo_ubicacion', $codigo_ubicacion)
+            ->select('ubicaciones.descripcion as ubicacion','parte_general.fecha as fecha',
+                \DB::raw('count(*) as total'),
+                \DB::raw('sum(parte_general.situacion = "presente") as total1'),
+                \DB::raw('sum(parte_general.situacion = "Servicio en la Unidad") as total2'),
+                \DB::raw('sum(parte_general.situacion = "Servicio fuera de la Unidad") as total3'),
+                \DB::raw('sum(parte_general.situacion = "Retardado") as total4'),
+                \DB::raw('sum(parte_general.situacion = "Permiso") as total5'),
+                \DB::raw('sum(parte_general.situacion = "Comision Pais") as total6'),
+                \DB::raw('sum(parte_general.situacion = "Curso Pais") as total7'),
+                \DB::raw('sum(parte_general.situacion = "Curso Exterior") as total8'),
+                \DB::raw('sum(parte_general.situacion = "Comision Exterior") as total9'),
+                \DB::raw('sum(parte_general.situacion = "Ausente sin causa Justificada") as total10'),
+                \DB::raw('sum(parte_general.situacion = "Destacado fuera de la Unidad") as total11'),
+                \DB::raw('sum(parte_general.situacion = "Consulta") as total12'),
+                \DB::raw('sum(parte_general.situacion = "reposo") as total13'),
+                \DB::raw('sum(parte_general.situacion = "Hospitalizado") as total14'),
+                \DB::raw('sum(parte_general.situacion = "Desertor") as total15'),
+                \DB::raw('sum(parte_general.situacion = "Privado de Libertad") as total16'),
+                \DB::raw('sum(parte_general.situacion = "Otro") as total17'),
+                //////////////////////////////////////////////CATEGORIA/////////////////////////////////
+                \DB::raw('sum(case when parte_general.codigo_categoria in ("1","4") then 1 else 0 end) as comando'),
+                \DB::raw('sum(case when parte_general.codigo_categoria = "5" then 1 else 0 end) as tecnico'),
+                \DB::raw('sum(case when parte_general.codigo_categoria = "6" then 1 else 0 end) as asimiladotc'),
+                \DB::raw('sum(case when parte_general.codigo_categoria = "2" then 1 else 0 end) as asimilado'),
+                \DB::raw('sum(case when parte_general.codigo_categoria = "7" then 1 else 0 end) as tropacmd'),
+                \DB::raw('sum(case when parte_general.codigo_categoria = "8" then 1 else 0 end) as trp'),
+                ////////////////////GRADOS Y CATEGORIAS////////////////////////////////////////////////////////7
+                                ///////COMANDO////////////////7
+                \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coGJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coMJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coGD'),
+                \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coGB'),
+                \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coTCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coMY'),
+                \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coCAP'),
+                \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coPTTE'),
+                \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as coTTE'),
+                                ////////////////////TECNICOS///////////////////////////////////////
+                \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecGJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecMJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecGD'),
+                \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecGB'),
+                \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecTCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecMY'),
+                \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecCAP'),
+                \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecPTTE'),
+                \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "5" then 1 else 0 end) as tecTTE'),
+                                ////////////////////////ASIMILADO TECNICO /////////////////////////
+                \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecGJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecMJ'),
+                \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecGD'),
+                \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecGB'),
+                \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecTCNEL'),
+                \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecMY'),
+                \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecCAP'),
+                \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecPTTE'),
+                \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "6" then 1 else 0 end) as AStecTTE'),
+                                                    ////////////////////////ASIMILADO  /////////////////////////
+                 \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asGJ'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asMJ'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asGD'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asGB'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asCNEL'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asTCNEL'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asMY'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asCAP'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asPTTE'),
+                 \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "2" then 1 else 0 end) as asTTE'),
+                                                                ////////////////////////COMANDO DE TROPA  /////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpGJ'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpMJ'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpGD'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpGB'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpCNEL'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpTCNEL'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpMY'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpCAP'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpPTTE'),
+                  \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "7" then 1 else 0 end) as ctrpTTE'),
+//////////////////////////////////////SARGENTOS///////////////////////////////////////////////
+                \DB::raw('sum(case when parte_general.grado_militar = "410" then 1 else 0 end) as SS'),
+                \DB::raw('sum(case when parte_general.grado_militar = "420" then 1 else 0 end) as SA'),
+                \DB::raw('sum(case when parte_general.grado_militar = "430" then 1 else 0 end) as SM1'),
+                \DB::raw('sum(case when parte_general.grado_militar = "440" then 1 else 0 end) as SM2'),
+                \DB::raw('sum(case when parte_general.grado_militar = "450" then 1 else 0 end) as SM3'),
+                \DB::raw('sum(case when parte_general.grado_militar = "460" then 1 else 0 end) as S1'),
+                \DB::raw('sum(case when parte_general.grado_militar = "470" then 1 else 0 end) as S2'),
+                 ///////////////////////////////TOTALES DE GRADO/////////////////////////////////////
+                      ///////////////////////TOTAL GENERAL EN JEFE ////////////////////////
+                 \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalGJ'),
+                  //////////////////////TOTAL MAYOR GENERAL ///////////////////////////////
+                 \DB::raw('sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalMJ'),
+                  //////////////////////TOTAL GENERAL DE DIVISION ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalGD'),
+                  //////////////////////TOTAL GENERAL DE BRIGADA ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalGB'),
+                  //////////////////////TOTAL DE CORONELES ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalCNEL'),
+                  //////////////////////TOTAL DE TENIENTE CORONELES ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalTCNEL'),
+                  //////////////////////TOTAL DE MAYOR  ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalMY'),
+                  //////////////////////TOTAL DE CAPITANES  ///////////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalCAP'),
+                   //////////////////////TOTAL DE PRIMER TENIETE  ///////////////////////////////
+                   \DB::raw('sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalPTTE'),
+                   //////////////////////TOTAL  TENIETE  ///////////////////////////////
+                   \DB::raw('sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "7" then 1 else 0 end) as totalTTE'),
+                   /////////////////////////TOTALES DE CATEGORIA POR GRADO //////////////////////////
+                          ///////COMANDO////////////////7
+                \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) +sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) +sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) +sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) as TOTALcod'),
+                   ////////////////////TECNICOS///////////////////////////////////////
+                   \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "5" then 1 else 0 end)+ sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "5" then 1 else 0 end) as TOTALtec'),
+                    ////////////////////////ASIMILADO TECNICO /////////////////////////
+                \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "6" then 1 else 0 end) as TOTALastec'),
+                 ////////////////////////ASIMILADO  /////////////////////////
+                 \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "2" then 1 else 0 end)+ sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "2" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "2" then 1 else 0 end) as TOTALas'),
+                   ////////////////////////COMANDO DE TROPA  /////////////////////////
+                   \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "7" then 1 else 0 end) as TOTALcmdtrp'),
+                   //////////////////////////////////////SARGENTOS///////////////////////////////////////////////
+                \DB::raw('sum(case when parte_general.grado_militar = "410" then 1 else 0 end) + sum(case when parte_general.grado_militar = "420" then 1 else 0 end) + sum(case when parte_general.grado_militar = "430" then 1 else 0 end) + sum(case when parte_general.grado_militar = "440" then 1 else 0 end) + sum(case when parte_general.grado_militar = "450" then 1 else 0 end) + sum(case when parte_general.grado_militar = "460" then 1 else 0 end) + sum(case when parte_general.grado_militar = "470" then 1 else 0 end) as TOTALtrp'),
+                /////////////////////////////////////TOTAL DEFINITIVO ///////////////////////////////////////
+                  ///////////////////////TOTAL GENERAL EN JEFE ////////////////////////
+                  \DB::raw('sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "010" and parte_general.codigo_categoria = "7" then 1 else 0 end) +sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "015" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "020" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "030" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "040" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "050" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "060" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "070" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "080" and parte_general.codigo_categoria = "7" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria in ("1", "4") then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "5" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "6" then 1 else 0 end) + sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "2" then 1 else 0 end) +sum(case when parte_general.grado_militar = "090" and parte_general.codigo_categoria = "7" then 1 else 0 end) as TOTAL'),
+        )->first();
+
+
+        return view('sireh.personal.militar.parte.parte_unidad',compact('datas', 'nomina_count', 'ausentes_count','list','codigo_ubicacion'));
+    }
 
 
 }

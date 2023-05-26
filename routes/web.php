@@ -256,7 +256,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/personal-militar/parte/registro', [PartegeneralController::class, 'indexregistro'])->name('sireh.personal.militar.parte.registro');
     Route::get('/sireh/personal-militar/parte/create', [PartegeneralController::class, 'indexparte'])->name('sireh.personal.militar.parte.create');
     Route::post('/sireh/personal-militar/parte/create/store', [PartegeneralController::class, 'store'])->name('sireh.personal.militar.parte');
-
+    Route::get('/sireh/personal-militar/partes', [PartegeneralController::class, 'ParteUnidad'])->name('sireh.personal.militar.parte .unidad');
     //Reporte de Parte General////
     Route::post('/sireh/personal-militar/parte/reporte/reporteParteUnidad', [PartegeneralController::class, 'reporteParteUnidad'])->name('sireh.personal.militar.parte.reporte.reporteParteUnidad');
     Route::get('/sireh/personal-militar/parte/reporte/reportes', [PartegeneralController::class, 'ParteReportes'])->name('sireh.personal.militar.parte.reporte.reportes');
