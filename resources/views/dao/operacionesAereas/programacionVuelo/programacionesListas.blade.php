@@ -55,7 +55,7 @@
                 <div class="col-12">
                     <div class="card mb-4 mx-4">
                         <div class="card-body px-2 pt-2 pb-2">
-                            <h5 class="mb-0 text-center">Programación de Vuelo: Grupos de Caza y Entrenamiento Vigente del día "{{ $fecha_vigente_invertida }}"<br>
+                            <h5 class="mb-0 text-center">Programación de Vuelo Vigente: Grupos de Caza y Entrenamiento del día "{{ $fecha_vigente_invertida }}"<br>
                             </h5>
                             <div class="card-body text-center p-2">
                                 <a href="{{ route('dao.imprimirProgramacionV', ['tipo' => 'ce']) }}">
@@ -114,7 +114,7 @@
                     <div class="card mb-4 mx-4">
                         <div class="card-body px-2 pt-2 pb-2">
                             <h5 class="mb-0 text-center">
-                                Programación de Vuelo: Grupos de Transporte y Ala Rotatoria Vigente del día "{{ $fecha_vigente_invertida }}"<br>
+                                Programación de Vuelo Vigente: Grupos de Transporte y Ala Rotatoria del día "{{ $fecha_vigente_invertida }}"<br>
                             </h5>
                             <div class="card-body text-center p-2">
                                 <a href="{{ route('dao.imprimirProgramacionV', ['tipo' => 'th']) }}">
