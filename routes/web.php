@@ -251,7 +251,8 @@ Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaControlle
 
 
     //Parte General//
-
+    Route::post('/sireh/personal-militar/parte/auditoria', [PartegeneralController::class, 'auditoria'])->name('sireh.personal.militar.parte.auditoria');
+    Route::get('/sireh/personal-militar/parte/auditoriaing', [PartegeneralController::class, 'auditoriaing'])->name('sireh.personal.militar.parte.auditoriaing');
     Route::get('/sireh/personal-militar/parte', [PartegeneralController::class, 'index'])->name('sireh.personal.militar.parte.index');
     Route::get('/sireh/personal-militar/parte/registro', [PartegeneralController::class, 'indexregistro'])->name('sireh.personal.militar.parte.registro');
     Route::get('/sireh/personal-militar/parte/create', [PartegeneralController::class, 'indexparte'])->name('sireh.personal.militar.parte.create');
