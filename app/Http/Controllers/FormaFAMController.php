@@ -477,7 +477,7 @@ class FormaFAMController extends Controller
         $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
 
         if($tipo == 'ce'){
-            
+
             $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $mañana_condicion)
                 ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
                 ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
@@ -793,7 +793,7 @@ class FormaFAMController extends Controller
                     'programacion_vuelo.civil AS civil',
                     'programacion_vuelo.carga AS carga',
                 )
-                ->orderByRaw("CASE 
+                ->orderByRaw("CASE
                     WHEN programacion_vuelo.unidad = 'G-4' THEN 1
                     WHEN programacion_vuelo.unidad = 'G-5' THEN 2
                     WHEN programacion_vuelo.unidad = 'G-6' THEN 3
@@ -829,7 +829,7 @@ class FormaFAMController extends Controller
                     'programacion_vuelo.civil AS civil',
                     'programacion_vuelo.carga AS carga',
                 )
-                ->orderByRaw("CASE 
+                ->orderByRaw("CASE
                     WHEN programacion_vuelo.unidad = 'G-4' THEN 1
                     WHEN programacion_vuelo.unidad = 'G-5' THEN 2
                     WHEN programacion_vuelo.unidad = 'G-6' THEN 3
@@ -879,7 +879,7 @@ class FormaFAMController extends Controller
                     'programacion_vuelo.civil AS civil',
                     'programacion_vuelo.carga AS carga',
                 )
-                ->orderByRaw("CASE 
+                ->orderByRaw("CASE
                     WHEN programacion_vuelo.unidad = 'G-4' THEN 1
                     WHEN programacion_vuelo.unidad = 'G-5' THEN 2
                     WHEN programacion_vuelo.unidad = 'G-6' THEN 3
@@ -915,7 +915,7 @@ class FormaFAMController extends Controller
                     'programacion_vuelo.civil AS civil',
                     'programacion_vuelo.carga AS carga',
                 )
-                ->orderByRaw("CASE 
+                ->orderByRaw("CASE
                     WHEN programacion_vuelo.unidad = 'G-4' THEN 1
                     WHEN programacion_vuelo.unidad = 'G-5' THEN 2
                     WHEN programacion_vuelo.unidad = 'G-6' THEN 3
@@ -1005,7 +1005,11 @@ class FormaFAMController extends Controller
 
     public function matriculas(Request $request)
     {
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $fecha_manana = date('Y-m-d', strtotime($fecha . ' +1 day'));
+
         $matriculasUsadas = Fam0001::where('aeronave_modelo', $request->id)
+        ->where('fecha', $fecha_manana)
         ->pluck('matricula')
         ->toArray();
 
@@ -1189,14 +1193,14 @@ class FormaFAMController extends Controller
                         $mision_ruta = $row->codigo.' / '.$row->base_estacion;
                     } else if ($row->codigo === 'ENCENDIDO Y CHEQUEO EN TIERRA') {
                         $mision_ruta = $row->codigo.' / '.$row->base_estacion;
-                    } 
+                    }
                     else {
                         $codigo = $row->codigo;
                         if ($row->ruta_desde === 'EVENTUAL' && $row->ruta_hasta === 'EVENTUAL') {
                             $mision_ruta = $row->codigo.' / EVENTUAL';
                         } else if ($row->ruta_desde === 'LOCAL' && $row->ruta_hasta === 'LOCAL') {
                             $mision_ruta = $row->codigo.' / '.$row->base_estacion;
-                        } 
+                        }
                         else {
                             $mision_ruta = $row->codigo.' / '.$row->ruta_desde.' - '.$row->ruta_hasta;
                         }
