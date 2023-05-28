@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
-                                             <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
                                         </div>
                                         <ul>
                                             <li>
@@ -364,7 +364,7 @@
                                 //CARGAR DATOS DE PASOS
                                 $('#stepInputData').prop('hidden', true);
                                 $('#stepInputDataNext').prop('hidden', false);
-                                $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                $(".step_one_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
 
                                 $(".load_fecha").val(famSteps.fecha)
                                 $(".load_ov_ota_om").val(famSteps.ov_ota_om)
@@ -395,21 +395,31 @@
                                 //CARGAR PASO 2
                                 let A1Steps = response.A1_data
                                 if (A1Steps.length>0) {
-                                    $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_two_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
 
                                     var counter = 1;
                                     $.each(A1Steps, function (key, value){
-                                    $('#A1_data').append(
-                                        "<tr id='delete_a1_mision"+value.id+"'>\
-                                        <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                        <td style='padding-left: 20px;'><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
-                                        </tr>");
-                                        counter += 1;
+                                        if (value.codigo == 'ALERTA') {
+                                            $('.enviar_a1_mision').prop('hidden', true);
+                                            $('#alerta').append(
+                                            '<label class="badge bg-warning status-programacion-ceo" style="color:black;">AERONAVE ALERTA</label>');
+                                            $('#botonera').append(
+                                            '<button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión Aeronave Alerta</button>');
+                                        } else {
+
+                                            $('#A1_data').append(
+                                            "<tr id='delete_a1_mision"+value.id+"'>\
+                                            <td style='padding-left: 20px;'>V"+counter+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>") + "<button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
+                                            </tr>");
+                                            counter += 1;
+                                        }
                                     })
+                                        
 
                                     $('.delete_a1_mision').on('click', function (event) {
                                     event.preventDefault();
@@ -567,7 +577,7 @@
                                 //CARGAR PASO 3
                                 let B1Steps = response.B1_data
                                 if (B1Steps.length>0) {
-                                    $(".step_three_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_three_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
                                     datos_tripulacion(B1Steps)
                                     //PASO #3 - EDITAR TRIPULACION
                                     $(".editar_B1_trip").click(function() {
@@ -635,7 +645,7 @@
                                 //CARGAR PASO 4
                                 let A3Steps = response.A3_data
                                 if (A3Steps.length>0) {
-                                    $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_four_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
                                     console.log(A3Steps)
                                     A3Steps.completado == "completado"? $('.show_finish_btn').prop('hidden', true):null
                                     datos_aterrizaje(A3Steps)
@@ -869,7 +879,7 @@
                                 <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
                                 <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
                                 <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
+                                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger cancelar_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-cancel'></i></button></td>\
                                 </tr>");
                                 counter += 1;
                             })

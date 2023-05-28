@@ -1,6 +1,6 @@
 <div class="row">
     <div style="margin-bottom:0; padding-bottom:0;" id="step_one" class="card" hidden="true">
-        <h6 aria-expanded="true" data-toggle="collapse" href="#collapseStepOne" style="background: #008000cf;color: white;padding:8px" class="card-header">PASOS COMPLETADOS</h6>
+        <h6 aria-expanded="true" data-toggle="collapse" href="#collapseStepOne" style="background: #08acc9;color: white;padding:8px" class="card-header">PASOS COMPLETADOS <span id="alerta" class="text-warning"></span></h6>
         <div class="card-body panel-collapse collapse show"  id="collapseStepOne" style="padding: 15px 10px 0;">
             <div class="row">
                 <h6>DATOS AERONAVE</h6>

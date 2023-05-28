@@ -126,7 +126,7 @@
                                             <select name="siglas" id="siglas" class="form-control siglas load_siglas">
                                                 <option value="" selected>...</option>
                                                 <option value="ALERTA">ALERTA</option>
-                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCEND. Y CHEQ. EN TIERRA</option>
+                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENC.-CHECK EN TIERRA</option>
                                                 @foreach($codigoTipoMisionSiglas as $data)
                                                     <option value="{{$data->siglas}}">{{$data->siglas}}</option>
                                                 @endforeach
@@ -431,23 +431,28 @@
                 var matriculas_alternas = array_matriculas_alternas.join(' - ');
                 var ruta_desde = "";
                 var ruta_hasta = "";
+                var alerta = 0;
+
 
                 if(sigla ==="ALERTA"){
                     numero = "EVENTUAL";
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 1;
                 }
                 else if(sigla === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
                     numero = "ENCENDIDO Y CHEQUEO EN TIERRA";
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 0;
                 } else {
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 0;
                 }
 
                 //VALIDAR PASO UNO HEADER
-                if (ov_ota_om === "" || base_estacion === "" || aeronave_modelo === "" || unidad === "" ||
+                if (ov_ota_om === "" || base_estacion === "" || base_estacion === null || aeronave_modelo === "" || unidad === "" ||
                     fecha === "" || serial === "" || matricula === "" || ordenada_por==="" || matriculas_alternas==="" || sigla==="" || numero === "") {
                     Swal.fire({
                         title: 'Atención!',
@@ -474,7 +479,8 @@
                             matricula: matricula,
                             base_estacion: base_estacion,
                             completado: "programando",
-                            matriculas_alternas: matriculas_alternas
+                            matriculas_alternas: matriculas_alternas,
+                            alerta: alerta
                         },
                         success: function(response) {
                             if (response.success) {

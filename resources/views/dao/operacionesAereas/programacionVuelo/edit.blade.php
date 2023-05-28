@@ -101,7 +101,7 @@
                                         <th class="text-uppercase font-weight-bolder">
                                             <h6>LLEGADA</h6>
                                         </th>
-                                        <th class="text-uppercase font-weight-bolder">
+                                        <th class="text-uppercase font-weight-bolder text-center">
                                             <h6>ACCIÓN</h6>
                                         </th>
                                     </tr>
@@ -306,23 +306,25 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select name="siglas" class="form-control select2 siglas load_siglas"
+                                                    @if ($data->siglas == 'ALERTA')
+                                                        <select disabled name="siglas" class="form-control select2 siglas load_siglas"
                                                         id="{{ $data->id }}">
-                                                        @if ($data->siglas == 'ALERTA')
                                                             <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
-                                                            <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCENDIDO Y CHEQUEO EN TIERRA</option>
-                                                        @elseif($data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
-                                                            <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
-                                                            <option value="ALERTA">ALERTA</option>
-                                                        @else
-                                                            <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
-                                                            <option value="ALERTA">ALERTA</option>
-                                                            <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCENDIDO Y CHEQUEO EN TIERRA</option>
-                                                        @endif
-                                                        @foreach ($codigoTipoMisionSiglas as $datos)
-                                                            <option value="{{ $datos->siglas }}">{{ $datos->siglas }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                        </select>
+                                                    @else  
+                                                        <select name="siglas" class="form-control select2 siglas load_siglas"
+                                                            id="{{ $data->id }}">
+                                                            @if($data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
+                                                                <option value="{{ $data->siglas }}">ENC.-CHECK EN TIERRA</option>
+                                                            @else
+                                                                <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>
+                                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENC.-CHECK EN TIERRA</option>
+                                                            @endif
+                                                            @foreach ($codigoTipoMisionSiglas as $datos)
+                                                                <option value="{{ $datos->siglas }}">{{ $datos->siglas }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     @if ($data->siglas == 'ALERTA' || $data->siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA')
@@ -444,7 +446,7 @@
                                                     @endif
                                                 </td>
                                                 <td style="padding-left: 20px;">
-                                                    @if ($data->vuelo > 1)
+                                                    @if (count($A1_mision) > 1 && $data->siglas !== 'ALERTA')
                                                         <button value="{{ $data->id }}"
                                                             style="background: rgb(189, 0, 0);color: white;" type="button"
                                                             class="btn btn-danger delete_a1_mision" id="DeleteRow">X</button>
@@ -458,6 +460,13 @@
                             <div style="padding-top:5px" class="row">
                                 @role('aviacion_grupo_aereo|administrador')
                                     <div class="pull-right">
+                                        @if ($esAlerta === 0)
+                                            <button style="float: right; color:black;" class="btn btn-warning" id="aggAlerta">ESTABLECER ALERTA</button>
+                                        @else
+                                            @if (count($A1_mision) > 1)
+                                                <button style="float: right; color:black;" class="btn btn-warning" id="deletAlerta">QUITAR ALERTA</button>
+                                            @endif
+                                        @endif
                                         <button style="float: right; background: green;color: white;" type="button"
                                             class="btn-sm btn-success agregar_mision add_edit_input"
                                             id="agregar_mision">Agregar Pierna</button>
@@ -644,6 +653,44 @@
                     data: {
                         pierna: 1,
                         ordenada_por: siglasUnidad,
+                        codigo: "E-10",
+                        ruta_desde: "EVENTUAL",
+                        ruta_hasta: "EVENTUAL",
+                        encend: "EVENTUAL",
+                        apag: "EVENTUAL",
+
+                        ov_ota_om: ov_ota_om,
+                        fam0001_id: id_fam0001,
+                        completado: "actualizado",
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Misión Agregada Correctamente!',
+                                text: '¡EN ALAS VENCEREMOS!.',
+                                icon: 'success',
+                                timer: 3000,
+                                showConfirmButton: true,
+                            });
+                            window.location.href =
+                                "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                });
+
+            });
+
+            $("#aggAlerta").click(function() {
+                $(this).prop('disabled', true);
+                $.ajax({
+                    url: "{{ route('store_a1') }}",
+                    method: 'POST',
+                    data: {
+                        pierna: 2,
+                        ordenada_por: siglasUnidad,
                         codigo: "ALERTA",
                         ruta_desde: "EVENTUAL",
                         ruta_hasta: "EVENTUAL",
@@ -760,7 +807,7 @@
                         rowData.completado = 'actualizado';
                         
                         if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
-                            if (numero === "") {
+                            if (numero === "" || numero === null) {
                                 throw new Error(
                                     "El codigo de la mision no puede estar vacio mientras la misión no sea de alerta."
                                     );
@@ -848,6 +895,45 @@
                             method: 'POST',
                             data: {
                                 id: id
+                            },
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response) {
+                                    Swal.fire({
+                                        title: 'Eliminado!',
+                                        text: 'La Misión ha sido eliminado.',
+                                        icon: 'success',
+                                        timer: 3000,
+                                        showConfirmButton: true,
+                                    });
+                                    window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            $('#deletAlerta').on('click', function(event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Estas Seguro de Eliminar la Alerta?',
+                    text: "Atención.!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).prop('disabled', true);
+                        $.ajax({
+                            url: "{{ route('delete_pro_alerta') }}",
+                            method: 'POST',
+                            data: {
+                                id: id_fam0001
                             },
                             cache: false,
                             dataType: 'json',

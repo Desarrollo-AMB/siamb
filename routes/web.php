@@ -381,6 +381,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles');
     Route::post('store_a1_consumibles',     [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
     Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');
+    Route::post('delete_pro_alerta',         [FormaFAMController::class, 'delete_pro_alerta'])->name('delete_pro_alerta');
     Route::post('editar_a1_mision',         [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
     Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');
     Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');

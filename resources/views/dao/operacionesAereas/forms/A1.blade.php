@@ -136,6 +136,390 @@
                 </div>
             </div>
         </div>
+
+        <div class="row pb-1">
+            <div class="row">
+                <small style="font-weight: bold; color:#67748e;">COD-1</small>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
+                        <select name="siglas1" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data)
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
+                        <select name="codigo1" class="form-control codigo load_codigo">
+                        <option value=""></option>
+                            @foreach($codigoMision as $data)
+                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                            @endforeach
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
+                        <select name="condicion1" class="form-control codigo load_codigo">
+                            <option value=""></option>
+                            <option value="DCV">DCV</option>
+                            <option value="DCI">DCI</option>
+                            <option value="DWV">DWV</option>
+                            <option value="DWI">DWI</option>
+                            <option value="NCV">NCV</option>
+                            <option value="NCI">NCI</option>
+                            <option value="NWV">NWV</option>
+                            <option value="NWI">NWI</option>
+                            <option value="DCVG">DCVG</option>
+                            <option value="DCIG">DCIG</option>
+                            <option value="DWVG">DWVG</option>
+                            <option value="DWIG">DWIG</option>
+                            <option value="NCVG">NCVG</option>
+                            <option value="NCIG">NCIG</option>
+                            <option value="NWVG">NWVG</option>
+                            <option value="NWIG">NWIG</option>
+                            <option value="DCVF">DCVF</option>
+                            <option value="DCIF">DCIF</option>
+                            <option value="DWVF">DWVF</option>
+                            <option value="DWIF">DWIF</option>
+                            <option value="NCVF">NCVF</option>
+                            <option value="NCIF">NCIF</option>
+                            <option value="NWVF">NWVF</option>
+                            <option value="NWIF">NWIF</option>
+                            <option value="DCVA">DCVA</option>
+                            <option value="DCIA">DCIA</option>
+                            <option value="DWVA">DWVA</option>
+                            <option value="DWIA">DWIA</option>
+                            <option value="NCVA">NCVA</option>
+                            <option value="NCIA">NCIA</option>
+                            <option value="NWVA">NWVA</option>
+                            <option value="NWIA">NWIA</option>
+                            <option value="DCVL">DCVL</option>
+                            <option value="DCIL">DCIL</option>
+                            <option value="DWVL">DWVL</option>
+                            <option value="DWIL">DWIL</option>
+                            <option value="NCVL">NCVL</option>
+                            <option value="NCIL">NCIL</option>
+                            <option value="NWVL">NWVL</option>
+                            <option value="NWIL">NWIL</option>
+                            <option value="DCVH">DCVH</option>
+                            <option value="DCIH">DCIH</option>
+                            <option value="DWVH">DWVH</option>
+                            <option value="DWIH">DWIH</option>
+                            <option value="NCVH">NCVH</option>
+                            <option value="NCIH">NCIH</option>
+                            <option value="NWVH">NWVH</option>
+                            <option value="NWIH">NWIH</option>
+                            <option value="DCVS">DCVS</option>
+                            <option value="DCIS">DCIS</option>
+                            <option value="DWVS">DWVS</option>
+                            <option value="DWIS">DWIS</option>
+                            <option value="NCVS">NCVS</option>
+                            <option value="NCIS">NCIS</option>
+                            <option value="NWVS">NWVS</option>
+                            <option value="NWIS">NWIS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">HV-1</small>
+                        <input name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <small style="font-weight: bold; color:#67748e;">COD-2</small>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
+                        <select name="siglas2" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data)
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
+                        <select name="codigo2" class="form-control codigo load_codigo">
+                        <option value=""></option>
+                            @foreach($codigoMision as $data)
+                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                            @endforeach
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
+                        <select name="condicion2" class="form-control condicion load_condicion">
+                            <option value=""></option>
+                            <option value="DCV">DCV</option>
+                            <option value="DCI">DCI</option>
+                            <option value="DWV">DWV</option>
+                            <option value="DWI">DWI</option>
+                            <option value="NCV">NCV</option>
+                            <option value="NCI">NCI</option>
+                            <option value="NWV">NWV</option>
+                            <option value="NWI">NWI</option>
+                            <option value="DCVG">DCVG</option>
+                            <option value="DCIG">DCIG</option>
+                            <option value="DWVG">DWVG</option>
+                            <option value="DWIG">DWIG</option>
+                            <option value="NCVG">NCVG</option>
+                            <option value="NCIG">NCIG</option>
+                            <option value="NWVG">NWVG</option>
+                            <option value="NWIG">NWIG</option>
+                            <option value="DCVF">DCVF</option>
+                            <option value="DCIF">DCIF</option>
+                            <option value="DWVF">DWVF</option>
+                            <option value="DWIF">DWIF</option>
+                            <option value="NCVF">NCVF</option>
+                            <option value="NCIF">NCIF</option>
+                            <option value="NWVF">NWVF</option>
+                            <option value="NWIF">NWIF</option>
+                            <option value="DCVA">DCVA</option>
+                            <option value="DCIA">DCIA</option>
+                            <option value="DWVA">DWVA</option>
+                            <option value="DWIA">DWIA</option>
+                            <option value="NCVA">NCVA</option>
+                            <option value="NCIA">NCIA</option>
+                            <option value="NWVA">NWVA</option>
+                            <option value="NWIA">NWIA</option>
+                            <option value="DCVL">DCVL</option>
+                            <option value="DCIL">DCIL</option>
+                            <option value="DWVL">DWVL</option>
+                            <option value="DWIL">DWIL</option>
+                            <option value="NCVL">NCVL</option>
+                            <option value="NCIL">NCIL</option>
+                            <option value="NWVL">NWVL</option>
+                            <option value="NWIL">NWIL</option>
+                            <option value="DCVH">DCVH</option>
+                            <option value="DCIH">DCIH</option>
+                            <option value="DWVH">DWVH</option>
+                            <option value="DWIH">DWIH</option>
+                            <option value="NCVH">NCVH</option>
+                            <option value="NCIH">NCIH</option>
+                            <option value="NWVH">NWVH</option>
+                            <option value="NWIH">NWIH</option>
+                            <option value="DCVS">DCVS</option>
+                            <option value="DCIS">DCIS</option>
+                            <option value="DWVS">DWVS</option>
+                            <option value="DWIS">DWIS</option>
+                            <option value="NCVS">NCVS</option>
+                            <option value="NCIS">NCIS</option>
+                            <option value="NWVS">NWVS</option>
+                            <option value="NWIS">NWIS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">HV-2</small>
+                        <input name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <small style="font-weight: bold; color:#67748e;">COD-3</small>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
+                        <select name="siglas3" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data)
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
+                        <select name="codigo3" class="form-control codigo load_codigo">
+                        <option value=""></option>
+                            @foreach($codigoMision as $data)
+                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                            @endforeach
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
+                        <select name="condicion3" class="form-control condicion load_condicion">
+                            <option value=""></option>
+                            <option value="DCV">DCV</option>
+                            <option value="DCI">DCI</option>
+                            <option value="DWV">DWV</option>
+                            <option value="DWI">DWI</option>
+                            <option value="NCV">NCV</option>
+                            <option value="NCI">NCI</option>
+                            <option value="NWV">NWV</option>
+                            <option value="NWI">NWI</option>
+                            <option value="DCVG">DCVG</option>
+                            <option value="DCIG">DCIG</option>
+                            <option value="DWVG">DWVG</option>
+                            <option value="DWIG">DWIG</option>
+                            <option value="NCVG">NCVG</option>
+                            <option value="NCIG">NCIG</option>
+                            <option value="NWVG">NWVG</option>
+                            <option value="NWIG">NWIG</option>
+                            <option value="DCVF">DCVF</option>
+                            <option value="DCIF">DCIF</option>
+                            <option value="DWVF">DWVF</option>
+                            <option value="DWIF">DWIF</option>
+                            <option value="NCVF">NCVF</option>
+                            <option value="NCIF">NCIF</option>
+                            <option value="NWVF">NWVF</option>
+                            <option value="NWIF">NWIF</option>
+                            <option value="DCVA">DCVA</option>
+                            <option value="DCIA">DCIA</option>
+                            <option value="DWVA">DWVA</option>
+                            <option value="DWIA">DWIA</option>
+                            <option value="NCVA">NCVA</option>
+                            <option value="NCIA">NCIA</option>
+                            <option value="NWVA">NWVA</option>
+                            <option value="NWIA">NWIA</option>
+                            <option value="DCVL">DCVL</option>
+                            <option value="DCIL">DCIL</option>
+                            <option value="DWVL">DWVL</option>
+                            <option value="DWIL">DWIL</option>
+                            <option value="NCVL">NCVL</option>
+                            <option value="NCIL">NCIL</option>
+                            <option value="NWVL">NWVL</option>
+                            <option value="NWIL">NWIL</option>
+                            <option value="DCVH">DCVH</option>
+                            <option value="DCIH">DCIH</option>
+                            <option value="DWVH">DWVH</option>
+                            <option value="DWIH">DWIH</option>
+                            <option value="NCVH">NCVH</option>
+                            <option value="NCIH">NCIH</option>
+                            <option value="NWVH">NWVH</option>
+                            <option value="NWIH">NWIH</option>
+                            <option value="DCVS">DCVS</option>
+                            <option value="DCIS">DCIS</option>
+                            <option value="DWVS">DWVS</option>
+                            <option value="DWIS">DWIS</option>
+                            <option value="NCVS">NCVS</option>
+                            <option value="NCIS">NCIS</option>
+                            <option value="NWVS">NWVS</option>
+                            <option value="NWIS">NWIS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">HV-3</small>
+                        <input name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <small style="font-weight: bold; color:#67748e;">COD-4</small>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
+                        <select name="siglas4" class="form-control siglas load_siglas">
+                            <option value=""></option>
+                            @foreach($codigoTipoMisionSiglas as $data)
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
+                        <select name="codigo4" class="form-control codigo load_codigo">
+                        <option value=""></option>
+                            @foreach($codigoMision as $data)
+                                <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
+                            @endforeach
+                        </select> 
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
+                        <select name="condicion4" class="form-control condicion load_condicion">
+                            <option value=""></option>
+                            <option value="DCV">DCV</option>
+                            <option value="DCI">DCI</option>
+                            <option value="DWV">DWV</option>
+                            <option value="DWI">DWI</option>
+                            <option value="NCV">NCV</option>
+                            <option value="NCI">NCI</option>
+                            <option value="NWV">NWV</option>
+                            <option value="NWI">NWI</option>
+                            <option value="DCVG">DCVG</option>
+                            <option value="DCIG">DCIG</option>
+                            <option value="DWVG">DWVG</option>
+                            <option value="DWIG">DWIG</option>
+                            <option value="NCVG">NCVG</option>
+                            <option value="NCIG">NCIG</option>
+                            <option value="NWVG">NWVG</option>
+                            <option value="NWIG">NWIG</option>
+                            <option value="DCVF">DCVF</option>
+                            <option value="DCIF">DCIF</option>
+                            <option value="DWVF">DWVF</option>
+                            <option value="DWIF">DWIF</option>
+                            <option value="NCVF">NCVF</option>
+                            <option value="NCIF">NCIF</option>
+                            <option value="NWVF">NWVF</option>
+                            <option value="NWIF">NWIF</option>
+                            <option value="DCVA">DCVA</option>
+                            <option value="DCIA">DCIA</option>
+                            <option value="DWVA">DWVA</option>
+                            <option value="DWIA">DWIA</option>
+                            <option value="NCVA">NCVA</option>
+                            <option value="NCIA">NCIA</option>
+                            <option value="NWVA">NWVA</option>
+                            <option value="NWIA">NWIA</option>
+                            <option value="DCVL">DCVL</option>
+                            <option value="DCIL">DCIL</option>
+                            <option value="DWVL">DWVL</option>
+                            <option value="DWIL">DWIL</option>
+                            <option value="NCVL">NCVL</option>
+                            <option value="NCIL">NCIL</option>
+                            <option value="NWVL">NWVL</option>
+                            <option value="NWIL">NWIL</option>
+                            <option value="DCVH">DCVH</option>
+                            <option value="DCIH">DCIH</option>
+                            <option value="DWVH">DWVH</option>
+                            <option value="DWIH">DWIH</option>
+                            <option value="NCVH">NCVH</option>
+                            <option value="NCIH">NCIH</option>
+                            <option value="NWVH">NWVH</option>
+                            <option value="NWIH">NWIH</option>
+                            <option value="DCVS">DCVS</option>
+                            <option value="DCIS">DCIS</option>
+                            <option value="DWVS">DWVS</option>
+                            <option value="DWIS">DWIS</option>
+                            <option value="NCVS">NCVS</option>
+                            <option value="NCIS">NCIS</option>
+                            <option value="NWVS">NWVS</option>
+                            <option value="NWIS">NWIS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">HV-4</small>
+                        <input name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row pb-1">
             <div class="col-sm-6">
                 <h6 style="font-size:13px; margin: 0;">ATERRIZAJES</h6>
@@ -211,8 +595,8 @@
             <hr>
         </div>
         <div style="padding-top:5px" class="row">
-            <div  class="pull-right">
-                <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Pierna</button>
+            <div id="botonera" class="pull-right">
+                <button disabled style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión</button>
                 <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input update_A1_clean">X</button>
                 <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
             </div>
@@ -229,7 +613,7 @@
                         <tr>
                             <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>ORDENADO</h6></th>
-                            <th class="text-uppercase font-weight-bolder"><h6>EN APOYO</h6></th>
+                            <th class="text-uppercase font-weight-bolder"><h6>TIPO MISIÓN</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>

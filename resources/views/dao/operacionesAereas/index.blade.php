@@ -69,13 +69,16 @@
                                                                             @if($datamision->completado == 'completado')
                                                                                 <label class="badge bg-gradient-success">{{$datamision->completado}}</label>
                                                                             @elseif ($datamision->completado == 'paso1')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                                <label class="badge bg-primary">PENDIENTE</label>
                                                                             @elseif ($datamision->completado == 'paso2')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                                <label class="badge bg-primary">PENDIENTE</label>
                                                                             @elseif ($datamision->completado == 'paso3')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                                <label class="badge bg-primary">PENDIENTE</label>
                                                                             @elseif ($datamision->completado == 'paso4')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                                <label class="badge bg-primary">PENDIENTE</label>
+                                                                            @endif
+                                                                            @if ($datamision->alerta == 1)
+                                                                                <label style="color:black;" class="badge bg-warning">AERONAVE ALERTA</label>
                                                                             @endif
                                                                         </th>
                                                                         <th class="font-weight-normal">
@@ -131,7 +134,10 @@
                                                         @if($data->completado == 'completado')
                                                             <label class="badge bg-gradient-success">{{$data->completado}}</label>
                                                         @elseif ($data->completado == 'paso1')
-                                                            <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                            <label class="badge bg-primary">MISIONES PENDIENTE</label>
+                                                        @endif
+                                                        @if ($data->alerta == 1)
+                                                            <label style="color:black;" class="badge bg-warning">AERONAVE ALERTA</label>
                                                         @endif
                                                     </th>
                                                     <th class="font-weight-normal">

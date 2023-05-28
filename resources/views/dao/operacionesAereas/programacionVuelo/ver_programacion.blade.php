@@ -67,7 +67,7 @@
                                                                         <th>OV/OTA/OM</th>
                                                                         <th>FECHA</th>
                                                                         <th>ESTATUS</th>
-                                                                        <th>ACCIONES</th>
+                                                                        <th class="text-center">ACCIONES</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -139,9 +139,9 @@
                                                 <th>AERONAVE</th>
                                                 <th>BASE</th>
                                                 <th>OV/OTA/OM</th>
-                                                <th>FECHA</th>
+                                                <th>ALERTA</th>
                                                 <th>ESTATUS</th>
-                                                <th>ACCIONES</th>
+                                                <th class="text-center">ACCIONES</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -153,7 +153,13 @@
                                                         {{$data->base_estacion}}
                                                     </th>
                                                     <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
-                                                    <th  class="font-weight-normal">{{$data->fecha}}</th>
+                                                    <th  class="font-weight-normal text-center">
+                                                        @if ($data->alerta == 1)
+                                                            <small>SI</small>
+                                                        @else
+                                                            <small>NO</small>
+                                                        @endif
+                                                    </th>
                                                     <th class="font-weight-normal">
                                                         @if($data->completado == 'programando')
                                                             <label class="badge bg-gradient-danger status-programacion">PROGRAMANDO</label>
@@ -197,18 +203,17 @@
 @section('scripts')
 @parent
 <script>
+    
     $(document).ready(function() {
-        $('table[name="table"]').DataTable({
-        responsive: true
-    });
-    if (!$('#vuelos').hasClass('dataTable')) {
-    $('#vuelos').DataTable({
-        responsive: true
-    });
-}
-});
 
-    $(document).ready(function() {
+        $('table[name="table"]').DataTable({
+            responsive: true
+        });
+        if (!$('#vuelos').hasClass('dataTable')) {
+            $('#vuelos').DataTable({
+                responsive: true
+            });
+        }
 
 
         var fechaActual = new Date();
@@ -340,7 +345,7 @@
         });
 
 
-        $('.eliminarProgramacion').click(function(e) {
+        $('#vuelos').on('click', '.eliminarProgramacion', function(e) {
             e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
 
             var fam_id = $(this).data('id');
@@ -381,7 +386,7 @@
                             console.log(error)
                         }
                     });
-                    
+
                 }
             });
         });
@@ -410,12 +415,13 @@
                                 ov_ota_om: '',
                                 componente_organismo: '',
                                 unidad: unidad,
-                                aeronave_modelo: 1,
+                                aeronave_modelo: 9999,
                                 serial: '',
                                 matricula: '',
                                 base_estacion: '',
                                 completado: "sinProg",
-                                matriculas_alternas: ''
+                                matriculas_alternas: '',
+                                alerta: 0
                             },
                             success: function(response) {
                                 if (response.success) {

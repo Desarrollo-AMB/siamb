@@ -238,7 +238,7 @@
             @endrole
             @role('aviacion_ceo|administrador')
                 <li class="nav-item">
-                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam"
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupMaCEO"
                         class="collapsed nav-link " aria-controls="collapseExample">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -251,7 +251,7 @@
                     </a>
 
                     <div class="panel-collapse collapse {{ Request::is('dao.forms/*') ? 'show' : '' }}"
-                        id="collapseListGroupFam">
+                        id="collapseListGroupMaCEO">
 
                         <ul style="margin-left:40px;" class="list-group">
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
