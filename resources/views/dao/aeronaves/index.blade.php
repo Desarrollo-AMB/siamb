@@ -13,12 +13,25 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0"></span></h5>
+                    </div>
+                </div>
+            </div>
+            <hr class="horizontal dark my-0">
+            @include('dao.aeronaves._barra_auxiliar')
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card mb-4 mx-4">
             <hr class="horizontal dark my-0">
             <hr class="horizontal dark my-0">
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0"></span></h5>
+
                     </div>
                 </div>
             </div>
@@ -36,7 +49,6 @@
                                             <th>MATRICULA</th>
                                             <th>SERIAL</th>
                                             <th>ESTATUS</th>
-                                            <th>ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -59,13 +71,7 @@
                                                         <label class="badge bg-gradient-danger">SINIESTRADA</label>
                                                     @endif
                                                 </th>
-                                                <th class="font-weight-normal">
-                                                    @role('aviacion_grupo_aereo|administrador|aviacion_dao')
-                                                    <a href="{{route('dao.editDisponAeronaves', $data->id)}}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar disponibilidad">
-                                                        <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
-                                                    </a>
-                                                    @endrole
-                                                </th>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -93,6 +99,7 @@
     $(function () {
         $('#aeronaves').DataTable({
             processing: true,
+            ordering: false,
             responsive: true,
             "language": {
                 "sProcessing":    "Procesando...",
@@ -113,10 +120,7 @@
                     "sNext":    "Siguiente",
                     "sPrevious": "Anterior"
                 },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
+
             }
         });
 

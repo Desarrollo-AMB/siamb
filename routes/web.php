@@ -29,6 +29,7 @@ use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Exports\ProgramacionFinExport;
 use App\Http\Controllers\juntaperm\controllerjuntap;
+use App\Http\Controllers\ParteAeronaveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -417,6 +418,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
     Route::patch('/dao/Agenda/update/{id}', [FormaFAMController::class, 'updateAgenda'])->name('dao.agenda.update');
+
 });
 
 
@@ -428,3 +430,10 @@ Route::post('/bienestar-social/reporte/devolucion5', [ReportesBSController::clas
 Route::post('/bienestar-social/reporte/cargafamiliar', [ReportesBSController::class, 'reporteCargaFamiliar'])->name('bienestar-social.reporte.cargafamiliar');
 Route::post('/bienestar-social/reporte/bajas', [ReportesBSController::class, 'reporteBajas'])->name('bienestar-social.reporte.bajas');
 Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [PersonalController::class, 'reportePersonalMilitarNoProfJerarquiaUbicacion'])->name('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion');
+
+Route::get('/dao/Aeronaves/parte_aeronave',[ParteAeronaveController::class, 'indexparte'])->name('dao.aeronaves.parte_aeronave.ver');
+Route::get('/dao/Aeronaves/create',[ParteAeronaveController::class, 'crear'])->name('dao.aeronaves.parte_aeronave.registrar');
+Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'store'])->name('dao.aeronaves.parte_aeronave.guadar');
+Route::get('/Unidos_juremos', [ParteAeronaveController::class, 'auditoriaing'])->name('parte.auditoriaing');
+Route::post('/En_alas_Venceremos', [ParteAeronaveController::class, 'auditoria'])->name('parte.auditoria');
+Route::get('Independecia_y_Patria_Socialista',     [ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');

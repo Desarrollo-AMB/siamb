@@ -39,6 +39,7 @@ use App\Exports\ProgramacionVueloExport;
 use App\Exports\ProgramacionVueloVExport;
 use App\Models\Parroquias;
 use App\Models\ProgramacionFin;
+use App\Models\ParteAeronave;
 use Illuminate\Http\Request;
 
 class FormaFAMController extends Controller
@@ -142,6 +143,8 @@ class FormaFAMController extends Controller
                     'aeronave_modelo.aeronave as aeronave',
                     'aeronave_modelo.codigo_unidad as codigo_unidad',
                     'aeronave_modelo.modelo as modelo')
+                    ->orderByRaw("FIELD(aeronave_modelo.codigo_unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
+
                 ->get();
             }
             elseif(count($ubicacion)>0){
@@ -159,6 +162,8 @@ class FormaFAMController extends Controller
                     'aeronave_modelo.aeronave as aeronave',
                     'aeronave_modelo.codigo_unidad as codigo_unidad',
                     'aeronave_modelo.modelo as modelo')
+
+
                 ->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
@@ -178,6 +183,8 @@ class FormaFAMController extends Controller
                     'aeronave_modelo.aeronave as aeronave',
                     'aeronave_modelo.codigo_unidad as codigo_unidad',
                     'aeronave_modelo.modelo as modelo')
+                    ->orderByRaw("FIELD(aeronave_modelo.codigo_unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
+
                 ->get();
         }
 
@@ -2272,4 +2279,5 @@ public function PReporte()
         $programacion->save();
         return redirect()->route('dao.agenda')->with('success','Programacion de fin de semana actualizada correctamente');
     }
+
 }
