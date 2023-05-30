@@ -37,4 +37,9 @@ class Fam0001A1Mision extends Model
     public function consumibles() {
         return $this->hasMany(Fam0001A1MisionConsumible::class, 'fam0001_a1_mision_id');
     }
+
+    public function fam0001()
+    {
+        return $this->belongsTo(Fam0001::class, 'fam0001_id');
+    }
 }

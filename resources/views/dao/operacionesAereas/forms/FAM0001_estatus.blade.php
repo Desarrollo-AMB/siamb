@@ -399,13 +399,7 @@
 
                                     var counter = 1;
                                     $.each(A1Steps, function (key, value){
-                                        if (value.codigo == 'ALERTA') {
-                                            $('.enviar_a1_mision').prop('hidden', true);
-                                            $('#alerta').append(
-                                            '<label class="badge bg-warning status-programacion-ceo" style="color:black;">AERONAVE ALERTA</label>');
-                                            $('#botonera').append(
-                                            '<button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión Aeronave Alerta</button>');
-                                        } else {
+                                        if (value.codigo !== 'ALERTA' && value.codigo !== 'ENCENDIDO Y CHEQUEO EN TIERRA') {
 
                                             $('#A1_data').append(
                                             "<tr id='delete_a1_mision"+value.id+"'>\
@@ -417,9 +411,27 @@
                                             <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>") + "<button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
                                             </tr>");
                                             counter += 1;
+
                                         }
                                     })
-                                        
+
+                                    $.each(A1Steps, function (key, value){
+                                        if (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+
+                                            $('#A1_data').append(
+                                            "<tr id='delete_a1_mision"+value.id+"'>\
+                                            <td style='padding-left: 20px;'></td>\
+                                            <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>") + "<button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
+                                            </tr>");
+                                            counter += 1;
+
+                                        }
+                                    })
+
 
                                     $('.delete_a1_mision').on('click', function (event) {
                                     event.preventDefault();
@@ -507,8 +519,7 @@
                                                 ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                                                 fam0001_id: id_fam0001,
                                                 en_apoyo_A2:$(".load_en_apoyo_A2").val(),
-                                                descripcion_A2:$('.load_descripcion_A2').val(),
-                                                completado: A1Steps[0].completado=="completado"?"completado":"paso2",
+                                                descripcion_A2:$('.load_descripcion_A2').val()
                                             },
                                             cache: false,
                                             dataType: 'json',
@@ -849,7 +860,7 @@
                     fam0001_id: id_fam0001,
                     en_apoyo_A2:en_apoyo_A2,
                     descripcion_A2:descripcion_A2.toUpperCase(),
-                    completado: "paso2",
+                    completado: "paso2Alert",
                     },
                     success:function(response){
                         if(response.success){
@@ -872,16 +883,18 @@
                             let res = response.data;
                             var counter = 1;
                             $.each(res, function (key, value){
-                            $('#A1_data').append(
-                                "<tr id='delete_a1_mision"+value.id+"'>\
-                                <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger cancelar_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-cancel'></i></button></td>\
-                                </tr>");
-                                counter += 1;
+                                if (value.codigo !== 'ALERTA' && value.codigo !== 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                                    $('#A1_data').append(
+                                        "<tr id='delete_a1_mision"+value.id+"'>\
+                                        <td style='padding-left: 20px;'>V"+counter+"</td>\
+                                        <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                        <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                        <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                        <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                        <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>") + "<button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
+                                        </tr>");
+                                        counter += 1;
+                                }
                             })
 
                             //ELIMINAR MISION (METER EN HELPER)
@@ -1945,6 +1958,46 @@
                 $('.add_edit_carga_input').prop('hidden', false);
             });
         }
+
+        $('.concluir_alerta').on('click', function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: '¿Estas Seguro de concluir la alerta?',
+                text: "¡Atención, no podrá revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).prop('disabled', true);
+                    $.ajax({
+                        url: "{{ route('concluir_alerta') }}",
+                        method: 'POST',
+                        data: {
+                            id: id_fam0001
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response) {
+                                Swal.fire({
+                                    title: 'La Alerta ha concluido!',
+                                    text: '¡Atención!',
+                                    icon: 'success',
+                                    timer: 3000,
+                                    showConfirmButton: true,
+                                });
+                                window.location.href = "{{ URL::to('/FormaFAM_status') }}/" + id_fam0001;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
     });
 </script>
 @endsection

@@ -38,4 +38,8 @@ class Fam0001 extends Model
     {
         return $this->belongsTo(Base::class, 'base_estacion');
     }
+    public function misiones()
+    {
+        return $this->hasMany(Fam0001A1Mision::class, 'fam0001_id');
+    }
 }

@@ -572,7 +572,7 @@
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
-                        completado: "programando",
+                        completado: "actualizado",
                         },
                         success:function(response){
                             if(response.success){
