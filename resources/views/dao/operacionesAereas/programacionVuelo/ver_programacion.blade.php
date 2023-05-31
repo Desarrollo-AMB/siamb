@@ -60,13 +60,12 @@
                                                             <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" style="width:100%">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>UNIDAD</th>
-                                                                        <th>MATRICULA</th>
-                                                                        <th>AERONAVE</th>
-                                                                        <th>BASE</th>
-                                                                        <th>OV/OTA/OM</th>
-                                                                        <th>FECHA</th>
-                                                                        <th>ESTATUS</th>
+                                                                        <th class="tex-center">UNIDAD</th>
+                                                                        <th class="tex-center">MAT.</th>
+                                                                        <th class="tex-center">AERONAVE</th>
+                                                                        <th class="tex-center">BASE</th>
+                                                                        <th class="tex-center">OV/OTA/OM</th>
+                                                                        <th class="tex-center">ESTATUS</th>
                                                                         <th class="text-center">ACCIONES</th>
                                                                     </tr>
                                                                 </thead>
@@ -74,29 +73,28 @@
                                                                     @foreach ($data as $datamision)
                                                                         <tr>
                                                                             @role('aviacion_dao|administrador')
-                                                                            <th  class="font-weight-normal">{{$datamision->codigos}}</th>
+                                                                            <td  class="font-weight-normal text-center">{{$datamision->codigos}}</td>
                                                                             @endrole
-                                                                            <th class="font-weight-normal">{{$datamision->matricula}}</th>
-                                                                            <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
-                                                                            <th class="font-weight-normal">
+                                                                            <td class="font-weight-normal text-center">{{$datamision->matricula}}</td>
+                                                                            <td  class="font-weight-normal text-center">{{$datamision->aeronaves->aeronave}}</td>
+                                                                            <td class="font-weight-normal text-center">
                                                                                 {{$datamision->base_estacion}}
-                                                                            </th>
-                                                                            <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
-                                                                            <th  class="font-weight-normal">{{$datamision->fecha}}</th>
-                                                                            <th class="font-weight-normal">
+                                                                            </td>
+                                                                            <td  class="font-weight-normal text-center"> {{$datamision->ov_ota_om}} </td>
+                                                                            <td class="font-weight-normal">
                                                                                 @if($datamision->completado == 'revisado')
                                                                                     <label class="badge bg-gradient-info status-programacion-ceo">REVISADO</label>
                                                                                 @elseif ($datamision->completado == 'enviado')
                                                                                     <label class="badge bg-gradient-primary status-programacion-ceo">ENVIADO</label>
                                                                                 @endif
-                                                                            </th>
-                                                                            <th class="font-weight-normal">
+                                                                            </td>
+                                                                            <td class="font-weight-normal text-center">
                                                                                 @role('aviacion_dao|administrador')
                                                                                 <a href="{{route('dao.editProgramacion', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Revisar">
                                                                                     <i class="fas fa-eye text-info" aria-hidden="true"></i> Revisar
                                                                                 </a>
                                                                                 @endrole
-                                                                            </th>
+                                                                            </td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>
@@ -135,32 +133,32 @@
                                     <table id="vuelos" class="table table-sm table-bordered table-hover table-striped dt-responsive w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
                                             <tr>
-                                                <th>MATRICULA</th>
-                                                <th>AERONAVE</th>
-                                                <th>BASE</th>
-                                                <th>OV/OTA/OM</th>
-                                                <th>ALERTA</th>
-                                                <th>ESTATUS</th>
+                                                <th class="text-center">MAT.</th>
+                                                <th class="text-center">AERONAVE</th>
+                                                <th class="text-center">BASE</th>
+                                                <th class="text-center">OV/OTA/OM</th>
+                                                <th class="text-center">ALERTA</th>
+                                                <th class="text-center">ESTATUS</th>
                                                 <th class="text-center">ACCIONES</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($fam0001 as $data)
                                                 <tr>
-                                                    <th class="font-weight-normal">{{$data->matricula}}</th>
-                                                    <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                    <th class="font-weight-normal">
+                                                    <td class="font-weight-normal text-center">{{$data->matricula}}</td>
+                                                    <td  class="font-weight-normal text-center">{{$data->aeronaves->aeronave}}</td>
+                                                    <td class="font-weight-normal text-center">
                                                         {{$data->base_estacion}}
-                                                    </th>
-                                                    <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
-                                                    <th  class="font-weight-normal text-center">
+                                                    </td>
+                                                    <td  class="font-weight-normal text-center">{{$data->ov_ota_om}}</td>
+                                                    <td  class="font-weight-normal text-center text-center">
                                                         @if ($data->alerta == 1)
                                                             <small>SI</small>
                                                         @else
                                                             <small>NO</small>
                                                         @endif
-                                                    </th>
-                                                    <th class="font-weight-normal">
+                                                    </td>
+                                                    <td class="font-weight-normal">
                                                         @if($data->completado == 'programando')
                                                             <label class="badge bg-gradient-danger status-programacion">PROGRAMANDO</label>
                                                         @elseif ($data->completado == 'enviado')
@@ -170,8 +168,8 @@
                                                         @elseif ($data->completado == 'revisado')
                                                             <label class="badge bg-gradient-success status-programacion">REVISADO</label>
                                                         @endif
-                                                    </th>
-                                                    <th class="font-weight-normal">
+                                                    </td>
+                                                    <td class="font-weight-normal text-center">
                                                         @role('aviacion_grupo_aereo|administrador')
                                                         <a href="{{route('dao.editProgramacion', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                             <i class="fas fa-edit  text-primary" aria-hidden="true"></i> Editar
@@ -180,7 +178,7 @@
                                                             <i class="fas fa-trash text-danger" aria-hidden="true"></i> Eliminar
                                                         </a>
                                                         @endrole
-                                                    </th>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -203,7 +201,7 @@
 @section('scripts')
 @parent
 <script>
-    
+
     $(document).ready(function() {
 
         $('table[name="table"]').DataTable({
@@ -211,7 +209,38 @@
         });
         if (!$('#vuelos').hasClass('dataTable')) {
             $('#vuelos').DataTable({
-                responsive: true
+                processing: true,
+                //serverSide: true,
+                responsive: true,
+                pageLength: 25,
+                search: {
+                    return: true,
+                },
+                "language": {
+                    "sProcessing":    "Procesando...",
+                    "sLengthMenu":    "Mostrar _MENU_ registros",
+                    "sZeroRecords":   "No se encontraron resultados",
+                    "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                    "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":   "",
+                    "sSearch":        "Buscar:",
+                    "sUrl":           "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":    "Último",
+                        "sNext":    "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+
             });
         }
 
@@ -360,6 +389,7 @@
                 confirmButtonText: 'Si!'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    $(this).prop('disabled', true);
 
                     $.ajax({
                         url: "{{ route('dao.deleteProgramacion') }}",
@@ -406,7 +436,7 @@
                 confirmButtonText: 'Si!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-
+                        $(this).prop('disabled', true);
                         //ENVIAR
                         $.ajax({
                             url: "{{ route('store_programacion') }}",

@@ -65,8 +65,13 @@ class FormaFAMController extends Controller
 
             // ROLL DE LA DAO
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4']   )
-                ->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+                $fam0001_unidad = Fam0001::whereIn('completado', ['paso1'])
+                ->whereDate('fecha', $fecha)
+                ->with('aeronaves')
+                ->with('misiones')
+                ->orderBy('unidad', 'desc')
+                ->orderBy('matricula', 'desc')
+                ->get();
 
                 # Ordenar por unidad
                 $fam0001 = [];
@@ -78,14 +83,27 @@ class FormaFAMController extends Controller
 
             // SI TIENE UBIACION ES GRUPO AEREO
             elseif(count($ubicacion)>0){
-                $fam0001 = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->where('unidad', $ubicacion[0]['codigos'])->where('user_id',$user_id)->with('aeronaves')->get();
+                $fam0001 = Fam0001::whereIn('completado', ['paso1'])
+                ->whereDate('fecha', $fecha)
+                ->where('unidad', $ubicacion[0]['codigos'])
+                ->where('user_id',$user_id)
+                ->with('aeronaves')
+                ->with('misiones')
+                ->orderBy('matricula', 'asc')
+                ->get();
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
         }else{
 
             // SI NO ES ADMINISTRADOR
-            $fam0001_unidad = Fam0001::whereIn('completado', ['paso1','paso2','paso3','paso4'])->whereDate('fecha', $fecha)->with('aeronaves')->orderBy('unidad', 'desc')->get();
+            $fam0001_unidad = Fam0001::whereIn('completado', ['paso1'])
+            ->whereDate('fecha', $fecha)
+            ->with('aeronaves')
+            ->with('misiones')
+            ->orderBy('unidad', 'desc')
+            ->orderBy('matricula', 'desc')
+            ->get();
 
             # Ordenar por unidad
             $fam0001 = [];
@@ -966,6 +984,8 @@ class FormaFAMController extends Controller
         $unidad = AeronaveUnidades::get();
         $componentes = ComponenteOrganismo::get();
         $bases = Base::get();
+        $parroquias = Parroquias::get();
+        $aeropuertos = Aeropuerto::get();
         $jefeMaquina = EmpleadoFuncion::with('empleado')->where('id_funcion', 16)->get();
 
         //A1-MISION
@@ -974,6 +994,7 @@ class FormaFAMController extends Controller
         $consumibles = UnidadesConsumible::get();
         $unidadesMedida = UnidadesMedidas::get();
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
+        $codigoMisionPropia = CodigoTipoMision::where('tipo_tarea', 'P')->orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
         //B1-TRIPULACION
         $A1_mision = Fam0001A1Mision::get();
@@ -982,7 +1003,13 @@ class FormaFAMController extends Controller
         $funcion = FuncionTripulante::get();
         $despegue = CodigoDespegue::get();
         $fam0001 = $fam_id;
-        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'fam0001data'));
+
+        $comprobarAlertaA1 = Fam0001::where('id', $fam_id)
+        ->select('alerta')
+        ->get();
+        $esAlerta = $comprobarAlertaA1[0]->alerta;
+
+        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision', 'codigoMisionPropia','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'parroquias', 'aeropuertos', 'fam0001data', 'esAlerta'));
     }
 
     public function index()
@@ -1372,10 +1399,11 @@ class FormaFAMController extends Controller
     {
         $checkVuelo = Fam0001A1Mision::select('vuelo')->where('fam0001_id',$request->fam0001_id)->get();
 
-        Fam0001::where('id',$request->fam0001_id)->update(['completado' => 'actualizado']);
+        if($request->completado === 'actualizado'){
+            Fam0001::where('id',$request->fam0001_id)->update(['completado' => 'actualizado']);
+        }
 
         $vinvuloGrupoAereo = Config::get('constants.vinvulo_grupo_aereo');
-
         if($request->pierna == 1){
             if (isset($vinvuloGrupoAereo[$request->ordenada_por])) {
                 $ordenada_por = $vinvuloGrupoAereo[$request->ordenada_por];
@@ -1411,6 +1439,14 @@ class FormaFAMController extends Controller
         $A1->registro_manual = $request->registro_manual;
         $A1->horometro = $request->horometro;
         $A1->ind_vuelo = $request->ind_vuelo;
+        $A1->cod1 = $request->cod1;
+        $A1->hv1 = $request->hv1;
+        $A1->cod2 = $request->cod2;
+        $A1->hv2 = $request->hv2;
+        $A1->cod3 = $request->cod3;
+        $A1->hv3 = $request->hv3;
+        $A1->cod4 = $request->cod4;
+        $A1->hv4 = $request->hv4;
         $A1->toque_desp = $request->toque_desp;
         $A1->low_go = $request->low_go;
         $A1->ciclos_tren = $request->ciclos_tren;
@@ -1570,6 +1606,19 @@ class FormaFAMController extends Controller
         );
     }
 
+
+    public function concluir_alerta(Request $request)
+    {
+        Fam0001::where('id',$request->id)->update(['alerta' => 2]);
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Alerta Conluida'
+            ]
+        );
+    }
+
+
     public function editar_a1_mision(Request $request)
     {
         $consumibles = Fam0001A1MisionConsumible::where('fam0001_a1_mision_id', $request->id)->get();
@@ -1600,6 +1649,38 @@ class FormaFAMController extends Controller
                 'editMision' => $editMision
             ]
         );
+    }
+
+    public function cancelar_a1_mision(Request $request)
+    {
+        Fam0001A1Mision::where('id',$request->id)->update(['completado' => 'cancelado']);
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Misión Cancelada'
+            ]
+        );
+    }
+
+    public function comprobar_status_misiones(Request $request)
+    {
+        $misionesStatus = Fam0001A1Mision::where('fam0001_id',$request->id)
+        ->whereIn('completado',['paso2','paso2Alert'])
+        ->get();
+
+        if (count($misionesStatus)>0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Misiones sin completar',
+                'data' => count($misionesStatus)
+        ]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'message' => 'Misiones completadas',
+                'data' => count($misionesStatus)
+            ]);
+        }
     }
 
     public function actualizarProgramacionA1(Request $request)
@@ -1672,7 +1753,10 @@ class FormaFAMController extends Controller
 
     public function data_v_trip(Request $request)
     {
-        $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)->get();
+        $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)
+        ->whereIn('completado', ['paso2', 'paso2Alert'])
+        ->whereNotIn('codigo', ['ENCENDIDO Y CHEQUEO EN TIERRA'])
+        ->get();
         return response()->json($data_v_trip);
     }
 

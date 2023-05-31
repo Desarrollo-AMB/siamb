@@ -288,7 +288,14 @@
             $('.siglas').on('change', function() {
                 var siglaId = $(this).val();
                 if (siglaId) {
-                    if(siglaId === 'ALERTA'){
+                    if(siglaId === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                        $('.codigo').val('').trigger('change');
+                        $(".codigo").prop('disabled', true);
+                        $(".ruta_desde").val('LOCAL').trigger('change');
+                        $(".ruta_hasta").val('LOCAL').trigger('change');
+                        $(".encend").prop('hidden', true);
+                        $(".apag").prop('hidden', true);
+                    }else if(siglaId === 'ALERTA'){
                         $('.codigo').val('').trigger('change');
                         $(".codigo").prop('disabled', true);
                         $(".ruta_desde").val('EVENTUAL').trigger('change');
@@ -296,17 +303,8 @@
                         $(".encend").prop('hidden', true);
                         $(".apag").prop('hidden', true);
                     }
-                    else if(siglaId === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
-                        $('.codigo').val('').trigger('change');
-                        $(".codigo").prop('disabled', true);
-                        $(".ruta_desde").val('LOCAL').trigger('change');
-                        $(".ruta_hasta").val('LOCAL').trigger('change');
-                        $(".encend").prop('hidden', true);
-                        $(".apag").prop('hidden', true);
-                    }else{
+                    else {
                         $(".codigo").prop('disabled', false);
-                        $(".ruta_desde").prop('disabled', false);
-                        $(".ruta_hasta").prop('disabled', false);
                         $(".encend").prop('hidden', false);
                         $(".apag").prop('hidden', false);
                     }
@@ -572,7 +570,7 @@
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
-                        completado: "programando",
+                        completado: "actualizado",
                         },
                         success:function(response){
                             if(response.success){

@@ -383,8 +383,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('store_a1_consumibles',     [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
     Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');
     Route::post('delete_pro_alerta',         [FormaFAMController::class, 'delete_pro_alerta'])->name('delete_pro_alerta');
+    Route::post('concluir_alerta',         [FormaFAMController::class, 'concluir_alerta'])->name('concluir_alerta');
     Route::post('editar_a1_mision',         [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
     Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');
+    Route::post('cancelar_mision',     [FormaFAMController::class, 'cancelar_a1_mision'])->name('cancelar_mision');
+    Route::post('comprobar_status_misiones', [FormaFAMController::class, 'comprobar_status_misiones'])->name('comprobar_status_misiones');
     Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');
 
     Route::post('codigos_mision_json',      [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json');

@@ -61,9 +61,21 @@
                         <small style="font-weight: bold; color:#67748e;">DESDE</small>
                         <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
                             <option value=""></option>
-                            @foreach($bases as $data)
-                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
-                            @endforeach
+                            <option value="LOCAL">LOCAL</option>
+                                @foreach($aeropuertos as $data)
+                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                @endforeach
+                                    <option value="">_______PARROQUIA__________</option>
+                                @foreach ($parroquias as $data)
+                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
+                                    </option>
+                                @endforeach
+                                    <option value="">_______BASE__________</option>
+                                @foreach ($bases as $data)
+                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                    ({{ $data->siglas }})</option>
+                                @endforeach
                         </select>
                     </div>
                 </div>
@@ -72,9 +84,21 @@
                         <small style="font-weight: bold; color:#67748e;">HASTA</small>
                         <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
                             <option value=""></option>
-                            @foreach($bases as $data)
-                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
-                            @endforeach
+                            <option value="LOCAL">LOCAL</option>
+                                @foreach($aeropuertos as $data)
+                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                @endforeach
+                                    <option value="">_______PARROQUIA__________</option>
+                                @foreach ($parroquias as $data)
+                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
+                                    </option>
+                                @endforeach
+                                    <option value="">_______BASE__________</option>
+                                @foreach ($bases as $data)
+                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                    ({{ $data->siglas }})</option>
+                                @endforeach
                         </select>
                     </div>
                 </div>
@@ -143,7 +167,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas1" class="form-control siglas load_siglas">
+                        <select id="siglas1" name="siglas1" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -154,18 +178,18 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo1" class="form-control codigo load_codigo">
+                        <select id="codigo1" name="codigo1" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMision as $data)
+                            @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
-                        </select> 
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion1" class="form-control codigo load_codigo">
+                        <select id="condicion1" name="condicion1" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -229,7 +253,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-1</small>
-                        <input name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv1" name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -238,7 +262,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas2" class="form-control siglas load_siglas">
+                        <select id="siglas2" name="siglas2" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -249,18 +273,18 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo2" class="form-control codigo load_codigo">
+                        <select id="codigo2" name="codigo2" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMision as $data)
+                            @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
-                        </select> 
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion2" class="form-control condicion load_condicion">
+                        <select id="condicion2" name="condicion2" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -324,7 +348,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-2</small>
-                        <input name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv2" name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -333,7 +357,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas3" class="form-control siglas load_siglas">
+                        <select id="siglas3" name="siglas3" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -344,18 +368,18 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo3" class="form-control codigo load_codigo">
+                        <select id="codigo3" name="codigo3" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMision as $data)
+                            @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
-                        </select> 
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion3" class="form-control condicion load_condicion">
+                        <select id="condicion3" name="condicion3" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -419,7 +443,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-3</small>
-                        <input name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv3" name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -428,7 +452,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas4" class="form-control siglas load_siglas">
+                        <select id="siglas4" name="siglas4" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -439,18 +463,18 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo4" class="form-control codigo load_codigo">
+                        <select id="codigo4" name="codigo4" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMision as $data)
+                            @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
-                        </select> 
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion4" class="form-control condicion load_condicion">
+                        <select id="condicion4" name="condicion4" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -514,7 +538,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-4</small>
-                        <input name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv4" name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -596,7 +620,10 @@
         </div>
         <div style="padding-top:5px" class="row">
             <div id="botonera" class="pull-right">
-                <button disabled style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión</button>
+                @if ($fam0001data->alerta == 1)
+                    <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión Aeronave Alerta</button>
+                    <button style="float: right; background: yellow;color: black;" type="button" class="btn btn-warning concluir_alerta">Concluir Alerta</button>
+                @endif
                 <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input update_A1_clean">X</button>
                 <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
             </div>
@@ -619,6 +646,9 @@
                             <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                         </tr>
                     </thead>
+                    <tbody id="A1_data_check">
+
+                    </tbody>
                     <tbody id="A1_data">
 
                     </tbody>
