@@ -471,7 +471,7 @@
                                         id="agregar_mision">Agregar Pierna</button>
                                     <button style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);"
                                         type="button" class="btn btn-success edit_input actualizar_a1_mision"
-                                        id="actualizar_a1_mision">ACTUALIZAR</button>
+                                        id="btn_actualizar_a1_mision">ACTUALIZAR</button>
                                 </div>
                             @endrole
                             @role('aviacion_dao|administrador')
@@ -557,28 +557,15 @@
                 var siglaId = $(this).val();
                 var id = $(this).attr('id');
                 if (siglaId) {
-                    if(siglaId == 'ALERTA'){
-                        $('#codigo' + id).val('').trigger('change');
-                        $("#codigo" + id).prop('disabled', true);
-                        $("#ruta_desde" + id).val('EVENTUAL').trigger('change');
-                        $("#ruta_hasta" + id).val('EVENTUAL').trigger('change');
-                        $("#encend" + id).prop('hidden', true);
-                        $("#apag" + id).prop('hidden', true);
-                    }
-                    else if(siglaId == 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                    if(siglaId == 'ENCENDIDO Y CHEQUEO EN TIERRA'){
                         $('#codigo' + id).val('').trigger('change');
                         $("#codigo" + id).prop('disabled', true);
                         $("#ruta_desde" + id).val('LOCAL').trigger('change');
                         $("#ruta_hasta" + id).val('LOCAL').trigger('change');
                         $("#encend" + id).prop('hidden', true);
                         $("#apag" + id).prop('hidden', true);
-                    }else{
+                    } else {
                         $("#codigo" + id).prop('disabled', false);
-                        $('#codigo' + id).val('').trigger('change');
-                        $("#ruta_desde" + id).prop('disabled', false);
-                        $("#ruta_hasta" + id).prop('disabled', false);
-                        $('#ruta_desde' + id).val('EVENTUAL').trigger('change');
-                        $('#ruta_hasta' + id).val('EVENTUAL').trigger('change');
                         $("#encend" + id).prop('hidden', false);
                         $("#apag" + id).prop('hidden', false);
                     }
@@ -645,6 +632,7 @@
 
             $("#agregar_mision").click(function() {
                 $(this).prop('disabled', true);
+                actualizar_a1_mision(id_fam0001);
                 $.ajax({
                     url: "{{ route('store_a1') }}",
                     method: 'POST',
@@ -683,6 +671,7 @@
 
             $("#aggAlerta").click(function() {
                 $(this).prop('disabled', true);
+                actualizar_a1_mision(id_fam0001);
                 $.ajax({
                     url: "{{ route('store_a1') }}",
                     method: 'POST',
@@ -751,126 +740,11 @@
 
             });
 
-            $("#actualizar_a1_mision").click(function(e) {
+            $("#btn_actualizar_a1_mision").click(function(e) {
                 e.preventDefault();
                 $(this).prop('disabled', true);
-                try {
-
-                    // recorrer cada fila de la tabla
-                    $('table tbody tr').each(function() {
-                        // recorrer cada celda de la fila
-
-                        var rowData = {};
-
-                        // Obtener los valores de los inputs y selects de cada fila
-                        var id = $(this).find("input[name='id']").val();
-                        var ordenada_por = $(this).find("select[name='ordenada_por']").val();
-                        var siglas = $(this).find("select[name='siglas']").val();
-                        var numero = $(this).find("select[name='codigo']").val();
-
-                        if (siglas == 'ALERTA') {
-                            rowData.codigo = 'ALERTA';
-                            var ruta_desde = $(this).find("select[name='ruta_desde']").val();
-                            var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
-                            var encend = "EVENTUAL";
-                            var apag = "EVENTUAL";
-                        } else if (siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
-                            rowData.codigo = 'ENCENDIDO Y CHEQUEO EN TIERRA';
-                            var ruta_desde = $(this).find("select[name='ruta_desde']").val();
-                            var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
-                            var encend = "EVENTUAL";
-                            var apag = "EVENTUAL";
-                        } else {
-                            rowData.codigo = siglas + "-" + numero;
-                            var ruta_desde = $(this).find("select[name='ruta_desde']").val();
-                            var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
-                            var encend = $(this).find("input[name='encend']").val();
-                            var apag = $(this).find("input[name='apag']").val();
-
-                            if (encend === "") {
-                                encend = "EVENTUAL";
-                            }
-                            if (apag === "") {
-                                apag = "EVENTUAL";
-                            }
-                        }
-
-                        //rowData.id_fam0001 = id_fam0001;
-                        rowData.id = id;
-                        rowData.ordenada_por = ordenada_por;
-                        rowData.ruta_desde = ruta_desde;
-                        rowData.ruta_hasta = ruta_hasta;
-                        rowData.encend = encend;
-                        rowData.apag = apag;
-                        rowData.completado = 'actualizado';
-
-                        if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
-                            if (numero === "" || numero === null) {
-                                throw new Error(
-                                    "El codigo de la mision no puede estar vacio mientras la misión no sea de alerta."
-                                    );
-                            } else {
-
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                            'content')
-                                    }
-                                });
-                                // // enviar los datos de la fila actual al servidor
-                                $.ajax({
-                                    url: "{{ route('actualizarProgramacionA1') }}",
-                                    method: "POST",
-                                    data: rowData,
-                                    success: function(response) {
-                                    },
-                                    error: function(error) {
-                                        console.log(error)
-                                    }
-                                });
-                            }
-                        } else {
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                }
-                            });
-                            // // enviar los datos de la fila actual al servidor
-                            $.ajax({
-                                url: "{{ route('actualizarProgramacionA1') }}",
-                                method: "POST",
-                                data: rowData,
-                                success: function(response) {
-                                },
-                                error: function(error) {
-                                    console.log(error)
-                                }
-                            });
-                        }
-
-                        //FORMULARIO GUARDAR
-
-                    });
-                    Swal.fire({
-                        title: 'Programación Actualizada con éxito!',
-                        text: '¡EN ALAS VENCEREMOS!',
-                        icon: 'success',
-                        timer: 6000,
-                        showConfirmButton: true,
-                    });
-                    window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
-                } catch (error) {
-                    console.error(error);
-                    $(this).prop('disabled', false);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: error,
-                        icon: 'error',
-                        timer: 6000,
-                        showConfirmButton: true,
-                    });
-                }
+                actualizar_a1_mision(id_fam0001);
+                $(this).prop('disabled', false);
             });
 
             $('.delete_a1_mision').on('click', function(event) {
@@ -928,7 +802,7 @@
                     if (result.isConfirmed) {
                         $(this).prop('disabled', true);
                         $.ajax({
-                            url: "{{ route('concluir_alerta') }}",
+                            url: "{{ route('delete_pro_alerta') }}",
                             method: 'POST',
                             data: {
                                 id: id_fam0001
@@ -953,6 +827,132 @@
             });
 
         });
+
+        function actualizar_a1_mision(id_fam0001){
+            try {
+
+                // recorrer cada fila de la tabla
+                $('table tbody tr').each(function() {
+                    // recorrer cada celda de la fila
+
+                    var rowData = {};
+
+                    // Obtener los valores de los inputs y selects de cada fila
+                    var id = $(this).find("input[name='id']").val();
+                    var ordenada_por = $(this).find("select[name='ordenada_por']").val();
+                    var siglas = $(this).find("select[name='siglas']").val();
+                    var numero = $(this).find("select[name='codigo']").val();
+
+                    if (siglas == 'ALERTA') {
+                        rowData.codigo = 'ALERTA';
+                        var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                        var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
+                        var encend = "EVENTUAL";
+                        var apag = "EVENTUAL";
+                    } else if (siglas == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                        rowData.codigo = 'ENCENDIDO Y CHEQUEO EN TIERRA';
+                        var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                        var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
+                        var encend = "EVENTUAL";
+                        var apag = "EVENTUAL";
+                    } else {
+                        rowData.codigo = siglas + "-" + numero;
+                        var ruta_desde = $(this).find("select[name='ruta_desde']").val();
+                        var ruta_hasta = $(this).find("select[name='ruta_hasta']").val();
+                        var encend = $(this).find("input[name='encend']").val();
+                        var apag = $(this).find("input[name='apag']").val();
+
+                        if (encend === "") {
+                            encend = "EVENTUAL";
+                        }
+                        if (apag === "") {
+                            apag = "EVENTUAL";
+                        }
+                    }
+
+                    //rowData.id_fam0001 = id_fam0001;
+                    rowData.id = id;
+                    rowData.ordenada_por = ordenada_por;
+                    rowData.ruta_desde = ruta_desde;
+                    rowData.ruta_hasta = ruta_hasta;
+                    rowData.encend = encend;
+                    rowData.apag = apag;
+                    rowData.completado = 'actualizado';
+
+                    if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
+                        if (numero === "" || numero === null) {
+                            throw new Error(
+                                "El codigo de la mision no puede estar vacio mientras la misión no sea de alerta."
+                                );
+                        } else {
+
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                        'content')
+                                }
+                            });
+                            // // enviar los datos de la fila actual al servidor
+                            $.ajax({
+                                url: "{{ route('actualizarProgramacionA1') }}",
+                                method: "POST",
+                                data: rowData,
+                                success: function(response) {
+                                },
+                                error: function(error) {
+                                    console.log(error)
+                                }
+                            });
+                        }
+                    } else {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            }
+                        });
+                        // // enviar los datos de la fila actual al servidor
+                        $.ajax({
+                            url: "{{ route('actualizarProgramacionA1') }}",
+                            method: "POST",
+                            data: rowData,
+                            success: function(response) {
+                            },
+                            error: function(error) {
+                                console.log(error)
+                            }
+                        });
+                    }
+
+                //FORMULARIO GUARDAR
+
+                });
+                Swal.fire({
+                    title: 'Programación Actualizada con éxito!',
+                    text: '¡EN ALAS VENCEREMOS!',
+                    icon: 'success',
+                    timer: 6000,
+                    showConfirmButton: true,
+                });
+                window.location.href = "{{ URL::to('/dao/editar-programacion') }}/" + id_fam0001;
+            } catch (error) {
+                console.error(error);
+                $(this).prop('disabled', false);
+                Swal.fire({
+                    title: 'Error!',
+                    text: error,
+                    icon: 'error',
+                    timer: 6000,
+                    showConfirmButton: true,
+                });
+            }
+
+        }
+
+
+
+
+
 
     </script>
 @endsection

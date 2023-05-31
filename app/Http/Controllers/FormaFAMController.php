@@ -1432,6 +1432,14 @@ class FormaFAMController extends Controller
         $A1->registro_manual = $request->registro_manual;
         $A1->horometro = $request->horometro;
         $A1->ind_vuelo = $request->ind_vuelo;
+        $A1->cod1 = $request->cod1;
+        $A1->hv1 = $request->hv1;
+        $A1->cod2 = $request->cod2;
+        $A1->hv2 = $request->hv2;
+        $A1->cod3 = $request->cod3;
+        $A1->hv3 = $request->hv3;
+        $A1->cod4 = $request->cod4;
+        $A1->hv4 = $request->hv4;
         $A1->toque_desp = $request->toque_desp;
         $A1->low_go = $request->low_go;
         $A1->ciclos_tren = $request->ciclos_tren;
@@ -1594,7 +1602,7 @@ class FormaFAMController extends Controller
 
     public function concluir_alerta(Request $request)
     {
-        Fam0001::where('id',$request->id)->update(['alerta' => 0]);
+        Fam0001::where('id',$request->id)->update(['alerta' => 2]);
 
         return response()->json([
                 'success' => true,
@@ -1602,6 +1610,7 @@ class FormaFAMController extends Controller
             ]
         );
     }
+
 
     public function editar_a1_mision(Request $request)
     {
@@ -1633,6 +1642,38 @@ class FormaFAMController extends Controller
                 'editMision' => $editMision
             ]
         );
+    }
+
+    public function cancelar_a1_mision(Request $request)
+    {
+        Fam0001A1Mision::where('id',$request->id)->update(['completado' => 'cancelado']);
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Misión Cancelada'
+            ]
+        );
+    }
+
+    public function comprobar_status_misiones(Request $request)
+    {
+        $misionesStatus = Fam0001A1Mision::where('fam0001_id',$request->id)
+        ->whereIn('completado',['paso2','paso2Alert'])
+        ->get();
+
+        if (count($misionesStatus)>0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Misiones sin completar',
+                'data' => count($misionesStatus)
+        ]);
+        }else{
+            return response()->json([
+                'success' => true,
+                'message' => 'Misiones completadas',
+                'data' => count($misionesStatus)
+            ]);
+        }
     }
 
     public function actualizarProgramacionA1(Request $request)
@@ -1705,7 +1746,10 @@ class FormaFAMController extends Controller
 
     public function data_v_trip(Request $request)
     {
-        $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)->get();
+        $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)
+        ->whereIn('completado', ['paso2', 'paso2Alert'])
+        ->whereNotIn('codigo', ['ENCENDIDO Y CHEQUEO EN TIERRA'])
+        ->get();
         return response()->json($data_v_trip);
     }
 

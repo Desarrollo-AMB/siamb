@@ -167,7 +167,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas1" class="form-control siglas load_siglas">
+                        <select id="siglas1" name="siglas1" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -178,7 +178,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo1" class="form-control codigo load_codigo">
+                        <select id="codigo1" name="codigo1" class="form-control codigo">
                         <option value=""></option>
                             @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -189,7 +189,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion1" class="form-control codigo load_codigo">
+                        <select id="condicion1" name="condicion1" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -253,7 +253,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-1</small>
-                        <input name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv1" name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -262,7 +262,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas2" class="form-control siglas load_siglas">
+                        <select id="siglas2" name="siglas2" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -273,7 +273,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo2" class="form-control codigo load_codigo">
+                        <select id="codigo2" name="codigo2" class="form-control codigo">
                         <option value=""></option>
                             @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -284,7 +284,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion2" class="form-control condicion load_condicion">
+                        <select id="condicion2" name="condicion2" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -348,7 +348,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-2</small>
-                        <input name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv2" name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -357,7 +357,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas3" class="form-control siglas load_siglas">
+                        <select id="siglas3" name="siglas3" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -368,7 +368,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo3" class="form-control codigo load_codigo">
+                        <select id="codigo3" name="codigo3" class="form-control codigo">
                         <option value=""></option>
                             @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -379,7 +379,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion3" class="form-control condicion load_condicion">
+                        <select id="condicion3" name="condicion3" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -443,7 +443,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-3</small>
-                        <input name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv3" name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -452,7 +452,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>
-                        <select name="siglas4" class="form-control siglas load_siglas">
+                        <select id="siglas4" name="siglas4" class="form-control siglas">
                             <option value=""></option>
                             @foreach($codigoTipoMisionSiglas as $data)
                                 <option value="{{$data->siglas}}">{{$data->siglas}}</option>
@@ -463,7 +463,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
-                        <select name="codigo4" class="form-control codigo load_codigo">
+                        <select id="codigo4" name="codigo4" class="form-control codigo">
                         <option value=""></option>
                             @foreach($codigoMisionPropia as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -474,7 +474,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select name="condicion4" class="form-control condicion load_condicion">
+                        <select id="condicion4" name="condicion4" class="form-control condicion">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -538,7 +538,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-4</small>
-                        <input name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv4" name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
                     </div>
                 </div>
             </div>
@@ -646,6 +646,9 @@
                             <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                         </tr>
                     </thead>
+                    <tbody id="A1_data_check">
+
+                    </tbody>
                     <tbody id="A1_data">
 
                     </tbody>

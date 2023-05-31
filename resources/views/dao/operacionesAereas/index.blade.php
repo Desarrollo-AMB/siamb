@@ -82,6 +82,12 @@
                                                                                             ALERTA
                                                                                             {{$datamision->base_estacion}}
                                                                                     </label>
+                                                                                @elseif ($data->alerta == 2)
+                                                                                    <label style="color:black;"
+                                                                                            class="badge bg-secondary">
+                                                                                            ALERTA CONCLUIDA
+                                                                                            {{$data->base_estacion}}
+                                                                                    </label>
                                                                                 @endif
                                                                             @endif
                                                                         </td>
@@ -151,6 +157,12 @@
                                                                 <label style="color:black;"
                                                                         class="badge bg-warning">
                                                                         ALERTA
+                                                                        {{$data->base_estacion}}
+                                                                </label>
+                                                            @elseif ($data->alerta == 2)
+                                                                <label style="color:black;"
+                                                                        class="badge bg-secondary">
+                                                                        ALERTA CONCLUIDA
                                                                         {{$data->base_estacion}}
                                                                 </label>
                                                             @endif
