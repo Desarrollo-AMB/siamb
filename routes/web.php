@@ -30,6 +30,7 @@ use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Exports\ProgramacionFinExport;
 use App\Http\Controllers\juntaperm\controllerjuntap;
 use App\Http\Controllers\ParteAeronaveController;
+use App\Http\Controllers\empleadoExtraComponeteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -437,3 +438,6 @@ Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'stor
 Route::get('/Unidos_juremos', [ParteAeronaveController::class, 'auditoriaing'])->name('parte.auditoriaing');
 Route::post('/En_alas_Venceremos', [ParteAeronaveController::class, 'auditoria'])->name('parte.auditoria');
 Route::get('Independecia_y_Patria_Socialista',     [ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');
+
+/////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
+Route::get('/sireh/ingreso_personal/new', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
