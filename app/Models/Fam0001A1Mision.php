@@ -42,4 +42,14 @@ class Fam0001A1Mision extends Model
     {
         return $this->belongsTo(Fam0001::class, 'fam0001_id');
     }
+
+    public function tripulaciones()
+    {
+        return $this->hasMany(Fam0001B1Tripulacion::class, 'fam0001_a1_mision_id');
+    }
+
+    public function cargas()
+    {
+        return $this->hasMany(Fam0001A3CargaPasajeros::class, 'fam0001_a1_mision_id');
+    }
 }

@@ -12,4 +12,9 @@ class Fam0001A3CargaPasajeros extends Model
     protected $fillable = [
         '*',
     ];
+
+    public function carga()
+    {
+        return $this->belongsTo(Fam0001A1Mision::class, 'fam0001_a1_mision_id');
+    }
 }
