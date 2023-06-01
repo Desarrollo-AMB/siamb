@@ -65,7 +65,7 @@ class FormaFAMController extends Controller
 
             // ROLL DE LA DAO
             if ($rol_user == 'aviacion_dao') {
-                $fam0001_unidad = Fam0001::whereIn('completado', ['paso1'])
+                $fam0001_unidad = Fam0001::whereIn('completado', ['paso1', 'completado'])
                 ->whereDate('fecha', $fecha)
                 ->with('aeronaves')
                 ->with('misiones')
@@ -83,7 +83,7 @@ class FormaFAMController extends Controller
 
             // SI TIENE UBIACION ES GRUPO AEREO
             elseif(count($ubicacion)>0){
-                $fam0001 = Fam0001::whereIn('completado', ['paso1'])
+                $fam0001 = Fam0001::whereIn('completado', ['paso1', 'completado'])
                 ->whereDate('fecha', $fecha)
                 ->where('unidad', $ubicacion[0]['codigos'])
                 ->where('user_id',$user_id)
@@ -97,7 +97,7 @@ class FormaFAMController extends Controller
         }else{
 
             // SI NO ES ADMINISTRADOR
-            $fam0001_unidad = Fam0001::whereIn('completado', ['paso1'])
+            $fam0001_unidad = Fam0001::whereIn('completado', ['paso1', 'completado'])
             ->whereDate('fecha', $fecha)
             ->with('aeronaves')
             ->with('misiones')
@@ -1583,7 +1583,15 @@ class FormaFAMController extends Controller
     public function delete_a1_mision(Request $request)
     {
         Fam0001A1MisionConsumible::where('fam0001_a1_mision_id',$request->id)->delete();
-        Fam0001A1Mision::find($request->id)->delete();
+
+        $mision = Fam0001A1Mision::find($request->id);
+        $vuelo = $mision->vuelo;
+        $mision->delete();
+
+        // Actualizar los números de vuelo de los registros restantes
+        Fam0001A1Mision::where('fam0001_id', $mision->fam0001_id)
+        ->where('vuelo', '>', $vuelo)
+        ->decrement('vuelo');
 
         return response()->json([
                 'success' => true,
@@ -1594,9 +1602,18 @@ class FormaFAMController extends Controller
 
     public function delete_pro_alerta(Request $request)
     {
-        Fam0001A1Mision::where('fam0001_id',$request->id)
+        $mision = Fam0001A1Mision::where('fam0001_id',$request->id)
         ->where('codigo','ALERTA')
-        ->delete();
+        ->first();
+        $vuelo = $mision->vuelo;
+        $mision->delete();
+
+        // Actualizar los números de vuelo de los registros restantes
+        Fam0001A1Mision::where('fam0001_id', $mision->fam0001_id)
+        ->where('vuelo', '>', $vuelo)
+        ->decrement('vuelo');
+
+        // Actualizamos el estado de la fam0001 a sin alerta
         Fam0001::where('id',$request->id)->update(['alerta' => 0]);
 
         return response()->json([
@@ -1666,6 +1683,8 @@ class FormaFAMController extends Controller
     {
         $misionesStatus = Fam0001A1Mision::where('fam0001_id',$request->id)
         ->whereIn('completado',['paso2','paso2Alert'])
+        ->whereDoesntHave('tripulaciones')
+        ->whereDoesntHave('cargas')
         ->get();
 
         if (count($misionesStatus)>0) {

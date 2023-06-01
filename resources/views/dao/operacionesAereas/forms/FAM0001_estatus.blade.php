@@ -419,10 +419,10 @@
                                                 <td style='padding-left: 20px;'><button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button><button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
                                                 </tr>");
 
-                                        } else if(value.completado == 'paso2' || value.completado == 'cancelado'){
+                                        } else if(value.completado == 'paso2' || value.completado == 'cancelado' || value.completado == 'completado'){
                                             $('#A1_data_check').append(
                                             "<tr id='delete_a1_mision"+value.id+"'>\
-                                            <td style='padding-left: 20px;'>V"+counter+"</td>\
+                                            <td style='padding-left: 20px;'>V"+value.vuelo+"</td>\
                                             <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
                                             <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
                                             <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\

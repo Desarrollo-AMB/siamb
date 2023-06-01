@@ -284,13 +284,10 @@
                                     </tr>
                                 </tbody>
                                 <tbody id="A1_data" hidden>
-                                    @php
-                                        $contador = 1; // Inicializamos el contador en 1
-                                    @endphp
                                     @foreach ($A1_mision as $data)
                                         <tr id="delete_a1_mision{{ $data->id }}">
                                             <td>
-                                                <span> v {{ $contador++ }}</span>
+                                                <span> v {{ $data->vuelo }}</span>
                                                 <input type="hidden" name="id" value="{{ $data->id }}">
                                             </td>
                                             <td>
@@ -547,6 +544,12 @@
 
             //PASO 1 Convierto en select2 los campos que lo necesitan
             $('.select2').select2();
+
+            $(document).on('select2:open', () => {
+                setTimeout(function() {
+                    document.querySelector('.select2-container--open .select2-search__field').focus();
+                }, 10);
+            });
 
             $('.base_estacion').change(function(e) {
                 e.preventDefault();
