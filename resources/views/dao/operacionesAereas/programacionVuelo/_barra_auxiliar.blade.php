@@ -129,7 +129,7 @@
             </div>
         @endif
     @endrole
-    @role('aviacion_dao|administrador')
+    @role('aviacion_dao|administrador|cmd_general')
 
         <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
             <div class="card mb-0">

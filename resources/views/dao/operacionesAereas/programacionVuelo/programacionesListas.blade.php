@@ -15,7 +15,7 @@
     </div>
 @endif
     <div class="card-body px-2 pt-2 pb-2">
-        @role('aviacion_dao|aviacion_grupo_aereo')
+        @role('aviacion_dao|aviacion_grupo_aereo|cmd_general')
             <div class="row">
                 <div class="col-8">
                     <div class="card mb-4 mx-4">
@@ -50,7 +50,7 @@
             <hr class="horizontal dark my-0">
         @endrole
 
-        @role('aviacion_dao|aviacion_ceo')
+        @role('aviacion_dao|aviacion_ceo|cmd_general')
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4 mx-4">
@@ -100,7 +100,7 @@
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->militar }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->civil }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->carga }}</td>
-                                        </tr> 
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -159,7 +159,7 @@
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->militar }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->civil }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->carga }}</td>
-                                        </tr> 
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -205,7 +205,7 @@
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->militar }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->civil }}</td>
                                             <td class="font-weight-normal" style="text-align:center;">{{ $data->carga }}</td>
-                                        </tr> 
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

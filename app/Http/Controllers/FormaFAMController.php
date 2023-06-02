@@ -64,7 +64,7 @@ class FormaFAMController extends Controller
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
             // ROLL DE LA DAO
-            if ($rol_user == 'aviacion_dao') {
+            if ($rol_user == 'aviacion_dao'|| $rol_user == 'cmd_general') {
                 $fam0001_unidad = Fam0001::whereIn('completado', ['paso1', 'completado'])
                 ->whereDate('fecha', $fecha)
                 ->with('aeronaves')
@@ -147,7 +147,7 @@ class FormaFAMController extends Controller
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
-            if ($rol_user == 'aviacion_dao') {
+            if ($rol_user == 'aviacion_dao'|| $rol_user == 'cmd_general') {
                 $aeronaves = DB::table('aeronave_matricula')
                 ->join('aeronave_modelo', 'aeronave_matricula.aeronave_id', '=', 'aeronave_modelo.id')
                 ->select(
@@ -255,7 +255,7 @@ class FormaFAMController extends Controller
         $empleados->leftJoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
 
-        if($rolUser === 'aviacion_dao'){
+        if($rolUser === 'aviacion_dao'|| $rolUser == 'cmd_general'){
             //$empleados->whereIn('ubicaciones.codigo_ubicacion',[2011, 2012, 2023, 4041, 1022, 2072, 2024, 2022, 2031, 2041, 7285, 4004, 2051, 2021, 7015, 8696, 8697, 2210, 8752]);
 
             // CON CODIGOS DE PRODUCCION
@@ -674,7 +674,7 @@ class FormaFAMController extends Controller
             $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
-            if ($rol_user == 'aviacion_dao') {
+            if ($rol_user == 'aviacion_dao'|| $rol_user == 'cmd_general') {
                 $fam0001 = Fam0001::with('aeronaves')->get();
             }
             elseif(count($ubicacion)>0){
@@ -704,7 +704,7 @@ class FormaFAMController extends Controller
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
-            if ($rol_user == 'aviacion_dao') {
+            if ($rol_user == 'aviacion_dao'|| $rol_user == 'cmd_general') {
 
                 $fam0001_data = Fam0001::whereDate('fam0001.fecha', $fecha_manana)
                 ->join('aeronave_unidad', 'aeronave_unidad.codigos', '=', 'fam0001.unidad')
@@ -812,7 +812,7 @@ class FormaFAMController extends Controller
             $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
             $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
 
-            if ($rol_user == 'aviacion_dao' || $rol_user == 'aviacion_ceo') {
+            if ($rol_user == 'aviacion_dao' || $rol_user == 'aviacion_ceo'|| $rol_user == 'cmd_general') {
 
                 $programacionCE = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
                 ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
@@ -2341,7 +2341,7 @@ class FormaFAMController extends Controller
     $aeronave = null;
     $programacion = null;
 
-    if ($user->hasRole('aviacion_dao')) {
+    if ($user->hasRole('aviacion_dao|cmd_general')) {
         // Si el usuario tiene el rol "aviacion_dao", mostrar todos los registros
         $programacion = ProgramacionFin::select('sistema', 'unidad', 'situacion', 'observacion')
         ->whereDate('created_at', now()->toDateString())

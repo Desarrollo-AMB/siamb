@@ -22,7 +22,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
-                                @role('aviacion_dao')
+                                @role('aviacion_dao|cmd_general')
                                     <select name="base_estacion" class="form-control select2 base_estacion load_estacion"
                                         disabled="true">
                                         <option value="{{ $headerFam0001[0]->base_estacion }}">{{ $headerFam0001[0]->base_estacion }}</option>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-2">
                             <h6>Selecionar</h6>
-                            @role('aviacion_dao')
+                            @role('aviacion_dao|cmd_general')
                                 <select name="matriculaSelect" id="matriculaSelect" class="form-control select2 matriculaSelect"
                                     disabled>
                                     <option value="">Seleccionar...</option>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-6" id="div_matricula_input">
                             <h6>MATRICULAS ALTERNAS</h6>
-                            @role('aviacion_dao')
+                            @role('aviacion_dao|cmd_general')
                                 <input readonly type="text" name="matricula_alterna" id="matricula_alterna"
                                     class="form-control matricula_alterna" width="100%"
                                     value="{{ $headerFam0001[0]->matriculas_alternas }}">
@@ -105,7 +105,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            @role('aviacion_dao|administrador')
+                            @role('aviacion_dao|administrador|cmd_general')
                                 <tbody id="cargandotable">
                                     <tr>
                                         <td colspan="9" style="text-align: center; vertical-align: middle;"><h5><strong>Cargando...</strong></h5></td>
@@ -471,7 +471,7 @@
                                         id="btn_actualizar_a1_mision">ACTUALIZAR</button>
                                 </div>
                             @endrole
-                            @role('aviacion_dao|administrador')
+                            @role('aviacion_dao|administrador|cmd_general')
                                 <div style="text-align: center;">
                                     <button style="background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button"
                                         class="btn btn-success" id="revisado">REVISADO</button>

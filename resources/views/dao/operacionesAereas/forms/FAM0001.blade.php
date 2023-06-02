@@ -34,7 +34,7 @@
                                             <th>FECHA</th>
                                             <th>OV/OTA/OM</th>
                                             <th>AERONAVE</th>
-                                            @role('aviacion_dao|administrador')
+                                            @role('aviacion_dao|administrador|cmd_general')
                                             <th>UNIDAD</th>
                                             @endrole
                                             <th>BASE</th>
@@ -48,7 +48,7 @@
                                                 <th  class="font-weight-normal">{{$data->fecha}}</th>
                                                 <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
                                                 <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                @role('aviacion_dao|administrador')
+                                                @role('aviacion_dao|administrador|cmd_general')
                                                 <th  class="font-weight-normal">{{$data->unidad}}</th>
                                                 @endrole
                                                 <th class="font-weight-normal">
