@@ -11,7 +11,7 @@
     <hr class="horizontal dark mt-0">
     <div style="height: 100%;" class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            @role('administrador|consulta|jefe_de_personal|personal_militar|personal_civil|aviacion_dao|aviacion_grupo_aereo|personal_militar_noprof|bienestar_social|junta_permanente')
+            @role('cmd_general|administrador|consulta|jefe_de_personal|personal_militar|personal_civil|aviacion_dao|aviacion_grupo_aereo|personal_militar_noprof|bienestar_social|junta_permanente')
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('dashboard') }}">
                         <div
@@ -54,7 +54,7 @@
                 </a>
             </li>
 
-            @role('administrador')
+            @role('cmd_general|administrador')
                 <li class="nav-item">
                     <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup1"
                         class="collapsed nav-link " aria-controls="collapseExample">
@@ -190,7 +190,7 @@
                     </a>
                 </li>
             @endrole
-            @role('aviacion_dao|aviacion_grupo_aereo|administrador')
+            @role('aviacion_dao|aviacion_grupo_aereo|administrador|cmd_general')
                 <li class="nav-item">
                     <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam"
                         class="collapsed nav-link " aria-controls="collapseExample">

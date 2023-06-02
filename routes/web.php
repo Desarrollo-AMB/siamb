@@ -29,7 +29,7 @@ use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Exports\ProgramacionFinExport;
 use App\Http\Controllers\juntaperm\controllerjuntap;
-use App\Http\Controllers\ParteAeronaveController;
+use App\Http\Controllers\ParteAeronavecontroller;
 
 /*
 |--------------------------------------------------------------------------

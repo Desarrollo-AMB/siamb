@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            @role('aviacion_dao|administrador')
+            @role('aviacion_dao|administrador|cmd_general')
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -54,7 +54,7 @@
                                                             <tbody>
                                                                 @foreach ($data as $datamision)
                                                                     <tr>
-                                                                        @role('aviacion_dao|administrador')
+                                                                        @role('aviacion_dao|administrador|cmd_general')
                                                                         <td  class="font-weight-normal text-center">{{$datamision->unidad}}</td>
                                                                         @endrole
                                                                         <td class="font-weight-normal text-center">{{$datamision->matricula}}</td>
@@ -92,7 +92,7 @@
                                                                             @endif
                                                                         </td>
                                                                         <td class="font-weight-normal text-center">
-                                                                            @role('aviacion_dao|administrador')
+                                                                            @role('aviacion_dao|administrador|cmd_general')
                                                                             <a href="{{route('FormaFAM.status', $datamision->id)}}"     class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
                                                                                 <i class="fas fa-eye text-info" aria-hidden="true"></i>
                                                                             </a>
