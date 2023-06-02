@@ -140,9 +140,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="div_jefe_maquina">
                                                             <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
-                                                            <select name="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
+                                                            <select required name="jefe_maquina" id="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
                                                                 <option value=""></option>
                                                                 @foreach($jefeMaquina as $data)
                                                                     <option value="{{$data->empleado->codigo_empleado}}">{{$data->empleado->cedula}} - {{$data->empleado->nombre1}}  {{$data->empleado->apellido1}}</option>
@@ -279,6 +279,14 @@
 
         var id_fam0001;
         var fam0001_a1_mision_id;
+
+        // Validacion campo de primer paso
+        if ($('#jefe_maquina').val() == '') {
+            $('#div_jefe_maquina').append('<span id="error_jefe_maquina" style="color:red;">El campo Jefe de Maquina es obligatorio para continuar</span>');
+            //$('#stepInputDataNext').prop('disabled', true);
+        } else {
+            $('#stepInputDataNext').prop('disabled', false);
+        }
 
         //SELECT DINAMICOS PASO #1
         $("#grupos").change(function(){
@@ -1711,8 +1719,13 @@
                         $("#n_vuelo").append('<option></option>');
 
                         $.each(res,function(key,value){
-                            $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
-                            $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            if (value.completado == 'cancelado') {
+                                $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'" disabled>V'+value.vuelo+'(cancelada)</option>');
+                                $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'" disabled>V'+value.vuelo+'(cancelada)</option>');
+                            } else {
+                                $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                                $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            }
                         });
                     }
                 });

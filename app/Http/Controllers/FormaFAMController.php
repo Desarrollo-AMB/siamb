@@ -564,7 +564,192 @@ class FormaFAMController extends Controller
         $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
         //dd($nombre_archivo);
 
-        $data = compact('titulo','programacion');
+        $por_fecha = false;
+
+        $data = compact('titulo','programacion', 'por_fecha');
+        //dd($nombre_archivo);
+
+        return Excel::download(new ProgramacionVueloVExport($data), $nombre_archivo);
+        //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
+    }
+
+    public function imprimirProgramacionVG($unidad) {
+
+        Carbon::setLocale('es');
+        $nombre_mes = Carbon::now()->format('M');
+        $nombre_mes_mayusculas = mb_strtoupper($nombre_mes);
+        $hoy = Carbon::now();
+        $hoy_format = $hoy->format('Y-m-d');
+        $mañana_condicion = $hoy->addDay();
+        $mañana_condicion = $mañana_condicion->format('Y-m-d'); /*DECLARACION DE LA FECHA*/
+
+        $checkProgramacion = ProgramacionVuelo::where('fecha', $mañana_condicion)
+        ->get();
+
+        $fecha_vigente = $checkProgramacion->isEmpty() ? $hoy_format : $mañana_condicion;
+        $fecha_vigente_invertida = date('d-m-Y', strtotime($fecha_vigente));
+
+
+        $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $fecha_vigente)
+            ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+            ->where('programacion_vuelo.unidad', '=', $unidad)
+            ->select(
+                'programacion_vuelo.unidad AS unidad',
+                'programacion_vuelo.fecha AS fecha',
+                'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                'programacion_vuelo.ordenada_por AS ordenada_por',
+                'programacion_vuelo.mision_ruta AS mision_ruta',
+                'programacion_vuelo.salida AS salida',
+                'programacion_vuelo.retorno AS retorno',
+                'programacion_vuelo.militar AS militar',
+                'programacion_vuelo.civil AS civil',
+                'programacion_vuelo.carga AS carga',
+            )
+            ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+        ->get();
+
+        $nombre_archivo = sprintf('1) PROGRAMACIÓN DE VUELO %s.xlsx', Carbon::now()->format('d') . $nombre_mes_mayusculas . Carbon::now()->format('y'));
+
+        /*$mision = Fam0001A1Mision::all();*/
+
+        if(!$programacion){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros');
+        }
+
+        $hoy_titulo = $fecha_vigente_invertida;
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
+        //dd($nombre_archivo);
+        $por_fecha = false;
+
+        $data = compact('titulo','programacion', 'por_fecha');
+        //dd($nombre_archivo);
+
+        return Excel::download(new ProgramacionVueloVExport($data), $nombre_archivo);
+        //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
+    }
+
+    public function imprimirProgramacionFechaG(Request $request) {
+
+        Carbon::setLocale('es');
+        $fecha = Carbon::createFromFormat('Y-m-d', $request->fecha);
+        $nombre_mes = $fecha->format('M');
+        $nombre_mes_mayusculas = mb_strtoupper($nombre_mes);
+
+        $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $request->fecha)
+            ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+            ->where('programacion_vuelo.unidad', '=', $request->unidad)
+            ->select(
+                'programacion_vuelo.unidad AS unidad',
+                'programacion_vuelo.fecha AS fecha',
+                'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                'programacion_vuelo.ordenada_por AS ordenada_por',
+                'programacion_vuelo.mision_ruta AS mision_ruta',
+                'programacion_vuelo.salida AS salida',
+                'programacion_vuelo.retorno AS retorno',
+                'programacion_vuelo.militar AS militar',
+                'programacion_vuelo.civil AS civil',
+                'programacion_vuelo.carga AS carga',
+            )
+            ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+        ->get();
+
+        $fecha = Carbon::createFromFormat('Y-m-d', $request->fecha);
+        $nombre_archivo = sprintf('1) PROGRAMACIÓN DE VUELO %s.xlsx', $fecha->format('d') . $nombre_mes_mayusculas . $fecha->format('y'));
+        /*$mision = Fam0001A1Mision::all();*/
+
+        if(!$programacion){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros');
+        }
+
+        $hoy_titulo = $request->fecha;
+        $hoy_titulo = date('d-m-Y', strtotime($hoy_titulo));
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
+        //dd($nombre_archivo);
+
+        $por_fecha = true;
+
+        $data = compact('titulo','programacion', 'por_fecha', 'fecha');
+        //dd($nombre_archivo);
+
+        return Excel::download(new ProgramacionVueloVExport($data), $nombre_archivo);
+        //return view('excel.programacion_vuelos', compact('titulo','vuelo'));
+    }
+
+    public function imprimirProgramacionFecha(Request $request) {
+
+        Carbon::setLocale('es');
+        $fecha = Carbon::createFromFormat('Y-m-d', $request->fecha);
+        $nombre_mes = $fecha->format('M');
+        $nombre_mes_mayusculas = mb_strtoupper($nombre_mes);
+
+        if($request->tipo == 'ce'){
+
+            $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $request->fecha)
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->whereIn('programacion_vuelo.unidad', ['G-11','G-12','G-13','G-14','G-15','G-16','G-18','G-19'])
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+            ->get();
+
+            $fecha = Carbon::createFromFormat('Y-m-d', $request->fecha);
+            $nombre_archivo = sprintf('01) PROGRAMACIÓN DE VUELO %s.xlsx', $fecha->format('d') . $nombre_mes_mayusculas . $fecha->format('y'));
+
+        }else{
+
+            $programacion = ProgramacionVuelo::where('programacion_vuelo.fecha', $request->fecha)
+                ->join('aeronave_unidad','aeronave_unidad.codigos','=','programacion_vuelo.unidad')
+                ->whereIn('programacion_vuelo.unidad', ['G-4','G-5','G-6','G-8','G-9','G-10','G-17'])
+                ->select(
+                    'programacion_vuelo.unidad AS unidad',
+                    'programacion_vuelo.fecha AS fecha',
+                    'programacion_vuelo.sistema_matricula AS sistema_matricula',
+                    'programacion_vuelo.matriculas_alternas AS matriculas_alternas',
+                    'programacion_vuelo.ordenada_por AS ordenada_por',
+                    'programacion_vuelo.mision_ruta AS mision_ruta',
+                    'programacion_vuelo.salida AS salida',
+                    'programacion_vuelo.retorno AS retorno',
+                    'programacion_vuelo.militar AS militar',
+                    'programacion_vuelo.civil AS civil',
+                    'programacion_vuelo.carga AS carga',
+                )
+                ->orderByRaw('aeronave_unidad.id ASC, programacion_vuelo.fam0001_a1_mision_id ASC')
+            ->get();
+
+            $fecha = Carbon::createFromFormat('Y-m-d', $request->fecha);
+            $nombre_archivo = sprintf('05) PROGRAMACIÓN DE VUELO GRUPOS DE TRANSPORTE %s.xlsx', $fecha->format('d') . $nombre_mes_mayusculas . $fecha->format('y'));
+        }
+
+        /*$mision = Fam0001A1Mision::all();*/
+
+        if(!$programacion){
+            return back()
+            ->with('warning','No se puede generar el reporte, no existen registros');
+        }
+
+        $hoy_titulo = $request->fecha;
+        $hoy_titulo = date('d-m-Y', strtotime($hoy_titulo));
+        $titulo = 'PROGRAMACIÓN DE VUELOS '.$hoy_titulo;
+        //dd($nombre_archivo);
+
+        $por_fecha = true;
+
+        $data = compact('titulo','programacion', 'por_fecha', 'fecha');
         //dd($nombre_archivo);
 
         return Excel::download(new ProgramacionVueloVExport($data), $nombre_archivo);
@@ -894,7 +1079,9 @@ class FormaFAMController extends Controller
                 ->where('unidad', $ubicacion[0]['codigos'])
                 ->get();
 
-                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('programacion', 'fecha_vigente', 'fecha_vigente_invertida'));
+                $unidad = $ubicacion[0]['codigos'];
+
+                return view('dao.operacionesAereas.programacionVuelo.programacionesListas', compact('programacion', 'fecha_vigente', 'fecha_vigente_invertida', 'unidad'));
             }else{
                 dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
             }
@@ -1773,7 +1960,7 @@ class FormaFAMController extends Controller
     public function data_v_trip(Request $request)
     {
         $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)
-        ->whereIn('completado', ['paso2', 'paso2Alert'])
+        ->whereIn('completado', ['paso2', 'paso2Alert', 'cancelado'])
         ->whereNotIn('codigo', ['ENCENDIDO Y CHEQUEO EN TIERRA'])
         ->get();
         return response()->json($data_v_trip);
