@@ -189,7 +189,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select id="condicion1" name="condicion1" class="form-control condicion">
+                        <select id="condicion1" name="condicion1" class="form-control condicion select2">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -284,7 +284,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select id="condicion2" name="condicion2" class="form-control condicion">
+                        <select id="condicion2" name="condicion2" class="form-control condicion select2">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -379,7 +379,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select id="condicion3" name="condicion3" class="form-control condicion">
+                        <select id="condicion3" name="condicion3" class="form-control condicion select2">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>
@@ -474,7 +474,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>
-                        <select id="condicion4" name="condicion4" class="form-control condicion">
+                        <select id="condicion4" name="condicion4" class="form-control condicion select2">
                             <option value=""></option>
                             <option value="DCV">DCV</option>
                             <option value="DCI">DCI</option>

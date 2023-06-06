@@ -195,6 +195,7 @@
 
 
         //PASO 1
+        $('.select2').select2();
         $('.componente_organismo').select2();
         $('#grupos').select2();
         $('#naves').select2();
@@ -216,6 +217,12 @@
         $('.tipo_despegue').select2();
         //PASO 4
         $('.n_vuelo').select2();
+
+        $(document).on('select2:open', () => {
+            setTimeout(function() {
+                document.querySelector('.select2-container--open .select2-search__field').focus();
+            }, 10);
+        });
 
         //LIMPIAR A1
         function cleanA1() {
@@ -1370,6 +1377,9 @@
                         console.log(res)
                         let data = res[0]
                         $(".apoyo_carga").val(data.en_apoyo)
+                        // poner el hhiden en false
+                        $(".enviar_sincarga_a3").prop('hidden', false);
+
                     }
                 });
             }
@@ -1458,6 +1468,90 @@
                 });
             }
         });
+
+        $(".enviar_sincarga_a3").click(function(e){
+            e.preventDefault();
+            //VALIDAR PASO UNO HEADER  n_vuelo
+            if(v_trip===""){
+                alert('no puedes guardar campos vacios')
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('store_a3') }}",
+                method:'POST',
+                data:{
+                    ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                    fam0001_id: id_fam0001,
+                    fam0001_a1_mision_id: $('.n_vuelo').val(),
+                    n_vuelo: $('.n_vuelo').val(),
+                    apoyo_carga: 'sin carga',
+                    pesocargaTotal: '0',
+                    volCargaTotal: '0',
+                    seca: '0',
+                    liquida: '0',
+                    comb: '0',
+                    ammto: '0',
+                    tox_pel: '0',
+                    mil: '0',
+                    gob: '0',
+                    no_gob: '0',
+                    civil: '0',
+                    cant_animales: '0',
+                    carga: '0',
+                    pers: '0',
+                    completado: "paso4",
+                    },
+                    success:function(response){
+                        $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                        $("#A3_data tr").remove();
+                        cleanA3()
+                        let A3_data = response.data
+                        datos_aterrizaje(A3_data)
+                        Swal.fire({
+                            title:'Creado!',
+                            text: 'vuelo registrado sin carga!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        //PASO #4 - DELETE CARGA
+                        $(".borrar_A3").click(function() {
+                            var id = $(this).val();
+                            dalete_A3(id)
+                        });
+                        //PASO #4 EDITAR CARGA
+                        $(".editar_A3").click(function() {
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_a3') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_A3(res)
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                        });
+                        //PASO #4 - UPDATE CARGA
+                        update_A3()
+                        //CLEAN
+                        updateClean_A3()
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
 
         //PASO FINAL - CERRAR ORDEN DE VUELO
         $(".finish").click(function(e){

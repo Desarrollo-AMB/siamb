@@ -14,19 +14,19 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <h6 style="font-weight: bold;">EN APOYO A</h6>
-                    <input readonly="true" name="apoyo_carga" type="text" class="form-control apoyo_carga load_apoyo_carga blackInReadOnly" style="text-transform: uppercase"> 
+                    <input readonly="true" name="apoyo_carga" type="text" class="form-control apoyo_carga load_apoyo_carga blackInReadOnly" style="text-transform: uppercase">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <h6 style="font-weight: bold;">PESO(Kg)</h6>
-                    <input name="pesocargaTotal" type="number" class="form-control pesocargaTotal load_pesocargaTotal"> 
+                    <input name="pesocargaTotal" type="number" class="form-control pesocargaTotal load_pesocargaTotal">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <h6 style="font-weight: bold;">VOL(m³)<h6>
-                    <input name="volCargaTotal" type="number" class="form-control volCargaTotal load_volCargaTotal"> 
+                    <input name="volCargaTotal" type="number" class="form-control volCargaTotal load_volCargaTotal">
                 </div>
             </div>
         </div>
@@ -40,31 +40,31 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <small style="font-weight: bold;">SECA(Kg)</small>
-                    <input name="seca" type="number" class="form-control seca load_seca">    
+                    <input name="seca" type="number" class="form-control seca load_seca">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <small style="font-weight: bold;">LíQUIDA(Lts)</small>
-                    <input name="liquida" type="number" class="form-control liquida load_liquida">    
+                    <input name="liquida" type="number" class="form-control liquida load_liquida">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <small style="font-weight: bold;">COMB(Lts)</small>
-                    <input name="comb" type="number" class="form-control comb load_comb">    
+                    <input name="comb" type="number" class="form-control comb load_comb">
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">AMMTO(Kg)</small>
-                    <input name="ammto" type="number" class="form-control ammto load_ammto">    
+                    <input name="ammto" type="number" class="form-control ammto load_ammto">
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">TOX/PEL(Kg)</small>
-                    <input name="tox_pel" type="number" class="form-control tox_pel load_tox_pel">    
+                    <input name="tox_pel" type="number" class="form-control tox_pel load_tox_pel">
                 </div>
             </div>
         </div>
@@ -79,25 +79,25 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">MIL</small>
-                    <input name="mil" type="number" class="form-control mil load_mil">    
+                    <input name="mil" type="number" class="form-control mil load_mil">
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">GOB</small>
-                    <input name="gob" type="number" class="form-control gob load_gob">    
+                    <input name="gob" type="number" class="form-control gob load_gob">
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">NO GOB</small>
-                    <input name="no_gob" type="number" class="form-control no_gob load_no_gob">    
+                    <input name="no_gob" type="number" class="form-control no_gob load_no_gob">
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <small style="font-weight: bold;">CIVIL</small>
-                    <input name="civil" type="number" class="form-control civil load_civil">    
+                    <input name="civil" type="number" class="form-control civil load_civil">
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <small style="font-weight: bold;">CANTIDAD</small>
-                        <input name="cant_animales" type="number" class="form-control cant_animales load_cant_animales">    
+                        <input name="cant_animales" type="number" class="form-control cant_animales load_cant_animales">
                     </div>
                 </div>
             </div>
@@ -126,13 +126,13 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold;">CARGA(Kg)</small>
-                        <input name="carga" type="number" class="form-control carga load_carga">    
+                        <input name="carga" type="number" class="form-control carga load_carga">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold;">PERS(CANT)</small>
-                        <input name="pers" type="number" class="form-control pers load_pers">    
+                        <input name="pers" type="number" class="form-control pers load_pers">
                     </div>
                 </div>
             </div>
@@ -143,17 +143,18 @@
     <div style="padding-top:5px" class="row">
         <div  class="pull-right">
             <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a3 add_edit_carga_input">Agregar Carga</button>
+            <button hidden="true" style="float: right; background: gray;color: white;" type="button" class="btn btn-secondary enviar_sincarga_a3 add_edit_carga_input">Vuelo sin Carga</button>
             <div>
                 <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input_a3 update_a3_clean">X</button>
                 <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input_a3 actualizar_A3">ACTUALIZAR</button>
             </div>
-            <input hidden="true" name="id_a3" type="text" class="form-control id_a3 load_id_a3"> 
+            <input hidden="true" name="id_a3" type="text" class="form-control id_a3 load_id_a3">
         </div>
     </div>
     <hr>
     <div class="row pt-3">
         <div class="col-sm-4">
-            <h6 style="font-size:13px; margin: 0;">LISTA DATOS DE CARGA Y PASAJEROS<small></small></h6> 
+            <h6 style="font-size:13px; margin: 0;">LISTA DATOS DE CARGA Y PASAJEROS<small></small></h6>
         </div>
         <div class="card">
             <div class="table-responsive">
