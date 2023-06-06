@@ -32,6 +32,7 @@ return new class extends Migration
            $table->string('telefono_emergencia')->nullable();
            $table->date('fecha_ingreso')->nullable();
            $table->integer('componete',2)->nullable();
+           $table->string('foto',255)->nullable();
             $table->string('user_created',100)->nullable();
             $table->string('user_updated',100)->nullable();
             $table->timestamps();

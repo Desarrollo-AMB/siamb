@@ -1,11 +1,11 @@
 
-    <a href="{{ route('sireh.personal-militar.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+    <a href="{{ route('personal.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
         data-bs-original-title="Ver" title="Ver"
     >
         <i class="fas fa-eye text-info" aria-hidden="true"></i>
     </a>
 
-<a href="{{ route('sireh.personal-militar.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+<a href="{{ route('personl.edit', $id) }}" class="mx-3" data-bs-toggle="tooltip"
 data-bs-original-title="Editar" title="Editar"
 >
 <i class="fas fa-edit text-primary" aria-hidden="true"></i>

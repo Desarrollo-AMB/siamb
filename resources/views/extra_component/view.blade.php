@@ -7,35 +7,7 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
-    @php
-        if ($datos->fecha_nacim != "") {
-            $fecha_nacim = date("d/m/Y", strtotime($datos->fecha_nacim));
-        }
-        else {
-            $fecha_nacim = "";
-        }
-        
-        if ($datos->datos_militares->fecha_graduacion != "") {
-            $fecha_graduacion = date("d/m/Y", strtotime($datos->datos_militares->fecha_graduacion));
-        }
-        else {
-            $fecha_graduacion = "";
-        }
 
-        if ($datos->datos_militares->fecha_ultimo_ascenso != "") {
-            $fecha_ultimo_ascenso = date("d/m/Y", strtotime($datos->datos_militares->fecha_ultimo_ascenso));
-        }
-        else {
-            $fecha_ultimo_ascenso = "";
-        }
-
-        if ($datos->datos_militares->fecha_retiro != "") {
-            $fecha_retiro = date("d/m/Y", strtotime($datos->datos_militares->fecha_retiro));
-        }
-        else {
-            $fecha_retiro = "";
-        }
-    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
@@ -69,14 +41,14 @@
                     </div>
 
                     <!-- DATOS PERSONALES -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                     <h5 class="card-title">Datos Personales</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row"> 
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Nacionalidad:</h6>
@@ -91,11 +63,11 @@
                                                     {!! Form::text('nacionalidad', '', array('placeholder' => 'No Posee Nacionalidad','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Cédula:</h6>
-                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled 
+                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled
                                                     value="{{ $datos->cedula }}"
                                                 >
                                             </div>
@@ -139,7 +111,7 @@
                                                     {!! Form::text('sexo', '', array('placeholder' => 'No Posee Sexo','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Estado Civil:</h6>
@@ -155,33 +127,27 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">      
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha Nacimiento:</h6>
-                                                {!! Form::text('fecha_nacim', $fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
+                                                {!! Form::text('fecha_nacim', $datos->fecha_nacim, array('placeholder' => 'No Posee Fecha de Nacimiento','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Telefono:</h6>
-                                                {!! Form::text('telefono_cel', $datos->telefono_cel, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                {!! Form::text('telefono_cel', $datos->telefono, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Telefono Casa:</h6>
-                                                {!! Form::text('telefono', $datos->telefono, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Telefono Oficina:</h6>
-                                                {!! Form::text('telefono_ofi', $datos->telefono_ofi, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
+                                                {!! Form::text('telefono', $datos->telefono_casa, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">    
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Estado:</h6>
@@ -199,15 +165,12 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Ciudad:</h6>
-                                                @if($datos->ciudad != "")
+                                                <select class="select2 form-control registrar" name="ciudad" id="ciudad" disabled>
+                                                    <option value="">Seleccione...</option>
                                                     @foreach ($ciudades as $row)
-                                                        @if($row->ciudad == $datos->ciudad)
-                                                            {!! Form::text('ciudad', $row->ciudad, array('placeholder' => 'No Posee Ciudad','class' => 'form-control')) !!}
-                                                        @endif
+                                                        <option value="{{$row->id}}" {{$datos->ciudad == $row->id ? 'selected': '' }} >{{ $row->ciudad }} </option>
                                                     @endforeach
-                                                @else
-                                                    {!! Form::text('ciudad', '', array('placeholder' => 'No Posee Ciudad','class' => 'form-control')) !!}
-                                                @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -224,84 +187,16 @@
                                                 {!! Form::text('correo', $datos->correo, array('placeholder' => 'No Posee Correo','class' => 'form-control')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Peso:</h6>
-                                                {!! Form::text('peso', $datos->peso, array('placeholder' => 'No Posee Peso','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Estatura:</h6>
-                                                {!! Form::text('estatura', $datos->estatura, array('placeholder' => 'No Posee Estatura','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Lateralidad:</h6>
-                                                {!! Form::text('zur_der_amb', $datos->zur_der_amb, array('placeholder' => 'No Posee Lateralidad','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
+
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Color de Ojos:</h6>
-                                                {!! Form::text('ojos', $datos->ojos, array('placeholder' => 'No Posee Color de Ojos','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Color de Cabello:</h6>
-                                                {!! Form::text('cabellos', $datos->cabellos, array('placeholder' => 'No Posee Color de Cabello','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Color de Piel:</h6>
-                                                {!! Form::text('color', $datos->color, array('placeholder' => 'No Posee Color de Piel','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Talla de Camisa:</h6>
-                                                {!! Form::text('talla_camisa', $datos->talla_camisa, array('placeholder' => 'No Posee Talla de Camisa','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Talla de Pantalon:</h6>
-                                                {!! Form::text('talla_pant', $datos->talla_pant, array('placeholder' => 'No Posee Talla de Pantalon','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Talla de Chaqueta:</h6>
-                                                {!! Form::text('talla_chaqueta', $datos->talla_chaqueta, array('placeholder' => 'No Posee Talla de Chaqueta','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Talla de Calzado:</h6>
-                                                {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
-                                            <div class="form-group">
-                                                <h6>Talla de Falda:</h6>
-                                                {!! Form::text('talla_falda', $datos->talla_falda, array('placeholder' => 'No Posee Talla de Falda','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- DATOS MILITARES -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card ">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
@@ -312,10 +207,10 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Tipo Empleado:</h6>
-                                                @if($datos->nomina->tipo_emp != "")
+                                                @if($datos->tipo_emp != "")
                                                     @foreach ($tipos_emp as $row)
-                                                        @if($row->tipo_emp == $datos->nomina->tipo_emp)
-                                                            {!! Form::text('tipo_emp', $row->descripcion.' '.'('.$datos->nomina->tipo_emp.')' , array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
+                                                        @if($row->tipo_emp == $datos->tipo_emp)
+                                                            {!! Form::text('tipo_emp', $row->descripcion.' '.'('.$datos->tipo_emp.')' , array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -326,31 +221,18 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Grado Militar:</h6>
-                                                @if($datos->nomina->grado_militar != "")
+                                                @if($datos->grado_militar != "")
                                                     @foreach ($grados_militares as $row)
-                                                        @if($row->codigo_grado == $datos->nomina->grado_militar)
-                                                            {!! Form::text('grado_militar', $row->descripcion, array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
+                                                        @if($row->codigo_grado == $datos->codigo_grado)
+                                                            {!! Form::text('codigo_grado', $row->descripcion, array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
-                                                    {!! Form::text('grado_militar', '', array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
+                                                    {!! Form::text('codigo_grado', '', array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Categoria:</h6>
-                                                @if($datos->datos_militares && $datos->datos_militares->codigo_categoria != "" && $datos->datos_militares->codigo_categoria != 1)
-                                                    @foreach ($categorias_militares as $row)
-                                                        @if($datos->datos_militares->codigo_categoria == $row->codigo_categoria)
-                                                            {!! Form::text('categoria', $row->descripcion, array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('categoria', '', array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
+
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Situación:</h6>
@@ -366,90 +248,27 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Graduación:</h6>
-                                                {!! Form::text('fecha_graduacion', $datos->datos_militares ? $fecha_graduacion : null, array('placeholder' => 'No Posee Fecha de Graduación','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Promoción:</h6>
-                                                @if($datos->datos_militares && $datos->datos_militares->codigo_promocion != "")
-                                                    @foreach ($promociones_militares as $row)
-                                                        @if($datos->datos_militares->codigo_promocion == $row->codigo_promocion)
-                                                            {!! Form::text('promocion', $row->descripcion, array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('promocion', '', array('placeholder' => 'No Posee Promoción','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Ultimo Ascenso:</h6>
-                                                {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares ? $fecha_ultimo_ascenso : null, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha de Retiro:</h6>
-                                                {!! Form::text('fecha_retiro', $datos->datos_militares ? $fecha_retiro : null, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Especialidad Primaria:</h6>
-                                                @if($datos->datos_militares && $datos->datos_militares->codigo_especialidad1 != "")
-                                                    @foreach ($especialidades_militares as $row)
-                                                        @if($datos->datos_militares->codigo_especialidad1 == $row->codigo_especialidad)
-                                                            {!! Form::text('especialidad1', $row->descripcion, array('placeholder' => 'No Posee Especialidad','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('especialidad1', '', array('placeholder' => 'No Posee Especialidad','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Especialidad Secundaria:</h6>
-                                                @if($datos->datos_militares && $datos->datos_militares->codigo_especialidad2 != "")
-                                                    @foreach ($especialidades_militares as $row)
-                                                        @if($datos->datos_militares->codigo_especialidad2 == $row->codigo_especialidad)
-                                                            {!! Form::text('especialidad2', $row->descripcion, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('especialidad2', '', array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- DATOS LABORALES -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card">
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                     <h5 class="card-title">Datos Laborales</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">    
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <h6>Ubicación:</h6>
-                                                @if($datos->nomina->codigo_ubicacion != "")
+                                                @if($datos->codigo_ubicacion != "")
                                                     @foreach ($ubicaciones as $row)
-                                                        @if($row->codigo_ubicacion == $datos->nomina->codigo_ubicacion)
+                                                        @if($row->codigo_ubicacion == $datos->codigo_ubicacion)
                                                             {!! Form::text('ubicacion', $row->descripcion, array('placeholder' => 'No Posee Ubicacion','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
@@ -458,61 +277,33 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                            <div class="form-group">
-                                                <h6>Ubicacion Detallada:</h6>
-                                                @if($datos->nomina->cod_ubicacion_detallada != "")
-                                                    @foreach ($ubicaciones_det as $row)
-                                                        @if($row->codigo_ubicacion == $datos->nomina->cod_ubicacion_detallada)
-                                                            {!! Form::text('ubicacion_detallada', $row->descripcion.' '.'('.$row->codigo_ubicacion.')' , array('placeholder' => 'No Posee Ubicacion Detallada','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('ubicacion_detallada', '', array('placeholder' => 'No Posee Ubicacion Detallada','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
+
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                            <div class="form-group">
-                                                <h6>Cargo:</h6>
-                                                @if($datos->nomina->codigo_cargo != "")
-                                                    @foreach ($cargos as $row)
-                                                        @if($row->codigo_cargo == $datos->nomina->codigo_cargo)
-                                                            {!! Form::text('cargo', $row->nombre_cargo.' '.'('.$row->codigo_cargo.')' , array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('cargo', '', array('placeholder' => 'No Posee Tipo de Empleado','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- OTROS DATOS -->
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                             <div class="card" >
                                 <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                     <h5 class="card-title">Otros Datos</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">    
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                             <div class="form-group">
                                                 <h6>Nombre y Apellido (contacto de emergencia):</h6>
-                                                {!! Form::text('persona_contacto', $datos->persona_contacto, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control')) !!}
+                                                {!! Form::text('persona_contacto', $datos->contacto_emergencia, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <h6>Telefono (contacto de emergencia):</h6>
-                                                {!! Form::text('telefono_e', $datos->telefono_e, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control')) !!}
+                                                {!! Form::text('telefono_e', $datos->telefono_emergencia, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>

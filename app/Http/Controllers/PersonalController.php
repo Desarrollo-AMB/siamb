@@ -925,12 +925,12 @@ class PersonalController extends Controller
     //Obtiene el personal militar egresado, exclusivo por api para el Datatable
     public function personalMilitarBaja(Request $request){
         $empleados = Empleado::where('empleados.situacion','E');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->join('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
+        $empleados->leftjoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->leftjoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->leftjoin('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->leftjoin('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
         $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
         $empleados->select(
             'empleados.id',

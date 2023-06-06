@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cargos;
+use App\Models\Ciudades;
 use App\Models\EmpleadosOtroComponente;
 use App\Models\Estados;
+use App\Models\GradosMilitares;
 use App\Models\Nivel;
 use App\Models\Profesion;
+use App\Models\PromocionesMilitares;
 use App\Models\TiposEmpleado;
 use App\Models\UbicacionDetallada;
 use App\Models\Ubicaciones;
@@ -89,7 +92,7 @@ class empleadoExtraComponeteController extends Controller
             $empleado->apellido1 = $request->apellido1;
             $empleado->apellido2 = $request->apellido2;
             $empleado->fecha_nacim = $request->fecha_nacim;
-            $empleado->sexo = $request->sexo;
+            $empleado->sexo = $request->genero;
             $empleado->estado_civil = $request->edo_civil;
             $empleado->telefono = $request->telefono_cel;
             $empleado->telefono_casa = $request->telefono;
@@ -100,6 +103,7 @@ class empleadoExtraComponeteController extends Controller
             $empleado->fecha_ingreso = $request->fecha_ingreso;
             $empleado->codigo_ubicacion = $request->ubicacion;
             $empleado->codigo_grado = $request->grado_militar;
+            $empleado->componente = $request->componete;
             $empleado->contacto_emergencia = $request->persona_contacto;
             $empleado->telefono_emergencia = $request->telefono_e;
             $empleado->save();
@@ -108,7 +112,7 @@ class empleadoExtraComponeteController extends Controller
 
 
 
-            return redirect()->route('extra.ingreso_personal')->with('success', 'Se ha ingresado al Personal');
+            return redirect()->route('personal.view')->with('success', 'Se ha ingresado al Personal');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -138,5 +142,66 @@ class empleadoExtraComponeteController extends Controller
     {
         return view('extra_component.index');
     }
+    public function viewPersonal($id)
+    {
+        $user_auth=auth()->user();
+
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = EmpleadosOtroComponente::find($id);
+        return view('extra_component.view',
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'situaciones','lateralidades'
+            )
+        );
+    }
+    public function editPersonal($id)
+    {
+        $user_auth=auth()->user();
+
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $datos = EmpleadosOtroComponente::find($id);
+        return view('extra_component.edit',
+            compact(
+                'datos','ciudades',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones', 'situaciones'
+                ,'lateralidades','grados_militares'
+            )
+        );
+    }
+
 
 }

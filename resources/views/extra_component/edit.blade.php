@@ -7,35 +7,7 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
-    @php
-        if ($datos->fecha_nacim != "") {
-            $fecha_nacim = date("d/m/Y", strtotime($datos->fecha_nacim));
-        }
-        else {
-            $fecha_nacim = "";
-        }
-        
-        if ($datos->datos_militares->fecha_graduacion != "") {
-            $fecha_graduacion = date("d/m/Y", strtotime($datos->datos_militares->fecha_graduacion));
-        }
-        else {
-            $fecha_graduacion = "";
-        }
 
-        if ($datos->datos_militares->fecha_ultimo_ascenso != "") {
-            $fecha_ultimo_ascenso = date("d/m/Y", strtotime($datos->datos_militares->fecha_ultimo_ascenso));
-        }
-        else {
-            $fecha_ultimo_ascenso = "";
-        }
-
-        if ($datos->datos_militares->fecha_retiro != "") {
-            $fecha_retiro = date("d/m/Y", strtotime($datos->datos_militares->fecha_retiro));
-        }
-        else {
-            $fecha_retiro = "";
-        }
-    @endphp
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
@@ -74,7 +46,7 @@
                         </div>
 
                         <!-- DATOS PERSONALES -->
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                                 <div class="card">
                                     <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
@@ -96,7 +68,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Cédula:</h6>
@@ -139,7 +111,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Estado Civil:</h6>
@@ -152,7 +124,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">      
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Fecha Nacimiento:</h6>
@@ -162,23 +134,18 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Telefono:</h6>
-                                                    {!! Form::text('telefono_cel', $datos->telefono_cel, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Telefono Casa:</h6>
                                                     {!! Form::text('telefono', $datos->telefono, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Telefono Oficina:</h6>
-                                                    {!! Form::text('telefono_ofi', $datos->telefono_ofi, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
+                                                    <h6>Telefono Casa:</h6>
+                                                    {!! Form::text('telefono_casa', $datos->telefono_casa, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
+
                                         </div>
-                                        <div class="row">    
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Estado:</h6>
@@ -215,18 +182,8 @@
                                                     {!! Form::text('correo', $datos->correo, array('placeholder' => 'No Posee Correo','class' => 'form-control', 'id' => 'correo')) !!}
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Peso:</h6>
-                                                    {!! Form::text('peso', $datos->peso, array('placeholder' => 'No Posee Peso','class' => 'form-control soloNumeros')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Estatura:</h6>
-                                                    {!! Form::text('estatura', $datos->estatura, array('placeholder' => 'No Posee Estatura','class' => 'form-control soloNumeros')) !!}
-                                                </div>
-                                            </div>
+
+
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Lateralidad:</h6>
@@ -239,65 +196,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Color de Ojos:</h6>
-                                                    {!! Form::text('ojos', $datos->ojos, array('placeholder' => 'No Posee Color de Ojos','class' => 'form-control soloLetras', 'id' => 'ojos')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Color de Cabello:</h6>
-                                                    {!! Form::text('cabellos', $datos->cabellos, array('placeholder' => 'No Posee Color de Cabello','class' => 'form-control soloLetras', 'id' => 'cabellos')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Color de Piel:</h6>
-                                                    {!! Form::text('color', $datos->color, array('placeholder' => 'No Posee Color de Piel','class' => 'form-control soloLetras', 'id' => 'color')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Talla de Camisa:</h6>
-                                                    {!! Form::text('talla_camisa', $datos->talla_camisa, array('placeholder' => 'No Posee Talla de Camisa','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Talla de Pantalon:</h6>
-                                                    {!! Form::text('talla_pant', $datos->talla_pant, array('placeholder' => 'No Posee Talla de Pantalon','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Talla de Chaqueta:</h6>
-                                                    {!! Form::text('talla_chaqueta', $datos->talla_chaqueta, array('placeholder' => 'No Posee Talla de Chaqueta','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>Talla de Calzado:</h6>
-                                                    {!! Form::text('numero_calzado', $datos->numero_calzado, array('placeholder' => 'No Posee Talla de Calzado','class' => 'form-control soloNumeros')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 falda">
-                                                <div class="form-group">
-                                                    <h6>Talla de Falda:</h6>
-                                                    {!! Form::text('talla_falda', $datos->talla_falda, array('placeholder'=>'No Posee Talla de Falda', 'class'=>'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- DATOS MILITARES -->
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                                 <div class="card ">
                                     <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
@@ -307,53 +214,20 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
-                                                    <h6>Tipo Empleado:</h6>
-                                                    <select class="select2 form-control" name="tipo_emp" id="tipo_emp">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($tipos_emp as $row)
-                                                            @if ($row->aplicacion_nomina == 'M' || $row->aplicacion_nomina == 'X')
-                                                                <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp ? 'selected': '' }}>{{ $row->descripcion }} </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                                <div class="form-group">
-                                                    <h6>Categoria:</h6>
-                                                    <select class="select2 form-control" name="categoria" id="categoria">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($categorias_militares as $row)
-                                                            @if ($row->tipo_emp == 'MIL' || $row->tipo_emp == 'TRP')
-                                                                <option value="{{$row->codigo_categoria}}" {{$datos->datos_militares ? ($datos->datos_militares->codigo_categoria == $row->codigo_categoria ? 'selected': '' ) : ''}}>{{ $row->descripcion }} </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                                <div class="form-group">
                                                     <h6>Grado Militar:</h6>
                                                     <select class="select2 form-control" name="grado_militar" id="grado_militar">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($grados_militares as $row)
-                                                            <option value="{{$row->codigo_grado}}" {{$datos->nomina->grado_militar == $row->codigo_grado ? 'selected': '' }}>{{ $row->descripcion }} </option>
+                                                            <option value="{{$row->codigo_grado}}" {{$datos->codigo_grado == $row->codigo_grado ? 'selected': '' }}>{{ $row->descripcion }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <h6>Promoción:</h6>
-                                                    <select class="select2 form-control" name="promocion" id="promocion">
-                                                        <option value="">SELECCIONE...</option>
-                                                        @foreach ($promociones_militares as $row)
-                                                            <option value="{{$row->codigo_promocion}}" {{$datos->datos_militares ? ($datos->datos_militares->codigo_promocion == $row->codigo_promocion ? 'selected': '') :'' }}>{{ $row->descripcion }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Componente:</h6>
+                                                {!! Form::text('componente', $datos->componete, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -362,14 +236,14 @@
                         </div>
 
                         <!-- OTROS DATOS -->
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2">
                                 <div class="card" >
                                     <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                         <h5 class="card-title">Otros Datos</h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">    
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                 <div class="form-group">
                                                     <h6>Nombre y Apellido (contacto de emergencia):</h6>
@@ -389,7 +263,7 @@
                         </div>
 
                         <!-- BOTON PARA ACTUALIZAR -->
-                        <div class="row">    
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary" id="btn-actualizar">Actualizar</button>
                             </div>
@@ -434,11 +308,11 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-   
+
         $(".file-upload").on('change', function(){
             readURL(this);
         });
-        
+
         $(".upload-button").on('click', function() {
             $(".file-upload").click();
         });
@@ -464,7 +338,7 @@
                     console.log(data);
                     $('#ciudad').empty();
                     $('#ciudad').append('<option value="">SELECCIONE...</option>');
-                    $.each(data, function(fetch, ciudad){          
+                    $.each(data, function(fetch, ciudad){
                         $('#ciudad').append('<option value="'+ ciudad.ciudad +'">'+ ciudad.ciudad +'</option>');
                     });
                 });
