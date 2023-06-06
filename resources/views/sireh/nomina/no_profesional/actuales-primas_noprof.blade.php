@@ -11,6 +11,7 @@
         {{ session('error') }}
     </div>
 @endif
+
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
@@ -19,7 +20,7 @@
                     <div>
                         <h5 class="mb-0">ASIGNAR NUEVA PRIMA</h5>
                     </div>
-                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.asignacionprima') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.NoProf.nueva') }}">Volver</a>
 
                 </div>
                 <div class="card-body px-2 pt-2 pb-2" >
@@ -34,6 +35,8 @@
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
                                 {!! Form::hidden('codigo_empleado', $dataemp['codigo_empleado']) !!}
                                 {!! Form::hidden('tipo', 'A') !!}
+                                {!! Form::hidden('asignaciones', $asignaciones) !!}
+                                {!! Form::hidden('conceptos_nomina', $conceptos_nomina) !!}
                             </div>
                         </div>
                     </div>
@@ -83,8 +86,7 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.primas.deleteprima',  $user->id) }}"
-                                        method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.NoProf.deleteprimaasignada', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -102,6 +104,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
@@ -159,6 +162,27 @@
                         showConfirmButton: true,
                     });
                 }
+            });
+        });
+
+        $(document).ready(function() {
+        $('#asignar-prima-form').on('submit', function(event) {
+        event.preventDefault();
+        
+        var form = $(this);
+        
+                Swal.fire({
+                    title: 'Estás seguro de asignar la prima?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, asignar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.unbind('submit').submit();
+                    }
+                });
             });
         });
     });

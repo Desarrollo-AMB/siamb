@@ -35,11 +35,12 @@
                                 <td>{{ $user->codigo_concepto }}</td>
                                 <td>{{ $user->descripcion }}</td>
                                 <td>{{ $user->porcentaje }}</td>
-                                <td class="text-center">
+                                <td class="text-center"> 
                                     <a href="{{ route('sireh.nomina.deducciones.editdeducciones',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
-                                    <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
+                                     {{-- BOTON PARA ELIMINAR --}}
+                                    {{--<a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
@@ -47,7 +48,7 @@
                                         method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
-                                    </form>
+                                    </form>--}}
                                 </td>
                             </tr>
                             @endforeach
