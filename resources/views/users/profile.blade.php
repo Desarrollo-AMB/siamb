@@ -34,10 +34,8 @@
                                     @else
                                         <img class="profile-pic" src="" />
                                     @endif
-                                    <div class="upload-button">
-                                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                    </div>
-                                    <input class="file-upload" type="file" accept="image/*" name="foto" />
+                                  
+
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -80,11 +78,11 @@
                                     {!! Form::text('telefono', $profile->telefono, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
                                 </div>
                             </div>
-                        </div>              
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Actualizar</button>
-                    </div>              
+                    </div>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -112,15 +110,15 @@
                 reader.onload = function (e) {
                     $('.profile-pic').attr('src', e.target.result);
                 }
-        
+
                 reader.readAsDataURL(input.files[0]);
             }
         }
-   
+
         $(".file-upload").on('change', function(){
             readURL(this);
         });
-        
+
         $(".upload-button").on('click', function() {
             $(".file-upload").click();
         });
