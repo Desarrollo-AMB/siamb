@@ -494,8 +494,8 @@
                                     href="{{ route('extra.ingreso_personal') }}">Igresar personal</a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "
-                                    href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+                                <a class="{{ Request::is('extra_componet/index') ? 'active' : '' }} "
+                                    href="{{ route('extra.index') }}">Personal Militar</a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
                                 <a class="{{ Request::is('juntap/reportes/index') ? 'active' : '' }} "

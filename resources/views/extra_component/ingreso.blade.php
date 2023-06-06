@@ -31,7 +31,7 @@
                     @endif
 
                     <form class="row g-3 requires-validation" name="registro-personal" id="registro-personal"
-                        method="post" action="{{route('sireh.ingreso-personal.store')}}"
+                        method="post" action="{{route('extra.registrar')}}"
                         enctype="multipart/form-data" >
                         @csrf
                         <div class="row">
@@ -144,12 +144,6 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Telefono Oficina:</h6>
-                                                    {!! Form::text('telefono_ofi', null, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
                                                     <h6>Correo:</h6>
                                                     {!! Form::text('correo', null, array('placeholder' => 'Telefono','class' => 'form-control')) !!}
                                                 </div>
@@ -213,7 +207,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
 
                                     </div>
@@ -234,6 +228,15 @@
                                                     <select class="select2 form-control" name="grado_militar" id="grado_militar" >
                                                         <option value="">...</option>
 
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <h6>Componete:</h6>
+                                                    <select class="select2 form-control registrar" name="componentes" id="genero" required>
+                                                        <option value="">Seleccione ...</option>
+                                                        @foreach ($componentes as $key=>$value)
+                                                            <option value="{{$key}}" >{{ $value }} </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>

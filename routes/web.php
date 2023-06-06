@@ -440,4 +440,6 @@ Route::post('/En_alas_Venceremos', [ParteAeronaveController::class, 'auditoria']
 Route::get('Independecia_y_Patria_Socialista',     [ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');
 
 /////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
-Route::get('/sireh/ingreso_personal/new', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
+Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
+Route::post('/extra_component/ingres', [empleadoExtraComponeteController::class, 'registraPerson'])->name('extra.registrar');
+Route::get('/extra/index', [empleadoExtraComponeteController::class, 'index'])->name('extra.index');
