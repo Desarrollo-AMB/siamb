@@ -19,11 +19,11 @@
                     <div>
                         <h5 class="mb-0">ASIGNAR NUEVA DEDUCCIÓN</h5>
                     </div>
-                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.actualesdeduciones') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.personalcivil.nueva-deduccion') }}">Volver</a>
 
                 </div>
                 <div class="card-body px-2 pt-2 pb-2" >
-                    {!! Form::open(array('route' => 'sireh.nomina.insertardeduccion','method'=>'POST', 'id' => 'asignar-deduccion-form')) !!}
+                    {!! Form::open(array('route' => 'sireh.nomina.insertardeduccioncivil','method'=>'POST', 'id' => 'asignar-deduccion-form')) !!}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
@@ -83,8 +83,7 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.deducciones.deletededucciones',  $user->id) }}"
-                                        method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.civil.deletededuccionesAsignadas', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -153,7 +152,7 @@
                     $('#'+idForm).submit();
                     Swal.fire({
                         title: 'Eliminado!',
-                        text: 'La prima ha sido eliminada con exito.',
+                        text: 'La deducción ha sido eliminada con exito.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: true,

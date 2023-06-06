@@ -12,10 +12,11 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Deducciones Correspondientes al Personal Militar</h5>
+                        <h5 class="mb-0">Deducciones Correspondientes al Personal Civil</h5>
                     </div>
                     <!-- boton para crear una nueva prima -->
-                    <a class="btn btn-bg-gradient-primary btn-sm mb-0" href="{{ route('sireh.nomina.deducciones.nueva-deduccion') }}">+&nbsp;Consultar Profesional</a>
+                   <!-- <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.personal.civil.primas') }}">Volver</a>-->
+                    <a class="btn btn-bg-gradient-primary btn-sm mb-0" href="{{ route('sireh.nomina.personalcivil.nueva-deduccion') }}">+&nbsp;Consultar Profesional</a>
                 </div>
             </div>
             <div class="card-body px-2 pt-2 pb-2">
@@ -36,10 +37,10 @@
                                 <td>{{ $user->descripcion }}</td>
                                 <td>{{ $user->porcentaje }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('sireh.nomina.deducciones.editdeducciones',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
+                                    <a href="{{ route('sireh.nomina.civildeduccion.editdeduccion',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
-                                    <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
+                                    {{--<a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
@@ -47,7 +48,7 @@
                                         method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
-                                    </form>
+                                    </form>--}}
                                 </td>
                             </tr>
                             @endforeach

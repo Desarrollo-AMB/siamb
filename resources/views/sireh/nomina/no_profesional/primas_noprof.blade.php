@@ -39,14 +39,14 @@
                                     <a href="{{ route('sireh.nomina.NoProf.editprima',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
-                                    <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
+                                    {{--<a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
                                     <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.NoProf.deleteprima',  $user->id) }}"
                                         method="POST" style="display: none;">
                                         @csrf
-                                        @method('DELETE')
+                                        @method('DELETE')--}}
                                     </form>
                                 </td>
                             </tr>
@@ -67,30 +67,7 @@
         var table = $('#table').DataTable({
             responsive: true,
             pageLength: 25,
-            "language": {
-                "sProcessing":    "Procesando...",
-                "sLengthMenu":    "Mostrar _MENU_ registros",
-                "sZeroRecords":   "No se encontraron resultados",
-                "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":   "",
-                "sSearch":        "Buscar:",
-                "sUrl":           "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":    "Último",
-                    "sNext":    "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
+     
         });
 
         $('#table').on('click', '.confirmar-delete', function (event) {

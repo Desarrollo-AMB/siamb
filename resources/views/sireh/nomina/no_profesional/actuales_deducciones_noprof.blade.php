@@ -11,6 +11,7 @@
         {{ session('error') }}
     </div>
 @endif
+
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
@@ -19,21 +20,23 @@
                     <div>
                         <h5 class="mb-0">ASIGNAR NUEVA DEDUCCIÓN</h5>
                     </div>
-                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.actualesdeduciones') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.noprof.nueva-deduccion') }}">Volver</a>
 
                 </div>
                 <div class="card-body px-2 pt-2 pb-2" >
-                    {!! Form::open(array('route' => 'sireh.nomina.insertardeduccion','method'=>'POST', 'id' => 'asignar-deduccion-form')) !!}
+                    {!! Form::open(array('route' => 'sireh.nomina.insertardeduccionNoProf','method'=>'POST', 'id' => 'asignar-prima-form')) !!}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
                                 <strong>Deducciones Disponibles:</strong>
-                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la deducción a asignar']) !!}
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
                                 {!! Form::hidden('cedula', $dataemp['cedula']) !!}
                                 {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
                                 {!! Form::hidden('codigo_empleado', $dataemp['codigo_empleado']) !!}
                                 {!! Form::hidden('tipo', 'D') !!}
+                                {!! Form::hidden('asignaciones', $asignaciones) !!}
+                                {!! Form::hidden('conceptos_nomina', $conceptos_nomina) !!}
                             </div>
                         </div>
                     </div>
@@ -68,7 +71,7 @@
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Código de prima</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Código de Deducción</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" data-sortable="false">Accion</th>
                             </tr>
                         </thead>
@@ -77,14 +80,13 @@
                             @foreach ($asignaciones as $key => $user)
                             <tr>
                                 <td>{{ $count++ }}</td>
-                                <td>{{$user->conceptoNomina->descripcion}}</td>
-                                <td class="text-center">
+                                <td>{{$user->nombre}}</td>
+                                <td class="text-center"> 
                                     <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.deducciones.deletededucciones',  $user->id) }}"
-                                        method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.noprof.deletededuccionesasignadas', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -102,6 +104,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
@@ -159,6 +162,27 @@
                         showConfirmButton: true,
                     });
                 }
+            });
+        });
+
+        $(document).ready(function() {
+        $('#asignar-prima-form').on('submit', function(event) {
+        event.preventDefault();
+        
+        var form = $(this);
+        
+                Swal.fire({
+                    title: 'Estás seguro de asignar la prima?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, asignar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.unbind('submit').submit();
+                    }
+                });
             });
         });
     });

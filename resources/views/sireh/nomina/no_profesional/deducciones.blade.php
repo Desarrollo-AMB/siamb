@@ -12,10 +12,10 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Modificación de Sueldo</h5>
+                        <h5 class="mb-0">Deducciones Correspondientes al Personal Militar No Profesional</h5>
                     </div>
                     <!-- boton para crear una nueva prima -->
-                    <!--<a class="btn btn-bg-gradient-primary btn-sm mb-0" href="{{ route('sireh.nomina.primas.nueva') }}">+&nbsp;Crear Prima</a>-->
+                    <a class="btn btn-bg-gradient-primary btn-sm mb-0" href="{{ route('sireh.nomina.noprof.nueva-deduccion') }}">+&nbsp;Consultar Profesional</a>
                 </div>
             </div>
             <div class="card-body px-2 pt-2 pb-2">
@@ -36,14 +36,14 @@
                                 <td>{{ $user->descripcion }}</td>
                                 <td>{{ $user->porcentaje }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('sireh.nomina.primas.editprima',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
+                                    <a href="{{ route('sireh.nomina.noprof.editdeducciones',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
                                     <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
-                                    </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.primas.deleteprima',  $user->id) }}"
+                                    </a> 
+                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.noprof.deletededucciones',  $user->id) }}"
                                         method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -109,7 +109,7 @@
                     $('#'+idForm).submit();
                     Swal.fire({
                         title: 'Eliminado!',
-                        text: 'La prima ha sido eliminada con exito.',
+                        text: 'la deducción ha sido eliminada.',
                         icon: 'success',
                         timer: 3000,
                         showConfirmButton: true,

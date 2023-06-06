@@ -28,12 +28,14 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
                                 <strong>Primas Disponibles:</strong>
-                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->whereIn('codigo_concepto', ['4017', '4018', '4016', '54', '55', '53'])->pluck('descripcion', 'codigo_concepto'), null, ['class' => 'form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
                                 {!! Form::hidden('cedula', $dataemp['cedula']) !!}
                                 {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
                                 {!! Form::hidden('codigo_empleado', $dataemp['codigo_empleado']) !!}
                                 {!! Form::hidden('tipo', 'A') !!}
+                                {!! Form::hidden('asignaciones', $asignaciones) !!}
+                                {!! Form::hidden('conceptos_nomina', $conceptos_nomina) !!}
                             </div>
                         </div>
                     </div>
@@ -83,11 +85,10 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.primas.deletePrimaAsignada',  $user->id) }}"
-                                        method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.primas.deletePrimaAsignada', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
-                                    </form>
+                                    </form> 
                                 </td>
                             </tr>
                             @endforeach
