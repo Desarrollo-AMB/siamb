@@ -91,81 +91,81 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/sireh/personal-civil/index', [PersonalController::class, 'indexPersonalCivil'])->name('sireh.personal-civil.index');
     Route::get('/sireh/personal-militar-noprof/index', [PersonalController::class, 'indexPersonalMilitarNoProf'])->name('sireh.personal-militar-noprof.index');
-//NOMINA
-Route::get('sireh/nomina/index', [NominaController::class, 'indexNomina'])->name('sireh.nomina.index');
-Route::get('sireh/nomina/militar', [NominaController::class, 'militarNomina'])->name('sireh.nomina.militar');
-Route::get('sireh/nomina/sueldo_base', [NominaController::class, 'sueldoBase'])->name('sireh.nomina.sueldobase');
+    //NOMINA
+    Route::get('sireh/nomina/index', [NominaController::class, 'indexNomina'])->name('sireh.nomina.index');
+    Route::get('sireh/nomina/militar', [NominaController::class, 'militarNomina'])->name('sireh.nomina.militar');
+    Route::get('sireh/nomina/sueldo_base', [NominaController::class, 'sueldoBase'])->name('sireh.nomina.sueldobase');
 
 
-//PERSONAL MILITAR
-//PRIMAS PERSONAL MILITAR
-Route::get('sireh/nomina/primas', [NominaController::class, 'primas'])->name('sireh.nomina.primas');
-Route::get('sireh/nomina/nueva-prima', [NominaController::class, 'nueva'])->name('sireh.nomina.primas.nueva');
-Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit');
-Route::get('sireh/nomina/{registro}/edit-prima', [NominaController::class, 'editPrima'])->name('sireh.nomina.primas.editprima');
-Route::patch('sireh/nomina/{registro}/update-prima', [NominaController::class, 'update'])->name('sireh.nomina.primas.updateprima');
-Route::delete('sireh/nomina/{registro}/delete-prima', [NominaController::class, 'deleteprimas'])->name('sireh.nomina.primas.deleteprima');
-Route::get('sireh/nomina/personal_militar/asignacion-prima', [NominaController::class, 'asignacionPrima'])->name('sireh.nomina.asignacionprima');
-Route::post('sireh/nomina/personal_militar/actuales-primas', [NominaController::class, 'actualesPrimas'])->name('sireh.nomina.actualesprimas');
-Route::post('sireh/nomina/personal_militar/asignacionnuevaprima', [NominaController::class, 'asignacionNuevaPrima'])->name('sireh.nomina.primas.asignacionNuevaPrima');
-Route::delete('sireh/nomina/{registro}/delete-primaAsignada', [NominaController::class, 'deletePrimaAsignada'])->name('sireh.nomina.primas.deletePrimaAsignada');
+    //PERSONAL MILITAR
+    //PRIMAS PERSONAL MILITAR
+    Route::get('sireh/nomina/primas', [NominaController::class, 'primas'])->name('sireh.nomina.primas');
+    Route::get('sireh/nomina/nueva-prima', [NominaController::class, 'nueva'])->name('sireh.nomina.primas.nueva');
+    Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit');
+    Route::get('sireh/nomina/{registro}/edit-prima', [NominaController::class, 'editPrima'])->name('sireh.nomina.primas.editprima');
+    Route::patch('sireh/nomina/{registro}/update-prima', [NominaController::class, 'update'])->name('sireh.nomina.primas.updateprima');
+    Route::delete('sireh/nomina/{registro}/delete-prima', [NominaController::class, 'deleteprimas'])->name('sireh.nomina.primas.deleteprima');
+    Route::get('sireh/nomina/personal_militar/asignacion-prima', [NominaController::class, 'asignacionPrima'])->name('sireh.nomina.asignacionprima');
+    Route::post('sireh/nomina/personal_militar/actuales-primas', [NominaController::class, 'actualesPrimas'])->name('sireh.nomina.actualesprimas');
+    Route::post('sireh/nomina/personal_militar/asignacionnuevaprima', [NominaController::class, 'asignacionNuevaPrima'])->name('sireh.nomina.primas.asignacionNuevaPrima');
+    Route::delete('sireh/nomina/{registro}/delete-primaAsignada', [NominaController::class, 'deletePrimaAsignada'])->name('sireh.nomina.primas.deletePrimaAsignada');
 
-//DEDUCCIONES PERSONAL MILITAR
-Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
-Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
-Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
-Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
-Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
-Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
-Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
-Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
+    //DEDUCCIONES PERSONAL MILITAR
+    Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
+    Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
+    Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
+    Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
+    Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
+    Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
+    Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
+    Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
 
-//NO PROFESIONAL
-Route::get('sireh/nomina/no_profesional', [NominaController::class, 'NoProfNomina'])->name('sireh.nomina.no_profesional');
-//PRIMAS NO PROFESIONAL
-Route::get('sireh/nomina/noprof/primas', [NominaNoProfController::class, 'primas'])->name('sireh.nomina.noProf');
-Route::get('sireh/nomina/noprof/nueva-prima', [NominaNoProfController::class, 'nuevaNoProf'])->name('sireh.nomina.NoProf.nueva');
-Route::get('sireh/nomina/noprof/editar-prima', [NominaNoProfController::class, 'editNoProf'])->name('sireh.nomina.NoProf.edit');
-Route::get('sireh/nomina/noprof/{registro}/edit-prima', [NominaNoProfController::class, 'editPrimaNoProf'])->name('sireh.nomina.NoProf.editprima');
-Route::patch('sireh/nomina/noprof/{registro}/update-prima', [NominaNoProfController::class, 'updateNoProf'])->name('sireh.nomina.NoProf.updateprima');
-Route::delete('sireh/nomina/noprof/{registro}/delete-prima', [NominaNoProfController::class, 'deleteNoProf'])->name('sireh.nomina.NoProf.deleteprima');
-Route::get('sireh/nomina/noprof/asignacion-prima', [NominaNoProfController::class, 'asignacionNoProf'])->name('sireh.nomina.NoProf.asignacionprima');
-Route::post('sireh/nomina/noprof/actuales-NoProf', [NominaNoProfController::class, 'actualesNoProf'])->name('sireh.nomina.actualesNoProf');
-Route::get('sireh/nomina/noprof/{concepto}/edit-asignacionprima', [NominaNoProfController::class, 'editAsignacionPrimaNoProf'])->name('sireh.nomina.NoProf.editAsignacionPrima');
-//DEDUCCIONES NO PROFESIONAL
-Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
-Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
-Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
-Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
-Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
-Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
-Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
-Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
+    //NO PROFESIONAL
+    Route::get('sireh/nomina/no_profesional', [NominaController::class, 'NoProfNomina'])->name('sireh.nomina.no_profesional');
+    //PRIMAS NO PROFESIONAL
+    Route::get('sireh/nomina/noprof/primas', [NominaNoProfController::class, 'primas'])->name('sireh.nomina.noProf');
+    Route::get('sireh/nomina/noprof/nueva-prima', [NominaNoProfController::class, 'nuevaNoProf'])->name('sireh.nomina.NoProf.nueva');
+    Route::get('sireh/nomina/noprof/editar-prima', [NominaNoProfController::class, 'editNoProf'])->name('sireh.nomina.NoProf.edit');
+    Route::get('sireh/nomina/noprof/{registro}/edit-prima', [NominaNoProfController::class, 'editPrimaNoProf'])->name('sireh.nomina.NoProf.editprima');
+    Route::patch('sireh/nomina/noprof/{registro}/update-prima', [NominaNoProfController::class, 'updateNoProf'])->name('sireh.nomina.NoProf.updateprima');
+    Route::delete('sireh/nomina/noprof/{registro}/delete-prima', [NominaNoProfController::class, 'deleteNoProf'])->name('sireh.nomina.NoProf.deleteprima');
+    Route::get('sireh/nomina/noprof/asignacion-prima', [NominaNoProfController::class, 'asignacionNoProf'])->name('sireh.nomina.NoProf.asignacionprima');
+    Route::post('sireh/nomina/noprof/actuales-NoProf', [NominaNoProfController::class, 'actualesNoProf'])->name('sireh.nomina.actualesNoProf');
+    Route::get('sireh/nomina/noprof/{concepto}/edit-asignacionprima', [NominaNoProfController::class, 'editAsignacionPrimaNoProf'])->name('sireh.nomina.NoProf.editAsignacionPrima');
+    //DEDUCCIONES NO PROFESIONAL
+    Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
+    Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
+    Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
+    Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
+    Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
+    Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
+    Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
+    Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
 
-//PERSONAL CIVIL
-//PRIMAS PERSONAL MILITAR
+    //PERSONAL CIVIL
+    //PRIMAS PERSONAL MILITAR
 
-Route::get('sireh/nomina/primas', [NominaController::class, 'primas'])->name('sireh.nomina.primas');
-Route::get('sireh/nomina/nueva-prima', [NominaController::class, 'nueva'])->name('sireh.nomina.primas.nueva');
-Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit');
-Route::get('sireh/nomina/{registro}/edit-prima', [NominaController::class, 'editPrima'])->name('sireh.nomina.primas.editprima');
-Route::patch('sireh/nomina/{registro}/update-prima', [NominaController::class, 'update'])->name('sireh.nomina.primas.updateprima');
-Route::delete('sireh/nomina/{registro}/delete-prima', [NominaController::class, 'deleteprimas'])->name('sireh.nomina.primas.deleteprima');
-Route::get('sireh/nomina/personal_militar/asignacion-prima', [NominaController::class, 'asignacionPrima'])->name('sireh.nomina.asignacionprima');
-Route::post('sireh/nomina/personal_militar/actuales-primas', [NominaController::class, 'actualesPrimas'])->name('sireh.nomina.actualesprimas');
-Route::post('sireh/nomina/personal_militar/asignacionnuevaprima', [NominaController::class, 'asignacionNuevaPrima'])->name('sireh.nomina.primas.asignacionNuevaPrima');
-Route::delete('sireh/nomina/{registro}/delete-primaAsignada', [NominaController::class, 'deletePrimaAsignada'])->name('sireh.nomina.primas.deletePrimaAsignada');
-//DEDUCCIONES PERSONAL MILITAR
-Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
-Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
-Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
-Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
-Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
-Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
-Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
-Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
+    Route::get('sireh/nomina/primas', [NominaController::class, 'primas'])->name('sireh.nomina.primas');
+    Route::get('sireh/nomina/nueva-prima', [NominaController::class, 'nueva'])->name('sireh.nomina.primas.nueva');
+    Route::get('sireh/nomina/editar-prima', [NominaController::class, 'edit'])->name('sireh.nomina.primas.edit');
+    Route::get('sireh/nomina/{registro}/edit-prima', [NominaController::class, 'editPrima'])->name('sireh.nomina.primas.editprima');
+    Route::patch('sireh/nomina/{registro}/update-prima', [NominaController::class, 'update'])->name('sireh.nomina.primas.updateprima');
+    Route::delete('sireh/nomina/{registro}/delete-prima', [NominaController::class, 'deleteprimas'])->name('sireh.nomina.primas.deleteprima');
+    Route::get('sireh/nomina/personal_militar/asignacion-prima', [NominaController::class, 'asignacionPrima'])->name('sireh.nomina.asignacionprima');
+    Route::post('sireh/nomina/personal_militar/actuales-primas', [NominaController::class, 'actualesPrimas'])->name('sireh.nomina.actualesprimas');
+    Route::post('sireh/nomina/personal_militar/asignacionnuevaprima', [NominaController::class, 'asignacionNuevaPrima'])->name('sireh.nomina.primas.asignacionNuevaPrima');
+    Route::delete('sireh/nomina/{registro}/delete-primaAsignada', [NominaController::class, 'deletePrimaAsignada'])->name('sireh.nomina.primas.deletePrimaAsignada');
+    //DEDUCCIONES PERSONAL MILITAR
+    Route::patch('sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
+    Route::delete('sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
+    Route::get('sireh/nomina/{registro}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
+    Route::get('sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
+    Route::get('sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
+    Route::post('sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
+    Route::post('sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
+    Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
 
-    Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
+  
     //JUNTA P
     Route::get('/juntapermanente/personalmilitar/index', [controllerjuntap::class, 'indexPersonalMilitarasc'])->name('juntap.personalm.index');
     Route::post('/juntapermanente/personalmilitar/ascender', [controllerjuntap::class, 'ascenderPersonalMilitar'])->name('juntap.personalm.ascenderlos');
