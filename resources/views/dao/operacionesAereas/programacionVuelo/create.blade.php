@@ -31,7 +31,7 @@
                             <div class="col-sm-4 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>AERONAVE / MODELO</h6>
-                                    <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave"
+                                    <select class="selectpicker form-control aeronaves aeronave_modelo load_aeronave select2"
                                         id="naves" name="aeronave_modelo">
                                         <option value="">Seleccionar...</option>
                                         @foreach ($aeronaveModelos as $data)
@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <h6>MATRICULA <small></small></h6>
                                     <select name="matricula" id="matricula"
-                                        class="form-control matricula load_matricula">
+                                        class="form-control matricula load_matricula select2">
                                         <option value=""></option>
                                     </select>
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="col-sm-5 mb-2 mb-sm-0">
                                 <div class="form-group">
                                     <h6>BASE / ESTACION / PAIS / LUGAR<small></small></h6>
-                                    <select name="base_estacion" class="form-control base_estacion load_estacion">
+                                    <select name="base_estacion" class="form-control base_estacion load_estacion select2">
                                         <option value=""  disabled selected>Selecione..</option>
                                         @foreach ($bases as $data)
                                             <option value="{{ $data->siglas }}">{{ $data->descripcion }} - ({{ $data->siglas }})</option>
@@ -115,7 +115,7 @@
                                             <span> v1 </span>
                                         </td>
                                         <td>
-                                            <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por">
+                                            <select name="ordenada_por" class="form-control ordenada_por load_ordenado_por select2">
                                                 <option value="{{ $nomenclaturaUnidad }}">{{ $nomenclaturaUnidad }}</option>
                                                 @foreach($vueloOrdenadaPor as $data)
                                                     <option value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -123,17 +123,17 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="siglas" id="siglas" class="form-control siglas load_siglas">
+                                            <select name="siglas" id="siglas" class="form-control siglas load_siglas select2">
                                                 <option value="" selected>...</option>
                                                 <option value="ALERTA">ALERTA</option>
-                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENCEND. Y CHEQ. EN TIERRA</option>
+                                                <option value="ENCENDIDO Y CHEQUEO EN TIERRA">ENC.-CHECK EN TIERRA</option>
                                                 @foreach($codigoTipoMisionSiglas as $data)
                                                     <option value="{{$data->siglas}}">{{$data->siglas}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="codigo" id="codigo" class="form-control codigo load_codigo">
+                                            <select name="codigo" id="codigo" class="form-control codigo load_codigo select2">
                                                 <option value=""></option>
                                                     @foreach($codigoMision as $data)
                                                         <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
@@ -141,7 +141,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
+                                            <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde select2">
                                                 <option value="EVENTUAL">EVENTUAL</option>
                                                 <option value="LOCAL">LOCAL</option>
                                                 @foreach($aeropuertos as $data)
@@ -161,7 +161,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
+                                            <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta select2">
                                                 <option value="EVENTUAL">EVENTUAL</option>
                                                 <option value="LOCAL">LOCAL</option>
                                                 @foreach($aeropuertos as $data)
@@ -247,14 +247,13 @@
 
 
             //PASO 1 Convierto en select2 los campos que lo necesitan
-            $('#naves').select2();
-            $('#matricula').select2();
-            $('.base_estacion').select2();
-            $('.ordenada_por').select2();
-            $('.siglas').select2();
-            $('.codigo').select2();
-            $('.ruta_desde').select2();
-            $('.ruta_hasta').select2();
+            $('.select2').select2();
+
+            $(document).on('select2:open', () => {
+                setTimeout(function() {
+                    document.querySelector('.select2-container--open .select2-search__field').focus();
+                }, 10);
+            });
 
 
             //LIMPIAR A1
@@ -288,7 +287,14 @@
             $('.siglas').on('change', function() {
                 var siglaId = $(this).val();
                 if (siglaId) {
-                    if(siglaId === 'ALERTA'){
+                    if(siglaId === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
+                        $('.codigo').val('').trigger('change');
+                        $(".codigo").prop('disabled', true);
+                        $(".ruta_desde").val('LOCAL').trigger('change');
+                        $(".ruta_hasta").val('LOCAL').trigger('change');
+                        $(".encend").prop('hidden', true);
+                        $(".apag").prop('hidden', true);
+                    }else if(siglaId === 'ALERTA'){
                         $('.codigo').val('').trigger('change');
                         $(".codigo").prop('disabled', true);
                         $(".ruta_desde").val('EVENTUAL').trigger('change');
@@ -296,17 +302,8 @@
                         $(".encend").prop('hidden', true);
                         $(".apag").prop('hidden', true);
                     }
-                    else if(siglaId === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
-                        $('.codigo').val('').trigger('change');
-                        $(".codigo").prop('disabled', true);
-                        $(".ruta_desde").val('LOCAL').trigger('change');
-                        $(".ruta_hasta").val('LOCAL').trigger('change');
-                        $(".encend").prop('hidden', true);
-                        $(".apag").prop('hidden', true);
-                    }else{
+                    else {
                         $(".codigo").prop('disabled', false);
-                        $(".ruta_desde").prop('disabled', false);
-                        $(".ruta_hasta").prop('disabled', false);
                         $(".encend").prop('hidden', false);
                         $(".apag").prop('hidden', false);
                     }
@@ -431,23 +428,28 @@
                 var matriculas_alternas = array_matriculas_alternas.join(' - ');
                 var ruta_desde = "";
                 var ruta_hasta = "";
+                var alerta = 0;
+
 
                 if(sigla ==="ALERTA"){
                     numero = "EVENTUAL";
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 1;
                 }
                 else if(sigla === 'ENCENDIDO Y CHEQUEO EN TIERRA'){
                     numero = "ENCENDIDO Y CHEQUEO EN TIERRA";
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 0;
                 } else {
                     ruta_desde = $('.ruta_desde').val();
                     ruta_hasta = $('.ruta_hasta').val();
+                    alerta = 0;
                 }
 
                 //VALIDAR PASO UNO HEADER
-                if (ov_ota_om === "" || base_estacion === "" || aeronave_modelo === "" || unidad === "" ||
+                if (ov_ota_om === "" || base_estacion === "" || base_estacion === null || aeronave_modelo === "" || unidad === "" ||
                     fecha === "" || serial === "" || matricula === "" || ordenada_por==="" || matriculas_alternas==="" || sigla==="" || numero === "") {
                     Swal.fire({
                         title: 'Atención!',
@@ -474,7 +476,8 @@
                             matricula: matricula,
                             base_estacion: base_estacion,
                             completado: "programando",
-                            matriculas_alternas: matriculas_alternas
+                            matriculas_alternas: matriculas_alternas,
+                            alerta: alerta
                         },
                         success: function(response) {
                             if (response.success) {
@@ -566,7 +569,7 @@
 
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
-                        completado: "programando",
+                        completado: "actualizado",
                         },
                         success:function(response){
                             if(response.success){

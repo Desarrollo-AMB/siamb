@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="wizard-navigation">
                                         <div class="progress-with-circle">
-                                             <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
                                         </div>
                                         <ul>
                                             <li>
@@ -140,9 +140,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4 col-sm-offset-1">
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="div_jefe_maquina">
                                                             <h6>JEFE DE MAQUINA EN LINEA DE VUELO <small></small></h6>
-                                                            <select name="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
+                                                            <select required name="jefe_maquina" id="jefe_maquina" class="form-control jefe_maquina load_jefe_maquina">
                                                                 <option value=""></option>
                                                                 @foreach($jefeMaquina as $data)
                                                                     <option value="{{$data->empleado->codigo_empleado}}">{{$data->empleado->cedula}} - {{$data->empleado->nombre1}}  {{$data->empleado->apellido1}}</option>
@@ -170,7 +170,7 @@
                                             <input id="stepInputData" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd enviar' name='next' value='Guardar'/>
                                             <input id="stepInputDataNext" style="background: linear-gradient(310deg,#506793,#273244);" type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Siguiente'  hidden="true"/>
 
-                                            <input id="finish" type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar'/>
+                                            <input disabled id="finish" type='button' style="background: #00168C" class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn' name='finish' value='Terminar'/>
                                         </div>
 
                                         <div class="pull-left">
@@ -192,7 +192,10 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+
+
         //PASO 1
+        $('.select2').select2();
         $('.componente_organismo').select2();
         $('#grupos').select2();
         $('#naves').select2();
@@ -214,6 +217,12 @@
         $('.tipo_despegue').select2();
         //PASO 4
         $('.n_vuelo').select2();
+
+        $(document).on('select2:open', () => {
+            setTimeout(function() {
+                document.querySelector('.select2-container--open .select2-search__field').focus();
+            }, 10);
+        });
 
         //LIMPIAR A1
         function cleanA1() {
@@ -277,6 +286,14 @@
 
         var id_fam0001;
         var fam0001_a1_mision_id;
+
+        // Validacion campo de primer paso
+        if ($('#jefe_maquina').val() == '') {
+            $('#div_jefe_maquina').append('<span id="error_jefe_maquina" style="color:red;">El campo Jefe de Maquina es obligatorio para continuar</span>');
+            //$('#stepInputDataNext').prop('disabled', true);
+        } else {
+            $('#stepInputDataNext').prop('disabled', false);
+        }
 
         //SELECT DINAMICOS PASO #1
         $("#grupos").change(function(){
@@ -354,6 +371,11 @@
                         var dataHeader = 1;
                             //PASOS COMPLETADOS
                             if(dataHeader>0){
+
+                                //comprobar_status_misiones(id_fam0001);
+                                comprobar_status_misiones(id_fam0001);
+
+                                //CARGAR DATOS DE PASOS
                                 $('#step_one').prop('hidden', false);
                                 $('.show_edit_paso1').prop('hidden', false);
                                 $(".show_edit_paso1").val(famSteps.id);
@@ -364,7 +386,7 @@
                                 //CARGAR DATOS DE PASOS
                                 $('#stepInputData').prop('hidden', true);
                                 $('#stepInputDataNext').prop('hidden', false);
-                                $(".step_one_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                $(".step_one_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
 
                                 $(".load_fecha").val(famSteps.fecha)
                                 $(".load_ov_ota_om").val(famSteps.ov_ota_om)
@@ -395,20 +417,52 @@
                                 //CARGAR PASO 2
                                 let A1Steps = response.A1_data
                                 if (A1Steps.length>0) {
-                                    $(".step_two_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_two_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
 
                                     var counter = 1;
+
                                     $.each(A1Steps, function (key, value){
-                                    $('#A1_data').append(
-                                        "<tr id='delete_a1_mision"+value.id+"'>\
-                                        <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                        <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                        <td style='padding-left: 20px;'><button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
-                                        </tr>");
-                                        counter += 1;
+                                        if (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+
+                                            $('#A1_data_check').append(
+                                            "<tr id='delete_a1_mision"+value.id+"'>\
+                                                <td style='padding-left: 20px;'>CHECK</td>\
+                                                <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                                <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                                <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                                <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                                <td style='padding-left: 20px;'><button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button><button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button></td>\
+                                                </tr>");
+
+                                        } else if(value.completado == 'paso2' || value.completado == 'cancelado' || value.completado == 'completado'){
+                                            $('#A1_data_check').append(
+                                            "<tr id='delete_a1_mision"+value.id+"'>\
+                                            <td style='padding-left: 20px;'>V"+value.vuelo+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.completado == 'cancelado' ? "<button disabled  value="+value.id+" style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" : "<button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>") + "</td>\
+                                            </tr>");
+                                            counter += 1;
+                                        }
+                                    })
+
+                                    $.each(A1Steps, function (key, value){
+                                        if (value.completado == 'paso2Alert') {
+
+                                            $('#A1_data').append(
+                                            "<tr id='delete_a1_mision"+value.id+"'>\
+                                            <td style='padding-left: 20px;'>V"+counter+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                            <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='color: white; background:red;' class='btn btn-light cancelar_a1_mision' type='button'>Eliminar</button>") + "</td>\
+                                            </tr>");
+                                            counter += 1;
+
+                                        }
                                     })
 
                                     $('.delete_a1_mision').on('click', function (event) {
@@ -443,6 +497,47 @@
                                                     icon: 'success',
                                                     timer: 3000,
                                                     showConfirmButton: true,
+                                                });
+                                            }
+                                        });
+                                    });
+
+                                    $('.cancelar_a1_mision').on('click', function(event) {
+                                        event.preventDefault();
+
+                                        var id = $(this).val();
+                                        alert(id);
+                                        Swal.fire({
+                                            title: '¿Estas Seguro de cancelar esta misión?',
+                                            text: "¡Atención, no podrá revertir esta acción!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Si!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $(this).prop('disabled', true);
+                                                $.ajax({
+                                                    url: "{{ route('cancelar_mision') }}",
+                                                    method: 'POST',
+                                                    data: {
+                                                        id: id
+                                                    },
+                                                    cache: false,
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        if (response) {
+                                                            Swal.fire({
+                                                                title: 'Ha cancelado la misión!',
+                                                                text: '¡Atención!',
+                                                                icon: 'success',
+                                                                timer: 3000,
+                                                                showConfirmButton: true,
+                                                            });
+                                                            window.location.href = "{{ URL::to('/FormaFAM_status') }}/" + id_fam0001;
+                                                        }
+                                                    }
                                                 });
                                             }
                                         });
@@ -497,8 +592,7 @@
                                                 ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
                                                 fam0001_id: id_fam0001,
                                                 en_apoyo_A2:$(".load_en_apoyo_A2").val(),
-                                                descripcion_A2:$('.load_descripcion_A2').val(),
-                                                completado: A1Steps[0].completado=="completado"?"completado":"paso2",
+                                                descripcion_A2:$('.load_descripcion_A2').val()
                                             },
                                             cache: false,
                                             dataType: 'json',
@@ -567,7 +661,7 @@
                                 //CARGAR PASO 3
                                 let B1Steps = response.B1_data
                                 if (B1Steps.length>0) {
-                                    $(".step_three_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_three_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
                                     datos_tripulacion(B1Steps)
                                     //PASO #3 - EDITAR TRIPULACION
                                     $(".editar_B1_trip").click(function() {
@@ -635,7 +729,7 @@
                                 //CARGAR PASO 4
                                 let A3Steps = response.A3_data
                                 if (A3Steps.length>0) {
-                                    $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                                    $(".step_four_color").css({"border": "3px solid #08acc9","background":"#08acc9","color": "white"});
                                     console.log(A3Steps)
                                     A3Steps.completado == "completado"? $('.show_finish_btn').prop('hidden', true):null
                                     datos_aterrizaje(A3Steps)
@@ -811,6 +905,15 @@
             var en_apoyo_A2 = $('.en_apoyo_A2').val();
             var descripcion_A2 = $('.descripcion_A2').val();
 
+            // codigos COD
+            var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+$('#condicion1').val();
+            var hv1 = $('#hv1').val();
+            var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+$('#condicion2').val();
+            var hv2 = $('#hv2').val();
+            var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+$('#condicion3').val();
+            var hv3 = $('#hv3').val();
+            var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+$('#condicion4').val();
+            var hv4 = $('#hv4').val();
             //VALIDAR PASO UNO HEADER
             if(ordenada_por===""){
                 console.log('no puedes guardar datos vacios')
@@ -832,6 +935,14 @@
                     registro_manual: registro_manual.toUpperCase(),
                     horometro:horometro.toUpperCase(),
                     ind_vuelo:ind_vuelo.toUpperCase(),
+                    cod1: cod1.toUpperCase(),
+                    hv1: hv1,
+                    cod2: cod2.toUpperCase(),
+                    hv2: hv2,
+                    cod3: cod3.toUpperCase(),
+                    hv3: hv3,
+                    cod4: cod4.toUpperCase(),
+                    hv4: hv4,
                     toque_desp:toque_desp,
                     low_go:low_go,
                     ciclos_tren:ciclos_tren,
@@ -839,7 +950,7 @@
                     fam0001_id: id_fam0001,
                     en_apoyo_A2:en_apoyo_A2,
                     descripcion_A2:descripcion_A2.toUpperCase(),
-                    completado: "paso2",
+                    completado: "paso2Alert",
                     },
                     success:function(response){
                         if(response.success){
@@ -861,17 +972,20 @@
                             //MOSTRAR A1
                             let res = response.data;
                             var counter = 1;
+
                             $.each(res, function (key, value){
-                            $('#A1_data').append(
-                                "<tr id='delete_a1_mision"+value.id+"'>\
-                                <td style='padding-left: 20px;'>V"+counter+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
-                                <td style='padding-left: 20px;'>"+value.en_apoyo+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
-                                <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
-                                <td style='padding-left: 20px;'><button value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value="+value.id+" style='background:red;' class='btn btn-danger delete_a1_mision' type='button'><i style='font-size: 22px; color:white;' class='ti-trash'></i></button></td>\
-                                </tr>");
-                                counter += 1;
+                                if (value.completado == 'paso2Alert') {
+                                    $('#A1_data').append(
+                                        "<tr id='delete_a1_mision"+value.id+"'>\
+                                        <td style='padding-left: 20px;'>V"+counter+"</td>\
+                                        <td style='padding-left: 20px;'>"+value.ordenada_por+"</td>\
+                                        <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
+                                        <td style='padding-left: 20px;'>"+value.ruta_desde+"</td>\
+                                        <td style='padding-left: 20px;'>"+value.ruta_hasta+"</td>\
+                                        <td style='padding-left: 20px;'>" + (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA' ? "<button  value="+value.id+" style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" : "<button  value="+value.id+" style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>") + "<button value="+value.id+" style='color:white; background:red;' class='btn btn-light cancelar_a1_mision' type='button'>Eliminar</button></td>\
+                                        </tr>");
+                                        counter += 1;
+                                }
                             })
 
                             //ELIMINAR MISION (METER EN HELPER)
@@ -1263,6 +1377,9 @@
                         console.log(res)
                         let data = res[0]
                         $(".apoyo_carga").val(data.en_apoyo)
+                        // poner el hhiden en false
+                        $(".enviar_sincarga_a3").prop('hidden', false);
+
                     }
                 });
             }
@@ -1351,6 +1468,90 @@
                 });
             }
         });
+
+        $(".enviar_sincarga_a3").click(function(e){
+            e.preventDefault();
+            //VALIDAR PASO UNO HEADER  n_vuelo
+            if(v_trip===""){
+                alert('no puedes guardar campos vacios')
+                console.log('no puedes guardar datos vacios')
+            }else{
+                //ENVIAR
+                $.ajax({
+                url:"{{ route('store_a3') }}",
+                method:'POST',
+                data:{
+                    ov_ota_om: ($('.ov_ota_om').val()).toUpperCase(),
+                    fam0001_id: id_fam0001,
+                    fam0001_a1_mision_id: $('.n_vuelo').val(),
+                    n_vuelo: $('.n_vuelo').val(),
+                    apoyo_carga: 'sin carga',
+                    pesocargaTotal: '0',
+                    volCargaTotal: '0',
+                    seca: '0',
+                    liquida: '0',
+                    comb: '0',
+                    ammto: '0',
+                    tox_pel: '0',
+                    mil: '0',
+                    gob: '0',
+                    no_gob: '0',
+                    civil: '0',
+                    cant_animales: '0',
+                    carga: '0',
+                    pers: '0',
+                    completado: "paso4",
+                    },
+                    success:function(response){
+                        $(".step_four_color").css({"border": "3px solid #309830","background":"#309830","color": "white"});
+                        $("#A3_data tr").remove();
+                        cleanA3()
+                        let A3_data = response.data
+                        datos_aterrizaje(A3_data)
+                        Swal.fire({
+                            title:'Creado!',
+                            text: 'vuelo registrado sin carga!',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        //PASO #4 - DELETE CARGA
+                        $(".borrar_A3").click(function() {
+                            var id = $(this).val();
+                            dalete_A3(id)
+                        });
+                        //PASO #4 EDITAR CARGA
+                        $(".editar_A3").click(function() {
+                            var id_edit = $(this).val();
+                            $.ajax({
+                                url:"{{ route('editar_a3') }}",
+                                method:'POST',
+                                data:{id:id_edit},
+                                cache: false,
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response){
+                                        let res = response.data[0]
+                                        edit_A3(res)
+                                    }
+                                    else{
+                                        alert('Fallo en la peticion con el servidor')
+                                    }
+                                }
+                            });
+                        });
+                        //PASO #4 - UPDATE CARGA
+                        update_A3()
+                        //CLEAN
+                        updateClean_A3()
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        });
+
 
         //PASO FINAL - CERRAR ORDEN DE VUELO
         $(".finish").click(function(e){
@@ -1612,8 +1813,13 @@
                         $("#n_vuelo").append('<option></option>');
 
                         $.each(res,function(key,value){
-                            $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
-                            $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            if (value.completado == 'cancelado') {
+                                $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'" disabled>V'+value.vuelo+'(cancelada)</option>');
+                                $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'" disabled>V'+value.vuelo+'(cancelada)</option>');
+                            } else {
+                                $("#v_trip").append('<option class="load_v_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                                $("#n_vuelo").append('<option class="load_n_trip" value="'+value.id+'">V'+value.vuelo+'</option>');
+                            }
                         });
                     }
                 });
@@ -1935,6 +2141,89 @@
                 $('.add_edit_carga_input').prop('hidden', false);
             });
         }
+
+        $('.concluir_alerta').on('click', function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: '¿Estas Seguro de concluir la alerta?',
+                text: "¡Atención, no podrá revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).prop('disabled', true);
+                    $.ajax({
+                        url: "{{ route('concluir_alerta') }}",
+                        method: 'POST',
+                        data: {
+                            id: id_fam0001
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response) {
+                                Swal.fire({
+                                    title: 'La Alerta ha concluido!',
+                                    text: '¡Atención!',
+                                    icon: 'success',
+                                    timer: 3000,
+                                    showConfirmButton: true,
+                                });
+                                window.location.href = "{{ URL::to('/FormaFAM_status') }}/" + id_fam0001;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        function comprobar_status_misiones(id_fam0001){
+
+            $("#finish").prop('disabled', true);
+
+            $.ajax({
+                url: "{{ route('comprobar_status_misiones') }}",
+                method: 'POST',
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id_fam0001
+                },
+                cache: false,
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success){
+                        Swal.fire({
+                            title: 'Sin Misiones Pendientes',
+                            text: '¡Atención!. Misiones pendientes: ' + response.data,
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $("#finish").prop('disabled', false);
+                    }
+                    else{
+                        Swal.fire({
+                            title: '¡Misiones o Alertas sin completar!',
+                            text: '¡Atención!. Misiones pendientes: ' + response.data,
+                            icon: 'error',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $("#finish").prop('disabled', true);
+                    }
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            });
+        }
+
     });
+
+
 </script>
 @endsection

@@ -68,8 +68,7 @@
                             </div>
                             <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                                 <small class="font-weight-bolder mb-1">
-                                    Programaciones Realizadas
-                                    <span class="text-success text-sm font-weight-bolder"></span>
+                                    <span class="text-dark text-sm font-weight-bolder">Programaciones Realizadas</span>
                                 </small>
                             </p>
                         </a>
@@ -86,8 +85,7 @@
                             </div>
                             <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                                 <small class="font-weight-bolder mb-1">
-                                    Sin Programación
-                                    <span class="text-success text-sm font-weight-bolder"></span>
+                                    <span class="text-dark text-sm font-weight-bolder">Sin Programación</span>
                                 </small>
                             </p>
                         </a>
@@ -105,8 +103,7 @@
                             </div>
                             <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                                 <small class="font-weight-bolder mb-1">
-                                    Descargar Programación
-                                    <span class="text-success text-sm font-weight-bolder"></span>
+                                    <span class="text-dark text-sm font-weight-bolder">Descargar Programación</span>
                                 </small>
                             </p>
                         </a>
@@ -123,8 +120,7 @@
                             </div>
                             <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                                 <small class="font-weight-bolder mb-1">
-                                    Agregar Programación
-                                    <span class="text-success text-sm font-weight-bolder"></span>
+                                    <span class="text-dark text-sm font-weight-bolder">Agregar Programación</span>
                                 </small>
                             </p>
                         </a>
@@ -133,7 +129,7 @@
             </div>
         @endif
     @endrole
-    @role('aviacion_dao|administrador')
+    @role('aviacion_dao|administrador|cmd_general')
 
         <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
             <div class="card mb-0">
@@ -144,8 +140,7 @@
                         </div>
                         <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                             <small class="font-weight-bolder mb-1">
-                                Programaciones Realizadas
-                                <span class="text-success text-sm font-weight-bolder"></span>
+                                <span class="text-dark text-sm font-weight-bolder">Programaciones Realizadas</span>
                             </small>
                         </p>
                     </a>
@@ -162,9 +157,10 @@
                         </div>
                         <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                             <small class="font-weight-bolder mb-1">
-                                Descargar Programación<br><br>
-                                Caza - Entrenamiento
-                                <span class="text-success text-sm font-weight-bolder"></span>
+                                <span class="text-dark text-sm font-weight-bolder">
+                                    Descargar Programación<br>
+                                    Caza - Entrenamiento
+                                </span>
                             </small>
                         </p>
                     </a>
@@ -182,9 +178,10 @@
                         </div>
                         <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                             <small class="font-weight-bolder mb-1">
-                                Descargar Programación<br><br>
-                                Transporte - Ala Rotatoria
-                                <span class="text-success text-sm font-weight-bolder"></span>
+                                <span class="text-dark text-sm font-weight-bolder">
+                                    Descargar Programación<br>
+                                    Transporte - Ala Rotatoria
+                                </span>
                             </small>
                         </p>
                     </a>

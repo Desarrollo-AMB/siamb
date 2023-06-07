@@ -4,6 +4,12 @@
     $mes = date_format($hoy,'m');
     $año = date_format($hoy,'Y');
 
+    if ($por_fecha == true) {
+        $dia = date_format($fecha,'d');
+        $mes = date_format($fecha,'m');
+        $año = date_format($fecha,'Y');
+    }
+
     switch ($mes) {
         case '01':
         $mes = 'ENERO';

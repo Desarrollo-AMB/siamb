@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            @role('aviacion_dao|administrador')
+            @role('aviacion_dao|administrador|cmd_general')
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -33,7 +33,7 @@
                                         @foreach ($fam0001 as $key => $data)
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="flush-heading{{$key}}">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$key}}" aria-expanded="false" aria-controls="flush-collapse{{$key}}" id="{{$key}}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{$key}}" aria-expanded="false" aria-controls="flush-collapse{{$key}}" id="{{$key}}" data-table-id="table{{$key}}">
                                                         {{$key}}
                                                     </button>
                                                 </h2>
@@ -42,49 +42,62 @@
                                                         <table name="table" id="table{{$key}}" class="table table-sm table-bordered table-hover w-100 nowrap" >
                                                             <thead>
                                                                 <tr>
-                                                                    <th>UNIDAD</th>
-                                                                    <th>MATRICULA</th>
-                                                                    <th>AERONAVE</th>
-                                                                    <th>BASE</th>
-                                                                    <th>OV/OTA/OM</th>
-                                                                    <th>FECHA</th>
-                                                                    <th>ESTATUS</th>
-                                                                    <th>ACCIONES</th>
+                                                                    <th class="text-center">UNID.</th>
+                                                                    <th class="text-center">MAT.</th>
+                                                                    <th class="text-center">AERONAVE</th>
+                                                                    <th class="text-center">BASE</th>
+                                                                    <th class="text-center">OV/OTA/OM</th>
+                                                                    <th class="text-center">ESTATUS</th>
+                                                                    <th class="text-center">ACCIONES</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($data as $datamision)
                                                                     <tr>
-                                                                        @role('aviacion_dao|administrador')
-                                                                        <th  class="font-weight-normal">{{$datamision->unidad}}</th>
+                                                                        @role('aviacion_dao|administrador|cmd_general')
+                                                                        <td  class="font-weight-normal text-center">{{$datamision->unidad}}</td>
                                                                         @endrole
-                                                                        <th class="font-weight-normal">{{$datamision->matricula}}</th>
-                                                                        <th  class="font-weight-normal">{{$datamision->aeronaves->aeronave}}</th>
-                                                                        <th class="font-weight-normal">
+                                                                        <td class="font-weight-normal text-center">{{$datamision->matricula}}</td>
+                                                                        <td  class="font-weight-normal text-center">{{$datamision->aeronaves->aeronave}}</td>
+                                                                        <td class="font-weight-normal text-center">
                                                                             {{$datamision->base_estacion}}
-                                                                        </th>
-                                                                        <th  class="font-weight-normal">{{$datamision->ov_ota_om}}</th>
-                                                                        <th  class="font-weight-normal">{{$datamision->fecha}}</th>
-                                                                        <th class="font-weight-normal">
+                                                                        </td>
+                                                                        <td  class="font-weight-normal text-center">{{$datamision->ov_ota_om}}</td>
+                                                                        <td class="font-weight-normal">
                                                                             @if($datamision->completado == 'completado')
                                                                                 <label class="badge bg-gradient-success">{{$datamision->completado}}</label>
                                                                             @elseif ($datamision->completado == 'paso1')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
-                                                                            @elseif ($datamision->completado == 'paso2')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
-                                                                            @elseif ($datamision->completado == 'paso3')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
-                                                                            @elseif ($datamision->completado == 'paso4')
-                                                                                <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                                                @if ($datamision->misiones->count() == 1 && $datamision->alerta == 0)
+                                                                                    <label class="badge bg-primary">
+                                                                                        MISIONES PENDIENTE
+                                                                                    </label>
+                                                                                @elseif ($datamision->misiones->count() > 1)
+                                                                                    <label class="badge bg-primary">
+                                                                                        MISIONES PENDIENTE
+                                                                                    </label>
+                                                                                @endif
+                                                                                @if ($datamision->alerta == 1)
+                                                                                    <label style="color:black;"
+                                                                                            class="badge bg-warning">
+                                                                                            ALERTA
+                                                                                            {{$datamision->base_estacion}}
+                                                                                    </label>
+                                                                                @elseif ($datamision->alerta == 2)
+                                                                                    <label style="color:black;"
+                                                                                            class="badge bg-secondary">
+                                                                                            ALERTA CONCLUIDA
+                                                                                            {{$datamision->base_estacion}}
+                                                                                    </label>
+                                                                                @endif
                                                                             @endif
-                                                                        </th>
-                                                                        <th class="font-weight-normal">
-                                                                            @role('aviacion_dao|administrador')
-                                                                            <a href="{{route('FormaFAM.status', $datamision->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
-                                                                                <i class="fas fa-eye text-secondary" aria-hidden="true"></i>
+                                                                        </td>
+                                                                        <td class="font-weight-normal text-center">
+                                                                            @role('aviacion_dao|administrador|cmd_general')
+                                                                            <a href="{{route('FormaFAM.status', $datamision->id)}}"     class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver Vuelo">
+                                                                                <i class="fas fa-eye text-info" aria-hidden="true"></i>
                                                                             </a>
                                                                             @endrole
-                                                                        </th>
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
@@ -108,39 +121,60 @@
                                     <table id="vuelos" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                         <thead>
                                             <tr>
-                                                <th>MATRICULA</th>
-                                                <th>AERONAVE</th>
-                                                <th>BASE</th>
-                                                <th>OV/OTA/OM</th>
-                                                <th>FECHA</th>
-                                                <th>ESTATUS</th>
-                                                <th>ACCIONES</th>
+                                                <th class="text-center">MAT.</th>
+                                                <th class="text-center">AERONAVE</th>
+                                                <th class="text-center">BASE</th>
+                                                <th class="text-center">OV/OTA/OM</th>
+                                                <th class="text-center">FECHA</th>
+                                                <th class="text-center">ESTATUS</th>
+                                                <th class="text-center">ACCIONES</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($fam0001 as $data)
                                                 <tr>
-                                                    <th class="font-weight-normal">{{$data->matricula}}</th>
-                                                    <th  class="font-weight-normal">{{$data->aeronaves->aeronave}}</th>
-                                                    <th class="font-weight-normal">
+                                                    <td class="font-weight-normal text-center">{{$data->matricula}}</td>
+                                                    <td class="font-weight-normal text-center">{{$data->aeronaves->aeronave}}</td>
+                                                    <td class="font-weight-normal text-center">
                                                         {{$data->base_estacion}}
-                                                    </th>
-                                                    <th  class="font-weight-normal">{{$data->ov_ota_om}}</th>
-                                                    <th  class="font-weight-normal">{{$data->fecha}}</th>
-                                                    <th class="font-weight-normal">
+                                                    </td>
+                                                    <td  class="font-weight-normal text-center">{{$data->ov_ota_om}}</td>
+                                                    <td  class="font-weight-normal text-center">{{$data->fecha}}</td>
+                                                    <td class="font-weight-normal">
                                                         @if($data->completado == 'completado')
                                                             <label class="badge bg-gradient-success">{{$data->completado}}</label>
                                                         @elseif ($data->completado == 'paso1')
-                                                            <label class="badge bg-gradient-warning">PENDIENTE</label>
+                                                            @if ($data->misiones->count() == 1 && $data->alerta == 0)
+                                                                <label class="badge bg-primary">
+                                                                    MISIONES PENDIENTE
+                                                                </label>
+                                                            @elseif ($data->misiones->count() > 1)
+                                                                <label class="badge bg-primary">
+                                                                    MISIONES PENDIENTE
+                                                                </label>
+                                                            @endif
+                                                            @if ($data->alerta == 1)
+                                                                <label style="color:black;"
+                                                                        class="badge bg-warning">
+                                                                        ALERTA
+                                                                        {{$data->base_estacion}}
+                                                                </label>
+                                                            @elseif ($data->alerta == 2)
+                                                                <label style="color:black;"
+                                                                        class="badge bg-secondary">
+                                                                        ALERTA CONCLUIDA
+                                                                        {{$data->base_estacion}}
+                                                                </label>
+                                                            @endif
                                                         @endif
-                                                    </th>
-                                                    <th class="font-weight-normal">
+                                                    </td>
+                                                    <td class="font-weight-normal text-center">
                                                         @role('aviacion_grupo_aereo|administrador')
                                                         <a href="{{route('FormaFAM.status', $data->id)}}"  class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar Vuelo">
                                                             <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
                                                         </a>
                                                         @endrole
-                                                    </th>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -159,23 +193,46 @@
 @section('scripts')
 @parent
 <script>
-       $(document).ready(function() {
+
+    $(document).ready(function() {
+
         $('table[name="table"]').DataTable({
         responsive: true
         });
-    $('#vuelos').DataTable({
-        responsive: true
-    });
-}
-$(document).ready(function() {
-    $('#vuelos').DataTable({
-        responsive: true
-    });
-}
-
-
-
-    $(document).ready(function() {
+        $('#vuelos').DataTable({
+            processing: true,
+            //serverSide: true,
+            responsive: true,
+            pageLength: 25,
+            "order": [[8, "asc" ]],  // 0 representa la columna "matricula"
+            search: {
+                return: true,
+            },
+            "language": {
+                "sProcessing":    "Procesando...",
+                "sLengthMenu":    "Mostrar _MENU_ registros",
+                "sZeroRecords":   "No se encontraron resultados",
+                "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":   "",
+                "sSearch":        "Buscar:",
+                "sUrl":           "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":    "Último",
+                    "sNext":    "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
 
         var fechaActual = new Date().toISOString().slice(0, 10);
         var fecha_inv = fechaActual.split('-').reverse().join('-');
@@ -188,6 +245,48 @@ $(document).ready(function() {
             alert(idCollapse); // Imprimir el valor en la consola
 
         });*/
+
+        $(document).on('click', '.accordion-button', function() {
+            var target = $(e.target);
+            var tableId = $(this).data('table-id');
+            var table = $('#' + tableId);
+
+            if (!table.hasClass('dataTable')) {
+                table.DataTable({
+                    processing: true,
+                    //serverSide: true,
+                    responsive: true,
+                    pageLength: 25,
+                    search: {
+                        return: true,
+                    },
+                    "language": {
+                        "sProcessing":    "Procesando...",
+                        "sLengthMenu":    "Mostrar _MENU_ registros",
+                        "sZeroRecords":   "No se encontraron resultados",
+                        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":   "",
+                        "sSearch":        "Buscar:",
+                        "sUrl":           "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":    "Último",
+                            "sNext":    "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                });
+            }
+        });
 
     });
 

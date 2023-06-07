@@ -354,7 +354,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/nueva-programacion',           [FormaFAMController::class, 'nuevaProgramacion'])->name('dao.nuevaProgramacion');
     Route::get('/dao/imprimir-programacion/{tipo}', [FormaFAMController::class, 'imprimirProgramacion'])->name('dao.imprimirProgramacion');
     Route::get('/dao/imprimir-programacion-v/{tipo}', [FormaFAMController::class, 'imprimirProgramacionV'])->name('dao.imprimirProgramacionV');
+    Route::get('/dao/imprimir-programacion-vg/{unidad}', [FormaFAMController::class, 'imprimirProgramacionVG'])->name('dao.imprimirProgramacionVG');
     Route::get('/dao/imprimir-programacion-grupo-aereo/{unidad}',        [FormaFAMController::class, 'imprimirProgramacionGrupoAereo'])->name('dao.imprimirProgramacionGrupoAereo');
+    Route::post('/dao/imprimir-programacion-pfecha',        [FormaFAMController::class, 'imprimirProgramacionFecha'])->name('dao.programacionVuelo.pfecha');
+    Route::post('/dao/imprimir-programacion-pfechaG',        [FormaFAMController::class, 'imprimirProgramacionFechaG'])->name('dao.programacionVuelo.pfechaG');
     Route::get('/dao/editar-programacion/{fam_id}', [FormaFAMController::class, 'editProgramacion'])->name('dao.editProgramacion');
     Route::post('/dao/eliminar-programacion',       [FormaFAMController::class, 'deleteProgramacion'])->name('dao.deleteProgramacion');
     Route::post('programacion_data',                [FormaFAMController::class, 'programacion_data'])->name('programacion_data');
@@ -383,8 +386,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('consumibles',              [FormaFAMController::class, 'consumibles'])->name('consumibles');
     Route::post('store_a1_consumibles',     [FormaFAMController::class, 'store_a1_consumibles'])->name('store_a1_consumibles');
     Route::post('delete_a1_mision',         [FormaFAMController::class, 'delete_a1_mision'])->name('delete_a1_mision');
+    Route::post('delete_pro_alerta',         [FormaFAMController::class, 'delete_pro_alerta'])->name('delete_pro_alerta');
+    Route::post('concluir_alerta',         [FormaFAMController::class, 'concluir_alerta'])->name('concluir_alerta');
     Route::post('editar_a1_mision',         [FormaFAMController::class, 'editar_a1_mision'])->name('editar_a1_mision');
     Route::post('actualizar_a1_mision',     [FormaFAMController::class, 'actualizar_a1_mision'])->name('actualizar_a1_mision');
+    Route::post('cancelar_mision',     [FormaFAMController::class, 'cancelar_a1_mision'])->name('cancelar_mision');
+    Route::post('comprobar_status_misiones', [FormaFAMController::class, 'comprobar_status_misiones'])->name('comprobar_status_misiones');
     Route::post('editar_paso1',             [FormaFAMController::class, 'editar_paso1'])->name('editar_paso1');
 
     Route::post('codigos_mision_json',      [FormaFAMController::class, 'codigos_mision_json'])->name('codigos_mision_json');

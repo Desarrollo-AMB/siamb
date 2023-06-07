@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                         @endrole
-                        @role('aviacion_dao|administrador')
+                        @role('aviacion_dao|administrador|cmd_general')
                             <div class="row">
                                 <div class="col-3">
                                     <select disabled name="estatus" id="estatus" class="estatus">

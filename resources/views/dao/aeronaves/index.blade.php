@@ -42,7 +42,7 @@
                                 <table id="aeronaves" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            @role('aviacion_dao|administrador')
+                                            @role('aviacion_dao|administrador|cmd_general')
                                             <th>UNIDAD</th>
                                             @endrole
                                             <th>AERONAVE</th>
@@ -54,7 +54,7 @@
                                     <tbody>
                                         @foreach ($aeronaves as $data)
                                             <tr>
-                                                @role('aviacion_dao|administrador')
+                                                @role('aviacion_dao|administrador|cmd_general')
                                                 <th  class="font-weight-normal">{{$data->codigo_unidad}}</th>
                                                 @endrole
                                                 <th  class="font-weight-normal">{{$data->aeronave}}</th>
