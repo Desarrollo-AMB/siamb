@@ -323,7 +323,7 @@ Route::post('sireh/nomina/personal_militar/insertar-deduccion', [NominaControlle
 
     Route::get('/sireh/personal-militar/reportes', [PersonalController::class, 'reportesPersonalMilitarView'])->name('sireh.personal-militar.reportes');
     Route::post('/sireh/personal-militar/reportes', [PersonalController::class, 'reportesPersonalMilitar'])->name('sireh.personal-militar.reportes.ejecutar');
-
+    Route::post('/sireh/personal-militar/reportes/ubi', [PersonalController::class, 'reportePersonalMilitarubi'])->name('sireh.personal-militar.reportes.ubi');
     Route::get('/bienestar-social/reportes', [ReportesBSController::class, 'reportesBienestarSocial'])->name('bienestar-social.reportes');
 
     Route::get('/sireh/personal-militar-noprof/reportes', [PersonalController::class, 'reportesPersonalMilitarNoProfView'])->name('sireh.personal-militar-noprof.reportes');
