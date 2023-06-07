@@ -7,6 +7,7 @@ use App\Models\Ciudades;
 use App\Models\EmpleadosOtroComponente;
 use App\Models\Estados;
 use App\Models\GradosMilitares;
+use App\Models\MovimientosExtra;
 use App\Models\Nivel;
 use App\Models\Profesion;
 use App\Models\PromocionesMilitares;
@@ -151,6 +152,7 @@ class empleadoExtraComponeteController extends Controller
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
         $situaciones = Config::get('constants.situacion');
+        $componente = Config::get('constants.componentes');
         $lateralidades = Config::get('constants.zur_der_amb');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
@@ -162,13 +164,15 @@ class empleadoExtraComponeteController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = EmpleadosOtroComponente::find($id);
+
+
         return view('extra_component.view',
             compact(
                 'datos','ciudades','grados_militares',
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'situaciones','lateralidades'
+                'situaciones','lateralidades','componente'
             )
         );
     }
@@ -181,6 +185,7 @@ class empleadoExtraComponeteController extends Controller
         $generos = Config::get('constants.sexo');
         $edos_civil = Config::get('constants.edo_civil');
         $situaciones = Config::get('constants.situacion');
+        $componente = Config::get('constants.componentes');
         $lateralidades = Config::get('constants.zur_der_amb');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
@@ -198,10 +203,117 @@ class empleadoExtraComponeteController extends Controller
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones', 'situaciones'
-                ,'lateralidades','grados_militares'
+                ,'lateralidades','grados_militares','componente'
             )
         );
     }
 
+    public function updatePersonal(Request $request){
+
+        $this->validate($request,
+            [
+                'cedula' => 'required',
+                'nacionalidad' => 'required',
+                'nombre1' => 'required',
+                'apellido1' => 'required',
+                'sexo' => 'required',
+                'edo_civil' => 'required',
+                'fecha_nacim' => 'required',
+                'estado' => 'required',
+                'ciudad' => 'required',
+                'direccion' => 'required',
+                'grado_militar' => 'required',
+                'componente' => 'required',
+                'tipo_emp' => 'required',
+            ],
+            [
+                'cedula.required' => 'La cedula es requerida',
+                'nacionalidad.required' => 'La nacionalidad es requerida',
+                'nombre1.required' => 'El primer nombre es requerido',
+                'apellido1.required' => 'El primer apellido es requerido',
+                'sexo.required' => 'El sexo es requerido',
+                'edo_civil.required' => 'El estado civil es requerido',
+                'fecha_nacim.required' => 'La fecha de nacimiento es requerida',
+                'estado.required' => 'El estado donde vive es requerido',
+                'ciudad.required' => 'La ciudad donde vive es requerida',
+                'direccion.required' => 'La direccion es requerida',
+                'grado_militar.required' => 'El grado militar es requerido',
+                'componente' => 'El componente es requerido',
+                'tipo_emp' => 'el tipo de empleado es requerido'
+            ]
+        );
+        try {
+            if ($request->file("foto")){   // Si se envia una foto
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_'.$request->cedula . '.' . $ext; // Nombre del archivo
+
+                $path_foto = 'fotos/empleados/' . $file_name;
+                if(file_exists($path_foto)){
+                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                }
+                Image::make($request->file('foto'))->save( public_path($path_foto)); // Guardamos la imagen en la ruta especificada
+            }else{
+                $path_foto = null;
+            }
+
+            $empleado = EmpleadosOtroComponente::where('codigo_empleado',$request->codigo_empleado)->update([
+                "cedula" => $request->cedula,
+                "nacionalidad" => $request->nacionalidad,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
+                "sexo" => $request->sexo,
+                "estado_civil" => $request->edo_civil,
+                "fecha_nacim" => $request->fecha_nacim,
+                "telefono_casa" => $request->telefono_casa,
+                "telefono" => $request->telefono,
+                "estado" => $request->estado,
+                "ciudad" => $request->ciudad,
+                "direccion" => $request->direccion,
+                "componente"=> $request->componente,
+                "correo" => $request->correo,
+                "zurd_der_amb" => $request->zur_der_amb,
+                "contacto_emergencia" => !empty($request->persona_contacto) ? $request->persona_contacto : null,
+                "telefono_emergencia" => !empty($request->telefono_e) ? $request->telefono_e : null,
+                "foto" => $path_foto,
+            ]);
+
+
+
+            return redirect()->route('personal.view', [$request->id])->with('success', 'Se han actualizado los Datos del Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
+    }
+
+    public function EgresarPersonal(Request $request)
+    {
+        $empleado = EmpleadosOtroComponente::where('id',$request->id)->first();
+
+        $updateSituacion = EmpleadosOtroComponente::where('codigo_empleado', $empleado->codigo_empleado)->update([
+            'situacion' => 'EGRESADO'
+        ]);
+
+
+        $movimiento = new MovimientosExtra;
+        $movimiento->codigo_empleado = $empleado->codigo_empleado;
+        $movimiento->fecha_movimiento = $request->fechaSuspencion;
+        $movimiento->tipo_movimiento = $request->motivo;
+        $movimiento->situacion = 'E';
+        $movimiento->observaciones = $request->observaciones;
+        $movimiento->codigo_ubicacion = $empleado->codigo_ubicacion;
+        $movimiento->codigo_grado = $empleado->codigo_grado;
+        $movimiento->save();
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                'situacion' => $updateSituacion,
+            ]
+        );
+    }
 
 }

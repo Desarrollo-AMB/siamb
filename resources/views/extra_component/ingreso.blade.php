@@ -353,7 +353,7 @@
             $.get('/api/ciudades/' + estado,function(data) {
                 $('#ciudad').empty();
                 $.each(data, function(fetch, ciudad){
-                    $('#ciudad').append('<option value="'+ ciudad.id +'">'+ ciudad.ciudad +'</option>');
+                    $('#ciudad').append('<option value="'+ ciudad.ciudad +'">'+ ciudad.ciudad +'</option>');
                 });
             });
         });

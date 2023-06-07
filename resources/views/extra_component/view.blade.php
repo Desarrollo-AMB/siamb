@@ -117,7 +117,7 @@
                                                 <h6>Estado Civil:</h6>
                                                 @if($datos->edo_civil != '')
                                                     @foreach ($edos_civil as $key=>$value)
-                                                        @if($datos->edo_civil == $key)
+                                                        @if($datos->edo_civil == $value)
                                                             {!! Form::text('edo_civil', $value, array('placeholder' => 'No Posee Estado Civil','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
@@ -168,7 +168,7 @@
                                                 <select class="select2 form-control registrar" name="ciudad" id="ciudad" disabled>
                                                     <option value="">Seleccione...</option>
                                                     @foreach ($ciudades as $row)
-                                                        <option value="{{$row->id}}" {{$datos->ciudad == $row->id ? 'selected': '' }} >{{ $row->ciudad }} </option>
+                                                        <option value="{{$row->ciudad}}" {{$datos->ciudad == $row->ciudad ? 'selected': '' }} >{{ $row->ciudad }} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -221,10 +221,10 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Grado Militar:</h6>
-                                                @if($datos->grado_militar != "")
+                                                @if($datos->codigo_grado != "")
                                                     @foreach ($grados_militares as $row)
                                                         @if($row->codigo_grado == $datos->codigo_grado)
-                                                            {!! Form::text('codigo_grado', $row->descripcion, array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
+                                                            {!! Form::text('codigo_grado',  $row->descripcion.' '.'('.$datos->codigo_grado.')', array('placeholder' => 'No Posee Grado','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -235,10 +235,10 @@
 
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <h6>Situación:</h6>
-                                                @if($datos->situacion != '')
-                                                    @foreach ($situaciones as $key=>$value)
-                                                        @if($datos->situacion == $key)
+                                                <h6>Componete:</h6>
+                                                @if($datos->componente != '')
+                                                    @foreach ($componente as $key=>$value)
+                                                        @if($datos->componente == $key)
                                                             {!! Form::text('situacion', $value, array('placeholder' => 'No Posee Situación','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach

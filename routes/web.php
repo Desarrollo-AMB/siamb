@@ -452,3 +452,5 @@ Route::post('/extra_component/ingres', [empleadoExtraComponeteController::class,
 Route::get('/extra/index', [empleadoExtraComponeteController::class, 'index'])->name('extra.index');
 Route::get('/extra/view{id}', [empleadoExtraComponeteController::class, 'viewPersonal'])->name('personal.view');
 Route::get('/extra/edit/{id}', [empleadoExtraComponeteController::class, 'editPersonal'])->name('personl.edit');
+Route::post('/extra/updatedatos', [empleadoExtraComponeteController::class, 'updatePersonal'])->name('personal.update.datos');
+Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'EgresarPersonal'])->name('egresar.personal');

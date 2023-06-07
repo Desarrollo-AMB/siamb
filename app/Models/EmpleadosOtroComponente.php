@@ -9,5 +9,8 @@ class EmpleadosOtroComponente extends Model
 {
     use HasFactory;
     protected $table = 'empleados_otro_componente';
+    protected $fillable = [
+        '*',
+    ];
     public $timestamps = false;
 }

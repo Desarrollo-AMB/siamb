@@ -30,7 +30,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form class="row g-3 requires-validation" name="militar" id="militar" method="post" action="{{route('sireh.personal-militar.update.datos')}}" enctype="multipart/form-data" >
+                    <form class="row g-3 requires-validation" name="militar" id="militar" method="post" action="{{route('personal.update.datos')}}" enctype="multipart/form-data" >
                         @csrf
                         <!-- FOTO DE PERFIL -->
                         <div class="row">
@@ -52,7 +52,7 @@
                                     <div class="card-header bg-gradient-secondary text-center pt-2 pb-1 position-relative">
                                         <h5 class="card-title">Datos Personales</h5>
                                     </div>
-
+                                    <input type="hidden" class="form-control" name="tipo_emp" value="{{ $datos->tipo_emp }}">
                                     <input type="hidden" class="form-control" name="codigo_empleado" value="{{ $datos->codigo_empleado }}">
                                     <input type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
 
@@ -212,7 +212,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <h6>Grado Militar:</h6>
                                                     <select class="select2 form-control" name="grado_militar" id="grado_militar">
@@ -223,12 +223,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
+
+                                        <div class="col-md-6">
+
                                                 <h6>Componente:</h6>
-                                                {!! Form::text('componente', $datos->componete, array('placeholder' => 'Telefono','class' => 'form-control soloNumeros')) !!}
-                                            </div>
+                                                <select class="select2 form-control" name="componente" id="componente">
+                                                    <option value="">SELECCIONE...</option>
+                                                    @foreach ($componente as $key => $value)
+                                                        <option value="{{$key}}" {{$datos->componente == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                    @endforeach
+                                                </select> </div>
                                         </div>
                                     </div>
                                 </div>
