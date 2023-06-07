@@ -48,7 +48,7 @@
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
                                                             <label class="form-check-label" for="flexRadioDefault1">
-                                                                Reporte de Baja por Categoria
+                                                                Reporte por Categoria
                                                             </label>
                                                         </div>
                                                     </div>
@@ -85,7 +85,7 @@
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault2" value="2">
                                                             <label class="form-check-label" for="flexRadioDefault2">
-                                                                Reporte de Baja por Situacion
+                                                                Reporte por Situacion
                                                             </label>
                                                         </div>
                                                     </div>
@@ -116,10 +116,47 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="card-body">
+                                <div class="card card-body border card-plain border-radius-lg bg-gray-100">
+                                    <form action="{{ route('sireh.personal-militar.reportes.ubi')}}" method="POST">
+                                        @csrf
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-sm-6">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                Reporte lista por unidad
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5 col-sm-5">
+                                                            <div class="col-8">
+                                                                <h6 class="col-sm-5 col-form-label">Ubicacion:</h6>
+                                                                <select class="select2 form-control" name="ubicacion" id="ubicacion">
+                                                                    <option value="">SELECCIONE...</option>
+                                                                    @foreach ($ubicaciones as $row)
+                                                                        <option value="{{$row->codigo_ubicacion}}" >{{ $row->descripcion }} </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="pt-3 text-center">
+                                            <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 @endsection
 
 @section('scripts')
