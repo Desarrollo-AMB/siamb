@@ -610,13 +610,13 @@
                                         var codigo = ""+sigla+"-"+numero+"";
 
                                         // codigos COD
-                                        var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
+                                        var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+$('#condicion1').val();
                                         var hv1 = $('#hv1').val();
-                                        var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
+                                        var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+$('#condicion2').val();
                                         var hv2 = $('#hv2').val();
-                                        var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
+                                        var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+$('#condicion3').val();
                                         var hv3 = $('#hv3').val();
-                                        var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
+                                        var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+$('#condicion4').val();
                                         var hv4 = $('#hv4').val();
 
                                         if (ov_ota_om == ""
@@ -998,13 +998,13 @@
             var descripcion_A2 = $('.descripcion_A2').val();
 
             // codigos COD
-            var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
+            var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+$('#condicion1').val();
             var hv1 = $('#hv1').val();
-            var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
+            var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+$('#condicion2').val();
             var hv2 = $('#hv2').val();
-            var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
+            var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+$('#condicion3').val();
             var hv3 = $('#hv3').val();
-            var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
+            var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+$('#condicion4').val();
             var hv4 = $('#hv4').val();
             //VALIDAR PASO UNO HEADER
             if (sigla == ""
@@ -1190,13 +1190,13 @@
                                 var codigo = ""+sigla+"-"+numero+"";
 
                                 // codigos COD
-                                var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
+                                var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+$('#condicion1').val();
                                 var hv1 = $('#hv1').val();
-                                var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
+                                var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+$('#condicion2').val();
                                 var hv2 = $('#hv2').val();
-                                var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
+                                var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+$('#condicion3').val();
                                 var hv3 = $('#hv3').val();
-                                var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
+                                var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+$('#condicion4').val();
                                 var hv4 = $('#hv4').val();
 
                                 if (ov_ota_om == ""
@@ -1861,14 +1861,174 @@
             $('#hv4').val(res.hv4)
 
             if(res.cod1 !== null || res.cod1 !== ""){
-                var cod1_array = res.cod1.split("-");
-                var cod1_siglas = cod1_array[0];
-                $('#siglas1').append('<option value="'+cod1_siglas+'">'+cod1_siglas+'</option>');
-                var cod1_numero = cod1_array[1];
-                $('#codigo1').append('<option value="'+cod1_numero+'">'+cod1_numero+'</option>');
-                var cod1_condicion = cod1_array[2];
-                $('#condicion1').append('<option value="'+cod1_condicion+'">'+cod1_condicion+'</option>');
+                const regex = /^([A-Za-z]+)-(\d+)([A-Za-z]+)$/;
+                const match = res.cod1.match(regex);
+                if (match !== null) {
+                    const cod1_siglas = match[1];
+                    const cod1_numero = match[2];
+                    const cod1_condicion = match[3];
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('codigos_mision_json') }}",
+                        success: function(res) {
+                            if (res) {
+                                $('#siglas1').empty();
+                                $('#codigo1').empty();
+                                $('#condicion1').empty();
+
+                                $('#siglas1').append(
+                                    '<option value="'+cod1_siglas+'">'+cod1_siglas+'</option>');
+                                $('#codigo1').append(
+                                    '<option value="'+cod1_numero+'">'+cod1_numero+'</option>');
+                                $('#condicion1').append(
+                                    '<option value="'+cod1_condicion+'">'+cod1_condicion+'</option>');
+
+                                $.each(res.siglas, function(key, value) {
+                                    $('#siglas1').append(
+                                        '<option class="" value="' +
+                                        value.siglas + '">' + value.siglas +
+                                        '</option>');
+                                });
+
+                                $.each(res.codigo, function(key, value) {
+                                    $('#codigo1').append(
+                                        '<option class="" value="' +
+                                        value.codigo + '">' + value.codigo +
+                                        '</option>');
+                                });
+                            }
+                        }
+                    });
+                }
             }
+            if(res.cod2 !== null || res.cod2 !== ""){
+                const regex = /^([A-Za-z]+)-(\d+)([A-Za-z]+)$/;
+                const match = res.cod2.match(regex);
+                if (match !== null) {
+                    const cod2_siglas = match[1];
+                    const cod2_numero = match[2];
+                    const cod2_condicion = match[3];
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('codigos_mision_json') }}",
+                        success: function(res) {
+                            if (res) {
+                                $('#siglas2').empty();
+                                $('#codigo2').empty();
+                                $('#condicion2').empty();
+
+                                $('#siglas2').append(
+                                    '<option value="'+cod2_siglas+'">'+cod2_siglas+'</option>');
+                                $('#codigo2').append(
+                                    '<option value="'+cod2_numero+'">'+cod2_numero+'</option>');
+                                $('#condicion2').append(
+                                    '<option value="'+cod2_condicion+'">'+cod2_condicion+'</option>');
+
+                                $.each(res.siglas, function(key, value) {
+                                    $('#siglas2').append(
+                                        '<option class="" value="' +
+                                        value.siglas + '">' + value.siglas +
+                                        '</option>');
+                                });
+
+                                $.each(res.codigo, function(key, value) {
+                                    $('#codigo2').append(
+                                        '<option class="" value="' +
+                                        value.codigo + '">' + value.codigo +
+                                        '</option>');
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+            if(res.cod3 !== null || res.cod3 !== ""){
+                const regex = /^([A-Za-z]+)-(\d+)([A-Za-z]+)$/;
+                const match = res.cod3.match(regex);
+                if (match !== null) {
+                    const cod3_siglas = match[1];
+                    const cod3_numero = match[2];
+                    const cod3_condicion = match[3];
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('codigos_mision_json') }}",
+                        success: function(res) {
+                            if (res) {
+                                $('#siglas3').empty();
+                                $('#codigo3').empty();
+                                $('#condicion3').empty();
+
+                                $('#siglas3').append(
+                                    '<option value="'+cod3_siglas+'">'+cod3_siglas+'</option>');
+                                $('#codigo3').append(
+                                    '<option value="'+cod3_numero+'">'+cod3_numero+'</option>');
+                                $('#condicion3').append(
+                                    '<option value="'+cod3_condicion+'">'+cod3_condicion+'</option>');
+
+                                $.each(res.siglas, function(key, value) {
+                                    $('#siglas3').append(
+                                        '<option class="" value="' +
+                                        value.siglas + '">' + value.siglas +
+                                        '</option>');
+                                });
+
+                                $.each(res.codigo, function(key, value) {
+                                    $('#codigo3').append(
+                                        '<option class="" value="' +
+                                        value.codigo + '">' + value.codigo +
+                                        '</option>');
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+            if(res.cod4 !== null || res.cod4 !== ""){
+                const regex = /^([A-Za-z]+)-(\d+)([A-Za-z]+)$/;
+                const match = res.cod4.match(regex);
+                if (match !== null) {
+                    const cod4_siglas = match[1];
+                    const cod4_numero = match[2];
+                    const cod4_condicion = match[3];
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('codigos_mision_json') }}",
+                        success: function(res) {
+                            if (res) {
+                                $('#siglas4').empty();
+                                $('#codigo4').empty();
+                                $('#condicion4').empty();
+
+                                $('#siglas4').append(
+                                    '<option value="'+cod4_siglas+'">'+cod4_siglas+'</option>');
+                                $('#codigo4').append(
+                                    '<option value="'+cod4_numero+'">'+cod4_numero+'</option>');
+                                $('#condicion4').append(
+                                    '<option value="'+cod4_condicion+'">'+cod4_condicion+'</option>');
+
+                                $.each(res.siglas, function(key, value) {
+                                    $('#siglas4').append(
+                                        '<option class="" value="' +
+                                        value.siglas + '">' + value.siglas +
+                                        '</option>');
+                                });
+
+                                $.each(res.codigo, function(key, value) {
+                                    $('#codigo4').append(
+                                        '<option class="" value="' +
+                                        value.codigo + '">' + value.codigo +
+                                        '</option>');
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+
 
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
