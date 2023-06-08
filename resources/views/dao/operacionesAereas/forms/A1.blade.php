@@ -253,7 +253,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-1</small>
-                        <input id="hv1" name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv1" name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -348,7 +348,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-2</small>
-                        <input id="hv2" name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv2" name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -443,7 +443,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-3</small>
-                        <input id="hv3" name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv3" name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -538,7 +538,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-4</small>
-                        <input id="hv4" name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase">
+                        <input id="hv4" name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>

@@ -1290,7 +1290,9 @@ class FormaFAMController extends Controller
     }
     public function steps_status(Request $request)
     {
-        $headerData = Fam0001::where('id',$request->data_id)->get();
+        $headerData = Fam0001::where('id',$request->data_id)
+        ->with('aeronaves')
+        ->get();
         $A1_data = Fam0001A1Mision::where('fam0001_id',$request->data_id)->get();
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
@@ -2290,8 +2292,8 @@ class FormaFAMController extends Controller
 
         //  chequear porque antes solo traia los datos de solo los pilotos
         $pilotos->where('fam0001_b1_tripulacion.completado','completado');
-        $pilotos->whereIn('fam0001_b1_tripulacion.codigo_funcion', ['PI', 'CP']);
-        $pilotos->whereIn('funcion_tripulante.codigo', ['PI', 'CP']);
+        $pilotos->whereIn('fam0001_b1_tripulacion.codigo_funcion', ['PI', 'CP', 'AP', 'P']);
+        $pilotos->whereIn('funcion_tripulante.codigo', ['PI', 'CP', 'AP', 'P']);
 
         $pilotos->select(
             'empleados.id',
@@ -2300,7 +2302,8 @@ class FormaFAMController extends Controller
             'empleados.nombre1',
             'empleados.apellido1',
             'grados_militares.siglas as grado',
-        );
+        )
+        ->distinct();
 
 
         $datatable= DataTables::of($pilotos)
@@ -2329,13 +2332,13 @@ class FormaFAMController extends Controller
         $piloto = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$cedula)
         ->join('empleados','empleados.cedula','=','fam0001_b1_tripulacion.cedula')
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
-        ->join('bases','bases.id','=','fam0001.base_estacion')
+        //->join('bases','bases.id','=','fam0001.base_estacion')
         ->join('aeronave_modelo','aeronave_modelo.id','=','fam0001.aeronave_modelo')
         ->where('fam0001_b1_tripulacion.completado','completado')
-        ->where('fam0001_b1_tripulacion.codigo_funcion','P')
+        ->whereIn('fam0001_b1_tripulacion.codigo_funcion',['P','PI','CP','AP'])
         ->select(
-            'fam0001_b1_tripulacion.cedula as cedula',
-            'bases.descripcion as base',
+            'fam0001.ov_ota_om as ov_ota_om',
+            'fam0001.base_estacion as base',
             'fam0001.unidad as unidad',
             'aeronave_modelo.aeronave as aeronave',
             'fam0001.serial as serial',
@@ -2377,8 +2380,8 @@ class FormaFAMController extends Controller
         ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
         ->join('datos_militares','datos_militares.codigo_empleado','=','empleados.codigo_empleado')
         ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
-        ->where('empleado_funcion.id_funcion','=',3)
-        ->where('fam0001_b1_tripulacion.codigo_funcion','=','P')
+        ->whereIn('empleado_funcion.id_funcion', ['1', '2', '3', '4'])
+        ->whereIn('fam0001_b1_tripulacion.codigo_funcion', ['PI', 'CP', 'AP', 'P'])
         ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
         ->select(
             'fam0001_b1_tripulacion.grado_nombre_data as nombre',

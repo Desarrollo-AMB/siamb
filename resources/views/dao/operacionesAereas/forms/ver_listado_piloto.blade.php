@@ -133,7 +133,7 @@
             pageLength: 25,
             ajax: "{{ route('api.forms.ver_listado_piloto.data', $datos->cedula) }}",
             columns: [
-                {data: 'cedula',},
+                {data: 'ov_ota_om   ',},
                 {data: 'fecha',},
                 {data: 'unidad',},
                 {data: 'aeronave',},
