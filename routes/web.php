@@ -325,8 +325,8 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::post('/sireh/personal-civil/storeEvaluar', [PersonalController::class, 'storeEvaluarPersonalCivil'])->name('sireh.personal-civil.storeEvaluar');
     Route::post('/sireh/personal-civil/egreso',       [PersonalController::class, 'egresoPersonalCivil'])->name('sireh.personal-civil.egreso');
     Route::post('/sireh/personal-civil/suspender',    [PersonalController::class, 'suspenderPersonalCivil'])->name('sireh.personal-civil.suspender');
-    Route::post('/sireh/personal-civil/activar',      [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar');
-    Route::post('/sireh/personal-civil/update',       [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update');
+    Route::post('/sireh/personal-civil/activar',      [PersonalController::class, 'activarPersonalCivil'])->name('sireh.personal-civil.activar1');
+    Route::post('/sireh/personal-civil/update',       [PersonalController::class, 'updatePersonalCivil'])->name('sireh.personal-civil.update1');
     Route::post('/sireh/personal-civil/agregarCurso', [PersonalController::class, 'AgregarCursoPersonalCivil'])->name('sireh.personal-civil.agregarCurso');
     Route::post('/sireh/personal-civil/editarEvalua', [PersonalController::class, 'EditEvaluarPersonalCivil'])->name('sireh.personal-civil.editEvaluar');
     Route::post('/sireh/personal-civil/updateEvaluar',[PersonalController::class, 'updateEvaluarPersonalCivil'])->name('sireh.personal-civil.updateEvaluar');
