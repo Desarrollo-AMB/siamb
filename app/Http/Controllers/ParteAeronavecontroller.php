@@ -179,7 +179,7 @@ class ParteAeronavecontroller extends Controller
            }
     }
 
-    public function auditoria(request $request){
+    public function auditoriadao(request $request){
         {
 
             $this->validate($request,
@@ -207,7 +207,7 @@ class ParteAeronavecontroller extends Controller
         }
         }
 
-        public function auditoriaing()
+        public function auditoriaingdao()
         {
 
 
@@ -218,7 +218,7 @@ class ParteAeronavecontroller extends Controller
 
 
 
-        public function parteAeronaveExcel(Request $request) {
+        public function parteAeronaveExceldao(Request $request) {
 
 
             $titulo = ' PARTE DE AERONAVES ';

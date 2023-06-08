@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/nomina/{user}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
     Route::get('/sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
     Route::get('/sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
-    Route::post('/sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
+    Route::post('/sireh/nomina/personal_militar/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccionpm');
     Route::post('/sireh/nomina/personal_militar/actuales-deducciones', [NominaController::class, 'actualesdeducciones'])->name('sireh.nomina.actualesdeduciones');
     Route::post('/sireh/nomina/personal_militar/insertar-deduccion', [NominaController::class, 'insertarDeduccion'])->name('sireh.nomina.insertardeduccion');
 
@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/sireh/nomina/noprof/{registro}/edit-deducciones', [NominaNoProfController::class, 'editdeduccionesNoProf'])->name('sireh.nomina.noprof.editdeducciones');
     Route::get('/sireh/nomina/noprof/deducciones', [NominaNoProfController::class, 'deduccionesNoProf'])->name('sireh.nomina.noprof.deducciones');
     Route::get('/sireh/nomina/noprof/nueva-deduccion', [NominaNoProfController::class, 'nuevaDeduccionNoProf'])->name('sireh.nomina.noprof.nueva-deduccion');
-    Route::post('/sireh/nomina/noprof/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccion');
+    Route::post('/sireh/nomina/noprof/asignacionnuevadeduccion', [NominaController::class, 'asignacionNuevadeduccion'])->name('sireh.nomina.deduccion.asignacionnuevadeduccionnopm');
     Route::post('/sireh/nomina/noprof/actuales-deducciones', [NominaNoProfController::class, 'actualesdeduccionesNoProf'])->name('sireh.nomina.actualesdeducionesnoprof');
     Route::post('/sireh/nomina/noprof/insertar-deduccion', [NominaNoProfController::class, 'insertarDeduccionNoProf'])->name('sireh.nomina.insertardeduccionNoProf');
 
@@ -474,9 +474,9 @@ Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [Perso
 Route::get('/dao/Aeronaves/parte_aeronave',[ParteAeronaveController::class, 'indexparte'])->name('dao.aeronaves.parte_aeronave.ver');
 Route::get('/dao/Aeronaves/create',[ParteAeronaveController::class, 'crear'])->name('dao.aeronaves.parte_aeronave.registrar');
 Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'store'])->name('dao.aeronaves.parte_aeronave.guadar');
-Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaing'])->name('parte.auditoriaing');
-Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoria'])->name('parte.auditoria');
-Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');
+Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaingdao'])->name('parte.auditoriaing');
+Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoriadao'])->name('parte.auditoria');
+Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExceldao'])->name('dao.reporteAeronaveExcel');
 
 /////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
 Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
