@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('primas_deducciones',function(Blueprint $table){
-            $table->integer('codigo_empleado')->nullable();
+            $table->integer('tipo_empleado')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('primas_deducciones',function(Blueprint $table){
-            $table->integer('codigo_empleado')->nullable();
+            $table->integer('tipo_empleado')->nullable();
         });
     }
 };
