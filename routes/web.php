@@ -465,9 +465,6 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 
-Route::get('no_authorize', function () {
-    return view('no_authorize');
-})->name('no_authorize');
 
 Route::post('/bienestar-social/reporte/devolucion5', [ReportesBSController::class, 'reporteDevolucion5'])->name('bienestar-social.reporte.devolucion5');
 Route::post('/bienestar-social/reporte/cargafamiliar', [ReportesBSController::class, 'reporteCargaFamiliar'])->name('bienestar-social.reporte.cargafamiliar');
@@ -492,3 +489,7 @@ Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'Egresar
 Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'storeFuncionPersonal'])->name('personal.storeFuncion');
 Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
 Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
+
+Route::get('no_authorize', function () {
+    return view('no_authorize');
+})->name('no_authorize');
