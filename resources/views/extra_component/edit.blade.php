@@ -16,7 +16,7 @@
                         <div>
                             <h5 class="mb-0">Modificar Datos del Profesional</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('extra.index') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -118,7 +118,7 @@
                                                     <select class="select2 form-control" name="edo_civil" id="edo_civil">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($edos_civil as $key=>$value)
-                                                            <option value="{{$key}}" {{$datos->edo_civil == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                            <option value="{{$key}}" {{$datos->estado_civil == $key ? 'selected': '' }}>{{ $value }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -190,7 +190,7 @@
                                                     <select name="zur_der_amb" id="zur_der_amb" class='form-control select2'>
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($lateralidades as $key=>$value)
-                                                            <option value="{{$key}}" {{$datos->zur_der_amb == $key ? 'selected': '' }}>{{ $value }} </option>
+                                                            <option value="{{$key}}" {{$datos->zurd_der_amb == $key ? 'selected': '' }}>{{ $value }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -251,13 +251,13 @@
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                                 <div class="form-group">
                                                     <h6>Nombre y Apellido (contacto de emergencia):</h6>
-                                                    {!! Form::text('persona_contacto', $datos->persona_contacto, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control soloLetras', 'id' => 'persona_contacto')) !!}
+                                                    {!! Form::text('persona_contacto', $datos->contacto_emergencia, array('placeholder' => 'No Posee Contacto de Emergencia','class' => 'form-control soloLetras', 'id' => 'persona_contacto')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
                                                     <h6>Telefono (contacto de emergencia):</h6>
-                                                    {!! Form::text('telefono_e', $datos->telefono_e, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control soloNumeros')) !!}
+                                                    {!! Form::text('telefono_e', $datos->telefono_emergencia, array('placeholder' => 'No Posee Telefono de Contacto de Emergencia','class' => 'form-control soloNumeros')) !!}
                                                 </div>
                                             </div>
                                         </div>

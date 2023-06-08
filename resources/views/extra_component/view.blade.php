@@ -16,7 +16,7 @@
                         <div>
                             <h5 class="mb-0">Ver Datos del Profesional</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('extra.index') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
@@ -115,9 +115,9 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Estado Civil:</h6>
-                                                @if($datos->edo_civil != '')
+                                                @if($datos->estado_civil != '')
                                                     @foreach ($edos_civil as $key=>$value)
-                                                        @if($datos->edo_civil == $value)
+                                                        @if($datos->estado_civil == $key)
                                                             {!! Form::text('edo_civil', $value, array('placeholder' => 'No Posee Estado Civil','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach

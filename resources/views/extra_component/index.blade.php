@@ -40,6 +40,7 @@
                                             <th>Apellido</th>
                                             <th>Grado Militar</th>
                                             <th>Ubicacion</th>
+                                            <th>Componente</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -177,6 +178,7 @@
                 {data: 'apellido1'},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
+                {data: 'componente_nombre'},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
             search: {
