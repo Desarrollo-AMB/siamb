@@ -180,7 +180,7 @@
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
                         <select id="codigo1" name="codigo1" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMisionPropia as $data)
+                            @foreach($codigoMision as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select>
@@ -253,7 +253,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-1</small>
-                        <input id="hv1" name="hv1" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
+                        <input id="hv1" name="hv1" type="number" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -275,7 +275,7 @@
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
                         <select id="codigo2" name="codigo2" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMisionPropia as $data)
+                            @foreach($codigoMision as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select>
@@ -348,7 +348,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-2</small>
-                        <input id="hv2" name="hv2" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
+                        <input id="hv2" name="hv2" type="number" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -370,7 +370,7 @@
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
                         <select id="codigo3" name="codigo3" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMisionPropia as $data)
+                            @foreach($codigoMision as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select>
@@ -443,7 +443,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-3</small>
-                        <input id="hv3" name="hv3" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
+                        <input id="hv3" name="hv3" type="number" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@
                         <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>
                         <select id="codigo4" name="codigo4" class="form-control codigo">
                         <option value=""></option>
-                            @foreach($codigoMisionPropia as $data)
+                            @foreach($codigoMision as $data)
                                 <option title="{{$data->nombre}}" value="{{$data->codigo}}">{{$data->codigo}}</option>
                             @endforeach
                         </select>
@@ -538,7 +538,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-4</small>
-                        <input id="hv4" name="hv4" type="text" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
+                        <input id="hv4" name="hv4" type="number" class="form-control blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
             </div>

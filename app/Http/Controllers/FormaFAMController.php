@@ -1928,12 +1928,14 @@ class FormaFAMController extends Controller
     {
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        $condicion_vuelo = CodigoTipoMisionSiglas::get();
         return response()->json(
             [
                 'success' => true,
                 'message' => 'Data inserted successfully',
                 'siglas'  => $codigoTipoMisionSiglas,
                 'codigo'  => $codigoMision,
+                'condicion_vuelo' => $condicion_vuelo,
             ]
         );
     }
