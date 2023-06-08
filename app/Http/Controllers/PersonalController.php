@@ -1939,7 +1939,7 @@ class PersonalController extends Controller
         ->whereIn('nomina.situacion',['A','S'])
         ->whereIn('nomina.tipo_emp',['MIL','TRP'])
         ->where('nomina.codigo_ubicacion','=',$ubicaciones)
-        ->select('empleados.nombre1 as nombre1','empleados.nombre2 as nombre2',
+        ->select('empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2',
          'empleados.apellido1 as apellido1', 'empleados.apellido2 as apellidos2',
         'grados_militares.siglas as siglas','ubicaciones.descripcion as ubicacion')
         ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
