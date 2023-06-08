@@ -246,6 +246,12 @@
                                 </a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dao/forms/listado_pilotos') ? 'active' : '' }}"
+                                    href="{{ route('dao.forms.listado_pilotos') }}">-
+                                    Registro Individual de Vuelo
+                                </a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
                                 <a class="{{ Request::is('dao/militar') ? 'active' : '' }}"
                                     href="{{ route('dao.militar') }}">-
                                     Personal

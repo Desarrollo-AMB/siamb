@@ -1572,6 +1572,70 @@ class FormaFAMController extends Controller
         );
     }
 
+    public function vuelos_realizados_index()
+    {
+
+        date_default_timezone_set('America/Caracas');
+
+        $fecha = date('Y-m-d'); //Obtienes la fecha actual
+        $user_id = auth()->id();
+        $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
+
+        if(count($empleado)>0){
+            $rol_user = $empleado[0]['user']['rolesUser'][0]['name'];
+            $codigo_ubicacion = $empleado[0]['data_empleado']['codigo_ubicacion'];
+            $ubicacion = AeronaveUnidades::where('codigo_ubicacion',$codigo_ubicacion)->get();
+
+            // ROLL DE LA DAO
+            if ($rol_user == 'aviacion_dao'|| $rol_user == 'cmd_general') {
+                $fam0001_unidad = Fam0001::where('completado', 'completado')
+                ->with('aeronaves')
+                ->with('misiones')
+                ->orderBy('fecha', 'desc')
+                ->orderBy('unidad', 'desc')
+                ->get();
+
+                # Ordenar por unidad
+                $fam0001 = [];
+                foreach ($fam0001_unidad as $key => $value) {
+                    $fam0001[$value['unidad']][] = $value;
+                }
+
+            }
+
+            // SI TIENE UBIACION ES GRUPO AEREO
+            elseif(count($ubicacion)>0){
+                $fam0001 = Fam0001::where('completado', 'completado')
+                ->where('unidad', $ubicacion[0]['codigos'])
+                ->where('user_id',$user_id)
+                ->with('aeronaves')
+                ->with('misiones')
+                ->orderBy('fecha', 'desc')
+                ->get();
+            }else{
+                dd('este usuario no tiene ubicacion relacionada con las aeronaves en la BD');
+            }
+        }else{
+
+            // SI NO ES ADMINISTRADOR
+            $fam0001_unidad = Fam0001::where('completado', 'completado')
+            ->with('aeronaves')
+            ->with('misiones')
+            ->orderBy('fecha', 'desc')
+            ->orderBy('unidad', 'desc')
+            ->get();
+
+            # Ordenar por unidad
+            $fam0001 = [];
+            foreach ($fam0001_unidad as $key => $value) {
+                $fam0001[$value['unidad']][] = $value;
+            }
+        }
+
+        return view('dao.operacionesAereas.vuelosCompletados.index', compact('fam0001'));
+
+    }
+
     public function editar_paso1(Request $request)
     {
         $editPaso1 = Fam0001::where('id', $request->id)->update($request->except('id'));
@@ -2002,8 +2066,8 @@ class FormaFAMController extends Controller
             ->where('v_trip',$request->v_trip)
             ->where('fam0001_id',$request->fam0001_id)
             ->where('fam0001_a1_mision_id',$request->fam0001_a1_mision_id)
-            ->where('codigo_funcion','P')
-            //->where('completado','<>','completado')
+            ->whereIn('codigo_funcion', ['P', 'PI', 'AP', 'CP'])
+            ->where('completado','<>','completado')
             ->where('user_id',auth()->id())
             ->get();
 
@@ -2036,6 +2100,16 @@ class FormaFAMController extends Controller
 
                 $B1->COD = $request->COD;
                 $B1->hv = $request->HV;
+
+                $B1->cod1 = $request->COD1;
+                $B1->cod2 = $request->COD2;
+                $B1->cod3 = $request->COD3;
+                $B1->cod4 = $request->COD4;
+
+                $B1->hv1 = $request->HV1;
+                $B1->hv2 = $request->HV2;
+                $B1->hv3 = $request->HV3;
+                $B1->hv4 = $request->HV4;
 
                 $B1->completado = $request->completado;
                 $B1->user_id = auth()->id();
@@ -2073,6 +2147,16 @@ class FormaFAMController extends Controller
 
             $B1->COD = $request->COD;
             $B1->hv = $request->HV;
+
+            $B1->cod1 = $request->COD1;
+            $B1->cod2 = $request->COD2;
+            $B1->cod3 = $request->COD3;
+            $B1->cod4 = $request->COD4;
+
+            $B1->hv1 = $request->HV1;
+            $B1->hv2 = $request->HV2;
+            $B1->hv3 = $request->HV3;
+            $B1->hv4 = $request->HV4;
 
             $B1->completado = $request->completado;
             $B1->user_id = auth()->id();
@@ -2386,6 +2470,7 @@ class FormaFAMController extends Controller
         ->whereIn('fam0001_b1_tripulacion.codigo_funcion', ['PI', 'CP', 'AP', 'P'])
         ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
         ->select(
+            'fam0001_b1_tripulacion.id as fam0001_b1_tripulacion_id',
             'fam0001_b1_tripulacion.grado_nombre_data as nombre',
             'fam0001_b1_tripulacion.cedula as cedula',
             'funcion_tripulante.funcion as nombre_funcion',
@@ -2402,6 +2487,7 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
+
         if(count($piloto)==0){
             return back()
             ->with('warning','No se puede generar el reporte, no existen registros para el periodo solicitado');
@@ -2409,7 +2495,7 @@ class FormaFAMController extends Controller
 
         $anteriores = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
-        ->where('fam0001_b1_tripulacion.codigo_funcion','=','P')
+        ->whereIn('fam0001_b1_tripulacion.codigo_funcion',['P', 'PI', 'CP', 'AP'])
         ->whereNotBetween('fam0001.fecha',[$request->desde,$request->hasta])
         ->select(
             'fam0001_b1_tripulacion.hv as hv',
@@ -2417,8 +2503,117 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
+        
+        // totales vfr dia
+        $sum_total_vfr_dia1 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod1', 'LIKE', '%DCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv1');
 
-        $pdf = \PDF::loadview('dao.operacionesAereas.forms.imprimir_reporte', compact('piloto', 'anteriores'));
+        $sum_total_vfr_dia2 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod2', 'LIKE', '%DCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv2');
+
+        $sum_total_vfr_dia3 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod3', 'LIKE', '%DCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv3');
+
+        $sum_total_vfr_dia4 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod4', 'LIKE', '%DCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv4');
+
+        $sum_total_vfr_dia = $sum_total_vfr_dia1 + $sum_total_vfr_dia2 + $sum_total_vfr_dia3 + $sum_total_vfr_dia4;
+
+
+        // totales ifr dia
+        $sum_total_ifr_dia1 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod1', 'LIKE', '%DCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv1');
+
+        $sum_total_ifr_dia2 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod2', 'LIKE', '%DCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv2');
+
+        $sum_total_ifr_dia3 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod3', 'LIKE', '%DCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv3');
+
+        $sum_total_ifr_dia4 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod4', 'LIKE', '%DCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv4');
+
+        $sum_total_ifr_dia = $sum_total_ifr_dia1 + $sum_total_ifr_dia2 + $sum_total_ifr_dia3 + $sum_total_ifr_dia4;
+
+        // totales vfr noche
+        $sum_total_vfr_noche1 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod1', 'LIKE', '%NCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv1');
+
+        $sum_total_vfr_noche2 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod2', 'LIKE', '%NCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv2');
+
+        $sum_total_vfr_noche3 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod3', 'LIKE', '%NCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv3');
+
+        $sum_total_vfr_noche4 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod4', 'LIKE', '%NCV%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv4');
+
+        $sum_total_vfr_noche = $sum_total_vfr_noche1 + $sum_total_vfr_noche2 + $sum_total_vfr_noche3 + $sum_total_vfr_noche4;
+
+        // totales ifr noche
+        $sum_total_ifr_noche1 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod1', 'LIKE', '%NCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv1');
+
+        $sum_total_ifr_noche2 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod2', 'LIKE', '%NCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv2');
+
+        $sum_total_ifr_noche3 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod3', 'LIKE', '%NCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv3');
+
+        $sum_total_ifr_noche4 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
+        ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')
+        ->where('fam0001_b1_tripulacion.cod4', 'LIKE', '%NCI%')
+        ->whereBetween('fam0001.fecha',[$request->desde,$request->hasta])
+        ->sum('fam0001_b1_tripulacion.hv4');
+
+        $sum_total_ifr_noche = $sum_total_ifr_noche1 + $sum_total_ifr_noche2 + $sum_total_ifr_noche3 + $sum_total_ifr_noche4;
+
+        $pdf = \PDF::loadview('dao.operacionesAereas.forms.imprimir_reporte', compact('piloto', 'anteriores', 'sum_total_vfr_dia', 'sum_total_ifr_dia', 'sum_total_vfr_noche', 'sum_total_ifr_noche'));
 
         return $pdf->stream('REPORTE.pdf');
         //return view('dao.forms.imprimir_reporte', compact('piloto'));

@@ -24,6 +24,14 @@ class Fam0001B1Tripulacion extends Model
         'aterrizaje',
         'COD',
         'hv',
+        'cod1',
+        'hv1',
+        'cod2',
+        'hv2',
+        'cod3',
+        'hv3',
+        'cod4',
+        'hv4',
         'completado',
         'user_id'
     ];

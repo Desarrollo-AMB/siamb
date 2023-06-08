@@ -33,13 +33,13 @@
                         <div class="numbers">
                             <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                             <h5 class="font-weight-bolder mb-0">
-                                Registro Individual de Vuelo
+                                Vuelos Realizados
                                 <span class="text-success text-sm font-weight-bolder"></span>
                             </h5>
                         </div>
                     </div>
                     <div class="col-3 text-end">
-                        <a href="{{ route('dao.forms.listado_pilotos') }}">
+                        <a href="{{ route('dao.vuelos.realizados.index') }}">
                             <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
                                 <i class="fa fa-plane text-lg opacity-10" aria-hidden="true"></i>
                             </div>

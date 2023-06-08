@@ -265,6 +265,9 @@
             $('.ciclos_tren').val('');
             $('.en_apoyo_A2').val('').trigger('change');
             $('.descripcion_A2').val('');
+            $('.descripcion_A2').val('');
+            $('.condicion').val('');
+            $('.hv').val('0.0');
         }
         //LIMPIAR B1
         function cleanB1() {
@@ -283,6 +286,16 @@
             $(".cedula_empleado").val('')
             $('.codigo_trip').val('')
             $('.load_registro_hv').val('')
+
+            $('.cod1_trip').val('')
+            $('.cod2_trip').val('')
+            $('.cod3_trip').val('')
+            $('.cod4_trip').val('')
+
+            $('.registro_hv1').val('')
+            $('.registro_hv2').val('')
+            $('.registro_hv3').val('')
+            $('.registro_hv4').val('')
         }
         //LIMPIAR A3
         function cleanA3() {
@@ -1398,6 +1411,14 @@
                         $('.codigo_trip').val(data.codigo)
                         $('.v_mision').val(data.vuelo)
                         $('.load_registro_hv').val(data.registro_manual)
+                        $('.cod1_trip').val(data.cod1)
+                        $('.registro_hv1').val(data.hv1)
+                        $('.cod2_trip').val(data.cod2)
+                        $('.registro_hv2').val(data.hv2)
+                        $('.cod3_trip').val(data.cod3)
+                        $('.registro_hv3').val(data.hv3)
+                        $('.cod4_trip').val(data.cod4)
+                        $('.registro_hv4').val(data.hv4)
                     }
                 });
             }
@@ -1447,6 +1468,17 @@
                     tipo_despegue: $('.tipo_despegue').val(),
                     COD:$('.codigo_trip').val(),
                     HV:$('.load_registro_hv').val(),
+
+                    COD1:$('.cod1_trip').val(),
+                    COD2:$('.cod2_trip').val(),
+                    COD3:$('.cod3_trip').val(),
+                    COD4:$('.cod4_trip').val(),
+
+                    HV1:$('.registro_hv1').val(),
+                    HV2:$('.registro_hv2').val(),
+                    HV3:$('.registro_hv3').val(),
+                    HV4:$('.registro_hv4').val(),
+                    
                     completado: "paso3",
                     },
                     success:function(response){
@@ -1827,6 +1859,10 @@
             }
         }
         function edit_A1(res) {
+
+            $('.edit_input').prop('hidden', false);
+            $('.add_edit_input').prop('hidden', true);
+
             $(".load_ordenado_por").val(res.ordenada_por).trigger('change')
             $(".load_en_apoyo").val(res.en_apoyo).trigger('change')
 
@@ -2028,10 +2064,6 @@
                     });
                 }
             }
-
-
-            $('.edit_input').prop('hidden', false);
-            $('.add_edit_input').prop('hidden', true);
 
             console.log(res)
             if(res.consumibles.length>0){
@@ -2313,6 +2345,15 @@
             $('.load_registro_hv').val(res.hv)
             $('.load_cedula_empleado').val(res.cedula)
 
+            $('.cod1_trip').val(res.cod1)
+            $('.registro_hv1').val(res.hv1)
+            $('.cod2_trip').val(res.cod2)
+            $('.registro_hv2').val(res.hv2)
+            $('.cod3_trip').val(res.cod3)
+            $('.registro_hv3').val(res.hv3)
+            $('.cod4_trip').val(res.cod4)
+            $('.registro_hv4').val(res.hv4)
+
             $('.edit_input_b1').prop('hidden', false);
             $('.add_edit_b1_input').prop('hidden', true);
 
@@ -2338,6 +2379,17 @@
                         tipo_despegue: $('.tipo_despegue').val(),
                         COD:$('.codigo_trip').val(),
                         HV:$('.load_registro_hv').val(),
+
+                        COD1:$('.cod1_trip').val(),
+                        COD2:$('.cod2_trip').val(),
+                        COD3:$('.cod3_trip').val(),
+                        COD4:$('.cod4_trip').val(),
+
+                        HV1:$('.registro_hv1').val(),
+                        HV2:$('.registro_hv2').val(),
+                        HV3:$('.registro_hv3').val(),
+                        HV4:$('.registro_hv4').val(),
+
                         completado: B1Steps[0].completado=="completado"?"completado":"paso3",
                     },
                     cache: false,

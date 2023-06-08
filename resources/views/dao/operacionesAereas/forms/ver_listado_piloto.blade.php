@@ -13,7 +13,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Listado Individual del Piloto {{$datos->nombre1." ".$datos->apellido1}}</h5>
+                            <h5 class="mb-0">Registro Individual del Piloto {{$datos->nombre1." ".$datos->apellido1}}</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="{{ route('dao.forms.listado_pilotos') }}">Volver</a>
                     </div>
@@ -133,7 +133,7 @@
             pageLength: 25,
             ajax: "{{ route('api.forms.ver_listado_piloto.data', $datos->cedula) }}",
             columns: [
-                {data: 'ov_ota_om   ',},
+                {data: 'ov_ota_om',},
                 {data: 'fecha',},
                 {data: 'unidad',},
                 {data: 'aeronave',},
