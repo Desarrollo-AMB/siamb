@@ -193,6 +193,26 @@
 <script>
     $(document).ready(function () {
 
+        // Obtener el ID del tab-pane actual
+        //const activeTabPane = document.querySelector('.tab-content .tab-pane.active');
+        //const activeTabPaneId = activeTabPane.getAttribute('id');
+
+        // Almacenar el ID del tab-pane actual en el almacenamiento local del navegador
+        //localStorage.setItem('activeTab', activeTabPaneId);
+
+        // Actualizar el ID del tab-pane almacenado cuando se cambia de tab-pane
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const target = $(e.target).attr("href"); // Obtener el href del enlace de la pestaña activa
+        console.log(`Se cambió a la pestaña ${target}`); // Imprimir el href en la consola
+        localStorage.setItem('activeTab', target);
+        });
+
+        // Mostrar el tab-pane activo después de que se recargue la página
+        const storedTab = localStorage.getItem('activeTab');
+        if (storedTab) {
+        $('a[data-toggle="tab"][href="' + storedTab + '"]').tab('show');
+        }
+
 
         //PASO 1
         $('.select2').select2();
@@ -412,6 +432,7 @@
                                 cargarMatriculas(famSteps.aeronave_modelo)
                                 setTimeout(function() {
                                     $(".load_matricula").val(famSteps.matricula).trigger('change')
+                                    $("#aeronave_span").text(famSteps.aeronaves.aeronave +" - "+ famSteps.matricula)
                                 }, 3300);
 
                                 //CARGAR PASO 2
@@ -466,8 +487,8 @@
                                     })
 
                                     $('.delete_a1_mision').on('click', function (event) {
-                                    event.preventDefault();
-                                    var id = $(this).val();
+                                        event.preventDefault();
+                                        var id = $(this).val();
                                         Swal.fire({
                                             title: 'Estas Seguro de Eliminar?',
                                             text: "No podrás revertir esto.!",
@@ -506,7 +527,7 @@
                                         event.preventDefault();
 
                                         var id = $(this).val();
-                                        alert(id);
+
                                         Swal.fire({
                                             title: '¿Estas Seguro de cancelar esta misión?',
                                             text: "¡Atención, no podrá revertir esta acción!",
@@ -566,54 +587,125 @@
                                     });
                                     //ACTUALIZAR MISION (METER EN HELPER)
                                     $(".actualizar_a1_mision").click(function() {
+                                        var id = $(".load_id_mision").val();
                                         var sigla = $('.load_siglas').val();
                                         var numero = $('.load_codigo').val();
+                                        var ordenada_por = $(".load_ordenado_por").val();
+                                        var en_apoyo = $('.load_en_apoyo').val();
+                                        var ruta_desde = $('.load_ruta_desde').val();
+                                        var ruta_hasta = $('.load_ruta_hasta').val();
+                                        var encend = $('.load_encend').val();
+                                        var despeg = $('.load_despeg').val();
+                                        var aterriz = $('.load_aterriz').val();
+                                        var apag = $('.load_apag').val();
+                                        var registro_manual = $('.load_registro_manual').val();
+                                        var horometro = $('.load_horometro').val();
+                                        var ind_vuelo = $('.load_ind_vuelo').val();
+                                        var toque_desp = $('.load_toque_desp').val();
+                                        var low_go = $('.load_low_go').val();
+                                        var ciclos_tren = $('.load_ciclos_tren').val();
+                                        var ov_ota_om = $('.ov_ota_om').val().toUpperCase();
+                                        var en_apoyo_A2 = $(".load_en_apoyo_A2").val();
+                                        var descripcion_A2 = $('.load_descripcion_A2').val();
                                         var codigo = ""+sigla+"-"+numero+"";
-                                        $.ajax({
-                                            url:"{{ route('actualizar_a1_mision') }}",
-                                            method:'POST',
-                                            data:{
-                                                id:$(".load_id_mision").val(),
-                                                ordenada_por:$(".load_ordenado_por").val(),
-                                                en_apoyo:$('.load_en_apoyo').val(),
-                                                codigo:codigo,
-                                                ruta_desde:$('.load_ruta_desde').val(),
-                                                ruta_hasta:$('.load_ruta_hasta').val(),
-                                                encend:$('.load_encend').val(),
-                                                despeg:$('.load_despeg').val(),
-                                                aterriz:$('.load_aterriz').val(),
-                                                apag:$('.load_apag').val(),
-                                                registro_manual:$('.load_registro_manual').val(),
-                                                horometro:$('.load_horometro').val(),
-                                                ind_vuelo:$('.load_ind_vuelo').val(),
-                                                toque_desp:$('.load_toque_desp').val(),
-                                                low_go:$('.load_low_go').val(),
-                                                ciclos_tren:$('.load_ciclos_tren').val(),
-                                                ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
-                                                fam0001_id: id_fam0001,
-                                                en_apoyo_A2:$(".load_en_apoyo_A2").val(),
-                                                descripcion_A2:$('.load_descripcion_A2').val()
-                                            },
-                                            cache: false,
-                                            dataType: 'json',
-                                            success: function(response){
-                                                if(response){
-                                                    misionID = $(".load_id_mision").val()
-                                                    guardarConsumo(misionID);
-                                                    console.log(response)
-                                                    cleanA1()
-                                                    $('.edit_input').prop('hidden', true);
-                                                    $('.add_edit_input').prop('hidden', false);
-                                                    Swal.fire({
-                                                        title: 'Actualizado!',
-                                                        text: 'La Misión ha sido Actualizada Correctamente.',
-                                                        icon: 'success',
-                                                        timer: 3000,
-                                                        showConfirmButton: true,
-                                                    });
+
+                                        // codigos COD
+                                        var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
+                                        var hv1 = $('#hv1').val();
+                                        var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
+                                        var hv2 = $('#hv2').val();
+                                        var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
+                                        var hv3 = $('#hv3').val();
+                                        var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
+                                        var hv4 = $('#hv4').val();
+
+                                        if (ov_ota_om == ""
+                                        || ov_ota_om == null
+                                        || id == ""
+                                        || sigla == ""
+                                        || numero == ""
+                                        || ordenada_por == ""
+                                        || en_apoyo == ""
+                                        || ruta_desde == ""
+                                        || ruta_hasta == ""
+                                        || encend == ""
+                                        || despeg == ""
+                                        || aterriz == ""
+                                        || apag == ""
+                                        || registro_manual == ""
+                                        || horometro == ""
+                                        || ind_vuelo == ""
+                                        || toque_desp == ""
+                                        || low_go == ""
+                                        || ciclos_tren == ""
+                                        || en_apoyo_A2 == ""
+                                        || descripcion_A2 == "" ) {
+
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes completar todos campos para guardar.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+
+                                        } else {
+                                            $.ajax({
+                                                url:"{{ route('actualizar_a1_mision') }}",
+                                                method:'POST',
+                                                data:{
+                                                    id: id,
+                                                    ordenada_por: ordenada_por,
+                                                    en_apoyo: en_apoyo,
+                                                    codigo:codigo,
+                                                    ruta_desde: ruta_desde,
+                                                    ruta_hasta: ruta_hasta,
+                                                    encend: encend,
+                                                    despeg: despeg,
+                                                    aterriz: aterriz,
+                                                    apag: apag,
+                                                    registro_manual: registro_manual,
+                                                    horometro: horometro,
+                                                    ind_vuelo: ind_vuelo,
+                                                    cod1: cod1.toUpperCase(),
+                                                    hv1: hv1,
+                                                    cod2: cod2.toUpperCase(),
+                                                    hv2: hv2,
+                                                    cod3: cod3.toUpperCase(),
+                                                    hv3: hv3,
+                                                    cod4: cod4.toUpperCase(),
+                                                    hv4: hv4,
+                                                    toque_desp: toque_desp,
+                                                    low_go: low_go,
+                                                    ciclos_tren: ciclos_tren,
+                                                    ov_ota_om: ov_ota_om,
+                                                    fam0001_id: id_fam0001,
+                                                    en_apoyo_A2: en_apoyo_A2,
+                                                    descripcion_A2: descripcion_A2
+                                                },
+                                                cache: false,
+                                                dataType: 'json',
+                                                success: function(response){
+                                                    if(response){
+                                                        misionID = $(".load_id_mision").val()
+                                                        guardarConsumo(misionID);
+                                                        console.log(response)
+                                                        cleanA1()
+                                                        $('.edit_input').prop('hidden', true);
+                                                        $('.add_edit_input').prop('hidden', false);
+                                                        Swal.fire({
+                                                            title: 'Actualizado!',
+                                                            text: 'La Misión ha sido Actualizada Correctamente.',
+                                                            icon: 'success',
+                                                            timer: 3000,
+                                                            showConfirmButton: true,
+                                                        });
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     });
                                     updateClean_A1()
                                 }
@@ -906,17 +998,40 @@
             var descripcion_A2 = $('.descripcion_A2').val();
 
             // codigos COD
-            var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+$('#condicion1').val();
+            var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
             var hv1 = $('#hv1').val();
-            var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+$('#condicion2').val();
+            var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
             var hv2 = $('#hv2').val();
-            var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+$('#condicion3').val();
+            var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
             var hv3 = $('#hv3').val();
-            var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+$('#condicion4').val();
+            var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
             var hv4 = $('#hv4').val();
             //VALIDAR PASO UNO HEADER
-            if(ordenada_por===""){
-                console.log('no puedes guardar datos vacios')
+            if (sigla == ""
+                || numero == ""
+                || ordenada_por == ""
+                || en_apoyo == ""
+                || ruta_desde == ""
+                || ruta_hasta == ""
+                || encend == ""
+                || despeg == ""
+                || aterriz == ""
+                || apag == ""
+                || registro_manual == ""
+                || horometro == ""
+                || ind_vuelo == ""
+                || toque_desp == ""
+                || low_go == ""
+                || ciclos_tren == ""
+                || en_apoyo_A2 == ""
+                || descripcion_A2 == "" ) {
+                    Swal.fire({
+                        title: 'Atención!',
+                        text: 'Debes completar todos campos para guardar.',
+                        icon: 'warning',
+                        timer: 3000,
+                        showConfirmButton: true,
+                    });
             }else{
                 //ENVIAR
                 $.ajax({
@@ -1053,55 +1168,124 @@
                             $(".actualizar_a1_mision").click(function() {
                                 var sigla = $('.load_siglas').val();
                                 var numero = $('.load_codigo').val();
+                                var id = $(".load_id_mision").val();
+                                var ordenada_por = $(".load_ordenado_por").val();
+                                var en_apoyo = $('.load_en_apoyo').val();
+                                var ruta_desde = $('.load_ruta_desde').val();
+                                var ruta_hasta = $('.load_ruta_hasta').val();
+                                var encend = $('.load_encend').val();
+                                var despeg = $('.load_despeg').val();
+                                var aterriz = $('.load_aterriz').val();
+                                var apag = $('.load_apag').val();
+                                var registro_manual = $('.load_registro_manual').val();
+                                var horometro = $('.load_horometro').val();
+                                var ind_vuelo = $('.load_ind_vuelo').val();
+                                var toque_desp = $('.load_toque_desp').val();
+                                var low_go = $('.load_low_go').val();
+                                var ciclos_tren = $('.load_ciclos_tren').val();
+                                var ov_ota_om = $('.ov_ota_om').val().toUpperCase();
+                                var en_apoyo_A2 = $(".load_en_apoyo_A2").val();
+                                var descripcion_A2 = $('.load_descripcion_A2').val();
+
                                 var codigo = ""+sigla+"-"+numero+"";
-                                $.ajax({
-                                    url:"{{ route('actualizar_a1_mision') }}",
-                                    method:'POST',
-                                    data:{
-                                        id:$(".load_id_mision").val(),
-                                        ordenada_por:$(".load_ordenado_por").val(),
-                                        en_apoyo:$('.load_en_apoyo').val(),
-                                        codigo:codigo,
-                                        ruta_desde:$('.load_ruta_desde').val(),
-                                        ruta_hasta:$('.load_ruta_hasta').val(),
-                                        encend:$('.load_encend').val(),
-                                        despeg:$('.load_despeg').val(),
-                                        aterriz:$('.load_aterriz').val(),
-                                        apag:$('.load_apag').val(),
-                                        registro_manual:$('.load_registro_manual').val(),
-                                        horometro:$('.load_horometro').val(),
-                                        ind_vuelo:$('.load_ind_vuelo').val(),
-                                        toque_desp:$('.load_toque_desp').val(),
-                                        low_go:$('.load_low_go').val(),
-                                        ciclos_tren:$('.load_ciclos_tren').val(),
-                                        ov_ota_om:$('.ov_ota_om').val().toUpperCase(),
-                                        fam0001_id: id_fam0001,
 
-                                        en_apoyo_A2:$(".load_en_apoyo_A2").val(),
-                                        descripcion_A2:$('.load_descripcion_A2').val(),
+                                // codigos COD
+                                var cod1 = $('#siglas1').val()+'-'+$('#codigo1').val()+'-'+$('#condicion1').val();
+                                var hv1 = $('#hv1').val();
+                                var cod2 = $('#siglas2').val()+'-'+$('#codigo2').val()+'-'+$('#condicion2').val();
+                                var hv2 = $('#hv2').val();
+                                var cod3 = $('#siglas3').val()+'-'+$('#codigo3').val()+'-'+$('#condicion3').val();
+                                var hv3 = $('#hv3').val();
+                                var cod4 = $('#siglas4').val()+'-'+$('#codigo4').val()+'-'+$('#condicion4').val();
+                                var hv4 = $('#hv4').val();
 
-                                        completado: "paso2",
-                                    },
-                                    cache: false,
-                                    dataType: 'json',
-                                    success: function(response){
-                                        if(response){
-                                            console.log(response)
-                                            misionID = $(".load_id_mision").val()
-                                            //updateConsumo(misionID);
-                                            cleanA1()
-                                            $('.edit_input').prop('hidden', true);
-                                            $('.add_edit_input').prop('hidden', false);
-                                            Swal.fire({
-                                                title: 'Actualizado!',
-                                                text: 'La Misión ha sido Actualizada Correctamente.',
-                                                icon: 'success',
-                                                timer: 3000,
-                                                showConfirmButton: true,
-                                            });
+                                if (ov_ota_om == ""
+                                || ov_ota_om == null
+                                || id == ""
+                                || sigla == ""
+                                || numero == ""
+                                || ordenada_por == ""
+                                || en_apoyo == ""
+                                || ruta_desde == ""
+                                || ruta_hasta == ""
+                                || encend == ""
+                                || despeg == ""
+                                || aterriz == ""
+                                || apag == ""
+                                || registro_manual == ""
+                                || horometro == ""
+                                || ind_vuelo == ""
+                                || toque_desp == ""
+                                || low_go == ""
+                                || ciclos_tren == ""
+                                || en_apoyo_A2 == ""
+                                || descripcion_A2 == "" ) {
+
+                                    Swal.fire({
+                                        title: 'Atención!',
+                                        text: 'Debes completar todos campos para guardar.',
+                                        icon: 'warning',
+                                        timer: 3000,
+                                        showConfirmButton: true,
+                                    });
+                                    $(this).prop('disabled', false);
+                                    console.log('no puedes guardar datos vacios');
+
+                                } else {
+                                    $.ajax({
+                                        url:"{{ route('actualizar_a1_mision') }}",
+                                        method:'POST',
+                                        data:{
+                                            id:id,
+                                            ordenada_por:ordenada_por,
+                                            en_apoyo:en_apoyo,
+                                            codigo:codigo,
+                                            ruta_desde:ruta_desde,
+                                            ruta_hasta:ruta_hasta,
+                                            encend:encend,
+                                            despeg:despeg,
+                                            aterriz:aterriz,
+                                            apag:apag,
+                                            registro_manual:registro_manual,
+                                            horometro:horometro,
+                                            ind_vuelo:ind_vuelo,
+                                            cod1: cod1.toUpperCase(),
+                                            hv1: hv1,
+                                            cod2: cod2.toUpperCase(),
+                                            hv2: hv2,
+                                            cod3: cod3.toUpperCase(),
+                                            hv3: hv3,
+                                            cod4: cod4.toUpperCase(),
+                                            hv4: hv4,
+                                            toque_desp:toque_desp,
+                                            low_go:low_go,
+                                            ciclos_tren:ciclos_tren,
+                                            ov_ota_om:ov_ota_om,
+                                            en_apoyo_A2:en_apoyo_A2,
+                                            descripcion_A2:descripcion_A2,
+                                            fam0001_id: id_fam0001
+                                        },
+                                        cache: false,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response){
+                                                console.log(response)
+                                                misionID = $(".load_id_mision").val()
+                                                //updateConsumo(misionID);
+                                                cleanA1()
+                                                $('.edit_input').prop('hidden', true);
+                                                $('.add_edit_input').prop('hidden', false);
+                                                Swal.fire({
+                                                    title: 'Actualizado!',
+                                                    text: 'La Misión ha sido Actualizada Correctamente.',
+                                                    icon: 'success',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             });
                             updateClean_A1()
                             data_vuelos(id_fam0001);
@@ -1671,6 +1855,21 @@
             $(".load_en_apoyo_A2").val(res.en_apoyo_A2).trigger('change')
             $('.load_descripcion_A2').val(res.descripcion_A2)
 
+            $('#hv1').val(res.hv1)
+            $('#hv2').val(res.hv2)
+            $('#hv3').val(res.hv3)
+            $('#hv4').val(res.hv4)
+
+            if(res.cod1 !== null || res.cod1 !== ""){
+                var cod1_array = res.cod1.split("-");
+                var cod1_siglas = cod1_array[0];
+                $('#siglas1').append('<option value="'+cod1_siglas+'">'+cod1_siglas+'</option>');
+                var cod1_numero = cod1_array[1];
+                $('#codigo1').append('<option value="'+cod1_numero+'">'+cod1_numero+'</option>');
+                var cod1_condicion = cod1_array[2];
+                $('#condicion1').append('<option value="'+cod1_condicion+'">'+cod1_condicion+'</option>');
+            }
+
             $('.edit_input').prop('hidden', false);
             $('.add_edit_input').prop('hidden', true);
 
@@ -2223,7 +2422,6 @@
         }
 
     });
-
 
 </script>
 @endsection

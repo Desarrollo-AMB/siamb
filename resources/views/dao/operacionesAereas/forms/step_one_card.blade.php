@@ -10,7 +10,7 @@
         </h6>
         <div class="card-body panel-collapse collapse show"  id="collapseStepOne" style="padding: 15px 10px 0;">
             <div class="row">
-                <h6>DATOS AERONAVE</h6>
+                <h6>DATOS AERONAVE: <span id="aeronave_span"></span></h6>
             </div>
             <div class="row">
             <div class="col-3">
