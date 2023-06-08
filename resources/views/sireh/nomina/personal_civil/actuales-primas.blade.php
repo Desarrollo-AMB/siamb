@@ -19,11 +19,11 @@
                     <div>
                         <h5 class="mb-0">ASIGNAR NUEVA PRIMA</h5>
                     </div>
-                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.asignacionprima') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.civilasignacionprima') }}">Volver</a>
 
                 </div>
                 <div class="card-body px-2 pt-2 pb-2" >
-                    {!! Form::open(array('route' => 'sireh.nomina.primas.asignacionNuevaPrima','method'=>'POST', 'id' => 'asignar-prima-form')) !!}
+                    {!! Form::open(array('route' => 'sireh.nomina.civilprimas.asignacionNuevaPrima','method'=>'POST', 'id' => 'asignar-prima-form')) !!}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
@@ -83,8 +83,7 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.primas.deletePrimaAsignada',  $user->id) }}"
-                                        method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.civilprimas.deletePrimaAsignada', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>

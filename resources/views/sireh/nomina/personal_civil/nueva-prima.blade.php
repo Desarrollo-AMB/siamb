@@ -23,12 +23,12 @@
                     <div>
                         <h5 class="mb-0">Consultar Primas</h5>
                     </div>
-                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.primas') }}">Volver</a>
+                    <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.personal.civil.primas') }}">Volver</a>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2 text-center" >
-                {!! Form::open(array('route' => 'sireh.nomina.actualesprimas','method'=>'POST')) !!}
+                {!! Form::open(array('route' => 'sireh.nomina.civilactualesprimas','method'=>'POST')) !!}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 ">
                         <div class="form-group">

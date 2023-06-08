@@ -91,7 +91,7 @@ return [
         'PRIVADA' =>  'PRIVADA',
         'NA' =>  'NO DEFINIDA'
     ],
-    
+
     'adscrita_aviacion' =>[
         'S' =>  'SI',
         'N' =>  'NO'
@@ -107,13 +107,13 @@ return [
         '7' =>  'CENTRAL',
         '8' =>  'CAPITAL',
     ],
-    
+
     'tipo_unidad' =>[
         'F' =>  'FORANEA',
         'A' =>  'ADMINISTRATIVA',
         'O' =>  'OPERATIVA'
     ],
-    
+
     'situacion' =>[
         'A' => 'ACTIVO',
         'E' => 'EGRESADO',
@@ -133,5 +133,11 @@ return [
         'Z' => 'ZURDO(A)',
         'D' => 'DERECHO(A)',
         'A' => 'AMBIDIESTRO(A)',
+    ],
+    'componentes' => [
+        '2' => 'EJERCITO',
+        '3' => 'ARMADA',
+        '4' => 'GUANDIA NACIONAL BOLIVARIANA',
+        '5'=>'OTROS'
     ]
 ];

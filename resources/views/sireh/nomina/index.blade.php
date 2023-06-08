@@ -36,11 +36,39 @@
                             <div class="d-flex flex-row justify-content-between">
                                 <div>
                                     <hr class="horizontal dark my-0">
-                                    @include('sireh.nomina.edit_sueldo')
+                                    <div class="card" style="width: 30rem;">
+                                        <img src="{{ asset('imagenes/images.JPG') }}" alt="mi foto">
+                                        <div class="card-body">
+                                            <table class="table table-sm table-bordered table-hover w-100 nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="center" colspan="2"> <center>  <h5>Salario Mínimo</h5> </center> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                    
+                                                   
+                                                    
+                                                    <tr>
+                                                        <th> <h6>Salario Mínimo </h6></th>
+                                                        <td><h6>{{ $conceptos[2]}}  Bs.</h6></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><h6>Cesta Ticket</h6></th>
+                                                        <td><h6>{{ $conceptos[1]}}  Bs.</h6> </td>
+                                                    </tr>              
+                                                </tbody>
+                                            </table>
+                                    
+                                        </div>
+                                    </div>
+                                    
                                     <hr class="horizontal dark my-0">
                                 </div>
                                 <div class="card-body">
+
                                     <table class="table table-sm table-bordered table-hover w-100 nowrap">
+                                        @csrf
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="center" colspan="2">
@@ -51,15 +79,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
-
-
                                             <tr>
                                                 <th>
                                                     <h6>Prima Fronteriza topo "A" </h6>
                                                 </th>
                                                 <td>
-                                                    <h6>40%</h6>
+                                                    <h6>{{ $conceptos[53]}} %</h6>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -67,7 +92,7 @@
                                                     <h6>Prima Fronteriza topo "A"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>30%</h6>
+                                                    <h6>{{ $conceptos[54]}} %</h6>
                                                 </td>
                                             </tr>
                                              <tr>
@@ -75,14 +100,14 @@
                                                     <h6>Prima Fronteriza topo "c"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>20%</h6>
+                                                    <h6>{{ $conceptos[55]}} %</h6>
                                                 </td>
                                             </tr> <tr>
                                                 <th>
-                                                    <h6>Prima por hijo </h6>
+                                                    <h6>PRIMA PROF PRE-GRADO </h6>
                                                 </th>
                                                 <td>
-                                                    <h6>25bs</h6>
+                                                    <h6>{{ $conceptos[545]}} %</h6>
                                                 </td>
                                             </tr>
                                          </tbody>

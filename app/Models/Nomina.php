@@ -15,6 +15,11 @@ class Nomina extends Model
         '*',
     ];
 
+    public function familiares()
+    {
+    return $this->hasMany(Familiares::class, 'codigo_empleado', 'codigo_empleado');
+    }
+    
     public function empleado()
     {
         return $this->belongsTo(Empleado::class, 'codigo_empleado', 'codigo_empleado');

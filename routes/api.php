@@ -17,7 +17,8 @@ use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\FormaFAMController;
 use App\Http\Controllers\Civil\JubiladosController;
-use App\Http\Controllers\Nomina\militarControllers; 
+use App\Http\Controllers\empleadoExtraComponeteController;
+use App\Http\Controllers\Nomina\militarControllers;
 use App\Http\Controllers\PartegeneralController;
 use App\Http\Controllers\juntaperm\controllerjuntap;
 
@@ -42,7 +43,7 @@ Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->n
 Route::get("grados-militares/{tipo_emp?}", [ApiController::class, 'getGradosMilitares'])->name("api.grados_militares");
 Route::get("grados-militares-persmil/{tipo_emp?}", [ApiController::class, 'getGradosMilitaresPersMil'])->name("api.grados_militares_persmil");
 Route::get('sireh/empleadosinactivos', [PersonalController::class, 'empleadosInactivos'])->name('api.sireh.empleados.inactivos');
-Route::get('sireh/personalmilitar', [PersonalController::class, 'personalMilitar'])->name('api.sireh.personal.militar.data');
+Route::get('sireh/personal-militar/index', [PersonalController::class, 'personalMilitar'])->name('api.sireh.personal.militar.data');
 Route::get('sireh/personalcivil', [PersonalController::class, 'personalCivil'])->name('api.sireh.personal.civil.data');
 Route::get('sireh/personalmilitarnoprof', [PersonalController::class, 'personalMilitarNoProf'])->name('api.sireh.personal.militar-noprof.data');
 
@@ -119,11 +120,11 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
  Route::get('/juntapermanente/ascenso/julio/asitecnico', [controllerjuntap::class, 'select_julio_asitecnico'])->name('api.juntap.ascenso.julio.asitecnico');
  Route::get('/juntapermanente/ascenso/julio/asimilado', [controllerjuntap::class, 'select_julio_asimilado'])->name('api.juntap.ascenso.julio.asimilado');
  Route::get('/juntapermanente/ascenso/julio/tropap', [controllerjuntap::class, 'select_julio_tropap'])->name('api.juntap.ascenso.julio.tropap');
- 
+
  Route::get('/juntapermanente/ascenso/diciembre/ofitropa', [controllerjuntap::class, 'select_diciembre_ofitropa'])->name('api.juntap.ascenso.diciembre.ofitropa');
  Route::get('/juntapermanente/ascenso/diciembre/asitecnico', [controllerjuntap::class, 'select_diciembre_asitecnico'])->name('api.juntap.ascenso.diciembre.asitecnico');
  Route::get('/juntapermanente/ascenso/diciembre/asimilado', [controllerjuntap::class, 'select_diciembre_asimilado'])->name('api.juntap.ascenso.diciembre.asimilado');
- 
+
  //Route::post('/juntapermanente/ascenso/reportes/reporteascenso', [controllerjuntap::class, 'ascreporte'])->name('api.juntap.reportes.ascrreporte');
  Route::post('/ascender/julio', [controllerjuntap::class, 'ascender_julio'])->name('api.juntap.ascenso.julio.ascender');
  Route::post('/ascender/diciembre', [controllerjuntap::class, 'ascender_diciembre'])->name('api.juntap.ascenso.diciembre.ascender');
@@ -132,4 +133,4 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
   //JUNTA P2
  // Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.ascenso.index');
   //Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.reportes.index');
- 
+  Route::get('sireh/personalmilitar', [empleadoExtraComponeteController::class, 'personal'])->name('api.personal.data');

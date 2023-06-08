@@ -39,15 +39,15 @@
                                     <a href="{{ route('sireh.nomina.primas.editprima',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
-                                    <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
+                                    {{-- <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
-                                    </a>
+                                    
                                     <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.primas.deleteprima',  $user->id) }}"
                                         method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
-                                    </form>
+                                    </form> --}}
                                 </td>
                             </tr>
                             @endforeach
