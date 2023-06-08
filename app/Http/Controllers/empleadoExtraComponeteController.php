@@ -29,12 +29,12 @@ class empleadoExtraComponeteController extends Controller
 {
     public function ingresoPersonal()
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
         $generos = Config::get('constants.sexo');
-        $componentes= Config::get('constants.componentes');
+        $componentes = Config::get('constants.componentes');
         $edos_civil = Config::get('constants.edo_civil');
         $estados = Estados::all();
         $ubicaciones = Ubicaciones::all();
@@ -44,19 +44,32 @@ class empleadoExtraComponeteController extends Controller
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
 
-        return view('extra_component.ingreso',
+        return view(
+            'extra_component.ingreso',
             compact(
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones','componentes'
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'componentes'
             )
         );
     }
 
 
-    public function registraPerson(Request $request){
+    public function registraPerson(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'tipo_emp' => 'required',
                 'cedula' => 'required|unique:empleados_otro_componente,cedula',
@@ -71,26 +84,26 @@ class empleadoExtraComponeteController extends Controller
             ]
         );
         try {
-          // Obtener el último código de empleado de la base de datos
-$lastCodigo = EmpleadosOtroComponente::select('codigo_empleado')
-->orderBy('id', 'desc')
-->value('codigo_empleado');
+            // Obtener el último código de empleado de la base de datos
+            $lastCodigo = EmpleadosOtroComponente::select('codigo_empleado')
+                ->orderBy('id', 'desc')
+                ->value('codigo_empleado');
 
-// Incrementar el número del código de empleado
-$nextNumber = intval(substr($lastCodigo, 1)) + 1;
+            // Incrementar el número del código de empleado
+            $nextNumber = intval(substr($lastCodigo, 1)) + 1;
 
-// Crear el nuevo código de empleado
-$codigo_empleado = 'E' . $nextNumber;
-            if ($request->file("foto")){
+            // Crear el nuevo código de empleado
+            $codigo_empleado = 'E' . $nextNumber;
+            if ($request->file("foto")) {
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'. $request->cedula . '.' . $ext;
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext;
 
                 $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
+                if (file_exists($path_foto)) {
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
+                Image::make($request->file('foto'))->save(public_path($path_foto));
+            } else {
                 $path_foto = null;
             }
 
@@ -125,48 +138,48 @@ $codigo_empleado = 'E' . $nextNumber;
 
 
 
-            return redirect()->route('extra.index' ,)->with('success', 'Se ha ingresado al Personal');
+            return redirect()->route('extra.index',)->with('success', 'Se ha ingresado al Personal');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
     }
     public function personal(Request $request)
-{
-    $empleados = EmpleadosOtroComponente::where('empleados_otro_componente.situacion', 'ACTIVO');
-    $empleados->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'empleados_otro_componente.codigo_ubicacion');
-    $empleados->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'empleados_otro_componente.codigo_grado');
-    $empleados->select(
-        'empleados_otro_componente.id',
-        'empleados_otro_componente.codigo_empleado',
-        'empleados_otro_componente.cedula',
-        'empleados_otro_componente.nombre1',
-        'empleados_otro_componente.nombre2',
-        'empleados_otro_componente.apellido1',
-        'empleados_otro_componente.apellido2',
-        'empleados_otro_componente.componente',
-        'grados_militares.descripcion as grado_militar',
-        'ubicaciones.descripcion as ubicacion'
-    );
+    {
+        $empleados = EmpleadosOtroComponente::where('empleados_otro_componente.situacion', 'ACTIVO');
+        $empleados->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'empleados_otro_componente.codigo_ubicacion');
+        $empleados->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'empleados_otro_componente.codigo_grado');
+        $empleados->select(
+            'empleados_otro_componente.id',
+            'empleados_otro_componente.codigo_empleado',
+            'empleados_otro_componente.cedula',
+            'empleados_otro_componente.nombre1',
+            'empleados_otro_componente.nombre2',
+            'empleados_otro_componente.apellido1',
+            'empleados_otro_componente.apellido2',
+            'empleados_otro_componente.componente',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion'
+        );
 
-   // Columnas en el DataTables
-$datatable = Datatables::of($empleados)
-->addColumn('actions', 'extra_component._actions')
-->addColumn('componente_nombre', function ($empleado) {
-    $componente = Config::get('constants.componentes');
-    return $componente[$empleado->componente] ?? '';
-})
-->rawColumns(['actions']);
+        // Columnas en el DataTables
+        $datatable = Datatables::of($empleados)
+            ->addColumn('actions', 'extra_component._actions')
+            ->addColumn('componente_nombre', function ($empleado) {
+                $componente = Config::get('constants.componentes');
+                return $componente[$empleado->componente] ?? '';
+            })
+            ->rawColumns(['actions']);
 
-return $datatable->make(true);
-}
+        return $datatable->make(true);
+    }
     public function index()
     {
         return view('extra_component.index');
     }
     public function viewPersonal($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -187,19 +200,33 @@ return $datatable->make(true);
         $datos = EmpleadosOtroComponente::find($id);
 
 
-        return view('extra_component.view',
+        return view(
+            'extra_component.view',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'situaciones','lateralidades','componente'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'situaciones',
+                'lateralidades',
+                'componente'
             )
         );
     }
     public function editPersonal($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -218,20 +245,36 @@ return $datatable->make(true);
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = EmpleadosOtroComponente::find($id);
-        return view('extra_component.edit',
+        return view(
+            'extra_component.edit',
             compact(
-                'datos','ciudades',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones', 'situaciones'
-                ,'lateralidades','grados_militares','componente'
+                'datos',
+                'ciudades',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'situaciones',
+                'lateralidades',
+                'grados_militares',
+                'componente'
             )
         );
     }
 
-    public function updatePersonal(Request $request){
+    public function updatePersonal(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'cedula' => 'required',
                 'nacionalidad' => 'required',
@@ -266,7 +309,7 @@ return $datatable->make(true);
         try {
             if ($request->hasFile("foto")) {   // Si se envía una foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$request->cedula . '.' . $ext; // Nombre del archivo
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
 
                 $path_foto = 'fotos/empleados/' . $file_name;
                 if (file_exists($path_foto)) {
@@ -282,7 +325,7 @@ return $datatable->make(true);
                 $updateData = []; // Sin cambios en la columna de la foto
             }
 
-            $empleado = EmpleadosOtroComponente::where('codigo_empleado',$request->codigo_empleado)->update([
+            $empleado = EmpleadosOtroComponente::where('codigo_empleado', $request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
                 "nacionalidad" => $request->nacionalidad,
                 "nombre1" => $request->nombre1,
@@ -297,14 +340,14 @@ return $datatable->make(true);
                 "estado" => $request->estado,
                 "ciudad" => $request->ciudad,
                 "direccion" => $request->direccion,
-                "componente"=> $request->componente,
-                "codigo_grado"=> $request->grado_militar,
+                "componente" => $request->componente,
+                "codigo_grado" => $request->grado_militar,
                 "correo" => $request->correo,
                 "zurd_der_amb" => $request->zur_der_amb,
                 "contacto_emergencia" => !empty($request->persona_contacto) ? $request->persona_contacto : null,
                 "telefono_emergencia" => !empty($request->telefono_e) ? $request->telefono_e : null,
 
-            ]+ $updateData);
+            ] + $updateData);
 
 
             return redirect()->route('personal.view', [$request->id])->with('success', 'Se han actualizado los Datos del Profesional');
@@ -316,7 +359,7 @@ return $datatable->make(true);
 
     public function EgresarPersonal(Request $request)
     {
-        $empleado = EmpleadosOtroComponente::where('id',$request->id)->first();
+        $empleado = EmpleadosOtroComponente::where('id', $request->id)->first();
 
         $updateSituacion = EmpleadosOtroComponente::where('codigo_empleado', $empleado->codigo_empleado)->update([
             'situacion' => 'EGRESADO'
@@ -345,7 +388,7 @@ return $datatable->make(true);
     public function storeFuncionPersonal(Request $request)
     {
 
-        $empleado= EmpleadosOtroComponente::where('codigo_empleado', $request->codigo_empleado)->first();
+        $empleado = EmpleadosOtroComponente::where('codigo_empleado', $request->codigo_empleado)->first();
 
         $empleado->empleadoFuncion()->sync($request->funcion_id);
 
@@ -370,7 +413,7 @@ return $datatable->make(true);
         $data = EmpleadosOtroComponente::where('codigo_empleado', $request->id)->get();
         $funcionEmpleado = FuncionTripulante::get();
         $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
-            ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
+            ->join('funcion_tripulante', 'funcion_tripulante.id', '=', 'empleado_funcion.id_funcion')
             ->select(
                 'empleado_funcion.id',
                 'empleado_funcion.id_funcion',
@@ -379,7 +422,8 @@ return $datatable->make(true);
             ->get();
         $idsFuncion = $haveFuncion->pluck('id_funcion')->toArray();
         //dd($idsFuncion);
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data',
                 'data' => $data,
@@ -393,11 +437,11 @@ return $datatable->make(true);
     {
         EmpleadoFuncion::find($request->id)->delete();
 
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data Eliminada'
             ]
         );
     }
-
 }
