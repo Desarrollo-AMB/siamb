@@ -673,7 +673,7 @@ $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
 ->whereIn('nomina.situacion', ['S', 'A'])
 //->whereIn('nomina.grado_militar', ['020'])
-//->take(15)
+->take(15)
 ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
 ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
 
@@ -704,9 +704,15 @@ $fechaAscenso = Carbon::parse($item->fecha_ultimo_ascenso);
 $antiguedadGrado = $fechaAscenso->diffInYears(Carbon::now());
 $item->antiguedadGrado = $antiguedadGrado;
 
-// Agregar la prima por hijos y la prima de riesgo tipo A a cada obrero
+// Agregar la prima por hijos y la cantidad de hijos
+//se trae el monto de la tabla primas_deducciones
+$montoPorHijo = ConceptosNomina::where('codigo_concepto', '4012')
+->pluck('porcentaje')
+->first();
+$montoPorHijo = $montoPorHijo;
+//se multiplica la cantidad por el monto
 $cantidadHijos = $item->familiares_count;
-$primaPorHijos = $cantidadHijos * 25;
+$primaPorHijos = $cantidadHijos * $montoPorHijo;
 $item->prima_por_hijos = $primaPorHijos;
 
 // Obtener la antigüedad ajustada (máximo 5)

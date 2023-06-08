@@ -901,7 +901,7 @@ public function editdeduccionesNoProf (ConceptosNomina $registro){
         // Obtener los registros de la nómina
     $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_militares.fecha_ultimo_ascenso', 'datos_militares.fecha_graduacion', 'grados_militares.siglas')
     ->whereIn('nomina.tipo_emp', ['MEF'])
-    ->whereIn('nomina.situacion', ['E'])
+    ->whereIn('nomina.situacion', ['S', 'A'])
     ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
     ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
 
