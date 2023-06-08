@@ -14,9 +14,9 @@
     
     <div class="col-10">
         <div class="card mb-4 mx-4">
-            
+             
             <br>
-            <a class="btn btn-secondary btn-sm mb-0" style="position: absolute; top: 10px; right: 10px; font-size: 12px; padding: 7px 30px;" href="{{ route('users.index') }}">Volver</a>
+            <a class="btn btn-secondary btn-sm mb-0" style="position: absolute; top: 10px; right: 10px; font-size: 12px; padding: 7px 30px;" href="{{ route('sireh.nomina.index') }}">Volver</a>
             <div class="d-flex flex-row">
                 
                 <div class="card-header pb-0 mb-2">

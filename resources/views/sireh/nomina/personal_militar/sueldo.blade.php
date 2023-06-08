@@ -84,7 +84,7 @@
                                 <div class="form-group">
                                     <strong>Mayor (1 año):</strong>
                                     {!! Form::text('14', null, array('placeholder' => $salarios->where('codigo_grado', '60')->where('antiguedad', 1)->first()->porcentaje, 'class' => 'form-control')) !!}
-                                </div>
+                                </div> 
                                 <div class="form-group">
                                     <strong>Mayor (3 años):</strong>
                                     {!! Form::text('16', null, array('placeholder' => $salarios->where('codigo_grado', '60')->where('antiguedad', 3)->first()->porcentaje, 'class' => 'form-control')) !!}
