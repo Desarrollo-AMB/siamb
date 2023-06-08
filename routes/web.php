@@ -402,7 +402,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('revisar-programacion',             [FormaFAMController::class, 'revisarProgramacion'])->name('revisarProgramacion');
     Route::post('store_a1_sinProgramacion', [FormaFAMController::class, 'store_a1_sinProgramacion'])->name('store_a1_sinProgramacion');
     Route::get('revertir_sin_prog/{unidad}',        [FormaFAMController::class, 'revertirSinproP'])->name('revertirSinproP');
-
+    Route::get('/dao/vuelos-realizados',            [FormaFAMController::class, 'vuelos_realizados_index'])->name('dao.vuelos.realizados.index');
+    
     //Route::group(['middleware' => ['role:aviacion']], function () {
         Route::get('FormaFAM',                  [FormaFAMController::class, 'index'])->name('FormaFAM');
         Route::get('FormaFAM_status/{fam_id}',  [FormaFAMController::class, 'FormaFAM_status'])->name('FormaFAM.status');

@@ -155,22 +155,22 @@ use Carbon\Carbon;
                             <th>{{$pilot->COD}}</th>
                             <th>{{$pilot->funcion}}</th>
                             <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->aterriz}}</th>
-                            <th>{{$pilot->aterriz}}</th>
-                            <th>{{$pilot->aterriz}}</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>0</th>
                             @php
                             $total_tiempo = $total_tiempo + $pilot->hv;
-                            $total_vfr_dia = $total_vfr_dia + $pilot->hv;
-                            $total_ifr_dia = $total_ifr_dia + $pilot->hv;
-                            $total_vfr_noche = $total_vfr_noche + $pilot->hv;
-                            $total_ifr_noche = $total_ifr_noche + $pilot->hv;
-                            $total_aterriz = $total_aterriz + $pilot->aterriz;
-                            $total_simul = $total_simul + $pilot->aterriz;
-                            $total_combate = $total_combate + $pilot->aterriz;
+                            $total_vfr_dia = $sum_total_vfr_dia;
+                            $total_ifr_dia = $sum_total_ifr_dia;
+                            $total_vfr_noche = $sum_total_vfr_noche;
+                            $total_ifr_noche = $sum_total_ifr_noche;
+                            $total_aterriz = $total_aterriz;
+                            $total_simul = $total_simul;
+                            $total_combate = $total_combate;
                             @endphp
                         </tr>
                     @endforeach
