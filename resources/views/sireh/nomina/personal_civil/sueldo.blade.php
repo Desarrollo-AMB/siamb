@@ -34,7 +34,7 @@
                         @foreach ($salarios->take($halfSalariosCount) as $salario)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $salario->id }}">{{ $salario->descripcion }} CON {{ $salario->antiguedad }} AÑOS </label>
-                                <input type="number" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -42,7 +42,7 @@
                         @foreach ($salarios->slice($halfSalariosCount) as $salario)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $salario->id }}"> {{ $salario->descripcion }} CON {{ $salario->antiguedad }} AÑOS </label>
-                                <input type="number" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -67,7 +67,7 @@
                         @foreach ($docentes->take($halfDocentesCount) as $docente)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $docente->id }}">{{ $docente->descripcion }}  </label>
-                                <input type="number" name="porcentaje_{{ $docente->id }}" value="{{ $docente->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $docente->id }}" value="{{ $docente->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -75,7 +75,7 @@
                         @foreach ($docentes->slice($halfDocentesCount) as $docente)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $docente->id }}"> {{ $docente->descripcion }}  </label>
-                                <input type="number" name="porcentaje_{{ $docente->id }}" value="{{ $docente->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $docente->id }}" value="{{ $docente->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -100,7 +100,7 @@
                         @foreach ($empleados->take($halfEmpleadosCount) as $empleado)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $empleado->id }}">{{ $empleado->descripcion }} CON {{ $empleado->antiguedad }} AÑOS </label>
-                                <input type="number" name="porcentaje_{{ $empleado->id }}" value="{{ $empleado->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $empleado->id }}" value="{{ $empleado->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -108,7 +108,7 @@
                         @foreach ($empleados->slice($halfEmpleadosCount) as $empleado)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $empleado->id }}"> {{ $empleado->descripcion }} CON {{ $empleado->antiguedad }} AÑOS </label>
-                                <input type="number" name="porcentaje_{{ $empleado->id }}" value="{{ $empleado->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $empleado->id }}" value="{{ $empleado->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>

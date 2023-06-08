@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     //DEDUCCIONES PERSONAL MILITAR
     Route::patch('/sireh/nomina/{registro}/update-deducciones', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
     //Route::delete('/sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
-    Route::delete('/sireh/nomina/{registro}/delete-deduccionesAsignadas', [NominaController::class, 'deleteDeduccionesAsignadas'])->name('sireh.nomina.deducciones.deletededuccionesAsignadas');
+    Route::delete('/sireh/nomina/delete-deduccionesAsignadas/{registro}', [NominaController::class, 'deleteDeduccionesAsignadas'])->name('sireh.nomina.deducciones.deletededuccionesAsignadas');
     Route::get('/sireh/nomina/{user}/edit-deducciones', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
     Route::get('/sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
     Route::get('/sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');

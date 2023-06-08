@@ -697,7 +697,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $totalAntiguedad = $antiguedad_admon_publica + $antiguedad;
 
     // Asignar el valor del total de antigüedad al objeto $item
-    $item->total_antiguedad = $totalAntiguedad;
+    $item->total_antiguedad = $totalAntiguedad; 
 } else {
     $antiguedad_admon_publica = 0;
 
@@ -711,9 +711,15 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->total_antiguedad = $totalAntiguedad;
 }
 
-    // Agregar la prima por hijos y la prima de riesgo tipo A a cada obrero
+    // Agregar la prima por hijos y la cantidad de hijos
+    //se trae el monto de la tabla primas_deducciones
+    $montoPorHijo = ConceptosNomina::where('codigo_concepto', '4000')
+    ->pluck('porcentaje')
+    ->first();
+    $montoPorHijo = $montoPorHijo;
+    //se multiplica la cantidad por el monto
     $cantidadHijos = $item->familiares_count;
-    $primaPorHijos = $cantidadHijos * 25;
+    $primaPorHijos = $cantidadHijos * $montoPorHijo;
     $item->prima_por_hijos = $primaPorHijos;
 
 //CALCULO DE SALARIO POR ANTIGUEDAD

@@ -34,7 +34,7 @@
                         @foreach ($salarios->take($halfSalariosCount) as $salario)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $salario->id }}">{{ $salario->descripcion }}</label>
-                                <input type="number" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
@@ -42,7 +42,7 @@
                         @foreach ($salarios->slice($halfSalariosCount) as $salario)
                             <div class="form-group">
                                 <label for="porcentaje_{{ $salario->id }}"> {{ $salario->descripcion }}</label>
-                                <input type="number" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
+                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
                             </div>
                         @endforeach
                     </div>
