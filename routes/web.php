@@ -474,9 +474,9 @@ Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [Perso
 Route::get('/dao/Aeronaves/parte_aeronave',[ParteAeronaveController::class, 'indexparte'])->name('dao.aeronaves.parte_aeronave.ver');
 Route::get('/dao/Aeronaves/create',[ParteAeronaveController::class, 'crear'])->name('dao.aeronaves.parte_aeronave.registrar');
 Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'store'])->name('dao.aeronaves.parte_aeronave.guadar');
-Route::get('/Unidos_juremos', [ParteAeronaveController::class, 'auditoriaing'])->name('parte.auditoriaing');
-Route::post('/En_alas_Venceremos', [ParteAeronaveController::class, 'auditoria'])->name('parte.auditoria');
-Route::get('Independecia_y_Patria_Socialista',     [ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');
+Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaing'])->name('parte.auditoriaing');
+Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoria'])->name('parte.auditoria');
+Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExcel'])->name('dao.reporteAeronaveExcel');
 
 /////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
 Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
