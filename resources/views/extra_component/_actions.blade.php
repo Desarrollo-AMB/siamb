@@ -14,9 +14,9 @@ data-bs-original-title="Editar" title="Editar"
         data-bs-original-title="Suspender" title="Suspender" data-id="{{ $id }}">
         <i class="fas fa-backspace text-danger" aria-hidden="true"></i>
     </a>
-    @can('modificar')
+
     <a href="#" class="mx-3 funcion_empleado" data-bs-toggle="tooltip"
         data-bs-original-title="Funcion del Empleado" title="Funcion del Empleado" data-id="{{ $codigo_empleado }}">
         <i class="fas fa-users-cog text-info" aria-hidden="true"></i>
     </a>
-    @endcan
+  

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Cargos;
 use App\Models\Ciudades;
+use App\Models\EmpleadoFuncion;
 use App\Models\EmpleadosOtroComponente;
 use App\Models\Estados;
+use App\Models\FuncionTripulante;
 use App\Models\GradosMilitares;
 use App\Models\MovimientosExtra;
 use App\Models\Nivel;
@@ -69,7 +71,8 @@ class empleadoExtraComponeteController extends Controller
             ]
         );
         try {
-            $codigo_empleado = EmpleadosOtroComponente::max('codigo_empleado')+1;
+            $codigo_empleado2 = intval(EmpleadosOtroComponente::max('codigo_empleado')) + 1;
+            $codigo_empleado = 'E' . $codigo_empleado2;
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'. $request->cedula . '.' . $ext;
@@ -113,7 +116,7 @@ class empleadoExtraComponeteController extends Controller
 
 
 
-            return redirect()->route('personal.view')->with('success', 'Se ha ingresado al Personal');
+            return redirect()->route('extra.index' ,)->with('success', 'Se ha ingresado al Personal');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -312,6 +315,64 @@ class empleadoExtraComponeteController extends Controller
                 'success' => true,
                 'message' => 'Data inserted successfully',
                 'situacion' => $updateSituacion,
+            ]
+        );
+    }
+
+    public function storeFuncionPersonal(Request $request)
+    {
+
+        $empleado= EmpleadosOtroComponente::where('codigo_empleado', $request->codigo_empleado)->first();
+
+        $empleado->empleadoFuncion()->sync($request->funcion_id);
+
+        /*$loop = count($request->funcion_id);
+        for ($i=0; $i < $loop; $i++) {
+            $funcion = new EmpleadoFuncion;
+            $funcion->codigo_empleado = $request->codigo_empleado;
+            $funcion->id_funcion = $request->funcion_id[$i];
+            $funcion->save();
+        }*/
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data inserted successfully',
+                //'data' => $funcion,
+            ]
+        );
+    }
+    //MOSTRAR DATA PARA AGREGAR FUNCION PERSONAL MILITAR
+    public function showDataPersonal(Request $request)
+    {
+        $data = EmpleadosOtroComponente::where('codigo_empleado', $request->id)->get();
+        $funcionEmpleado = FuncionTripulante::get();
+        $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
+            ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
+            ->select(
+                'empleado_funcion.id',
+                'empleado_funcion.id_funcion',
+                'funcion_tripulante.funcion',
+            )
+            ->get();
+        $idsFuncion = $haveFuncion->pluck('id_funcion')->toArray();
+        //dd($idsFuncion);
+        return response()->json([
+                'success' => true,
+                'message' => 'Data',
+                'data' => $data,
+                'haveFuncion' => $haveFuncion,
+                'funcionTripulante' => $funcionEmpleado,
+                'idsFuncion' => $idsFuncion
+            ]
+        );
+    }
+    public function deteleFuncionPersonal(Request $request)
+    {
+        EmpleadoFuncion::find($request->id)->delete();
+
+        return response()->json([
+                'success' => true,
+                'message' => 'Data Eliminada'
             ]
         );
     }

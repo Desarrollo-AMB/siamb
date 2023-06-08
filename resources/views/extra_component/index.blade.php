@@ -286,7 +286,7 @@
             var id = $(this).data("id");
             $("#haveFuncion").empty();
             $.ajax({
-                url:"{{ route('sireh.personal-militar.showData') }}",
+                url:"{{ route('personal.showData') }}",
                 method:'POST',
                 data:{id:id},
                 cache: false,
@@ -356,7 +356,7 @@
             }else{
                 //ENVIAR
                 $.ajax({
-                url:"{{ route('sireh.personal-militar.storeFuncion') }}",
+                url:"{{ route('personal.storeFuncion') }}",
                 method:'POST',
                 data:{
                         codigo_empleado: $('#codigo_empleado_funcion').val(),
@@ -397,7 +397,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url:"{{ route('sireh.personal-militar.deleteFuncion') }}",
+                        url:"{{ route('personal.deleteFuncion') }}",
                         method:'POST',
                         data:{id:id},
                         cache: false,

@@ -484,7 +484,10 @@ Route::get('Independecia_y_Patria_Socialista',     [ParteAeronaveController::cla
 Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
 Route::post('/extra_component/ingres', [empleadoExtraComponeteController::class, 'registraPerson'])->name('extra.registrar');
 Route::get('/extra/index', [empleadoExtraComponeteController::class, 'index'])->name('extra.index');
-Route::get('/extra/view{id}', [empleadoExtraComponeteController::class, 'viewPersonal'])->name('personal.view');
+Route::get('/extra/view/{id}', [empleadoExtraComponeteController::class, 'viewPersonal'])->name('personal.view');
 Route::get('/extra/edit/{id}', [empleadoExtraComponeteController::class, 'editPersonal'])->name('personl.edit');
 Route::post('/extra/updatedatos', [empleadoExtraComponeteController::class, 'updatePersonal'])->name('personal.update.datos');
 Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'EgresarPersonal'])->name('egresar.personal');
+Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'storeFuncionPersonal'])->name('personal.storeFuncion');
+Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
+Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
