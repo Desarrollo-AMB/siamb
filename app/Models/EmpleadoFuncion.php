@@ -28,4 +28,9 @@ class EmpleadoFuncion extends Model
         return $this->belongsTo(Nomina::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function empleadoextra()
+    {
+        return $this->belongsTo(EmpleadosOtroComponente::class, 'codigo_empleado', 'codigo_empleado');
+    }
+
 }

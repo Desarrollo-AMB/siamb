@@ -13,4 +13,8 @@ class EmpleadosOtroComponente extends Model
         '*',
     ];
     public $timestamps = false;
+
+    public function empleadoFuncion() {
+        return $this->belongsToMany(FuncionTripulante::class, 'empleado_funcion', 'codigo_empleado','id_funcion','codigo_empleado');
+     }
 }
