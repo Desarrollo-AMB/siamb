@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ParteAeronavecontroller extends Controller
+class ParteAeronaveController extends Controller
 {
     /**
      * Display a listing of the resource.
