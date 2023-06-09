@@ -16,7 +16,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0"></span></h5>
+                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0">{{$fechaActual}}</span></h5>
                     </div>
                 </div>
             </div>
@@ -89,12 +89,6 @@
 @section('scripts')
 @parent
 <script>
-
-    $(document).ready(function() {
-        var fechaActual = new Date().toISOString().slice(0, 10);
-        var fecha_inv = fechaActual.split('-').reverse().join('-');
-        $('#fecha_cabecera').text(fecha_inv);
-    });
 
     $(function () {
         $('#aeronaves').DataTable({

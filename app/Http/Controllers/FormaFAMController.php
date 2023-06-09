@@ -138,7 +138,12 @@ class FormaFAMController extends Controller
     }
 
     public function daoAeronaves()
+
     {
+        $fechaActual = Carbon::now('America/Caracas');
+            $fechaFormateada = strtoupper($fechaActual->formatLocalized('%d DE %B %Y'));
+
+            $fecha_Actual = $fechaActual;
         $user_id = auth()->id();
         $empleado = Empleado::where('user_id',$user_id)->with('data_empleado', 'user.rolesUser')->get();
 
@@ -208,7 +213,7 @@ class FormaFAMController extends Controller
 
         return view('dao.aeronaves.index',
             compact(
-                'aeronaves'
+                'aeronaves','fechaActual','fechaFormateada'
             )
         );
     }
@@ -2503,7 +2508,7 @@ class FormaFAMController extends Controller
         )
         ->orderBy('fam0001.fecha','asc')
         ->get();
-        
+
         // totales vfr dia
         $sum_total_vfr_dia1 = Fam0001B1Tripulacion::where('fam0001_b1_tripulacion.cedula','=',$request->cedula)
         ->join('fam0001','fam0001.id','=','fam0001_b1_tripulacion.fam0001_id')

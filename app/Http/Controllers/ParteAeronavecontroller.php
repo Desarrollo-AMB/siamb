@@ -218,38 +218,34 @@ class ParteAeronaveController extends Controller
 
 
 
-        public function parteAeronaveExceldao(Request $request) {
-
-
+        public function parteAeronaveExceldao(Request $request)
+        {
             $titulo = ' PARTE DE AERONAVES ';
-            $programacion = ParteAeronave::select('unidad',
-            'sistema',
-            'matricula',
-            'serial',
-            'situacion',
-            'observacion')
-            ->whereDate('fecha', Carbon::today())
-            ->orderByRaw("FIELD(unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
-            ->get();
+
+            // Obtener la fecha actual en la zona horaria de Venezuela
+            $fechaActual = Carbon::now('America/Caracas');
+            $fechaFormateada = strtoupper($fechaActual->formatLocalized('%d DE %B %Y'));
+
+            $programacion = ParteAeronave::select('unidad', 'sistema', 'matricula', 'serial', 'situacion', 'observacion')
+                ->whereDate('fecha', $fechaActual)
+                ->orderByRaw("FIELD(unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
+                ->get();
 
             $num = ParteAeronave::select('parte_aeronave.unidad as unidad', 'parte_aeronave.sistema as sistema')
-            ->selectRaw('count(*) as total')
-            ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "DISPONIBLE" THEN 1 ELSE 0 END) as total1')
-            ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "DISPONIBLE PARA EL COMBATE" THEN 1 ELSE 0 END) as total2')
-            ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "INDISPONIBLE" THEN 1 ELSE 0 END) as total3')
-            ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "SINIESTRADA" THEN 1 ELSE 0 END) as total4')
-            ->groupBy('parte_aeronave.unidad', 'parte_aeronave.sistema')
-            ->whereDate('fecha', Carbon::today())
-            ->orderByRaw("FIELD(unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
-            ->get();
-
+                ->selectRaw('count(*) as total')
+                ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "DISPONIBLE" THEN 1 ELSE 0 END) as total1')
+                ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "DISPONIBLE PARA EL COMBATE" THEN 1 ELSE 0 END) as total2')
+                ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "INDISPONIBLE" THEN 1 ELSE 0 END) as total3')
+                ->selectRaw('sum(CASE WHEN parte_aeronave.situacion = "SINIESTRADA" THEN 1 ELSE 0 END) as total4')
+                ->groupBy('parte_aeronave.unidad', 'parte_aeronave.sistema')
+                ->whereDate('fecha', $fechaActual)
+                ->orderByRaw("FIELD(unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
+                ->get();
 
             setlocale(LC_TIME, 'es_LA'); // Establece el locale en español
 
-            $fecha_inv = strtoupper(Carbon::now()->formatLocalized('%d DE %B %Y'));
-
-            $nombre_archivo = sprintf('reporte de Aeronves %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
-            $data = compact('titulo', 'programacion','num','fecha_inv');
+            $nombre_archivo = sprintf('reporte de Aeronaves %s .xlsx', $fechaActual->format('Y-m-d h_i_s_a'));
+            $data = compact('titulo', 'programacion', 'num', 'fechaFormateada');
             return Excel::download(new ParteAeronaveExport($data), $nombre_archivo);
             // return view('excel.parteAeronave', $data = compact('titulo', 'programacion','num'));
         }
