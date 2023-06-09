@@ -28,15 +28,15 @@ class NominaController extends Controller
 {
 
  //INDEX PRINCIPAL DE NOMINA
- 
+
     public function indexNomina()
     {
         $conceptos = ConceptosNomina::whereIn('codigo_concepto', [1, 2, 53, 54, 55, 545])
             ->pluck('porcentaje', 'codigo_concepto');
-            
+
         return view('sireh.nomina.index', compact('conceptos'));
     }
-    
+
 
     public function militarNomina()
     {
@@ -75,7 +75,7 @@ class NominaController extends Controller
         $updatealimentacion->descripcion = $descripcionali;
         $updatealimentacion->porcentaje = $porcentajeali;
         $updatealimentacion->save();
-        
+
         //return($request);
             return redirect()->route('sireh.nomina.index')
             ->with('success','Sueldo y Bono de alimentación actualizados con éxito');
@@ -167,14 +167,14 @@ class NominaController extends Controller
 
 public function deletePrimaAsignada(Request $request, $id)
 
-{  
+{
    asignaciones::find($id)->delete();
-    
+
     $cedula = $request->cedula;
     $empleado = Empleado::
         select('codigo_empleado','nombre1', 'apellido1')
         ->where ('cedula', $cedula)
-        ->first();        
+        ->first();
 
     $asignaciones = Asignaciones::
     select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
@@ -189,7 +189,7 @@ public function deletePrimaAsignada(Request $request, $id)
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->get();
-        
+
     $empleado_nombre = $empleado->nombre1;
     $empleado_apellido = $empleado->apellido1;
 
@@ -202,9 +202,9 @@ public function deletePrimaAsignada(Request $request, $id)
             'conceptos_nomina' => $conceptos_nomina,
             'codigo_empleado' => $codigo_empleado,
         ];
-    
+
     //return($asignaciones);
-    
+
     return view('sireh.nomina.personal_militar.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'));
 }
 
@@ -268,19 +268,68 @@ public function actualesPrimas(Request $request)
 //Nueva prima
 public function asignacionNuevaPrima(Request $request)
 {
+    // Obtener los datos del formulario
     $codigo_concepto = $request->input('codigo_concepto');
     $cedula = $request->input('cedula');
     $empleado_nombre = $request->input('nombre');
     $empleado_apellido = $request->input('apellido');
-    $cedula = $request->input('cedula');
     $codigo_empleado = $request->input('codigo_empleado');
     $tipo = $request->input('tipo');
 
-    $conceptos_nomina = ConceptosNomina::
-        select('codigo_concepto', 'descripcion', 'tipo')
+    // Obtener conceptos de nómina
+    $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->get();
 
+    // Obtener datos del empleado
+    $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
+        ->where('cedula', $cedula)
+        ->first();
+
+    // Obtener asignaciones existentes del empleado
+    $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+        ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
+        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
+        ->where('Empleados.cedula', $cedula)
+        ->where('Asignaciones.tipo_concepto', 'A')
+        ->with('conceptoNomina')
+        ->get();
+
+    // Verificar si existe una asignación existente
+    $asignacionExistente = Asignaciones::withTrashed()
+        ->where('codigo_empleado', $codigo_empleado)
+        ->where('id_concepto', $codigo_concepto)
+        ->first();
+
+    // Realizar las acciones según corresponda
+    if ($asignacionExistente) {
+        if ($asignacionExistente->deleted_at !== null) {
+            $asignacionExistente->restore();
+            session()->flash('success', 'La prima ha sido restaurada');
+
+        } else {
+            session()->flash('error', 'La prima ya se encuentra asignada al profesional');
+
+        }
+    } else {
+        $asignacion = new Asignaciones();
+        $asignacion->codigo_empleado = $codigo_empleado;
+        $asignacion->id_concepto = $codigo_concepto;
+        $asignacion->tipo_concepto = $tipo;
+        $asignacion->save();
+        session()->flash('success', 'La prima ha sido asignada con éxito');
+    }
+
+    // Obtener nuevamente las asignaciones después de los cambios
+    $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+        ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
+        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
+        ->where('Empleados.cedula', $cedula)
+        ->where('Asignaciones.tipo_concepto', 'A')
+        ->with('conceptoNomina')
+        ->get();
+
+    // Preparar los datos para pasar a la vista
     $dataemp = [
         'empleado_nombre' => $empleado_nombre,
         'empleado_apellido' => $empleado_apellido,
@@ -289,44 +338,8 @@ public function asignacionNuevaPrima(Request $request)
         'codigo_empleado' => $codigo_empleado,
     ];
 
-    $empleado = Empleado::
-    select('codigo_empleado','nombre1', 'apellido1')
-    ->where ('cedula', $cedula)
-    ->first();
-
-    $asignaciones = Asignaciones::
-        select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
-        ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-        ->where('Empleados.cedula', $cedula)
-        ->where('Asignaciones.tipo_concepto', 'A')
-        ->with('conceptoNomina')
-        ->get();
-
-
-    $asignacionExistente = Asignaciones::withTrashed()
-    ->where('codigo_empleado', $codigo_empleado)
-    ->where('id_concepto', $codigo_concepto)
-    ->first();
-
-        if ($asignacionExistente) {
-            if ($asignacionExistente->deleted_at !== null) {
-                $asignacionExistente->restore();
-                session()->flash('success', 'La prima ha sido restaurada');
-            } else {
-                session()->flash('error', 'La prima ya se encuentra asignada al profesional');
-            }
-        } else {
-            $asignacion = new asignaciones();
-            $asignacion->codigo_empleado = $codigo_empleado;
-            $asignacion->id_concepto = $codigo_concepto;
-            $asignacion->tipo_concepto = $tipo;
-            $asignacion->save();
-            session()->flash('success', 'La prima ha sido asignada con éxito');
-        }
-
-//return('no existe');
-    return view('sireh.nomina.personal_militar.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
+    // Renderizar la vista con los datos actualizados y los mensajes flash
+    return view('sireh.nomina.personal_militar.actuales-primas', compact('asignaciones', 'conceptos_nomina', 'dataemp'));
 
 }
 
@@ -393,14 +406,14 @@ public function nuevaDeduccion()
 
 public function deleteDeduccionesAsignadas(Request $request, $id)
 
-{  
+{
    asignaciones::find($id)->delete();
-    
+
     $cedula = $request->cedula;
     $empleado = Empleado::
         select('codigo_empleado','nombre1', 'apellido1')
         ->where ('cedula', $cedula)
-        ->first();        
+        ->first();
 
     $asignaciones = Asignaciones::
     select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
@@ -415,7 +428,7 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'D')
         ->get();
-        
+
     $empleado_nombre = $empleado->nombre1;
     $empleado_apellido = $empleado->apellido1;
 
@@ -428,9 +441,9 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
             'conceptos_nomina' => $conceptos_nomina,
             'codigo_empleado' => $codigo_empleado,
         ];
-    
+
     //return($asignaciones);
-    
+
     return view('sireh.nomina.personal_militar.actuales_deducciones',compact('asignaciones', 'conceptos_nomina', 'dataemp'));
 }
 
@@ -457,7 +470,7 @@ public function actualesdeducciones(Request $request)
         ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->where('Empleados.cedula', $cedula)
         ->where('Asignaciones.tipo_concepto', 'D')
-       
+
         ->get();
 
         $empleado_nombre = $empleado->nombre1;
@@ -483,67 +496,64 @@ public function actualesdeducciones(Request $request)
     }
 
     public function insertarDeduccion(Request $request)
-    {
-        $codigo_concepto = $request->input('codigo_concepto');
-        $cedula = $request->input('cedula');
-        $empleado_nombre = $request->input('nombre');
-        $empleado_apellido = $request->input('apellido');
-        $cedula = $request->input('cedula');
-        $codigo_empleado = $request->input('codigo_empleado');
-        $tipo = $request->input('tipo');
+{
+    $codigo_concepto = $request->input('codigo_concepto');
+    $cedula = $request->input('cedula');
+    $empleado_nombre = $request->input('nombre');
+    $empleado_apellido = $request->input('apellido');
+    $cedula = $request->input('cedula');
+    $codigo_empleado = $request->input('codigo_empleado');
+    $tipo = $request->input('tipo');
 
-        $conceptos_nomina = ConceptosNomina::
-            select('codigo_concepto', 'descripcion', 'tipo')
-            ->where('tipo', 'D')
-            ->get();
-
-        $dataemp = [
-            'empleado_nombre' => $empleado_nombre,
-            'empleado_apellido' => $empleado_apellido,
-            'cedula' => $cedula,
-            'conceptos_nomina' => $conceptos_nomina,
-            'codigo_empleado' => $codigo_empleado,
-        ];
-
-        $empleado = Empleado::
-        select('codigo_empleado','nombre1', 'apellido1')
-        ->where ('cedula', $cedula)
-        ->first();
-
-        $asignaciones = Asignaciones::select('Asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
-        ->join('empleados', 'Asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
-        ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->where('Empleados.cedula', $cedula)
-        ->where('Asignaciones.tipo_concepto', 'D')
-       
-        ->get();
-        
-        $asignacionExistente = Asignaciones::withTrashed()
+    $asignacionExistente = Asignaciones::withTrashed()
         ->where('codigo_empleado', $codigo_empleado)
         ->where('id_concepto', $codigo_concepto)
         ->first();
 
-        if ($asignacionExistente) {
-            if ($asignacionExistente->deleted_at !== null) {
-                $asignacionExistente->restore();
-                session()->flash('success', 'La prima ha sido restaurada');
-            } else {
-                session()->flash('error', 'La prima ya se encuentra asignada al profesional');
-            }
+    if ($asignacionExistente) {
+        if ($asignacionExistente->deleted_at !== null) {
+            $asignacionExistente->restore();
+            session()->flash('success', 'La prima ha sido restaurada');
         } else {
-            $asignacion = new asignaciones();
-            $asignacion->codigo_empleado = $codigo_empleado;
-            $asignacion->id_concepto = $codigo_concepto;
-            $asignacion->tipo_concepto = $tipo;
-            $asignacion->save();
-            session()->flash('success', 'La prima ha sido asignada con éxito');
+            session()->flash('error', 'La prima ya se encuentra asignada al profesional');
         }
-
-    //return('no existe');
-        return view('sireh.nomina.personal_militar.actuales_deducciones',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
-
+    } else {
+        $asignacion = new Asignaciones();
+        $asignacion->codigo_empleado = $codigo_empleado;
+        $asignacion->id_concepto = $codigo_concepto;
+        $asignacion->tipo_concepto = $tipo;
+        $asignacion->save();
+        session()->flash('success', 'La prima ha sido asignada con éxito');
     }
-    
+
+    $conceptos_nomina = ConceptosNomina::
+        select('codigo_concepto', 'descripcion', 'tipo')
+        ->where('tipo', 'D')
+        ->get();
+
+    $dataemp = [
+        'empleado_nombre' => $empleado_nombre,
+        'empleado_apellido' => $empleado_apellido,
+        'cedula' => $cedula,
+        'conceptos_nomina' => $conceptos_nomina,
+        'codigo_empleado' => $codigo_empleado,
+    ];
+
+    $empleado = Empleado::
+        select('codigo_empleado','nombre1', 'apellido1')
+        ->where('cedula', $cedula)
+        ->first();
+
+    $asignaciones = Asignaciones::select('Asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
+        ->join('empleados', 'Asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
+        ->where('Empleados.cedula', $cedula)
+        ->where('Asignaciones.tipo_concepto', 'D')
+        ->get();
+
+    return view('sireh.nomina.personal_militar.actuales_deducciones', compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
+}
+
 
                         //SECCION DE DEDUCCION SUELDO
 
@@ -568,9 +578,9 @@ public function editSueldosMil(Request $request)
 
     foreach ($inputs as $key => $value) {
         $id = intval($key);
-    
+
         $salario = Salarios::find($id);
-    
+
         if ($salario && $value !== null) {
             $salario->porcentaje = $value;
             $salario->save();
@@ -667,7 +677,7 @@ $border = $style->getBorders();
 $border->getAllBorders()->setBorderStyle(Border::BORDER_MEDIUM);
 $border->getAllBorders()->getColor()->setRGB(Color::COLOR_BLACK); // Color de líneas negras
 
-    
+
     // Obtener los registros de la nómina
 $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_militares.fecha_ultimo_ascenso', 'datos_militares.fecha_graduacion', 'grados_militares.siglas')
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
@@ -779,7 +789,7 @@ $primaRiesgoTipoB = Asignaciones::where('codigo_empleado', $item->codigo_emplead
     } else {
         $item->prima_riesgo_tipo_b = '0';
     }
-    
+
 // Calcular la prima de riesgo tipo C
 $primaRiesgoTipoC = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '4018')
@@ -832,7 +842,7 @@ $primaFronteraTipoC = Asignaciones::where('codigo_empleado', $item->codigo_emple
         $item->prima_frontera_tipo_c = '0';
     }
 
-    
+
 // Obtener los códigos de concepto de prima de profesionalización
 $conceptosPrimaProf = ['3026', '3027', '3028', '3029', '3030'];
 
@@ -848,7 +858,7 @@ if ($primaDeProfesionalizacion > 0) {
 } else {
     $item->prima_de_profesionalizacion = '0';
 }
- 
+
 // Calcular la asignacion alimenticia academia Hugo Chavez
 $primaAlimentacionHugoChavez = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '88')
@@ -904,7 +914,7 @@ if ($primaAlimentacionHugoChavez > 0) {
 
     // Asignar el código de concepto al $item
     $item->codigo_concepto = $codigoConcepto;
-    
+
     //calculo del porcentaje de la prima de profecionalizacion
     $primaDeProfesionalizacion = ConceptosNomina::where('codigo_concepto', $codigoConcepto )
     ->pluck('porcentaje')
@@ -935,12 +945,12 @@ $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
 ->first();
 
 $item->porcentaje_prima_prof = $primaDeProfesionalizacion;
-    
+
 // Obtener el monto del sueldo base
 $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
- 
+
 $item->sueldo_base = $sueldoBase;
 
 // Calcular el bono vacacional
@@ -948,7 +958,7 @@ $bonoVacacional = ($montoTotalComunes ?? 0) / 30 * 120;
 $item->bono_vacacional = $bonoVacacional;
 
                             // CALCULO 6.5 IPSFA
-                            
+
 // Obtener el porcentaje de la deducción 6.5 IPSFA
 $porcentajeDeduccion6IPSFA = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '9400')
@@ -960,7 +970,7 @@ if ($porcentajeDeduccion6IPSFA > 0) {
     $item->deduccion6IPSFA = $deduccion6IPSFA;
 } else {
     $item->deduccion6IPSFA = '0';
-}     
+}
 
                             // CALCULO PENSIONES
 
@@ -975,7 +985,7 @@ if ($porcentajepensiones > 0) {
     $item->pensiones = $pensiones;
 } else {
     $item->pensiones = '0';
-}    
+}
 
 
                  // CALCULO DEDUCCION ALIM. ACADEMIA. HUGO CHAVEZ
@@ -991,7 +1001,7 @@ if ($porcentajepensiones > 0) {
     $item->alimentacion_hugochavez = $alimentacion_hugochavez;
 } else {
     $item->alimentacion_hugochavez = '0';
-}   
+}
 
 
                             // CALCULO DEDUCCIÓN CIRCULO MILITAR
@@ -1074,7 +1084,7 @@ if ($porcentajepensiones > 0) {
     $item->armamento = $armamento;
 } else {
     $item->armamento = '0';
-} 
+}
 
 // Sumar todas las deducciones
 $totalDeducciones = $item->deduccion6IPSFA +
@@ -1094,7 +1104,7 @@ if ($totalDeducciones == 0) {
 // Asignar el total de deducciones al objeto $item
 $item->total_deducciones = $totalDeducciones;
 
-                         
+
                             // CALCULAR TOTAL DE DEPOSITO EN BANCO
 
 $totalDepositoEnBanco = ($montoTotal ?? 0) - ($montoTotalDeducciones ?? 0);
@@ -1143,7 +1153,7 @@ $item->deposito_en_banco = $totalDepositoEnBanco;
     $sheet->setCellValue('AH' . $row, $item->l_p_h);
     $sheet->setCellValue('AI' . $row, $item->total_deducciones);
     $sheet->setCellValue('AJ' . $row, $item->deposito_en_banco);
-    
+
 
     $row++; // Incrementar el número de fila para el próximo registro
 
