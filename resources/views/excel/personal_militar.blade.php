@@ -12,6 +12,8 @@
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">SITUACIÓN</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">FECHA DE GRADUACIÓN</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">UBICACIÓN</td>
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">MOVIMIENTO</td>
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">OBSERVACION</td>
     </tr>
     @foreach($datos as $row)
         @php
@@ -27,6 +29,8 @@
             <td>{{ $row->situacion }}</td>
             <td>{{ $fecha_graduacion }}</td>
             <td>{{ $row->ubicacion }}</td>
+            <td>{{$row->tipo_movimineto}} </td>
+            <td>{{$row->observaciones}} </td>
         </tr>
     @endforeach
 </table>

@@ -6,12 +6,15 @@ use App\Exports\ParteAeronaveExport;
 use App\Models\AeronaveMatricula;
 use App\Models\AeronaveModelo;
 use App\Models\AeronaveUnidades;
+use App\Models\Fam0001;
 use App\Models\Nomina;
 use App\Models\ParteAeronave;
 use App\Models\Ubicaciones;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ParteAeronaveController extends Controller
@@ -249,4 +252,103 @@ class ParteAeronaveController extends Controller
             return Excel::download(new ParteAeronaveExport($data), $nombre_archivo);
             // return view('excel.parteAeronave', $data = compact('titulo', 'programacion','num'));
         }
+
+
+     /**
+ * Una función que genera un archivo Excel con información sobre las aeronaves.
+ *
+ * @throws No se lanza ninguna excepción.
+ * @return Una vista con la información que se exportará a Excel.
+ */
+
+ public function AeronaveExcel()
+ {
+     $fechaActual = Carbon::now('America/Caracas');
+     $fechaFormateada = strtoupper($fechaActual->formatLocalized('%d DE %B %Y'));
+     $titulo = ' PARTE DE AERONAVES ';
+     $aeronave = Fam0001::join('fam0001_a1_mision', 'fam0001_a1_mision.fam0001_id', '=', 'fam0001.id')
+     ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
+     ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
+     ->leftJoin('fam0001_a3_carga'.'fam0001_a3_carga.fam0001_id', '=', 'fam0001.id')
+     ->select(
+         'fam0001_a1_mision.id as id',
+         'aeronave_modelo.codigo_unidad as unidad',
+         'aeronave_modelo.modelo as sistema',
+         'fam0001.matricula',
+         'fam0001_a1_mision.codigo as codigo',
+         'fam0001_a1_mision.en_apoyo_A2',
+         'fam0001_a1_mision.ruta_desde',
+         'fam0001_a1_mision.ruta_hasta',
+         'fam0001_a3_carga.pesocargaTotal',
+         'fam0001_a3_carga.pers',
+         \DB::raw('GROUP_CONCAT(fam0001_a1_mision_consumibles.consumible) as consumibles'),
+         \DB::raw('GROUP_CONCAT(fam0001_a1_mision_consumibles.cantidad) as cantidad'),
+         \DB::raw('COUNT(fam0001_a1_mision.id) as count')
+     )
+     ->groupBy('fam0001.id')
+     ->whereDate('fam0001.fecha', '=', '2023-05-24')
+     ->orderByRaw("FIELD(fam0001.unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
+     ->get();
+
+         $aeronave2 = Fam0001::join('fam0001_a1_mision', 'fam0001_a1_mision.fam0001_id', '=', 'fam0001.id')
+         ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
+         ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
+         ->select('fam0001.id', \DB::raw('COUNT(fam0001.id) as count'),
+         \DB::raw('sum(case when fam0001_a1_mision.fam0001_id = fam0001.id then 1 else 0 end) as total'))
+         ->whereDate('fam0001.fecha', '=', '2023-05-24')
+         ->groupBy('fam0001.id')
+         ->get();
+
+     $registros = Fam0001::join('fam0001_a1_mision', 'fam0001_a1_mision.fam0001_id', '=', 'fam0001.id')
+         ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
+         ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
+         ->select('fam0001.id as fam0001_id', 'fam0001_a1_mision.encend', 'fam0001_a1_mision.apag')
+         ->whereDate('fam0001.fecha', '=', '2023-05-24')
+         ->groupBy('fam0001.id', 'fam0001_a1_mision.encend', 'fam0001_a1_mision.apag')
+         ->get();
+
+     $horasDecimalesPorRegistro = [];
+
+     foreach ($registros as $registro) {
+        if ($registro->encend != 'EVENTUAL' && $registro->apag != 'EVENTUAL') {
+            $encendido = DateTime::createFromFormat('H:i', $registro->encend);
+            $apagado = DateTime::createFromFormat('H:i', $registro->apag);
+
+            if ($encendido && $apagado) {
+                // Calcular la diferencia de tiempo en segundos
+                $diferencia = $apagado->getTimestamp() - $encendido->getTimestamp();
+
+                // Calcular las horas decimales dividiendo la diferencia de tiempo entre 3600 (segundos en una hora)
+                $horasDecimales = $diferencia / 3600;
+
+                // Redondear las horas decimales a dos decimales
+                $horasDecimales = round($horasDecimales, 1);
+
+                // Sumar las horas decimales a la suma acumulada del registro asociado
+                $horasDecimalesPorRegistro[$registro->fam0001_id] = ($horasDecimalesPorRegistro[$registro->fam0001_id] ?? 0) + $horasDecimales;
+            }
+        }
+    }
+       //dd($horasDecimalesPorRegistro);
+
+
+           // $nombre_archivo = sprintf('reporte de Aeronaves %s .xlsx', $fechaActual->format('Y-m-d h_i_s_a'));
+           // $data = compact('titulo', 'programacion', 'num', 'fechaFormateada');
+            //return Excel::download(new ParteAeronaveExport($data), $nombre_archivo);
+            return view('excel.HorasAeronave', compact('titulo', 'aeronave', 'fechaFormateada', 'aeronave2', 'horasDecimalesPorRegistro'));
+        }
 }
+
+
+/*    // Convertir las horas de encendido y apagado a objetos DateTime
+    $encendido = DateTime::createFromFormat('H:i', $horaEncendido);
+    $apagado = DateTime::createFromFormat('H:i', $horaApagado);
+
+    // Calcular la diferencia de tiempo en segundos
+    $diferencia = $apagado->getTimestamp() - $encendido->getTimestamp();
+
+    // Calcular las horas decimales dividiendo la diferencia de tiempo entre 3600 (segundos en una hora)
+    $horasDecimales = $diferencia / 3600;
+
+    // Redondear las horas decimales a dos decimales
+    $horasDecimales = round($horasDecimales, 2);*/

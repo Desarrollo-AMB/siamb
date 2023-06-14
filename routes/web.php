@@ -477,6 +477,7 @@ Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'stor
 Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaingdao'])->name('parte.auditoriaing');
 Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoriadao'])->name('parte.auditoria');
 Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExceldao'])->name('dao.reporteAeronaveExcel');
+Route::get('/dao/Aeronave/ripor',[ParteAeronaveController::class, 'AeronaveExcel'])->name('dao.AeronaveExcel');
 
 /////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
 Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');

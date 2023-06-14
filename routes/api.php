@@ -36,7 +36,6 @@ use App\Http\Controllers\juntaperm\controllerjuntap;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::get('personal/empleadosnotuser', [PersonalController::class, 'empleadosSinUser'])->name('api.personal.empleados.notuser');
 Route::get('personal/notempleadosnotuser', [PersonalController::class, 'notEmpleadosSinUser'])->name('api.personal.not-empleados.notuser');
 Route::get("ciudades/{estado_id}", [ApiController::class, 'getListCiudades'])->name("api.ciudades");
