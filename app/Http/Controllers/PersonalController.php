@@ -1725,7 +1725,7 @@ class PersonalController extends Controller
         $this->validate($request,
             [
                 'reporte' => 'required',
-                'parametros' => 'required|array|min:1',  asd
+                'parametros' => 'required|array|min:1', 
 
 
 
@@ -1733,7 +1733,7 @@ class PersonalController extends Controller
 
 
 
-                
+
                 'parametros.*' => 'required|string|distinct',
 
                 'parametros1' => 'array|min:1',

@@ -89,6 +89,11 @@
                                                             <option
                                                                 value="presente"{{ $nomina->situacion == 'Presente' ? 'selected' : '' }}>
                                                                 Presente</option>
+
+                                                                <option
+                                                                value="Permiso"{{ $nomina->situacion == 'Permiso' ? 'selected' : '' }}>
+                                                                Permiso</option>
+
                                                             <option
                                                                 value="Servicio en la Unidad"{{ $nomina->situacion == 'Servicio en la Unidad' ? 'selected' : '' }}>
                                                                 Servicio en la Unidad</option>
