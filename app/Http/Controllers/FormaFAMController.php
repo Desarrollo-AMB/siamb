@@ -95,16 +95,20 @@ class FormaFAMController extends Controller
                 if ($existe_parte > 0) {
                     $existe_parte = 1;
                 }else{
-                    $existe_parte = 2; 
+                    $existe_parte = 2;
                 }
-                
-                $fam0001 = Fam0001::where('completado', 'paso1')
-                ->orWhere(function($query) use ($fecha) {
-                    $query->where('completado', 'completado')
-                        ->whereDate('fecha', $fecha);
+
+                $fam0001 = Fam0001::where(function($query) use ($fecha, $ubicacion, $user_id) {
+                    $query->where('completado', 'paso1')
+                        ->where('unidad', $ubicacion[0]['codigos'])
+                        ->where('user_id', $user_id);
                 })
-                ->where('unidad', $ubicacion[0]['codigos'])
-                ->where('user_id',$user_id)
+                ->orWhere(function($query) use ($fecha, $ubicacion, $user_id) {
+                    $query->where('completado', 'completado')
+                        ->whereDate('fecha', $fecha)
+                        ->where('unidad', $ubicacion[0]['codigos'])
+                        ->where('user_id', $user_id);
+                })
                 ->with('aeronaves')
                 ->with('misiones')
                 ->orderBy('matricula', 'asc')
@@ -953,7 +957,7 @@ class FormaFAMController extends Controller
 
             // Si el usuario pertenece a un grupo aereo entonces se crean las variables para mostrar la programacion de su unidad
             elseif(count($ubicacion)>0){
-                
+
                 $fam0001 = Fam0001::whereDate('fecha', $fecha_manana)->where('unidad', $ubicacion[0]['codigos'])->whereIn('completado', ['enviado','revisado','actualizado','programando'])->where('user_id',$user_id)->with('aeronaves')->get();
                 $unidad = $ubicacion[0]['codigos'];
 
