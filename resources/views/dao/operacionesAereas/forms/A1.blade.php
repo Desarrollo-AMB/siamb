@@ -253,11 +253,11 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HV-1</small>
-                        <input id="hv1" name="hv1" type="number" class="form-control hv blackInReadOnly" style="text-transform: uppercase" value="0.0">
+                        <input id="hv1" name="hv1" type="number" class="form-control hv blackInReadOnly hv1" style="text-transform: uppercase" step="0.1" pattern="\d+(\.\d{1})?" title="Ingrese solo números con un decimal" value="0.0">
                     </div>
                 </div>
             </div>
-            <div class="row">
+        {{--<div class="row">
                 <small style="font-weight: bold; color:#67748e;">COD-2</small>
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -541,6 +541,16 @@
                         <input id="hv4" name="hv4" type="number" class="form-control hv blackInReadOnly" style="text-transform: uppercase" value="0.0">
                     </div>
                 </div>
+            </div> --}}
+        </div>
+
+        <div class="row div_cods">
+
+        </div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button id="btnAgregarCod" type="button" class="btn btn-primary btn-sm btnAgregarCod" style="float: right; background: green;color: black;">Agregar</button>
             </div>
         </div>
 

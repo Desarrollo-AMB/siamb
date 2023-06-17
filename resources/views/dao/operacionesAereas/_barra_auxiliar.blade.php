@@ -14,11 +14,19 @@
                         </div>
                     </div>
                     <div class="col-3 text-end">
-                        <a href="{{ route('dao.ver_programacion') }}">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
+                        @if ($existe_parte == 2)
+                            <a href="#" @disabled(true)>
+                                <div class="icon icon-shape bg-secondary shadow text-center border-radius-md">
+                                    <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        @else
+                            <a href="#" id="ver_prog">
+                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                    <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
