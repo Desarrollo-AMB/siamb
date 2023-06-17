@@ -211,10 +211,10 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-    $('#responsiveA1').DataTable({
-        responsive: true
-    });
-});
+            $('#responsiveA1').DataTable({
+                responsive: true
+            });
+        });
         $(document).ready(function() {
 
             var id_fam0001;

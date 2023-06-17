@@ -14,6 +14,13 @@
     <div class="col-12">
         <div class="card mb-4 mx-4">
             <hr class="horizontal dark my-0">
+            @if ($existe_parte == 2)
+                <div class="alert alert-danger mx-4" role="alert">
+                    <ul>
+                        <li style="color: white">No ha registrado el parte de Aeronaves, para programar debe enviar el parte diario.</li>
+                    </ul>
+                </div>
+            @endif
             @include('dao.operacionesAereas._barra_auxiliar')
             <hr class="horizontal dark my-0">
             <div class="card-header pb-0 mb-2">
@@ -286,6 +293,10 @@
                     }
                 });
             }
+        });
+
+        $('#ver_prog').click(function(){
+            window.location.href = "{{route('dao.ver_programacion')}}";
         });
 
     });

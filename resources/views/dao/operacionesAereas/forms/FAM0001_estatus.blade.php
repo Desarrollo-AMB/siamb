@@ -127,7 +127,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
-                                                <h6>SERIAL</h6>
+                                                            <h6>SERIAL</h6>
                                                             <input readonly="true" id="serial" name="serial" type="text" class="form-control serial load_serial blackInReadOnly" value="">
                                                         </div>
                                                     </div>
@@ -1478,7 +1478,7 @@
                     HV2:$('.registro_hv2').val(),
                     HV3:$('.registro_hv3').val(),
                     HV4:$('.registro_hv4').val(),
-                    
+
                     completado: "paso3",
                     },
                     success:function(response){
@@ -2319,6 +2319,7 @@
             }
 
             $(".pasar_calculo").val(((minDiffSeg*0.1)/6).toFixed(1))
+            $(".hv1").val(((minDiffSeg*0.1)/6).toFixed(1))
         }
         $(".calculateTime").change(calculateTime);
         calculateTime();
@@ -2632,6 +2633,140 @@
                 }
             });
         }
+
+        function comprobar_horas_cod(){
+            var hv = $(".registro_manual").val();
+            var hv1 = $(".hv1").val();
+            if(hv < hv1){
+                alert('La hora no coincide con la hora de la misión');
+                $(".hv1").val(hv);
+            } else{
+                
+            }
+        }
+        $(".hv1").change(comprobar_horas_cod);
+        comprobar_horas_cod();
+
+        $('#btnAgregarCod').click(function(){
+            alert('agregarCod');
+            $('.div_cods').append('<div class="row">\
+                <small style="font-weight: bold; color:#67748e;">COD-2</small>\
+                <div class="col-sm-3">\
+                    <div class="form-group">\
+                        <small style="font-weight: bold; color:#67748e;">TIPO MISIÓN</small>\
+                        <select id="siglas2" name="siglas2" class="form-control siglas select2">\
+                            <option value=""></option>\
+                            @foreach($codigoTipoMisionSiglas as $data)\
+                                <option value="{{$data->siglas}}">{{$data->siglas}}</option>\
+                            @endforeach\
+                        </select>\
+                    </div>\
+                </div>\
+                <div class="col-sm-3">\
+                    <div class="form-group">\
+                        <small style="font-weight: bold; color:#67748e;">CÓDIGO</small>\
+                        <select id="codigo2" name="codigo2" class="form-control codigo select2">\
+                        <option value=""></option>\
+                        </select>\
+                    </div>\
+                </div>\
+                <div class="col-sm-3">\
+                    <div class="form-group">\
+                        <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
+                        <select id="condicion2" name="condicion2" class="form-control condicion select2">\
+                            <option value=""></option>\
+                            <option value="DCV">DCV</option>\
+                            <option value="DCI">DCI</option>\
+                            <option value="DWV">DWV</option>\
+                            <option value="DWI">DWI</option>\
+                            <option value="NCV">NCV</option>\
+                            <option value="NCI">NCI</option>\
+                            <option value="NWV">NWV</option>\
+                            <option value="NWI">NWI</option>\
+                            <option value="DCVG">DCVG</option>\
+                            <option value="DCIG">DCIG</option>\
+                            <option value="DWVG">DWVG</option>\
+                            <option value="DWIG">DWIG</option>\
+                            <option value="NCVG">NCVG</option>\
+                            <option value="NCIG">NCIG</option>\
+                            <option value="NWVG">NWVG</option>\
+                            <option value="NWIG">NWIG</option>\
+                            <option value="DCVF">DCVF</option>\
+                            <option value="DCIF">DCIF</option>\
+                            <option value="DWVF">DWVF</option>\
+                            <option value="DWIF">DWIF</option>\
+                            <option value="NCVF">NCVF</option>\
+                            <option value="NCIF">NCIF</option>\
+                            <option value="NWVF">NWVF</option>\
+                            <option value="NWIF">NWIF</option>\
+                            <option value="DCVA">DCVA</option>\
+                            <option value="DCIA">DCIA</option>\
+                            <option value="DWVA">DWVA</option>\
+                            <option value="DWIA">DWIA</option>\
+                            <option value="NCVA">NCVA</option>\
+                            <option value="NCIA">NCIA</option>\
+                            <option value="NWVA">NWVA</option>\
+                            <option value="NWIA">NWIA</option>\
+                            <option value="DCVL">DCVL</option>\
+                            <option value="DCIL">DCIL</option>\
+                            <option value="DWVL">DWVL</option>\
+                            <option value="DWIL">DWIL</option>\
+                            <option value="NCVL">NCVL</option>\
+                            <option value="NCIL">NCIL</option>\
+                            <option value="NWVL">NWVL</option>\
+                            <option value="NWIL">NWIL</option>\
+                            <option value="DCVH">DCVH</option>\
+                            <option value="DCIH">DCIH</option>\
+                            <option value="DWVH">DWVH</option>\
+                            <option value="DWIH">DWIH</option>\
+                            <option value="NCVH">NCVH</option>\
+                            <option value="NCIH">NCIH</option>\
+                            <option value="NWVH">NWVH</option>\
+                            <option value="NWIH">NWIH</option>\
+                            <option value="DCVS">DCVS</option>\
+                            <option value="DCIS">DCIS</option>\
+                            <option value="DWVS">DWVS</option>\
+                            <option value="DWIS">DWIS</option>\
+                            <option value="NCVS">NCVS</option>\
+                            <option value="NCIS">NCIS</option>\
+                            <option value="NWVS">NWVS</option>\
+                            <option value="NWIS">NWIS</option>\
+                        </select>\
+                    </div>\
+                </div>\
+                <div class="col-sm-3">\
+                    <div class="form-group">\
+                        <small style="font-weight: bold; color:#67748e;">HV-2</small>\
+                        <input id="hv2" name="hv2" type="number" class="form-control hv blackInReadOnly" style="text-transform: uppercase" value="0.0">\
+                    </div>\
+                </div>\
+            </div>');
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('codigos_mision_json') }}",
+                success: function(res) {
+                    if (res) {
+                        $("#codigo2").empty();
+
+                        $("#codigo2").append(
+                            '<option value="">Seleccionar..</option>');
+
+                        $.each(res.codigo, function(key, value) {
+                            $('#codigo2').append(
+                                '<option class="" value="' +
+                                value.codigo + '">' + value.codigo +
+                                '</option>');
+                        });
+                    }
+                }
+            });
+            
+
+            $('.select2').select2({
+                placeholder: "Seleccione una opción"
+            });
+        });
 
     });
 
