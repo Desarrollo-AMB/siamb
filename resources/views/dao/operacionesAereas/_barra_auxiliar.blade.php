@@ -1,59 +1,51 @@
 <div class="row justify-content-center">
 
-    <div class="col-xl-4 col-md-4 col-sm-4 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                @if ($existe_parte == 2)
+                    <a href="#" style="color: gray; pointer-events: none; text-decoration: none;">
+                        <div class="icon icon-shape bg-gradient-secondary shadow text-center border-radius-md">
+                            <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                        <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                            <small class="font-weight-bolder mb-1">
                                 Programación de Vuelo
                                 <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
+                            </small>
+                        </p>
+                    </a>
+                @else
+                    <a href="#" id="ver_prog">
+                        <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                            <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
                         </div>
-                    </div>
-                    <div class="col-3 text-end">
-                        @if ($existe_parte == 2)
-                            <a href="#" @disabled(true)>
-                                <div class="icon icon-shape bg-secondary shadow text-center border-radius-md">
-                                    <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </a>
-                        @else
-                            <a href="#" id="ver_prog">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="fas fa-plane-departure text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </a>
-                        @endif
-                    </div>
-                </div>
+                        <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                            <small class="font-weight-bolder mb-1">
+                                Programación de Vuelo
+                                <span class="text-success text-sm font-weight-bolder"></span>
+                            </small>
+                        </p>
+                    </a>
+                @endif
             </div>
         </div>
     </div>
 
-    <div class="col-xl-4 col-md-4 col-sm-4 mb-xl-0 mb-4">
-        <div class="card">
-            <div class="card-body p-3">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="numbers">
-                            <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
-                            <h5 class="font-weight-bolder mb-0">
-                                Vuelos Realizados
-                                <span class="text-success text-sm font-weight-bolder"></span>
-                            </h5>
-                        </div>
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('dao.vuelos.realizados.index') }}">
+                    <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                        <i class="fa fa-plane text-lg opacity-10" aria-hidden="true"></i>
                     </div>
-                    <div class="col-3 text-end">
-                        <a href="{{ route('dao.vuelos.realizados.index') }}">
-                            <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
-                                <i class="fa fa-plane text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            Vuelos Realizados
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
             </div>
         </div>
     </div>
