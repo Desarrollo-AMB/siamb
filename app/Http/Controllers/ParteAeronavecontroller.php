@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Exports\HorasAeronaveExport;
 use App\Exports\ParteAeronaveExport;
 use App\Models\AeronaveMatricula;
 use App\Models\AeronaveModelo;
@@ -21,8 +23,11 @@ class ParteAeronaveController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *Este código define un método de controlador indexparte que recupera datos de la base de datos y devuelve una vista para mostrarlos.
+      *El método une tres tablas (nomina, empleados y ubicaciones) para recuperar una lista de datos relacionados con el usuario autenticado.
+      *Luego utiliza estos datos para filtrar registros de la tabla parte_aeronave, recupera el recuento de registros con valores específicos en la columna situacion, agrupa los registros filtrados por varias columnas y devuelve todos estos datos a la vista.
      * @return \Illuminate\Http\Response
+     *
      */
     public function indexparte()
     {  $user_id = auth()->user()->id; //obtener el id del usuario que ha iniciado sesión
@@ -83,7 +88,9 @@ class ParteAeronaveController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *Este código define una función llamada crear() que recupera datos de la base de datos y los pasa a una vista. Específicamente,
+     *obtiene el ID del usuario actualmente autenticado y lo utiliza para unir datos de varias tablas en la base de datos.
+      *Los datos resultantes se devuelven a una vista llamada 'dao.aeronaves.create'.
      * @return \Illuminate\Http\Response
      */
     public function crear()
@@ -111,7 +118,11 @@ class ParteAeronaveController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *Este código define una función que guarda nuevos recursos en un almacenamiento.
+     * Toma un objeto de solicitud como argumento, extrae algunos datos de él y
+      * los utiliza para comprobar si un recurso ya existe. Si no existe, guarda
+       * el nuevo recurso en el almacenamiento y devuelve una respuesta exitosa.
+       *  Si existe, devuelve una respuesta de error.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -181,7 +192,20 @@ class ParteAeronaveController extends Controller
                ]);
            }
     }
-
+/**
+     * Valida la solicitud dada y recupera todas las ubicaciones y partes de una aeronave en una fecha determinada,
+     * las agrupa por ubicación y devuelve una vista con las ubicaciones que tienen partes y las que no las tienen.
+     *Mon, Jun 19, 2023, 10:54 am
+    *Esta es una función escrita en PHP que valida una solicitud dada,
+    *recupera todas las ubicaciones y partes de una aeronave en una fecha determinada,
+    *las agrupa por ubicación y devuelve una vista con las ubicaciones que tienen partes y las que no las tienen.
+    *Toma como parámetro un objeto de solicitud, lo valida y no lanza excepciones.
+    *Devuelve una vista con dos variables: ubicacionesConRegistro (ubicaciones con partes)
+    *y ubicionesSinRegistro (ubicaciones sin partes).
+     * @param request $request La solicitud a validar.
+     * @throws None
+     * @return view La vista con las ubicaciones con partes y las que no las tienen.
+     */
     public function auditoriadao(request $request){
         {
 
@@ -195,7 +219,12 @@ class ParteAeronaveController extends Controller
                 'fecha.required' => 'Debe seleccionar una fecha'
             ]);
             $fecha = $request->fecha;
-            $ubicaciones = Ubicaciones::all(); // Obtener todas las ubicaciones
+            $ubicaciones = Ubicaciones::select('*')
+           ->whereIn('codigo_ubicacion',['0420',
+            '0010','0418','0412','0421','0419','0415','0408','0409',
+            '0411','0428','0416','0410','0417','0413', '0414','0420',
+            '0010','0418','0412','0421','0419','0415','0408','0409',
+            '0411','0428','0416','0410','0417', '0413', '0414'])->get(); // Obtener todas las ubicaciones
 
             $partes = ParteAeronave::where('fecha',$fecha)->get();
             $partesUbicacion = $partes->groupBy('codigo_ubicacion');
@@ -218,6 +247,11 @@ class ParteAeronaveController extends Controller
 
         );
         }
+/**
+ * Recupera una vista para la página 'auditoriaingreso' en el directorio 'dao.aeronaves'.
+ *
+ * @return Illuminate\View\View
+ */
 
 
 
@@ -265,13 +299,13 @@ class ParteAeronaveController extends Controller
  {
      $fechaActual = Carbon::now('America/Caracas');
      $fechaFormateada = strtoupper($fechaActual->formatLocalized('%d DE %B %Y'));
-     $titulo = ' PARTE DE AERONAVES ';
+     $titulo = ' RELACIÓN DE HORAS DE  VUELO DIARIAS Y MISIONES PROGRAMADAS DE LA AMB ';
      $aeronave = Fam0001::join('fam0001_a1_mision', 'fam0001_a1_mision.fam0001_id', '=', 'fam0001.id')
-     ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
+     ->leftjoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_id', '=', 'fam0001.id')
      ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
-     ->leftJoin('fam0001_a3_carga'.'fam0001_a3_carga.fam0001_id', '=', 'fam0001.id')
+     ->leftJoin('fam0001_a3_carga','fam0001_a3_carga.fam0001_id', '=', 'fam0001.id')
      ->select(
-         'fam0001_a1_mision.id as id',
+         'fam0001.id as id',
          'aeronave_modelo.codigo_unidad as unidad',
          'aeronave_modelo.modelo as sistema',
          'fam0001.matricula',
@@ -280,22 +314,48 @@ class ParteAeronaveController extends Controller
          'fam0001_a1_mision.ruta_desde',
          'fam0001_a1_mision.ruta_hasta',
          'fam0001_a3_carga.pesocargaTotal',
-         'fam0001_a3_carga.pers',
-         \DB::raw('GROUP_CONCAT(fam0001_a1_mision_consumibles.consumible) as consumibles'),
-         \DB::raw('GROUP_CONCAT(fam0001_a1_mision_consumibles.cantidad) as cantidad'),
-         \DB::raw('COUNT(fam0001_a1_mision.id) as count')
+         'fam0001_a3_carga.pers as perse',
+         \DB::raw('GROUP_CONCAT(DISTINCT fam0001_a1_mision_consumibles.consumible SEPARATOR "\n") as consumibles'),
+         \DB::raw('IFNULL(GROUP_CONCAT(DISTINCT CASE
+         WHEN fam0001_a1_mision_consumibles.consumible = "JET-A1" THEN
+             IF(fam0001_a1_mision_consumibles.unidad = "LBS", ROUND(fam0001_a1_mision_consumibles.cantidad * 0.4536, 2),
+             IF(fam0001_a1_mision_consumibles.unidad = "GAL", ROUND(fam0001_a1_mision_consumibles.cantidad * 3.78541, 2),
+             ROUND(fam0001_a1_mision_consumibles.cantidad, 2)))
+         END SEPARATOR "\n"),0) as cantidad'),
+         \DB::raw('GROUP_CONCAT(DISTINCT fam0001_a1_mision_consumibles.consumible SEPARATOR "\n") as consumibles'),
+         \DB::raw('IFNULL(GROUP_CONCAT(DISTINCT CASE
+         WHEN fam0001_a1_mision_consumibles.consumible = "AV-GAS" THEN
+             IF(fam0001_a1_mision_consumibles.unidad = "LBS", ROUND(fam0001_a1_mision_consumibles.cantidad * 0.4536, 2),
+             IF(fam0001_a1_mision_consumibles.unidad = "GAL", ROUND(fam0001_a1_mision_consumibles.cantidad * 3.78541, 2),
+             ROUND(fam0001_a1_mision_consumibles.cantidad, 2)))
+         END SEPARATOR "\n"), 0) as avgas'),
+         \DB::raw('COUNT(DISTINCT fam0001_a1_mision.id) as count'),
+      //  \DB::raw('SUM(DISTINCT COALESCE (CASE WHEN fam0001_a1_mision.completado  THEN 1 ELSE 0 END)) as count'),
+      \DB::raw('COUNT(DISTINCT COALESCE (CASE WHEN fam0001_a1_mision.completado <> "completado" THEN fam0001_a1_mision.id END)) as canceladas'),
+      \DB::raw('COUNT(DISTINCT COALESCE (CASE WHEN fam0001_a1_mision.completado = "completado" THEN fam0001_a1_mision.id END)) as completadas'),
+    //  \DB::raw('SUM(DISTINCT COALESCE (CASE WHEN fam0001_a1_mision.completado = "completado" THEN 1 ELSE 0 END)) as completadas'),
+         \DB::raw('SUM(DISTINCT COALESCE(fam0001_a1_mision.registro_manual, 0)) as horas'),
+         \DB::raw('SUM(DISTINCT COALESCE(fam0001_a3_carga.pers, 0)) as pers'),
+         \DB::raw('COUNT(DISTINCT fam0001_a1_mision.aterriz) as aterrizajes'),
+         \DB::raw('GROUP_CONCAT(DISTINCT CASE WHEN fam0001_a1_mision.ruta_hasta <> "EVENTUAL" THEN fam0001_a1_mision.ruta_hasta END) as hasta'),
+         \DB::raw('GROUP_CONCAT(DISTINCT CASE WHEN fam0001_a1_mision.ruta_desde <> "EVENTUAL" THEN fam0001_a1_mision.ruta_desde END) as desde'),
+         \DB::raw('GROUP_CONCAT(DISTINCT CASE WHEN fam0001_a1_mision.codigo <> "ALERTA" THEN fam0001_a1_mision.codigo END) as codigos'),
+         \DB::raw('(SELECT COUNT( fam0001_b1_tripulacion.v_trip) FROM fam0001_b1_tripulacion WHERE fam0001_b1_tripulacion.fam0001_id = fam0001.id) as tripulacion'),
+         \DB::raw('GROUP_CONCAT(DISTINCT fam0001_a1_mision.en_apoyo_A2) as apoyo')
      )
      ->groupBy('fam0001.id')
-     ->whereDate('fam0001.fecha', '=', '2023-05-24')
+   //  ->where('fam0001.id', '=', '633')
+     ->whereDate('fam0001.fecha', '=', $fechaActual)
      ->orderByRaw("FIELD(fam0001.unidad, 'G-4', 'G-5', 'G-6', 'G-7', 'G-8', 'G-9', 'G-10', 'G-11', 'G-12', 'G-13', 'G-14', 'G-15', 'G-16', 'G-17', 'G-18', 'G-19')")
      ->get();
+
 
          $aeronave2 = Fam0001::join('fam0001_a1_mision', 'fam0001_a1_mision.fam0001_id', '=', 'fam0001.id')
          ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
          ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
          ->select('fam0001.id', \DB::raw('COUNT(fam0001.id) as count'),
          \DB::raw('sum(case when fam0001_a1_mision.fam0001_id = fam0001.id then 1 else 0 end) as total'))
-         ->whereDate('fam0001.fecha', '=', '2023-05-24')
+         ->whereDate('fam0001.fecha', '=', '2023-06-07')
          ->groupBy('fam0001.id')
          ->get();
 
@@ -303,7 +363,7 @@ class ParteAeronaveController extends Controller
          ->leftJoin('fam0001_a1_mision_consumibles', 'fam0001_a1_mision_consumibles.fam0001_a1_mision_id', '=', 'fam0001_a1_mision.id')
          ->join('aeronave_modelo', 'aeronave_modelo.id', '=', 'fam0001.aeronave_modelo')
          ->select('fam0001.id as fam0001_id', 'fam0001_a1_mision.encend', 'fam0001_a1_mision.apag')
-         ->whereDate('fam0001.fecha', '=', '2023-05-24')
+         ->whereDate('fam0001.fecha', '=', '2023-06-07')
          ->groupBy('fam0001.id', 'fam0001_a1_mision.encend', 'fam0001_a1_mision.apag')
          ->get();
 
@@ -332,10 +392,10 @@ class ParteAeronaveController extends Controller
        //dd($horasDecimalesPorRegistro);
 
 
-           // $nombre_archivo = sprintf('reporte de Aeronaves %s .xlsx', $fechaActual->format('Y-m-d h_i_s_a'));
-           // $data = compact('titulo', 'programacion', 'num', 'fechaFormateada');
-            //return Excel::download(new ParteAeronaveExport($data), $nombre_archivo);
-            return view('excel.HorasAeronave', compact('titulo', 'aeronave', 'fechaFormateada', 'aeronave2', 'horasDecimalesPorRegistro'));
+           $nombre_archivo = sprintf('reporte de Aeronaves %s .xlsx', $fechaActual->format('Y-m-d h_i_s_a'));
+           $data = compact('titulo', 'aeronave', 'fechaFormateada', 'aeronave2', 'horasDecimalesPorRegistro');
+            return Excel::download(new HorasAeronaveExport($data), $nombre_archivo);
+           // return view('excel.HorasAeronave', compact('titulo', 'aeronave', 'fechaFormateada', 'aeronave2', 'horasDecimalesPorRegistro'));
         }
 }
 

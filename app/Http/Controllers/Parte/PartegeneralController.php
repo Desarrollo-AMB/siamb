@@ -224,14 +224,22 @@ class PartegeneralController extends Controller
     }
     public function indexparte()
     {
-        $user_id = auth()->user()->id; //obtener el id del usuario que ha iniciado sesión
+        $user_id = auth()->user()->id;
 
         $codigo_ubicacion = DB::table('nomina')
             ->join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
             ->where('empleados.user_id', '=', $user_id)
             ->select('nomina.codigo_ubicacion')
-            ->first()
-            ->codigo_ubicacion;
+            ->first();
+
+        if (!$codigo_ubicacion) {
+            $codigo_ubicacion = DB::table('empleados_otro_componente')
+                ->where('user_id', '=', $user_id)
+                ->select('codigo_ubicacion')
+                ->first();
+        }
+
+        $codigo_ubicacion = $codigo_ubicacion->codigo_ubicacion;
         $parte = parte_general::
         select('fecha');
         $nominas = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
@@ -621,15 +629,22 @@ $list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_genera
     }
     public function ParteUnidad(Request $request) {
 
-
-        $user_id = auth()->user()->id; //obtener el id del usuario que ha iniciado sesión
+        $user_id = auth()->user()->id;
 
         $codigo_ubicacion = DB::table('nomina')
             ->join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
             ->where('empleados.user_id', '=', $user_id)
             ->select('nomina.codigo_ubicacion')
-            ->first()
-            ->codigo_ubicacion;
+            ->first();
+
+        if (!$codigo_ubicacion) {
+            $codigo_ubicacion = DB::table('empleados_otro_componente')
+                ->where('user_id', '=', $user_id)
+                ->select('codigo_ubicacion')
+                ->first();
+        }
+
+        $codigo_ubicacion = $codigo_ubicacion->codigo_ubicacion;
 
            $nomina_count = Nomina::whereIn('situacion', ['A', 'S'])
         ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
