@@ -1725,7 +1725,7 @@ class PersonalController extends Controller
         $this->validate($request,
             [
                 'reporte' => 'required',
-                'parametros' => 'required|array|min:1', 
+                'parametros' => 'required|array|min:1',
 
 
 
@@ -1981,4 +1981,10 @@ class PersonalController extends Controller
 
 
 }
+
+    public function ficha(Request $request)
+    {
+        
+
+    }
 }
