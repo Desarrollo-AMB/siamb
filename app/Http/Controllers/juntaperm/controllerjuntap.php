@@ -53,36 +53,167 @@ use DateTime;
 
 class controllerjuntap extends Controller
 {
+
+
+        /**
+     * Recupera y devuelve una vista para la página 'juntap.ascenso.index'.
+     *
+     * @return Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
     public function juntap()
     {
         return view('juntap.ascenso.index');
     } //
+    /**
+     * Muestra la vista del índice de informes.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
 
     public function indexreporte()
     {
         return view('juntap.reportes.index');
     } //
 
+/**
+ * Muestra la vista para el informe 'reporteascenso'.
+ *
+ * @return \Illuminate\Contracts\View\View
+ */
+
 
     public function reportenasc()
     {
         return view('juntap.reportes.reporteascenso');
-    } //
+    } 
+
+/**
+ * Devuelve una vista para la página 'julio' de la sección 'ascenso' del proyecto 'juntap'.
+ *
+ * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+ */
 
     public function ascjulio()
     {
         return view('juntap.ascenso.julio');
-    } //
+    } 
+
+
+
+/**
+ * Recupera la vista diciembre para la página de ascenso.
+ *
+ * @return Illuminate\Contracts\View\View
+ */
+
 
     public function ascdiciembre()
     {
         return view('juntap.ascenso.diciembre');
     } //
+    /**
+* Recupera y devuelve la vista para la página "juntap.ascenso.index".
+*
+* @return Illuminate\Contracts\View\View
+*/
 
     public function asccategoria()
     {
         return view('juntap.ascenso.index');
     } //
+    public function asc_fichas()
+    {
+        return view('juntap.personalm.index_fichas');
+    } 
+    
+    public function asc_select_fichas(Request $request)
+    {
+
+        ini_set('max_execution_time', 300);
+
+        $periodo = $request->input('select_periodo');
+
+        $categoria = $request->input('select_categoria');
+
+        $empleados = [];
+
+
+        switch ($periodo) {
+            case 'julio':
+
+                switch ($categoria) {
+                    case 'comando':
+                        return view('juntap.personalm.julio.comando');
+                        break;
+
+                    case 'tecnico':
+                        return view('juntap.personalm.julio.tecnico');
+                        break;
+                    case 'ofitropa':
+                        return view('juntap.personalm.julio.ofitropa');
+                        break;
+                    case 'asimiladotec':
+                        return view('juntap.personalm.julio.asitecnico');
+                        break;
+                    case 'asimilado':
+                        return view('juntap.personalm.julio.asimilado');
+                        break;
+                    case 'tropaprofesional':
+                        return view('juntap.personalm.julio.tropap');
+                        break;
+
+
+                    default:
+                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                        // return response()->json("no funciona");
+                        break;
+                }
+
+                break;
+
+
+            case 'diciembre':
+
+                switch ($categoria) {
+
+                    case 'ofitropa':
+                        return view('juntap.personalm.diciembre.ofitropa');
+                        break;
+                    case 'asimiladotec':
+                        return view('juntap.personalm.diciembre.asitecnico');
+                        break;
+                    case 'asimilado':
+                        return view('juntap.personalm.diciembre.asimilado');
+                        break;
+
+                    default:
+                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                        // return response()->json("no funciona");
+                        break;
+                }
+                break;
+
+            default:
+                // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                // return response()->json("no funciona");
+                break;
+        }
+    } 
+    
+    
+    
+    //
+   /**
+ * Muestra la página de índice del personal militarasc.
+ *
+* @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+ */
+
+   
     public function indexPersonalMilitarasc()
     {
         $funcionEmpleado = FuncionTripulante::get();
@@ -93,13 +224,13 @@ class controllerjuntap extends Controller
             )
         );
     }
-    /*
-    public function index()
-    {
-        return view('juntap.personalm.principal');
-    }
+ 
+/**
+ * Muestra la página de índice para el personal civil.
+ *
+ * @return Illuminate\View\View
+ */
 
-*/
 
     public function indexPersonalCivil()
     {
@@ -118,6 +249,12 @@ class controllerjuntap extends Controller
     }
 
 
+    /**
+     * Una función que selecciona y devuelve una vista basada en el valor de entrada de select_periodo y select_categoria.
+     *
+     * @param Request $request El objeto de solicitud enviado por el cliente
+     * @return mixed La vista seleccionada basada en el valor de entrada de select_periodo y select_categoria
+     */
 
     public function ascselect(Request $request)
     {
@@ -195,7 +332,14 @@ class controllerjuntap extends Controller
                 break;
         }
     } //
-
+    /**
+     * Recibe los datos de una solicitud y llama a la función 'ascender_julio'
+     * para devolver su respuesta.
+     *
+     * @param Request $request los datos enviados en la solicitud
+     * @throws None
+     * @return mixed la respuesta de la función 'ascender_julio'
+     */
     public function recibir_datos_ascenso_julio(Request $request)
     {
         $data = $request->all(); // Obtener los datos enviados en la solicitud
@@ -205,6 +349,21 @@ class controllerjuntap extends Controller
 
         return $response; // Devolver la respuesta de la función 'ascender_julio'
     }
+
+
+
+    /**
+     * Esta función actualiza el rango militar y la fecha del último ascenso de los empleados
+     * según los datos recibidos. También actualiza el orden de mérito y el orden de mérito total
+     * de cada empleado y almacena la información del ascenso en la base de datos. Finalmente, 
+     * devuelve una respuesta JSON con el resultado de la operación.
+     *
+     * @param Request $request El objeto de solicitud HTTP que contiene los datos de ascenso
+     * @throws None
+     * @return Illuminate\Http\JsonResponse Una respuesta JSON con el resultado de la operación
+     */
+
+
     public function ascender_julio(Request $request)
     {
         $data = $request->all();
@@ -303,6 +462,12 @@ class controllerjuntap extends Controller
 
         return response()->json($response);
     }
+    /**
+     * Actualiza los datos militares y de nómina para los empleados que han sido seleccionados para ascenso.
+     *
+     * @param Request $request El objeto de solicitud que contiene los datos del empleado.
+     * @return \Illuminate\Http\JsonResponse Devuelve la respuesta en formato JSON.
+     */
 
     public function ascender_diciembre(Request $request)
     {
@@ -401,6 +566,20 @@ class controllerjuntap extends Controller
 
         return response()->json($response);
     }
+
+   /**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
+    
+   
 
     public function select_diciembre_ofitropa(Request $request)
     {
@@ -979,7 +1158,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+/**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_diciembre_asitecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -1557,7 +1746,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+/**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_diciembre_asimilado(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -2135,7 +2334,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+/**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_comando(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -2713,6 +2922,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_tecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -3290,6 +3510,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_ofitropa(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -3867,7 +4098,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+/**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_asitecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -4445,6 +4686,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_asimilado(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -5022,6 +5274,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+       * 
+       * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+       * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+       * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+       * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+      *
+      * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_tropap(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -5469,7 +5732,7 @@ class controllerjuntap extends Controller
         }
     }
 
-    public function select(Request $request)
+ /*   public function select(Request $request)
     {
         ini_set('max_execution_time', 300);
         $empleados = [];
@@ -8379,9 +8642,17 @@ class controllerjuntap extends Controller
         }
     }
 
+*/
 
+    /**
+     * Esta función se utiliza para realizar el ascenso militar de un empleado.
+     *
+     * @param Request $request La instancia de la solicitud HTTP.
+     * @throws None.
+     * @return \Illuminate\Http\JsonResponse La instancia de respuesta actualizada.
+     */
 
-
+   
     public function ascender_personal(Request $request)
     {
         // $data = $request->all();
@@ -8400,6 +8671,7 @@ class controllerjuntap extends Controller
         $justif = $request->input('justif');
         $reconoc = $request->input('reconoc');
         $fecha_reconoc = $request->input('fecha_reconoc');
+
 
 
 
@@ -13306,61 +13578,77 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                 return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
             } else {
 
-                // dd($empleados);
-                $empleados = $this->todo_reporte($periodo, $fecha);
-                if (is_array($empleados) && count($empleados) == 0) {
-                    // Función para eliminar la columna 'puesto'
 
-                    // Eliminar la columna 'puesto' del arreglo "$empleados"
+                if($tipo =='pdf'){
 
 
-                    $mensaje = "No se Encontraron los Registros.";
+                    $mensaje = "Error al Completar los Campos.";
                     // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
                     // return echo "<script>mostrarMensaje('$mensaje');</script>";
                     return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
-                } else if (is_string($empleados)) {
 
-                    return view('juntap.reportes.reporteascenso', ['mensaje_error' => $empleados]);
-                } else {
+                }else{
 
 
-                    if ($tipo == "excel") {
+// dd($empleados);
+$empleados = $this->todo_reporte($periodo, $fecha);
+if (is_array($empleados) && count($empleados) == 0) {
+    // Función para eliminar la columna 'puesto'
+
+    // Eliminar la columna 'puesto' del arreglo "$empleados"
 
 
+    $mensaje = "No se Encontraron los Registros.";
+    // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
+    // return echo "<script>mostrarMensaje('$mensaje');</script>";
+    return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+} else if (is_string($empleados)) {
+
+    return view('juntap.reportes.reporteascenso', ['mensaje_error' => $empleados]);
+} else {
 
 
-                        // Función para eliminar la columna 'puesto'
-
-                        // Eliminar la columna 'puesto' del arreglo "$empleados"
-                        $empleados = array_map(function ($fila) {
-                            unset($fila['punto']);
-                            return $fila;
-                        }, $empleados);
-
-
-                        $empleados = collect($empleados);
-                        $nombre_archivo = sprintf('ReportePersonalMilitarTentativoAscenso %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
-
-                        $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
-
-                        // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
-
-                        return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
-                        //return $mensaje;
-                        // Retorna un mensaje JSON si no hay resultados
-
-                    } else {
-
-                        // dd($empleados);
+    if ($tipo == "excel") {
 
 
 
-                        $mensaje = "Error al Completar los Campos.";
-                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
-                        return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
-                    }
+
+        // Función para eliminar la columna 'puesto'
+
+        // Eliminar la columna 'puesto' del arreglo "$empleados"
+        $empleados = array_map(function ($fila) {
+            unset($fila['punto']);
+            return $fila;
+        }, $empleados);
+
+
+        $empleados = collect($empleados);
+        $nombre_archivo = sprintf('ReportePersonalMilitarTentativoAscenso %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+
+        $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
+
+        // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+
+        return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+        //return $mensaje;
+        // Retorna un mensaje JSON si no hay resultados
+
+    } else {
+
+        // dd($empleados);
+
+
+
+        $mensaje = "Error al Completar los Campos.";
+        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
+        // return echo "<script>mostrarMensaje('$mensaje');</script>";
+        return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+    }
+}
+
+
                 }
+                
             }
             /*
 

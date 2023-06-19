@@ -37,7 +37,7 @@
                             display: flex;
                             justify-content: center;
                         ">
-                                <div class="col-3">
+                                <div class="col-3 text-center">
                                   
                                     <div class="form-group">
                                         <h6 for="Grado">Periodo de Ascenso: <small></small></h6>
@@ -49,9 +49,9 @@
                                           </select>  
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-3 text-center">
                                
-                                     <div class="form-group">
+                                     <div class="form-group ">
                                         <h6 for="Grado">Categoria: <small></small></h6>
                                         <select class="form-select" name="select_categoria" id="select_categoria"aria-label="Default select example">
                                             <option selected>Seleccionar...</option>

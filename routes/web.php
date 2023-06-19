@@ -88,6 +88,20 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     Route::get('/auxiliares', [HomeController::class, 'auxiliares'])->name('auxiliares');
     //JUNTA P
+
+    Route::get('/juntapermanente/personalmilitar/fichas', [controllerjuntap::class, 'asc_fichas'])->name('juntap.personalm.index_fichas');
+    Route::post('/juntapermanente/personalmilitar/categoria', [controllerjuntap::class, 'asc_select_fichas'])->name('juntap.personalm.select');
+    Route::get('/juntapermanente/personalmilitar/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.comando');
+    Route::get('/juntapermanente/personalmilitar/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.tecnico');
+    Route::get('/juntapermanente/personalmilitar/julio/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.ofitropa');
+    Route::get('/juntapermanente/personalmilitar/julio/asitecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.asitecnico');
+    Route::get('/juntapermanente/personalmilitar/julio/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.asimilado');
+    Route::get('/juntapermanente/personalmilitar/julio/tropap', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.tropap');
+    Route::get('/juntapermanente/personalmilitar/diciembre/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.diciembre.ofitropa');
+    Route::get('/juntapermanente/personalmilitar/diciembre/asitecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.diciembre.asitecnico');
+    Route::get('/juntapermanente/personalmilitar/diciembre/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.diciembre.asimilado');
+
+
     Route::get('/juntapermanente/personalmilitar/index', [controllerjuntap::class, 'indexPersonalMilitarasc'])->name('juntap.personalm.index');
     Route::post('/juntapermanente/personalmilitar/ascender', [controllerjuntap::class, 'ascenderPersonalMilitar'])->name('juntap.personalm.ascenderlos');
     Route::post('/juntapermanente/personalmilitar/ascenderd', [controllerjuntap::class, 'ascDataPersonalMilitar'])->name('juntap.personalm.datas');
@@ -101,8 +115,10 @@ Route::group(['middleware' => ['auth','access']], function() {
 
     
 
-    Route::post('/juntapermanente/ascenso/julio/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
+    Route::post('/juntapermanente/ascenso/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
+
     
+
     Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.comando');
     Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.tecnico');
     Route::get('/juntapermanente/ascenso/julio/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.ofitropa');

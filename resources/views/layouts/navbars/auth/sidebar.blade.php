@@ -92,10 +92,10 @@
       <li class="nav-item">
         <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup4" class="collapsed nav-link " aria-controls="collapseExample" >
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fa fa-shield"><title>JUNTA PERMANENTE</title></i>
+            <i style="color:#3a416f" class="fa fa-shield"><title>Junta Permanente</title></i>
 
           </div>
-          <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
+          <span class="nav-link-text ms-1">Junta Permanente </span>
         </a>
 
         <div class="panel-collapse collapse {{ (Request::is('juntap/*') ) ? 'show' : '' }}"  id="collapseListGroup4" >
