@@ -110,7 +110,7 @@
                         <div>
                             <h5 class="mb-0">Personal a Ascender por Categoria</h5>
                         </div>
-                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('juntap.personalm.index_fichasx') }}">Volver</a>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('juntap.personalm.index_fichas') }}">Volver</a>
                     </div>
                 </div>
                 <hr class="horizontal dark my-0">
