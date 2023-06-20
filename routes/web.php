@@ -110,15 +110,10 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/juntapermanente/ascenso', [controllerjuntap::class, 'juntap'])->name('juntap.ascenso.index');
     Route::get('/juntapermanente/reportes', [controllerjuntap::class, 'indexreporte'])->name('juntap.reportes.index');
    
-    Route::get('/juntapermanente/selector', [controllerjuntap::class, 'asccategoria'])->name('juntap.ascenso.index');
-    Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'ascjulio'])->name('juntap.ascenso.julio');
-
-    
 
     Route::post('/juntapermanente/ascenso/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
 
     
-
     Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.comando');
     Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.tecnico');
     Route::get('/juntapermanente/ascenso/julio/ofitropa', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.julio.ofitropa');
@@ -129,11 +124,12 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/juntapermanente/ascenso/diciembre/asitecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.asitecnico');
     Route::get('/juntapermanente/ascenso/diciembre/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.asimilado');
 
-   // Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('juntap.ascenso.julio');
-    //Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('juntap.ascenso.julio.select');
+  
+
+
     Route::get('/juntapermanente/ascenso/reportes/reporteascenso', [controllerjuntap::class, 'reportenasc'])->name('juntap.reportes.reporteascenso');
     Route::post('/juntapermanente/ascenso/reportes/reporteascensos', [controllerjuntap::class, 'descargarEmpleados'])->name('juntap.reportes.ascrreporte');
-    Route::get('/juntapermanente/ascenso/diciembre', [controllerjuntap::class, 'ascdiciembre'])->name('juntap.ascenso.diciembre');
+   
 
     Route::post('/juntapermanente/reportespdf', [controllerjuntap::class, 'ascreporter2'])->name('juntap.reportes.reporteascPDF');
 
@@ -145,8 +141,8 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/juntap/personalm/ubicacion/{id}', [Controllerjuntap::class, 'ubicacionesPersonalMilitar'])->name('juntap.personalm.ubicacion');
     Route::post('/juntap/personalm/updatedatos', [Controllerjuntap::class, 'updatePersonalMilitar'])->name('juntap.personalm.update.datos');
 
-    //Route::get('/juntapermanente/ascenso', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.ascenso.index');
-    //Route::get('/juntapermanente/reportes', [juntaperm\controllerjuntap::class, 'index'])->name('juntap.reportes.index');
+
+
     //CRUD Tabla Cargos
     Route::get('/auxiliares/cargos', [CargosController::class, 'index'])->name('auxiliares.cargos.index');
     Route::get('/auxiliares/cargos/create', [CargosController::class, 'create'])->name('auxiliares.cargos.create');

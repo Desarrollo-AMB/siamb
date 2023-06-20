@@ -88,40 +88,22 @@ class controllerjuntap extends Controller
         return view('juntap.reportes.reporteascenso');
     } 
 
-/**
- * Devuelve una vista para la página 'julio' de la sección 'ascenso' del proyecto 'juntap'.
- *
- * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
- */
-
-    public function ascjulio()
-    {
-        return view('juntap.ascenso.julio');
-    } 
 
 
 
-/**
- * Recupera la vista diciembre para la página de ascenso.
- *
- * @return Illuminate\Contracts\View\View
- */
 
-
-    public function ascdiciembre()
-    {
-        return view('juntap.ascenso.diciembre');
-    } //
     /**
 * Recupera y devuelve la vista para la página "juntap.ascenso.index".
 *
 * @return Illuminate\Contracts\View\View
-*/
 
-    public function asccategoria()
+*/
+   /*  public function asccategoria()
     {
         return view('juntap.ascenso.index');
-    } //
+    } 
+    
+    */
     public function asc_fichas()
     {
         return view('juntap.personalm.index_fichas');

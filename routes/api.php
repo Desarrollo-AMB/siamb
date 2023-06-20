@@ -104,7 +104,7 @@ Route::get("grados-militares-noprof/{tipo_emp?}", [ApiController::class, 'getGra
 Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitarasc'])->name('api.juntap.personalm.data');
  //Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select']);
  //Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('api.juntap.ascenso.julio');
- Route::get('/juntap/reportes/index', [controllerjuntap::class, 'juntap'])->name('api.juntap.reportes.index');
+
 
  Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'select_julio_comando'])->name('api.juntap.ascenso.julio.comando');
  Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'select_julio_tecnico'])->name('api.juntap.ascenso.julio.tecnico');
