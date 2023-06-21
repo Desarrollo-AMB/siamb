@@ -466,7 +466,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bloqrow" style="height: auto;width: 100%;">
+                    <div class="bloqrow" style="height: auto;width: 110%;">
                         INVESTIGACION JUDICIAL
                     </div>
                     <div style="display: flex; justify-content: space-between;">
@@ -494,7 +494,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bloqrow" style="height: auto;width: 25.5%;">
+                    <div class="bloqrow" style="height: auto;width: 30%;">
                         JUCIO ABIERTO
                     </div>
                     <div style="display: flex; justify-content: space-between;">
