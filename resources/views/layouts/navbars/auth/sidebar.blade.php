@@ -132,9 +132,9 @@
                                 <title>JUNTA PERMANENTE</title>
                             </i>
 
-                        </div>
-                        <span class="nav-link-text ms-1">JUNTA PERMANENTE </span>
-                    </a>
+          </div>
+          <span class="nav-link-text ms-1">Junta Permanente </span>
+        </a>
 
                     <div class="panel-collapse collapse {{ Request::is('juntap/*') ? 'show' : '' }}"
                         id="collapseListGroup4">

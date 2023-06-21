@@ -53,36 +53,155 @@ use DateTime;
 
 class controllerjuntap extends Controller
 {
+
+
+    /**
+     * Recupera y devuelve una vista para la página 'juntap.ascenso.index'.
+     *
+     * @return Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
     public function juntap()
     {
         return view('juntap.ascenso.index');
     } //
+    /**
+     * Muestra la vista del índice de informes.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
 
     public function indexreporte()
     {
         return view('juntap.reportes.index');
     } //
 
+    /**
+     * Muestra la vista para el informe 'reporteascenso'.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+
 
     public function reportenasc()
     {
         return view('juntap.reportes.reporteascenso');
-    } //
+    }
 
-    public function ascjulio()
-    {
-        return view('juntap.ascenso.julio');
-    } //
 
-    public function ascdiciembre()
-    {
-        return view('juntap.ascenso.diciembre');
-    } //
 
-    public function asccategoria()
+
+
+    /**
+     * Recupera y devuelve la vista para la página "juntap.ascenso.index".
+     *
+     * @return Illuminate\Contracts\View\View
+
+     */
+    /*  public function asccategoria()
     {
         return view('juntap.ascenso.index');
-    } //
+    } 
+    
+    */
+    public function asc_fichas()
+    {
+        return view('juntap.personalm.index_fichas');
+    }
+    /**
+     * Selecciona la vista apropiada para mostrar los datos del empleado según el periodo y la categoría seleccionados.
+     *
+     * @param Request $request la solicitud HTTP
+     * @return \Illuminate\Contracts\View\View la vista que se mostrará
+     */
+
+    public function asc_select_fichas(Request $request)
+    {
+
+        ini_set('max_execution_time', 300);
+
+        $periodo = $request->input('select_periodo');
+
+        $categoria = $request->input('select_categoria');
+
+        $empleados = [];
+
+
+        switch ($periodo) {
+            case 'julio':
+
+                switch ($categoria) {
+                    case 'comando':
+                        return view('juntap.personalm.julio.comando');
+                        break;
+
+                    case 'tecnico':
+                        return view('juntap.personalm.julio.tecnico');
+                        break;
+                    case 'ofitropa':
+                        return view('juntap.personalm.julio.ofitropa');
+                        break;
+                    case 'asimiladotec':
+                        return view('juntap.personalm.julio.asitecnico');
+                        break;
+                    case 'asimilado':
+                        return view('juntap.personalm.julio.asimilado');
+                        break;
+                    case 'tropaprofesional':
+                        return view('juntap.personalm.julio.tropap');
+                        break;
+
+
+                    default:
+                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                        // return response()->json("no funciona");
+                        break;
+                }
+
+                break;
+
+
+            case 'diciembre':
+
+                switch ($categoria) {
+
+                    case 'ofitropa':
+                        return view('juntap.personalm.diciembre.ofitropa');
+                        break;
+                    case 'asimiladotec':
+                        return view('juntap.personalm.diciembre.asitecnico');
+                        break;
+                    case 'asimilado':
+                        return view('juntap.personalm.diciembre.asimilado');
+                        break;
+
+                    default:
+                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                        // return response()->json("no funciona");
+                        break;
+                }
+                break;
+
+            default:
+                // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
+
+                // return response()->json("no funciona");
+                break;
+        }
+    }
+
+
+
+    //
+    /**
+     * Muestra la página de índice del personal militarasc.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+
     public function indexPersonalMilitarasc()
     {
         $funcionEmpleado = FuncionTripulante::get();
@@ -93,13 +212,13 @@ class controllerjuntap extends Controller
             )
         );
     }
-    /*
-    public function index()
-    {
-        return view('juntap.personalm.principal');
-    }
 
-*/
+    /**
+     * Muestra la página de índice para el personal civil.
+     *
+     * @return Illuminate\View\View
+     */
+
 
     public function indexPersonalCivil()
     {
@@ -111,6 +230,11 @@ class controllerjuntap extends Controller
             )
         );
     }
+    /**
+     * Muestra la página de índice para la vista de personal militar no profesional.
+     *
+     * @return view La vista que contiene la página de índice del personal militar no profesional.
+     */
 
     public function indexPersonalMilitarNoProf()
     {
@@ -118,6 +242,12 @@ class controllerjuntap extends Controller
     }
 
 
+    /**
+     * Una función que selecciona y devuelve una vista basada en el valor de entrada de select_periodo y select_categoria.
+     *
+     * @param Request $request El objeto de solicitud enviado por el cliente
+     * @return mixed La vista seleccionada basada en el valor de entrada de select_periodo y select_categoria
+     */
 
     public function ascselect(Request $request)
     {
@@ -195,7 +325,14 @@ class controllerjuntap extends Controller
                 break;
         }
     } //
-
+    /**
+     * Recibe los datos de una solicitud y llama a la función 'ascender_julio'
+     * para devolver su respuesta.
+     *
+     * @param Request $request los datos enviados en la solicitud
+     * @throws None
+     * @return mixed la respuesta de la función 'ascender_julio'
+     */
     public function recibir_datos_ascenso_julio(Request $request)
     {
         $data = $request->all(); // Obtener los datos enviados en la solicitud
@@ -205,6 +342,21 @@ class controllerjuntap extends Controller
 
         return $response; // Devolver la respuesta de la función 'ascender_julio'
     }
+
+
+
+    /**
+     * Esta función actualiza el rango militar y la fecha del último ascenso de los empleados
+     * según los datos recibidos. También actualiza el orden de mérito y el orden de mérito total
+     * de cada empleado y almacena la información del ascenso en la base de datos. Finalmente, 
+     * devuelve una respuesta JSON con el resultado de la operación.
+     *
+     * @param Request $request El objeto de solicitud HTTP que contiene los datos de ascenso
+     * @throws None
+     * @return Illuminate\Http\JsonResponse Una respuesta JSON con el resultado de la operación
+     */
+
+
     public function ascender_julio(Request $request)
     {
         $data = $request->all();
@@ -303,6 +455,12 @@ class controllerjuntap extends Controller
 
         return response()->json($response);
     }
+    /**
+     * Actualiza los datos militares y de nómina para los empleados que han sido seleccionados para ascenso.
+     *
+     * @param Request $request El objeto de solicitud que contiene los datos del empleado.
+     * @return \Illuminate\Http\JsonResponse Devuelve la respuesta en formato JSON.
+     */
 
     public function ascender_diciembre(Request $request)
     {
@@ -401,6 +559,20 @@ class controllerjuntap extends Controller
 
         return response()->json($response);
     }
+
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
+
+
 
     public function select_diciembre_ofitropa(Request $request)
     {
@@ -979,7 +1151,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_diciembre_asitecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -1557,7 +1739,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_diciembre_asimilado(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -2135,7 +2327,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_comando(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -2713,6 +2915,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_tecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -3290,6 +3503,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_ofitropa(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -3867,7 +4091,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
 
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_asitecnico(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -4445,6 +4679,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_asimilado(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -5022,6 +5267,17 @@ class controllerjuntap extends Controller
                 break;
         }
     }
+    /**
+     * 
+     * Esta funcion recibe una solicitud y realiza operaciones en funcion de los datos recibidos. Se establece un limite de tiempo 
+     * de ejecucion, se obtienen los valores del formulario enviado y realiza una comsulta en la base de datos utilizando una serie de uniones 
+     * y condiciones para obtener una lista de empleados guardadas. Luego, se devuelve una respuesta JSON con los detalles de los empleados
+     * si se ha encontrado al menos uno. De lo contrario, se devuelve un mensaje de error. 
+
+     *
+     * @param Request $request la solicitud HTTP entrante.
+     * @return JsonResponse la respuesta JSON que contiene los empleados o un mensaje de error.
+     */
     public function select_julio_tropap(Request $request)
     {
         ini_set('max_execution_time', 300);
@@ -5469,2919 +5725,13 @@ class controllerjuntap extends Controller
         }
     }
 
-    public function select(Request $request)
-    {
-        ini_set('max_execution_time', 300);
-        $empleados = [];
-        $grado = $request->input('select_comando1');
-
-        $categoria = $request->input('categoria');
-
-        switch ($categoria) {
-            case 7:
-
-                switch ($grado) {
-                    case '15':
-
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '020':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-
-                    case '030':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '040':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 12
-                                      WHEN naturaleza = 2 THEN 15
-                                      WHEN naturaleza = 3 THEN 20
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '050':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 10
-                                      WHEN naturaleza = 2 THEN 13
-                                      WHEN naturaleza = 3 THEN 18
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '060':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 8
-                                      WHEN naturaleza = 2 THEN 11
-                                      WHEN naturaleza = 3 THEN 16
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                    case '070':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 9
-                                      WHEN naturaleza = 3 THEN 14
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '080':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 12
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '090':
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 10
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-                break;
-
-            case 5:
-
-                switch ($grado) {
-                    case '15':
-
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '020':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-
-                    case '030':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '040':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 12
-                                      WHEN naturaleza = 2 THEN 15
-                                      WHEN naturaleza = 3 THEN 20
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '050':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 10
-                                      WHEN naturaleza = 2 THEN 13
-                                      WHEN naturaleza = 3 THEN 18
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '060':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 8
-                                      WHEN naturaleza = 2 THEN 11
-                                      WHEN naturaleza = 3 THEN 16
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                    case '070':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 9
-                                      WHEN naturaleza = 3 THEN 14
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '080':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 12
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '090':
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 10
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-
-
-
-                break;
-
-            case 7:
-
-                switch ($grado) {
-                    case '15':
-
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '020':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-
-                    case '030':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '040':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 12
-                                      WHEN naturaleza = 2 THEN 15
-                                      WHEN naturaleza = 3 THEN 20
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '050':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 10
-                                      WHEN naturaleza = 2 THEN 13
-                                      WHEN naturaleza = 3 THEN 18
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '060':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 8
-                                      WHEN naturaleza = 2 THEN 11
-                                      WHEN naturaleza = 3 THEN 16
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                    case '070':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 9
-                                      WHEN naturaleza = 3 THEN 14
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '080':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 12
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '090':
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 10
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-                break;
-            case 6:
-                switch ($grado) {
-                    case '15':
-
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '020':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-
-                    case '030':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '040':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 12
-                                      WHEN naturaleza = 2 THEN 15
-                                      WHEN naturaleza = 3 THEN 20
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '050':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 10
-                                      WHEN naturaleza = 2 THEN 13
-                                      WHEN naturaleza = 3 THEN 18
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '060':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 8
-                                      WHEN naturaleza = 2 THEN 11
-                                      WHEN naturaleza = 3 THEN 16
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                    case '070':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 9
-                                      WHEN naturaleza = 3 THEN 14
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '080':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 12
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '090':
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 10
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-
-                break;
-            case 2:
-
-                switch ($grado) {
-                    case '15':
-
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '020':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-
-                    case '030':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->select(
-
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                        }
-                        break;
-                    case '040':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 12
-                                      WHEN naturaleza = 2 THEN 15
-                                      WHEN naturaleza = 3 THEN 20
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '050':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 10
-                                      WHEN naturaleza = 2 THEN 13
-                                      WHEN naturaleza = 3 THEN 18
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '060':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 8
-                                      WHEN naturaleza = 2 THEN 11
-                                      WHEN naturaleza = 3 THEN 16
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                    case '070':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 9
-                                      WHEN naturaleza = 3 THEN 14
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '080':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 12
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '090':
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 10
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-                break;
-            case 8:
-                switch ($grado) {
-                    case '420':
-
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 7
-                                      WHEN naturaleza = 2 THEN 8
-                                      WHEN naturaleza = 3 THEN 9
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '430':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1095")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 6
-                                      WHEN naturaleza = 2 THEN 7
-                                      WHEN naturaleza = 3 THEN 8
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-
-                    case '440':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 5
-                                      WHEN naturaleza = 2 THEN 6
-                                      WHEN naturaleza = 3 THEN 7
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '450':
-
-
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 4
-                                      WHEN naturaleza = 2 THEN 5
-                                      WHEN naturaleza = 3 THEN 6
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-
-                    case '460':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-                            ->whereRaw("DATEDIFF(NOW(), datos_militares.fecha_ultimo_ascenso) > 1460")
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 3
-                                      WHEN naturaleza = 2 THEN 4
-                                      WHEN naturaleza = 3 THEN 5
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-                        break;
-                    case '470':
-                        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-                            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-                            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-                            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-                            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-                            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                            ->where('datos_militares.codigo_categoria', $categoria)
-                            ->where('nomina.grado_militar', '=', $grado)
-                            ->where(function ($query) {
-                                $query->where('empleados.situacion', 'A')
-                                    ->orWhere('empleados.situacion', 'S');
-                            })
-                            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-                            ->whereRaw("MONTH(fecha_graduacion) = 7")
-
-
-                            ->select(
-                                'empleados.codigo_empleado',
-                                'empleados.cedula as cedula',
-                                'empleados.nombre1 as nombre1',
-                                'empleados.apellido1 as apellido1',
-                                'grados_militares.descripcion as grado_militar',
-                                'grados_militares.grado_a_ascender as grado_ascender',
-                                DB::raw("(SELECT IFNULL(SUM(
-                                  CASE
-                                      WHEN naturaleza = 1 THEN 2
-                                      WHEN naturaleza = 2 THEN 3
-                                      WHEN naturaleza = 3 THEN 4
-                                      ELSE 0
-                                  END
-                              ), 0) FROM datos_boleta WHERE cedula = empleados.cedula) as punto"),
-                                DB::raw("(SELECT 
-                                  (consulta1.calificacion_total - punto) / consulta1.numero_calificaciones 
-                                  FROM (
-                                      SELECT cedula, SUM(notatotal) AS calificacion_total, COUNT(*) AS numero_calificaciones 
-                                      FROM intelectuales 
-                                      WHERE cedula = empleados.cedula
-                                      GROUP BY cedula
-                                  ) AS consulta1
-                                  WHERE consulta1.cedula = empleados.cedula) AS demerito")
-                            )
-                            ->orderBy('empleados.cedula')
-                            ->get();
-
-                        if (isset($empleados) && is_object($empleados) && $empleados->count() > 0) {
-                            return response()->json($empleados);
-                        } else {
-
-                            $mensaje = 'No se encontraron empleados.';
-                            $response = [
-
-                                'success' => false,
-                                'message' => $mensaje
-                            ];
-                            return response()->json($response);
-                            //return response()->json(['message' => 'No se encontraron empleados.'], 404);
-                        }
-
-                        break;
-
-                    default:
-                        // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                        // return response()->json("no funciona");
-                        break;
-                }
-
-
-
-                break;
-
-            default:
-                // código a ejecutar si $valor no coincide con ninguna de las opciones anteriores
-
-                // return response()->json("no funciona");
-                break;
-        }
-    }
-
-
-
-
+  /*
+
+esta función se encarga de ascender el personal militar en una base de datos,
+ actualizando las tablas correspondientes y registrando los ascensos en el historial. 
+ También maneja casos especiales cuando se proporciona justificación y reconocimiento de años de servicio.
+ Al finalizar todas las acciones, se devuelve una respuesta JSON que contiene un mensaje y un indicador de éxito.
+*/
     public function ascender_personal(Request $request)
     {
         // $data = $request->all();
@@ -8400,6 +5750,7 @@ class controllerjuntap extends Controller
         $justif = $request->input('justif');
         $reconoc = $request->input('reconoc');
         $fecha_reconoc = $request->input('fecha_reconoc');
+
 
 
 
@@ -8511,7 +5862,7 @@ class controllerjuntap extends Controller
             }
         } else {
 
-          
+
 
             if ($select_just == 'no') {
 
@@ -8628,6 +5979,13 @@ class controllerjuntap extends Controller
 
         return response()->json($response);
     }
+    /**
+     * Actualiza la categoría de un registro personal.
+     *
+     * @param Request $request El objeto de solicitud HTTP que contiene los nuevos datos.
+     * @throws Ninguno
+     * @return Illuminate\Http\JsonResponse La respuesta JSON que contiene el resultado de la actualización.
+     */
 
     public function cambio_categoria_personal(Request $request)
     {
@@ -8646,84 +6004,79 @@ class controllerjuntap extends Controller
 
         $select_tp_cat = $request->input('select_tp_cat');
 
-//dd($select_ofi_cat);
+        //dd($select_ofi_cat);
 
-if($select_ofi_cat == null){
+        if ($select_ofi_cat == null) {
 
-    $result =  DB::table('datos_militares')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update([
-                'codigo_categoria' => $select_categoria,
-                'fecha_ultimo_ascenso' => $fecha_cat,
-                'orden_merito' => $om_cat,
-                'total_orden_merito' => $omt_cat
+            $result =  DB::table('datos_militares')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update([
+                    'codigo_categoria' => $select_categoria,
+                    'fecha_ultimo_ascenso' => $fecha_cat,
+                    'orden_merito' => $om_cat,
+                    'total_orden_merito' => $omt_cat
+                ]);
+
+
+            $desc_grado = DB::table('grados_militares')
+                ->where('codigo_grado', $select_tp_cat)
+                ->pluck('siglas')
+                ->first();
+
+            // Editar la tabla "nomina"
+            $result11 =  DB::table('nomina')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update(['grado_militar' => $select_tp_cat]);
+            //dd($result11);
+
+            DB::table('historico_ascensos')->insert([
+                'codigo_empleado' => $codigo_empleado_cat,
+                'codigo_grado' => $select_tp_cat,
+                'fecha_ascenso' => $fecha_cat,
+                'orden_merito_ascenso' => $om_cat,
+                'total_orden_merito_ascenso' => $omt_cat,
+                'orden_merito_junta' => $om_cat,
+                'total_orden_merito_junta' => $omt_cat,
+                'resolucion' => $resuelto_cat
+
             ]);
-
-
-        $desc_grado = DB::table('grados_militares')
-            ->where('codigo_grado', $select_tp_cat)
-            ->pluck('siglas')
-            ->first();
-
-        // Editar la tabla "nomina"
-        $result11 =  DB::table('nomina')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update(['grado_militar' => $select_tp_cat]);
-//dd($result11);
-
-        DB::table('historico_ascensos')->insert([
-            'codigo_empleado' => $codigo_empleado_cat,
-            'codigo_grado' => $select_tp_cat,
-            'fecha_ascenso' => $fecha_cat,
-            'orden_merito_ascenso' => $om_cat,
-            'total_orden_merito_ascenso' => $omt_cat,
-            'orden_merito_junta' => $om_cat,
-            'total_orden_merito_junta' => $omt_cat,
-            'resolucion' => $resuelto_cat
-
-        ]);
-
-    }else{
+        } else {
 
 
 
-        $result =   DB::table('datos_militares')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update([
-                'codigo_categoria' => $select_categoria,
-                'fecha_ultimo_ascenso' => $fecha_cat,
-                'orden_merito' => $om_cat,
-                'total_orden_merito' => $omt_cat
+            $result =   DB::table('datos_militares')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update([
+                    'codigo_categoria' => $select_categoria,
+                    'fecha_ultimo_ascenso' => $fecha_cat,
+                    'orden_merito' => $om_cat,
+                    'total_orden_merito' => $omt_cat
+                ]);
+
+
+            $desc_grado = DB::table('grados_militares')
+                ->where('codigo_grado', $select_ofi_cat)
+                ->pluck('siglas')
+                ->first();
+
+            // Editar la tabla "nomina"
+            $res =  DB::table('nomina')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update(['grado_militar' => $select_ofi_cat]);
+            //dd($res);
+
+            DB::table('historico_ascensos')->insert([
+                'codigo_empleado' => $codigo_empleado_cat,
+                'codigo_grado' => $select_ofi_cat,
+                'fecha_ascenso' => $fecha_cat,
+                'orden_merito_ascenso' => $om_cat,
+                'total_orden_merito_ascenso' => $omt_cat,
+                'orden_merito_junta' => $om_cat,
+                'total_orden_merito_junta' => $omt_cat,
+                'resolucion' => $resuelto_cat
+
             ]);
-
-
-        $desc_grado = DB::table('grados_militares')
-            ->where('codigo_grado', $select_ofi_cat)
-            ->pluck('siglas')
-            ->first();
-
-        // Editar la tabla "nomina"
-       $res=  DB::table('nomina')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update(['grado_militar' => $select_ofi_cat]);
-//dd($res);
-
-        DB::table('historico_ascensos')->insert([
-            'codigo_empleado' => $codigo_empleado_cat,
-            'codigo_grado' => $select_ofi_cat,
-            'fecha_ascenso' => $fecha_cat,
-            'orden_merito_ascenso' => $om_cat,
-            'total_orden_merito_ascenso' => $omt_cat,
-            'orden_merito_junta' => $om_cat,
-            'total_orden_merito_junta' => $omt_cat,
-            'resolucion' => $resuelto_cat
-
-        ]);
-
-
-
-
-    }
+        }
         if ($result) {
             $mensaje = 'Cambio de Categoria Exitoso para el Empleado con el Código: [' . $codigo_empleado_cat . ']';
             $response = [
@@ -8747,12 +6100,17 @@ if($select_ofi_cat == null){
 
 
         return response()->json($response);
-
-
-
-
-
     }
+
+    /**
+     * Esta función genera un informe de oficiales militares con el rango y
+     *  la categoría especificados, que estén activos o suspendidos, y que hayan graduado en julio o agosto.
+     *
+     * @param Request $request el objeto de solicitud HTTP que contiene los parámetros deseados del informe
+     * @throws Exception si la función excede el tiempo máximo de ejecución de 300 segundos
+     * @return mixed
+     */
+
 
     public function ascreporter(Request $request)
     {
@@ -8817,6 +6175,12 @@ if($select_ofi_cat == null){
 
 
 
+    /**
+     * Genera un informe PDF de personal militar tentativamente elegible para ascenso.
+     *
+     * @param Request $request El objeto de solicitud HTTP que contiene las opciones elegidas por el usuario.
+     * @return StreamedResponse El informe PDF generado.
+     */
 
 
 
@@ -8825,18 +6189,7 @@ if($select_ofi_cat == null){
         ini_set('max_execution_time', 600);
         $ofi = $request->input('select_gradoOF');
         $coma = 4;
-        /*
-        $periodo = $request->input('select_periodo');
-        $categoria = $request->input('select_categoria');
-       
-        $tropap = $request->input('select_TP');
-        // $empleados = [];
-        $empleados = collect();
-        $datos = "";
-        
-        $complementoTitulo = "OFICIALES DE COMANDO EN EL GRADO DE ";
-        $grado = 'MAYOR GENERAL';
-     */
+      
         $categoria = $request->input('select_categoria');
 
         $ofi = $request->input('select_gradoOF');
@@ -8896,20 +6249,7 @@ if($select_ofi_cat == null){
             return $pdf->stream($fileName);
             //return $pdf->stream();
 
-            /*
-            $view = view('reporte_pdf', compact('empleados'))->render();
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view);
-            return $pdf->stream();
-            
-            
-             $pdf = new Dompdf();
-                 $options = new Options();
-                  $options->set('isRemoteEnabled', true); // Habilitar acceso a archivos remotos (opcional)
-                 $pdf->setOptions($options);
-                  $view = view('reporte_pdf', compact('empleados'))->render();
-             $pdf->loadHTML($view);
-                return $pdf->stream(); */
+           
         } else {
             $empleados = false;
 
@@ -8924,42 +6264,49 @@ if($select_ofi_cat == null){
 
         }
     }
+    /**
+     * Recupera una lista de empleados militares para mostrar en un DataTable.
+     *
+     * @param Request $request Una instancia de Illuminate\Http\Request que contiene los parámetros de la solicitud.
+     * @throws Some_Exception_Class descripción de la excepción
+     * @return Respuesta JSON que contiene los datos del DataTable.
+     */
 
     public function personalMilitarasc(Request $request)
     {
-       // $empleados = Empleado::where('empleados.situacion', 'A');
+        // $empleados = Empleado::where('empleados.situacion', 'A');
 
 
 
 
-       $empleados = Empleado::where(function ($query) {
-        $query->where('nomina.situacion', 'A')
-            ->orWhere('nomina.situacion', 'S');
-    });
-    $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
-    $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
-    $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
-    $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados = Empleado::where(function ($query) {
+            $query->where('nomina.situacion', 'A')
+                ->orWhere('nomina.situacion', 'S');
+        });
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
 
-    $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
-    $empleados->select(
-        'empleados.id',
-        'empleados.codigo_empleado',
-        'empleados.cedula',
-        'empleados.nombre1',
-        'empleados.nombre2',
-        'empleados.apellido1',
-        'empleados.apellido2',
-        'grados_militares.descripcion as grado_militar',
-        'ubicaciones.descripcion as ubicacion',
-    );
-
-
+        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
 
 
-      
-  
-       
+
+
+
+
+
         $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'juntap.personalm._actions')
             ->rawColumns(['actions']);
@@ -8968,6 +6315,12 @@ if($select_ofi_cat == null){
         return $datatable->make(true);
     }
 
+    /**
+     * Recupera los datos relacionados con un empleado militar de la base de datos, basado en los ID de entrada.
+     *
+     * @param Request $request El objeto de solicitud HTTP que contiene los ID de entrada.
+     * @return \Illuminate\Http\JsonResponse Devuelve una respuesta JSON que contiene los datos del empleado recuperados.
+     */
 
     public function ascDataPersonalMilitar(Request $request)
     {
@@ -8979,7 +6332,7 @@ if($select_ofi_cat == null){
             ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-           // ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+            // ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             // ->where('nomina.codigo_empleado', '=',$data->codigo_empleado)
             ->whereIn('nomina.codigo_empleado', $id_array)
             ->where(function ($query) {
@@ -9013,33 +6366,23 @@ if($select_ofi_cat == null){
             ]
         );
 
-        /*
-        $funcionEmpleado = FuncionTripulante::get();
-        $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
-            ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
-            ->select(
-                'empleado_funcion.id',
-                'empleado_funcion.id_funcion',
-                'funcion_tripulante.funcion',
-            )
-            ->get();
-        $idsFuncion = $haveFuncion->pluck('id_funcion')->toArray();
-        //dd($idsFuncion);
-        return response()->json([
-                'success' => true,
-                'message' => 'Data',
-                'data' => $data,
-                'haveFuncion' => $haveFuncion,
-                'funcionTripulante' => $funcionEmpleado,
-                'idsFuncion' => $idsFuncion
-            ]
-        );
-
-
-*/
+        
     }
 
+    /*
 
+ Recupera los datos de los empleados militares de la base de datos,
+
+basado en la categoría, el código de oficio y la fecha de entrada.
+
+@param string $categoria La categoría del empleado militar.
+
+@param string $ofi El código de oficio del empleado militar.
+
+@param string $fecha La fecha de entrada.
+
+@return array Devuelve un array con los datos de los empleados militares encontrados.
+*/
     public function ofic($categoria, $ofi, $fecha)
     {
         try {
@@ -9566,6 +6909,17 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
+    Recupera los datos de los empleados militares de acuerdo a la categoría, grado y fecha especificados.
+
+@param string $categoria La categoría del empleado militar.
+
+@param string $ofi El grado militar del empleado.
+
+@param string $fecha La fecha límite para el último ascenso del empleado.
+
+@return \Illuminate\Support\Collection Devuelve una colección que contiene los datos de los empleados militares recuperados.
+*/
     public function ofic_pdf($categoria, $ofi, $fecha)
     {
         try {
@@ -10083,6 +7437,19 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
+     Recupera los datos relacionados con un empleado militar de la base de datos, basado en los ID de entrada.
+
+@param string $categoria La categoría del empleado militar.
+
+@param string $ofi El código del grado militar del empleado.
+
+@param string $fecha La fecha límite para la búsqueda de ascensos.
+
+@return array Devuelve un arreglo que contiene los datos de los empleados militares recuperados.
+
+@throws \Exception Si ocurre algún error durante la ejecución de la función.
+*/
     public function ofic_dic($categoria, $ofi, $fecha)
     {
         try {
@@ -10613,6 +7980,17 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
+     Función para obtener los datos de los empleados militares en base a la categoría, grado y fecha.
+
+@param string $categoria La categoría de los empleados militares.
+
+@param string $ofi El grado de los empleados militares.
+
+@param string $fecha La fecha límite para buscar los empleados.
+
+@return \Illuminate\Support\Collection|\Illuminate\Http\JsonResponse Devuelve una colección de los datos de los empleados militares encontrados.
+*/
     public function ofic_dic_pdf($categoria, $ofi, $fecha)
     {
         try {
@@ -11134,6 +8512,24 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
+
+Función para obtener los datos de los empleados militares basado en los parámetros de entrada, como periodo, categoría, oficina, tropa y fecha.
+
+@param string $periodo El período para el informe (por ejemplo, "julio").
+
+@param int $categoria El código de categoría para filtrar los empleados.
+
+@param int $ofi El código de la oficina para filtrar los empleados.
+
+@param int $tropap El código del grado militar de tropa para filtrar los empleados.
+
+@param string $fecha La fecha límite para filtrar los empleados.
+
+@return \Illuminate\Http\JsonResponse|\Illuminate\Database\Eloquent\Collection Devuelve una respuesta JSON que contiene los datos del empleado recuperados o una colección vacía en caso de no encontrar empleados.
+
+@throws \Exception Si ocurre algún error durante la generación del informe PDF.
+*/
     public function ascreporte_pdf($periodo, $categoria, $ofi, $tropap, $fecha)
     {
         try {
@@ -11627,7 +9023,22 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
 
+Esta función genera un informe ASC de empleados militares según los parámetros de entrada.
+
+@param string $periodo El periodo para el informe (julio).
+
+@param string $categoria La categoría para el informe (4, 5, 6, 7, 8).
+
+@param string $ofi La oficina para el informe.
+
+@param string $tropap La tropa para el informe (420, 430, 440, 450, 460).
+
+@param string $fecha La fecha para el informe.
+
+@return array|json Devuelve un arreglo de empleados militares o un mensaje de error en formato JSON.
+*/
     public function ascreporte($periodo, $categoria, $ofi, $tropap, $fecha)
     {
         try {
@@ -12127,6 +9538,12 @@ if($select_ofi_cat == null){
             return $mensaje;
         }
     }
+    /*
+
+Esta función recupera los datos relacionados basado en los parámetros de entrada periodo, fecha y categoria
+
+
+*/
     public function cat_reporte($periodo, $fecha, $categoria)
     {
 
@@ -12475,50 +9892,13 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
             $mensaje = "Error en la consulta: " . $e->getMessage();
             return $mensaje;
         }
-
-        //dd($empleados);
-
-        //completar consulta 
-        /*
-
-    ->orderBy('empleados.cedula')
-            ->get()
-            ->toArray();
-
-
-
-        DB::statement('CREATE TEMPORARY TABLE empleados_temporal_excel (
-            codigo_empleado INT,
-            cedula VARCHAR(50),
-            nombre1 VARCHAR(50),
-            apellido1 VARCHAR(50),
-            grado_militar VARCHAR(50),
-            grado_ascender VARCHAR(50),
-            punto INT,
-            demerito FLOAT
-        )');
-
-        DB::table('empleados_temporal_excel')->insert($empleados);
-
-
-        //dd($empleados);
-
-
-
-
-        // Loop through all the pages of results
-
-        // Retrieve the current page of results
-        $empleados_temporal = DB::table('empleados_temporal_excel')->get();
-        // Rest of the query
-*/
-
-
-        // Generate the PDF report for the current page
-        // ...
-
-
     }
+/*
+
+Esta función recupera los datos relacionados basado en los parámetros de entrada periodo, fecha y categoria
+
+
+*/
     public function cat_reporte_pdf($periodo, $fecha, $categoria)
     {
 
@@ -12864,49 +10244,13 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
             return $mensaje;
         }
 
-        //dd($empleados);
-
-        //completar consulta 
-        /*
-
-    ->orderBy('empleados.cedula')
-            ->get()
-            ->toArray();
-
-
-
-        DB::statement('CREATE TEMPORARY TABLE empleados_temporal_excel (
-            codigo_empleado INT,
-            cedula VARCHAR(50),
-            nombre1 VARCHAR(50),
-            apellido1 VARCHAR(50),
-            grado_militar VARCHAR(50),
-            grado_ascender VARCHAR(50),
-            punto INT,
-            demerito FLOAT
-        )');
-
-        DB::table('empleados_temporal_excel')->insert($empleados);
-
-
-        //dd($empleados);
-
-
-
-
-        // Loop through all the pages of results
-
-        // Retrieve the current page of results
-        $empleados_temporal = DB::table('empleados_temporal_excel')->get();
-        // Rest of the query
-*/
-
-
-        // Generate the PDF report for the current page
-        // ...
+    
 
 
     }
+    /* 
+    Se obtienen los empleados seleccionados como resultado de las consultas y se devuelve como un arreglo.
+    */
     public function todo_reporte($periodo, $fecha)
     {
         try {
@@ -13225,50 +10569,13 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
 
-        //dd($empleados);
-
-        //completar consulta 
-        /*
-
-    ->orderBy('empleados.cedula')
-            ->get()
-            ->toArray();
-
-
-
-        DB::statement('CREATE TEMPORARY TABLE empleados_temporal_excel (
-            codigo_empleado INT,
-            cedula VARCHAR(50),
-            nombre1 VARCHAR(50),
-            apellido1 VARCHAR(50),
-            grado_militar VARCHAR(50),
-            grado_ascender VARCHAR(50),
-            punto INT,
-            demerito FLOAT
-        )');
-
-        DB::table('empleados_temporal_excel')->insert($empleados);
-
-
-        //dd($empleados);
-
-
-
-
-        // Loop through all the pages of results
-
-        // Retrieve the current page of results
-        $empleados_temporal = DB::table('empleados_temporal_excel')->get();
-        // Rest of the query
-*/
-
-
-        // Generate the PDF report for the current page
-        // ...
-
 
     }
-
+/**
+ * Descarga los empleados en un formato específico (PDF o Excel) según los parámetros proporcionados.
+ * @param Request $request La solicitud HTTP que contiene los datos necesarios para generar el informe de empleados.
+ * @return mixed Retorna una vista o descarga directa del archivo generado, dependiendo de los parámetros y resultados.
+ */
     public function descargarEmpleados(Request $request)
     {
 
@@ -13280,123 +10587,91 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
         $tropap = $request->input('select_gradoTP');
         $tipo = $request->input('select_tipo');
         $parte_todo = $request->input('parte_todo');
-        // $empleados = [];
+       
         $empleados = collect();
 
 
 
-        // $empleados = $this->ascreporter2($request);
-
-        // $empleados = $this->ascreporter2($coma, $ofi);
-        //  if ($empleados) {
-
-        // dd($tipo);
 
         if ($parte_todo == 'todo') {
 
-            //  $empleados = $this->todo_reporte($periodo, $fecha);
+          
 
 
             if ($tipo == "Seleccionar..." || $periodo == "Seleccionar..." || $fecha == null) {
 
 
                 $mensaje = "Completar los Campos.";
-                // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                // return echo "<script>mostrarMensaje('$mensaje');</script>";
+               
                 return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
             } else {
 
-                // dd($empleados);
-                $empleados = $this->todo_reporte($periodo, $fecha);
-                if (is_array($empleados) && count($empleados) == 0) {
-                    // Función para eliminar la columna 'puesto'
 
-                    // Eliminar la columna 'puesto' del arreglo "$empleados"
+                if ($tipo == 'pdf') {
 
 
-                    $mensaje = "No se Encontraron los Registros.";
-                    // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                    // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                    $mensaje = "Error al Completar los Campos.";
+                   
                     return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
-                } else if (is_string($empleados)) {
-
-                    return view('juntap.reportes.reporteascenso', ['mensaje_error' => $empleados]);
                 } else {
 
 
-                    if ($tipo == "excel") {
-
-
-
-
+                   
+                    $empleados = $this->todo_reporte($periodo, $fecha);
+                    if (is_array($empleados) && count($empleados) == 0) {
                         // Función para eliminar la columna 'puesto'
 
                         // Eliminar la columna 'puesto' del arreglo "$empleados"
-                        $empleados = array_map(function ($fila) {
-                            unset($fila['punto']);
-                            return $fila;
-                        }, $empleados);
 
 
-                        $empleados = collect($empleados);
-                        $nombre_archivo = sprintf('ReportePersonalMilitarTentativoAscenso %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+                        $mensaje = "No se Encontraron los Registros.";
+                       
+                        return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+                    } else if (is_string($empleados)) {
 
-                        $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
-
-                        // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
-
-                        return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
-                        //return $mensaje;
-                        // Retorna un mensaje JSON si no hay resultados
-
+                        return view('juntap.reportes.reporteascenso', ['mensaje_error' => $empleados]);
                     } else {
 
-                        // dd($empleados);
+
+                        if ($tipo == "excel") {
 
 
 
-                        $mensaje = "Error al Completar los Campos.";
-                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
-                        return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+
+                            // Función para eliminar la columna 'puesto'
+
+                            // Eliminar la columna 'puesto' del arreglo "$empleados"
+                            $empleados = array_map(function ($fila) {
+                                unset($fila['punto']);
+                                return $fila;
+                            }, $empleados);
+
+
+                            $empleados = collect($empleados);
+                            $nombre_archivo = sprintf('ReportePersonalMilitarTentativoAscenso %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+
+                            $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
+
+                          
+
+                            return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+                            //return $mensaje;
+                            // Retorna un mensaje JSON si no hay resultados
+
+                        } else {
+
+                            
+
+
+
+                            $mensaje = "Error al Completar los Campos.";
+                          
+                            return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
+                        }
                     }
                 }
             }
-            /*
-
-
-                // dd($empleados);
-                $pdf = \App::make('dompdf.wrapper');
-                $pdf->loadView('juntap.reportes.reporteascPDF', compact('empleados'));
-              
-                // Set the paper size and orientation
-                $pdf->setPaper('letter', 'portrait');
-              
-                // Generate the PDF file and return it as a response
-                return $pdf->download('reporte.pdf');
-
-
-                $view = view('juntap.reportes.reporteascPDF', compact('empleados'))->render();
-                // Crear una instancia de Dompdf con opciones
-                $pdfOptions = new Options();
-                $pdfOptions->set('defaultFont', 'Arial');
-                $pdf = new Dompdf($pdfOptions);
-
-                // Cargar el contenido HTML al PDF
-                $pdf->loadHTML($view);
-
-                // Generar el PDF
-                $pdf->render();
-
-
-                $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
-
-
-                // Descargar el PDF
-                return $pdf->stream($fileName);
-
-
-               */
+           
         } else if ($parte_todo == 'cat') {
 
 
@@ -13406,12 +10681,11 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                 $mensaje = "Completar los Campos.";
-                // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                // return echo "<script>mostrarMensaje('$mensaje');</script>";
+               
                 return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
             } else {
 
-                // dd($empleados);
+             
                 $empleados = $this->cat_reporte($periodo, $fecha, $categoria);
 
                 if (is_array($empleados) && count($empleados) == 0) {
@@ -13421,8 +10695,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                     $mensaje = "No se Encontraron los Registros.";
-                    // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                    // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                    
                     return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                 } else if (is_string($empleados)) {
 
@@ -13446,7 +10719,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
 
-                        // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+                       
 
                         return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
                         //return $mensaje;
@@ -13454,7 +10727,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                     } else if ($tipo == "pdf") {
 
-                        // dd($empleados);
+                
 
 
 
@@ -13463,15 +10736,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         $empleados = $this->cat_reporte_pdf($periodo, $fecha, $categoria);
 
-                        //dd($empleados);
-
-
-                        /*
-                            $empleados = array_map(function ($fila) {
-                                unset($fila['punto']);
-                                return $fila;
-                            }, $empleados);
-    */
+           
                         $pdf = \PDF::loadview('juntap.reportes.reporteascPDF', compact('empleados'))->setPaper('a4', 'landscape');
                         $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
 
@@ -13479,8 +10744,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                     } else {
 
                         $mensaje = "Error al Completar los Campos.";
-                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                       
                         return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                     }
                 }
@@ -13491,8 +10755,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                 $mensaje = "Completar los Campos.";
-                // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                
                 return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
             } else  if ($ofi != "Seleccionar...") {
 
@@ -13510,8 +10773,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                     $mensaje = "No se Encontraron los Registros.";
-                    // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                    // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                   
                     return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                 } else if (is_string($empleados)) {
 
@@ -13535,7 +10797,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
 
-                        // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+                       
 
                         return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
                         //return $mensaje;
@@ -13543,7 +10805,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                     } else if ($tipo == "pdf") {
 
-                        // dd($empleados);
+                      
 
 
 
@@ -13552,15 +10814,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         $empleados = $this->ascreporte_pdf($periodo, $categoria, $ofi, $tropap, $fecha);
 
-                        //dd($empleados);
-
-
-                        /*
-                        $empleados = array_map(function ($fila) {
-                            unset($fila['punto']);
-                            return $fila;
-                        }, $empleados);
-*/
+                        
                         $pdf = \PDF::loadview('juntap.reportes.reporteascPDF', compact('empleados'))->setPaper('a4', 'landscape');
                         $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
 
@@ -13568,27 +10822,12 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
                     } else {
 
                         $mensaje = "Error al Completar los Campos.";
-                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                        
                         return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                     }
                 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-                // dd($empleados);) {
-
-                //ofi seleccionar
 
             } else {
 
@@ -13604,8 +10843,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                         $mensaje = "No se Encontraron los Registros.";
-                        // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                        // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                      
                         return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                     } else if (is_string($empleados)) {
 
@@ -13639,7 +10877,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                             $titulo = 'REPORTE DE PERSONAL MILITAR TENTATIVO ASCENSO ';
 
-                            // $file= Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
+                          
 
                             return Excel::download(new juntapExport($empleados, $titulo), $nombre_archivo);
                             //return $mensaje;
@@ -13647,26 +10885,13 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
                         } else if ($tipo == "pdf") {
 
-                            // dd($empleados);
-
-
+        
 
                             ini_set('max_execution_time', 3600);
 
 
-
-
-                            //dd($empleados);
-
-
-
                             $empleados = $this->ascreporte_pdf($periodo, $categoria, $ofi, $tropap, $fecha);
-                            /*
-  $empleados = array_map(function ($fila) {
-                                unset($fila['punto']);
-                                return $fila;
-                            }, $empleados);
-*/
+                          
                             $pdf = \PDF::loadview('juntap.reportes.reporteascPDF', compact('empleados'))->setPaper('a4', 'landscape');
                             $fileName = 'ReportePersonalMilitarTentativoAscenso' . date('Y-m-d_H-i-s') . '.pdf';
 
@@ -13675,8 +10900,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                             $mensaje = "Error al Completar los Campos.";
-                            // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                            // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                           
                             return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                         }
                     }
@@ -13684,8 +10908,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
                     $mensaje = "Error al Completar los Campos.";
-                    // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-                    // return echo "<script>mostrarMensaje('$mensaje');</script>";
+                  
                     return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
                 }
             }
@@ -13695,43 +10918,16 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
 
-
-
-
-
-
-            //todo,cat,grado
-
-
-
         } else {
 
 
             $mensaje = "Error al Completar los Campos.";
-            // return view('juntap.reportes.reporteascenso')->with('mensaje', $mensaje);
-            // return echo "<script>mostrarMensaje('$mensaje');</script>";
+            
             return view('juntap.reportes.reporteascenso', ['mensaje' => $mensaje]);
         }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //funcion
 
 
     }
@@ -14299,7 +11495,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
         $categoria = DB::table('datos_militares')
             ->where('codigo_empleado', $codigo_empleado)
             ->value('codigo_categoria');
-            $fecha_ult = DB::table('datos_militares')
+        $fecha_ult = DB::table('datos_militares')
             ->where('codigo_empleado', $codigo_empleado)
             ->value('fecha_ultimo_ascenso');
 
@@ -14310,184 +11506,167 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
 
-if($grado==410 || $grado == 10){
+        if ($grado == 410 || $grado == 10) {
 
- // El personal no está tentativo a ascender
- $empleados = 'false';
- // Tu lógica aquí
- $fechaAscenso=0;
+            // El personal no está tentativo a ascender
+            $empleados = 'false';
+            // Tu lógica aquí
+            $fechaAscenso = 0;
+        } elseif (in_array($categoria, $categoriasPermitidas)) {
+            if (strtotime($fecha_ult) === false || $fecha_ult === "0000-00-00") {
+                $empleados = 'null';
+                $fechaAscenso = 0;
+            } else {
 
 
-
-}elseif(in_array($categoria, $categoriasPermitidas)){
-    if (strtotime($fecha_ult) === false || $fecha_ult === "0000-00-00") {
-        $empleados = 'null';
-        $fechaAscenso=0;
-    }else{
-
-   
-    if ($categoria == 8) {
+                if ($categoria == 8) {
 
 
 
 
-        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-            ->where(function ($query) {
-                $query->where('empleados.situacion', 'A')
-                    ->orWhere('empleados.situacion', 'S');
-            })
-            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-            ->whereIn('datos_militares.codigo_categoria', [$categoria])
-            ->whereIn('nomina.grado_militar', [$grado])
-            ->where('empleados.codigo_empleado', $codigo_empleado)
-            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
-            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+                    $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                        ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                        ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                        ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->whereIn('datos_militares.codigo_categoria', [$categoria])
+                        ->whereIn('nomina.grado_militar', [$grado])
+                        ->where('empleados.codigo_empleado', $codigo_empleado)
+                        ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+                        ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
            CASE
                WHEN nomina.grado_militar IN (470) THEN 3
                WHEN nomina.grado_militar IN (460, 450, 440) THEN 5
                WHEN nomina.grado_militar IN (430, 420) THEN 4
                ELSE 0
            END YEAR) AS fecha_ascenso')
-            ->first();
+                        ->first();
 
-        if ($empleados == null) {
+                    if ($empleados == null) {
 
-            $empleados = 'null';
-            $fechaAscenso=0;
-
-
-
-        } else {
+                        $empleados = 'null';
+                        $fechaAscenso = 0;
+                    } else {
 
 
-            $fechaAscenso = $empleados->fecha_ascenso;
+                        $fechaAscenso = $empleados->fecha_ascenso;
 
 
 
 
 
-            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+                        //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
 
 
-            $anioActual = date('Y'); // Obtener el año actual
+                        $anioActual = date('Y'); // Obtener el año actual
 
-            // Obtener el año de la fecha de ascenso
-            $anioAscenso = date('Y', strtotime($fechaAscenso));
+                        // Obtener el año de la fecha de ascenso
+                        $anioAscenso = date('Y', strtotime($fechaAscenso));
 
-            if ($anioAscenso == $anioActual) {
-                // El personal está tentativo a ascender este año
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso < $anioActual) {
-                // El personal está tentativo a ascender también este año
+                        if ($anioAscenso == $anioActual) {
+                            // El personal está tentativo a ascender este año
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso < $anioActual) {
+                            // El personal está tentativo a ascender también este año
 
-                $fechaObj = new DateTime($fechaAscenso);
+                            $fechaObj = new DateTime($fechaAscenso);
 
-                // Actualizar el año
-                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+                            // Actualizar el año
+                            $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
 
-                // Obtener la nueva fecha modificada
-                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
-                $fechaAscenso = $nuevaFechaAsc;
+                            // Obtener la nueva fecha modificada
+                            $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                            $fechaAscenso = $nuevaFechaAsc;
 
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso > $anioActual) {
-                // El personal no está tentativo a ascender
-                $empleados = 'false';
-                // Tu lógica aquí
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso > $anioActual) {
+                            // El personal no está tentativo a ascender
+                            $empleados = 'false';
+                            // Tu lógica aquí
 
-            }
-        }
-    } else {
+                        }
+                    }
+                } else {
 
 
-        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-            ->where(function ($query) {
-                $query->where('empleados.situacion', 'A')
-                    ->orWhere('empleados.situacion', 'S');
-            })
-            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-            ->whereIn('datos_militares.codigo_categoria', [$categoria])
-            ->whereIn('nomina.grado_militar', [$grado])
-            ->where('empleados.codigo_empleado', $codigo_empleado)
-            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
-            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+                    $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                        ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                        ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                        ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->whereIn('datos_militares.codigo_categoria', [$categoria])
+                        ->whereIn('nomina.grado_militar', [$grado])
+                        ->where('empleados.codigo_empleado', $codigo_empleado)
+                        ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+                        ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
            CASE
             WHEN nomina.grado_militar IN (090,030, 020, 15) THEN 3
             WHEN nomina.grado_militar IN (080,070) THEN 5
             WHEN nomina.grado_militar IN (060,050, 040) THEN 4
                 ELSE 0
             END YEAR) AS fecha_ascenso')
-            ->first();
-        if ($empleados == null) {
-$empleados = 'null';
-    $fechaAscenso=0;
+                        ->first();
+                    if ($empleados == null) {
+                        $empleados = 'null';
+                        $fechaAscenso = 0;
+                    } else {
+
+
+                        $fechaAscenso = $empleados->fecha_ascenso;
+
+
+                        //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+
+
+                        $anioActual = date('Y'); // Obtener el año actual
+
+                        // Obtener el año de la fecha de ascenso
+                        $anioAscenso = date('Y', strtotime($fechaAscenso));
+
+                        if ($anioAscenso == $anioActual) {
+                            // El personal está tentativo a ascender este año
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso < $anioActual) {
+                            // El personal está tentativo a ascender también este año
+                            $fechaObj = new DateTime($fechaAscenso);
+
+                            // Actualizar el año
+                            $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+
+                            // Obtener la nueva fecha modificada
+                            $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                            $fechaAscenso = $nuevaFechaAsc;
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso > $anioActual) {
+                            // El personal no está tentativo a ascender
+                            $empleados = 'false';
+                            // Tu lógica aquí
+
+                        }
+                    }
+                }
+            }
         } else {
 
-
-            $fechaAscenso = $empleados->fecha_ascenso;
-
-
-            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
-
-
-            $anioActual = date('Y'); // Obtener el año actual
-
-            // Obtener el año de la fecha de ascenso
-            $anioAscenso = date('Y', strtotime($fechaAscenso));
-
-            if ($anioAscenso == $anioActual) {
-                // El personal está tentativo a ascender este año
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso < $anioActual) {
-                // El personal está tentativo a ascender también este año
-                $fechaObj = new DateTime($fechaAscenso);
-
-                // Actualizar el año
-                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
-
-                // Obtener la nueva fecha modificada
-                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
-                $fechaAscenso = $nuevaFechaAsc;
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso > $anioActual) {
-                // El personal no está tentativo a ascender
-                $empleados = 'false';
-                // Tu lógica aquí
-
-            }
-
-
-
-
-
-
+            $empleados = 'null';
+            $fechaAscenso = 0;
         }
-
-
-       
-
-    }
-}
-}else{
-
-    $empleados = 'null';
-    $fechaAscenso=0;
-
-    }
 
 
         return view(
