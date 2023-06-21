@@ -1984,7 +1984,124 @@ class PersonalController extends Controller
 
     public function ficha(Request $request)
     {
-        
+        $user_auth=auth()->user();
+
+        /*$tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
+        $especialidades_militares = EspecialidadesMilitares::all();
+        $datos = Empleado::with(['nomina','datos_militares'])
+        ->where('codigo_empleado','=','62698')->first();*/
+      //  $codigo_empleado = $datos[0]->codigo_empleado;
+      $niveles = Nivel::all();
+      $datos = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
+      ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+      ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+      ->leftjoin('intelectuales','intelectuales.cedula','=','empleados.cedula')
+      ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','nomina.codigo_empleado')
+      ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+      ->join('promociones_militares','promociones_militares.codigo_promocion','=','datos_militares.codigo_promocion')
+      ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
+      ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+      ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+      ->select('empleados.foto as foto','empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1', 'empleados.apellido2 as apellido2','grados_militares.siglas as siglas',
+      'ubicaciones.descripcion as ubicacion','estudios_realizados.nivel as nivel','promociones_militares.ano_promocion as promocion','empleados.telefono_cel as telefono','intelectuales.notatotal','categorias_militares.descripcion as categoria',
+      'especialidades_militares.descripcion as especialidad','cargos.nombre_cargo as cargo','datos_militares.fecha_graduacion')
+        ->where('nomina.codigo_empleado','=','62698')->first();
+
+        $año_engrd=$datos->fecha_graduacion;
+        $años = Carbon::parse($año_engrd)->age;
+
+        $tte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotte')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '090')
+        ->first();
+        if ($tte == null || $tte->añoascensotte == null) {
+            $añoascensotte = "0";
+        } else {
+            $añoascensotte = Carbon::parse($tte->añoascensotte)->format('My');
+        }
+        $ptte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensoptte')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '080')
+        ->first();
+        if ($ptte == null || $ptte->añoascensoptte == null) {
+            $añoascensoptte = "0";
+        } else {
+        $añoascensoptte = Carbon::parse($ptte->añoascensoptte)->format('My');
+        }
+        $cap = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocap')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '070')
+        ->first();
+        if ($cap == null || $cap->añoascensocap == null) {
+            $añoascensocap = "0";
+        } else {
+        $añoascensocap = Carbon::parse($cap->añoascensocap)->format('My');
+        }
+        $may = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensomay')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '060')
+        ->first();
+        if ($may == null || $may->añoascensomay == null) {
+            $añoascensomay = "0";
+        }else{
+        $añoascensomay = Carbon::parse($may->añoascensomay)->format('My');
+        }
+        $tcnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotcnel')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '050')
+        ->first();
+        if ($tcnel == null || $tcnel->añoascensotcnel == null) {
+            $añoascensotcnel = "0";
+        }else{
+        $añoascensotcnel = Carbon::parse($tcnel->añoascensotcnel)->format('My');
+        }
+        $cnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocnel')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '040')
+        ->first();
+        if ($cnel == null || $cnel->añoascensocnel == null) {
+            $añoascensocnel = "0";
+        }else{
+        $añoascensocnel = Carbon::parse($cnel->añoascensocnel)->format('My');
+        }
+        $gb = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensogb')
+        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('historico_ascensos.codigo_grado', '=', '030')
+        ->first();
+        if ($gb == null || $gb->añoascensogb == null) {
+            $añoascensogb = "0";
+        }else{
+        $añoascensogb = Carbon::parse($gb->añoascensogb)->format('My');
+        }
+        return view('juntap.reportes.ficha',
+            compact(
+                'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb','añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel','añoascensocnel','añoascensogb'
+            )
+        );
+
 
     }
 }

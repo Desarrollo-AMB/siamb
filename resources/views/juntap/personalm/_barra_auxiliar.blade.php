@@ -35,6 +35,25 @@
         </div>
     </div>
 
+    <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+        <div class="card mb-0">
+            <div class="card-body text-center p-2">
+                <a href="{{ route('ficha.view')  }}">
+                    <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
+                        <i class="fas fa-user-times text-lg opacity-10" aria-hidden="true"></i>
+
+                    </div>
+                    <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                        <small class="font-weight-bolder mb-1">
+                            ficha
+                            <span class="text-success text-sm font-weight-bolder"></span>
+                        </small>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
@@ -59,7 +78,7 @@
                 <a href="{{ route('juntap.ascenso.index') }}">
                     <div class="icon icon-shape bg-gradient-secondary shadow text-center border-radius-md">
                         <i class="fas fa-user-plus text-lg opacity-10" aria-hidden="true"></i>
-                    
+
                     </div>
                     <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
                         <small class="font-weight-bolder mb-1">
@@ -71,8 +90,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
             <div class="card-body text-center p-2">
@@ -90,7 +109,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
             <div class="card-body text-center p-2">
