@@ -108,7 +108,7 @@ Route::group(['middleware' => ['auth','access']], function() {
    
    
     Route::get('/juntapermanente/ascenso', [controllerjuntap::class, 'juntap'])->name('juntap.ascenso.index');
-    Route::get('/juntapermanente/reportes', [controllerjuntap::class, 'indexreporte'])->name('juntap.reportes.index');
+
    
 
     Route::post('/juntapermanente/ascenso/categoria', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.select');
@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth','access']], function() {
     Route::get('/juntapermanente/ascenso/diciembre/asimilado', [controllerjuntap::class, 'ascselect'])->name('juntap.ascenso.diciembre.asimilado');
 
   
-
+    Route::get('/juntapermanente/reportes', [controllerjuntap::class, 'indexreporte'])->name('juntap.reportes.index');
 
     Route::get('/juntapermanente/ascenso/reportes/reporteascenso', [controllerjuntap::class, 'reportenasc'])->name('juntap.reportes.reporteascenso');
     Route::post('/juntapermanente/ascenso/reportes/reporteascensos', [controllerjuntap::class, 'descargarEmpleados'])->name('juntap.reportes.ascrreporte');
@@ -135,7 +135,7 @@ Route::group(['middleware' => ['auth','access']], function() {
 
 
     Route::get('/juntap/personalm/view/{id}', [Controllerjuntap::class, 'viewPersonalMilitar'])->name('juntap.personalm.view');
-   // Route::get('/juntap/personalm/verificar', [Controllerjuntap::class, 'verificar_ascenso'])->name('juntap.personalm.verifasc');
+   
     Route::get('/juntap/personalm/edit/{id}', [Controllerjuntap::class, 'editPersonalMilitar'])->name('juntap.personalm.edit');
     Route::get('/juntap/personalm/cargo/{id}', [Controllerjuntap::class, 'cargosPersonalMilitar'])->name('juntap.personalm.cargo');
     Route::get('/juntap/personalm/ubicacion/{id}', [Controllerjuntap::class, 'ubicacionesPersonalMilitar'])->name('juntap.personalm.ubicacion');
