@@ -144,7 +144,7 @@
               <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
             </li>--}}
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.categoria') }}">Ascenso</a>
+              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
             </li>
             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
               <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
