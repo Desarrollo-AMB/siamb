@@ -201,7 +201,7 @@ Route::group(['middleware' => ['auth','access']], function() {
 
 
     //JUNTA P
-    Route::get('/juntapermanente/personalmilitar/fichas', [controllerjuntap::class, 'asc_fichas'])->name('juntape.personalm.index_fichas');
+    Route::get('/juntapermanente/personalmilitar/fichas', [controllerjuntap::class, 'asc_fichas'])->name('juntape.personalm.indexfichas');
     Route::post('/juntapermanente/personalmilitar/categoria', [controllerjuntap::class, 'asc_select_fichas'])->name('juntap.personalm.select');
     Route::get('/juntapermanente/personalmilitar/julio/comando', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.comando');
     Route::get('/juntapermanente/personalmilitar/julio/tecnico', [controllerjuntap::class, 'ascselect'])->name('juntap.personalm.julio.tecnico');
