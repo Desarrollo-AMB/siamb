@@ -361,7 +361,7 @@
                                                 @if($datos->datos_militares )
                                                     @foreach ($datos_militares as $row)
                                                         @if($datos->datos_militares->codigo_empleado == $row->codigo_empleado)
-                                                            {!! Form::text('datos_militares', $row->orden_merito, array('placeholder' => 'No Posee orden de merito','class' => 'form-control')) !!}
+                                                            {!! Form::text('orden_merito', $row->orden_merito, array('placeholder' => 'No Posee orden de merito','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -375,7 +375,7 @@
                                                 @if($datos->datos_militares )
                                                     @foreach ($datos_militares as $row)
                                                         @if($datos->datos_militares->codigo_empleado == $row->codigo_empleado)
-                                                            {!! Form::text('datos_militares', $row->total_orden_merito, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
+                                                            {!! Form::text('total_orden_merito', $row->total_orden_merito, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -386,14 +386,14 @@
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha del Ultimo Ascenso:</h6>
-                                                @if($datos->atos_militares && $datos->atos_militares->codigo_empleado != "")
-                                                    @foreach ($atos_militares as $row)
-                                                        @if($datos->atos_militares->codigo_empleado == $row->codigo_empleado)
-                                                            {!! Form::text('atos_militares', $row->fecha_ascenso, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
+                                                @if($datos->datos_militares && $datos->datos_militares->codigo_empleado != "")
+                                                    @foreach ($datos_militares as $row)
+                                                        @if($datos->datos_militares->codigo_empleado == $row->codigo_empleado)
+                                                            {!! Form::date('fecha_ultimo_ascenso', $row->fecha_ultimo_ascenso, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
-                                                    {!! Form::date('fecha_ascenso', '', array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
+                                                    {!! Form::date('fecha_ultimo_ascenso', '', array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
                                            </div>
