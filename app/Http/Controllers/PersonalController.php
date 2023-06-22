@@ -2105,7 +2105,8 @@ class PersonalController extends Controller
 
         $curso = Nomina::join('cursos_realizados','cursos_realizado.codigo_empleado','=','nomina.codigo_empleado')
         ->join('cursos','cursos.codigo_curso','=','cursos_realizado.codigo-curso')
-        ->select('cursos.descripcion','')
+        ->join('paises','paises.codigo_pais','=','cursos_realizados.codigo_pais')
+        ->select('cursos.descripcion')
 
 
     }
