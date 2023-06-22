@@ -411,4 +411,4 @@ class ParteAeronaveController extends Controller
     $horasDecimales = $diferencia / 3600;
 
     // Redondear las hosssras decimales a dos decimales
-    $horasDecimales = round($horasDecimales, 2);*/
+    $horasDeciemales = round($horasDecimales, 2);*/
