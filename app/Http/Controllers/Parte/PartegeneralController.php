@@ -252,8 +252,8 @@ class PartegeneralController extends Controller
             ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
             ->select(
                 'nomina.grado_militar',
-                'empleados.nombre1',
-                'empleados.apellido1',
+                'nomina.nombre1',
+                'nomina.apellido1',
                 'ubicaciones.descripcion',
                 'grados_militares.siglas',
                 'datos_militares.codigo_categoria',
@@ -433,47 +433,43 @@ class PartegeneralController extends Controller
              $ausentes_count = $nomina_count - $presente_count;
 
              ///OBTENER LISTA DEL PERSONAL //
-$list = Nomina:: join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')
-                ->join('categorias_militares','parte_general.codigo_categoria','=','categorias_militares.codigo_categoria')
-                ->join('grados_militares','grados_militares.codigo_grado','=','parte_general.grado_militar')
-                ->join('ubicaciones','nomina.codigo_ubicacion','=','ubicaciones.codigo_ubicacion')
-                ->where('parte_general.fecha', [$fechas])
-                ->whereIn('nomina.situacion', ['A', 'S'])
-                ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
-                ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
-                ->select('grados_militares.siglas as grado','nomina.nombre1 as nombres','nomina.apellido1 as  apellido',
-                'nomina.cedula as cedula','ubicaciones.descripcion as ubicacion','parte_general.situacion as situacion'
-                ,'categorias_militares.descripcion as categoria')
-                ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
-                WHEN nomina.grado_militar = '015' THEN 2
-                WHEN nomina.grado_militar = '020' THEN 3
-                WHEN nomina.grado_militar = '030' THEN 4
-                WHEN nomina.grado_militar = '040' THEN 5
-                WHEN nomina.grado_militar = '050' THEN 6
-                WHEN nomina.grado_militar = '060' THEN 7
-                WHEN nomina.grado_militar = '070' THEN 8
-                WHEN nomina.grado_militar = '080' THEN 9
-                WHEN nomina.grado_militar = '090' THEN 10
-                WHEN nomina.grado_militar = '410' THEN 11
-                WHEN nomina.grado_militar = '420' THEN 12
-                WHEN nomina.grado_militar = '430' THEN 13
-                WHEN nomina.grado_militar = '440' THEN 14
-                WHEN nomina.grado_militar = '450' THEN 15
-                WHEN nomina.grado_militar = '460' THEN 16
-                WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
-                ->orderByRaw("CASE
-                                WHEN categorias_militares.codigo_categoria = 1 THEN 1
-                                WHEN categorias_militares.codigo_categoria = 4 THEN 2
-                                WHEN categorias_militares.codigo_categoria = 5 THEN 3
-                                WHEN categorias_militares.codigo_categoria = 7 THEN 4
-                                WHEN categorias_militares.codigo_categoria = 2 THEN 5
-                                WHEN categorias_militares.codigo_categoria = 6 THEN 6
-                                WHEN categorias_militares.codigo_categoria = 8 THEN 7
-                            END")
-
-
-            ->get();
-
+             $list = parte_general::join('nomina', 'parte_general.codigo_empleado', '=', 'nomina.codigo_empleado')
+             ->join('categorias_militares', 'parte_general.codigo_categoria', '=', 'categorias_militares.codigo_categoria')
+             ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'parte_general.grado_militar')
+             ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'parte_general.codigo_ubicacion')
+             ->where('parte_general.fecha', [$fechas])
+             ->whereIn('nomina.situacion', ['A', 'S'])
+             ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+             ->whereIn('parte_general.codigo_ubicacion', [$valueParametro])
+             ->select('grados_militares.siglas as grado', 'nomina.nombre1 as nombres', 'nomina.apellido1 as apellido', 'nomina.cedula as cedula', 'ubicaciones.descripcion as ubicacion', 'parte_general.situacion as situacion', 'categorias_militares.descripcion as categoria')
+             ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                 WHEN nomina.grado_militar = '015' THEN 2
+                 WHEN nomina.grado_militar = '020' THEN 3
+                 WHEN nomina.grado_militar = '030' THEN 4
+                 WHEN nomina.grado_militar = '040' THEN 5
+                 WHEN nomina.grado_militar = '050' THEN 6
+                 WHEN nomina.grado_militar = '060' THEN 7
+                 WHEN nomina.grado_militar = '070' THEN 8
+                 WHEN nomina.grado_militar = '080' THEN 9
+                 WHEN nomina.grado_militar = '090' THEN 10
+                 WHEN nomina.grado_militar = '410' THEN 11
+                 WHEN nomina.grado_militar = '420' THEN 12
+                 WHEN nomina.grado_militar = '430' THEN 13
+                 WHEN nomina.grado_militar = '440' THEN 14
+                 WHEN nomina.grado_militar = '450' THEN 15
+                 WHEN nomina.grado_militar = '460' THEN 16
+                 WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
+             ->orderByRaw("CASE
+                                 WHEN categorias_militares.codigo_categoria = 1 THEN 1
+                                 WHEN categorias_militares.codigo_categoria = 4 THEN 2
+                                 WHEN categorias_militares.codigo_categoria = 5 THEN 3
+                                 WHEN categorias_militares.codigo_categoria = 7 THEN 4
+                                 WHEN categorias_militares.codigo_categoria = 2 THEN 5
+                                 WHEN categorias_militares.codigo_categoria = 6 THEN 6
+                                 WHEN categorias_militares.codigo_categoria = 8 THEN 7
+                             END")
+             ->distinct() // Agregar la función distinct() para evitar registros duplicados
+             ->get();
 
 //dd($presente_count);
         $datas = Nomina::join('parte_general','nomina.codigo_empleado','=','parte_general.codigo_empleado')

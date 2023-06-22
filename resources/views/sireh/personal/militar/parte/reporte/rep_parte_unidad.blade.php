@@ -551,7 +551,7 @@ margin: 0 auto;
 <body>
     <div>
         <table class="lista">
-            <tbody>
+            <thead>
                 <tr>
                     <th>N°</th>
                     <th>Grado</th>
@@ -562,12 +562,13 @@ margin: 0 auto;
                     <th>Situacion</th>
                     <th>Observaciones</th>
                 </tr>
-            </tbody>
+            </thead>
+            <tbody>
             @php
                 $i = 1;
             @endphp
             @foreach ($list as $liste)
-                <thead>
+                <tr>
                     <td>{{ $i++ }}</td>
                     <td>{{ $liste->grado }}</td>
                     <td>{{ $liste->nombres }}</td>
@@ -575,9 +576,10 @@ margin: 0 auto;
                     <td>{{ $liste->cedula }}</td>
                     <td>{{ $liste->categoria }}</td>
                     <td>{{ $liste->situacion }}</td>
-                    <td></td>
-                </thead>
+                    <td>{{$liste->observacion}}</td>
+                </tr>
             @endforeach
+        </tbody>
         </table>
 
     </div>
