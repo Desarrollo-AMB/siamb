@@ -2096,17 +2096,53 @@ class PersonalController extends Controller
         }else{
         $añoascensogb = Carbon::parse($gb->añoascensogb)->format('My');
         }
+
+
+        $cursos = Nomina::join('cursos_realizados', 'cursos_realizados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('cursos', 'cursos.codigo_curso', '=', 'cursos_realizados.codigo_curso')
+            ->join('paises', 'paises.codigo_pais', '=', 'cursos_realizados.pais_curso')
+            ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'cursos_realizados.unidad')
+            ->select('cursos.descripcion_curso as curso', 'paises.descripcion as pais','cursos_realizados.orden_merito_curso as ordenI',
+            'cursos_realizados.total_orden_merito_curso as ordenT','ubicaciones.descripcion as unidad','cursos_realizados.fecha_registro as fecha')
+            ->where('nomina.codigo_empleado', '=', '62698')
+            ->orderBy('cursos_realizados.fecha_registro', 'desc')
+            ->limit(3)
+            ->get();
+
+            // Obtener los tres registros más recientes
+            $curso1 = isset($cursos[0]) ? $cursos[0] : null;
+            $curso2 = isset($cursos[1]) ? $cursos[1] : null;
+            $curso3 = isset($cursos[2]) ? $cursos[2] : null;
+
+
+            $cargos = Nomina::join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
+            ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'movimientos.codigo_ubicacion')
+            ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad', 'movimientos.fecha_movimiento as fecha', 'ubicaciones.codigo_ubicacion as codigo')
+            ->whereIn('movimientos.tipo_movimiento', ['CCAR', 'Actualizacion del Cargo'])
+            ->where('nomina.codigo_empleado', '=', '62698')
+            ->orderBy('movimientos.fecha_movimiento', 'desc')
+            ->orderBy('movimientos.id', 'desc') // Ordenar también por ID
+            ->limit(4)
+            ->get();
+
+// Obtener los tres registros más recientes
+$cargo0 = isset($cargos[0]) ? $cargos[0] : null;
+$cargo1 = isset($cargos[1]) ? $cargos[1] : null;
+$cargo3 = isset($cargos[2]) ? $cargos[2] : null;
+$cargo4 = isset($cargos[3]) ? $cargos[3] : null;
+
         return view('juntap.reportes.ficha',
             compact(
-                'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb','añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel','añoascensocnel','añoascensogb'
+                'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
+                'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
+                'añoascensocnel','añoascensogb','curso1','curso2','curso3'
             )
         );
 
 
-        $curso = Nomina::join('cursos_realizados','cursos_realizado.codigo_empleado','=','nomina.codigo_empleado')
-        ->join('cursos','cursos.codigo_curso','=','cursos_realizado.codigo-curso')
-        ->join('paises','paises.codigo_pais','=','cursos_realizados.codigo_pais')
-        ->select('cursos.descripcion')
+
+
 
 
     }

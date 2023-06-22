@@ -592,54 +592,20 @@
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text">IESEOFANB /
-                        VENEZUELA
+                    <div class="text">{{$curso1->unidad}}/{{$curso1->pais}}
 
                     </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> ÚNICO ESPECIAL PLAN. Y COND. OP. MIL. (DIC20)
+                    <div class="text"> {{$curso1->curso}}
                     </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> 13/46
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="formbloq">
-            <div class="campo" style=" height: auto; width: 20%;">
-                <div class="check">
-                    <div class="text"> GRUPO AÉREO DE
-                        CAZA Nº 11
-                    </div>
-                </div>
-            </div>
-            <div class="campo" style=" height: auto; width: 40%;">
-                <div class="check">
-                    <div class="text">COMANDANTE DEL ESCUADRÓN DE CAZA C-34 (JUL18 - JUL20)</div>
-                </div>
-            </div>
-            <div class="campo" style=" height: auto; width: 20%;">
-                <div class="check">
-                    <div class="text"> IESEOFANB /
-                        VENEZUELA
-                    </div>
-                </div>
-            </div>
-            <div class="campo" style=" height: auto; width: 20%;">
-                <div class="check">
-                    <div class="text"> ÚNICO ESPECIAL PLAN. Y COND. OP. MIL. (DIC20)
-                    </div>
-                </div>
-            </div>
-            <div class="campo" style=" height: auto; width: 20%;">
-                <div class="check">
-                    <div class="text"> 13/46
+                    <div class="text"> {{$curso1->ordenI}}/{{$curso1->ordenT}}
                     </div>
                 </div>
             </div>
@@ -659,20 +625,51 @@
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> IESEOFANB /
-                        VENEZUELA
+                    <div class="text"> {{$curso2->unidad}}/{{$curso2->pais}}
                     </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> ÚNICO ESPECIAL PLAN. Y COND. OP. MIL. (DIC20)
+                    <div class="text"> {{$curso2->curso}}
                     </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> 13/46
+                    <div class="text"> {{$curso2->ordenI}}/{{$curso2->ordenT}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formbloq">
+            <div class="campo" style=" height: auto; width: 20%;">
+                <div class="check">
+                    <div class="text"> GRUPO AÉREO DE
+                        CAZA Nº 11
+                    </div>
+                </div>
+            </div>
+            <div class="campo" style=" height: auto; width: 40%;">
+                <div class="check">
+                    <div class="text">COMANDANTE DEL ESCUADRÓN DE CAZA C-34 (JUL18 - JUL20)</div>
+                </div>
+            </div>
+            <div class="campo" style=" height: auto; width: 20%;">
+                <div class="check">
+                    <div class="text"> {{$curso3->unidad}}/{{$curso3->pais}}
+                    </div>
+                </div>
+            </div>
+            <div class="campo" style=" height: auto; width: 20%;">
+                <div class="check">
+                    <div class="text"> {{$curso3->curso}}
+                    </div>
+                </div>
+            </div>
+            <div class="campo" style=" height: auto; width: 20%;">
+                <div class="check">
+                    <div class="text"> {{$curso3->ordenI}}/{{$curso3->ordenT}}
                     </div>
                 </div>
             </div>
