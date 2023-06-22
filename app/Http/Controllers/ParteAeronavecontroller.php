@@ -410,5 +410,5 @@ class ParteAeronaveController extends Controller
     // Calcular las horas decimales dividiendo la diferencia de tiempo entre 3600 (segundos en una hora)
     $horasDecimales = $diferencia / 3600;
 
-    // Redondear las horas decimales a dos decimales
+    // Redondear las hosssras decimales a dos decimales
     $horasDecimales = round($horasDecimales, 2);*/
