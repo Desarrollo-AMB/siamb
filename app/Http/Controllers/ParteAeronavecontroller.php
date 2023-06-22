@@ -400,7 +400,7 @@ class ParteAeronaveController extends Controller
 }
 
 
-/*    // Convertir las horas de encendido y apagado a objetos DateTime
+/*    // xxxConvertir las horas de encendido y apagado a objetos DateTime
     $encendido = DateTime::createFromFormat('H:i', $horaEncendido);
     $apagado = DateTime::createFromFormat('H:i', $horaApagado);
 
