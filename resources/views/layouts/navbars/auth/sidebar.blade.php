@@ -132,35 +132,31 @@
                                 <title>JUNTA PERMANENTE</title>
                             </i>
 
-          </div>
-          <span class="nav-link-text ms-1">Junta Permanente </span>
-        </a>
+                        </div>
+                        <span class="nav-link-text ms-1">Junta Permanente </span>
+                    </a>
 
                     <div class="panel-collapse collapse {{ Request::is('juntap/*') ? 'show' : '' }}"
                         id="collapseListGroup4">
                         <ul style="margin-left:40px;" class="list-group">
-                            {{--
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
-            </li>--}}
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
-            </li>
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
-            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.personalm.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ (Request::is('juntap/reportes/index') ? 'active' : '') }} " href="{{ route('juntap.reportes.index') }}">Reportes</a>
+                            </li>
 
-          </ul>
-        </div>
-      </li>
+                        </ul>
+                    </div>
+                </li>
 
-      <li class="nav-item">
-        <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup3" class="collapsed nav-link " aria-controls="collapseExample" >
+                        <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fas fa-people-arrows"><title>Bienestar Social</title></i>
 
                         </div>
                         <span class="nav-link-text ms-1">Bienestar Social </span>
@@ -205,10 +201,6 @@
                     <div class="panel-collapse collapse {{ Request::is('extra_componet/*') ? 'show' : '' }}"
                         id="collapseListGroup5">
                         <ul style="margin-left:40px;" class="list-group">
-                            {{--
-            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-              <a class="{{ (Request::is('juntap/ascenso/index') ? 'active' : '') }}" href="{{ route('juntap.ascenso.index') }}">Ascenso</a>
-            </li> --}}
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
                                 <a class="{{ Request::is('extra_componet/ingreso') ? 'active' : '' }} "
                                     href="{{ route('extra.ingreso_personal') }}">Igresar personal</a>
@@ -221,6 +213,35 @@
                     </div>
                 </li>
             @endrole
+
+            @role('nomina')
+
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupNomina"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="fa fa-shield">
+                                <title>NOMINA</title>
+                            </i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Nomina</span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('nomina/*') ? 'show' : '' }}"
+                        id="collapseListGroupNomina">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/nomina/index') ? 'active' : '' }}"
+                                    href="{{ route('sireh.nomina.index') }}">Nomina</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            @endrole
+
             @role('aviacion_dao|aviacion_grupo_aereo|administrador|cmd_general')
                 <li class="nav-item">
                     <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroupFam"
