@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     @php
@@ -6,129 +5,69 @@
 
 @endphp
 <head>
-
-    <style>
+<style>
+    @page {
+    size: 50in 100.5in landscape; /* Establece el tamaño de página en formato oficio y la orientación en horizontal */
+    margin: 0.1in; /* Establece los márgenes de la página */
+}
         .bloque {
             display: table;
             border: 1px solid black;
             width: 100%;
-        }
-
-        .planilla {
-            width: 250mm;
+        } .planilla {
+            width:auto;
             padding: 2.5cm 2cm;
             display: flex;
             flex-direction: column;
             justify-content: initial;
             font-family: 'Lato', sans-serif;
-        }
-
-        .logo {
-            margin: 15px;
-            height: 60px;
-        }
-
-        .header {
+        }.header {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-        }
-
-        .databloq {
+        } .databloq {
             display: flex;
             flex-direction: column;
-        }
-
-        .databloq {
+        } .databloq {
             font-size: 0.5rem;
-        }
-
-        .logocontainer {
+        }.logocontainer {
             display: flex;
             flex-direction: columns;
             justify-content: center;
-        }
-
-        .header .bloque {
+        }.header .bloque {
             height: 2.55cm;
-        }
-
-        .bloqrow {
+        }.bloqrow {
             display: flex;
             border: 1px solid black;
             flex-direction: column;
             justify-content: center;
             height: 100%;
-        }
-
-        .header div {
+        }.header div {
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-
-        .campo {
+        }.campo {
             display: flex;
             flex-direction: column;
             justify-content: center;
             border: 1px solid black;
             height: .7cm;
             font-size: .65rem;
-        }
-
-        .campor {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            border: 1px solid black;
-            height: 1.2cm;
-            font-size: .9rem;
-        }
-
-        .formbloq {
+        }.formbloq {
             text-align: center;
             display: flex;
-        }
-
-        .titulo {
-            width: 100%;
-            background-color: #BBBDC0;
-            border: 1px solid black;
-            text-align: center;
-            font-size: .75rem;
-            height: .5cm;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .checkox {
+        }  .checkox {
             width: 10px;
             height: 10px;
             margin: 3px;
             border: 1px solid black;
             align-self: flex-end;
-        }
-
-        .check {
+        }.check {
             display: flex;
             flex-direction: row;
             align-content: flex-start
         }
-
-        .labelgrey {
-            text-align: center;
-        }
-
-        .sign {
-            border: 1px solid black;
-            height: .7cm;
-            font-size: .7rem;
-            display: flex;
-            flex-direction: row;
-        }
     </style>
-
 <body>
     <div class="planilla" id="content">
         <div class="header">
@@ -146,9 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="databloq" style="width: 40%;">
-
-                <div style="display: flex; flex-direction: row; height: 100%;">
+            <div class="databloq" style="width: 40%;"> <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                       NOMBRE Y APELLIDO
                     </div>
@@ -215,10 +152,7 @@
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         PRIMERA
                     </div>
-                </div>
-
-
-            </div>
+                </div> </div>
             <div class="databloq" style="width: 40%;">
                 <div class="bloqrow">
                     ORDEN DE MERITO ASCENSO
@@ -355,9 +289,7 @@
                         0
                         @endif
                     </div>
-                </div>
-
-            </div>
+                </div> </div>
             <div class="databloq" style="width: 40%;">
                 <div class="bloqrow">
                     RESULTADOS DE EVALUACION
@@ -368,67 +300,48 @@
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
-                    </div>
-
-                </div>
+                    </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         OM NIEA
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
-                    </div>
-
-                </div>
+                    </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         OM J/A
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
-                    </div>
-
-                </div>
+                    </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         OM J/R
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
-                    </div>
-
-                </div>
+                    </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         OM J/C
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
-                    </div>
-
-                </div>
+                    </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         SITUACION
                     </div>
-                    <div class="bloqrow" style="height: auto;width: 100%;">
-                        0
-                    </div>
-
-                </div>
+                    <div class="bloqrow" style="height: auto;width: 100%;"></div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         PAF
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        0
-                    </div>
-
-                </div>
-
-            </div>
+                        {{$datos->total}}
+                    </div></div> </div>
         </div>
-
         <div class="formbloq">
             <div class="campo" style="width: 10%;">
                 <div class="label">N° DE TELEFONO</div>
@@ -438,13 +351,10 @@
             </div>
             <div class="campo" style="width: 80%;display: flex; flex-wrap: wrap;">
                 <div class="label" style="width: 150px;">CMDTE DE UNIDAD</div>
-                <div class="input" style="width: 200px;"> <strong>CNEL LEONEL ENRIQUE PAREDES</strong> </div>
+                <div class="input" style="width: 200px;"> <strong>{{$cmdt->nombre1 . ' ' . $cmdt->nombre2 . ' ' . $cmdt->apellido1}}</strong> </div>
                 <div class="input" style="width: 50px;"> <strong>TLF:</strong> </div>
-                <div class="input" style="width: 150px;"> <strong>0432-123456</strong> </div>
-            </div>
-
-        </div>
-
+                <div class="input" style="width: 150px;"> <strong>{{$cmdt->telefono_cel}}</strong> </div>
+            </div> </div>
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 30%;">
                 <div class="check">
@@ -452,8 +362,6 @@
                 </div>
             </div>
             <div class="databloq" style="width: 100%;">
-
-
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         INVESTIGACION ADMINISTRATIVA
@@ -514,7 +422,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="formbloq">
@@ -523,9 +430,6 @@
                     <div class="text"> CARGO ACTUAL </div>
                 </div>
             </div>
-
-
-
             <div class="campo" style=" height: auto; width: 100%;">
                 <div class="check">
                     <div class="text">{{$datos->cargo}}</div>
@@ -538,16 +442,11 @@
                     <div class="text"> ÚLTIMOS CARGOS </div>
                 </div>
             </div>
-
-
-
             <div class="campo" style=" height: auto; width: 50%;">
                 <div class="check">
                     <div class="text"> CURSOS REALIZADOS </div>
                 </div>
             </div>
-
-
         </div>
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 20%;">
@@ -579,148 +478,110 @@
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> GRUPO AÉREO DE
-                        CAZA Nº 11
-                    </div>
+                    <div class="text"> {{$cargo1->unidad}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 40%;">
                 <div class="check">
-                    <div class="text">COMANDANTE DEL ESCUADRÓN DE CAZA C-34 (JUL18 - JUL20)
-                    </div>
+                    <div class="text">{{$cargo1->cargo}}/{{$cargo1->fecha}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text">{{$curso1->unidad}}/{{$curso1->pais}}
-
-                    </div>
+                    <div class="text">{{$curso1->unidad}}/{{$curso1->pais}} </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso1->curso}}
-                    </div>
+                    <div class="text"> {{$curso1->curso}} </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso1->ordenI}}/{{$curso1->ordenT}}
-                    </div>
+                    <div class="text"> {{$curso1->ordenI}}/{{$curso1->ordenT}}  </div>
                 </div>
             </div>
         </div>
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> GRUPO AÉREO DE
-                        CAZA Nº 11
-                    </div>
+                    <div class="text"> {{$cargo2->unidad}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 40%;">
                 <div class="check">
-                    <div class="text">COMANDANTE DEL ESCUADRÓN DE CAZA C-34 (JUL18 - JUL20)</div>
+                    <div class="text">{{$cargo2->cargo}}/{{$cargo2->fecha}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso2->unidad}}/{{$curso2->pais}}
-                    </div>
+                    <div class="text"> {{$curso2->unidad}}/{{$curso2->pais}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso2->curso}}
-                    </div>
+                    <div class="text"> {{$curso2->curso}}  </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso2->ordenI}}/{{$curso2->ordenT}}
-                    </div>
+                    <div class="text"> {{$curso2->ordenI}}/{{$curso2->ordenT}}  </div>
                 </div>
             </div>
         </div>
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> GRUPO AÉREO DE
-                        CAZA Nº 11
-                    </div>
+                    <div class="text">{{$cargo3->unidad}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 40%;">
                 <div class="check">
-                    <div class="text">COMANDANTE DEL ESCUADRÓN DE CAZA C-34 (JUL18 - JUL20)</div>
+                    <div class="text">{{$cargo3->cargo}}/{{$cargo3->fecha}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso3->unidad}}/{{$curso3->pais}}
-                    </div>
+                    <div class="text"> {{$curso3->unidad}}/{{$curso3->pais}}</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso3->curso}}
-                    </div>
+                    <div class="text"> {{$curso3->curso}} </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> {{$curso3->ordenI}}/{{$curso3->ordenT}}
-                    </div>
+                    <div class="text"> {{$curso3->ordenI}}/{{$curso3->ordenT}}</div>
                 </div>
             </div>
         </div>
-        <div class="formbloq">
-
-            <div class="databloq" style="width: 40%;">
+        <div class="formbloq"><div class="databloq" style="width: 40%;">
                 <div class="bloqrow" style="width: 100%;">
-                    OTRAS EVALUACIONES
-                </div>
+                    OTRAS EVALUACIONES</div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         CALIFICACIÓN
-                        DE CONDUCTA
-
-                    </div>
+                        DE CONDUCTA</div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
                         {{$datos->notatotal}}
-                    </div>
-
-                </div>
+                    </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         EVALUACIÓN
-                        DE COMPAÑEROS
-
-                    </div>
+                        DE COMPAÑEROS</div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
                         0
-                    </div>
-
-                </div>
+                    </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        ENTREVISTA
-
-                    </div>
+                        ENTREVISTA </div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
-                        0
-                    </div>
-
-                </div>
+                        0 </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        EXAMEN DE CONOCIMIENTO
-
-                    </div>
-                    <div class="bloqrow" style="height: auto;width: 40%;">
-                        0
-                    </div>
-
+                        EXAMEN DE CONOCIMIENTO</div>
+                    <div class="bloqrow" style="height: auto;width: 40%;">   0 </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 100%;">
@@ -771,465 +632,7 @@
                 </div>
             </div>
         </div>
-
-
-        <!--     <table>
-            <colgroup>
-              <col style="width: 50%;">
-              <col style="width: 50%;">
-            </colgroup>
-            <tr>
-              <td style="border: 1px solid #000;">hola</td>
-              <td style="border: 1px solid #000;">adios</td>
-            </tr>
-          </table>
-             <div class="formbloq">
-                <div class="campo" style="width: 30%;">
-                    <div class="check">
-                        <div class="text">Traslado a Aeropuerto</div>
-                        <div class="checkox"></div>
-                    </div>
-                </div>
-                <div class="campo" style="width: 70%;">
-                    <div class="labelgrey">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="titulo">
-                Tipo de Traslado
-            </div>
-            <div class="titulo">
-                Traslado Terrestre Nacional (Venezuela)
-            </div>
-
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-
-            <div class="titulo">
-                Traslado Terrestre Urbano (Venezuela)
-            </div>
-
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen y/o Direccion</div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label">Tiempo de Espera</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino y/o Direccion</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 15%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-
-            <div class="titulo">
-                Traslado Terrestre Urbano (Venezuela)
-            </div>
-
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Origen</div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Destino</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 20%;">
-                    <div class="label">Fecha de Retorno: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 10%;">
-                    <div class="label">Hora: <strong> 10:00 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-
-            <div class="titulo">
-                Hospedaje
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Entrada: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Lugar o Ciudad: <strong>Cabimas Hotel Europa</strong></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Entrada: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Lugar o Ciudad: <strong>Cabimas Hotel Europa</strong></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Entrada: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 30%;">
-                    <div class="label">Fecha de Salida: <strong> 01/01/2023 </strong></div>
-                </div>
-                <div class="campo" style="width: 40%;">
-                    <div class="label">Lugar o Ciudad: <strong>Cabimas Hotel Europa</strong></div>
-                </div>
-            </div>
-            <div class="titulo">
-                Observaciones
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 100%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-
-            <div style="display:flex">
-                <div class="titulo" style="width:50%">
-                    Aprobado Por
-                </div>
-                <div class="titulo" style="width:50%">
-                    Recibido Por
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 50%;">
-                    <div class="label">Nombre y Apellido del Supervisor Inmeadiato </div>
-                </div>
-                <div class="campo" style="width: 50%;">
-                    <div class="label"> Nombre y Apellido </div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 50%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 50%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 50%;">
-                    <div class="label">Cargo</div>
-                </div>
-                <div class="campo" style="width: 50%;">
-                    <div class="label">Firma</div>
-                </div>
-            </div>
-            <div class="formbloq">
-                <div class="campo" style="width: 50%;">
-                    <div class="label"></div>
-                </div>
-                <div class="campo" style="width: 50%;">
-                    <div class="label"></div>
-                </div>
-            </div>
-
-            <div style="display:flex">
-                <div class="titulo" style="width:33.33%">
-                    Control y Gestion de Calidad
-                </div>
-                <div class="titulo" style="width:33.33%">
-                    Departamento de Reservaciones
-                </div>
-                <div class="titulo" style="width:33.33%">
-                    Junta Directiva
-                </div>
-            </div>
-            <div style="display:flex">
-                <div class="sign" style="width:45%; display: flex;flex-direction:column; text-align: left">
-                    Nombre:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Fecha:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Firma:
-                </div>
-                <div class="sign" style="width:45%; display: flex;flex-direction:column; text-align: left">
-                    Nombre:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Fecha:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Firma:
-                </div>
-                <div class="sign" style="width:45%; display: flex;flex-direction:column; text-align: left">
-                    Nombre:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Fecha:
-                </div>
-                <div class="sign" style="width:30%; display: flex;flex-direction:column; text-align: left">
-                    Firma:
-                </div>
-            </div>
-        </div>-->
+    </div>
 </body>
 
 </html>

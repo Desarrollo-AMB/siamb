@@ -2012,16 +2012,24 @@ class PersonalController extends Controller
       ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
       ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
       ->leftjoin('intelectuales','intelectuales.cedula','=','empleados.cedula')
+      ->join('paf','paf.cedula','=','nomina.cedula')
       ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','nomina.codigo_empleado')
       ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
       ->join('promociones_militares','promociones_militares.codigo_promocion','=','datos_militares.codigo_promocion')
       ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
       ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
       ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-      ->select('empleados.foto as foto','empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1', 'empleados.apellido2 as apellido2','grados_militares.siglas as siglas',
+      ->select('nomina.codigo_ubicacion','empleados.foto as foto','empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1', 'empleados.apellido2 as apellido2','grados_militares.siglas as siglas',
       'ubicaciones.descripcion as ubicacion','estudios_realizados.nivel as nivel','promociones_militares.ano_promocion as promocion','empleados.telefono_cel as telefono','intelectuales.notatotal','categorias_militares.descripcion as categoria',
-      'especialidades_militares.descripcion as especialidad','cargos.nombre_cargo as cargo','datos_militares.fecha_graduacion')
+      'especialidades_militares.descripcion as especialidad','cargos.nombre_cargo as cargo','datos_militares.fecha_graduacion','paf.total')
         ->where('nomina.codigo_empleado','=','62698')->first();
+ $ubicacion=$datos->codigo_ubicacion;
+        $cmdt = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
+        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+        ->where('nomina.codigo_ubicacion','=',$ubicacion)
+        ->whereIn('nomina.codigo_cargo',['222341','1000014'])
+        ->select('empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1','empleados.telefono_cel')
+        ->first();
 
         $año_engrd=$datos->fecha_graduacion;
         $años = Carbon::parse($año_engrd)->age;
@@ -2115,28 +2123,36 @@ class PersonalController extends Controller
             $curso3 = isset($cursos[2]) ? $cursos[2] : null;
 
 
-            $cargos = Nomina::join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
-            ->join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
+            $cargos = Movimientos:://join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+          join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
             ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'movimientos.codigo_ubicacion')
-            ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad', 'movimientos.fecha_movimiento as fecha', 'ubicaciones.codigo_ubicacion as codigo')
-            ->whereIn('movimientos.tipo_movimiento', ['CCAR', 'Actualizacion del Cargo'])
-            ->where('nomina.codigo_empleado', '=', '62698')
-            ->orderBy('movimientos.fecha_movimiento', 'desc')
-            ->orderBy('movimientos.id', 'desc') // Ordenar también por ID
-            ->limit(4)
+            ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad',
+             'movimientos.fecha_movimiento as fecha', 'ubicaciones.codigo_ubicacion as codigo',
+             'movimientos.fecha_cargo as fecha')
+            ->where('movimientos.codigo_empleado', '=', '62698')
+           ->whereIn('movimientos.tipo_movimiento', ['Actualizacion de la Ubicacion','CCAR', 'Actualizacion del Cargo'])
+           ->orderBy('movimientos.fecha_movimiento', 'desc')
+        ->orderBy('movimientos.id', 'desc') // Ordenar también por ID
+            ->limit(3)
+            ->distinct()
             ->get();
 
 // Obtener los tres registros más recientes
-$cargo0 = isset($cargos[0]) ? $cargos[0] : null;
-$cargo1 = isset($cargos[1]) ? $cargos[1] : null;
+$cargo1 = isset($cargos[0]) ? $cargos[0] : null;
+$cargo2 = isset($cargos[1]) ? $cargos[1] : null;
 $cargo3 = isset($cargos[2]) ? $cargos[2] : null;
-$cargo4 = isset($cargos[3]) ? $cargos[3] : null;
 
-        return view('juntap.reportes.ficha',
+
+/*$pdf = \PDF::loadView('juntap.reportes.ficha', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
+    ->setPaper('letter', 'landscape');
+return $pdf->stream('ficha.pdf', array('Attachment' => 0));*/
+
+
+       return view('juntap.reportes.ficha',
             compact(
                 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
                 'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
-                'añoascensocnel','añoascensogb','curso1','curso2','curso3'
+                'añoascensocnel','añoascensogb','curso1','curso2','curso3','cargo1','cargo2','cargo3','cmdt'
             )
         );
 
