@@ -238,6 +238,7 @@
             //const activeTabPaneId = activeTabPane.getAttribute('id');
             var numCods = 0;
             var arrayHvCods = [];
+            var sumTotalHv = 0;
             // Almacenar el ID del tab-pane actual en el almacenamiento local del navegador
             //localStorage.setItem('activeTab', activeTabPaneId);
 
@@ -311,6 +312,8 @@
                 $('.condicion').val('');
                 $('.hv').val('0.0');
                 $(".div_cods").empty();
+                numCods = 0;
+                sumTotalHv = 0;
             }
             //LIMPIAR B1
             function cleanB1() {
@@ -789,7 +792,18 @@
                                             $(this).prop('disabled', false);
                                             console.log('no puedes guardar datos vacios');
 
-                                        } else {
+                                        } else if(sumTotalHv < registro_manual) {
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'La suma de las horas (COD) deben coincidir con la hora total del registro manual.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+                                        }
+                                        else {
                                             $.ajax({
                                                 url: "{{ route('actualizar_a1_mision') }}",
                                                 method: 'POST',
@@ -1427,7 +1441,17 @@
                                         $(this).prop('disabled', false);
                                         console.log('no puedes guardar datos vacios');
 
-                                    } else {
+                                    } else if(sumTotalHv < registro_manual) {
+                                        Swal.fire({
+                                            title: 'Atención!',
+                                            text: 'La suma de las horas (COD) deben coincidir con la hora total del registro manual.',
+                                            icon: 'warning',
+                                            timer: 3000,
+                                            showConfirmButton: true,
+                                        });
+                                        $(this).prop('disabled', false);
+                                        console.log('las horas deben coincidir');
+                                    }else {
                                         $.ajax({
                                             url: "{{ route('actualizar_a1_mision') }}",
                                             method: 'POST',
@@ -2101,7 +2125,8 @@
             }
 
             function edit_A1(res) {
-
+                arrayHvCods = [];
+                cleanA1();
                 $('.edit_input').prop('hidden', false);
                 $('.add_edit_input').prop('hidden', true);
 
@@ -2137,6 +2162,7 @@
                 $('#hv2').val(res.hv2)
                 $('#hv3').val(res.hv3)
                 $('#hv4').val(res.hv4)
+                sumTotalHv = parseFloat(res.hv1)+parseFloat(res.hv2)+parseFloat(res.hv3)+parseFloat(res.hv4);
 
                 if (res.cod1 !== null && res.hv1 !== null) {
                     const regex = /^([A-Za-z]+)-(\d+)([A-Za-z]+)$/;
@@ -2246,7 +2272,7 @@
                                         <div class="col-sm-3">\
                                             <div class="form-group">\
                                                 <small style="font-weight: bold; color:#67748e;">HV-1</small>\
-                                                <input id="hv1" name="hv1" type="number" class="form-control hv blackInReadOnly calculateTimeCod" style="text-transform: uppercase" value="' +
+                                                <input id="hv1" name="hv1" type="number" class="form-control hv blackInReadOnly calculateTimeCod1" style="text-transform: uppercase" value="' +
                                         hv1 + '">\
                                             </div>\
                                         </div>\
@@ -2255,7 +2281,9 @@
                                     $('.selectCod').select2();
                                     $('#btnAgregarCod').css('display', 'inline-block');
 
-                                    $('.calculateTimeCod').change(calculateTimeCod);
+                                    $('.calculateTimeCod1').change(function() {
+                                        calculateTimeCod(1);
+                                    });
                                 }
                             }
                         }).then(function() {
@@ -2367,7 +2395,7 @@
                                                     <div class="col-sm-3">\
                                                         <div class="form-group">\
                                                             <small style="font-weight: bold; color:#67748e;">HV-2</small>\
-                                                            <input id="hv2" name="hv2" type="number" class="form-control hv blackInReadOnly calculateTimeCod" style="text-transform: uppercase" value="' +
+                                                            <input id="hv2" name="hv2" type="number" class="form-control hv blackInReadOnly calculateTimeCod2" style="text-transform: uppercase" value="' +
                                                     hv2 + '">\
                                                         </div>\
                                                     </div>\
@@ -2376,7 +2404,9 @@
                                                 $('.selectCod').select2();
                                                 $('#btnAgregarCod').css('display',
                                                     'inline-block');
-                                                $('.calculateTimeCod').change(calculateTimeCod);
+                                                $('.calculateTimeCod2').change(function() {
+                                                    calculateTimeCod(2);
+                                                });
                                             }
                                         }
                                     }).then(function() {
@@ -2492,7 +2522,7 @@
                                                                 <div class="col-sm-3">\
                                                                     <div class="form-group">\
                                                                         <small style="font-weight: bold; color:#67748e;">HV-3</small>\
-                                                                        <input id="hv3" name="hv3" type="number" class="form-control hv blackInReadOnly calculateTimeCod" style="text-transform: uppercase" value="' +
+                                                                        <input id="hv3" name="hv3" type="number" class="form-control hv blackInReadOnly calculateTimeCod3" style="text-transform: uppercase" value="' +
                                                                 hv3 + '">\
                                                                     </div>\
                                                                 </div>\
@@ -2502,7 +2532,9 @@
                                                             $('#btnAgregarCod').css(
                                                                 'display',
                                                                 'inline-block');
-                                                            $('.calculateTimeCod').change(calculateTimeCod);
+                                                            $('.calculateTimeCod3').change(function() {
+                                                                calculateTimeCod(3);
+                                                            });
                                                         }
                                                     }
                                                 }).then(function() {
@@ -2620,7 +2652,7 @@
                                                                             <div class="col-sm-3">\
                                                                                 <div class="form-group">\
                                                                                     <small style="font-weight: bold; color:#67748e;">HV-4</small>\
-                                                                                    <input id="hv4" name="hv4" type="number" class="form-control hv blackInReadOnly calculateTimeCod" style="text-transform: uppercase" value="' +
+                                                                                    <input id="hv4" name="hv4" type="number" class="form-control hv blackInReadOnly calculateTimeCod4" style="text-transform: uppercase" value="' +
                                                                                 hv4 + '">\
                                                                                 </div>\
                                                                             </div>\
@@ -2630,7 +2662,9 @@
                                                                             .select2();
                                                                         $('#btnAgregarCod')
                                                                             .css('display','none');
-                                                                        $('.calculateTimeCod').change(calculateTimeCod);
+                                                                        $('.calculateTimeCod4').change(function() {
+                                                                            calculateTimeCod(4);
+                                                                        });
                                                                     }
                                                                 }
                                                             });
@@ -2927,6 +2961,9 @@
                         aggCod();
                     } else {
                         $('#hv1').val(((minDiffSeg * 0.1) / 6).toFixed(1));
+                        sumTotalHv = ((minDiffSeg * 0.1) / 6).toFixed(1);
+                        arrayHvCods = [];
+                        arrayHvCods.push($('#hv1').val());
                     }
                 }
             }
@@ -3285,8 +3322,10 @@
 
                 if (numCods == 1) {
                     var hvpas = $(".registro_manual").val();
+                    arrayHvCods.push(hvpas);
                 } else {
                     var hvpas = 0.0;
+                    arrayHvCods.push(hvpas);
                 }
 
                 $('.div_cods').append('<div class="row">\
@@ -3381,7 +3420,7 @@
                         <div class="form-group">\
                             <small style="font-weight: bold; color:#67748e;">HV-' + numCods + '</small>\
                             <input id="hv' + numCods + '" name="hv' + numCods +
-                    '" type="number" class="form-control hv blackInReadOnly" style="text-transform: uppercase" value="' +
+                    '" type="number" class="form-control hv blackInReadOnly calculateTimeCod' + numCods +'" style="text-transform: uppercase" value="' +
                     hvpas + '">\
                         </div>\
                     </div>\
@@ -3394,12 +3433,19 @@
                 if (numCods == 4) {
                     $('#btnAgregarCod').css('display', 'none');
                 }
+
+                $('.calculateTimeCod' + numCods).change((function(num) {
+                    return function() {
+                        calculateTimeCod(num);
+                    }
+                })(numCods));
             }
 
-            function calculateTimeCod() {
+            function calculateTimeCod(numHvCod) {
+
                 let tamanoArray = arrayHvCods.length;
-                let sum = 0;
-                let sum2 = 0;
+                let sum = 0.0;
+                let sum2 = 0.0;
 
                 if ($('#hv1').val()) {
                     sum2 += parseFloat($('#hv1').val());
@@ -3418,11 +3464,13 @@
                     sum = sum += parseFloat(arrayHvCods[i]);
                 }
 
-                if(sum2 !== sum){
-                    alert('Error la hora no coinciden');
+                if(sum2 > sum){
+                    alert('Error, la suma de las horas (COD) es mayor a la hora de vuelo total');
                     for (let i = 0; i < tamanoArray; i++) {
-                        $('#hv' + (i + 1)).val(arrayHvCods[i]);
+                        $('.calculateTimeCod' + numHvCod).val(0.0);
                     }
+                } else {
+                    sumTotalHv = sum2;
                 }
             }
         });
