@@ -16,7 +16,7 @@
         <td colspan="6" style="font-weight: bold; text-align: center; font-size: 16pt"></td>
     </tr>
     <tr>
-        <td colspan="6" style="font-weight: bold; text-align:right; font-size: 14pt">{{$fecha_inv}}</td>
+        <td colspan="6" style="font-weight: bold; text-align:right; font-size: 14pt">{{$fechaFormateada}}</td>
     </tr>
     <tr>
         <td colspan="6" style="font-weight: bold; text-align: center; font-size: 19pt">{{ $titulo }}</td>

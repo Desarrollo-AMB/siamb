@@ -162,7 +162,7 @@
                         <th>Grado militar</th>
                         <th>Grado a ascender</th>
         
-                        <th>demerito</th>
+                        <th>Demerito</th>
                     </tr>
                 </thead>
                 <tbody>

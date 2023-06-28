@@ -110,9 +110,7 @@ Route::get("grados-militares-noprof/{tipo_emp?}", [ApiController::class, 'getGra
 //JUNTA P
 
 Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitarasc'])->name('api.juntap.personalm.data');
- //Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select']);
- Route::get('/juntap/reportes/index', [controllerjuntap::class, 'juntap'])->name('api.juntap.reportes.index');
- Route::get('/juntapermanente/ascenso/julio', [controllerjuntap::class, 'select'])->name('api.juntap.ascenso.julio');
+
  Route::get('/juntapermanente/ascenso/julio/comando', [controllerjuntap::class, 'select_julio_comando'])->name('api.juntap.ascenso.julio.comando');
  Route::get('/juntapermanente/ascenso/julio/tecnico', [controllerjuntap::class, 'select_julio_tecnico'])->name('api.juntap.ascenso.julio.tecnico');
  Route::get('/juntapermanente/ascenso/julio/ofitropa', [controllerjuntap::class, 'select_julio_ofitropa'])->name('api.juntap.ascenso.julio.ofitropa');
@@ -132,4 +130,3 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
   //JUNTA P2
  // Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.ascenso.index');
   //Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.reportes.index');
-  Route::get('sireh/personalmilitar', [empleadoExtraComponeteController::class, 'personal'])->name('api.personal.data');

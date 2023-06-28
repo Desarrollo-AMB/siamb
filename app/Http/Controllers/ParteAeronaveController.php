@@ -400,9 +400,9 @@ class ParteAeronaveController extends Controller
 }
 
 
-/*    // Convertir las horas de encendido y apagado a objetos DateTime
+/*    // xxxConvertir las horas de encendido y apagado a objetos DateTime
     $encendido = DateTime::createFromFormat('H:i', $horaEncendido);
-    $apagado = DateTime::createFromFormat('H:i', $horaApagado);
+    $apagado = DateTime::createFromFormat('H:i', $horaApagado);eee
 
     // Calcular la diferencia de tiempo en segundos
     $diferencia = $apagado->getTimestamp() - $encendido->getTimestamp();
@@ -410,5 +410,5 @@ class ParteAeronaveController extends Controller
     // Calcular las horas decimales dividiendo la diferencia de tiempo entre 3600 (segundos en una hora)
     $horasDecimales = $diferencia / 3600;
 
-    // Redondear las horas decimales a dos decimales
-    $horasDecimales = round($horasDecimales, 2);*/
+    // Redondear las hosssras decimales a dos decimales
+    $horasDeciemales = round($horasDecimales, 2);*/

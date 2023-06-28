@@ -61,8 +61,8 @@
 
                      <!-- Aviso De Ascenso -->
 
-                   
-                     
+
+
                      @if($empleados=='true')
                      <div id="mensaje" name="mensaje" class="alert alert-success"
                      style=" text-align: center;font-weight: bold;color: #000;">
@@ -457,14 +457,14 @@ Personal no esta Tentativo a Ascenso
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Orden de Merito:</h6>
-                                                @if($datos->historico_ascensos )
+                                                @if($datos->datos_militares )
                                                     @foreach ($datos_militares as $row)
                                                         @if($datos->datos_militares->codigo_empleado == $row->codigo_empleado)
-                                                            {!! Form::text('datos_militares', $row->orden_merito_ascenso, array('placeholder' => 'No Posee orden de merito','class' => 'form-control')) !!}
+                                                            {!! Form::text('orden_merito', $row->orden_merito, array('placeholder' => 'No Posee orden de merito','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
-                                                    {!! Form::text('orden_merito_ascenso', '', array('placeholder' => 'No Posee Orden de Merito ','class' => 'form-control')) !!}
+                                                    {!! Form::text('orden_merito', '', array('placeholder' => 'No Posee Orden de Merito ','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
                                         </div>
@@ -474,25 +474,11 @@ Personal no esta Tentativo a Ascenso
                                                 @if($datos->datos_militares )
                                                     @foreach ($datos_militares as $row)
                                                         @if($datos->datos_militares->codigo_empleado == $row->codigo_empleado)
-                                                            {!! Form::text('datos_militares', $row->total_orden_merito_ascenso, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
+                                                            {!! Form::text('total_orden_merito', $row->total_orden_merito, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
                                                         @endif
                                                     @endforeach
                                                 @else
-                                                    {!! Form::text('total_orden_merito_ascensos', '', array('placeholder' => 'No Posee Orden de Merito Total','class' => 'form-control')) !!}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <h6>Fecha del Ultimo Ascenso:</h6>
-                                                @if($datos->datos_militares && $datos->datos_militares->codigo_especialidad2 != "")
-                                                    @foreach ($especialidades_militares as $row)
-                                                        @if($datos->datos_militares->codigo_especialidad2 == $row->codigo_especialidad)
-                                                            {!! Form::text('especialidad2', $row->descripcion, array('placeholder' => 'No Posee Segunda Especialidad','class' => 'form-control')) !!}
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    {!! Form::text('especialidad2', '', array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
+                                                    {!! Form::text('total_orden_merito', '', array('placeholder' => 'No Posee Orden de Merito Total','class' => 'form-control')) !!}
                                                 @endif
                                             </div>
                                         </div>
@@ -591,9 +577,6 @@ Personal no esta Tentativo a Ascenso
             </div>
         </div>
     </div>
-    <div id="datos-personales" class="datos-personales" data-codigo-empleado="{{ $datos->datos_militares->codigo_empleado }}" >
-        <!-- Contenido de los datos personales -->
-      </div>
 @endsection
 
 @section('scripts')
@@ -622,10 +605,5 @@ Personal no esta Tentativo a Ascenso
             $('.falda').hide();
         }
     }
-
-
-
-
-
 </script>
 @endsection
