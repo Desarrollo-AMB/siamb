@@ -78,7 +78,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 50%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        PROM.AÑO
+                        <strong>PROM.AÑO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text"> {{$datos->promocion}}</div>
@@ -87,7 +87,7 @@
             </div>
             <div class="databloq" style="width: 40%;"> <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                      NOMBRE Y APELLIDO
+                      <strong>NOMBRE Y APELLIDO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text">   {{ $datos->nombre1 . ' ' . $datos->nombre2 . ' ' . $datos->apellido1 . ' ' . $datos->apellido2 }}</div>
@@ -95,7 +95,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                   CEDULA DE IDENTIDAD
+                   <strong>CEDULA DE IDENTIDAD</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text">  {{ $datos->cedula }}</div>
@@ -103,7 +103,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        GDO/CAT
+                        <strong>GDO/CAT</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text">  {{$datos->siglas}} - {{$datos->categoria}}</div>
@@ -111,7 +111,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                       AÑOS DE SERVICIO
+                       <strong>AÑOS DE SERVICIO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text">{{strtoupper($años)}},AÑOS</div>
@@ -119,7 +119,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        TIEMPO EN EL GRADO
+                        <strong>TIEMPO EN EL GRADO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text"> {{strtoupper($años)}},AÑOS</div>
@@ -127,7 +127,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        ESPECIALIDAD
+                        <strong>ESPECIALIDAD</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         <div class="text">{{ $datos->especialidad }}</div>
@@ -135,7 +135,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        NIVEL EDUCATIVO
+                      <strong>  NIVEL EDUCATIVO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @foreach ($niveles as $key=>$value)
@@ -147,7 +147,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        OPORTUNIDAD DE ASCENSO
+                       <strong> OPORTUNIDAD DE ASCENSO</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         PRIMERA
@@ -155,11 +155,11 @@
                 </div> </div>
             <div class="databloq" style="width: 40%;">
                 <div class="bloqrow">
-                    ORDEN DE MERITO ASCENSO
+                    <strong>  ORDEN DE MERITO ASCENSO </strong>
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        GB
+                      <strong>  GB</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($gb) && $gb->orden_merito_ascenso != null || isset($gb) && $gb->total_orden_merito_ascenso != null)
@@ -178,7 +178,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        CNEL
+                      <strong>  CNEL</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($cnel) && $cnel->orden_merito_ascenso != null || isset($cnel) && $cnel->total_orden_merito_ascenso != null)
@@ -197,7 +197,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        TCNEL
+                       <strong> TCNEL</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($tcnel) && $tcnel->orden_merito_ascenso != null || isset($tcnel) && $tcnel->total_orden_merito_ascenso != null)
@@ -216,7 +216,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        MY
+                       <strong> MY</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                           @if (isset($may) && $may->orden_merito_ascenso != null || isset($may) && $may->total_orden_merito_ascenso != null)
@@ -235,7 +235,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        CAP
+                       <strong> CAP</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($cap) && $cap->orden_merito_ascenso != null || isset($cap) && $cap->total_orden_merito_ascenso != null)
@@ -254,7 +254,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        PTTE
+                       <strong> PTTE</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($ptte) && $ptte->orden_merito_ascenso != null ||isset($ptte) && $ptte->total_orden_merito_ascenso != null)
@@ -273,7 +273,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        TTE
+                       <strong> TTE</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         @if (isset($tte) && $tte->orden_merito_ascenso != null || isset($tte) && $tte->total_orden_merito_ascenso != null)
@@ -292,51 +292,51 @@
                 </div> </div>
             <div class="databloq" style="width: 40%;">
                 <div class="bloqrow">
-                    RESULTADOS DE EVALUACION
+                    <strong> RESULTADOS DE EVALUACION </strong>
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        PUNTAJE NIEA
+                        <strong>PUNTAJE NIEA</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
                     </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        OM NIEA
+                        <strong>OM NIEA</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
                     </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        OM J/A
+                       <strong> OM J/A</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
                     </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        OM J/R
+                        <strong>OM J/R</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
                     </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        OM J/C
+                        <strong>OM J/C</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         0
                     </div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        SITUACION
+                       <strong> SITUACION</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;"></div></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        PAF
+                       <strong> PAF</strong>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
                         {{$datos->total}}
@@ -358,13 +358,13 @@
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 30%;">
                 <div class="check">
-                    <div class="text"> REGIME DISIPLINARIO MILITAR </div>
+                    <div class="text"> <strong>REGIME DISIPLINARIO MILITAR</strong> </div>
                 </div>
             </div>
             <div class="databloq" style="width: 100%;">
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        INVESTIGACION ADMINISTRATIVA
+                       <strong> INVESTIGACION ADMINISTRATIVA</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <div class="bloqrow" style="height: auto;width: 100%; display: flex; flex-direction: row;">
@@ -375,7 +375,7 @@
                         </div>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 110%;">
-                        INVESTIGACION JUDICIAL
+                       <strong> INVESTIGACION JUDICIAL</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <div class="bloqrow" style="height: auto;width: 100%; display: flex; flex-direction: row;">
@@ -386,13 +386,13 @@
                         </div>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        REGISTRO EN EL SIPOL
+                        <strong>REGISTRO EN EL SIPOL</strong>
                     </div>
 
                 </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 26%;">
-                        INVESTIGACION PENAL MILITAR
+                       <strong> INVESTIGACION PENAL MILITAR</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <div class="bloqrow" style="height: auto;width: 100%; display: flex; flex-direction: row;">
@@ -403,7 +403,7 @@
                         </div>
                     </div>
                     <div class="bloqrow" style="height: auto;width: 30%;">
-                        JUCIO ABIERTO
+                        <strong>JUCIO ABIERTO</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <div class="bloqrow" style="height: auto;width: 100%; display: flex; flex-direction: row;">
@@ -427,7 +427,7 @@
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 30%;">
                 <div class="check">
-                    <div class="text"> CARGO ACTUAL </div>
+                    <div class="text"> <strong>CARGO ACTUAL </strong></div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 100%;">
@@ -439,39 +439,39 @@
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 50%;">
                 <div class="check">
-                    <div class="text"> ÚLTIMOS CARGOS </div>
+                    <div class="text"> <strong>ÚLTIMOS CARGOS </strong></div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 50%;">
                 <div class="check">
-                    <div class="text"> CURSOS REALIZADOS </div>
+                    <div class="text"> <strong>CURSOS REALIZADOS </strong></div>
                 </div>
             </div>
         </div>
         <div class="formbloq">
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> UNIDAD </div>
+                    <div class="text"><strong> UNIDAD</strong> </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 40%;">
                 <div class="check">
-                    <div class="text"> DESCRIPCION/FECHA</div>
+                    <div class="text"><strong> DESCRIPCION/FECHA</strong></div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> UNIDAD/PAIS </div>
+                    <div class="text"> <strong>UNIDAD/PAIS </strong></div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> NOMBRE DEL CUROS </div>
+                    <div class="text"> <strong>NOMBRE DEL CUROS</strong> </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> ORDEN DE MERITO </div>
+                    <div class="text"> <strong>ORDEN DE MERITO </strong></div>
                 </div>
             </div>
         </div>
@@ -558,35 +558,40 @@
         </div>
         <div class="formbloq"><div class="databloq" style="width: 40%;">
                 <div class="bloqrow" style="width: 100%;">
-                    OTRAS EVALUACIONES</div>
+                    <strong>OTRAS EVALUACIONES</strong></div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        CALIFICACIÓN
-                        DE CONDUCTA</div>
+                        <strong>CALIFICACIÓN
+                        DE CONDUCTA</strong></div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
                         {{$datos->notatotal}}
                     </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        EVALUACIÓN
-                        DE COMPAÑEROS</div>
+                       <strong> EVALUACIÓN
+                        DE COMPAÑEROS</strong></div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
                         0
                     </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        ENTREVISTA </div>
+                       <strong> ENTREVISTA </strong></div>
                     <div class="bloqrow" style="height: auto;width: 40%;">
                         0 </div> </div>
                 <div style="display: flex; flex-direction: row; height: 100%;">
                     <div class="bloqrow" style="height: auto;width: 100%;">
-                        EXAMEN DE CONOCIMIENTO</div>
+                       <strong> EXAMEN DE CONOCIMIENTO</strong></div>
                     <div class="bloqrow" style="height: auto;width: 40%;">   0 </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 100%;">
                 <div class="check">
-                    <div class="text"> REGIME DISIPLINARIO MILITAR </div>
+                    <div style="display: flex; justify-content: flex-start;">
+                        <div  class="text" style="text-align: left;">
+                          <strong>APRECIACION GENERAL:
+                          </strong>SE HA DESEMPEÑADO DURANTE DIECINUEVE (19) AÑOS EN UNIDADES OPERACIONALES, MANTENIÉNDOSE EN SU ESPECIALIDAD COMO PILOTO DE CAZA. REGISTRA UN TOTAL DE TRES MIL TRESCIENTAS CUARENTA Y DOS (3342) HORAS DE VUELO, DE LAS CUALES MIL OCHOCIENTAS DIECISÉIS (1816) SON COMO PILOTO INSTRUCTOR EN LOS SISTEMAS: OV-10, SF-260, DA-40, T-27, K-8 Y SU-30. HA CUMPLIDO MISIONES PARA EL SISTEMA DE DEFENSA AEROESPACIAL INTEGRAL (SIDAI), TRECE (13) COMISIONES PRESIDENCIALES COMO PILOTO, ENTRE OTRAS DE RELEVADA IMPORTANCIA PARA LA DEFENSA MILITAR DE LA SOBERANÍA DEL ESTADO. FUE COMANDANTE DE LA ESCUADRILLA DE POLICÍA DEL EPABARU (MAR03-ENE04). ACTUALMENTE CURSA LA MAESTRÍA EN SEGURIDAD DE LA NACIÓN EN EL IAESEN (MODALIDAD SEMIPRESENCIAL). OPINIÓN DE COMANDO FAVORABLE. 
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>
@@ -598,37 +603,37 @@
             </div>
             <div class="campo" style=" height: auto; width: 40%;">
                 <div class="check">
-                    <div class="text"> OM:Orden de merito</div>
+                    <div class="text"> <strong>OM:</strong>Orden de merito</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> NIEA:Nomina Inicila de ascenso </div>
+                    <div class="text"> <strong>NIEA:</strong>Nomina Inicila de ascenso </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> J/A Junta de Apreciacion</div>
+                    <div class="text"> <strong>J/A:</strong> Junta de Apreciacion</div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> J/R Junta Revisora </div>
+                    <div class="text"> <strong>J/R:</strong> Junta Revisora </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> J/C Junta Calificadora </div>
+                    <div class="text"> <strong>J/C:</strong> Junta Calificadora </div>
                 </div>
             </div>
             <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> Situacion:   R recomendado NR no recomendado </div>
+                    <div class="text"><strong> Situacion: </strong>  R recomendado NR no recomendado </div>
                 </div>
             </div>
              <div class="campo" style=" height: auto; width: 20%;">
                 <div class="check">
-                    <div class="text"> PAF :prueba de Actitu Fisica </div>
+                    <div class="text"> <strong>PAF</strong> :prueba de Actitu Fisica </div>
                 </div>
             </div>
         </div>
