@@ -1,14 +1,16 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-@if (count($errors) > 0)
-<div class="alert alert-danger mx-4" role="alert">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
+@if (session()->has('success'))
+    <div id="success-message" class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session()->has('error'))
+    <div id="error-message" class="alert alert-danger">
+        {{ session('error') }}
+    </div>
 @endif
 <div class="row">
     <div class="col-8">
@@ -64,6 +66,19 @@
 @endsection
 
 @section('scripts')
+<script>
+    setTimeout(function() {
+        var successMessage = document.getElementById("success-message");
+        if (successMessage) {
+            successMessage.style.display = "none";
+        }
+
+        var errorMessage = document.getElementById("error-message");
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    }, 2000); // 5000 milisegundos = 5 segundos
+</script>
 <script>
     $(function (){
         $('.select2').select2();

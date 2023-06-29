@@ -1,14 +1,16 @@
 @extends('layouts.user_type.auth')
 @section('title', 'Usuarios')
 @section('content')
-@if (count($errors) > 0)
-<div class="alert alert-danger mx-4" role="alert">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
+@if (session()->has('success'))
+    <div id="success-message" class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session()->has('error'))
+    <div id="error-message" class="alert alert-danger">
+        {{ session('error') }}
+    </div>
 @endif
 <div class="row">
     <div class="col-10">
@@ -23,7 +25,7 @@
             </div>
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2"> 
-                {!! Form::model($registro, ['method' => 'PATCH','route' => ['sireh.nomina.NoProf.updateDeducciones', $registro]]) !!}
+                {!! Form::model($id, ['method' => 'PATCH','route' => ['sireh.nomina.NoProf.updateDeducciones', $id]]) !!}
                 <div class="row">
                     {{--<div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
@@ -63,6 +65,19 @@
 @endsection
 
 @section('scripts')
+<script>
+    setTimeout(function() {
+        var successMessage = document.getElementById("success-message");
+        if (successMessage) {
+            successMessage.style.display = "none";
+        }
+
+        var errorMessage = document.getElementById("error-message");
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    }, 2000); // 5000 milisegundos = 5 segundos
+</script>
 @parent
 <script>
     $(function () {

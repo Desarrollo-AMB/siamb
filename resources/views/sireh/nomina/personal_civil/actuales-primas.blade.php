@@ -1,10 +1,16 @@
 @extends('layouts.user_type.auth')
 @section('title', 'Usuarios')
 @section('content')
-@if ($message = Session::get('success'))
-<div class="alert alert-success mx-4" role="alert">
-    <span class="text-white">{{ $message }}</span>
-</div>
+@if (session()->has('success'))
+    <div id="success-message" class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session()->has('error'))
+    <div id="error-message" class="alert alert-danger">
+        {{ session('error') }}
+    </div>
 @endif
 @if(session('error'))
     <div class="alert alert-danger">
@@ -104,6 +110,19 @@
 @endsection
 
 @section('scripts')
+<script>
+    setTimeout(function() {
+        var successMessage = document.getElementById("success-message");
+        if (successMessage) {
+            successMessage.style.display = "none";
+        }
+
+        var errorMessage = document.getElementById("error-message");
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    }, 2000); // 5000 milisegundos = 5 segundos
+</script>
 <script>
     $(function (){
         var table = $('#table').DataTable({

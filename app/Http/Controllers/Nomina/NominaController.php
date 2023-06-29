@@ -356,10 +356,10 @@ public function deducciones(Request $request)
     return view('sireh.nomina.personal_militar.deducciones', compact('data'));
 }
 //EDIT PRIMA 2
-public function editdeducciones (ConceptosNomina $registro){
+public function editdeducciones (ConceptosNomina $id){
 
     // $prima = ConceptosNomina::find($id);
-     return view('sireh.nomina.personal_militar.deducciones-edit',compact('registro'));
+     return view('sireh.nomina.personal_militar.deducciones-edit',compact('id'));
  }
 
  //UPDATE PRIMAS
@@ -370,7 +370,7 @@ public function editdeducciones (ConceptosNomina $registro){
      * @param  int  $registro
      * @return \Illuminate\Http\Response
      */
-    public function updateDeducciones(Request $request, $registro)
+    public function updateDeducciones(Request $request, $id)
     {
 
         $this->validate($request, [
@@ -379,7 +379,7 @@ public function editdeducciones (ConceptosNomina $registro){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -683,7 +683,7 @@ $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
 ->whereIn('nomina.situacion', ['S', 'A'])
 //->whereIn('nomina.grado_militar', ['020'])
-->take(15)
+//->take(15)
 ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
 ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
 

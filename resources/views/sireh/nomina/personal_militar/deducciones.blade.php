@@ -36,7 +36,7 @@
                                 <td>{{ $user->descripcion }}</td>
                                 <td>{{ $user->porcentaje }}</td>
                                 <td class="text-center"> 
-                                    <a href="{{ route('sireh.nomina.deducciones.editdeducciones',$user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
+                                    <a href="{{ route('sireh.nomina.deducciones.editdeducciones',$user->id ) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Editar usuario">
                                         <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                                     </a>
                                      {{-- BOTON PARA ELIMINAR --}}
