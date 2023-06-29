@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
             <div class="card-body text-center p-2">
@@ -111,7 +111,8 @@
     <div class="col-xl-1 col-md-2 col-sm-2 mb-xl-0 mb-2">
         <div class="card mb-0">
             <div class="card-body text-center p-2">
-                <a href="{{ route('juntape.personalm.indexfichas') }}">
+                <a href="{{ route('ficha.view') }}">
+                {{--<a href="{{ route('juntape.personalm.indexfichas') }}">--}}
                     <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                         <i class="fa fa-file-excel-o text-lg opacity-10" aria-hidden="true"></i>
                     </div>

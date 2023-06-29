@@ -42,6 +42,7 @@ use App\Models\EmpleadoFuncion;
 use App\Models\Escalafon;
 use App\Exports\PerosnalubicacionesExport;
 use App\Exports\PersonalMilitarExport;
+use App\Exports\FichaExport;
 use App\Exports\PersonalMilitarEnFormacionExport;
 use PhpParser\Node\Stmt\Else_;
 
@@ -2141,14 +2142,14 @@ class PersonalController extends Controller
 $cargo1 = isset($cargos[0]) ? $cargos[0] : null;
 $cargo2 = isset($cargos[1]) ? $cargos[1] : null;
 $cargo3 = isset($cargos[2]) ? $cargos[2] : null;
-
+$titulo= 'ficha';
 
 /*$pdf = \PDF::loadView('juntap.reportes.ficha', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
     ->setPaper('letter', 'landscape');
 return $pdf->stream('ficha.pdf', array('Attachment' => 0));*/
 
 
-       return view('juntap.reportes.ficha',
+      return view('juntap.reportes.ficha',
             compact(
                 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
                 'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
@@ -2157,6 +2158,12 @@ return $pdf->stream('ficha.pdf', array('Attachment' => 0));*/
         );
 
 
+
+       /* $nombre_archivo = sprintf('lista de personal %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+          $data = compact('titulo', 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
+          'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
+          'añoascensocnel','añoascensogb','curso1','curso2','curso3','cargo1','cargo2','cargo3','cmdt');
+            return Excel::download(new  FichaExport($data), $nombre_archivo);*/
 
 
 
