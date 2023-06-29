@@ -168,6 +168,7 @@ public function actualesNoProf (Request $request)
 
     $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
         ->where('cedula', $cedula)
+        ->whereIn('situacion', ['A', 'S'])
         ->first();
 
     if (!$empleado) {
@@ -178,8 +179,9 @@ public function actualesNoProf (Request $request)
     $codigo_empleado = $empleado->codigo_empleado;
 
     $existeNomina = Nomina::where('codigo_empleado', $codigo_empleado)
-        ->whereIn('tipo_emp', ['MIF', 'ALI'])
-        ->exists();
+    ->whereIn('tipo_emp', ['MEF', 'ALI'])
+    ->whereIn('situacion', ['A', 'S'])
+    ->exists();
  
     if ($existeNomina) {
         $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
@@ -211,7 +213,7 @@ public function actualesNoProf (Request $request)
             // La nómina no existe para el empleado con tipo_emp 'MIF' o 'ALI'
             // Realiza las operaciones que necesites aquí
             // Por ejemplo, muestra un mensaje de error o redirige a otra página
-            session()->flash('error', 'El profesiona con cedula n° '.$cedula.' no pertenece a la nomina del Personal Militar No Profesional');
+            session()->flash('error', 'El profesional con cedula n° '.$cedula.' no pertenece a la nomina del Personal Militar No Profesional');
             return redirect()->back();
         }
     }
@@ -219,40 +221,57 @@ public function actualesNoProf (Request $request)
 
  //asignacion de nueva prima
 //Nueva prima
-public function asignacionNoProf (Request $request)
+public function asignacionNoProf(Request $request)
 {
-    
     $codigo_concepto = $request->input('codigo_concepto');
     $cedula = $request->input('cedula');
     $empleado_nombre = $request->input('nombre');
     $empleado_apellido = $request->input('apellido');
-    $cedula = $request->input('cedula');
     $codigo_empleado = $request->input('codigo_empleado');
     $tipo = $request->input('tipo');
 
+    $asignacionExistente = Asignaciones::withTrashed()
+        ->where('codigo_empleado', $codigo_empleado)
+        ->where('id_concepto', $codigo_concepto)
+        ->first();
+
+    if ($asignacionExistente) {
+        if ($asignacionExistente->deleted_at !== null) {
+            $asignacionExistente->restore();
+            session()->flash('success', 'La prima ha sido restaurada');
+        } else {
+            session()->flash('error', 'La prima ya se encuentra asignada al profesional');
+        }
+    } else {
+        $asignacion = new Asignaciones();
+        $asignacion->codigo_empleado = $codigo_empleado;
+        $asignacion->id_concepto = $codigo_concepto;
+        $asignacion->tipo_concepto = $tipo;
+        $asignacion->save();
+        session()->flash('success', 'La prima ha sido asignada con éxito');
+    }
+
     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
-    ->where('tipo', 'A')
-    ->where(function ($query) {
-        $query->whereIn('tipo_empleado', ['MIF', 'ALI'])
-            ->orWhereNull('tipo_empleado');
-    })
-    ->get();
+        ->where('tipo', 'A')
+        ->where(function ($query) {
+            $query->whereIn('tipo_empleado', ['MIF', 'ALI'])
+                ->orWhereNull('tipo_empleado');
+        })
+        ->get();
 
     $dataemp = [
         'empleado_nombre' => $empleado_nombre,
         'empleado_apellido' => $empleado_apellido,
         'cedula' => $cedula,
         'conceptos_nomina' => $conceptos_nomina,
-        'codigo_empleado' => $codigo_empleado, 
+        'codigo_empleado' => $codigo_empleado,
     ];
 
-    $empleado = Empleado::
-    select('codigo_empleado','nombre1', 'apellido1')
-    ->where ('cedula', $cedula)
-    ->first();
+    $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
+        ->where('cedula', $cedula)
+        ->first();
 
-    $asignaciones = Asignaciones::
-        select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
+    $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
         ->where('Empleados.cedula', $cedula)
@@ -260,29 +279,8 @@ public function asignacionNoProf (Request $request)
         ->with('conceptoNomina')
         ->get();
 
-    $asignacionExistente = Asignaciones::withTrashed()
-    ->where('codigo_empleado', $codigo_empleado)
-    ->where('id_concepto', $codigo_concepto)
-    ->first();
-
-        if ($asignacionExistente) {
-            if ($asignacionExistente->deleted_at !== null) {
-                $asignacionExistente->restore();
-                session()->flash('success', 'La prima ha sido restaurada');
-            } else {
-                session()->flash('error', 'La prima ya se encuentra asignada al profesional');
-            }
-        } else {
-            $asignacion = new Asignaciones();
-            $asignacion->codigo_empleado = $codigo_empleado;
-            $asignacion->id_concepto = $codigo_concepto;
-            $asignacion->tipo_concepto = $tipo;
-            $asignacion->save();
-            session()->flash('success', 'La prima ha sido asignada con éxito');
-        }
-
     return view('sireh.nomina.no_profesional.actuales-primas_noprof', compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
-         }
+}
                                     //SECCION DE DEDUCCIONES
 
 //Ver deducciones
@@ -296,10 +294,10 @@ public function asignacionNoProf (Request $request)
         return view('sireh.nomina.no_profesional.deducciones',compact('data'));
     }
 //EDIT PRIMA 2
-public function editdeduccionesNoProf (ConceptosNomina $registro){
+public function editdeduccionesNoProf (ConceptosNomina $id){
 
     // $prima = ConceptosNomina::find($id);
-     return view('sireh.nomina.no_profesional.deducciones-edit',compact('registro'));
+     return view('sireh.nomina.no_profesional.deducciones-edit',compact('id'));
  }
 
  //UPDATE PRIMAS
@@ -310,7 +308,7 @@ public function editdeduccionesNoProf (ConceptosNomina $registro){
      * @param  int  $registro
      * @return \Illuminate\Http\Response
      */
-    public function updateDeduccionesNoProf(Request $request, $registro)
+    public function updateDeduccionesNoProf(Request $request, $id)
     {
 
         $this->validate($request, [
@@ -319,7 +317,7 @@ public function editdeduccionesNoProf (ConceptosNomina $registro){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -411,6 +409,7 @@ public function editdeduccionesNoProf (ConceptosNomina $registro){
 
         $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
             ->where('cedula', $cedula)
+            ->whereIn('situacion', ['A', 'S'])
             ->first();
 
         if (!$empleado) {
@@ -421,7 +420,8 @@ public function editdeduccionesNoProf (ConceptosNomina $registro){
         $codigo_empleado = $empleado->codigo_empleado;
 
         $existeNomina = Nomina::where('codigo_empleado', $codigo_empleado)
-            ->whereIn('tipo_emp', ['MIF', 'ALI'])
+            ->whereIn('tipo_emp', ['MEF', 'ALI'])
+            ->whereIn('situacion', ['A', 'S'])
             ->exists();
 
         if ($existeNomina) {

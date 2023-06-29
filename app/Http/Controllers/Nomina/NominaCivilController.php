@@ -147,7 +147,7 @@ public function civildeletePrimaAsignada(Request $request, $id)
  
      $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'A')
-        ->whereIn('tipo_empleado', ['EMP'])
+        ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
         ->get();
          
      $empleado_nombre = $empleado->nombre1;
@@ -183,6 +183,7 @@ public function civilactualesPrimas(Request $request)
 
 $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
     ->where('cedula', $cedula)
+    ->whereIn('situacion', ['A', 'S'])
     ->first();
 
 if (!$empleado) {
@@ -193,7 +194,8 @@ if (!$empleado) {
 $codigo_empleado = $empleado->codigo_empleado;
 
 $existeNomina = Nomina::where('codigo_empleado', $codigo_empleado)
-    ->whereIn('tipo_emp', ['EMP'])
+    ->whereIn('tipo_emp', ['EMP', 'OBR','DOC'])
+    ->whereIn('situacion', ['A', 'S'])
     ->exists();
 
 if ($existeNomina) {
@@ -210,7 +212,7 @@ if ($existeNomina) {
 
     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
     ->where('tipo', 'A')
-    ->whereIn('tipo_empleado', ['EMP'])
+    ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
     ->get();
 
     $dataemp = [
@@ -245,7 +247,7 @@ public function civilasignacionNuevaPrima(Request $request)
 
     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
     ->where('tipo', 'A')
-    ->whereIn('tipo_empleado', ['EMP'])
+    ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
     ->get();
 
     $dataemp = [
@@ -282,7 +284,7 @@ public function civilasignacionNuevaPrima(Request $request)
         $asignacion->id_concepto = $codigo_concepto;
         $asignacion->tipo_concepto = $tipo;
         $asignacion->save();
-
+        Session()->flash('success', 'La prima ya se encuentra asignada al profesional');
 //return('no existe');
     return view('sireh.nomina.personal_civil.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
 
@@ -296,7 +298,7 @@ public function civilasignacionNuevaPrima(Request $request)
         $data = ConceptosNomina::
             select('*',)
             ->where ('tipo', 'D')
-            ->whereIn('tipo_empleado', ['EMP'])
+            ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
             ->get();
 
         return view('sireh.nomina.personal_civil.deducciones', compact('data'));
@@ -365,7 +367,7 @@ public function civileditDeduccion (ConceptosNomina $registro){
  
      $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'D')
-        ->whereIn('tipo_empleado', ['EMP'])
+        ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
         ->get();
          
      $empleado_nombre = $empleado->nombre1;
@@ -396,47 +398,57 @@ public function nuevaDeduccion()
 public function actualesdeducciones(Request $request)
     {
         $cedula = $request->cedula;
-        $empleado = Empleado::
-        select('codigo_empleado','nombre1', 'apellido1')
-        ->where ('cedula', $cedula)
-        ->first();
 
+        $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
+            ->where('cedula', $cedula)
+            ->whereIn('situacion', ['A', 'S'])
+            ->first();
+        
         if (!$empleado) {
-            // Si la consulta no devuelve ningún resultado, el empleado no existe
-            // Almacenamos un mensaje de error en la sesión
             session()->flash('error', 'El profesional con cédula '.$cedula.' no existe.');
-
-            // Redirigimos al usuario a la página anterior
             return redirect()->back();
         }
-        $asignaciones = Asignaciones::
-        select('Asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1')
-        ->join('Empleados', 'Asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-        ->where('Empleados.cedula', $cedula)
-        ->where('Asignaciones.tipo_concepto', 'D')
-        ->with('conceptoNomina')
-        ->get();
-
-        $empleado_nombre = $empleado->nombre1;
-        $empleado_apellido = $empleado->apellido1;
-
-        $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
-        ->where('tipo', 'D')
-        ->whereIn('tipo_empleado', ['EMP'])
-        ->get();
-
-        $codigo_empleado=$empleado->codigo_empleado;
-
-        $dataemp = [
-            'empleado_nombre' => $empleado_nombre,
-            'empleado_apellido' => $empleado_apellido,
-            'cedula' => $cedula,
-            'conceptos_nomina' => $conceptos_nomina,
-            'codigo_empleado' => $codigo_empleado,
-        ];
-//return($codigo_empleado);
-      return view('sireh.nomina.personal_civil.actuales_deducciones',compact('asignaciones', 'conceptos_nomina', 'dataemp'));
-
+        
+        $codigo_empleado = $empleado->codigo_empleado;
+        
+        $existeNomina = Nomina::where('codigo_empleado', $codigo_empleado)
+            ->whereIn('tipo_emp', ['EMP', 'OBR','DOC'])
+            ->whereIn('situacion', ['A', 'S'])
+            ->exists();
+        
+        if ($existeNomina) {
+            $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+                ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
+                ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
+                ->where('Empleados.cedula', $cedula)
+                ->where('asignaciones.tipo_concepto', 'D')
+                ->with('conceptoNomina')
+                ->get();
+        
+            $empleado_nombre = $empleado->nombre1;
+            $empleado_apellido = $empleado->apellido1;
+        
+            $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+            ->where('tipo', 'D')
+            ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
+            ->get();
+        
+            $dataemp = [
+                'empleado_nombre' => $empleado_nombre,
+                'empleado_apellido' => $empleado_apellido,
+                'cedula' => $cedula,
+                'conceptos_nomina' => $conceptos_nomina,
+                'codigo_empleado' => $codigo_empleado,
+            ];
+        //return($conceptos_nomina);
+        return view('sireh.nomina.personal_civil.actuales_deducciones',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
+            } else {
+                // La nómina no existe para el empleado con tipo_emp 'MIF' o 'ALI'
+                // Realiza las operaciones que necesites aquí
+                // Por ejemplo, muestra un mensaje de error o redirige a otra página
+                session()->flash('error', 'El profesional con cedula n° '.$cedula.' no pertenece a la nomina del Personal Civil');
+                return redirect()->back();
+            }
     }
 
     public function insertarDeduccion(Request $request)
@@ -452,7 +464,7 @@ public function actualesdeducciones(Request $request)
         $conceptos_nomina = ConceptosNomina::
             select('codigo_concepto', 'descripcion', 'tipo')
             ->where('tipo', 'D')
-            ->whereIn('tipo_empleado', ['EMP'])
+            ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
             ->get();
 
         $dataemp = [
@@ -487,6 +499,7 @@ public function actualesdeducciones(Request $request)
             $asignacion->id_concepto = $codigo_concepto;
             $asignacion->tipo_concepto = $tipo;
             $asignacion->save();
+            session()->flash('success', 'La deduccion ya se encuentra asignada al profesional');
 
     //return('no existe');
         return view('sireh.nomina.personal_civil.actuales_deducciones',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();

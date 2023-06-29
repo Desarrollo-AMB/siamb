@@ -81,7 +81,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>
-                                                    <h6>Prima Fronteriza topo "A" </h6>
+                                                    <h6>Prima Fronteriza tipo "A" </h6>
                                                 </th>
                                                 <td>
                                                     <h6>{{ $conceptos[53]}} %</h6>
@@ -89,18 +89,18 @@
                                             </tr>
                                             <tr>
                                                 <th>
-                                                    <h6>Prima Fronteriza topo "A"</h6>
+                                                    <h6>Prima Fronteriza tipo "B"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>{{ $conceptos[54]}} %</h6>
+                                                    <h6>{{ $conceptos[55]}} %</h6>
                                                 </td>
                                             </tr>
                                              <tr>
                                                 <th>
-                                                    <h6>Prima Fronteriza topo "c"</h6>
+                                                    <h6>Prima Fronteriza tipo "C"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>{{ $conceptos[55]}} %</h6>
+                                                    <h6>{{ $conceptos[54]}} %</h6>
                                                 </td>
                                             </tr> <tr>
                                                 <th>
