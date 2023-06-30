@@ -1985,29 +1985,23 @@ class PersonalController extends Controller
 
     public function ficha(Request $request)
     {
-        $user_auth=auth()->user();
 
-        /*$tipos_emp = TiposEmpleado::all();
-        $nacionalidades = Config::get('constants.nacionalidad');
-        $generos = Config::get('constants.sexo');
-        $edos_civil = Config::get('constants.edo_civil');
-        $situaciones = Config::get('constants.situacion');
-        $lateralidades = Config::get('constants.zur_der_amb');
-        $estados = Estados::all();
-        $ubicaciones = Ubicaciones::all();
-        $ubicaciones_det = UbicacionDetallada::all();
-        $niveles = Nivel::all();
-        $cargos = Cargos::all();
-        $universidades = Universidades::all();
-        $profesiones = Profesion::all();
-        $ciudades = Ciudades::all();
-        $grados_militares = GradosMilitares::all();
-        $categorias_militares = CategoriasMilitares::all();
-        $promociones_militares = PromocionesMilitares::all();
-        $especialidades_militares = EspecialidadesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares'])
-        ->where('codigo_empleado','=','62698')->first();*/
-      //  $codigo_empleado = $datos[0]->codigo_empleado;
+
+        $this->validate($request,
+        [
+
+            'cedula' => 'required',
+        ],
+        [
+            'cedula' => 'El Parametro Tipo Empleado es Requerido',
+        ]
+
+    );
+$cedula = $request->cedula;
+ $user_auth=auth()->user();
+
+        $
+
       $niveles = Nivel::all();
       $datos = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
       ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
@@ -2144,18 +2138,18 @@ $cargo2 = isset($cargos[1]) ? $cargos[1] : null;
 $cargo3 = isset($cargos[2]) ? $cargos[2] : null;
 $titulo= 'ficha';
 
-/*$pdf = \PDF::loadView('juntap.reportes.ficha', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
+    $pdf = \PDF::loadView('juntap.reportes.ficha1', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
     ->setPaper('letter', 'landscape');
-return $pdf->stream('ficha.pdf', array('Attachment' => 0));*/
+    return $pdf->stream('ficha.pdf', array('Attachment' => 0));
 
 
-      return view('juntap.reportes.ficha',
+    /* return view('juntap.reportes.ficha1',
             compact(
                 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
                 'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
                 'añoascensocnel','añoascensogb','curso1','curso2','curso3','cargo1','cargo2','cargo3','cmdt'
             )
-        );
+        );*/
 
 
 
@@ -2169,4 +2163,10 @@ return $pdf->stream('ficha.pdf', array('Attachment' => 0));*/
 
 
     }
+    public function fichaBucar()
+    {
+        return view('juntap.reportes.fichabuscar');
+    }
+
+
 }

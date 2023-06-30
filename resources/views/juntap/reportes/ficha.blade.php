@@ -570,9 +570,10 @@
                     <div style="display: flex; flex-direction: row; height: 100%;">
                         <div class="bloqrow" style="height: auto;width: 100%;">
                            <strong> EVALUACIÓN
-                            DE COMPAÑEROS</strong></div>
-                        <div class="bloqrow" style="height: auto;width: 40%;">
-                            0
+                            DE COMPAÑEROS</strong>
+                    </div>
+                    <div class="bloqrow" >
+                        0
                         </div> </div>
                     <div style="display: flex; flex-direction: row; height: 100%;">
                         <div class="bloqrow" style="height: auto;width: 100%;">
