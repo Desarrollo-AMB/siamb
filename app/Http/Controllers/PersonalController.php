@@ -2000,29 +2000,35 @@ class PersonalController extends Controller
 $cedula = $request->cedula;
  $user_auth=auth()->user();
 
-        $
+        $codigo_empleado1 = Nomina::select('codigo_empleado')
+        ->where('cedula',$cedula)
+        ->first();
 
+        $codigo_empleado = $codigo_empleado1->codigo_empleado;
       $niveles = Nivel::all();
       $datos = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
       ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
       ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-      ->leftjoin('intelectuales','intelectuales.cedula','=','empleados.cedula')
+      ->join('intelectuales','intelectuales.cedula','=','empleados.cedula')
       ->join('paf','paf.cedula','=','nomina.cedula')
       ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','nomina.codigo_empleado')
       ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-      ->join('promociones_militares','promociones_militares.codigo_promocion','=','datos_militares.codigo_promocion')
+      ->leftjoin('promociones_militares','promociones_militares.codigo_promocion','=','datos_militares.codigo_promocion')
       ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
       ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
       ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
       ->select('nomina.codigo_ubicacion','empleados.foto as foto','empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1', 'empleados.apellido2 as apellido2','grados_militares.siglas as siglas',
       'ubicaciones.descripcion as ubicacion','estudios_realizados.nivel as nivel','promociones_militares.ano_promocion as promocion','empleados.telefono_cel as telefono','intelectuales.notatotal','categorias_militares.descripcion as categoria',
       'especialidades_militares.descripcion as especialidad','cargos.nombre_cargo as cargo','datos_militares.fecha_graduacion','paf.total')
-        ->where('nomina.codigo_empleado','=','62698')->first();
+        ->where('nomina.codigo_empleado',$codigo_empleado)->first();
+
  $ubicacion=$datos->codigo_ubicacion;
+
+
         $cmdt = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
         ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
         ->where('nomina.codigo_ubicacion','=',$ubicacion)
-        ->whereIn('nomina.codigo_cargo',['222341','1000014'])
+        ->whereIn('nomina.codigo_cargo',['222341','1000014','1000015'])
         ->select('empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1','empleados.telefono_cel')
         ->first();
 
@@ -2031,7 +2037,7 @@ $cedula = $request->cedula;
 
         $tte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotte')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '090')
         ->first();
         if ($tte == null || $tte->añoascensotte == null) {
@@ -2041,7 +2047,7 @@ $cedula = $request->cedula;
         }
         $ptte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensoptte')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '080')
         ->first();
         if ($ptte == null || $ptte->añoascensoptte == null) {
@@ -2051,7 +2057,7 @@ $cedula = $request->cedula;
         }
         $cap = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocap')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '070')
         ->first();
         if ($cap == null || $cap->añoascensocap == null) {
@@ -2061,7 +2067,7 @@ $cedula = $request->cedula;
         }
         $may = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensomay')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '060')
         ->first();
         if ($may == null || $may->añoascensomay == null) {
@@ -2071,7 +2077,7 @@ $cedula = $request->cedula;
         }
         $tcnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotcnel')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '050')
         ->first();
         if ($tcnel == null || $tcnel->añoascensotcnel == null) {
@@ -2081,7 +2087,7 @@ $cedula = $request->cedula;
         }
         $cnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocnel')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '040')
         ->first();
         if ($cnel == null || $cnel->añoascensocnel == null) {
@@ -2091,7 +2097,7 @@ $cedula = $request->cedula;
         }
         $gb = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
         ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensogb')
-        ->where('nomina.codigo_empleado', '=', '62698')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
         ->where('historico_ascensos.codigo_grado', '=', '030')
         ->first();
         if ($gb == null || $gb->añoascensogb == null) {
@@ -2107,7 +2113,7 @@ $cedula = $request->cedula;
             ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'cursos_realizados.unidad')
             ->select('cursos.descripcion_curso as curso', 'paises.descripcion as pais','cursos_realizados.orden_merito_curso as ordenI',
             'cursos_realizados.total_orden_merito_curso as ordenT','ubicaciones.descripcion as unidad','cursos_realizados.fecha_registro as fecha')
-            ->where('nomina.codigo_empleado', '=', '62698')
+            ->where('nomina.codigo_empleado',$codigo_empleado)
             ->orderBy('cursos_realizados.fecha_registro', 'desc')
             ->limit(3)
             ->get();
@@ -2124,7 +2130,7 @@ $cedula = $request->cedula;
             ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad',
              'movimientos.fecha_movimiento as fecha', 'ubicaciones.codigo_ubicacion as codigo',
              'movimientos.fecha_cargo as fecha')
-            ->where('movimientos.codigo_empleado', '=', '62698')
+            ->where('movimientos.codigo_empleado',$codigo_empleado)
            ->whereIn('movimientos.tipo_movimiento', ['Actualizacion de la Ubicacion','CCAR', 'Actualizacion del Cargo'])
            ->orderBy('movimientos.fecha_movimiento', 'desc')
         ->orderBy('movimientos.id', 'desc') // Ordenar también por ID

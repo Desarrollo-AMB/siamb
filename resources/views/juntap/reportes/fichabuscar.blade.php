@@ -56,15 +56,15 @@
                                                     <div id="Parametros1" class="parametros ">
                                                         <form id="formDevolucion5"
                                                             action="{{ route('ficha.view') }}"
-                                                            method="POST" class="row" >
+                                                            method="POST" class="row" target="_blank" >
                                                             @csrf
                                                             <div class="col-md-8">
                                                                 <div class="row">
                                                                     <h6 class="col-sm-3 col-form-label">Cedula:</h6>
                                                                     <div class="col-sm-9">
-                                                                        <input id="fecha" type="text"
+                                                                        <input id="cedula" type="text"
                                                                             class="form-control @error('fecha') is-invalid @enderror"
-                                                                            name="fecha" value="">
+                                                                            name="cedula" value="">
                                                                         <br>
                                                                    </div>
 

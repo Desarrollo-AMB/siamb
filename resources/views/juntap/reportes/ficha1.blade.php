@@ -11,7 +11,7 @@ use Carbon\Carbon;
             border: 2px solid black;
             border-collapse: collapse;
             width: 100%;
-            font-size: 7px;
+            font-size: 6.5px;
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
 
@@ -41,52 +41,53 @@ use Carbon\Carbon;
         }
 
         .img-container {
-        position: relative;
-        width: 70px;
-        height: 100px;
-    }
+            position: relative;
+            width: 70px;
+            height: 100px;
+        }
 
-    .img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        margin: 0;
-        width: 14.5%;
-        height: 26.7%;
-        border: 2px solid black;
-    }
+        .img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            width: 16.5%;
+            height: 26.3%;
+            border: 2px solid black;
+        }
 
 
         .checkbox-th {
             text-align: center;
         }
-        <style>
-    .img-container {
-        position: relative;
-        width: 70px;
-        height: 100px;
-    }
 
-    .img1 {
-        position: fixed;
-        top: 40%;
-        left: 45%;
-        transform: translate(-50%, -50%);
-        margin: 0;
-        width: 50%;
-        height: 50%;
-        z-index: -1;
-        opacity: 0.7;
-    }.bold-text {
-    font-weight: bold;
-}
+        <style>.img-container {
+            position: relative;
+            width: 70px;
+            height: 100px;
+        }
 
+        .img1 {
+            position: fixed;
+            top: 40%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            width: 40%;
+            height: 50%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .bold-text {
+            font-weight: bold;
+        }
     </style>
 
 <body>
     <header>
 
-    <img src="{{ public_path('template/assets/img/logo.png') }}" class="img1">
+        <img src="{{ public_path('template/assets/img/logo.png') }}" class="img1">
 
         <table class="tabels">
             <tr>
@@ -235,34 +236,50 @@ use Carbon\Carbon;
             <tr>
                 <th colspan="2">N° DE TELEFONO</th>
                 <td>{{$datos->telefono}}</td>
-                <td colspan="7"><strong class="bold-text" >COMANDANTE DE UNIDAD:</strong>{{$cmdt->nombre1 . ' ' . $cmdt->nombre2 . ' ' . $cmdt->apellido1}} <strong class="bold-text">TLF:</strong>
+                <td colspan="7"><strong class="bold-text">COMANDANTE DE UNIDAD:</strong>
+                @if ($cmdt !== null)
+                    {{$cmdt->nombre1 . ' ' .
+                    $cmdt->nombre2 . ' ' . $cmdt->apellido1}} <strong class="bold-text">TLF:</strong>
                     {{$cmdt->telefono_cel}}</td>
+                @else
+                    NO POSEE COMANDANTE
+                @endif</td>
             </tr>
             <tr>
                 <th colspan="2" rowspan="2">REGIME DISIPLINARIO MILITAR</th>
                 <th>INVESTIGACION ADMINISTRATIVA</th>
-                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong class="bold-text"> SI:</strong>
-                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"<strong class="bold-text">NO:</strong>
+                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong
+                        class="bold-text"> SI:</strong>
+                    <input type="checkbox" style="display: inline-block; margin-right: 5px;" <strong
+                        class="bold-text">NO:</strong>
                     <input type="checkbox" style="display: inline-block;">
                 </th>
 
                 <th>INVESTIGACION JUDICIAL</th>
-                <th class="checkbox-th" colspan="2"><strong class="bold-text"> SI:</strong> <input type="checkbox"> <strong class="bold-text">NO:</strongd><input type="checkbox"></th>
+                <th class="checkbox-th" colspan="2"><strong class="bold-text"> SI:</strong> <input type="checkbox">
+                    <strong class="bold-text">NO:</strongd><input type="checkbox">
+                </th>
                 <th colspan="2">REGISTRO EN EL SIPOL</th>
             </tr>
             <tr>
                 <th>INVESTIGACION PENAL MILITAR</th>
-                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong class="bold-text"> SI:</strong>
-                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong class="bold-text">NO:</strong>
+                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong
+                        class="bold-text"> SI:</strong>
+                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong
+                        class="bold-text">NO:</strong>
                     <input type="checkbox" style="display: inline-block;">
                 </th>
                 <th>JUCIO ABIERTO</th>
-                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong class="bold-text"> SI:</strong>
-                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong class="bold-text">NO:</strong>
+                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong
+                        class="bold-text"> SI:</strong>
+                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong
+                        class="bold-text">NO:</strong>
                     <input type="checkbox" style="display: inline-block;">
                 </th>
-                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong class="bold-text"> SI:</strong>
-                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong class="bold-text">NO:</strong>
+                <th class="checkbox-th" valign="middle" colspan="2" style="vertical-align: middle;"><strong
+                        class="bold-text"> SI:</strong>
+                    <input type="checkbox" style="display: inline-block; margin-right: 5px;"><strong
+                        class="bold-text">NO:</strong>
                     <input type="checkbox" style="display: inline-block;">
                 </th>
             </tr>
@@ -282,25 +299,236 @@ use Carbon\Carbon;
                 <th>ORDEN DE MERITO</th>
             </tr>
             <tr>
-                <td colspan="2"> {{$unidad = strtoupper($cargo1->unidad)}}</td>
-                <td colspan="3">{{$cargo1->cargo}}/{{$cargo1->fecha}}</td>
-                <td>{{$curso1->unidad}}/{{$curso1->pais}}</td>
-                <td colspan="3">{{$curso1->curso}}</td>
-                <td>{{$curso1->ordenI}}/{{$curso1->ordenT}}</td>
+                <td colspan="2">
+                    @if ($cargo1 !== null)
+                    {{$unidad = strtoupper($cargo1->unidad)}}
+                    @if ($unidad === null)
+                    SIN UNIDAD
+                    @else
+                    {{$unidad}}
+                    @endif
+                    @else
+                    SIN UNIDA
+                    @endif
+                </td>
+                <td colspan="3">
+                    @if ($cargo1 !== null)
+                    {{$cargov = $cargo1->cargo}}
+                    @if ($cargov === null)
+                    SIN CARGO
+                    @else
+                    {{$cargov}}
+                    @endif
+                    @else
+                    SIN CARGO
+                    @endif
+                    @if ($cargo1 !== null)
+                    /{{ $fecha = $cargo1->fecha}}
+                    @if ($fecha === null)
+                    SIN CARGO
+                    @else
+                    {{$fecha}}
+                    @endif
+                    @else
+                    SIN CARGO
+                    @endif</td>
+                <td>
+                    @if ($curso1 !== null)
+                    {{$unidadc = $curso1->unidad}}
+                    @if ($unidadc === null)
+                    SIN UNIDAD
+                    @else
+                    {{$unidadc}}
+                    @endif
+                    @else
+                    SIN UNIDAD
+                    @endif/
+                    @if ($curso1 !== null)
+                    {{ $pais = $curso1->pais}}
+                    @if ($pais === null)
+                    SIN PAIS
+                    @else
+                    {{$pais}}
+                    @endif
+                    @else
+                    SIN PAIS
+                    @endif
+                </td>
+                <td colspan="3">
+                    @if ($curso1 !== null)
+                    {{$curso =$curso1->curso}}
+                    @if ($curso === null)
+                    SIN CURSO
+                    @else
+                    {{$curso}}
+                    @endif @else
+                    SIN CURSO
+                    @endif</td>
+                <td>
+                    @if ($curso1 !== null)
+                    {{$ordenI = $curso1->ordenI}}
+                    @if ($ordenI === null)
+                    0
+                    @else
+                    {{$ordenI}}
+                    @endif @else
+                   0
+                    @endif/
+                    @if ($curso1 !== null)
+                    {{$ordenT = $curso1->ordenT}}
+                    @if ($ordenT === null)
+                    0
+                    @else
+                    {{$ordenT}}
+                    @endif @else
+                    0
+                    @endif</td>
             </tr>
             <tr>
-                <td colspan="2"> {{$unidad = strtoupper($cargo2->unidad)}}</td>
-                <td colspan="3">{{$cargo2->cargo}}/{{$cargo2->fecha}}</td>
-                <td> {{$curso2->unidad}}/{{$curso2->pais}}</td>
-                <td colspan="3">{{$curso2->curso}} </td>
-                <td> {{$curso2->ordenI}}/{{$curso2->ordenT}}</td>
+                <td colspan="2">
+                    @if ($cargo2 !== null)
+                    {{$unidad1 = strtoupper($cargo2->unidad)}}
+                    @if ($unidad1 === null)
+                    SIN CARGO
+                    @else
+                    {{$unidad1}}
+                    @endif @else
+                    SIN CARGO
+                    @endif</td>
+                <td colspan="3">
+                    @if ($cargo2 !== null)
+                    {{$cargov2 = $cargo2->cargo}}
+                    @if ($cargov2 === null)
+                    SIN CARGO
+                    @else
+                    {{$cargov2}}
+                    @endif @else
+                    SIN CARGO
+                    @endif/
+                    @if ($cargo2 !== null)
+                    {{$fecha2 = $cargo2->fecha}}
+                    @if ($fecha2 === null)
+                    SIN FECHA
+                    @else
+                    {{$fecha2}}
+                    @endif @else
+                    SIN FECHA
+                    @endif</td>
+                <td> @if ($curso2 !== null)
+                    {{$unidadc2 = $curso2->unidad}}
+                    @if ($unidadc === null)
+                    SIN UNIDAD
+                    @else
+                    {{$unidadc2}}
+                    @endif @else
+                    SIN UNUDAD
+                    @endif/@if ($curso2 !== null)
+                    {{ $pais2 = $curso2->pais}}
+                    @if ($pais2 === null)
+                    SIN PAIS
+                    @else
+                    {{$pais2}}
+                    @endif @else
+                    SIN PAIS
+                    @endif</td>
+                <td colspan="3">@if ($curso2 !== null)
+                    {{$cursoc2 = $curso2->curso}}
+                    @if ($cursoc2 === null)
+                    SIN CURSO
+                    @else
+                    {{$cursoc2}}
+                    @endif @else
+                    SIN PAIS
+                    @endif</td>
+                <td>@if ($curso2 !== null)
+                    {{$ordenI2 = $curso2->ordenI}}
+                    @if ($ordenI2 === null)
+                    0
+                    @else
+                    {{$ordenI2}}
+                    @endif @else
+                    0
+                    @endif/@if ($curso2 !== null)
+                    {{$ordenT2 = $curso2->ordenT}}
+                    @if ($ordenT2 === null)
+                    0
+                    @else
+                    {{$ordenT2}}
+                    @endif
+                    @else
+                   0
+                    @endif</td>
             </tr>
             <tr>
-                <td colspan="2"> {{$unidad = strtoupper($cargo3->unidad)}}</td>
-                <td colspan="3">{{$cargo3->cargo}}/{{$cargo3->fecha}}</td>
-                <td> {{$curso3->unidad}}/{{$curso3->pais}}</td>
-                <td colspan="3">{{$curso3->curso}}</td>
-                <td>{{$curso3->ordenI}}/{{$curso3->ordenT}}</td>
+                <td colspan="2"> @if ($cargo3 !== null)
+                    {{$unidad2 = strtoupper($cargo3->unidad)}}
+                    @if ($unidad2 === null)
+                    SIN CARGO
+                    @else
+                    {{$unidad2}}
+                    @endif @else
+                    SIN CARGO
+                    @endif</td>
+                <td colspan="3">@if ($cargo3 !== null)
+                    {{$cargov3 = $cargo3->cargo}}
+                    @if ($cargov3 === null)
+                    SIN CARGO
+                    @else
+                    {{$cargov3}}
+                    @endif @else
+                    SIN CARGO
+                    @endif/@if ($cargo3 !== null)
+                    {{$fecha3 = $cargo3->fecha}}
+                    @if ($fecha3 === null)
+                    SIN CARGO
+                    @else
+                    {{$fecha3}}
+                    @endif @else
+                    SIN CARGO
+                    @endif</td>
+                <td> @if ($curso3 !== null)
+                    {{$unidadc3 = $curso3->unidad}}
+                    @if ($unidadc3 === null)
+                    SIN UNIDAD
+                    @else
+                    {{$unidadc3}}
+                    @endif @else
+                    SIN UNIDAD
+                    @endif/@if ($curso3 !== null)
+                    {{ $pais3 = $curso3->pais}}
+                    @if ($pais3 === null)
+                    SIN PAIS
+                    @else
+                    {{$pais3}}
+                    @endif @else
+                    SIN PAIS
+                    @endif</td>
+                <td colspan="3">@if ($curso3 !== null)
+                    {{$cursoc3 = $curso3->curso}}
+                    @if ($cursoc3 === null)
+                    SIN CURSO
+                    @else
+                    {{$cursoc3}}
+                    @endif @else
+                    SIN CURSO
+                    @endif</td>
+                <td>@if ($curso3 !== null)
+                    {{$ordenI3 = $curso3->ordenI}}
+                    @if ($ordenI3 === null)
+                    0
+                    @else
+                    {{$ordenI3}}
+                    @endif @else
+                    0
+                    @endif/@if ($curso3 !== null)
+                    {{$ordenT3 = $curso3->ordenT}}
+                    @if ($ordenT3 === null)
+                    0
+                    @else
+                    {{$ordenT3}}
+                    @endif @else
+                    0
+                    @endif</td>
             </tr>
             <tr>
                 <th colspan="2">OTRAS EVALUACIONES</th>
