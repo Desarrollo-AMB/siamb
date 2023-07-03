@@ -33,7 +33,7 @@ class CondecoracionesController extends Controller
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])->get();
 
-        $condecoraciones = Condecoracion::whereIn('tipo_emp',[$datos->nomina->tipo_emp,''])->get();
+        $condecoraciones = Condecoracion::all();
         $niveles = Nivel::all();
         $categorias_militares = CategoriasMilitares::where('tipo_emp',$datos->nomina->tipo_emp)->get();
         return view('sireh.condecoraciones.view',
