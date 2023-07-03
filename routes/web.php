@@ -485,6 +485,10 @@ Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'st
 Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
 Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
 
+////ficha///
+Route::post('/perosnal/ficha',      [PersonalController::class, 'ficha'])->name('ficha.view');
+Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBucar'])->name('ficha.bucar.view');
+
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
