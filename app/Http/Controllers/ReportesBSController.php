@@ -74,7 +74,7 @@ class ReportesBSController extends Controller
 
         $data = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
             ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-            ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->where('empleados.cedula', $request->cedula)
             ->select(
