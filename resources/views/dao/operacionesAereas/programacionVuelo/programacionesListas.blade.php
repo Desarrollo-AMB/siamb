@@ -64,6 +64,7 @@
                                                                                         class="form-control @error('fecha') is-invalid @enderror"
                                                                                         name="fecha" value="">
                                                                                     <br>
+                                                                                </div>
                                                                             </div>
                                                                             <div class="row">
                                                                                 <h6 class="col-sm-3 col-form-label">Fecha:</h6>

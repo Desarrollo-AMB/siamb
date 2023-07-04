@@ -466,6 +466,7 @@
                                         ov_ota_om: '',
                                         fam0001_id: response.data.id,
                                         completado: "sinProg",
+                                        fecha: fechaManana,
                                         },
                                         success:function(response){
                                             if(response.success){
