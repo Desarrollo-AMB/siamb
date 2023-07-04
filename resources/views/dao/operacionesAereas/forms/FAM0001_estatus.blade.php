@@ -734,18 +734,82 @@
                                         var codigo = "" + sigla + "-" + numero + "";
 
                                         // codigos COD
-                                        var cod1 = $('#siglas1').val() + '-' + $('#codigo1')
-                                            .val() + $('#condicion1').val();
-                                        var hv1 = $('#hv1').val();
-                                        var cod2 = $('#siglas2').val() + '-' + $('#codigo2')
-                                            .val() + $('#condicion2').val();
-                                        var hv2 = $('#hv2').val();
-                                        var cod3 = $('#siglas3').val() + '-' + $('#codigo3')
-                                            .val() + $('#condicion3').val();
-                                        var hv3 = $('#hv3').val();
-                                        var cod4 = $('#siglas4').val() + '-' + $('#codigo4')
-                                            .val() + $('#condicion4').val();
-                                        var hv4 = $('#hv4').val();
+                                        if ($('#siglas1').length) {
+                                            if($('#siglas1').val() == '' || $('#codigo1').val() == '' || $('#condicion1').val() == ''){
+                                                Swal.fire({
+                                                    title: 'Atención!',
+                                                    text: 'Debes completar todos campos para guardar.',
+                                                    icon: 'warning',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+                                                $(this).prop('disabled', false);
+                                                console.log('no puedes guardar datos vacios');
+                                            } else {
+                                                var cod1 = $('#siglas1').val() + '-' + $('#codigo1').val() + $('#condicion1').val();
+                                                var hv1 = $('#hv1').val();
+                                            }
+                                        } else {
+                                            var cod1 = "";
+                                            var hv1 = "0";
+                                        }
+                                        if ($('#siglas2').length) {
+                                            if($('#siglas2').val() == '' || $('#codigo2').val() == '' || $('#condicion2').val() == ''){
+                                                Swal.fire({
+                                                    title: 'Atención!',
+                                                    text: 'Debes completar todos campos para guardar.',
+                                                    icon: 'warning',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+                                                $(this).prop('disabled', false);
+                                                console.log('no puedes guardar datos vacios');
+                                            } else {
+                                                var cod2 = $('#siglas2').val() + '-' + $('#codigo2').val() + $('#condicion2').val();
+                                                var hv2 = $('#hv2').val();
+                                            }
+                                        } else {
+                                            var cod2 = "";
+                                            var hv2 = "0";
+                                        }
+                                        if ($('#siglas3').length) {
+                                            if($('#siglas3').val() == '' || $('#codigo3').val() == '' || $('#condicion3').val() == ''){
+                                                Swal.fire({
+                                                    title: 'Atención!',
+                                                    text: 'Debes completar todos campos para guardar.',
+                                                    icon: 'warning',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+                                                $(this).prop('disabled', false);
+                                                console.log('no puedes guardar datos vacios');
+                                            } else {
+                                                var cod3 = $('#siglas3').val() + '-' + $('#codigo3').val() + $('#condicion3').val();
+                                                var hv3 = $('#hv3').val();
+                                            }
+                                        } else {
+                                            var cod3 = "";
+                                            var hv3 = "0";
+                                        }
+                                        if ($('#siglas4').length) {
+                                            if($('#siglas4').val() == '' || $('#codigo4').val() == '' || $('#condicion4').val() == ''){
+                                                Swal.fire({
+                                                    title: 'Atención!',
+                                                    text: 'Debes completar todos campos para guardar.',
+                                                    icon: 'warning',
+                                                    timer: 3000,
+                                                    showConfirmButton: true,
+                                                });
+                                                $(this).prop('disabled', false);
+                                                console.log('no puedes guardar datos vacios');
+                                            } else {
+                                                var cod4 = $('#siglas4').val() + '-' + $('#codigo4').val() + $('#condicion4').val();
+                                                var hv4 = $('#hv4').val();
+                                            }
+                                        } else {
+                                            var cod4 = "";
+                                            var hv4 = "0";
+                                        }
 
                                         if (ov_ota_om == "" ||
                                             ov_ota_om == null ||
@@ -1170,14 +1234,82 @@
                 var descripcion_A2 = $('.descripcion_A2').val();
 
                 // codigos COD
-                var cod1 = $('#siglas1').val() + '-' + $('#codigo1').val() + $('#condicion1').val();
-                var hv1 = $('#hv1').val();
-                var cod2 = $('#siglas2').val() + '-' + $('#codigo2').val() + $('#condicion2').val();
-                var hv2 = $('#hv2').val();
-                var cod3 = $('#siglas3').val() + '-' + $('#codigo3').val() + $('#condicion3').val();
-                var hv3 = $('#hv3').val();
-                var cod4 = $('#siglas4').val() + '-' + $('#codigo4').val() + $('#condicion4').val();
-                var hv4 = $('#hv4').val();
+                if ($('#siglas1').length) {
+                    if($('#siglas1').val() == '' || $('#codigo1').val() == '' || $('#condicion1').val() == ''){
+                        Swal.fire({
+                            title: 'Atención!',
+                            text: 'Debes completar todos campos para guardar.',
+                            icon: 'warning',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $(this).prop('disabled', false);
+                        console.log('no puedes guardar datos vacios');
+                    } else {
+                        var cod1 = $('#siglas1').val() + '-' + $('#codigo1').val() + $('#condicion1').val();
+                        var hv1 = $('#hv1').val();
+                    }
+                } else {
+                    var cod1 = "";
+                    var hv1 = "0";
+                }
+                if ($('#siglas2').length) {
+                    if($('#siglas2').val() == '' || $('#codigo2').val() == '' || $('#condicion2').val() == ''){
+                        Swal.fire({
+                            title: 'Atención!',
+                            text: 'Debes completar todos campos para guardar.',
+                            icon: 'warning',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $(this).prop('disabled', false);
+                        console.log('no puedes guardar datos vacios');
+                    } else {
+                        var cod2 = $('#siglas2').val() + '-' + $('#codigo2').val() + $('#condicion2').val();
+                        var hv2 = $('#hv2').val();
+                    }
+                } else {
+                    var cod2 = "";
+                    var hv2 = "0";
+                }
+                if ($('#siglas3').length) {
+                    if($('#siglas3').val() == '' || $('#codigo3').val() == '' || $('#condicion3').val() == ''){
+                        Swal.fire({
+                            title: 'Atención!',
+                            text: 'Debes completar todos campos para guardar.',
+                            icon: 'warning',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $(this).prop('disabled', false);
+                        console.log('no puedes guardar datos vacios');
+                    } else {
+                        var cod3 = $('#siglas3').val() + '-' + $('#codigo3').val() + $('#condicion3').val();
+                        var hv3 = $('#hv3').val();
+                    }
+                } else {
+                    var cod3 = "";
+                    var hv3 = "0";
+                }
+                if ($('#siglas4').length) {
+                    if($('#siglas4').val() == '' || $('#codigo4').val() == '' || $('#condicion4').val() == ''){
+                        Swal.fire({
+                            title: 'Atención!',
+                            text: 'Debes completar todos campos para guardar.',
+                            icon: 'warning',
+                            timer: 3000,
+                            showConfirmButton: true,
+                        });
+                        $(this).prop('disabled', false);
+                        console.log('no puedes guardar datos vacios');
+                    } else {
+                        var cod4 = $('#siglas4').val() + '-' + $('#codigo4').val() + $('#condicion4').val();
+                        var hv4 = $('#hv4').val();
+                    }
+                } else {
+                    var cod4 = "";
+                    var hv4 = "0";
+                }
                 //VALIDAR PASO UNO HEADER
                 if (sigla == "" ||
                     numero == "" ||
@@ -1399,19 +1531,83 @@
                                     var codigo = "" + sigla + "-" + numero + "";
 
                                     // codigos COD
-                                    var cod1 = $('#siglas1').val() + '-' + $('#codigo1')
-                                        .val() + $('#condicion1').val();
-                                    var hv1 = $('#hv1').val();
-                                    var cod2 = $('#siglas2').val() + '-' + $('#codigo2')
-                                        .val() + $('#condicion2').val();
-                                    var hv2 = $('#hv2').val();
-                                    var cod3 = $('#siglas3').val() + '-' + $('#codigo3')
-                                        .val() + $('#condicion3').val();
-                                    var hv3 = $('#hv3').val();
-                                    var cod4 = $('#siglas4').val() + '-' + $('#codigo4')
-                                        .val() + $('#condicion4').val();
-                                    var hv4 = $('#hv4').val();
-
+                                    if ($('#siglas1').length) {
+                                        if($('#siglas1').val() == '' || $('#codigo1').val() == '' || $('#condicion1').val() == ''){
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes completar todos campos para guardar.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+                                        } else {
+                                            var cod1 = $('#siglas1').val() + '-' + $('#codigo1').val() + $('#condicion1').val();
+                                            var hv1 = $('#hv1').val();
+                                        }
+                                    } else {
+                                        var cod1 = "";
+                                        var hv1 = "0";
+                                    }
+                                    if ($('#siglas2').length) {
+                                        if($('#siglas2').val() == '' || $('#codigo2').val() == '' || $('#condicion2').val() == ''){
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes completar todos campos para guardar.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+                                        } else {
+                                            var cod2 = $('#siglas2').val() + '-' + $('#codigo2').val() + $('#condicion2').val();
+                                            var hv2 = $('#hv2').val();
+                                        }
+                                    } else {
+                                        var cod2 = "";
+                                        var hv2 = "0";
+                                    }
+                                    if ($('#siglas3').length) {
+                                        if($('#siglas3').val() == '' || $('#codigo3').val() == '' || $('#condicion3').val() == ''){
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes completar todos campos para guardar.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+                                        } else {
+                                            var cod3 = $('#siglas3').val() + '-' + $('#codigo3').val() + $('#condicion3').val();
+                                            var hv3 = $('#hv3').val();
+                                        }
+                                    } else {
+                                        var cod3 = "";
+                                        var hv3 = "0";
+                                    }
+                                    if ($('#siglas4').length) {
+                                        if($('#siglas4').val() == '' || $('#codigo4').val() == '' || $('#condicion4').val() == ''){
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes completar todos campos para guardar.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                            $(this).prop('disabled', false);
+                                            console.log('no puedes guardar datos vacios');
+                                        } else {
+                                            var cod4 = $('#siglas4').val() + '-' + $('#codigo4').val() + $('#condicion4').val();
+                                            var hv4 = $('#hv4').val();
+                                        }
+                                    } else {
+                                        var cod4 = "";
+                                        var hv4 = "0";
+                                    }
+                                    
                                     if (ov_ota_om == "" ||
                                         ov_ota_om == null ||
                                         id == "" ||
