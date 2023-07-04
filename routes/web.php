@@ -431,6 +431,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje');
     Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json');
     Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo');
+    Route::post('check-nvuelo',     [FormaFAMController::class, 'check_nvuelo'])->name('check_nvuelo');
 
     Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1');
     Route::post('actualizar_b1',            [FormaFAMController::class, 'actualizar_b1'])->name('actualizar_b1');

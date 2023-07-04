@@ -125,20 +125,20 @@
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <h6>AERONAVE / MODELO</h6>
-                                                                <select disabled
-                                                                    class="selectpicker form-control aeronaves aeronave_modelo load_aeronave"
-                                                                    id="naves" name="aeronave_modelo">
-                                                                    <option value=""></option>
-                                                                </select>
+                                                                <input type="hidden" id="id_aeronave" name="id_aeronave" value="">
+                                                                <input readonly="true" id="naves" name="aeronave_modelo"
+                                                                type="text"
+                                                                class="form-control aeronaves aeronave_modelo load_aeronave blackInReadOnly"
+                                                                value="">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
-                                                                <h6>MATRICULA <small></small></h6>
-                                                                <select disabled name="matricula" id="matricula"
-                                                                    class="form-control matricula load_matricula">
-                                                                    <option value=""></option>
-                                                                </select>
+                                                                <h6>MATRICULA</h6>
+                                                                <input readonly="true" id="matricula" name="matricula"
+                                                                type="text"
+                                                                class="form-control matricula load_matricula blackInReadOnly"
+                                                                value="">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -227,6 +227,52 @@
             </div>
         </div>
     </div>
+
+    {{-- MODAL CANCELAR MISIÓN --}}
+    <div class="modal fade" id="modal-view-cancelar_mision" tabindex="-1" role="dialog" aria-labelledby="cancelarTitle" aria-hidden="true">
+        <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancelar Misión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <input class="id_a1_mision" name="id_a1_mision" id="id_a1_mision" type="hidden" value="">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="aeronave_mat_cancelar" class="col-form-label">Aeronave y Matrícula</label>
+                                    <input  type="text" class="form-control aeronave_mat_cancelar" value="" id="aeronave_mat_cancelar" disabled>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="ruta_cancelar" class="col-form-label">Codigo Misión / Ruta</label>
+                                    <input  type="text" class="form-control ruta_cancelar" value="" id="ruta_cancelar" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="motivo_cancel" class="col-form-label">Motivo de cancelación</label>
+                                    <input type="text" name="motivo_cancel" id="motivo_cancel" class="form-control motivo_cancel" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn bg-gradient-danger close-modal" data-bs-dismiss="modal">Atras</a>
+                        <a class="btn bg-gradient-success enviar_cancelar_mision">Confirmar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -260,8 +306,6 @@
             $('.select2').select2();
             $('.componente_organismo').select2();
             $('#grupos').select2();
-            $('#naves').select2();
-            $('#matricula').select2();
             $('.base_estacion').select2();
             $('.jefe_maquina').select2();
             //PASO 2
@@ -312,6 +356,9 @@
                 $('.condicion').val('');
                 $('.hv').val('0.0');
                 $(".div_cods").empty();
+                $('#fecha_mision').prop('disabled', false);
+                $('#fecha_mision').val('');
+                $('#btnAgregarCod').css('display', 'none');
                 numCods = 0;
                 sumTotalHv = 0;
             }
@@ -377,72 +424,6 @@
             }
 
             //SELECT DINAMICOS PASO #1
-            $("#grupos").change(function() {
-                var id = $(this).val();
-                if (id) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('aeronaves_grupos') }}',
-                        data: {
-                            "unidad": id
-                        },
-                        success: function(res) {
-                            $("#naves").empty();
-                            $("#naves").append('<option value="">Seleccionar..</option>');
-                            $.each(res, function(key, value) {
-                                $("#naves").append(
-                                    '<option class="load_aeronave" value="' + value
-                                    .id + '">' + value.aeronave + ' - ' + value
-                                    .modelo + '</option>');
-                            });
-                        }
-                    });
-                }
-            });
-            $('#naves').on('change', function() {
-                var naveId = $(this).val();
-                if (naveId) {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('seriales') }}",
-                        data: {
-                            "id": naveId
-                        },
-                        success: function(res) {
-                            if (res) {
-                                $("#serial").empty();
-                                $("#serial").append('<option value="">Seleccionar..</option>');
-                                $.each(res, function(key, value) {
-                                    $("#serial").append(
-                                        '<option class="load_serial" value="' +
-                                        value.serial + '">' + value.serial +
-                                        '</option>');
-                                });
-                            }
-                        }
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('matriculas') }}",
-                        data: {
-                            "id": naveId
-                        },
-                        success: function(res) {
-                            if (res) {
-                                $("#matricula").empty();
-                                $("#matricula").append(
-                                    '<option value="">Seleccionar..</option>');
-                                $.each(res, function(key, value) {
-                                    $("#matricula").append(
-                                        '<option class="load_matricula" value="' +
-                                        value.matricula + '">' + value.matricula +
-                                        '</option>');
-                                });
-                            }
-                        }
-                    });
-                }
-            });
 
             var data_id = parseInt('{{ $fam0001 }}')
             //TRAER DATA DEL PRIMER PASO
@@ -477,7 +458,6 @@
                                 $('.show_edit_paso1').prop('hidden', false);
                                 $(".show_edit_paso1").val(famSteps.id);
                                 $("#ov_ota_om").text(famSteps.ov_ota_om);
-                                $("#aeronave_modelo").text(famSteps.componente_organismo);
                                 $("#fecha").text(famSteps.fecha);
 
                                 //CARGAR DATOS DE PASOS
@@ -501,26 +481,15 @@
                                         'change')
                                 }, 1000);
 
-                                $(".load_unidad").val(famSteps.unidad).trigger('change')
+                                $(".load_unidad").val(famSteps.unidad).trigger('change');
+                                $("#naves").val(famSteps.aeronaves.aeronave);
+                                $("#id_aeronave").val(famSteps.aeronave_modelo);
+                                $(".load_serial").val(famSteps.serial).trigger('change');
+                                $(".load_matricula").val(famSteps.matricula).trigger('change');
+                                $("#aeronave_span").text(famSteps.aeronaves.aeronave +
+                                    " - " + famSteps.matricula);
 
-                                cargarAeronavesModelos(famSteps.unidad)
-                                setTimeout(function() {
-                                    $(".load_aeronave").val(famSteps.aeronave_modelo).trigger(
-                                        'change')
-                                }, 1200);
 
-                                cargarSeriales(famSteps.aeronave_modelo)
-                                setTimeout(function() {
-                                    $(".load_serial").val(famSteps.serial).trigger('change')
-                                }, 3200);
-
-                                cargarMatriculas(famSteps.aeronave_modelo)
-                                setTimeout(function() {
-                                    $(".load_matricula").val(famSteps.matricula).trigger(
-                                        'change')
-                                    $("#aeronave_span").text(famSteps.aeronaves.aeronave +
-                                        " - " + famSteps.matricula)
-                                }, 3300);
 
                                 //CARGAR PASO 2
                                 let A1Steps = response.A1_data
@@ -549,14 +518,15 @@
                                                     " style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" :
                                                     "<button  value=" + value.id +
                                                     " style='background: green;color: white;' type='button' class='btn btn-success check-complete'><i class='fas fa-check'></i></button><button value=" +
-                                                    value.id +
+                                                    value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
                                                     " style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>"
                                                     ) + "</td>\
                                                     </tr>");
 
-                                        } else if (value.completado == 'paso2' || value
+                                        }
+                                        if (value.completado == 'actualizar' || value
                                             .completado == 'cancelado' || value.completado ==
-                                            'completado') {
+                                            'completado' || value.completado == 'paso2') {
                                             $('#A1_data_check').append(
                                                 "<tr id='delete_a1_mision" + value.id + "'>\
                                                 <td style='padding-left: 20px;'>V" + value.vuelo + "</td>\
@@ -568,12 +538,12 @@
                                                 <td style='padding-left: 20px;'>" + (value.completado == 'cancelado' ?
                                                     "<button disabled  value=" + value.id +
                                                     " style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" :
-                                                    (value.completado == 'completado' ?
+                                                    (value.completado == 'completado' || value.completado == 'paso2' ?
                                                         "<button value=" + value.id +
                                                         " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>" :
                                                         "<button value=" + value.id +
                                                         " style='background: #c90061;color: white;' type='button' class='btn btn-success editar_a1_mision'>Completar datos de misión</button><button value=" +
-                                                        value.id +
+                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
                                                         " style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>"
                                                         )) + "</td>\
                                                 </tr>");
@@ -599,7 +569,7 @@
                                                     "<button  value=" + value.id +
                                                     " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value=" +
                                                     value.id +
-                                                    " style='color: white; background:red;' class='btn btn-light cancelar_a1_mision' type='button'>Eliminar</button>"
+                                                    " style='color: white; background:red;' class='btn btn-light delete_a1_mision' type='button'>Eliminar</button>"
                                                     ) + "</td>\
                                                 </tr>");
                                             counter += 1;
@@ -652,46 +622,63 @@
                                     $('.cancelar_a1_mision').on('click', function(event) {
                                         event.preventDefault();
 
-                                        var id = $(this).val();
+                                        var arrayDatosMision = $(this).val().split("/");
+                                        var id = arrayDatosMision[0];
+                                        var aeronave_mat_cancelar = $("#aeronave_span").text();
+                                        var ruta_cancelar = arrayDatosMision[1] + " / " + arrayDatosMision[2];
 
-                                        Swal.fire({
-                                            title: '¿Estas Seguro de cancelar esta misión?',
-                                            text: "¡Atención, no podrá revertir esta acción!",
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'Si!'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                $(this).prop('disabled', true);
-                                                $.ajax({
-                                                    url: "{{ route('cancelar_mision') }}",
-                                                    method: 'POST',
-                                                    data: {
-                                                        id: id
-                                                    },
-                                                    cache: false,
-                                                    dataType: 'json',
-                                                    success: function(
-                                                    response) {
-                                                        if (response) {
-                                                            Swal.fire({
-                                                                title: 'Ha cancelado la misión!',
-                                                                text: '¡Atención!',
-                                                                icon: 'success',
-                                                                timer: 3000,
-                                                                showConfirmButton: true,
-                                                            });
-                                                            window.location
-                                                                .href =
-                                                                "{{ URL::to('/FormaFAM_status') }}/" +
-                                                                id_fam0001;
-                                                        }
-                                                    }
-                                                });
-                                            }
+                                        $('#modal-view-cancelar_mision #id_a1_mision').val(id)
+                                        $('#modal-view-cancelar_mision #aeronave_mat_cancelar').val(aeronave_mat_cancelar);
+                                        $('#modal-view-cancelar_mision #ruta_cancelar').val(ruta_cancelar);
+                                        $('#modal-view-cancelar_mision').modal("show");
+                                        $('#modal-view-cancelar_mision').modal({
+                                            backdrop: 'static',
+                                            keyboard: false
                                         });
+                                    });
+
+
+                                    $(".enviar_cancelar_mision").click(function(e){
+                                        e.preventDefault();
+                                        var id = $('.id_a1_mision').val();
+                                        var motivo_cancel = $('.motivo_cancel').val();
+                                        if(motivo_cancel===""){
+                                            Swal.fire({
+                                                title: 'Atención!',
+                                                text: 'Debes Ingresar el motivo de cancelación de la misión.',
+                                                icon: 'warning',
+                                                timer: 3000,
+                                                showConfirmButton: true,
+                                            });
+                                        }else{
+                                            //ENVIAR
+                                            $.ajax({
+                                            url:"{{ route('cancelar_mision') }}",
+                                            method:'POST',
+                                            data:{
+                                                    id: id,
+                                                    motivo_cancel: motivo_cancel
+                                                },
+                                                success:function(response){
+                                                    if(response.success){
+                                                        $('#modal-view-cancelar_mision').modal('hide');
+                                                        Swal.fire({
+                                                            title: 'LISTO!',
+                                                            text: 'Misión cancelada con exito!',
+                                                            icon: 'success',
+                                                            timer: 3000,
+                                                            showConfirmButton: true,
+                                                        });
+                                                        setTimeout(function () {
+                                                            window.location.reload();
+                                                        }, 1000);
+                                                    }
+                                                },
+                                                error:function(error){
+                                                    console.log(error)
+                                                }
+                                            });
+                                        }
                                     });
 
                                     $('.check-complete').on('click', function(event) {
@@ -835,7 +822,8 @@
                                                     ov_ota_om: ov_ota_om,
                                                     fam0001_id: id_fam0001,
                                                     en_apoyo_A2: en_apoyo_A2,
-                                                    descripcion_A2: descripcion_A2
+                                                    descripcion_A2: descripcion_A2,
+                                                    completado: 'paso2',
                                                 },
                                                 cache: false,
                                                 dataType: 'json',
@@ -879,7 +867,7 @@
                                             componente_organismo: $(
                                                 '.componente_organismo').val(),
                                             unidad: $('.unidad').val(),
-                                            aeronave_modelo: $('.aeronaves').val(),
+                                            aeronave_modelo: $('#id_aeronave').val(),
                                             serial: $('.serial').val(),
                                             matricula: $('.matricula').val(),
                                             base_estacion: $('.base_estacion').val(),
@@ -1084,7 +1072,6 @@
                                 console.log(response)
                                 id_fam0001 = response.data.id;
                                 $("#ov_ota_om").text(response.data.ov_ota_om);
-                                $("#aeronave_modelo").text(componente_organismo);
                                 $("#fecha").text(fecha);
                                 $('#step_one').prop('hidden', false);
 
@@ -1279,23 +1266,39 @@
 
                                 $.each(res, function(key, value) {
                                     if (value.completado == 'paso2Alert') {
-                                        $('#A1_data').append(
-                                            "<tr id='delete_a1_mision" + value.id + "'>\
-                                            <td style='padding-left: 20px;'>V" + counter + "</td>\
-                                            <td style='padding-left: 20px;'>" + value.ordenada_por + "</td>\
-                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value
-                                                .codigo) + "</td>\
-                                            <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
-                                            <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
-                                            <td style='padding-left: 20px;'>" + (value.codigo ==
-                                                'ENCENDIDO Y CHEQUEO EN TIERRA' ?
-                                                "<button  value=" + value.id +
-                                                " style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" :
-                                                "<button  value=" + value.id +
-                                                " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>"
-                                                ) + "<button value=" + value.id + " style='color:white; background:red;' class='btn btn-light cancelar_a1_mision' type='button'>Eliminar</button></td>\
-                                            </tr>");
-                                        counter += 1;
+                                        $.ajax({
+                                            url: "{{ route('check_nvuelo') }}",
+                                            method: 'POST',
+                                            data: {
+                                                _token: '{{ csrf_token() }}',
+                                                id: id_fam0001,
+                                            },
+                                            cache: false,
+                                            dataType: 'json',
+                                            success: function(
+                                                response) {
+                                                if (response) {
+                                                    let num_vuelo = response.num[0] + 1;
+                                                    alert(num_vuelo);
+                                                    $('#A1_data').append(
+                                                        "<tr id='delete_a1_mision" + value.id + "'>\
+                                                        <td style='padding-left: 20px;'>V" + num_vuelo + "</td>\
+                                                        <td style='padding-left: 20px;'>" + value.ordenada_por + "</td>\
+                                                        <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value
+                                                            .codigo) + "</td>\
+                                                        <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
+                                                        <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
+                                                        <td style='padding-left: 20px;'>" + (value.codigo ==
+                                                            'ENCENDIDO Y CHEQUEO EN TIERRA' ?
+                                                            "<button  value=" + value.id +
+                                                            " style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" :
+                                                            "<button  value=" + value.id +
+                                                            " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>"
+                                                            ) + "<button value=" + value.id + " style='color:white; background:red;' class='btn btn-light delete_a1_mision' type='button'>Eliminar</button></td>\
+                                                        </tr>");
+                                                }
+                                            }
+                                        });
                                     }
                                 })
 
@@ -1483,7 +1486,8 @@
                                                 ov_ota_om: ov_ota_om,
                                                 en_apoyo_A2: en_apoyo_A2,
                                                 descripcion_A2: descripcion_A2,
-                                                fam0001_id: id_fam0001
+                                                fam0001_id: id_fam0001,
+                                                completado: 'paso2Alert'
                                             },
                                             cache: false,
                                             dataType: 'json',
@@ -2056,77 +2060,10 @@
                 }
             });
 
-            //FUNCIONES HELPER
-            function cargarAeronavesModelos(grupo_id) {
-                if (grupo_id) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('aeronaves_grupos') }}',
-                        data: {
-                            "unidad": grupo_id
-                        },
-                        success: function(res) {
-                            $("#naves").empty();
-                            $("#naves").append('<option>Cargando..</option>');
-                            $.each(res, function(key, value) {
-                                $("#naves").append('<option class="load_aeronave" value="' +
-                                    value.id + '">' + value.aeronave + ' - ' + value
-                                    .modelo + '</option>');
-                            });
-                        }
-                    });
-
-                }
-            }
-
-            function cargarSeriales(matricula) {
-                if (matricula) {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('seriales') }}",
-                        data: {
-                            "id": matricula
-                        },
-                        success: function(res) {
-                            if (res) {
-                                $("#serial").empty();
-                                $("#serial").append('<option>Cargando..</option>');
-                                $.each(res, function(key, value) {
-                                    $("#serial").append('<option class="load_serial" value="' +
-                                        value.serial + '">' + value.serial + '</option>');
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-
-            function cargarMatriculas(naveId) {
-                if (naveId) {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('matriculas') }}",
-                        data: {
-                            "id": naveId
-                        },
-                        success: function(res) {
-                            if (res) {
-                                $("#matricula").empty();
-                                $("#matricula").append('<option>Cargando..</option>');
-                                $.each(res, function(key, value) {
-                                    $("#matricula").append(
-                                        '<option class="load_matricula" value="' + value
-                                        .matricula + '">' + value.matricula + '</option>');
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-
             function edit_A1(res) {
                 arrayHvCods = [];
                 cleanA1();
+                $('#fecha_mision').prop('disabled', true);
                 $('.edit_input').prop('hidden', false);
                 $('.add_edit_input').prop('hidden', true);
 
@@ -2142,6 +2079,7 @@
 
                 $(".load_ruta_desde").val(res.ruta_desde).trigger('change')
                 $(".load_ruta_hasta").val(res.ruta_hasta).trigger('change')
+                $("#fecha_mision").val(res.fecha);
 
                 $('.load_encend').val(res.encend)
                 $('.load_despeg').val(res.despeg)

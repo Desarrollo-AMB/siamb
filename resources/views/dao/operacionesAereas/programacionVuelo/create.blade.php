@@ -266,8 +266,6 @@
                 $('.serial').val('').trigger('change');
             }
 
-
-
             // Radio button dinamicos
 
             $('input:radio[name=ov_ota_om]').on('change', function() {
@@ -475,7 +473,7 @@
                             serial: serial,
                             matricula: matricula,
                             base_estacion: base_estacion,
-                            completado: "programando",
+                            completado: "actualizado",
                             matriculas_alternas: matriculas_alternas,
                             alerta: alerta
                         },
@@ -570,6 +568,7 @@
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
                         completado: "actualizado",
+                        fecha: fechaManana,
                         },
                         success:function(response){
                             if(response.success){

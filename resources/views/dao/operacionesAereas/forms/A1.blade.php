@@ -56,7 +56,7 @@
                 <h6 style="font-size:13px; margin: 0;">RUTA</h6>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">DESDE</small>
                         <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
@@ -79,7 +79,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HASTA</small>
                         <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
@@ -100,6 +100,17 @@
                                     ({{ $data->siglas }})</option>
                                 @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">FECHA</small>
+                        <div class="col-sm-12">
+                            <input id="fecha_mision" type="date"
+                                class="form-control @error('fecha') is-invalid @enderror"
+                                name="fecha_mision" value="">
+                            <br>
+                        </div>
                     </div>
                 </div>
             </div>
