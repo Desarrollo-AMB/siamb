@@ -540,7 +540,9 @@
                                                     " style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" :
                                                     (value.completado == 'completado' || value.completado == 'paso2' ?
                                                         "<button value=" + value.id +
-                                                        " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>" :
+                                                        " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value=" +
+                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
+                                                        " style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>" :
                                                         "<button value=" + value.id +
                                                         " style='background: #c90061;color: white;' type='button' class='btn btn-success editar_a1_mision'>Completar datos de misión</button><button value=" +
                                                         value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
@@ -1607,7 +1609,7 @@
                                         var cod4 = "";
                                         var hv4 = "0";
                                     }
-                                    
+
                                     if (ov_ota_om == "" ||
                                         ov_ota_om == null ||
                                         id == "" ||
