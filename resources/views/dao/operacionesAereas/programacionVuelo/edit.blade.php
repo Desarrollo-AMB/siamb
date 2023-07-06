@@ -651,6 +651,7 @@
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
                         completado: "actualizado",
+                        fecha: $("#fecha_cabecera").val(),
                     },
                     success: function(response) {
                         if (response.success) {
@@ -690,6 +691,7 @@
                         ov_ota_om: ov_ota_om,
                         fam0001_id: id_fam0001,
                         completado: "actualizado",
+                        fecha: $("#fecha_cabecera").val(),
                     },
                     success: function(response) {
                         if (response.success) {
@@ -881,6 +883,7 @@
                     rowData.encend = encend;
                     rowData.apag = apag;
                     rowData.completado = 'actualizado';
+                    rowData.fecha = $('#fecha_cabecera').val();
 
                     if (siglas !== 'ENCENDIDO Y CHEQUEO EN TIERRA' && siglas !== 'ALERTA') {
                         if (numero === "" || numero === null) {
