@@ -209,7 +209,7 @@
 
                                                 <input disabled id="finish" type='button' style="background: #00168C"
                                                     class='btn btn-finish btn-fill btn-info btn-wd finish show_finish_btn'
-                                                    name='finish' value='Terminar' />
+                                                    name='finish' value='Enviar Resumen' />
                                             </div>
 
                                             <div class="pull-left">
@@ -502,9 +502,9 @@
 
                                     var counter = 1;
 
+                                    // AL CARGAR PRIMERA VEZ, CARGAR SI EXISTE UNA MISIÓN CHECK
                                     $.each(A1Steps, function(key, value) {
                                         if (value.codigo == 'ENCENDIDO Y CHEQUEO EN TIERRA') {
-
                                             $('#A1_data_check').append(
                                                 "<tr id='delete_a1_mision" + value.id + "'>\
                                                     <td style='padding-left: 20px;'>CHECK</td>\
@@ -523,31 +523,32 @@
                                                     ) + "</td>\
                                                     </tr>");
 
-                                        }
-                                        if (value.completado == 'actualizar' || value
-                                            .completado == 'cancelado' || value.completado ==
-                                            'completado' || value.completado == 'paso2') {
+                                            }
+                                    })
+
+                                    $.each(A1Steps, function(key, value) {
+                                        if ((value.completado == 'actualizar' && value.codigo !== 'ENCENDIDO Y CHEQUEO EN TIERRA')
+                                            || value.completado == 'cancelado'
+                                            || value.completado == 'completado'
+                                            || value.completado == 'paso2') {
+                                            var etiquetaTripulante = value.tripulaciones_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Tripulantes</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Tripulantes</span>&nbsp;";
+                                            var etiquetaCarga = value.cargas_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Carga</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Carga</span>&nbsp;";
+
                                             $('#A1_data_check').append(
                                                 "<tr id='delete_a1_mision" + value.id + "'>\
                                                 <td style='padding-left: 20px;'>V" + value.vuelo + "</td>\
                                                 <td style='padding-left: 20px;'>" + value.ordenada_por + "</td>\
-                                                <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value
-                                                    .codigo) + "</td>\
+                                                <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value.codigo) + "</td>\
                                                 <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
                                                 <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
-                                                <td style='padding-left: 20px;'>" + (value.completado == 'cancelado' ?
-                                                    "<button disabled  value=" + value.id +
-                                                    " style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" :
+                                                <td style='padding-left: 20px;'>" + etiquetaTripulante + etiquetaCarga + "\
+                                                " + (value.completado == 'cancelado' ? "<button disabled  value=" + value.id + " style='background: gray;color: white;' type='button' class='btn btn-secondary'><i class='fas fa-ban'></i> Cancelada</button>" :
                                                     (value.completado == 'completado' || value.completado == 'paso2' ?
-                                                        "<button value=" + value.id +
-                                                        " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value=" +
-                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
-                                                        " style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>" :
-                                                        "<button value=" + value.id +
-                                                        " style='background: #c90061;color: white;' type='button' class='btn btn-success editar_a1_mision'>Completar datos de misión</button><button value=" +
-                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta +
-                                                        " style='background:yellow;' class='btn btn-light cancelar_a1_mision' type='button'>Cancelar</button>"
-                                                        )) + "</td>\
+                                                        "<button value=" + value.id + " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button><button value=" +
+                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta + " style='background:yellow;' class='btn cancelar_a1_mision' type='button'>Cancelar</button>" :
+                                                        "<button value=" + value.id + " style='background: #c90061;color: white;' type='button' class='btn btn-success editar_a1_mision'>Completar</button><button value=" +
+                                                        value.id + "/" + value.codigo + "/" + value.ruta_desde + "-" + value.ruta_hasta + " style='background:yellow;' class='btn cancelar_a1_mision' type='button'>Cancelar</button>"
+                                                    )) + "</td>\
                                                 </tr>");
                                             counter += 1;
                                         }
@@ -555,6 +556,8 @@
 
                                     $.each(A1Steps, function(key, value) {
                                         if (value.completado == 'paso2Alert') {
+                                            var etiquetaTripulante = value.tripulaciones_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Tripulantes</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Tripulantes</span>&nbsp;";
+                                            var etiquetaCarga = value.cargas_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Carga</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Carga</span>&nbsp;";
 
                                             $('#A1_data').append(
                                                 "<tr id='delete_a1_mision" + value.id + "'>\
@@ -564,7 +567,8 @@
                                                     .codigo) + "</td>\
                                                 <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
                                                 <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
-                                                <td style='padding-left: 20px;'>" + (value.codigo ==
+                                                <td style='padding-left: 20px;'>" + etiquetaTripulante + etiquetaCarga + "\
+                                                " + (value.codigo ==
                                                     'ENCENDIDO Y CHEQUEO EN TIERRA' ?
                                                     "<button  value=" + value.id +
                                                     " style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" :
@@ -1379,8 +1383,8 @@
                                 cleanA1()
                                 $("#A1_data tr").remove();
                                 $(".step_two_color").css({
-                                    "border": "3px solid #309830",
-                                    "background": "#309830",
+                                    "border": "3px solid #08acc9",
+                                    "background": "#08acc9",
                                     "color": "white"
                                 });
                                 Swal.fire({
@@ -1396,43 +1400,30 @@
 
                                 //MOSTRAR A1
                                 let res = response.data;
+                                let mision_mostrar = response.A1_id
                                 var counter = 1;
 
                                 $.each(res, function(key, value) {
                                     if (value.completado == 'paso2Alert') {
-                                        $.ajax({
-                                            url: "{{ route('check_nvuelo') }}",
-                                            method: 'POST',
-                                            data: {
-                                                _token: '{{ csrf_token() }}',
-                                                id: id_fam0001,
-                                            },
-                                            cache: false,
-                                            dataType: 'json',
-                                            success: function(
-                                                response) {
-                                                if (response) {
-                                                    let num_vuelo = response.num[0] + 1;
-                                                    alert(num_vuelo);
-                                                    $('#A1_data').append(
-                                                        "<tr id='delete_a1_mision" + value.id + "'>\
-                                                        <td style='padding-left: 20px;'>V" + num_vuelo + "</td>\
-                                                        <td style='padding-left: 20px;'>" + value.ordenada_por + "</td>\
-                                                        <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value
-                                                            .codigo) + "</td>\
-                                                        <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
-                                                        <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
-                                                        <td style='padding-left: 20px;'>" + (value.codigo ==
-                                                            'ENCENDIDO Y CHEQUEO EN TIERRA' ?
-                                                            "<button  value=" + value.id +
-                                                            " style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" :
-                                                            "<button  value=" + value.id +
-                                                            " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>"
-                                                            ) + "<button value=" + value.id + " style='color:white; background:red;' class='btn btn-light delete_a1_mision' type='button'>Eliminar</button></td>\
-                                                        </tr>");
-                                                }
-                                            }
-                                        });
+                                        var etiquetaTripulante = value.tripulaciones_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Tripulantes</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Tripulantes</span>&nbsp;";
+                                        var etiquetaCarga = value.cargas_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Carga</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Carga</span>&nbsp;";
+                                        $('#A1_data').append(
+                                            "<tr id='delete_a1_mision" + value.id + "'>\
+                                            <td style='padding-left: 20px;'>V" + value.vuelo + "</td>\
+                                            <td style='padding-left: 20px;'>" + value.ordenada_por + "</td>\
+                                            <td style='padding-left: 20px;'>" + (value.codigo == null ? "NADA" : value
+                                            .codigo) + "</td>\
+                                            <td style='padding-left: 20px;'>" + value.ruta_desde + "</td>\
+                                            <td style='padding-left: 20px;'>" + value.ruta_hasta + "</td>\
+                                            <td style='padding-left: 20px;'>" + etiquetaTripulante + etiquetaCarga + "\
+                                            " + (value.codigo ==
+                                            'ENCENDIDO Y CHEQUEO EN TIERRA' ?
+                                            "<button  value=" + value.id +
+                                            " style='background: green;color: white;' type='button' class='btn btn-success'><i class='fas fa-check'></i></button>" :
+                                            "<button  value=" + value.id +
+                                            " style='background: #212529;color: white;' type='button' class='btn btn-success editar_a1_mision'>Editar</button>"
+                                            ) + "<button value=" + value.id + " style='color:white; background:red;' class='btn btn-light delete_a1_mision' type='button'>Eliminar</button></td>\
+                                        </tr>");
                                     }
                                 })
 
@@ -1870,7 +1861,7 @@
                 }
             });
             //PASO #3 - GUARDAR DATOS TRIPULACION
-            $(".enviar_b1_tripulacion").click(function(e) {
+            $(".    ").click(function(e) {
                 e.preventDefault();
                 //VALIDAR PASO UNO HEADER
                 if (v_trip === "") {
@@ -2969,6 +2960,13 @@
                                     $("#n_vuelo").append('<option class="load_n_trip" value="' +
                                         value.id + '" disabled>V' + value.vuelo +
                                         '(cancelada)</option>');
+                                } else if (value.completado == 'actualizar') {
+                                    $("#v_trip").append('<option class="load_v_trip" value="' +
+                                        value.id + '" disabled>V' + value.vuelo +
+                                        '(Completar A1)</option>');
+                                    $("#n_vuelo").append('<option class="load_n_trip" value="' +
+                                        value.id + '" disabled>V' + value.vuelo +
+                                        '(Completar A1)</option>');
                                 } else {
                                     $("#v_trip").append('<option class="load_v_trip" value="' +
                                         value.id + '">V' + value.vuelo + '</option>');

@@ -1330,7 +1330,11 @@ class FormaFAMController extends Controller
         $headerData = Fam0001::where('id',$request->data_id)
         ->with('aeronaves')
         ->get();
-        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->data_id)->get();
+
+        $A1_data = Fam0001A1Mision::where('fam0001_id', $request->data_id)
+        ->withCount(['tripulaciones', 'cargas'])
+        ->get();
+
         $B1_data = Fam0001B1Tripulacion::with('funcionTrip')->where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         $A3_data = Fam0001A3CargaPasajeros::where('fam0001_id',$request->data_id)->where('user_id',auth()->id())->get();
         return response()->json([
@@ -1343,7 +1347,7 @@ class FormaFAMController extends Controller
 
     public function check_nvuelo(Request $request)
     {
-        $checkVuelo = Fam0001A1Mision::where('fam0001_id', $request->fam0001_id)
+        $checkVuelo = Fam0001A1Mision::where('fam0001_id', $request->id)
         ->orderBy('vuelo', 'desc')
         ->latest()
         ->value('vuelo');
@@ -1775,7 +1779,9 @@ class FormaFAMController extends Controller
         $A1->save();
 
         $A1_id = Fam0001A1Mision::where('id',$A1->id)->get();
-        $A1_data = Fam0001A1Mision::where('fam0001_id',$request->fam0001_id)->get();
+        $A1_data = Fam0001A1Mision::where('fam0001_id', $request->fam0001_id)
+        ->withCount(['tripulaciones', 'cargas'])
+        ->get();
 
         return response()->json(
             [
@@ -1998,10 +2004,16 @@ class FormaFAMController extends Controller
 
     public function comprobar_status_misiones(Request $request)
     {
-        $misionesStatus = Fam0001A1Mision::where('fam0001_id',$request->id)
-        ->whereIn('completado',['paso2','paso2Alert'])
+        $misionesStatus = Fam0001A1Mision::where('fam0001_id', $request->id)
+        ->whereIn('completado', ['actualizar', 'paso2Alert', 'paso2'])
         ->whereDoesntHave('tripulaciones')
-        ->whereDoesntHave('cargas')
+        ->orWhereDoesntHave('cargas')
+        ->whereNotIn('id', function ($query) {
+            $query->select('id')
+                ->from('fam0001_a1_mision')
+                ->where('completado', 'alertaProg');
+        })
+        ->select('id')
         ->get();
 
         if (count($misionesStatus)>0) {
@@ -2018,6 +2030,31 @@ class FormaFAMController extends Controller
             ]);
         }
     }
+
+    public function comprobar_misiones_completas(Request $request)
+    {
+        $misiones_completas = Fam0001A1Mision::where('fam0001_id', $request->id)
+        ->where('completado', 'completa')
+        ->whereHas('tripulaciones')
+        ->whereHas('cargas')
+        ->get();
+
+        if (count($misiones_completas)>0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Misiones completas',
+                'data' => $misiones_completas
+        ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'No hay misiones completadas',
+                'data' => count($misiones_completas)
+            ]);
+        }
+    }
+
+
 
     public function actualizarProgramacionA1(Request $request)
     {
@@ -2121,7 +2158,7 @@ class FormaFAMController extends Controller
     public function data_v_trip(Request $request)
     {
         $data_v_trip = Fam0001A1Mision::where('fam0001_id', $request->id)
-        ->whereIn('completado', ['paso2', 'paso2Alert', 'cancelado'])
+        ->whereIn('completado', ['paso2', 'paso2Alert', 'cancelado', 'actualizar'])
         ->whereNotIn('codigo', ['ENCENDIDO Y CHEQUEO EN TIERRA'])
         ->get();
         return response()->json($data_v_trip);
