@@ -21,7 +21,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Militar Suspendido</h5>
+                        <h5 class="mb-0">Personal Militar Egresado</h5>
                     </div>
                     <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.personal-militar.index') }}">Volver</a>
                 </div>
