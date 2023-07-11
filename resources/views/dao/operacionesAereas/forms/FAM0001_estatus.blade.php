@@ -287,7 +287,7 @@
             var sumTotalHv = 0;
             // Almacenar el ID del tab-pane actual en el almacenamiento local del navegador
             //localStorage.setItem('activeTab', activeTabPaneId);
-
+            
             // Actualizar el ID del tab-pane almacenado cuando se cambia de tab-pane
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 const target = $(e.target).attr("href"); // Obtener el href del enlace de la pestaña activa
@@ -301,7 +301,7 @@
                 $('a[data-toggle="tab"][href="' + storedTab + '"]').tab('show');
             }
 
-
+            
             //PASO 1
             $('.select2').select2();
             $('.componente_organismo').select2();
@@ -330,7 +330,7 @@
                     .focus();
                 }, 10);
             });
-
+            
             //LIMPIAR A1
             function cleanA1() {
                 $('.ordenada_por').val('').trigger('change');
@@ -553,7 +553,7 @@
                                             counter += 1;
                                         }
                                     })
-
+                                    
                                     $.each(A1Steps, function(key, value) {
                                         if (value.completado == 'paso2Alert') {
                                             var etiquetaTripulante = value.tripulaciones_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Tripulantes</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Tripulantes</span>&nbsp;";
@@ -1860,8 +1860,9 @@
                     });
                 }
             });
+
             //PASO #3 - GUARDAR DATOS TRIPULACION
-            $(".    ").click(function(e) {
+            $(".enviar_b1_tripulacion").click(function(e) {
                 e.preventDefault();
                 //VALIDAR PASO UNO HEADER
                 if (v_trip === "") {
@@ -2033,7 +2034,7 @@
                     });
                 }
             }).change();
-
+            
             //PASO #4 - GUARDAR DATOS CARGA
             $(".enviar_a3").click(function(e) {
                 e.preventDefault();
@@ -2123,7 +2124,7 @@
                     });
                 }
             });
-
+            
             $(".enviar_sincarga_a3").click(function(e) {
                 e.preventDefault();
                 //VALIDAR PASO UNO HEADER  n_vuelo
@@ -2213,7 +2214,7 @@
                 }
             });
 
-
+            
             //PASO FINAL - CERRAR ORDEN DE VUELO
             $(".finish").click(function(e) {
                 e.preventDefault();
@@ -2248,7 +2249,7 @@
                     });
                 }
             });
-
+            
             function edit_A1(res) {
                 arrayHvCods = [];
                 cleanA1();
@@ -2407,7 +2408,7 @@
 
                                     $('.selectCod').select2();
                                     $('#btnAgregarCod').css('display', 'inline-block');
-
+                                    
                                     $('.calculateTimeCod1').change(function() {
                                         calculateTimeCod(1);
                                     });
@@ -2806,7 +2807,7 @@
                         });
                     }
                 }
-
+                
                 console.log(res)
                 if (res.consumibles.length > 0) {
                     let data = res.consumibles
@@ -2934,7 +2935,7 @@
                 }
 
             }
-
+            
             function data_vuelos(fam0001_id) {
                 var id = fam0001_id;
                 if (id) {
@@ -2978,7 +2979,7 @@
                     });
                 }
             }
-
+            
             function datos_tripulacion(res) {
                 $.each(res, function(key, value) {
                     $('#B1_data').append(
@@ -2996,7 +2997,7 @@
                     </tr>");
                 })
             }
-
+            
             function guardarAterrizajes(response) {
                 //GUARDAR ATERRIZAJES A1 MISION
                 let misionIDHV = response
@@ -3048,8 +3049,9 @@
                     });
                 }
             }
-
+            
             function calculateTime() {
+                
                 var encend = $('.encend').val()
                 var despeg = $('.despeg').val();
                 var aterriz = $('.aterriz').val();
@@ -3101,6 +3103,7 @@
                     }
                 }
             }
+            
             $(".calculateTime").change(calculateTime);
             calculateTime();
             $('.sendingData').keyup(function() {
