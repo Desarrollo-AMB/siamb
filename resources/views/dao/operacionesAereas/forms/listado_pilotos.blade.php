@@ -26,7 +26,7 @@
                 </div>
             </div>
             <hr class="horizontal dark my-0">
-            @role('aviacion_dao|administrador|cmd_general')
+            @role('aviacion_dao|aviacion_grupo_aereo|administrador|cmd_general')
                 <a class="btn btn-light btn-sm" href="{{ route('dao.ingresar.horasTripulante') }}">Registrar Horas de Vuelo Acumuladas hasta el mes de Julio 2023</a>
             @endrole
             <hr class="horizontal dark my-0">
