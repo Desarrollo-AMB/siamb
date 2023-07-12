@@ -273,7 +273,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->where('nomina.codigo_ubicacion','4020');
+        $empleados->where('nomina.codigo_ubicacion','0086');
         $empleados->whereIn('nomina.grado_militar',['400','200','201','202']);
         $empleados->select(
             'empleados.cedula',
@@ -299,7 +299,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->where('nomina.codigo_ubicacion','8594');
+        $empleados->where('nomina.codigo_ubicacion','0087');
         $empleados->whereIn('nomina.grado_militar',['311']);
         $empleados->select(
             'empleados.cedula',
@@ -325,7 +325,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->where('nomina.codigo_ubicacion','8290');
+        $empleados->where('nomina.codigo_ubicacion','0092');
         $empleados->whereIn('nomina.grado_militar',['401']);
         $empleados->select(
             'empleados.cedula',
@@ -351,7 +351,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->whereIn('nomina.codigo_ubicacion',['4030','8285','8260']);
+        $empleados->whereIn('nomina.codigo_ubicacion',['0090','0091']);
         $empleados->whereIn('nomina.grado_militar',['200','201','202']);
         $empleados->select(
             'empleados.cedula',
@@ -403,7 +403,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->whereIn('nomina.codigo_ubicacion',['4020']);
+        $empleados->whereIn('nomina.codigo_ubicacion',['0086']);
         $empleados->whereIn('nomina.grado_militar',['549']);
         $empleados->select(
             'empleados.cedula',
@@ -429,7 +429,7 @@ class GraduacionController extends Controller
         $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
-        $empleados->whereIn('nomina.codigo_ubicacion',['8265']);
+        $empleados->whereIn('nomina.codigo_ubicacion',['0378']);
         $empleados->whereIn('nomina.grado_militar',['330']);
         $empleados->select(
             'empleados.cedula',

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Nomina;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\asignaciones;
-use App\Models\ConceptosNomina;
+use App\Models\Concptosnomina1;
 use App\Models\Empleado;
 use App\Models\Salarios;
 use App\Models\Nomina;
@@ -31,7 +31,7 @@ class NominaController extends Controller
 
     public function indexNomina()
     {
-        $conceptos = ConceptosNomina::whereIn('codigo_concepto', [1, 2, 53, 54, 55, 545])
+        $conceptos = Concptosnomina1::whereIn('codigo_concepto', [1, 2, 53, 54, 55, 545])
             ->pluck('porcentaje', 'codigo_concepto');
 
         return view('sireh.nomina.index', compact('conceptos'));
@@ -48,7 +48,7 @@ class NominaController extends Controller
     }
     public function sueldoBase()
     {
-        $data = ConceptosNomina::select('*')
+        $data = Concptosnomina1::select('*')
         ->whereIn('codigo_concepto', [1, 2])
         ->get();
       //return($data[0]['codigo_concepto']);
@@ -66,12 +66,12 @@ class NominaController extends Controller
         $descripcionali = $request->descripcionali;
         $porcentajeali = $request->porcentajeali;
 
-        $updatesueldo = ConceptosNomina::find($id);
+        $updatesueldo = Concptosnomina1::find($id);
         $updatesueldo->descripcion = $descripcion;
         $updatesueldo->porcentaje = $porcentaje;
         $updatesueldo->save();
 
-        $updatealimentacion = ConceptosNomina::find($idali);
+        $updatealimentacion = Concptosnomina1::find($idali);
         $updatealimentacion->descripcion = $descripcionali;
         $updatealimentacion->porcentaje = $porcentajeali;
         $updatealimentacion->save();
@@ -85,7 +85,7 @@ class NominaController extends Controller
 //Ver Primas
     public function primas(Request $request)
     {
-        $data = ConceptosNomina::
+        $data = Concptosnomina1::
             select('*',)
             ->where ('tipo', 'A')
             ->get();
@@ -97,7 +97,7 @@ class NominaController extends Controller
 
     public function edit(Request $request)
     {
-        //$data = ConceptosNomina::find('$request');
+        //$data = Concptosnomina1::find('$request');
         $data = $request;
 
       //dd($request);
@@ -114,7 +114,7 @@ class NominaController extends Controller
 //Nueva prima
     public function nueva(Request $request)
     {
-        $prima = new ConceptosNomina();
+        $prima = new Concptosnomina1();
         $prima->codigo_concepto = $request->codigo;
         $prima->descripcion = strtoupper($request->nombre);
         $prima->porcentaje = $request->porcentaje;
@@ -126,9 +126,9 @@ class NominaController extends Controller
 
     }
 //EDIT PRIMA 2
-    public function editPrima (ConceptosNomina $registro){
+    public function editPrima (Concptosnomina1 $registro){
 
-       // $prima = ConceptosNomina::find($id);
+       // $prima = Concptosnomina1::find($id);
         return view('sireh.nomina.personal_militar.primas-edit',compact('registro'));
     }
 //UPDATE PRIMAS
@@ -148,7 +148,7 @@ class NominaController extends Controller
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = Concptosnomina1::find($registro);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -159,7 +159,7 @@ class NominaController extends Controller
 //Delete Primas
     public function deleteprimas($id)
     {
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         return redirect()->route('sireh.nomina.primas');
     }
@@ -185,7 +185,7 @@ public function deletePrimaAsignada(Request $request, $id)
     ->with('conceptoNomina')
     ->get();
 
-    $conceptos_nomina = ConceptosNomina::
+    $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->get();
@@ -245,7 +245,7 @@ public function actualesPrimas(Request $request)
         $empleado_nombre = $empleado->nombre1;
         $empleado_apellido = $empleado->apellido1;
 
-        $conceptos_nomina = ConceptosNomina::
+        $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->get();
@@ -277,7 +277,7 @@ public function asignacionNuevaPrima(Request $request)
     $tipo = $request->input('tipo');
 
     // Obtener conceptos de nómina
-    $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
+    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->get();
 
@@ -348,7 +348,7 @@ public function asignacionNuevaPrima(Request $request)
 //Ver deducciones
 public function deducciones(Request $request)
 {
-    $data = ConceptosNomina::select('*')
+    $data = Concptosnomina1::select('*')
         ->where('tipo', 'D')
         ->where('tipo_empleado', 'MIL')
         ->get();
@@ -356,9 +356,9 @@ public function deducciones(Request $request)
     return view('sireh.nomina.personal_militar.deducciones', compact('data'));
 }
 //EDIT PRIMA 2
-public function editdeducciones (ConceptosNomina $id){
+public function editdeducciones (Concptosnomina1 $id){
 
-    // $prima = ConceptosNomina::find($id);
+    // $prima = Concptosnomina1::find($id);
      return view('sireh.nomina.personal_militar.deducciones-edit',compact('id'));
  }
 
@@ -379,7 +379,7 @@ public function editdeducciones (ConceptosNomina $id){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -391,7 +391,7 @@ public function editdeducciones (ConceptosNomina $id){
     //Delete deducciones
     public function deletededucciones($id)
     {
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         return redirect()->route('sireh.nomina.deducciones');
     }
@@ -424,7 +424,7 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
     ->with('conceptoNomina')
     ->get();
 
-    $conceptos_nomina = ConceptosNomina::
+    $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'D')
         ->get();
@@ -476,7 +476,7 @@ public function actualesdeducciones(Request $request)
         $empleado_nombre = $empleado->nombre1;
         $empleado_apellido = $empleado->apellido1;
 
-        $conceptos_nomina = ConceptosNomina::
+        $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'D')
         ->get();
@@ -526,7 +526,7 @@ public function actualesdeducciones(Request $request)
         session()->flash('success', 'La prima ha sido asignada con éxito');
     }
 
-    $conceptos_nomina = ConceptosNomina::
+    $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'D')
         ->get();
@@ -698,7 +698,7 @@ $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_
 ->get();
 
 // Obtener el porcentaje del sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
@@ -716,7 +716,7 @@ $item->antiguedadGrado = $antiguedadGrado;
 
 // Agregar la prima por hijos y la cantidad de hijos
 //se trae el monto de la tabla primas_deducciones
-$montoPorHijo = ConceptosNomina::where('codigo_concepto', '4012')
+$montoPorHijo = Concptosnomina1::where('codigo_concepto', '4012')
 ->pluck('porcentaje')
 ->first();
 $montoPorHijo = $montoPorHijo;
@@ -753,8 +753,8 @@ $porcentajeSalario = Salarios::where('codigo_grado', $item->grado_militar)
 $sueldoGrado = $sueldoBase * $porcentajeSalario;
 $item->sueldo_grado = $sueldoGrado;
 
-// Obtener el porcentaje del modelo ConceptosNomina
-$porcentajeConcepto = ConceptosNomina::where('codigo_concepto', '500')
+// Obtener el porcentaje del modelo Concptosnomina1
+$porcentajeConcepto = Concptosnomina1::where('codigo_concepto', '500')
 ->where('antiguedad', $antiguedad)
 ->pluck('porcentaje')
 ->first();
@@ -916,7 +916,7 @@ if ($primaAlimentacionHugoChavez > 0) {
     $item->codigo_concepto = $codigoConcepto;
 
     //calculo del porcentaje de la prima de profecionalizacion
-    $primaDeProfesionalizacion = ConceptosNomina::where('codigo_concepto', $codigoConcepto )
+    $primaDeProfesionalizacion = Concptosnomina1::where('codigo_concepto', $codigoConcepto )
     ->pluck('porcentaje')
     ->sum();
 
@@ -940,14 +940,14 @@ $montoTotalComunes = ($montoPrimaAntiguedad ?? 0) + ($montoPrimaProf ?? 0) + ($s
 $item->monto_total_comunes = $montoTotalComunes;
 
 // Mostrar el sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
 $item->porcentaje_prima_prof = $primaDeProfesionalizacion;
 
 // Obtener el monto del sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
