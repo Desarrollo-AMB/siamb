@@ -33,6 +33,7 @@ use App\Http\Controllers\Nomina\NominaCivilController;
 use App\Http\Controllers\juntaperm\controllerjuntap;
 use App\Http\Controllers\ParteAeronaveController;
 use App\Http\Controllers\empleadoExtraComponeteController;
+use App\Http\Controllers\nominaexcelcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -495,6 +496,12 @@ Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'de
 ////ficha///
 Route::post('/perosnal/ficha',      [PersonalController::class, 'ficha'])->name('ficha.view');
 Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBucar'])->name('ficha.bucar.view'); 
+
+
+//////////////////////////////////RUTAS PARA IMPORTAR DATOS DE SIAMB//////////////////////////////////////////
+Route::get('/extra/importar', [nominaexcelcontroller::class, 'index'])->name('extra.importar');
+Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarExcel'])->name('carga.ArchivoExcel');
+
 
 Route::get('no_authorize', function () {
     return view('no_authorize');
