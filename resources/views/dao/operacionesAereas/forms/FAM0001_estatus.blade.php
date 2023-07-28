@@ -287,7 +287,7 @@
             var sumTotalHv = 0;
             // Almacenar el ID del tab-pane actual en el almacenamiento local del navegador
             //localStorage.setItem('activeTab', activeTabPaneId);
-            
+
             // Actualizar el ID del tab-pane almacenado cuando se cambia de tab-pane
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 const target = $(e.target).attr("href"); // Obtener el href del enlace de la pestaña activa
@@ -301,7 +301,7 @@
                 $('a[data-toggle="tab"][href="' + storedTab + '"]').tab('show');
             }
 
-            
+
             //PASO 1
             $('.select2').select2();
             $('.componente_organismo').select2();
@@ -330,7 +330,7 @@
                     .focus();
                 }, 10);
             });
-            
+
             //LIMPIAR A1
             function cleanA1() {
                 $('.ordenada_por').val('').trigger('change');
@@ -553,7 +553,7 @@
                                             counter += 1;
                                         }
                                     })
-                                    
+
                                     $.each(A1Steps, function(key, value) {
                                         if (value.completado == 'paso2Alert') {
                                             var etiquetaTripulante = value.tripulaciones_count < 1 ? "<i class='fas fa-times text-danger'></i><span class='etiqueta'>Tripulantes</span>&nbsp;" : "<i class='fas fa-check text-success'></i><span class='etiqueta'>Tripulantes</span>&nbsp;";
@@ -2034,7 +2034,7 @@
                     });
                 }
             }).change();
-            
+
             //PASO #4 - GUARDAR DATOS CARGA
             $(".enviar_a3").click(function(e) {
                 e.preventDefault();
@@ -2124,7 +2124,7 @@
                     });
                 }
             });
-            
+
             $(".enviar_sincarga_a3").click(function(e) {
                 e.preventDefault();
                 //VALIDAR PASO UNO HEADER  n_vuelo
@@ -2214,7 +2214,7 @@
                 }
             });
 
-            
+
             //PASO FINAL - CERRAR ORDEN DE VUELO
             $(".finish").click(function(e) {
                 e.preventDefault();
@@ -2249,7 +2249,7 @@
                     });
                 }
             });
-            
+
             function edit_A1(res) {
                 arrayHvCods = [];
                 cleanA1();
@@ -2337,63 +2337,11 @@
                                                 <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
                                                 <select id="condicion1" name="condicion1" class="form-control condicion selectCod">\
                                                     <option value="' + cod1_condicion + '">' + cod1_condicion +
-                                        '</option>\
-                                                    <option value="DCV">DCV</option>\
-                                                    <option value="DCI">DCI</option>\
-                                                    <option value="DWV">DWV</option>\
-                                                    <option value="DWI">DWI</option>\
-                                                    <option value="NCV">NCV</option>\
-                                                    <option value="NCI">NCI</option>\
-                                                    <option value="NWV">NWV</option>\
-                                                    <option value="NWI">NWI</option>\
-                                                    <option value="DCVG">DCVG</option>\
-                                                    <option value="DCIG">DCIG</option>\
-                                                    <option value="DWVG">DWVG</option>\
-                                                    <option value="DWIG">DWIG</option>\
-                                                    <option value="NCVG">NCVG</option>\
-                                                    <option value="NCIG">NCIG</option>\
-                                                    <option value="NWVG">NWVG</option>\
-                                                    <option value="NWIG">NWIG</option>\
-                                                    <option value="DCVF">DCVF</option>\
-                                                    <option value="DCIF">DCIF</option>\
-                                                    <option value="DWVF">DWVF</option>\
-                                                    <option value="DWIF">DWIF</option>\
-                                                    <option value="NCVF">NCVF</option>\
-                                                    <option value="NCIF">NCIF</option>\
-                                                    <option value="NWVF">NWVF</option>\
-                                                    <option value="NWIF">NWIF</option>\
-                                                    <option value="DCVA">DCVA</option>\
-                                                    <option value="DCIA">DCIA</option>\
-                                                    <option value="DWVA">DWVA</option>\
-                                                    <option value="DWIA">DWIA</option>\
-                                                    <option value="NCVA">NCVA</option>\
-                                                    <option value="NCIA">NCIA</option>\
-                                                    <option value="NWVA">NWVA</option>\
-                                                    <option value="NWIA">NWIA</option>\
-                                                    <option value="DCVL">DCVL</option>\
-                                                    <option value="DCIL">DCIL</option>\
-                                                    <option value="DWVL">DWVL</option>\
-                                                    <option value="DWIL">DWIL</option>\
-                                                    <option value="NCVL">NCVL</option>\
-                                                    <option value="NCIL">NCIL</option>\
-                                                    <option value="NWVL">NWVL</option>\
-                                                    <option value="NWIL">NWIL</option>\
-                                                    <option value="DCVH">DCVH</option>\
-                                                    <option value="DCIH">DCIH</option>\
-                                                    <option value="DWVH">DWVH</option>\
-                                                    <option value="DWIH">DWIH</option>\
-                                                    <option value="NCVH">NCVH</option>\
-                                                    <option value="NCIH">NCIH</option>\
-                                                    <option value="NWVH">NWVH</option>\
-                                                    <option value="NWIH">NWIH</option>\
-                                                    <option value="DCVS">DCVS</option>\
-                                                    <option value="DCIS">DCIS</option>\
-                                                    <option value="DWVS">DWVS</option>\
-                                                    <option value="DWIS">DWIS</option>\
-                                                    <option value="NCVS">NCVS</option>\
-                                                    <option value="NCIS">NCIS</option>\
-                                                    <option value="NWVS">NWVS</option>\
-                                                    <option value="NWIS">NWIS</option>\
+                                                    '</option>\
+                                                    <option value=""></option>\
+                                                    @foreach ($condicion_vuelo as $data)\
+                                                        <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                                    @endforeach\
                                                 </select>\
                                             </div>\
                                         </div>\
@@ -2408,7 +2356,7 @@
 
                                     $('.selectCod').select2();
                                     $('#btnAgregarCod').css('display', 'inline-block');
-                                    
+
                                     $('.calculateTimeCod1').change(function() {
                                         calculateTimeCod(1);
                                     });
@@ -2460,63 +2408,11 @@
                                                             <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
                                                             <select id="condicion2" name="condicion2" class="form-control condicion selectCod">\
                                                                 <option value="' + cod2_condicion + '">' + cod2_condicion +
-                                                    '</option>\
-                                                                <option value="DCV">DCV</option>\
-                                                                <option value="DCI">DCI</option>\
-                                                                <option value="DWV">DWV</option>\
-                                                                <option value="DWI">DWI</option>\
-                                                                <option value="NCV">NCV</option>\
-                                                                <option value="NCI">NCI</option>\
-                                                                <option value="NWV">NWV</option>\
-                                                                <option value="NWI">NWI</option>\
-                                                                <option value="DCVG">DCVG</option>\
-                                                                <option value="DCIG">DCIG</option>\
-                                                                <option value="DWVG">DWVG</option>\
-                                                                <option value="DWIG">DWIG</option>\
-                                                                <option value="NCVG">NCVG</option>\
-                                                                <option value="NCIG">NCIG</option>\
-                                                                <option value="NWVG">NWVG</option>\
-                                                                <option value="NWIG">NWIG</option>\
-                                                                <option value="DCVF">DCVF</option>\
-                                                                <option value="DCIF">DCIF</option>\
-                                                                <option value="DWVF">DWVF</option>\
-                                                                <option value="DWIF">DWIF</option>\
-                                                                <option value="NCVF">NCVF</option>\
-                                                                <option value="NCIF">NCIF</option>\
-                                                                <option value="NWVF">NWVF</option>\
-                                                                <option value="NWIF">NWIF</option>\
-                                                                <option value="DCVA">DCVA</option>\
-                                                                <option value="DCIA">DCIA</option>\
-                                                                <option value="DWVA">DWVA</option>\
-                                                                <option value="DWIA">DWIA</option>\
-                                                                <option value="NCVA">NCVA</option>\
-                                                                <option value="NCIA">NCIA</option>\
-                                                                <option value="NWVA">NWVA</option>\
-                                                                <option value="NWIA">NWIA</option>\
-                                                                <option value="DCVL">DCVL</option>\
-                                                                <option value="DCIL">DCIL</option>\
-                                                                <option value="DWVL">DWVL</option>\
-                                                                <option value="DWIL">DWIL</option>\
-                                                                <option value="NCVL">NCVL</option>\
-                                                                <option value="NCIL">NCIL</option>\
-                                                                <option value="NWVL">NWVL</option>\
-                                                                <option value="NWIL">NWIL</option>\
-                                                                <option value="DCVH">DCVH</option>\
-                                                                <option value="DCIH">DCIH</option>\
-                                                                <option value="DWVH">DWVH</option>\
-                                                                <option value="DWIH">DWIH</option>\
-                                                                <option value="NCVH">NCVH</option>\
-                                                                <option value="NCIH">NCIH</option>\
-                                                                <option value="NWVH">NWVH</option>\
-                                                                <option value="NWIH">NWIH</option>\
-                                                                <option value="DCVS">DCVS</option>\
-                                                                <option value="DCIS">DCIS</option>\
-                                                                <option value="DWVS">DWVS</option>\
-                                                                <option value="DWIS">DWIS</option>\
-                                                                <option value="NCVS">NCVS</option>\
-                                                                <option value="NCIS">NCIS</option>\
-                                                                <option value="NWVS">NWVS</option>\
-                                                                <option value="NWIS">NWIS</option>\
+                                                                '</option>\
+                                                                <option value=""></option>\
+                                                                @foreach ($condicion_vuelo as $data)\
+                                                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                                                @endforeach\
                                                             </select>\
                                                         </div>\
                                                     </div>\
@@ -2586,64 +2482,12 @@
                                                                         <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
                                                                         <select id="condicion3" name="condicion3" class="form-control condicion selectCod">\
                                                                             <option value="' + cod3_condicion + '">' +
-                                                                cod3_condicion +
-                                                                '</option>\
-                                                                            <option value="DCV">DCV</option>\
-                                                                            <option value="DCI">DCI</option>\
-                                                                            <option value="DWV">DWV</option>\
-                                                                            <option value="DWI">DWI</option>\
-                                                                            <option value="NCV">NCV</option>\
-                                                                            <option value="NCI">NCI</option>\
-                                                                            <option value="NWV">NWV</option>\
-                                                                            <option value="NWI">NWI</option>\
-                                                                            <option value="DCVG">DCVG</option>\
-                                                                            <option value="DCIG">DCIG</option>\
-                                                                            <option value="DWVG">DWVG</option>\
-                                                                            <option value="DWIG">DWIG</option>\
-                                                                            <option value="NCVG">NCVG</option>\
-                                                                            <option value="NCIG">NCIG</option>\
-                                                                            <option value="NWVG">NWVG</option>\
-                                                                            <option value="NWIG">NWIG</option>\
-                                                                            <option value="DCVF">DCVF</option>\
-                                                                            <option value="DCIF">DCIF</option>\
-                                                                            <option value="DWVF">DWVF</option>\
-                                                                            <option value="DWIF">DWIF</option>\
-                                                                            <option value="NCVF">NCVF</option>\
-                                                                            <option value="NCIF">NCIF</option>\
-                                                                            <option value="NWVF">NWVF</option>\
-                                                                            <option value="NWIF">NWIF</option>\
-                                                                            <option value="DCVA">DCVA</option>\
-                                                                            <option value="DCIA">DCIA</option>\
-                                                                            <option value="DWVA">DWVA</option>\
-                                                                            <option value="DWIA">DWIA</option>\
-                                                                            <option value="NCVA">NCVA</option>\
-                                                                            <option value="NCIA">NCIA</option>\
-                                                                            <option value="NWVA">NWVA</option>\
-                                                                            <option value="NWIA">NWIA</option>\
-                                                                            <option value="DCVL">DCVL</option>\
-                                                                            <option value="DCIL">DCIL</option>\
-                                                                            <option value="DWVL">DWVL</option>\
-                                                                            <option value="DWIL">DWIL</option>\
-                                                                            <option value="NCVL">NCVL</option>\
-                                                                            <option value="NCIL">NCIL</option>\
-                                                                            <option value="NWVL">NWVL</option>\
-                                                                            <option value="NWIL">NWIL</option>\
-                                                                            <option value="DCVH">DCVH</option>\
-                                                                            <option value="DCIH">DCIH</option>\
-                                                                            <option value="DWVH">DWVH</option>\
-                                                                            <option value="DWIH">DWIH</option>\
-                                                                            <option value="NCVH">NCVH</option>\
-                                                                            <option value="NCIH">NCIH</option>\
-                                                                            <option value="NWVH">NWVH</option>\
-                                                                            <option value="NWIH">NWIH</option>\
-                                                                            <option value="DCVS">DCVS</option>\
-                                                                            <option value="DCIS">DCIS</option>\
-                                                                            <option value="DWVS">DWVS</option>\
-                                                                            <option value="DWIS">DWIS</option>\
-                                                                            <option value="NCVS">NCVS</option>\
-                                                                            <option value="NCIS">NCIS</option>\
-                                                                            <option value="NWVS">NWVS</option>\
-                                                                            <option value="NWIS">NWIS</option>\
+                                                                            cod3_condicion +
+                                                                            '</option>\
+                                                                            <option value=""></option>\
+                                                                            @foreach ($condicion_vuelo as $data)\
+                                                                                <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                                                            @endforeach\
                                                                         </select>\
                                                                     </div>\
                                                                 </div>\
@@ -2716,64 +2560,12 @@
                                                                                     <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
                                                                                     <select id="condicion4" name="condicion4" class="form-control condicion selectCod">\
                                                                                         <option value="' + cod4_condicion + '">' +
-                                                                                cod4_condicion +
-                                                                                '</option>\
-                                                                                        <option value="DCV">DCV</option>\
-                                                                                        <option value="DCI">DCI</option>\
-                                                                                        <option value="DWV">DWV</option>\
-                                                                                        <option value="DWI">DWI</option>\
-                                                                                        <option value="NCV">NCV</option>\
-                                                                                        <option value="NCI">NCI</option>\
-                                                                                        <option value="NWV">NWV</option>\
-                                                                                        <option value="NWI">NWI</option>\
-                                                                                        <option value="DCVG">DCVG</option>\
-                                                                                        <option value="DCIG">DCIG</option>\
-                                                                                        <option value="DWVG">DWVG</option>\
-                                                                                        <option value="DWIG">DWIG</option>\
-                                                                                        <option value="NCVG">NCVG</option>\
-                                                                                        <option value="NCIG">NCIG</option>\
-                                                                                        <option value="NWVG">NWVG</option>\
-                                                                                        <option value="NWIG">NWIG</option>\
-                                                                                        <option value="DCVF">DCVF</option>\
-                                                                                        <option value="DCIF">DCIF</option>\
-                                                                                        <option value="DWVF">DWVF</option>\
-                                                                                        <option value="DWIF">DWIF</option>\
-                                                                                        <option value="NCVF">NCVF</option>\
-                                                                                        <option value="NCIF">NCIF</option>\
-                                                                                        <option value="NWVF">NWVF</option>\
-                                                                                        <option value="NWIF">NWIF</option>\
-                                                                                        <option value="DCVA">DCVA</option>\
-                                                                                        <option value="DCIA">DCIA</option>\
-                                                                                        <option value="DWVA">DWVA</option>\
-                                                                                        <option value="DWIA">DWIA</option>\
-                                                                                        <option value="NCVA">NCVA</option>\
-                                                                                        <option value="NCIA">NCIA</option>\
-                                                                                        <option value="NWVA">NWVA</option>\
-                                                                                        <option value="NWIA">NWIA</option>\
-                                                                                        <option value="DCVL">DCVL</option>\
-                                                                                        <option value="DCIL">DCIL</option>\
-                                                                                        <option value="DWVL">DWVL</option>\
-                                                                                        <option value="DWIL">DWIL</option>\
-                                                                                        <option value="NCVL">NCVL</option>\
-                                                                                        <option value="NCIL">NCIL</option>\
-                                                                                        <option value="NWVL">NWVL</option>\
-                                                                                        <option value="NWIL">NWIL</option>\
-                                                                                        <option value="DCVH">DCVH</option>\
-                                                                                        <option value="DCIH">DCIH</option>\
-                                                                                        <option value="DWVH">DWVH</option>\
-                                                                                        <option value="DWIH">DWIH</option>\
-                                                                                        <option value="NCVH">NCVH</option>\
-                                                                                        <option value="NCIH">NCIH</option>\
-                                                                                        <option value="NWVH">NWVH</option>\
-                                                                                        <option value="NWIH">NWIH</option>\
-                                                                                        <option value="DCVS">DCVS</option>\
-                                                                                        <option value="DCIS">DCIS</option>\
-                                                                                        <option value="DWVS">DWVS</option>\
-                                                                                        <option value="DWIS">DWIS</option>\
-                                                                                        <option value="NCVS">NCVS</option>\
-                                                                                        <option value="NCIS">NCIS</option>\
-                                                                                        <option value="NWVS">NWVS</option>\
-                                                                                        <option value="NWIS">NWIS</option>\
+                                                                                        cod4_condicion +
+                                                                                        '</option>\
+                                                                                        <option value=""></option>\
+                                                                                        @foreach ($condicion_vuelo as $data)\
+                                                                                            <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                                                                        @endforeach\
                                                                                     </select>\
                                                                                 </div>\
                                                                             </div>\
@@ -2807,7 +2599,7 @@
                         });
                     }
                 }
-                
+
                 console.log(res)
                 if (res.consumibles.length > 0) {
                     let data = res.consumibles
@@ -2935,7 +2727,7 @@
                 }
 
             }
-            
+
             function data_vuelos(fam0001_id) {
                 var id = fam0001_id;
                 if (id) {
@@ -2979,7 +2771,7 @@
                     });
                 }
             }
-            
+
             function datos_tripulacion(res) {
                 $.each(res, function(key, value) {
                     $('#B1_data').append(
@@ -2997,7 +2789,7 @@
                     </tr>");
                 })
             }
-            
+
             function guardarAterrizajes(response) {
                 //GUARDAR ATERRIZAJES A1 MISION
                 let misionIDHV = response
@@ -3049,9 +2841,9 @@
                     });
                 }
             }
-            
+
             function calculateTime() {
-                
+
                 var encend = $('.encend').val()
                 var despeg = $('.despeg').val();
                 var aterriz = $('.aterriz').val();
@@ -3103,7 +2895,7 @@
                     }
                 }
             }
-            
+
             $(".calculateTime").change(calculateTime);
             calculateTime();
             $('.sendingData').keyup(function() {
@@ -3494,62 +3286,9 @@
                             <small style="font-weight: bold; color:#67748e;">CONDICIÓN VUELO</small>\
                             <select id="condicion' + numCods + '" name="condicion' + numCods + '" class="form-control condicion selectCod">\
                                 <option value=""></option>\
-                                <option value="DCV">DCV</option>\
-                                <option value="DCI">DCI</option>\
-                                <option value="DWV">DWV</option>\
-                                <option value="DWI">DWI</option>\
-                                <option value="NCV">NCV</option>\
-                                <option value="NCI">NCI</option>\
-                                <option value="NWV">NWV</option>\
-                                <option value="NWI">NWI</option>\
-                                <option value="DCVG">DCVG</option>\
-                                <option value="DCIG">DCIG</option>\
-                                <option value="DWVG">DWVG</option>\
-                                <option value="DWIG">DWIG</option>\
-                                <option value="NCVG">NCVG</option>\
-                                <option value="NCIG">NCIG</option>\
-                                <option value="NWVG">NWVG</option>\
-                                <option value="NWIG">NWIG</option>\
-                                <option value="DCVF">DCVF</option>\
-                                <option value="DCIF">DCIF</option>\
-                                <option value="DWVF">DWVF</option>\
-                                <option value="DWIF">DWIF</option>\
-                                <option value="NCVF">NCVF</option>\
-                                <option value="NCIF">NCIF</option>\
-                                <option value="NWVF">NWVF</option>\
-                                <option value="NWIF">NWIF</option>\
-                                <option value="DCVA">DCVA</option>\
-                                <option value="DCIA">DCIA</option>\
-                                <option value="DWVA">DWVA</option>\
-                                <option value="DWIA">DWIA</option>\
-                                <option value="NCVA">NCVA</option>\
-                                <option value="NCIA">NCIA</option>\
-                                <option value="NWVA">NWVA</option>\
-                                <option value="NWIA">NWIA</option>\
-                                <option value="DCVL">DCVL</option>\
-                                <option value="DCIL">DCIL</option>\
-                                <option value="DWVL">DWVL</option>\
-                                <option value="DWIL">DWIL</option>\
-                                <option value="NCVL">NCVL</option>\
-                                <option value="NCIL">NCIL</option>\
-                                <option value="NWVL">NWVL</option>\
-                                <option value="NWIL">NWIL</option>\
-                                <option value="DCVH">DCVH</option>\
-                                <option value="DCIH">DCIH</option>\
-                                <option value="DWVH">DWVH</option>\
-                                <option value="DWIH">DWIH</option>\
-                                <option value="NCVH">NCVH</option>\
-                                <option value="NCIH">NCIH</option>\
-                                <option value="NWVH">NWVH</option>\
-                                <option value="NWIH">NWIH</option>\
-                                <option value="DCVS">DCVS</option>\
-                                <option value="DCIS">DCIS</option>\
-                                <option value="DWVS">DWVS</option>\
-                                <option value="DWIS">DWIS</option>\
-                                <option value="NCVS">NCVS</option>\
-                                <option value="NCIS">NCIS</option>\
-                                <option value="NWVS">NWVS</option>\
-                                <option value="NWIS">NWIS</option>\
+                                @foreach ($condicion_vuelo as $data)\
+                                    <option value="{{ $data->siglas }}">{{ $data->siglas }}</option>\
+                                @endforeach\
                             </select>\
                         </div>\
                     </div>\

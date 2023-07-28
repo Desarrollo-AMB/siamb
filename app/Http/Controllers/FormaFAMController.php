@@ -40,6 +40,7 @@ use App\Exports\ProgramacionVueloVExport;
 use App\Models\Parroquias;
 use App\Models\ProgramacionFin;
 use App\Models\ParteAeronave;
+use App\Models\CondicionVuelo;
 use Illuminate\Http\Request;
 
 class FormaFAMController extends Controller
@@ -1220,6 +1221,7 @@ class FormaFAMController extends Controller
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
         $codigoMisionPropia = CodigoTipoMision::where('tipo_tarea', 'P')->orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
+        $condicion_vuelo = CondicionVuelo::get();
         //B1-TRIPULACION
         $A1_mision = Fam0001A1Mision::get();
         $fam0001data = Fam0001::where('id', $fam_id)->get();
@@ -1233,7 +1235,7 @@ class FormaFAMController extends Controller
         ->get();
         $esAlerta = $comprobarAlertaA1[0]->alerta;
 
-        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision', 'codigoMisionPropia','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'parroquias', 'aeropuertos', 'fam0001data', 'esAlerta'));
+        return view('dao.operacionesAereas.forms.FAM0001_estatus', compact('fam0001','codigoTipoMisionSiglas','despegue','funcion','A1_mision','codigoMision', 'condicion_vuelo', 'codigoMisionPropia','consumibles','unidadesMedida','enApoyo','vueloOrdenadaPor','jefeMaquina', 'aeronaveModelos','matriculas','unidad','componentes', 'bases', 'parroquias', 'aeropuertos', 'fam0001data', 'esAlerta'));
     }
 
     public function index()
@@ -2076,7 +2078,7 @@ class FormaFAMController extends Controller
             ->whereNotIn('vuelo', [1000, 2000])
             ->get();
             $flyLoop = count($checkVuelo);
-            
+
             $mision_n = Fam0001A1Mision::where('id', $request->id)->first();
             $mision_n->vuelo = 10;
             $mision_n->save();
@@ -2122,7 +2124,7 @@ class FormaFAMController extends Controller
     {
         $codigoMision = CodigoTipoMision::orderBy('codigo', 'asc')->get();
         $codigoTipoMisionSiglas = CodigoTipoMisionSiglas::get();
-        $condicion_vuelo = CodigoTipoMisionSiglas::get();
+        $condicion_vuelo = CondicionVuelo::get();
         return response()->json(
             [
                 'success' => true,
