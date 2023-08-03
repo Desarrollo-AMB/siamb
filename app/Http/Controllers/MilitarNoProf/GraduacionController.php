@@ -38,7 +38,9 @@ class GraduacionController extends Controller
 
                         $datos_militares = DatosMilitares::where('codigo_empleado',$codigo_empleado)->first();
                         if ($datos_militares){
-                            $datos_militares->codigo_categoria='01';
+                            $datos_militares->codigo_categoria='04';
+                            $datos_militares->fecha_graduacion=$request->fecha_ascenso;
+                        $datos_militares->fecha_ultimo_ascenso=$request->fecha_ascenso;
                             $datos_militares->update();
 
                             $movimiento = new Movimientos();
@@ -88,6 +90,8 @@ class GraduacionController extends Controller
                     $datos_militares = DatosMilitares::where('codigo_empleado',$codigo_empleado)->first();
                     if ($datos_militares){
                         $datos_militares->codigo_categoria='05';
+                        $datos_militares->fecha_graduacion=$request->fecha_ascenso;
+                        $datos_militares->fecha_ultimo_ascenso=$request->fecha_ascenso;
                         $datos_militares->update();
 
                         $movimiento = new Movimientos();
@@ -133,6 +137,8 @@ class GraduacionController extends Controller
                     $datos_militares = DatosMilitares::where('codigo_empleado',$codigo_empleado)->first();
                     if ($datos_militares){
                         $datos_militares->codigo_categoria='07';
+                        $datos_militares->fecha_graduacion=$request->fecha_ascenso;
+                        $datos_militares->fecha_ultimo_ascenso=$request->fecha_ascenso;
                         $datos_militares->update();
 
                         $movimiento = new Movimientos();
@@ -178,6 +184,8 @@ class GraduacionController extends Controller
                     $datos_militares = DatosMilitares::where('codigo_empleado',$codigo_empleado)->first();
                     if ($datos_militares){
                         $datos_militares->codigo_categoria='02';
+                        $datos_militares->fecha_graduacion=$request->fecha_ascenso;
+                        $datos_militares->fecha_ultimo_ascenso=$request->fecha_ascenso;
                         $datos_militares->update();
 
                         $movimiento = new Movimientos();
@@ -224,7 +232,8 @@ class GraduacionController extends Controller
                     $datos_militares = DatosMilitares::where('codigo_empleado',$codigo_empleado)->first();
                     if ($datos_militares){
                         $datos_militares->codigo_categoria='08';
-                        $datos_militares->fecha_graduacion= $request->fecha_ascenso;
+                        $datos_militares->fecha_graduacion=$request->fecha_ascenso;
+                        $datos_militares->fecha_ultimo_ascenso=$request->fecha_ascenso;
                         $datos_militares->update();
 
                         $movimiento = new Movimientos();
