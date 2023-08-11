@@ -56,19 +56,19 @@ public function primas(Request $request)
 
     }
 //EDIT PRIMA 
-    public function editPrimaNoProf (ConceptosNomina $registro){
+    public function editPrimaNoProf (ConceptosNomina $id){
         // $prima = ConceptosNomina::find($id);
-         return view('sireh.nomina.no_profesional.primas-edit',compact('registro'));
+         return view('sireh.nomina.no_profesional.primas-edit',compact('id'));
     }
 //UPDATE PRIMAS
 /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateNoProf (Request $request, $registro)
+    public function updateNoProf (Request $request, $id)
     {
 
         $this->validate($request, [
@@ -77,7 +77,7 @@ public function primas(Request $request)
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -305,7 +305,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function updateDeduccionesNoProf(Request $request, $id)

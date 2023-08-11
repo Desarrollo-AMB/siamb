@@ -72,12 +72,13 @@
         if (successMessage) {
             successMessage.style.display = "none";
         }
-
+    }, 2000); // 3000 milisegundos = 3 segundos
+    setTimeout(function() {
         var errorMessage = document.getElementById("error-message");
         if (errorMessage) {
             errorMessage.style.display = "none";
         }
-    }, 2000); // 5000 milisegundos = 5 segundos
+    }, 2000); // 3000  milisegundos = 3 segundos
 </script>
 <script>
     $(function (){

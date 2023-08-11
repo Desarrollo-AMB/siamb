@@ -126,20 +126,20 @@ class NominaController extends Controller
 
     }
 //EDIT PRIMA 2
-    public function editPrima (ConceptosNomina $registro){
+    public function editPrima (ConceptosNomina $id){
 
        // $prima = ConceptosNomina::find($id);
-        return view('sireh.nomina.personal_militar.primas-edit',compact('registro'));
+        return view('sireh.nomina.personal_militar.primas-edit',compact('id'));
     }
 //UPDATE PRIMAS
 /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $registro)
+    public function update(Request $request, $id)
     {
 
         $this->validate($request, [
@@ -148,7 +148,7 @@ class NominaController extends Controller
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -367,7 +367,7 @@ public function editdeducciones (ConceptosNomina $id){
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function updateDeducciones(Request $request, $id)
@@ -683,7 +683,7 @@ $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
 ->whereIn('nomina.situacion', ['S', 'A'])
 //->whereIn('nomina.grado_militar', ['020'])
-//->take(15)
+//->take(8)
 ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
 ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
 
@@ -818,7 +818,7 @@ $primaFronteraTipoA = Asignaciones::where('codigo_empleado', $item->codigo_emple
 
 // Calcular la prima de frontera tipo B
 $primaFronteraTipoB = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '54')
+    ->where('id_concepto', '55')
     ->pluck('porcentaje')
     ->first();
 
@@ -831,7 +831,7 @@ $primaFronteraTipoB = Asignaciones::where('codigo_empleado', $item->codigo_emple
 
 // Calcular la prima de frontera tipo C
 $primaFronteraTipoC = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '55')
+    ->where('id_concepto', '54')
     ->pluck('porcentaje')
     ->first();
 
@@ -1175,8 +1175,8 @@ $response->setContentDisposition(
 
 //dd($item);
 // Devolver la respuesta
-return $response;
-//return view('sireh.nomina.personal_militar.excel-vista', compact('nomina'));
+//return $response;
+return view('sireh.nomina.personal_militar.excel-vista', compact('nomina'));
 
 }
 

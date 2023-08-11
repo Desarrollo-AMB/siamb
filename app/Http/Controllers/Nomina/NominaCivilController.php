@@ -88,20 +88,20 @@ class NominaCivilController extends Controller
 
    // }
 //EDIT PRIMA 2
-    public function civileditPrima (ConceptosNomina $registro){
+    public function civileditPrima (ConceptosNomina $id){
 
        // $prima = ConceptosNomina::find($id);
-        return view('sireh.nomina.personal_civil.primas-edit',compact('registro'));
+        return view('sireh.nomina.personal_civil.primas-edit',compact('id'));
     }
 //UPDATE PRIMAS
 /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function civilupdate(Request $request, $registro)
+    public function civilupdate(Request $request, $registroid)
     {
 
         $this->validate($request, [
@@ -110,7 +110,7 @@ class NominaCivilController extends Controller
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -241,14 +241,13 @@ public function civilasignacionNuevaPrima(Request $request)
     $cedula = $request->input('cedula');
     $empleado_nombre = $request->input('nombre');
     $empleado_apellido = $request->input('apellido');
-    $cedula = $request->input('cedula');
     $codigo_empleado = $request->input('codigo_empleado');
     $tipo = $request->input('tipo');
 
     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
-    ->where('tipo', 'A')
-    ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
-    ->get();
+        ->where('tipo', 'A')
+        ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
+        ->get();
 
     $dataemp = [
         'empleado_nombre' => $empleado_nombre,
@@ -258,11 +257,28 @@ public function civilasignacionNuevaPrima(Request $request)
         'codigo_empleado' => $codigo_empleado,
     ];
 
-    $empleado = Empleado::
-    select('codigo_empleado','nombre1', 'apellido1')
-    ->where ('cedula', $cedula)
+    $asignacionExistente = Asignaciones::withTrashed()
+    ->where('codigo_empleado', $codigo_empleado)
+    ->where('id_concepto', $codigo_concepto)
     ->first();
 
+
+    if ($asignacionExistente) {
+        if ($asignacionExistente->deleted_at !== null) {
+            $asignacionExistente->restore();
+            session()->flash('success', 'La prima ha sido restaurada');
+        } else {
+            session()->flash('error', 'La prima ya se encuentra asignada al profesional');
+        }
+    } else {
+        $asignacion = new Asignaciones();
+        $asignacion->codigo_empleado = $codigo_empleado;
+        $asignacion->id_concepto = $codigo_concepto;
+        $asignacion->tipo_concepto = $tipo;
+        $asignacion->save();
+        session()->flash('success', 'La prima ha sido asignada con éxito');
+    }
+    // Consultar asignaciones actualizadas
     $asignaciones = Asignaciones::
         select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
@@ -272,22 +288,12 @@ public function civilasignacionNuevaPrima(Request $request)
         ->with('conceptoNomina')
         ->get();
 
+   
 
-        if (Asignaciones::where('codigo_empleado', $codigo_empleado)->where('id_concepto', $codigo_concepto)->exists()) {
-           // return('existe');
-           session()->flash('error', 'La prima ya se encuentra asignada al profesional');
-            return view('sireh.nomina.personal_civil.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'));
-        }
+    // Flash de éxito
+    
 
-        $asignacion = new asignaciones();
-        $asignacion->codigo_empleado = $codigo_empleado;
-        $asignacion->id_concepto = $codigo_concepto;
-        $asignacion->tipo_concepto = $tipo;
-        $asignacion->save();
-        Session()->flash('success', 'La prima ya se encuentra asignada al profesional');
-//return('no existe');
-    return view('sireh.nomina.personal_civil.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'))->render();
-
+    return view('sireh.nomina.personal_civil.actuales-primas',compact('asignaciones', 'conceptos_nomina', 'dataemp'));
 }
 
                                     //SECCION DE DEDUCCIONES
@@ -305,10 +311,10 @@ public function civilasignacionNuevaPrima(Request $request)
 
     }
 //EDIT PRIMA 2
-public function civileditDeduccion (ConceptosNomina $registro){
+public function civileditDeduccion (ConceptosNomina $id){
 
     // $prima = ConceptosNomina::find($id);
-     return view('sireh.nomina.personal_civil.deducciones-edit',compact('registro'));
+     return view('sireh.nomina.personal_civil.deducciones-edit',compact('id'));
  }
 
  //UPDATE PRIMAS
@@ -316,10 +322,10 @@ public function civileditDeduccion (ConceptosNomina $registro){
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $registro
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateDeducciones(Request $request, $registro)
+    public function updateDeducciones(Request $request, $id)
     {
 
         $this->validate($request, [
@@ -328,7 +334,7 @@ public function civileditDeduccion (ConceptosNomina $registro){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($registro);
+        $universidades = ConceptosNomina::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -631,7 +637,7 @@ $border->getAllBorders()->getColor()->setRGB(Color::COLOR_BLACK); // Color de l�
 // Obtener los registros de la nómina
 $nomina = Nomina::whereIn('tipo_emp', ['OBR'])
 ->whereIn('situacion', ['S', 'A'])
-->take(15)
+//->take(5)
 ->get();
 
 // Obtener el porcentaje del sueldo base
@@ -797,7 +803,15 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     ->first();
 
     if ($conceptoPrima) {
-    $porcentajePrima = $conceptoPrima->porcentaje;
+    //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+    $id_concepto = $conceptoPrima->id_concepto;
+    
+    //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    ->first();
+    
+    $porcentajePrima = $porcentaje_prof->porcentaje;
+    
     // Calcular el monto de la prima de profesionalización
     $montoPrimaProfecionalizacion = $sueldoObrero * $porcentajePrima / 100;
     } else {
@@ -813,7 +827,15 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         ->first();
 
     if ($asignacionPrimaTsu) {
-        $porcentajePrimaTsu = $asignacionPrimaTsu->porcentaje;
+        
+    //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+    $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
+    
+    //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+    $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+    ->first();
+    
+        $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
         // Calcular el monto de la prima de prima_tsu
         $montoPrimaTsu = $sueldoObrero * $porcentajePrimaTsu / 100;
     } else {
@@ -1055,7 +1077,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 //dd($montoSSO);
 // Devolver la respuesta
 return $response;
-return view('sireh.nomina.personal_civil.excel-vista', compact('nomina'));
+//return view('sireh.nomina.personal_civil.excel-vista', compact('nomina'));
 
 }
 
@@ -1138,7 +1160,7 @@ $border->getAllBorders()->getColor()->setRGB(Color::COLOR_BLACK); // Color de l�
 // Obtener los registros de la nómina
 $nomina = Nomina::whereIn('tipo_emp', ['EMP'])
 ->whereIn('situacion', ['S', 'A'])
-->take(15)
+//->take(8)
 ->get();
 
 // Obtener el porcentaje del sueldo base
@@ -1298,7 +1320,16 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     ->first();
 
     if ($conceptoPrima) {
-    $porcentajePrima = $conceptoPrima->porcentaje;
+    //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+    $id_concepto = $conceptoPrima->id_concepto;
+
+    //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    ->first();
+
+    $porcentajePrima = $porcentaje_prof->porcentaje;
+
+    
     // Calcular el monto de la prima de profesionalización
     $montoPrimaProfecionalizacion = $sueldoObrero * $porcentajePrima / 100;
     } else {
@@ -1310,11 +1341,20 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 
 //CALCULO PRIMA PROF TSU
     $asignacionPrimaTsu = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-        ->where('id_concepto', '106')
-        ->first();
+    ->where('id_concepto', '106')
+    ->first();
 
     if ($asignacionPrimaTsu) {
-        $porcentajePrimaTsu = $asignacionPrimaTsu->porcentaje;
+
+        //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+        $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
+
+        //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+        $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+        ->first();
+
+         $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
+    
         // Calcular el monto de la prima de prima_tsu
         $montoPrimaTsu = $sueldoObrero * $porcentajePrimaTsu / 100;
     } else {
@@ -1553,7 +1593,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 
 //dd($montoSSO);
 // Devolver la respuesta
-return $response;
+//return $response;
 return view('sireh.nomina.personal_civil.excel-vista', compact('nomina'));
 
 
@@ -1799,7 +1839,16 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     ->first();
 
     if ($conceptoPrima) {
-    $porcentajePrima = $conceptoPrima->porcentaje;
+    //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+    $id_concepto = $conceptoPrima->id_concepto;
+
+    //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    ->first();
+
+    $porcentajePrima = $porcentaje_prof->porcentaje;
+
+    
     // Calcular el monto de la prima de profesionalización
     $montoPrimaProfecionalizacion = $sueldoObrero * $porcentajePrima / 100;
     } else {
@@ -1811,15 +1860,24 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 
 //CALCULO PRIMA PROF TSU
     $asignacionPrimaTsu = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-        ->where('id_concepto', '106')
-        ->first();
+    ->where('id_concepto', '106')
+    ->first();
 
     if ($asignacionPrimaTsu) {
-        $porcentajePrimaTsu = $asignacionPrimaTsu->porcentaje;
-        // Calcular el monto de la prima de prima_tsu
+
+    //Se extrae el id del concepto para buscarlo en la tabla primas_deducciones
+    $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
+
+    //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
+    $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+    ->first();
+
+    $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
+    
+    // Calcular el monto de la prima de prima_tsu
         $montoPrimaTsu = $sueldoObrero * $porcentajePrimaTsu / 100;
     } else {
-        // Si no se encuentra el registro, asignar el monto de prima_tsu como 0
+    // Si no se encuentra el registro, asignar el monto de prima_tsu como 0
         $montoPrimaTsu = 0;
     }
 
@@ -2054,7 +2112,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 
 //dd($montoSSO);
 // Devolver la respuesta
-return $response;
+//return $response;
 return view('sireh.nomina.personal_civil.excel-vista', compact('nomina'));
 
 

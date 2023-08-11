@@ -42,7 +42,7 @@
                             <button type="submit" class="btn btn-primary">Asignar</button>
                         </div>
                     </div>
-                    {!! Form::close() !!}
+                    {!! Form::close() !!} 
 
 
 
