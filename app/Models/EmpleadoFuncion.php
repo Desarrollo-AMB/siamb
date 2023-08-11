@@ -18,6 +18,11 @@ class EmpleadoFuncion extends Model
         return $this->belongsTo(Empleado::class, 'codigo_empleado', 'codigo_empleado');
     }
 
+    public function funcion_tripulante()
+    {
+        return $this->belongsTo(FuncionTripulante::class, 'id_funcion');
+    }
+
     // public function grado_empleado()
     // {
     //     return $this->belongsTo(GradosMilitares::class, 'codigo_grado', 'codigo_grado');

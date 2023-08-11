@@ -23,16 +23,16 @@ use Carbon\Carbon;
                 /** Extra personal styles **/
                 background-color: #303e55;
                 color: white;
-                
+
                 line-height: 20px;
             }
 
             footer {
-                position: fixed; 
-                bottom: -50px; 
-                left: 0px; 
+                position: fixed;
+                bottom: -50px;
+                left: 0px;
                 right: 0px;
-                height: 30px; 
+                height: 30px;
 
                 /** Extra personal styles **/
                 background-color: #303e55;
@@ -58,7 +58,7 @@ use Carbon\Carbon;
         <header>
             <div class="row">
                 <div class="col-xs-8" style="padding: 1px 1px 1px 30px;">
-                    
+
                 </div>
                 <div class="col-xs-4 " style="padding: 3px 0px 0px 0px; text-align: center;">
                     <small> Fecha: <?php echo date("d/m/Y H:m a");?> </small>
@@ -76,17 +76,17 @@ use Carbon\Carbon;
                     DIRECCIÓN DE PERSONAL
                         <small>  </small>
                     </h5>
-                </div>  
-                <div class="col-xs-3">
-                   
                 </div>
-            </div> 
+                <div class="col-xs-3">
+
+                </div>
+            </div>
         </header>
         <footer class="page">
         </footer>
 
         <main>
-            
+
             <table id="table" class="table table-sm table-hover w-100" style="margin:0 40px; padding: 1px 10px 1px 10px; border-collapse:collapse; width:600px" >
                 <tbody>
                     <tr>
@@ -131,14 +131,14 @@ use Carbon\Carbon;
                     </tr>
                 </thead>
                 <tbody>
-                    @php 
-                        $total = 0; 
+                    @php
+                        $total = 0;
                         $monto = 0;
                         $fecha_retro = null;
                     @endphp
                     @foreach($conceptos_pagados as $row)
                     <tr>
-                        @php 
+                        @php
                             if ($row->fecha_pago<'2021-11-01'){
                                 $monto = $row->monto/1000000;
                             } else {
@@ -198,6 +198,6 @@ use Carbon\Carbon;
                 }
             </script>
         </main>
-        
+
     </body>
 </html>

@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ConceptosNomina extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $table = 'primas_deducciones';
+    use HasFactory;
+    protected $table = 'conceptos_nomina';
     protected $fillable = [
         '*',
     ];
-    protected $dates = ['deleted_at'];
-    public $timestamps = false;
+   
+    //protected $dates = ['deleted_at'];
+    //public $timestamps = false;
 }

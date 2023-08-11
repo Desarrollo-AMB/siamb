@@ -163,7 +163,7 @@
                                 <select class="select2 form-control" name="codigo_condecoracion" id="codigo_condecoracion" required>
                                     <option value="">Seleccione ...</option>
                                     @foreach ($condecoraciones as $row)
-                                        <option value="{{$row->codigo_condecoracion}}">{{ $row->descripcion }} </option>
+                                        <option value="{{$row->codigo_condecoracion}}">{{ $row->descripcion }}-{{ $row->codigo_condecoracion}} </option>
                                     @endforeach
                                 </select>
                             </div>

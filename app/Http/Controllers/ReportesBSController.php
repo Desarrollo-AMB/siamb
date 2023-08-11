@@ -71,10 +71,11 @@ class ReportesBSController extends Controller
             ]
         );
         $concepto_nomina = ConceptosNomina::where('codigo_concepto','101')->first();
+        //dd($concepto_nomina);
 
         $data = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
             ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-            ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
             ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
             ->where('empleados.cedula', $request->cedula)
             ->select(
@@ -89,6 +90,8 @@ class ReportesBSController extends Controller
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         )->first();
+        //dd($data);
+
         if(!$data){
             return back()
             ->with('warning','No se puede generar el reporte, no existen registros que corresponda a la cedula');
@@ -99,12 +102,12 @@ class ReportesBSController extends Controller
             ->orderBy('fecha_pago','ASC')
             ->orderBy('codigo_concepto','DESC')
             ->get();
-            //dd($data);
+            //dd($conceptos_pagados);
 
         $pdf = \PDF::loadView('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
 
         return $pdf->stream('Reporte Bienestar Social Devolucion.pdf',array('Attachment'=>0));
-        //return view('bienestar_social.reporte_devolucion5', compact('data'));
+        //return view('bienestar_social.reporte_devolucion5', compact('data', 'concepto_nomina', 'conceptos_pagados'));
     }
 
     public function reporteCargaFamiliar(Request $request) {

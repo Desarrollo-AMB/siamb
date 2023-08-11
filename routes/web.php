@@ -19,6 +19,7 @@ use App\Http\Controllers\Auxiliares\UbicacionesController;
 use App\Http\Controllers\Auxiliares\UniversidadesController;
 use App\Http\Controllers\Auxiliares\ProfesionesController;
 use App\Http\Controllers\Auxiliares\UbicacionesDetalladasController;
+use App\Http\Controllers\RegistroIndividualPilotoController;
 use App\Http\Controllers\CargaFamiliarController;
 use App\Http\Controllers\CondecoracionesController;
 use App\Http\Controllers\Civil\JubiladosController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Nomina\NominaCivilController;
 use App\Http\Controllers\juntaperm\controllerjuntap;
 use App\Http\Controllers\ParteAeronaveController;
 use App\Http\Controllers\empleadoExtraComponeteController;
+use App\Http\Controllers\nominaexcelcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +56,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/logout', [LoginController::class, 'logout']);
-Route::group(['middleware' => ['auth','access']], function() {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::group(['middleware' => ['auth','access']], function() {
 
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
@@ -431,6 +433,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('store_aterrizaje',         [FormaFAMController::class, 'store_aterrizaje'])->name('store_aterrizaje');
     Route::post('codigos_aterrizaje_json',  [FormaFAMController::class, 'codigos_aterrizaje_json'])->name('codigos_aterrizaje_json');
     Route::post('datos_empleado_vuelo',     [FormaFAMController::class, 'datos_empleado_vuelo'])->name('datos_empleado_vuelo');
+    Route::post('check-nvuelo',     [FormaFAMController::class, 'check_nvuelo'])->name('check_nvuelo');
 
     Route::post('editar_b1',                [FormaFAMController::class, 'editar_b1'])->name('editar_b1');
     Route::post('actualizar_b1',            [FormaFAMController::class, 'actualizar_b1'])->name('actualizar_b1');
@@ -446,6 +449,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('dao/forms/ver_listado_piloto/{id}',     [FormaFAMController::class, 'ver_listado_piloto'])->name('dao.forms.ver_listado_piloto');
     Route::get('dao/forms/reporte_vuelos/{id}',     [FormaFAMController::class, 'reporte_vuelos'])->name('dao.forms.reporte_vuelos');
     Route::post('dao/forms/imprimir_reporte',     [FormaFAMController::class, 'imprimir_reporte'])->name('dao.forms.imprimir_reporte');
+    Route::get('dao/ingresar/horas_tripulante', [RegistroIndividualPilotoController::class, 'ingresar_horas_tripulante'])->name('dao.ingresar.horasTripulante');
+    Route::post('dao/obtener_tripulante', [RegistroIndividualPilotoController::class, 'obtener_tripulante'])->name('dao.ingresar.obtenerTripulante');
+    Route::post('dao/agregar/horas', [RegistroIndividualPilotoController::class, 'store_b1_anterior'])->name('dao.store_b1_anterior');
+
+    
     Route::get('dao/operacionesAereas/create',     [FormaFAMController::class, 'ProFin'])->name('dao.forms.ProFin');
     Route::post('dao/operacionesAereas/store',     [FormaFAMController::class, 'storeProFin'])->name('dao.forms.storeProFin');
     Route::get('dao/operacionesAereas/programacionVuelo/progracionFinExcel',     [FormaFAMController::class, 'programacioReportExcel'])->name('dao.forms.programacionVuelo.progracionFinExcel');
@@ -484,6 +492,16 @@ Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'Egresar
 Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'storeFuncionPersonal'])->name('personal.storeFuncion');
 Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
 Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
+
+////ficha///
+Route::post('/perosnal/ficha',      [PersonalController::class, 'ficha'])->name('ficha.view');
+Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBucar'])->name('ficha.bucar.view'); 
+
+
+//////////////////////////////////RUTAS PARA IMPORTAR DATOS DE SIAMB//////////////////////////////////////////
+Route::get('/extra/importar', [nominaexcelcontroller::class, 'index'])->name('extra.importar');
+Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarExcel'])->name('carga.ArchivoExcel');
+
 
 Route::get('no_authorize', function () {
     return view('no_authorize');
