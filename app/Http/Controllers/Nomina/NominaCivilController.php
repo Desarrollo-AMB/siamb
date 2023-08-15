@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Nomina;
 
 use App\Http\Controllers\Controller;
 use App\Models\asignaciones;
-use App\Models\ConceptosNomina;
+use App\Models\Concptosnomina1;
 use App\Models\Empleado;
 use Illuminate\Http\Request; 
 use App\Models\Salarios;
@@ -46,7 +46,7 @@ class NominaCivilController extends Controller
 //Ver Primas
     public function CivilNomina(Request $request)
     {
-        $data = ConceptosNomina::
+        $data = Concptosnomina1::
             select('*')
             ->where('tipo', 'A')
             ->whereIn('tipo_empleado', ['EMP', 'CON', 'OBR', 'DOC', 'MED', 'CEX', 'DTC'])
@@ -59,7 +59,7 @@ class NominaCivilController extends Controller
 
     public function civiledit(Request $request)
     {
-        //$data = ConceptosNomina::find('$request');
+        //$data = Concptosnomina1::find('$request');
         $data = $request;
 
       //dd($request);
@@ -76,7 +76,7 @@ class NominaCivilController extends Controller
 //Nueva prima
     //public function civilnueva(Request $request)
     //{
-       // $prima = new ConceptosNomina();
+       // $prima = new Concptosnomina1();
        // $prima->codigo_concepto = $request->codigo;
        // $prima->descripcion = strtoupper($request->nombre);
        // $prima->porcentaje = $request->porcentaje;
@@ -88,9 +88,9 @@ class NominaCivilController extends Controller
 
    // }
 //EDIT PRIMA 2
-    public function civileditPrima (ConceptosNomina $id){
+    public function civileditPrima (Concptosnomina1 $id){
 
-       // $prima = ConceptosNomina::find($id);
+       // $prima = Concptosnomina1::find($id);
         return view('sireh.nomina.personal_civil.primas-edit',compact('id'));
     }
 //UPDATE PRIMAS
@@ -110,7 +110,7 @@ class NominaCivilController extends Controller
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -120,7 +120,7 @@ class NominaCivilController extends Controller
 //Delete Primas
     public function civildeleteprimas($id)
     {
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         return redirect()->route('sireh.nomina.primas');
     }
@@ -145,7 +145,7 @@ public function civildeletePrimaAsignada(Request $request, $id)
      ->with('conceptoNomina')
      ->get();
  
-     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+     $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'A')
         ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
         ->get();
@@ -210,7 +210,7 @@ if ($existeNomina) {
     $empleado_nombre = $empleado->nombre1;
     $empleado_apellido = $empleado->apellido1;
 
-    $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
     ->where('tipo', 'A')
     ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
     ->get();
@@ -244,7 +244,7 @@ public function civilasignacionNuevaPrima(Request $request)
     $codigo_empleado = $request->input('codigo_empleado');
     $tipo = $request->input('tipo');
 
-    $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'A')
         ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
         ->get();
@@ -301,7 +301,7 @@ public function civilasignacionNuevaPrima(Request $request)
 //Ver deducciones
     public function deduccionesCivil(Request $request)
     {
-        $data = ConceptosNomina::
+        $data = Concptosnomina1::
             select('*',)
             ->where ('tipo', 'D')
             ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
@@ -311,9 +311,9 @@ public function civilasignacionNuevaPrima(Request $request)
 
     }
 //EDIT PRIMA 2
-public function civileditDeduccion (ConceptosNomina $id){
+public function civileditDeduccion (Concptosnomina1 $id){
 
-    // $prima = ConceptosNomina::find($id);
+    // $prima = Concptosnomina1::find($id);
      return view('sireh.nomina.personal_civil.deducciones-edit',compact('id'));
  }
 
@@ -334,7 +334,7 @@ public function civileditDeduccion (ConceptosNomina $id){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -346,7 +346,7 @@ public function civileditDeduccion (ConceptosNomina $id){
     //Delete deducciones
     public function deletededucciones($id)
     {
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         return redirect()->route('sireh.nomina.deducciones');
     }
@@ -371,7 +371,7 @@ public function civileditDeduccion (ConceptosNomina $id){
      ->with('conceptoNomina')
      ->get();
  
-     $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+     $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'D')
         ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
         ->get();
@@ -434,7 +434,7 @@ public function actualesdeducciones(Request $request)
             $empleado_nombre = $empleado->nombre1;
             $empleado_apellido = $empleado->apellido1;
         
-            $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+            $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
             ->where('tipo', 'D')
             ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
             ->get();
@@ -467,7 +467,7 @@ public function actualesdeducciones(Request $request)
         $codigo_empleado = $request->input('codigo_empleado');
         $tipo = $request->input('tipo'); 
 
-        $conceptos_nomina = ConceptosNomina::
+        $conceptos_nomina = Concptosnomina1::
             select('codigo_concepto', 'descripcion', 'tipo')
             ->where('tipo', 'D')
             ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
@@ -641,7 +641,7 @@ $nomina = Nomina::whereIn('tipo_emp', ['OBR'])
 ->get();
 
 // Obtener el porcentaje del sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
@@ -732,7 +732,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
 
     // Agregar la prima por hijos y la cantidad de hijos
     //se trae el monto de la tabla primas_deducciones
-    $montoPorHijo = ConceptosNomina::where('codigo_concepto', '4000')
+    $montoPorHijo = Concptosnomina1::where('codigo_concepto', '4000')
     ->pluck('porcentaje')
     ->first();
     $montoPorHijo = $montoPorHijo;
@@ -759,10 +759,10 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     }
     
 //CALCULO DE MONTO POR ANTIGUEDAD
-// Obtener el sueldo básico de la tabla ConceptosNomina
-    $conceptoSueldoBasico = ConceptosNomina::where('codigo_concepto', '001')->first();
+// Obtener el sueldo básico de la tabla Concptosnomina1
+    $conceptoSueldoBasico = Concptosnomina1::where('codigo_concepto', '001')->first();
 
-    // Verificar si se encontró un registro en ConceptosNomina
+    // Verificar si se encontró un registro en Concptosnomina1
     if ($conceptoSueldoBasico && isset($conceptoSueldoBasico->porcentaje)) {
         $sueldoBasico = $conceptoSueldoBasico->porcentaje;
 
@@ -782,8 +782,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $totalAntiguedad = min($totalAntiguedad, 30);
     $item->totalAntiguedad = $totalAntiguedad;
 
-// Buscar el porcentaje de la prima por antigüedad en ConceptosNomina
-    $conceptoAntiguedad = ConceptosNomina::where('antiguedad', $totalAntiguedad)
+// Buscar el porcentaje de la prima por antigüedad en Concptosnomina1
+    $conceptoAntiguedad = Concptosnomina1::where('antiguedad', $totalAntiguedad)
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -807,7 +807,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $id_concepto = $conceptoPrima->id_concepto;
     
     //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    $porcentaje_prof = Concptosnomina1::where('codigo_concepto', $id_concepto)
     ->first();
     
     $porcentajePrima = $porcentaje_prof->porcentaje;
@@ -832,7 +832,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
     
     //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-    $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+    $porcentaje_primatsu = Concptosnomina1::where('codigo_concepto', $id_conceptotsu)
     ->first();
     
         $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
@@ -857,8 +857,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $cantidadDeHijos = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijos = ConceptosNomina::where('codigo_concepto', '4000')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijos = Concptosnomina1::where('codigo_concepto', '4000')
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -890,8 +890,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEspeciales = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEspeciales = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEspeciales = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'OBR')
         ->first();
 
@@ -923,8 +923,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEstudiando = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEstudiando = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEstudiando = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'OBR')
         ->first();
 
@@ -944,8 +944,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->resultado_hijos_Estudiando = $resultadoHijosEstudiando;
 
 //Calculo del S.S.O
-// Obtener el porcentaje del S.S.O del modelo ConceptosNomina
-    $conceptoSSO = ConceptosNomina::where('codigo_concepto', '5001')
+// Obtener el porcentaje del S.S.O del modelo Concptosnomina1
+    $conceptoSSO = Concptosnomina1::where('codigo_concepto', '5001')
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -961,8 +961,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSSO = $montoSSO;
 
 //Calculo del S.P.F
-// Obtener el porcentaje del S.P.F del modelo ConceptosNomina
-    $conceptoSPF = ConceptosNomina::where('codigo_concepto', '5002')
+// Obtener el porcentaje del S.P.F del modelo Concptosnomina1
+    $conceptoSPF = Concptosnomina1::where('codigo_concepto', '5002')
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -978,8 +978,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSPF = $montoSPF;
 
 //Calculo del S.P.H
-// Obtener el porcentaje del S.P.H del modelo ConceptosNomina
-    $conceptoLPH = ConceptosNomina::where('codigo_concepto', '5003')
+// Obtener el porcentaje del S.P.H del modelo Concptosnomina1
+    $conceptoLPH = Concptosnomina1::where('codigo_concepto', '5003')
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -995,8 +995,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoLPH = $montoLPH;
 
 //Calculo del F.J.U
-// Obtener el porcentaje del F.J.U del modelo ConceptosNomina
-    $conceptoFJU = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del F.J.U del modelo Concptosnomina1
+    $conceptoFJU = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'OBR')
     ->first();
 
@@ -1012,8 +1012,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoFJU = $montoFJU;
 
 //Calculo del CAFUCAMIDE
-// Obtener el porcentaje del CAFUCAMIDE del modelo ConceptosNomina
-    $conceptoCafucamide = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del CAFUCAMIDE del modelo Concptosnomina1
+    $conceptoCafucamide = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'OBR')
     ->first();
     if ($conceptoCafucamide) {
@@ -1164,7 +1164,7 @@ $nomina = Nomina::whereIn('tipo_emp', ['EMP'])
 ->get();
 
 // Obtener el porcentaje del sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
@@ -1276,10 +1276,10 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     }
     
 //CALCULO DE MONTO POR ANTIGUEDAD
-// Obtener el sueldo básico de la tabla ConceptosNomina
-    $conceptoSueldoBasico = ConceptosNomina::where('codigo_concepto', '001')->first();
+// Obtener el sueldo básico de la tabla Concptosnomina1
+    $conceptoSueldoBasico = Concptosnomina1::where('codigo_concepto', '001')->first();
 
-    // Verificar si se encontró un registro en ConceptosNomina
+    // Verificar si se encontró un registro en Concptosnomina1
     if ($conceptoSueldoBasico && isset($conceptoSueldoBasico->porcentaje)) {
         $sueldoBasico = $conceptoSueldoBasico->porcentaje;
 
@@ -1299,8 +1299,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $totalAntiguedad = min($totalAntiguedad, 30);
     $item->totalAntiguedad = $totalAntiguedad;
 
-// Buscar el porcentaje de la prima por antigüedad en ConceptosNomina
-    $conceptoAntiguedad = ConceptosNomina::where('antiguedad', $totalAntiguedad)
+// Buscar el porcentaje de la prima por antigüedad en Concptosnomina1
+    $conceptoAntiguedad = Concptosnomina1::where('antiguedad', $totalAntiguedad)
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1324,7 +1324,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $id_concepto = $conceptoPrima->id_concepto;
 
     //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    $porcentaje_prof = Concptosnomina1::where('codigo_concepto', $id_concepto)
     ->first();
 
     $porcentajePrima = $porcentaje_prof->porcentaje;
@@ -1350,7 +1350,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
 
         //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-        $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+        $porcentaje_primatsu = Concptosnomina1::where('codigo_concepto', $id_conceptotsu)
         ->first();
 
          $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
@@ -1376,8 +1376,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $cantidadDeHijos = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijos = ConceptosNomina::where('codigo_concepto', '4000')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijos = Concptosnomina1::where('codigo_concepto', '4000')
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1409,8 +1409,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEspeciales = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEspeciales = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEspeciales = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'EMP')
         ->first();
 
@@ -1442,8 +1442,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEstudiando = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEstudiando = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEstudiando = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'EMP')
         ->first();
 
@@ -1463,8 +1463,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->resultado_hijos_Estudiando = $resultadoHijosEstudiando;
 
 //Calculo del S.S.O
-// Obtener el porcentaje del S.S.O del modelo ConceptosNomina
-    $conceptoSSO = ConceptosNomina::where('codigo_concepto', '5001')
+// Obtener el porcentaje del S.S.O del modelo Concptosnomina1
+    $conceptoSSO = Concptosnomina1::where('codigo_concepto', '5001')
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1480,8 +1480,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSSO = $montoSSO;
 
 //Calculo del S.P.F
-// Obtener el porcentaje del S.P.F del modelo ConceptosNomina
-    $conceptoSPF = ConceptosNomina::where('codigo_concepto', '5002')
+// Obtener el porcentaje del S.P.F del modelo Concptosnomina1
+    $conceptoSPF = Concptosnomina1::where('codigo_concepto', '5002')
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1497,8 +1497,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSPF = $montoSPF;
 
 //Calculo del S.P.H
-// Obtener el porcentaje del S.P.H del modelo ConceptosNomina
-    $conceptoLPH = ConceptosNomina::where('codigo_concepto', '5003')
+// Obtener el porcentaje del S.P.H del modelo Concptosnomina1
+    $conceptoLPH = Concptosnomina1::where('codigo_concepto', '5003')
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1514,8 +1514,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoLPH = $montoLPH;
 
 //Calculo del F.J.U
-// Obtener el porcentaje del F.J.U del modelo ConceptosNomina
-    $conceptoFJU = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del F.J.U del modelo Concptosnomina1
+    $conceptoFJU = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'EMP')
     ->first();
 
@@ -1531,8 +1531,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoFJU = $montoFJU;
 
 //Calculo del CAFUCAMIDE
-// Obtener el porcentaje del CAFUCAMIDE del modelo ConceptosNomina
-    $conceptoCafucamide = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del CAFUCAMIDE del modelo Concptosnomina1
+    $conceptoCafucamide = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'EMP')
     ->first();
     if ($conceptoCafucamide) {
@@ -1683,7 +1683,7 @@ $nomina = Nomina::whereIn('tipo_emp', ['DOC'])
 ->get();
 
 // Obtener el porcentaje del sueldo base
-$sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+$sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
 ->pluck('porcentaje')
 ->first();
 
@@ -1795,10 +1795,10 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     }
     
 //CALCULO DE MONTO POR ANTIGUEDAD
-// Obtener el sueldo básico de la tabla ConceptosNomina
-    $conceptoSueldoBasico = ConceptosNomina::where('codigo_concepto', '001')->first();
+// Obtener el sueldo básico de la tabla Concptosnomina1
+    $conceptoSueldoBasico = Concptosnomina1::where('codigo_concepto', '001')->first();
 
-    // Verificar si se encontró un registro en ConceptosNomina
+    // Verificar si se encontró un registro en Concptosnomina1
     if ($conceptoSueldoBasico && isset($conceptoSueldoBasico->porcentaje)) {
         $sueldoBasico = $conceptoSueldoBasico->porcentaje;
 
@@ -1818,8 +1818,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $totalAntiguedad = min($totalAntiguedad, 30);
     $item->totalAntiguedad = $totalAntiguedad;
 
-// Buscar el porcentaje de la prima por antigüedad en ConceptosNomina
-    $conceptoAntiguedad = ConceptosNomina::where('antiguedad', $totalAntiguedad)
+// Buscar el porcentaje de la prima por antigüedad en Concptosnomina1
+    $conceptoAntiguedad = Concptosnomina1::where('antiguedad', $totalAntiguedad)
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -1843,7 +1843,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $id_concepto = $conceptoPrima->id_concepto;
 
     //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-    $porcentaje_prof = ConceptosNomina::where('codigo_concepto', $id_concepto)
+    $porcentaje_prof = Concptosnomina1::where('codigo_concepto', $id_concepto)
     ->first();
 
     $porcentajePrima = $porcentaje_prof->porcentaje;
@@ -1869,7 +1869,7 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $id_conceptotsu = $asignacionPrimaTsu->id_concepto;
 
     //Se hace la busqueda en la tabla primas_deducciones y se selecciona el porcentaje de ese concepto
-    $porcentaje_primatsu = ConceptosNomina::where('codigo_concepto', $id_conceptotsu)
+    $porcentaje_primatsu = Concptosnomina1::where('codigo_concepto', $id_conceptotsu)
     ->first();
 
     $porcentajePrimaTsu = $porcentaje_primatsu->porcentaje;
@@ -1895,8 +1895,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $cantidadDeHijos = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijos = ConceptosNomina::where('codigo_concepto', '4000')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijos = Concptosnomina1::where('codigo_concepto', '4000')
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -1928,8 +1928,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEspeciales = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEspeciales = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEspeciales = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'DOC')
         ->first();
 
@@ -1961,8 +1961,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
         $cantidadDeHijosEstudiando = 0;
     }
 
-// Obtener el porcentaje del modelo ConceptosNomina
-    $conceptoHijosEstudiando = ConceptosNomina::where('codigo_concepto', '4014')
+// Obtener el porcentaje del modelo Concptosnomina1
+    $conceptoHijosEstudiando = Concptosnomina1::where('codigo_concepto', '4014')
         ->where('tipo_empleado', 'DOC')
         ->first();
 
@@ -1982,8 +1982,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->resultado_hijos_Estudiando = $resultadoHijosEstudiando;
 
 //Calculo del S.S.O
-// Obtener el porcentaje del S.S.O del modelo ConceptosNomina
-    $conceptoSSO = ConceptosNomina::where('codigo_concepto', '5001')
+// Obtener el porcentaje del S.S.O del modelo Concptosnomina1
+    $conceptoSSO = Concptosnomina1::where('codigo_concepto', '5001')
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -1999,8 +1999,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSSO = $montoSSO;
 
 //Calculo del S.P.F
-// Obtener el porcentaje del S.P.F del modelo ConceptosNomina
-    $conceptoSPF = ConceptosNomina::where('codigo_concepto', '5002')
+// Obtener el porcentaje del S.P.F del modelo Concptosnomina1
+    $conceptoSPF = Concptosnomina1::where('codigo_concepto', '5002')
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -2016,8 +2016,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoSPF = $montoSPF;
 
 //Calculo del S.P.H
-// Obtener el porcentaje del S.P.H del modelo ConceptosNomina
-    $conceptoLPH = ConceptosNomina::where('codigo_concepto', '5003')
+// Obtener el porcentaje del S.P.H del modelo Concptosnomina1
+    $conceptoLPH = Concptosnomina1::where('codigo_concepto', '5003')
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -2033,8 +2033,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoLPH = $montoLPH;
 
 //Calculo del F.J.U
-// Obtener el porcentaje del F.J.U del modelo ConceptosNomina
-    $conceptoFJU = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del F.J.U del modelo Concptosnomina1
+    $conceptoFJU = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'DOC')
     ->first();
 
@@ -2050,8 +2050,8 @@ if ($asignacion && isset($asignacion->porcentaje)) {
     $item->montoFJU = $montoFJU;
 
 //Calculo del CAFUCAMIDE
-// Obtener el porcentaje del CAFUCAMIDE del modelo ConceptosNomina
-    $conceptoCafucamide = ConceptosNomina::where('codigo_concepto', '5004')
+// Obtener el porcentaje del CAFUCAMIDE del modelo Concptosnomina1
+    $conceptoCafucamide = Concptosnomina1::where('codigo_concepto', '5004')
     ->where('tipo_empleado', 'DOC')
     ->first();
     if ($conceptoCafucamide) {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Nomina;
 
 use App\Http\Controllers\Controller;
 use App\Models\asignaciones;
-use App\Models\ConceptosNomina;
+use App\Models\Concptosnomina1;
 use App\Models\Salarios;
 use App\Models\Empleado;
 use App\Models\Nomina;
@@ -31,7 +31,7 @@ class NominaNoProfController extends Controller
 //Ver Primas
 public function primas(Request $request)
 {
-    $data = ConceptosNomina::select('*')
+    $data = Concptosnomina1::select('*')
         ->where('tipo', 'A')
         ->whereIn('tipo_empleado', ['MIF', 'ALI'])
         ->get();
@@ -44,7 +44,7 @@ public function primas(Request $request)
 //Nueva prima
     public function nueva(Request $request)
     {
-        $prima = new ConceptosNomina();
+        $prima = new Concptosnomina1();
         $prima->codigo_concepto = $request->codigo;
         $prima->descripcion = strtoupper($request->nombre);
         $prima->porcentaje = $request->porcentaje;
@@ -56,8 +56,8 @@ public function primas(Request $request)
 
     }
 //EDIT PRIMA 
-    public function editPrimaNoProf (ConceptosNomina $id){
-        // $prima = ConceptosNomina::find($id);
+    public function editPrimaNoProf (Concptosnomina1 $id){
+        // $prima = Concptosnomina1::find($id);
          return view('sireh.nomina.no_profesional.primas-edit',compact('id'));
     }
 //UPDATE PRIMAS
@@ -77,7 +77,7 @@ public function primas(Request $request)
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -88,7 +88,7 @@ public function primas(Request $request)
     public function deleteNoProf(Request $request, $id)
     {
         //return($request);
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         return redirect()->back();
     }
@@ -128,7 +128,7 @@ public function primas(Request $request)
         $empleado_nombre = $empleado->nombre1;
         $empleado_apellido = $empleado->apellido1;
 
-        $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+        $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'A')
         ->whereIn('tipo_empleado', ['MIF','ALI'])
         ->get();
@@ -195,7 +195,7 @@ public function actualesNoProf (Request $request)
         $empleado_nombre = $empleado->nombre1;
         $empleado_apellido = $empleado->apellido1;
 
-        $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+        $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'A')
         ->whereIn('tipo_empleado', ['MEF','ALI'])
         ->get();
@@ -251,7 +251,7 @@ public function asignacionNoProf(Request $request)
         session()->flash('success', 'La prima ha sido asignada con éxito');
     }
 
-    $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
+    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
         ->where(function ($query) {
             $query->whereIn('tipo_empleado', ['MIF', 'ALI'])
@@ -286,7 +286,7 @@ public function asignacionNoProf(Request $request)
 //Ver deducciones
     public function deduccionesNoProf(Request $request)
     {
-        $data = ConceptosNomina::select('*')
+        $data = Concptosnomina1::select('*')
         ->where('tipo', 'D')
         ->whereIn('tipo_empleado', ['MEF', 'ALI'])
         ->get();
@@ -294,9 +294,9 @@ public function asignacionNoProf(Request $request)
         return view('sireh.nomina.no_profesional.deducciones',compact('data'));
     }
 //EDIT PRIMA 2
-public function editdeduccionesNoProf (ConceptosNomina $id){
+public function editdeduccionesNoProf (Concptosnomina1 $id){
 
-    // $prima = ConceptosNomina::find($id);
+    // $prima = Concptosnomina1::find($id);
      return view('sireh.nomina.no_profesional.deducciones-edit',compact('id'));
  }
 
@@ -317,7 +317,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -329,7 +329,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
     //Delete deducciones
     public function deletededuccionesNoProf($id)
     {
-        ConceptosNomina::find($id)->delete();
+        Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
         //return($id);
         return redirect()->route('sireh.nomina.noprof.deducciones');
@@ -371,7 +371,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
         $empleado_nombre = $empleado->nombre1;
         $empleado_apellido = $empleado->apellido1;
 
-        $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+        $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
         ->where('tipo', 'D')
         ->whereIn('tipo_empleado', ['MEF','ALI'])
         ->get();
@@ -436,7 +436,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
             $empleado_nombre = $empleado->nombre1;
             $empleado_apellido = $empleado->apellido1;
 
-            $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+            $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
             ->where('tipo', 'D')
             ->whereIn('tipo_empleado', ['MEF','ALI'])
             ->get();
@@ -472,7 +472,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
         $codigo_empleado = $request->input('codigo_empleado');
         $tipo = $request->input('tipo');
     
-        $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
+        $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'D')
         ->where(function ($query) {
             $query->whereIn('tipo_empleado', ['MEF', 'ALI'])
@@ -656,7 +656,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
     ->get();
 
     // Obtener el porcentaje del sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
 
@@ -752,20 +752,20 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
     $item->sueldo_grado = $sueldoGrado;
     
 
-    // Obtener el porcentaje del modelo ConceptosNomina
-    $porcentajeConcepto = ConceptosNomina::where('codigo_concepto', '500')
+    // Obtener el porcentaje del modelo Concptosnomina1
+    $porcentajeConcepto = Concptosnomina1::where('codigo_concepto', '500')
     ->where('antiguedad', $antiguedad)
     ->pluck('porcentaje')
     ->first();
     $item->porcentaje_concepto = $porcentajeConcepto;
 
     // Mostrar el sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
         
     // Obtener el monto del sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
     
@@ -911,7 +911,7 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
     ->get();
 
     // Obtener el porcentaje del sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
 
@@ -1007,20 +1007,20 @@ public function editdeduccionesNoProf (ConceptosNomina $id){
     $item->sueldo_grado = $sueldoGrado;
     
 
-    // Obtener el porcentaje del modelo ConceptosNomina
-    $porcentajeConcepto = ConceptosNomina::where('codigo_concepto', '500')
+    // Obtener el porcentaje del modelo Concptosnomina1
+    $porcentajeConcepto = Concptosnomina1::where('codigo_concepto', '500')
     ->where('antiguedad', $antiguedad)
     ->pluck('porcentaje')
     ->first();
     $item->porcentaje_concepto = $porcentajeConcepto;
 
     // Mostrar el sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
         
     // Obtener el monto del sueldo base
-    $sueldoBase = ConceptosNomina::where('codigo_concepto', '1')
+    $sueldoBase = Concptosnomina1::where('codigo_concepto', '1')
     ->pluck('porcentaje')
     ->first();
     
