@@ -49,7 +49,7 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a> 
-                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.noprof.deletededucciones',  $user->id) }}"
+                                    <form id="delete-form-{{  $user->id }}" action="{{ route('sireh.nomina.noprof.delete.deducciones',  $user->id) }}"
                                         method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')

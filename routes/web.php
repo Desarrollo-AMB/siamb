@@ -142,7 +142,7 @@ Auth::routes();
     Route::get('/sireh/nomina/noprof/{concepto}/edit-asignacionprima', [NominaNoProfController::class, 'editAsignacionPrimaNoProf'])->name('sireh.nomina.NoProf.editAsignacionPrima');
     //DEDUCCIONES NO PROFESIONAL
     Route::patch('/sireh/nomina/no-pro/update-deducciones/{id}', [NominaNoProfController::class, 'updateDeduccionesNoProf'])->name('sireh.nomina.NoProf.updateDeducciones');
-    Route::delete('/sireh/nomina/delete-deducciones/{id}', [NominaNoProfController::class, 'deletededuccionesNoProf'])->name('sireh.nomina.noprof.deletededucciones');
+    Route::delete('/sireh/nomina/delete-deducciones/{id}', [NominaNoProfController::class, 'deletededuccionesNoProf'])->name('sireh.nomina.noprof.delete.deducciones');
     Route::delete('/sireh/nomina/delete-deduccionesasignadas/{id}', [NominaNoProfController::class, 'deletededuccionesAsignadas'])->name('sireh.nomina.noprof.deletededuccionesasignadas');
     Route::get('/sireh/nomina/noprof/edit-deducciones/{id}', [NominaNoProfController::class, 'editdeduccionesNoProf'])->name('sireh.nomina.noprof.editdeducciones');
     Route::get('/sireh/nomina/noprof/deducciones', [NominaNoProfController::class, 'deduccionesNoProf'])->name('sireh.nomina.noprof.deducciones');
