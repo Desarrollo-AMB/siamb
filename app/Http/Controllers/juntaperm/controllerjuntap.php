@@ -13210,4 +13210,57 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
             return redirect()->back()->with('error', 'No hay Datos para generar el informe');
         }
     }
+    public function reportehistorico(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'cedula' => 'required',
+
+            ],
+            [
+                'cedula' => 'El Parametro Tipo Empleado es Requerido',
+            ]
+
+        );
+
+        $cedula = $request->cedula;
+        $data = Nomina::select('codigo_empleado')
+            ->where('cedula', '=', $cedula)
+            ->first();
+        $codigo_empleado = $data->codigo_empleado;
+        $datos = Nomina::leftJoin('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+            ->select(
+                'nomina.nombre1',
+                'nomina.nombre2',
+                'nomina.apellido1',
+                'nomina.apellido2',
+                'nomina.cedula as cedula',
+                'cargos.nombre_cargo as cargo',
+                'grados_militares.descripcion as grado_militar',
+                'ubicaciones.descripcion as ubicacion'
+            )
+            ->where('nomina.codigo_empleado',$codigo_empleado)
+            ->first();
+            
+        $historico = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'historico_ascensos.codigo_grado')
+            ->select(
+                'grados_militares.descripcion as grado',
+                'historico_ascensos.fecha_ascenso as fecha_a',
+                'historico_ascensos.orden_merito_ascenso as orden_merito',
+                'historico_ascensos.total_orden_merito_ascenso as total_orden_merito'
+            )
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->get();
+
+            $pdf = \PDF::loadView('juntap.reportes.reportehistorico', compact('historico', 'datos'))
+            ->setPaper('letter', 'portrait');
+            return $pdf->stream('reportehistorico.pdf',array('Attachment'=>0));
+
+        /*return view('juntap.reportes.reportehistorico', compact('historico', 'datos'));*/
+    }
 }

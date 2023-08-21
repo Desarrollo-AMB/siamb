@@ -237,6 +237,7 @@ Auth::routes();
     Route::get('/juntap/personalm/cargo/{id}', [Controllerjuntap::class, 'cargosPersonalMilitar'])->name('juntap.personalm.cargo');
     Route::get('/juntap/personalm/ubicacion/{id}', [Controllerjuntap::class, 'ubicacionesPersonalMilitar'])->name('juntap.personalm.ubicacion');
     Route::post('/juntap/personalm/updatedatos', [Controllerjuntap::class, 'updatePersonalMilitar'])->name('juntap.personalm.update.datos');
+        Route::post('/juntap/personalm/reporthistoric/', [Controllerjuntap::class, 'reportehistorico'])->name('juntap.reportehistorico');
 
 
 

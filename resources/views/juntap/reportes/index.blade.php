@@ -1,4 +1,4 @@
-@extends('layouts.user_type.auth')
+{{--@extends('layouts.user_type.auth')
 @section('title', 'Personal Civil')
 @section('content')
 @if (count($errors) > 0)
@@ -35,7 +35,7 @@
                 margin-bottom: 10px!important;">
                     <div class="card">
                     <div class="card-body p-3">
-                        <a href="{{ route('sireh.personal-civil.noActive')}}">
+                        <a href="{{ route('juntap.reportehistorico')}}">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
@@ -162,222 +162,318 @@
         </div>
     </div>
 </div>
-{{-- Modal para suspender --}}
+@endsection--}}
+@extends('layouts.user_type.auth')
+@section('title', 'Junta Permanente')
+@section('style')
+<style>
 
+</style>
+@endsection
+@section('content')
+
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success mx-4" role="alert">
+        <span class="text-white">{{ $message }}</span>
+    </div>
+    @endif
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4 mx-4">
+                <div class="card-header pb-0 mb-2">
+                    <div class="d-flex flex-row justify-content-between">
+                        <div>
+                            <h5 class="mb-0">Reportes Junta Permanente</h5>
+                        </div>
+                        <a class="btn btn-secondary btn-sm mb-0" href="{{ URL::previous() }}">Volver</a>
+                    </div>
+                </div>
+                <hr class="horizontal dark my-0">
+                <div class="card-body px-2 pt-2 pb-2">
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger mx-4" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="card-body">
+                                <div class="card card-body border card-plain border-radius-lg bg-gray-100">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Reporte Histórico de Ascenso
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <form id="formDevolucion5" action="{{ route('juntap.reportehistorico')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div id="Parametros1" class="parametros ">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-4 col-form-label">Cédula:</h6>
+                                                                    <div class="col-sm-4">
+                                                                        <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Nómina Inicial de Evaluación para Ascenso
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div id="Parametros2" class="parametros2 ">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-4 col-form-label">Cédula:</h6>
+                                                                    <div class="col-sm-4">
+                                                                        <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Resumen Digital del Historial
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
+                                                    @csrf
+                                                    <div class="col-lg-12 col-sm-12">
+                                                        <div id="Parametros3" class="parametros3 ">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <h6 class="col-sm-4 col-form-label">Cédula:</h6>
+                                                                    <div class="col-sm-4">
+                                                                        <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button class="btn btn-primary btn-sm mb-0 ">Ejecutar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
-@parent
 <script>
-    $(function () {
+    $(function (){
         $('.select2').select2();
-        var table = $('#table').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            pageLength: 25,
-            ajax: "{{ route('api.sireh.personal.civil.data') }}",
-            columns: [
-                {data: 'cedula',},
-                {data: 'nombre1'},
-                {data: 'apellido1'},
-                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
-                {data: 'cargo', name: 'cargos.nombre_cargo'},
-                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
-                {data: 'actions', name: 'action', orderable: false, searchable: false},
-            ],
-            search: {
-                return: true,
-            },
-            "language": {
-                "sProcessing":    "Procesando...",
-                "sLengthMenu":    "Mostrar _MENU_ registros",
-                "sZeroRecords":   "No se encontraron resultados",
-                "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":   "",
-                "sSearch":        "Buscar:",
-                "sUrl":           "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":    "Último",
-                    "sNext":    "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
+        $("input[name$='reporte']").click(function() {
+            var test = $(this).val();
+
+            $("div.parametros").hide();
+            $("div.parametros *").attr("disabled", true);
+            $("div.parametros").prop('disabled', 'disabled');
+            $("div.parametros2 *").attr("disabled", false);
+            $("div.parametros2").prop('disabled', 'disabled');
+            $("#Parametros2" + test).show();
+            $("#Parametros2" + test+' *').prop("disabled", true);
+            $("#Parametros" + test).show();
+            $("#Parametros" + test+' *').prop("disabled", false);
         });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        $("#lista1").on('change', function() {
+            var test = $(this).val();
 
-        //SUSPENDER
-        table.on('click', '.suspender', function() {
-            var id = $(this).data("id");
-            $('#modal-view-suspender').on('shown.bs.modal', function(e) {
-                $('#modal-view-suspender #id_empleado_suspender').val(id);
-            })
-            $('#modal-view-suspender').modal("show");
-        });
-        $(".enviar_suspencion").click(function(e){
-            e.preventDefault();
-            var motivo = $('.motivo').val();
-            if(motivo===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un Motivo.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                });
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-civil.suspender') }}",
-                method:'POST',
-                data:{
-                    fecha: $('.fechaSuspencion').val(),
-                    motivo: motivo,
-                    observaciones: $('.observaciones').val().toUpperCase(),
-                    codigo_empleado: $('.codigo_empleado_suspender').val(),
-                    },
-                    success:function(response){
-                        if(response.success){
-                            $('#exampleModalMessage').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Empleado Suspendido Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1200);
-                        }
-                    },
-                    error:function(error){
-                        console.log(error)
+            if (test == 6) {
+                $("#Fecha").show();
+
+                $("#ejecutar").click(function() {
+                    var desde = $("#desde").val();
+                    var hasta = $("#hasta").val();
+
+                    if (desde == "" || hasta == "") {
+                        alert("Los Campos Desde o Hasta estan Vacios");
+                        window.location.reload();
                     }
                 });
             }
-        });
-
-        //EGRESAR
-        table.on('click', '.egresar', function() {
-            var id = $(this).data("id");
-            $('#modal-view-egresar').on('shown.bs.modal', function(e) {
-                $('#modal-view-egresar #codigo_empleado_egresar').val(id);
-            })
-            $('#modal-view-egresar').modal("show");
-        });
-        $(".enviar_egreso").click(function(e){
-            e.preventDefault();
-            var egreso = $('.egreso').val();
-            if(egreso===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un motivo de Egreso.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                });
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-civil.egreso') }}",
-                method:'POST',
-                data:{
-                        egreso: egreso,
-                        fecha_ingreso: $('.fecha_ingreso').val(),
-                        fecha_egreso: $('.fecha_egreso').val(),
-                        observaciones: $('.observaciones_egreso').val().toUpperCase(),
-                        codigo_empleado: $('.codigo_empleado_egresar').val(),
-                    },
-                    success:function(response){
-                        if(response.success){
-                            $('#egresar').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Empleado Egresado Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1200);
-                        }
-                    },
-                    error:function(error){
-                        console.log(error)
-                    }
-                });
+            else {
+                $("#Fecha").hide();
             }
         });
 
-        //CURSOS
-        table.on('click', '.cursos', function() {
-            var id = $(this).data("id");
-            $('#modal-view-cursos').on('shown.bs.modal', function(e) {
-                $('#modal-view-cursos #id_empleado_cursos').val(id);
-            })
-            $('#modal-view-cursos').modal("show");
-        });
-        $(".enviar_curso").click(function(e){
-            e.preventDefault();
-            var curso = $('.cursos_select').val();
-            if(curso===""){
-                Swal.fire({
-                    title: 'Atención!',
-                    text: 'Debes Ingresar un motivo de Egreso.',
-                    icon: 'warning',
-                    timer: 3000,
-                    showConfirmButton: true,
-                });
-            }else{
-                //ENVIAR
-                $.ajax({
-                url:"{{ route('sireh.personal-civil.agregarCurso') }}",
-                method:'POST',
-                data:{
-                        curso: curso,
-                        desde_curso: $('.desde_curso').val(),
-                        hasta_curso: $('.hasta_curso').val(),
-                        codigo_empleado: $('.id_empleado_cursos').val(),
-                    },
-                    success:function(response){
-                        if(response.success){
-                            $('#modal-view-cursos').modal('hide');
-                            Swal.fire({
-                                title: 'LISTO!',
-                                text: 'Curso Agregado Correctamente!',
-                                icon: 'success',
-                                timer: 3000,
-                                showConfirmButton: true,
-                            });
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1200);
-                        }
-                    },
-                    error:function(error){
-                        console.log(error)
+        $("#lista2").on('change', function() {
+            var test = $(this).val();
+            console.log(test);
+
+            switch (test) {
+                case '1':
+                $("#div1").show();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#especialidad").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
                     }
                 });
+                break;
+
+                case '2':
+                $("#div1").hide();
+                $("#div2").show();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#grado").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '3':
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").show();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#categoria").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '4':
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").show();
+                $("#div5").hide();
+                $("#div6").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#sexo").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '5':
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").show();
+                $("#div6").hide();
+
+                $("#ejecutar1").click(function() {
+                    var valor = $("#tipo_egreso").val();
+
+                    if (valor == "") {
+                        alert("Los Campos No Pueden Estar Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                case '6':
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").show();
+
+                $("#ejecutar1").click(function() {
+                    var desde1 = $("#desde1").val();
+                    var hasta1 = $("#hasta1").val();
+
+                    if (desde1 == "" || hasta1 == "") {
+                        alert("Los Campos Desde o Hasta estan Vacios");
+                        window.location.reload();
+                    }
+                });
+                break;
+
+                default:
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
+                $("#div6").hide();
+                break;
             }
         });
-
     });
 </script>
 @endsection
