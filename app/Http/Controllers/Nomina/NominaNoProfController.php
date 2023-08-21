@@ -331,8 +331,7 @@ public function editdeduccionesNoProf (Concptosnomina1 $id){
     {
         Concptosnomina1::find($id)->delete();
         //\DB::table("cargos")->where('id',$id)->delete();
-        //return($id);
-        return redirect()->route('sireh.nomina.noprof.deducciones');
+        //return($id);        return redirect()->route('sireh.nomina.noprof.deducciones');
 
     }
 
