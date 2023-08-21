@@ -8511,7 +8511,7 @@ class controllerjuntap extends Controller
             }
         } else {
 
-          
+
 
             if ($select_just == 'no') {
 
@@ -8646,84 +8646,79 @@ class controllerjuntap extends Controller
 
         $select_tp_cat = $request->input('select_tp_cat');
 
-//dd($select_ofi_cat);
+        //dd($select_ofi_cat);
 
-if($select_ofi_cat == null){
+        if ($select_ofi_cat == null) {
 
-    $result =  DB::table('datos_militares')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update([
-                'codigo_categoria' => $select_categoria,
-                'fecha_ultimo_ascenso' => $fecha_cat,
-                'orden_merito' => $om_cat,
-                'total_orden_merito' => $omt_cat
+            $result =  DB::table('datos_militares')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update([
+                    'codigo_categoria' => $select_categoria,
+                    'fecha_ultimo_ascenso' => $fecha_cat,
+                    'orden_merito' => $om_cat,
+                    'total_orden_merito' => $omt_cat
+                ]);
+
+
+            $desc_grado = DB::table('grados_militares')
+                ->where('codigo_grado', $select_tp_cat)
+                ->pluck('siglas')
+                ->first();
+
+            // Editar la tabla "nomina"
+            $result11 =  DB::table('nomina')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update(['grado_militar' => $select_tp_cat]);
+            //dd($result11);
+
+            DB::table('historico_ascensos')->insert([
+                'codigo_empleado' => $codigo_empleado_cat,
+                'codigo_grado' => $select_tp_cat,
+                'fecha_ascenso' => $fecha_cat,
+                'orden_merito_ascenso' => $om_cat,
+                'total_orden_merito_ascenso' => $omt_cat,
+                'orden_merito_junta' => $om_cat,
+                'total_orden_merito_junta' => $omt_cat,
+                'resolucion' => $resuelto_cat
+
             ]);
-
-
-        $desc_grado = DB::table('grados_militares')
-            ->where('codigo_grado', $select_tp_cat)
-            ->pluck('siglas')
-            ->first();
-
-        // Editar la tabla "nomina"
-        $result11 =  DB::table('nomina')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update(['grado_militar' => $select_tp_cat]);
-//dd($result11);
-
-        DB::table('historico_ascensos')->insert([
-            'codigo_empleado' => $codigo_empleado_cat,
-            'codigo_grado' => $select_tp_cat,
-            'fecha_ascenso' => $fecha_cat,
-            'orden_merito_ascenso' => $om_cat,
-            'total_orden_merito_ascenso' => $omt_cat,
-            'orden_merito_junta' => $om_cat,
-            'total_orden_merito_junta' => $omt_cat,
-            'resolucion' => $resuelto_cat
-
-        ]);
-
-    }else{
+        } else {
 
 
 
-        $result =   DB::table('datos_militares')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update([
-                'codigo_categoria' => $select_categoria,
-                'fecha_ultimo_ascenso' => $fecha_cat,
-                'orden_merito' => $om_cat,
-                'total_orden_merito' => $omt_cat
+            $result =   DB::table('datos_militares')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update([
+                    'codigo_categoria' => $select_categoria,
+                    'fecha_ultimo_ascenso' => $fecha_cat,
+                    'orden_merito' => $om_cat,
+                    'total_orden_merito' => $omt_cat
+                ]);
+
+
+            $desc_grado = DB::table('grados_militares')
+                ->where('codigo_grado', $select_ofi_cat)
+                ->pluck('siglas')
+                ->first();
+
+            // Editar la tabla "nomina"
+            $res =  DB::table('nomina')
+                ->where('codigo_empleado', $codigo_empleado_cat)
+                ->update(['grado_militar' => $select_ofi_cat]);
+            //dd($res);
+
+            DB::table('historico_ascensos')->insert([
+                'codigo_empleado' => $codigo_empleado_cat,
+                'codigo_grado' => $select_ofi_cat,
+                'fecha_ascenso' => $fecha_cat,
+                'orden_merito_ascenso' => $om_cat,
+                'total_orden_merito_ascenso' => $omt_cat,
+                'orden_merito_junta' => $om_cat,
+                'total_orden_merito_junta' => $omt_cat,
+                'resolucion' => $resuelto_cat
+
             ]);
-
-
-        $desc_grado = DB::table('grados_militares')
-            ->where('codigo_grado', $select_ofi_cat)
-            ->pluck('siglas')
-            ->first();
-
-        // Editar la tabla "nomina"
-       $res=  DB::table('nomina')
-            ->where('codigo_empleado', $codigo_empleado_cat)
-            ->update(['grado_militar' => $select_ofi_cat]);
-//dd($res);
-
-        DB::table('historico_ascensos')->insert([
-            'codigo_empleado' => $codigo_empleado_cat,
-            'codigo_grado' => $select_ofi_cat,
-            'fecha_ascenso' => $fecha_cat,
-            'orden_merito_ascenso' => $om_cat,
-            'total_orden_merito_ascenso' => $omt_cat,
-            'orden_merito_junta' => $om_cat,
-            'total_orden_merito_junta' => $omt_cat,
-            'resolucion' => $resuelto_cat
-
-        ]);
-
-
-
-
-    }
+        }
         if ($result) {
             $mensaje = 'Cambio de Categoria Exitoso para el Empleado con el Código: [' . $codigo_empleado_cat . ']';
             $response = [
@@ -8747,11 +8742,6 @@ if($select_ofi_cat == null){
 
 
         return response()->json($response);
-
-
-
-
-
     }
 
     public function ascreporter(Request $request)
@@ -8927,39 +8917,39 @@ if($select_ofi_cat == null){
 
     public function personalMilitarasc(Request $request)
     {
-       // $empleados = Empleado::where('empleados.situacion', 'A');
+        // $empleados = Empleado::where('empleados.situacion', 'A');
 
 
 
 
-       $empleados = Empleado::where(function ($query) {
-        $query->where('nomina.situacion', 'A')
-            ->orWhere('nomina.situacion', 'S');
-    });
-    $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
-    $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
-    $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
-    $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados = Empleado::where(function ($query) {
+            $query->where('nomina.situacion', 'A')
+                ->orWhere('nomina.situacion', 'S');
+        });
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
 
-    $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
-    $empleados->select(
-        'empleados.id',
-        'empleados.codigo_empleado',
-        'empleados.cedula',
-        'empleados.nombre1',
-        'empleados.nombre2',
-        'empleados.apellido1',
-        'empleados.apellido2',
-        'grados_militares.descripcion as grado_militar',
-        'ubicaciones.descripcion as ubicacion',
-    );
-
-
+        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+        );
 
 
-      
-  
-       
+
+
+
+
+
         $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'juntap.personalm._actions')
             ->rawColumns(['actions']);
@@ -8979,7 +8969,7 @@ if($select_ofi_cat == null){
             ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
             ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
             ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-           // ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+            // ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
             // ->where('nomina.codigo_empleado', '=',$data->codigo_empleado)
             ->whereIn('nomina.codigo_empleado', $id_array)
             ->where(function ($query) {
@@ -14299,7 +14289,7 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
         $categoria = DB::table('datos_militares')
             ->where('codigo_empleado', $codigo_empleado)
             ->value('codigo_categoria');
-            $fecha_ult = DB::table('datos_militares')
+        $fecha_ult = DB::table('datos_militares')
             ->where('codigo_empleado', $codigo_empleado)
             ->value('fecha_ultimo_ascenso');
 
@@ -14310,184 +14300,167 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
 
 
 
-if($grado==410 || $grado == 10){
+        if ($grado == 410 || $grado == 10) {
 
- // El personal no está tentativo a ascender
- $empleados = 'false';
- // Tu lógica aquí
- $fechaAscenso=0;
+            // El personal no está tentativo a ascender
+            $empleados = 'false';
+            // Tu lógica aquí
+            $fechaAscenso = 0;
+        } elseif (in_array($categoria, $categoriasPermitidas)) {
+            if (strtotime($fecha_ult) === false || $fecha_ult === "0000-00-00") {
+                $empleados = 'null';
+                $fechaAscenso = 0;
+            } else {
 
 
-
-}elseif(in_array($categoria, $categoriasPermitidas)){
-    if (strtotime($fecha_ult) === false || $fecha_ult === "0000-00-00") {
-        $empleados = 'null';
-        $fechaAscenso=0;
-    }else{
-
-   
-    if ($categoria == 8) {
+                if ($categoria == 8) {
 
 
 
 
-        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-            ->where(function ($query) {
-                $query->where('empleados.situacion', 'A')
-                    ->orWhere('empleados.situacion', 'S');
-            })
-            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-            ->whereIn('datos_militares.codigo_categoria', [$categoria])
-            ->whereIn('nomina.grado_militar', [$grado])
-            ->where('empleados.codigo_empleado', $codigo_empleado)
-            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
-            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+                    $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                        ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                        ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                        ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->whereIn('datos_militares.codigo_categoria', [$categoria])
+                        ->whereIn('nomina.grado_militar', [$grado])
+                        ->where('empleados.codigo_empleado', $codigo_empleado)
+                        ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+                        ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
            CASE
                WHEN nomina.grado_militar IN (470) THEN 3
                WHEN nomina.grado_militar IN (460, 450, 440) THEN 5
                WHEN nomina.grado_militar IN (430, 420) THEN 4
                ELSE 0
            END YEAR) AS fecha_ascenso')
-            ->first();
+                        ->first();
 
-        if ($empleados == null) {
+                    if ($empleados == null) {
 
-            $empleados = 'null';
-            $fechaAscenso=0;
-
-
-
-        } else {
+                        $empleados = 'null';
+                        $fechaAscenso = 0;
+                    } else {
 
 
-            $fechaAscenso = $empleados->fecha_ascenso;
+                        $fechaAscenso = $empleados->fecha_ascenso;
 
 
 
 
 
-            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+                        //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
 
 
-            $anioActual = date('Y'); // Obtener el año actual
+                        $anioActual = date('Y'); // Obtener el año actual
 
-            // Obtener el año de la fecha de ascenso
-            $anioAscenso = date('Y', strtotime($fechaAscenso));
+                        // Obtener el año de la fecha de ascenso
+                        $anioAscenso = date('Y', strtotime($fechaAscenso));
 
-            if ($anioAscenso == $anioActual) {
-                // El personal está tentativo a ascender este año
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso < $anioActual) {
-                // El personal está tentativo a ascender también este año
+                        if ($anioAscenso == $anioActual) {
+                            // El personal está tentativo a ascender este año
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso < $anioActual) {
+                            // El personal está tentativo a ascender también este año
 
-                $fechaObj = new DateTime($fechaAscenso);
+                            $fechaObj = new DateTime($fechaAscenso);
 
-                // Actualizar el año
-                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+                            // Actualizar el año
+                            $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
 
-                // Obtener la nueva fecha modificada
-                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
-                $fechaAscenso = $nuevaFechaAsc;
+                            // Obtener la nueva fecha modificada
+                            $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                            $fechaAscenso = $nuevaFechaAsc;
 
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso > $anioActual) {
-                // El personal no está tentativo a ascender
-                $empleados = 'false';
-                // Tu lógica aquí
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso > $anioActual) {
+                            // El personal no está tentativo a ascender
+                            $empleados = 'false';
+                            // Tu lógica aquí
 
-            }
-        }
-    } else {
+                        }
+                    }
+                } else {
 
 
-        $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
-            ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
-            ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
-            ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
-            ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
-            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-            ->where(function ($query) {
-                $query->where('empleados.situacion', 'A')
-                    ->orWhere('empleados.situacion', 'S');
-            })
-            ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
-            ->whereIn('datos_militares.codigo_categoria', [$categoria])
-            ->whereIn('nomina.grado_militar', [$grado])
-            ->where('empleados.codigo_empleado', $codigo_empleado)
-            ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
-            ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
+                    $empleados = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'nomina.tipo_emp', '=', 'tipos_empleados.tipo_emp')
+                        ->join('ubicaciones', 'nomina.codigo_ubicacion', '=', 'ubicaciones.codigo_ubicacion')
+                        ->join('grados_militares', 'nomina.grado_militar', '=', 'grados_militares.codigo_grado')
+                        ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->where(function ($query) {
+                            $query->where('empleados.situacion', 'A')
+                                ->orWhere('empleados.situacion', 'S');
+                        })
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->whereIn('datos_militares.codigo_categoria', [$categoria])
+                        ->whereIn('nomina.grado_militar', [$grado])
+                        ->where('empleados.codigo_empleado', $codigo_empleado)
+                        ->select('empleados.codigo_empleado', 'datos_militares.codigo_categoria AS categoria', 'empleados.cedula', 'empleados.nombre1', 'empleados.apellido1', 'grados_militares.descripcion AS grado_militar', 'grados_militares.grado_a_ascender AS grado_ascender')
+                        ->selectRaw('DATE_ADD(datos_militares.fecha_ultimo_ascenso, INTERVAL 
            CASE
             WHEN nomina.grado_militar IN (090,030, 020, 15) THEN 3
             WHEN nomina.grado_militar IN (080,070) THEN 5
             WHEN nomina.grado_militar IN (060,050, 040) THEN 4
                 ELSE 0
             END YEAR) AS fecha_ascenso')
-            ->first();
-        if ($empleados == null) {
-$empleados = 'null';
-    $fechaAscenso=0;
+                        ->first();
+                    if ($empleados == null) {
+                        $empleados = 'null';
+                        $fechaAscenso = 0;
+                    } else {
+
+
+                        $fechaAscenso = $empleados->fecha_ascenso;
+
+
+                        //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
+
+
+                        $anioActual = date('Y'); // Obtener el año actual
+
+                        // Obtener el año de la fecha de ascenso
+                        $anioAscenso = date('Y', strtotime($fechaAscenso));
+
+                        if ($anioAscenso == $anioActual) {
+                            // El personal está tentativo a ascender este año
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso < $anioActual) {
+                            // El personal está tentativo a ascender también este año
+                            $fechaObj = new DateTime($fechaAscenso);
+
+                            // Actualizar el año
+                            $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
+
+                            // Obtener la nueva fecha modificada
+                            $nuevaFechaAsc = $fechaObj->format('Y-m-d');
+                            $fechaAscenso = $nuevaFechaAsc;
+                            $empleados = 'true';
+                            // Tu lógica aquí
+                        } elseif ($anioAscenso > $anioActual) {
+                            // El personal no está tentativo a ascender
+                            $empleados = 'false';
+                            // Tu lógica aquí
+
+                        }
+                    }
+                }
+            }
         } else {
 
-
-            $fechaAscenso = $empleados->fecha_ascenso;
-
-
-            //return response()->json(['ascenso' => 'true', 'mensaje' => $fechaAscenso]);
-
-
-            $anioActual = date('Y'); // Obtener el año actual
-
-            // Obtener el año de la fecha de ascenso
-            $anioAscenso = date('Y', strtotime($fechaAscenso));
-
-            if ($anioAscenso == $anioActual) {
-                // El personal está tentativo a ascender este año
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso < $anioActual) {
-                // El personal está tentativo a ascender también este año
-                $fechaObj = new DateTime($fechaAscenso);
-
-                // Actualizar el año
-                $fechaObj->setDate($anioActual, $fechaObj->format('m'), $fechaObj->format('d'));
-
-                // Obtener la nueva fecha modificada
-                $nuevaFechaAsc = $fechaObj->format('Y-m-d');
-                $fechaAscenso = $nuevaFechaAsc;
-                $empleados = 'true';
-                // Tu lógica aquí
-            } elseif ($anioAscenso > $anioActual) {
-                // El personal no está tentativo a ascender
-                $empleados = 'false';
-                // Tu lógica aquí
-
-            }
-
-
-
-
-
-
+            $empleados = 'null';
+            $fechaAscenso = 0;
         }
-
-
-       
-
-    }
-}
-}else{
-
-    $empleados = 'null';
-    $fechaAscenso=0;
-
-    }
 
 
         return view(
@@ -16030,5 +16003,58 @@ $empleados = 'null';
         } else {
             return redirect()->back()->with('error', 'No hay Datos para generar el informe');
         }
+    }
+    public function reportehistorico(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'cedula' => 'required',
+
+            ],
+            [
+                'cedula' => 'El Parametro Tipo Empleado es Requerido',
+            ]
+
+        );
+
+        $cedula = $request->cedula;
+        $data = Nomina::select('codigo_empleado')
+            ->where('cedula', '=', $cedula)
+            ->first();
+        $codigo_empleado = $data->codigo_empleado;
+        $datos = Nomina::leftJoin('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+            ->select(
+                'nomina.nombre1',
+                'nomina.nombre2',
+                'nomina.apellido1',
+                'nomina.apellido2',
+                'nomina.cedula as cedula',
+                'cargos.nombre_cargo as cargo',
+                'grados_militares.descripcion as grado_militar',
+                'ubicaciones.descripcion as ubicacion'
+            )
+            ->where('nomina.codigo_empleado',$codigo_empleado)
+            ->first();
+            
+        $historico = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'historico_ascensos.codigo_grado')
+            ->select(
+                'grados_militares.descripcion as grado',
+                'historico_ascensos.fecha_ascenso as fecha_a',
+                'historico_ascensos.orden_merito_ascenso as orden_merito',
+                'historico_ascensos.total_orden_merito_ascenso as total_orden_merito'
+            )
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->get();
+
+            $pdf = \PDF::loadView('juntap.reportes.reportehistorico', compact('historico', 'datos'))
+            ->setPaper('letter', 'portrait');
+            return $pdf->stream('reportehistorico.pdf',array('Attachment'=>0));
+
+        /*return view('juntap.reportes.reportehistorico', compact('historico', 'datos'));*/
     }
 }
