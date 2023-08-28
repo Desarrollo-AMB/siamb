@@ -92,7 +92,7 @@ use Carbon\Carbon;
         <table class="tabels">
             <tr>
                 <th class="fixed-width-td" colspan="2" rowspan="7" style="text-align: center; border: none; ">
-                    <img src="{{ $datos->foto ? url($datos->foto): '' }}" class="img">
+                   
                 </th>
                 <th class="fixed-width-td">NOMBRE Y APELLIDO</th>
                 <td class="fixed-width-td">{{ $datos->nombre1 . ' ' . $datos->nombre2 . ' ' . $datos->apellido1 . ' ' .

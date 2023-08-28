@@ -49,6 +49,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\PdfMerger;
 use DateTime;
+use App\Models\DatosBoleta;
 
 
 class controllerjuntap extends Controller
@@ -13262,5 +13263,92 @@ WHERE consulta1.cedula = empleados.cedula) AS demerito")
             return $pdf->stream('reportehistorico.pdf',array('Attachment'=>0));
 
         /*return view('juntap.reportes.reportehistorico', compact('historico', 'datos'));*/
+    }
+
+    public function historial(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'cedula' => 'required',
+
+            ],
+            [
+                'cedula' => 'El Parametro Tipo Empleado es Requerido',
+            ]
+
+        );
+
+        $cedula = $request->cedula;
+        $data = Nomina::select('codigo_empleado')
+            ->where('cedula', '=', $cedula)
+            ->first();
+        $codigo_empleado = $data->codigo_empleado;
+        $datos = Nomina::leftJoin('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+            ->select(
+                'nomina.nombre1',
+                'nomina.nombre2',
+                'nomina.apellido1',
+                'nomina.apellido2',
+                'nomina.cedula as cedula',
+                'cargos.nombre_cargo as cargo',
+                'grados_militares.descripcion as grado_militar',
+                'ubicaciones.descripcion as ubicacion',
+                'empleados.foto',
+                'empleados.direccion',
+                'empleados.edo_civil',
+                'empleados.telefono'
+            )
+            ->where('nomina.codigo_empleado',$codigo_empleado)
+            
+            ->first();
+           
+        $historico = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'historico_ascensos.codigo_grado')
+            ->select(
+                'grados_militares.descripcion as grado',
+                'historico_ascensos.fecha_ascenso as fecha_a',
+                'historico_ascensos.orden_merito_ascenso as orden_merito',
+                'historico_ascensos.total_orden_merito_ascenso as total_orden_merito'
+            )
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->get();
+
+            $estudios = EstudiosRealizados::join('profesiones', 'profesiones.codigo_profesion', '=', 'estudios_realizados.profesion')
+            ->select(
+                'profesiones.descripcion',
+                'estudios_realizados.desde',
+                'estudios_realizados.hasta',
+                'estudios_realizados.pais',
+                'estudios_realizados.resultado'
+            )
+            ->where('codigo_empleado', $codigo_empleado)
+            ->get();
+
+            $cargos = Movimientos:://join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
+              ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'movimientos.codigo_ubicacion')
+              ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad',
+               'movimientos.resol_ubicacion as   ', 'ubicaciones.codigo_ubicacion as codigo',
+               'movimientos.fecha_cargo as fecha')
+              ->where('movimientos.codigo_empleado',$codigo_empleado)
+             ->whereIn('movimientos.tipo_movimiento', ['Actualizacion de la Ubicacion','CCAR', 'Actualizacion del Cargo'])
+             ->orderBy('movimientos.fecha_movimiento', 'desc')
+          ->orderBy('movimientos.id', 'desc')
+              ->distinct()
+              ->get();
+
+              $sanciones = DatosBoleta::select('grado','naturaleza','falta_real','desde','hasta')
+              ->where('cedula',$cedula)
+              ->get();
+
+            $pdf = \PDF::loadView('juntap.reportes.reporteResumenHistorial',  compact('historico', 'datos' ,'estudios','cargos','sanciones'))
+            ->setPaper('letter', 'portrait');
+            return $pdf->stream('historial.pdf',array('Attachment'=>0));
+
+        /*return view('juntap.reportes.reporteResumenHistorial', compact('historico', 'datos' ,'estudios','cargos','sanciones'));*/
     }
 }

@@ -1,204 +1,244 @@
-<style> 
-    .bloque{
-        display : table;
-        border  : 0px solid black;
-        width   : 100%;
+<style>
+    * {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
-    .planilla{
-        width  : 216mm;
-        height : 279mm;
-        border : 2px solid black;
-        padding: 2.5cm 2cm;
-        display: flex;
-        flex-direction: column;
-        justify-content: initial;
-        font-family: 'Lato', sans-serif;
-    }
-    .logo{
-        margin: 15px;
-        height: 60px;
-    }
-    .header{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .databloq{
-        display: flex;
-        flex-direction: column;
-    }
-    .databloq{
-        font-size: 0.5rem;
-    }
-    .logocontainer{
-        display: flex;
-        flex-direction: columns;
-        justify-content: center;
-    }
-    .header .bloque{
-        height: 3cm;
-    }
-    .bloqrow{
-        display: flex;
-        border: 3px solid black;
-        flex-direction: column;
-        justify-content: center;
-        height: 120%;
-    }
-    .header div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .campo{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border: px solid black;
-        height: .7cm;
-        font-size: .65rem;
-    }
-    .campor{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        border: 1px solid black;
-        height: 1.2cm;
-        font-size: .9rem;
-    }
-    .formbloq{
-        text-align: center;
-        display: flex;
-        margin: 5px;
-    }
-    .titulo{
+
+    .tabels {
+        border: 2px solid black;
+        border-collapse: collapse;
         width: 100%;
-        background-color: #BBBDC0;
-        border: 0px solid black;
+
+    }
+
+    .tabels th,
+    .tabels td {
+        border: 2px solid black;
+        padding: 8px;
+        line-height: 1;
+    }
+
+    .fixed {
+        height: auto;
+    }
+
+    div {
+        margin-bottom: 3%;
+    }
+
+    .divtitulo {
+        margin-bottom: 0%;
+    }
+
+    footer {
+        background-color: #ffffff;
+        color: #000000;
+        padding: 10px;
+        height: -30cm;
         text-align: center;
-        font-size: .75rem;
-        height: .5cm;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
-    .checkox{
-        width: 10px;
-        height:10px;
-        margin: 3px;
-        border: 1px solid black;
-        align-self: flex-end;
-    }
-    .check{
-        display: flex;
-        flex-direction: row;
-        align-content: flex-start
-    }
-    .labelgrey{
+
+    .fondo-th {
         text-align: center;
+        background-color: #337AFF;
     }
-    .sign{
-        border: 1px solid black;
-        height: .7cm;
-        font-size: .7rem;
-        display: flex;
-        flex-direction: row;
-    }
-    td {
-    padding: 20px;
-  }
-  footer {
-      background-color: #ffffff;
-      color: #000000;
-      padding: 10px;
-      height: -30cm;
-      text-align: center;
+
+    .img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 16.5%;
+        height: 26.3%;
+        margin-top: 35%;
+        margin-left: 82%;
+        border: 2px solid black;
     }
 </style>
+<header>
+   
+</header>
+
 <body>
-    <div class="planilla" id="content">
-        <div class="header">
-            <div class="bloque logocontainer" style="width: 12%;">
-                <img class="logo" src="https://aviacion.mil.ve/wp-content/uploads/2022/10/ESCUDOAMB-1.png" alt="Logo Aviacion">
-            </div>
-            <div class="bloque" style="text-align:center;font-size:1rem">
-                <strong>
-                <div> República Bolivariana de Venezuela </div>
-                <div> Ministerio del Poder Popular para la Defensa </div>
-                <div> Aviación Militar Bolivariana </div>
-                </strong>
-            </div>
+    <div class="header">
+        {{--<div class="bloque logocontainer" style="width: 12%;">
+            <img class="logo" src="template/assets/img/logo.png" alt="Logo Aviacion">
+        </div>--}}
+        <div class="bloque" style="text-align:center;font-size:1rem">
+            <strong>
+                <div class="divtitulo"> República Bolivariana de Venezuela </div>
+                <div class="divtitulo"> Ministerio del Poder Popular para la Defensa </div>
+                <div class="divtitulo"> Aviación Militar Bolivariana </div>
+            </strong>
         </div>
-
-        <div class="titulo" style="text-align:center;font-size:1rem">
-            Datos del Solicitante
+        <div>
+            <h1 style="text-align: center;  text-decoration: underline;">Resumen Digital del Historial (MPPD)</h1>
         </div>
+    </div>
+    <div>
 
-        <div class="formbloq" >
-            <table>
-              <tr>
-                  <td>Nombre y Apellido</td>
-                  <td>Cedula de Identidad</td>
-                  <td>Cargo</td>
-                  <td>Unidad</td>
-              </tr>
-              @foreach($datos as $datos)
-              <tr>
-                  <th>{{$datos->nombre1.' '.$datos->nombre2}}, {{$datos->apellido1.' '.$datos->apellido2}}</th>
-                  <th>{{$datos->cedula}}</th>
-                  <th>{{$datos->cargo}}</th>
-                  <th>{{$datos->ubicacion}}</th>
-              </tr>
-              @endforeach
+
+        <div>
+
+            <table class="tabels">
+                <tr>
+                    <th class="fondo-th" colspan="6">DATOS PERSONALES</th>
+                </tr>
+                {{-- <tr>
+
+                </tr>--}}
+                <tr>
+                    <th>Grado</th>
+                    <td colspan="4" class="fixed" >TTE </td>
+                    <th style=" width: 20%; background-color: #337AFF;" rowspan="10">
+                        <img src="{{ $datos->foto ? url($datos->foto): '' }}" class="img"></th> </tr>
+                <tr>
+                    <th>Nombre y Apellido</th>
+                    <td colspan="4" class="fixed">{{$datos->nombre1.' '.$datos->nombre2}}, {{$datos->apellido1.'
+                        '.$datos->apellido2}}</td>
+                    </td>
+                </tr>
+                <tr>
+                <th>Cedula de Identidad</th>
+                <td colspan="4" class="fixed">{{$datos->cedula}}</td>
+            </tr>
+                
+                <tr>
+                <th>Fecha de Nacimiento</th>
+                <td colspan="4" class="fixed">{{$datos->cargo}}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de ultimo Ascenso</th>
+                    <td colspan="4" class="fixed">{{$datos->ubicacion}}</td>
+                </tr>
+                <tr>
+                    <th> Fecha de Ingreso</th>
+                    <td colspan="4" class="fixed">{{$datos->cedula}}</td>
+                </tr>
+                <tr>
+                    @if($datos->edo_civil == 'SO')
+                    <th>Estado civil</th>
+                    <td colspan="4" class="fixed">Soltero</td>
+                    @elseif($conditions->edo_civil == 'CA')
+                    <th>Estado civil</th>
+                    <td colspan="4" class="fixed">Casado</td>
+                        
+                    @endif
+                </tr>
+                <tr>
+                    <th>Direccion</th>
+                    <td colspan="4" class="fixed">{{$datos->direccion}}</td>
+                </tr>
+                <tr>
+                    <th>Telefono</th>
+                    <td colspan="4" class="fixed">{{$datos->telefono}}</td>
+                </tr>
+                <tr>
+                    <th>Cargo actual por resolucion</th>
+                    <td colspan="4" class="fixed">{{$datos->cargo}}--{{$datos->ubicacion}}</td>
+                </tr>
+               
             </table>
-          </div>
+        </div>
+        <div>
+            <table class="tabels">
+                <tr>
+                    <th class="fixed fondo-th" colspan="5">ASCENSOS</th>
+                </tr>
+                <tr>
 
-        <div class="formbloq">
-            <div class="campo" style="width: 60%;">
-                <div class="label" style="font-size:0.9rem">Nombre y Apellido</div>
-                <div class="input" style="font-size:0.8rem"> <strong>{{$datos->nombre1.' '.$datos->nombre2}}, {{$datos->apellido1.' '.$datos->apellido2}}</strong> </div>
-            </div>
-            <div class="campo" style="width: 30%;">
-                <div class="label" style="font-size:0.9rem">Cedula de Identidad</div>
-                <div class="input" style="font-size:0.8rem"> <strong>{{$datos->cedula}}</strong> </div>
-            </div>
-            <div class="campo" style="width: 30%;">
-                <div class="label" style="font-size:0.9rem">Cargo</div>
-                <div class="input" style="font-size:0.8rem"> <strong>{{$datos->cargo}}</strong> </div>
-            </div>
-            <div class="campo" style="height:auto; width: 50%;">
-                <div class="label" style="font-size:0.9rem">Unidad</div>
-                <div class="input" style="font-size:0.8rem"> <strong>{{$datos->ubicacion}}</strong> </div>
-            </div>
+                    <th>Grado</th>
+                    <th>Fecha de Ascenso</th>
+                    <th>Resolucion</th>
+                    <th>Orden de Mérito</th>
+                    <th>Total de Orden de Mérito</th>
+                </tr>
+                @foreach($historico as $historico)
+                <tr>
+                    <td class="fixed">{{$historico->grado}}</td>
+                    <td class="fixed">{{$historico->fecha_a}}</td>
+                    <td class="fixed">{{$historico->orden_merito}}</td>
+                    <td class="fixed">{{$historico->total_orden_merito}}</td>
+                </tr>
+                @endforeach
+            </table>
         </div>
-        <br>
-        </br>
-        <div class="titulo" style="text-align:center;font-size:1rem">
-            Historico de Ascensos
+        <div>
+            <table class="tabels">
+                <tr>
+                    <th class="fixed fondo-th" colspan="5">ESTUDIOS MILITARES Y/O CIVILES</th>
+                </tr>
+                <tr>
+
+                    <th>Profresion</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Pais</th>
+                    <th>Resultado</th>
+                </tr>
+                @foreach($estudios as $estudios)
+                <tr>
+                    <td class="fixed">{{$estudios->descripcion}}</td>
+                    <td class="fixed">{{$estudios->desde}}</td>
+                    <td class="fixed">{{$estudios->hasta}}</td>
+                    <td class="fixed">{{$estudios->pais}}</td>
+                    <td class="fixed">{{$estudios->resultado}}</td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+        <div>
+            <table class="tabels">
+                <tr>
+                    <th class="fixed fondo-th" colspan="3">CARGOS</th>
+                </tr>
+                <tr>
+
+                    <th>Cargo</th>
+                    <th>Fecha de Inicio</th>
+                    <th> Nro. Resolucion</th>
+                </tr>
+                @foreach($cargos as $cargos)
+                <tr>
+                    <td class="fixed">{{$cargos->cargo}} ({{$cargos->unidad}})</td>
+                    <td class="fixed">{{$cargos->fecha}}</td>
+                    <td class="fixed">{{$cargos->resolucion}}</td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+        <div>
+            <table class="tabels">
+                <tr>
+                    <th class="fixed fondo-th" colspan="5">SANCIONES</th>
+                </tr>
+                <tr>
+
+                    <th>Grado</th>
+                    <th>Naturaleza</th>
+                    <th>Causa</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                </tr>
+                @foreach($sanciones as $sanciones)
+                <tr>
+                    <th>{{$sanciones->grado}}</th>
+
+                    @if($sanciones->naturaleza == '1')
+                    <th>AMONESTACION</th>
+                    @elseif($sanciones->naturaleza == '2')
+                    <th>SANCION SIMPLE</th>
+                    @elseif($sanciones->naturaleza == '3')
+                    <th>SANCION SEVERA</th>
+                    @endif
+                    <th>{{$sanciones->falta_real}}</th>
+                    <th>{{$sanciones->desde}}</th>
+                    <th>{{$sanciones->hasta}}</th>
+                </tr>
+                @endforeach
+            </table>
         </div>
 
-        <div class="formbloq" >
-          <table>
-            <tr>
-                <td>Grado</td>
-                <td>Fecha de Ascenso</td>
-                <td>Orden de Mérito</td>
-                <td>Total de Orden de Mérito</td>
-            </tr>
-            @foreach($historico as $historico)
-            <tr>
-                <th>{{$historico->grado}}</th>
-                <th>{{$historico->fecha_a}}</th>
-                <th>{{$historico->orden_merito}}</th>
-                <th>{{$historico->total_orden_merito}}</th>
-            </tr>
-            @endforeach
-          </table>
-        </div>
-        <footer style="margin-top: 50%">
-            <p>_______________________________________________</p>
-            <p>Presidente de la Junta Permanente de Evaluación</p>
-          </footer>
     </div>
     
+
 </body>

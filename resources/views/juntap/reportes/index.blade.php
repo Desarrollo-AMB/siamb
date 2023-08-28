@@ -243,12 +243,12 @@
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                            Nómina Inicial de Evaluación para Ascenso
+                                                            Resumen Digital del Historial
                                                         </label>
                                                     </div>
                                                 </div>
 
-                                                <form id="formDevolucion5" action="{{ route('bienestar-social.reporte.devolucion5')}}" method="POST" class="row" target="_blank">
+                                                <form id="formDevolucion5" action="{{ route('juntap.historial')}}" method="POST" class="row" target="_blank">
                                                     @csrf
                                                     <div class="col-lg-12 col-sm-12">
                                                         <div id="Parametros2" class="parametros2 ">
@@ -275,7 +275,7 @@
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="reporte" id="flexRadioDefault1" checked="checked" value="1">
                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                            Resumen Digital del Historial
+                                                            Nómina Inicial de Evaluación para Ascenso
                                                         </label>
                                                     </div>
                                                 </div>
