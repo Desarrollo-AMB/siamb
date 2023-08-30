@@ -115,7 +115,7 @@ Auth::routes();
    Route::post('/sireh/nomina/personal_militar/edisueldosmil', [NominaController::class, 'editSueldosMil'])->name('sireh.nomina.editSueldosMil');
 
     //DEDUCCIONES PERSONAL MILITAR
-    Route::patch('/sireh/nomina/update-deducciones/{id}', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones');
+    Route::post('/sireh/nomina/update-deducciones/{id}', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones1');
     //Route::delete('/sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
     Route::delete('/sireh/nomina/delete-deduccionesAsignadas/{id}', [NominaController::class, 'deleteDeduccionesAsignadas'])->name('sireh.nomina.deducciones.deletededuccionesAsignadas');
     Route::get('/sireh/nomina/edit-deducciones/{id}', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
@@ -141,7 +141,7 @@ Auth::routes();
     Route::post('/sireh/nomina/noprof/actuales-NoProf', [NominaNoProfController::class, 'actualesNoProf'])->name('sireh.nomina.actualesNoProf');
     Route::get('/sireh/nomina/noprof/{concepto}/edit-asignacionprima', [NominaNoProfController::class, 'editAsignacionPrimaNoProf'])->name('sireh.nomina.NoProf.editAsignacionPrima');
     //DEDUCCIONES NO PROFESIONAL
-    Route::patch('/sireh/nomina/no-pro/update-deducciones/{id}', [NominaNoProfController::class, 'updateDeduccionesNoProf'])->name('sireh.nomina.NoProf.updateDeducciones');
+    Route::patch('/sireh/nomina/no-pro/update-deducciones/{id}', [NominaNoProfController::class, 'updateDeduccionesNoProf'])->name('sireh.nomina.NoProf.updateDeducciones1');
     Route::delete('/sireh/nomina/delete-deducciones/{id}', [NominaNoProfController::class, 'deletededuccionesNoProf'])->name('sireh.nomina.noprof.delete.deducciones');
     Route::delete('/sireh/nomina/delete-deduccionesasignadas/{id}', [NominaNoProfController::class, 'deletededuccionesAsignadas'])->name('sireh.nomina.noprof.deletededuccionesasignadas');
     Route::get('/sireh/nomina/noprof/edit-deducciones/{id}', [NominaNoProfController::class, 'editdeduccionesNoProf'])->name('sireh.nomina.noprof.editdeducciones');

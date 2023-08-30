@@ -126,7 +126,7 @@ class NominaController extends Controller
 
     }
 //EDIT PRIMA 2
-    public function editPrima (ConceptosNomina $id){
+    public function editPrima (Concptosnomina1 $id){
 
        // $prima = ConceptosNomina::find($id);
         return view('sireh.nomina.personal_militar.primas-edit',compact('id'));
@@ -148,7 +148,7 @@ class NominaController extends Controller
             'porcentaje' => 'required',
         ]);
 
-        $universidades = ConceptosNomina::find($id);
+        $universidades = Concptosnomina1::find($id);
         $universidades->descripcion = $request->input('descripcion');
         $universidades->porcentaje = $request->input('porcentaje');
         $universidades->save();
@@ -373,6 +373,7 @@ public function editdeducciones (Concptosnomina1 $id){
     public function updateDeducciones(Request $request, $id)
     {
 
+        dd($id);
         $this->validate($request, [
 
             'descripcion' => 'required',

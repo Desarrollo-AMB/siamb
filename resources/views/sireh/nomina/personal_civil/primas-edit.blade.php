@@ -23,7 +23,7 @@
             </div>
             <hr class="horizontal dark my-0">
             <div class="card-body px-2 pt-2 pb-2">
-                {!! Form::model($registro, ['method' => 'PATCH','route' => ['sireh.nomina.civilprimas.updateprima', $registro]]) !!}
+                {!! Form::model($id, ['method' => 'PATCH','route' => ['sireh.nomina.civilprimas.updateprima', $id]]) !!}
                 <div class="row">
                     {{--<div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
