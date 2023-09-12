@@ -177,10 +177,10 @@ public function deletePrimaAsignada(Request $request, $id)
         ->first();
 
     $asignaciones = Asignaciones::
-    select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
+    select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-    ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-    ->where('Empleados.cedula', $cedula)
+    ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+    ->where('empleados.cedula', $cedula)
     ->where('Asignaciones.tipo_concepto', 'A')
     ->with('conceptoNomina')
     ->get();
@@ -234,11 +234,11 @@ public function actualesPrimas(Request $request)
             return redirect()->back();
         }
         $asignaciones = Asignaciones::
-        select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
+        select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-        ->where('Empleados.cedula', $cedula)
-        ->where('Asignaciones.tipo_concepto', 'A')
+        ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->where('empleados.cedula', $cedula)
+        ->where('asignaciones.tipo_concepto', 'A')
         ->with('conceptoNomina')
         ->get();
 
@@ -287,10 +287,10 @@ public function asignacionNuevaPrima(Request $request)
         ->first();
 
     // Obtener asignaciones existentes del empleado
-    $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+    $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-        ->where('Empleados.cedula', $cedula)
+        ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->where('empleados.cedula', $cedula)
         ->where('Asignaciones.tipo_concepto', 'A')
         ->with('conceptoNomina')
         ->get();
@@ -321,10 +321,10 @@ public function asignacionNuevaPrima(Request $request)
     }
 
     // Obtener nuevamente las asignaciones después de los cambios
-    $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+    $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-        ->where('Empleados.cedula', $cedula)
+        ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->where('empleados.cedula', $cedula)
         ->where('Asignaciones.tipo_concepto', 'A')
         ->with('conceptoNomina')
         ->get();
@@ -417,10 +417,10 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
         ->first();
 
     $asignaciones = Asignaciones::
-    select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1','primas_deducciones.descripcion as nombre')
+    select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-    ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-    ->where('Empleados.cedula', $cedula)
+    ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+    ->where('empleados.cedula', $cedula)
     ->where('Asignaciones.tipo_concepto', 'D')
     ->with('conceptoNomina')
     ->get();
@@ -469,7 +469,7 @@ public function actualesdeducciones(Request $request)
         $asignaciones = Asignaciones::select('Asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('empleados', 'Asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->where('Empleados.cedula', $cedula)
+        ->where('empleados.cedula', $cedula)
         ->where('Asignaciones.tipo_concepto', 'D')
 
         ->get();
@@ -548,7 +548,7 @@ public function actualesdeducciones(Request $request)
     $asignaciones = Asignaciones::select('Asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('empleados', 'Asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-        ->where('Empleados.cedula', $cedula)
+        ->where('empleados.cedula', $cedula)
         ->where('Asignaciones.tipo_concepto', 'D')
         ->get();
 

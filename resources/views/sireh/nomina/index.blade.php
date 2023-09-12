@@ -42,7 +42,7 @@
                                             <table class="table table-sm table-bordered table-hover w-100 nowrap">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="center" colspan="2"> <center>  <h5>Salario Mínimo</h5> </center> </th>
+                                                        <th scope="col" class="center" colspan="2"> <center>  <h5>Salario Minimo Nacional</h5> </center> </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -50,7 +50,7 @@
                                                    
                                                     
                                                     <tr>
-                                                        <th> <h6>Salario Mínimo </h6></th>
+                                                        <th> <h6>Salario Minimo Nacional </h6></th>
                                                         <td><h6>{{--{{ $conceptos[2]}} --}} Bs.</h6></td>
                                                     </tr>
                                                     <tr>
@@ -84,7 +84,7 @@
                                                     <h6>Prima Fronteriza tipo "A" </h6>
                                                 </th>
                                                 <td>
-                                                    <h6>{{--{{ $conceptos[53]}}--}} %</h6>
+                                                    <h6>{{ $conceptos[53]}} %</h6>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -92,7 +92,7 @@
                                                     <h6>Prima Fronteriza tipo "B"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>{{--{{ $conceptos[55]}}--}} %</h6>
+                                                    <h6>{{ $conceptos[55]}} %</h6>
                                                 </td>
                                             </tr>
                                              <tr>

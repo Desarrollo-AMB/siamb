@@ -22,7 +22,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Editar Sueldo Base</h5>
+                            <h5 class="mb-0">Editar Salario Minimo Nacional  </h5>
                         </div>
                     </div>
                     <hr class="horizontal dark my-0">
@@ -37,19 +37,19 @@
                             </div>--}}
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Codigo del Sueldo Base:</strong>
+                                    <strong>Codigo del Salario Minimo Nacional  :</strong>
                                     {!! Form::text('codigo_concepto', $data[1]['codigo_concepto'], array('placeholder' => $data[1]['codigo_concepto'],'class' => 'form-control','disabled' => 'disabled')) !!}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Descripción del Sueldo Base:</strong>
+                                    <strong>Descripción del Salario Minimo Nacional  :</strong>
                                     {!! Form::text('descripcion', $data[1]['descripcion'], array('placeholder' => $data[1]['descripcion'],'class' => 'form-control','nullable' => true)) !!}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Monto del Sueldo Base:</strong>
+                                    <strong>Monto del Salario Minimo Nacional  :</strong>
                                     {!! Form::number('porcentaje',$data[1]['porcentaje'], array('placeholder' => $data[1]['porcentaje'],'class' => 'form-control','step'=>"any",'nullable' => true)) !!}
                                 </div>
                             </div>
