@@ -373,7 +373,7 @@ public function editdeducciones (Concptosnomina1 $id){
     public function updateDeducciones(Request $request, $id)
     {
 
-        dd($id);
+       // dd($id);
         $this->validate($request, [
 
             'descripcion' => 'required',
