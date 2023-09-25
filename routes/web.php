@@ -465,6 +465,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
     Route::patch('/dao/Agenda/update/{id}', [FormaFAMController::class, 'updateAgenda'])->name('dao.agenda.update');
+    Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'hrsVuelo'])->name('dao.personal.hrsVuelo');
 
 });
 

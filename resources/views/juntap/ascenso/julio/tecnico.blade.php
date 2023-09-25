@@ -343,9 +343,9 @@
     </div>
     </div>
 @endsection
-@push('plugins-js')
+{{--@push('plugins-js')
     <script src="{{ asset('vendor/datatables/dataTables.checkboxes.min.js') }}"></script>
-@endpush
+@endpush--}}
 @section('scripts')
     @parent
 
@@ -433,7 +433,7 @@
                                 var table = $('#comando1').DataTable();
                                 table.destroy();
                                 var table = $('#comando').DataTable({
-
+                                    "pagingType": "full_numbers",
 
                                     "select": {
                                         "style": 'multi'
@@ -535,7 +535,7 @@
 
                                 var table = $('#comando1').DataTable({
 
-
+                                    "pagingType": "full_numbers",
                                     "select": {
                                         "style": 'multi'
                                     },
