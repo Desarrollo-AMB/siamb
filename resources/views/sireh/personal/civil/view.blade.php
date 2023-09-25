@@ -1,5 +1,5 @@
 @extends('layouts.user_type.auth')
-@section('title', 'Personal Civil')
+@section('title', 'Personal no Militar')
 @section('content')
 
     @if ($message = Session::get('success'))
