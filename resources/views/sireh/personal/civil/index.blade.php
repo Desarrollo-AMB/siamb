@@ -36,7 +36,7 @@
                                     <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                                     <p class="font-weight-bolder mb-0">
-                                        Personal no Militar No Activo
+                                        Personal  No Activo
                                     </p>
                                     </div>
                                 </div>
