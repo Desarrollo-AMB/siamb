@@ -13,7 +13,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Civil</h5>
+                            <h5 class="mb-0">Personal no Militar</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
                     </div>
