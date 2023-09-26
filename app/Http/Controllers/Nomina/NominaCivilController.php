@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Nomina;
 use App\Http\Controllers\Controller;
 use App\Models\asignaciones;
 use App\Models\Concptosnomina1;
+use App\Models\ConceptosNomina;
 use App\Models\Empleado;
 use Illuminate\Http\Request; 
 use App\Models\Salarios;
@@ -423,20 +424,20 @@ public function actualesdeducciones(Request $request)
             ->exists();
         
         if ($existeNomina) {
-            $asignaciones = Asignaciones::select('asignaciones.*', 'Empleados.codigo_empleado', 'Empleados.nombre1', 'Empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+            $asignaciones = asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
                 ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
-                ->join('Empleados', 'asignaciones.codigo_empleado', '=', 'Empleados.codigo_empleado')
-                ->where('Empleados.cedula', $cedula)
+                ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+                ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
+                ->where('empleados.cedula', $cedula)
                 ->where('asignaciones.tipo_concepto', 'D')
-                ->with('conceptoNomina')
+                ->with('conceptos_nomina')
                 ->get();
-        
             $empleado_nombre = $empleado->nombre1;
             $empleado_apellido = $empleado->apellido1;
         
-            $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo', 'tipo_empleado')
+            $conceptos_nomina = ConceptosNomina::select('codigo_concepto', 'descripcion', 'tipo')
             ->where('tipo', 'D')
-            ->whereIn('tipo_empleado', ['EMP', 'OBR','DOC'])
+       
             ->get();
         
             $dataemp = [

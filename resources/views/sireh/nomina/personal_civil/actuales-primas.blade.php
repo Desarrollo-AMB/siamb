@@ -85,7 +85,7 @@
                                         title="Eliminar" onclick="event.preventDefault();" >
                                         <i class="cursor-pointer fas fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
-                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.civilprimas.deletePrimaAsignada', ['registro' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('sireh.nomina.civilprimas.deletePrimaAsignada', ['id' => $user->id, 'cedula' => $dataemp['cedula']]) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>

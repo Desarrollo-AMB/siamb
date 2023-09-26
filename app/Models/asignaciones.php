@@ -12,11 +12,11 @@ class asignaciones extends Model
     use HasFactory;
     
     protected $fillable = ['*'];
-    
+    protected $table = 'asignaciones';
     protected $dates = ['deleted_at'];
     
-    public function conceptoNomina()
+    /*public function conceptoNomina()
     {
-        return $this->belongsTo(ConceptosNomina::class, 'id_concepto', 'codigo_concepto');
-    }
+        return $this->belongsTo(ConceptosNomina::class,  'codigo_concepto','id_concepto');
+    }*/
 }

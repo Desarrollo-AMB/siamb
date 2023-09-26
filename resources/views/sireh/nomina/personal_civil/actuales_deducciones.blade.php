@@ -83,7 +83,7 @@
                             @foreach ($asignaciones as $key => $user)
                             <tr>
                                 <td>{{ $count++ }}</td>
-                                <td>{{$user->conceptoNomina->descripcion}}</td>
+                                <td>{{$user->conceptos_nomina->descripcion}}</td>
                                 <td class="text-center">
                                     <a href="#" class="confirmar-delete" form-target="delete-form-{{  $user->id }}"
                                         title="Eliminar" onclick="event.preventDefault();" >

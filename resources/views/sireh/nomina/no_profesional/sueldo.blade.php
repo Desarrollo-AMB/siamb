@@ -18,7 +18,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Editar porcentaje de sueldo por grado</h5>
+                        <h5 class="mb-0">Editar porcentaje de la Racion por jerarquia</h5>
                     </div>
                 </div>
                 <hr class="horizontal dark my-4"> 
