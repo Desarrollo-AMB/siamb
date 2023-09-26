@@ -343,9 +343,7 @@
 
 
 @endsection
-@push('plugins-js')
-    <script src="{{ asset('vendor/datatables/dataTables.checkboxes.min.js') }}"></script>
-@endpush
+
 @section('scripts')
     @parent
 
@@ -433,14 +431,14 @@
                                 var table = $('#comando1').DataTable();
                                 table.destroy();
                                 var table = $('#comando').DataTable({
-
-
+                                
+                            "pageLength": 200,
                                     "select": {
                                         "style": 'multi'
                                     },
                                     "processing": true,
 
-                                    "responsive": true,
+                                    "responsive": false,
 
                                     "data": data,
                                     "columns": [
@@ -534,8 +532,7 @@
                                 $('#comando').hide();
 
                                 var table = $('#comando1').DataTable({
-
-
+                            "pageLength": 200,
                                     "select": {
                                         "style": 'multi'
                                     },
@@ -1025,7 +1022,7 @@
                 }
 
             }
-
+        });
 
             // Agregar el valor del input a la matriz new_data
 
@@ -1033,7 +1030,7 @@
             // console.log(new_data);
 
 
-        });
+   
 
 
         /*

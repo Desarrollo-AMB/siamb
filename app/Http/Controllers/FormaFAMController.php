@@ -32,6 +32,16 @@ use App\Models\Fam0001A3CargaPasajeros;
 use App\Models\Fam0001B1TripulacionAterrizajes;
 use App\Models\GradosMilitares;
 use App\Models\Ubicaciones;
+use App\Models\TiposEmpleado;
+use App\Models\Estados;
+use App\Models\UbicacionDetallada;
+use App\Models\Nivel;
+use App\Models\Cargos;
+use App\Models\Universidades;
+use App\Models\Profesion;
+use App\Models\Ciudades;
+use App\Models\CategoriasMilitares;
+use App\Models\PromocionesMilitares;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -2924,6 +2934,41 @@ public function PReporte()
         $programacion->hasta = request('hasta');
         $programacion->save();
         return redirect()->route('dao.agenda')->with('success','Programacion de fin de semana actualizada correctamente');
+    }
+
+
+
+    public function hrsVuelo($id)
+    {
+        $user_auth=auth()->user();
+
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $situaciones = Config::get('constants.situacion');
+        $lateralidades = Config::get('constants.zur_der_amb');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $grados_militares = GradosMilitares::all();
+        $categorias_militares = CategoriasMilitares::all();
+        $promociones_militares = PromocionesMilitares::all();
+        $aeronaves = AeronaveModelo::all(); 
+        $funcion = FuncionTripulante::all();   
+        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        return view('dao.operacionesAereas.hrsPT.edithrs',
+            compact(
+                'datos','ciudades','grados_militares',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones', 'categorias_militares', 'situaciones',
+                'promociones_militares','lateralidades','aeronaves','funcion'));
     }
 
 }

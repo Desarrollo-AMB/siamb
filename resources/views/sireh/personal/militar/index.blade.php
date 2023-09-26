@@ -79,7 +79,6 @@
                                 <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
                                 <select class="form-control motivo" id="motivo" name="motivo" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="DESERTOR">DESERTOR</option>
                                     <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
                                     <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
                                 </select>

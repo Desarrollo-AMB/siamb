@@ -21,7 +21,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Civil</h5>
+                        <h5 class="mb-0">Personal no Militar</h5>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                                     <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                                     <p class="font-weight-bolder mb-0">
-                                        Civil No Activo
+                                        Personal  No Activo
                                     </p>
                                     </div>
                                 </div>
