@@ -36,8 +36,10 @@
                                     <thead>
                                         <tr>
                                             <th>Cedula</th>
-                                            <th>Nombre </th>
-                                            <th>Apellido</th>
+                                            <th>Nombre1</th>
+                                            <th>Nombre2</th>
+                                            <th>Apellido1</th>
+                                            <th>Apellido2</th>
                                             <th>Grado Militar</th>
                                             <th>Ubicacion</th>
                                             <th>Acciones</th>
@@ -173,7 +175,9 @@
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},
+                {data: 'nombre2'},
                 {data: 'apellido1'},
+                {data: 'apellido2'},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
