@@ -180,9 +180,9 @@ public function deletePrimaAsignada(Request $request, $id)
     select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
     ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+    ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
     ->where('empleados.cedula', $cedula)
     ->where('asignaciones.tipo_concepto', 'A')
-    ->with('conceptoNomina')
     ->get();
 
     $conceptos_nomina = Concptosnomina1::
@@ -237,9 +237,9 @@ public function actualesPrimas(Request $request)
         select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
         ->where('empleados.cedula', $cedula)
         ->where('asignaciones.tipo_concepto', 'A')
-        ->with('conceptoNomina')
         ->get();
 
         $empleado_nombre = $empleado->nombre1;
@@ -324,9 +324,9 @@ public function asignacionNuevaPrima(Request $request)
     $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+        ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
         ->where('empleados.cedula', $cedula)
         ->where('asignaciones.tipo_concepto', 'A')
-        ->with('conceptoNomina')
         ->get();
 
     // Preparar los datos para pasar a la vista
@@ -420,9 +420,9 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
     select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
     ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
+    ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
     ->where('empleados.cedula', $cedula)
     ->where('asignaciones.tipo_concepto', 'D')
-    ->with('conceptoNomina')
     ->get();
 
     $conceptos_nomina = Concptosnomina1::
@@ -751,7 +751,7 @@ $porcentajeSalario = Salarios::where('codigo_grado', $item->grado_militar)
     ->where('antiguedad', $antiguedadAjustada)
     ->pluck('porcentaje')
     ->first();
-$sueldoGrado = $sueldoBase * $porcentajeSalario;
+$sueldoGrado =  $porcentajeSalario;
 $item->sueldo_grado = $sueldoGrado;
 
 // Obtener el porcentaje del modelo Concptosnomina1
@@ -1176,8 +1176,8 @@ $response->setContentDisposition(
 
 //dd($item);
 // Devolver la respuesta
-//return $response;
-return view('sireh.nomina.personal_militar.excel-vista', compact('nomina'));
+return $response;
+//return view('sireh.nomina.personal_militar.excel-vista', compact('nomina'));
 
 }
 

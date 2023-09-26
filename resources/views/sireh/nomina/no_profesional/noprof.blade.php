@@ -83,7 +83,7 @@
                                     <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                                     <p class="font-weight-bolder mb-0">
-                                        Sueldo Por Jerarquía
+                                        Racion Por Jerarquía
                                     </p> 
                                     </div>
                                 </div>
