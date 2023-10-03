@@ -17,6 +17,7 @@ use App\Models\Nomina;
 use App\Models\Fam0001;
 use App\Models\VueloOrdenadaPor;
 use App\Models\VueloEnApoyo;
+use App\Models\HorasVuelo;
 use App\Models\UnidadesConsumible;
 use App\Models\UnidadesMedidas;
 use App\Models\Fam0001A1Mision;
@@ -2969,6 +2970,47 @@ public function PReporte()
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
                 'cargos', 'nacionalidades', 'universidades', 'profesiones', 'categorias_militares', 'situaciones',
                 'promociones_militares','lateralidades','aeronaves','funcion'));
+    }
+
+    public function updatehoras(Request $request){
+
+        $this->validate($request,
+            [
+                'codigo_empleado1' => 'required',
+                'cedula1' => 'required',
+                'horasd' => 'required',
+                'horasn' => 'required',
+                'total' => 'required',
+                'aeronave' => 'required',
+                'funcion' => 'required',
+            ],
+            [
+                'codigo_empleado.required' => 'el codigo empleado es requerida',
+                'cedula.required' => 'La cedula es requerida',
+                'horasd.required' => 'Las horas diurnas son requeridad',
+                'horasn.required' => 'Las horas nocturnas son requeridas',
+                'total.required' => 'El total de horas es requerido',
+                'aeronave.required' => 'El sistema es requerido',
+                'funcion.required' => 'La funcion  es requerida',
+            ]
+        );
+        try {
+        
+            $horas = new HorasVuelo;
+            $horas->codigo_empleado = $request->codigo_empleado1;
+            $horas->cedula = $request->cedula1;
+            $horas->horas_diurna = $request->horasd;
+            $horas->horas_nocturna = $request->horasn;
+            $horas->total_horas = $request->total;
+            $horas->aeronave = $request->aeronave;
+            $horas->funcion = $request->funcion;
+            $horas->save();
+
+            return redirect()->route('dao.personal.hrsVuelo', [$request->id])->with('success', 'Se han actualizado los Datos del Profesional');
+        } catch (Exception $e) {
+            Log::error("************************* ERROR ************************* \n" . $e);
+            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+        }
     }
 
 }

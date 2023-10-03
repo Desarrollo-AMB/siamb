@@ -220,10 +220,10 @@ $fecha_retiro = "";
                                 </div>
                                 <div class="card-body">
                                     <!-- Formulario original -->
-                                    <form class="row g-3 requires-validation militar-form" name="militar" method="post" action="{{ route('sireh.personal-militar.update.datos') }}" enctype="multipart/form-data">
+                                    <form class="row g-3 requires-validation militar-form" name="militar" method="post" action="{{ route('dao.personal.hrsVuelo.updatehoras') }}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="cedula1" value="{{ $datos->cedula }}">
-                                        <input type="hidden" name="cedula1" value="{{ $datos->codigo_empleado }}">
+                                        <input type="hidden" name="codigo_empleado1" value="{{ $datos->codigo_empleado }}">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Funcion:</h6>

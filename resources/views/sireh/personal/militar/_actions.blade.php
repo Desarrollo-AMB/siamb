@@ -47,6 +47,11 @@ data-bs-original-title="Editar" title="Editar"
     >
         <i class="fas fa-medal text-secondary" aria-hidden="true"></i>
     </a>
+    <a href="{{ route('sireh.sanciones.view', $id) }}" class="mx-3" data-bs-toggle="tooltip"
+    data-bs-original-title="Condecoraciones" title="Sanciones"
+>
+    <i class="fas fa-folder-open text-success" aria-hidden="true"></i>
+</a>
     @can('modificar')
     <a href="#" class="mx-3 funcion_empleado" data-bs-toggle="tooltip"
         data-bs-original-title="Funcion del Empleado" title="Funcion del Empleado" data-id="{{ $codigo_empleado }}">

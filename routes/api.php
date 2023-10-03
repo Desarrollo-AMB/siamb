@@ -21,6 +21,7 @@ use App\Http\Controllers\empleadoExtraComponeteController;
 use App\Http\Controllers\Nomina\militarControllers;
 use App\Http\Controllers\PartegeneralController;
 use App\Http\Controllers\juntaperm\controllerjuntap;
+use App\Http\Controllers\SancionesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +130,7 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
  Route::post('/juntapermanente/ascenso/personal', [controllerjuntap::class, 'ascender_personal'])->name('api.juntap.ascenso.personal');
   //JUNTA P2
  // Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.ascenso.index');
-  //Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.reportes.index');
+ //Route::get('/juntaperm/controllerjuntap', [controllerjuntap::class, 'index'])->name('api.juntap.reportes.index');
+
+ /////////////////////////////////////////////////Sanciones///////////////////////////////////////////////////////
+ Route::get('sireh/Sanciones/data', [SancionesController::class, 'dataSanciones'])->name('api.sireh.sanciones.data');

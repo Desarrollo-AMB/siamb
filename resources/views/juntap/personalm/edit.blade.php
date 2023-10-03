@@ -334,7 +334,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group">
                                                     <h6>Grado Militar:</h6>
-                                                    <select class="select2 form-control" name="grado_militar" id="grado_militar">
+                                                    <select class="select2 form-control" name="grado_militar" id="grado_militar" readonly>
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($grados_militares as $row)
                                                             <option value="{{$row->codigo_grado}}" {{$datos->nomina->grado_militar == $row->codigo_grado ? 'selected': '' }}>{{ $row->descripcion }} </option>
@@ -629,6 +629,11 @@
         else {
             $('#promocion').prop('disabled',false);
         }
-    }
+    }  $(document).ready(function() {
+        $('#grado_militar'); // Inicializar el select2
+
+        // Deshabilitar el select
+        $('#grado_militar').prop('disabled', true);
+    });
 </script>
 @endsection

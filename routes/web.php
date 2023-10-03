@@ -34,6 +34,7 @@ use App\Http\Controllers\juntaperm\controllerjuntap;
 use App\Http\Controllers\ParteAeronaveController;
 use App\Http\Controllers\empleadoExtraComponeteController;
 use App\Http\Controllers\nominaexcelcontroller;
+use App\Http\Controllers\SancionesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -466,6 +467,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'editAgenda'])->name('dao.agenda.edit');
     Route::patch('/dao/Agenda/update/{id}', [FormaFAMController::class, 'updateAgenda'])->name('dao.agenda.update');
     Route::get('/dao/Agenda/edit/{id}',                    [FormaFAMController::class, 'hrsVuelo'])->name('dao.personal.hrsVuelo');
+    Route::post('/dao/Agenda/ed',                    [FormaFAMController::class, 'updatehoras'])->name('dao.personal.hrsVuelo.updatehoras');
 
 });
 
@@ -505,7 +507,8 @@ Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBuca
 Route::get('/extra/importar', [nominaexcelcontroller::class, 'index'])->name('extra.importar');
 Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarExcel'])->name('carga.ArchivoExcel');
 
-
+///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
+Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
