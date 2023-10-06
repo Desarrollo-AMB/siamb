@@ -360,7 +360,7 @@ Auth::routes();
     Route::get('/bienestar-social/reportes', [ReportesBSController::class, 'reportesBienestarSocial'])->name('bienestar-social.reportes');
 
     Route::get('/sireh/personal-militar-noprof/reportes', [PersonalController::class, 'reportesPersonalMilitarNoProfView'])->name('sireh.personal-militar-noprof.reportes');
-
+    Route::get('/sireh/personal-militar-noprof/egresado', [PersonalController::class, 'egresado'])->name('sireh.personal-militar-noprof.egresado');
 });
 
 

@@ -1856,6 +1856,7 @@ class PersonalController extends Controller
         ));
     }
 
+
      /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -2174,5 +2175,43 @@ $titulo= 'ficha';
         return view('juntap.reportes.fichabuscar');
     }
 
+     //Obtiene el personal militar egresado, exclusivo por api para el Datatable
 
+
+    public function personalNoMilitarEgresado(Request $request){
+        $empleados = Empleado::where('empleados.situacion','E');
+        $empleados->leftjoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->leftjoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->leftjoin('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
+        $empleados->leftjoin('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
+        $empleados->whereIn('nomina.tipo_emp',['MEF','ALI']);
+        $empleados->select(
+            'empleados.id',
+            'empleados.codigo_empleado',
+            'empleados.cedula',
+            'empleados.nombre1',
+            'empleados.nombre2',
+            'empleados.apellido1',
+            'empleados.apellido2',
+            'grados_militares.descripcion as grado_militar',
+            'ubicaciones.descripcion as ubicacion',
+            'tipo_de_baja.descripcion as motivo',
+            'egresos.fecha_salida as fecha_salida',
+            'egresos.nro_resuelto as nro_resuelto',
+        );
+        $datatable= Datatables::of($empleados);
+        return $datatable->make(true);
+    }
+
+    public function egresado()
+    {
+        $grados_militares = GradosMilitares::whereIn('tipo_emp',['ALI'])->orderBy('codigo_grado','asc')->orderBy('codigo_grado','asc')->get();
+        $ubicaciones = Ubicaciones::all();
+        return view('sireh.personal.militar_noprof.egresado.index', compact(
+            'grados_militares',
+            'ubicaciones',
+        ));
+    }
 }
