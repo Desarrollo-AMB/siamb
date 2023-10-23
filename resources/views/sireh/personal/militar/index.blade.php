@@ -35,11 +35,11 @@
                                 <table id="table" class="table table-striped table-bordered nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            <th>Cedula</th>
+                                            <th>Cédula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
                                             <th>Grado Militar</th>
-                                            <th>Ubicacion</th>
+                                            <th>Ubicación</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
