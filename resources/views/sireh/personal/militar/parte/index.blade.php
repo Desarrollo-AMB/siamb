@@ -108,7 +108,7 @@
                                                 <td>{{ $parte_general->total1 }}</td>
                                             </tr>
                                             <tr>
-                                                <th>faltan</th>
+                                                <th>Faltan</th>
                                                 <td>{{ $ausentes_count }}</td>
                                             </tr>
                                             <tr>
@@ -116,7 +116,7 @@
                                                 <td>{{ $parte_general->total2 }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Servicio feura de la unidad</th>
+                                                <th>Servicio Fuera de la Unidad</th>
                                                 <td>{{ $parte_general->total3 }}</td>
                                             </tr>
                                             <tr>
@@ -132,7 +132,7 @@
                                                 <td>{{ $parte_general->total6 }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Comisíon Exterior</th>
+                                                <th>Comisión Exterior</th>
                                                 <td>{{ $parte_general->total7 }}</td>
                                             </tr>
                                             <tr>
@@ -157,7 +157,7 @@
                                                 <td>{{ $parte_general->total13 }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Hospiatalizado</th>
+                                                <th>Hospitalizado</th>
                                                 <td>{{ $parte_general->total14 }}</td>
                                             </tr>
                                             <tr>
@@ -186,7 +186,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="center" colspan="8">Parte por categoira</th>
+                                                <th scope="col" class="center" colspan="8">Parte por Categoría</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -196,20 +196,20 @@
                                                     <td>{{ $categoria->comando }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Oficial Efectivo Tecnico</th>
+                                                    <th>Oficial Efectivo Técnico</th>
                                                     <td>{{ $categoria->tecnico }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Efectivo Comado de tropa</th>
+                                                    <th>Oficial Efectivo Comado de Tropa</th>
                                                     <td>{{ $categoria->tropacmd }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Oficial Asimilado Tecnico</th>
-                                                    <td>{{ $categoria->asimiladotc }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Oficial Asimilado</th>
                                                     <td>{{ $categoria->asimilado }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Oficial Asimilado Técnico</th>
+                                                    <td>{{ $categoria->asimiladotc }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Tropa Profesional</th>
@@ -230,7 +230,7 @@
                                                 <th>CDO.TRP</th>
                                                 <th>TECN</th>
                                                 <th>ASIM</th>
-                                                <th>AS TEC</th>
+                                                <th>ASIM TEC</th>
                                                 <th>TRP</th>
                                                 <th>TOTAL</th>
                                             </tr>
