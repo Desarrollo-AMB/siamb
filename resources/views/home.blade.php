@@ -401,7 +401,7 @@ chartElement.addEventListener("click", function() {
 var militares_activos = <?php echo $militares_activos; ?>; // Asegúrate de que la variable $militares_activos esté definida antes de este código
 
 // Calcula el porcentaje basado en un total de 10,000
-var porcentaje = (militares_activos / 19427) * 100;
+var porcentaje = ((militares_activos / 19427) * 100).toFixed(2); // Redondea a dos decimales
 
 var options = {
     series: [porcentaje],
@@ -420,7 +420,7 @@ var options = {
                     color: '#000000', // Color azul marino
                     offsetY: 80, // Ajusta este valor para acercar o alejar las etiquetas del gráfico
                     formatter: function(val) {
-                        return militares_activos +' '+ 'Efectivos activos de 19.427(TOE)';
+                        return militares_activos + ' ' + 'Efectivos activos de 19.427 (TOE)';
                     }
                 }
             }
@@ -450,7 +450,7 @@ var options = {
     stroke: {
         dashArray: 2
     },
-    labels: [militares_activos +' '+'Efectivos activos'],
+    labels: [militares_activos + ' ' + 'Efectivos activos'],
 };
 
 var chart = new ApexCharts(document.querySelector("#chart1"), options);
