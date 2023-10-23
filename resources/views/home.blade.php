@@ -47,12 +47,12 @@
                             <div class="numbers">
                                 <div class="d-flex align-items-center">
                                     <h5 class="font-weight-bolder mb-0 mr-3 black-text">
-                                        #{{ number_format($evaluaciones, 0, '', '.') }}
+                                        
                                     </h5>
                                     <div id="chart-12" class="apexcharts"></div>
                                 </div>
                                 <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Evaluaciones
-                                    realizadas el año ({{ $ultimo_year }})</p>
+                                    realizadas los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
                             </div>
                         </div>
                     </div>
@@ -66,12 +66,11 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="font-weight-bolder mb-0 mr-3 black-text">#{{ number_format($pafs, 0, '',
-                                        '.') }}</h5>
+                                    <h5 class="font-weight-bolder mb-0 mr-3 black-text"></h5>
                                     <div id="deporte" class="apexcharts apexcharts-responsive"></div>
                                 </div>
                                 <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Pruebas físicas
-                                    realizadas el año ({{ $ultimo_year }})</p>
+                                    realizadas los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
                             </div>
                         </div>
                     </div>
@@ -85,12 +84,10 @@
                         <div class="col-9">
                             <div class="numbers">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="font-weight-bolder mb-0 mx-3 black-text">#{{
-                                        number_format($procedimientos_devueltos, 0, '', '.') }}</h5>
                                     <div id="chart-13" class="apexcharts"></div>
                                 </div>
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold black-text">Procedimientos
-                                    Devueltos</p>
+                                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Procedimientos
+                                    Devueltos los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
                             </div>
                         </div>
                     </div>
@@ -393,19 +390,20 @@
 </script>
 
 <script>
-    var chartElement = document.querySelector("#chart1");
+  var chartElement = document.querySelector("#chart1");
 
 // Agrega un evento de clic al elemento
 chartElement.addEventListener("click", function() {
     var url = "{{ route('sireh.personal.militar.parte.index') }}";
-  window.location.href = url;
+    window.location.href = url;
 });
-    var militares_activos = <?php echo $militares_activos; ?>; // Asegúrate de que la variable $militares_activos esté definida antes de este código
 
-    // Calcula el porcentaje basado en un total de 10,000
-    var porcentaje = (militares_activos / 10000) * 100;
+var militares_activos = <?php echo $militares_activos; ?>; // Asegúrate de que la variable $militares_activos esté definida antes de este código
 
-    var options = {
+// Calcula el porcentaje basado en un total de 10,000
+var porcentaje = (militares_activos / 19427) * 100;
+
+var options = {
     series: [porcentaje],
     chart: {
         height: 200,
@@ -418,9 +416,12 @@ chartElement.addEventListener("click", function() {
             endAngle: 135,
             dataLabels: {
                 name: {
-                    fontSize: '14px',
+                    fontSize: '10px',
                     color: '#000000', // Color azul marino
-                    offsetY: 80 // Ajusta este valor para acercar o alejar las etiquetas del gráfico
+                    offsetY: 80, // Ajusta este valor para acercar o alejar las etiquetas del gráfico
+                    formatter: function(val) {
+                        return militares_activos +' '+ 'Efectivos activos de 19.427(TOE)';
+                    }
                 }
             }
         }
@@ -449,7 +450,7 @@ chartElement.addEventListener("click", function() {
     stroke: {
         dashArray: 2
     },
-    labels: [militares_activos + ' Efectivos activos'],
+    labels: [militares_activos +' '+'Efectivos activos'],
 };
 
 var chart = new ApexCharts(document.querySelector("#chart1"), options);
@@ -463,12 +464,12 @@ chart.render();
     var evaluacionesANT = <?php echo $evaluacionesANT; ?>;
     var evaluacionesANTe = <?php echo $evaluacionesANTe; ?>;
   var options1 = {
-    series: [{
+    series: [{ 
       data: [evaluacionesANTe,evaluacionesANT,evaluaciones]
     }],
     chart: {
       type: 'line',
-      width: 100,
+      width: 200,
       height: 35,
       sparkline: {
         enabled: true
@@ -507,7 +508,7 @@ chart.render();
     }],
     chart: {
       type: 'line',
-      width: 100,
+      width: 200,
       height: 35,
       sparkline: {
         enabled: true
@@ -547,7 +548,7 @@ var sanciones_aprobadas_year = <?php echo $sanciones_aprobadas_year; ?>;
 var sanciones_denegadas_year = <?php echo $sanciones_denegadas_year; ?>;
 
 var options = {
-  series: [sanciones, sanciones_aprobadas, sanciones_denegadas, sanciones_pendientes, sanciones_registradas_year, sanciones_aprobadas_year, sanciones_denegadas_year],
+  series: [ sanciones_registradas_year, sanciones_aprobadas_year, sanciones_denegadas_year],
   chart: {
     width: 380,
     type: 'donut',
@@ -583,7 +584,7 @@ var options = {
       }
     }
   }],
-  labels: ['Sanciones Registradas', 'Sanciones Aprobadas', 'Sanciones Denegadas', 'Sanciones Pendientes', 'Registradas en el Año', ' Aprobadas en el Año', ' Denegadas en el Año']
+  labels: [ 'Registradas en el Año', ' Aprobadas en el Año', ' Denegadas en el Año']
 };
 
 var chartYear = new ApexCharts(document.querySelector("#chart-year"), options);
@@ -599,7 +600,7 @@ chartYear.render();
     }],
     chart: {
       type: 'line',
-      width: 100,
+      width: 200,
       height: 35,
       sparkline: {
         enabled: true
@@ -629,66 +630,72 @@ chartYear.render();
   chart13.render();
 </script>
 <script>
-    var aeronaved = <?php echo $aeronave->first()->disponible; ?>;
-    var aeronaveidc = <?php echo $aeronave->first()->disponible_combate; ?>;
-    var aeronavein = <?php echo $aeronave->first()->indisponible; ?>;
-    var aeronaveis = <?php echo $aeronave->first()->siniestrada; ?>;
-    var options = {
-        series: [aeronaved, aeronaveidc, aeronavein, aeronaveis],
-        chart: {
-            type: 'donut',
-            width: 320 // Ajustar el ancho del gráfico según tus necesidades
+    var aeronaved = <?php echo number_format($aeronave->first()->disponible, 0, '.', ''); ?>;
+var aeronaveidc = <?php echo number_format($aeronave->first()->disponible_combate, 0, '.', ''); ?>;
+var aeronavein = <?php echo number_format($aeronave->first()->indisponible, 0, '.', ''); ?>;
+var aeronaveis = <?php echo number_format($aeronave->first()->siniestrada, 0, '.', ''); ?>;
+var options = {
+  series: [aeronaved, aeronaveidc, aeronavein, aeronaveis],
+  chart: {
+    type: 'donut',
+    width: 320 // Ajustar el ancho del gráfico según tus necesidades
+  },
+  plotOptions: {
+    pie: {
+      startAngle: -90,
+      endAngle: 90,
+      offsetY: 10
+    }
+  },
+  labels: ['Disponible','Acta para Combate','Indisponible','Siniestrada'], // Cambiar las etiquetas del gráfico
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        width: 200
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }],
+  annotations: {
+    position: 'front',
+    yaxis: [{
+      y: -30, // Ajustar la posición vertical del histograma
+      offsetY: 0,
+      borderColor: '#999',
+      fillColor: '#FEB019',
+      opacity: 0.4,
+      label: {
+        borderColor: '#999',
+        style: {
+          fontSize: '12px',
+          color: '#333',
+          background: '#FEB019',
         },
-        plotOptions: {
-            pie: {
-                startAngle: -90,
-                endAngle: 90,
-                offsetY: 10
-            }
-        },
-        labels: ['Disponible','Acta para Combate','Indisponible','Siniestrada'], // Cambiar las etiquetas del gráfico
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }],
-        annotations: {
-            position: 'front',
-            yaxis: [{
-                y: -30, // Ajustar la posición vertical del histograma
-                offsetY: 0,
-                borderColor: '#999',
-                fillColor: '#FEB019',
-                opacity: 0.4,
-                label: {
-                    borderColor: '#999',
-                    style: {
-                        fontSize: '12px',
-                        color: '#333',
-                        background: '#FEB019',
-                    },
-                    text: 'Histograma',
-                }
-            }]
-        },
-        layout: {
-            padding: {
-                top: 30 // Ajustar el espacio superior para mostrar el histograma
-            }
-        },
-        title: {
-            text: 'Aeronaves' // Agregar el título de la gráfica aquí
-        },
-        colors: ['#006600', '#0000ff', '#eb780e', '#ff0000'] // Asignar colores personalizados
-    };
+        text: 'Histograma',
+      }
+    }]
+  },
+  layout: {
+    padding: {
+      top: 30 // Ajustar el espacio superior para mostrar el histograma
+    }
+  },
+  title: {
+    text: 'Aeronaves' // Agregar el título de la gráfica aquí
+  },
+  colors: ['#006600', '#0000ff', '#eb780e', '#ff0000'], // Asignar colores personalizados
+  dataLabels: {
+    enabled: false,
+    formatter: function (val) {
+      return parseInt(val);
+    }
+  }
+};
 
-    var chart24 = new ApexCharts(document.querySelector("#chart24"), options);
-    chart24.render();
+var chart24 = new ApexCharts(document.querySelector("#chart24"), options);
+chart24.render();
 </script>
 @endpush

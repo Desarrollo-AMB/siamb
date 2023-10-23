@@ -1760,7 +1760,8 @@ class PersonalController extends Controller
         switch ($reporte) {
             case 1:
                 $complementoTitulo= "DE BAJA POR CATEGORIA Y GRADO";
-                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                if($valueParametro1 !="00022"){
+                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
                     ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
                     ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                     ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
@@ -1792,22 +1793,15 @@ class PersonalController extends Controller
                     'categorias_militares.descripcion as categoria_militar',
 
                 );
-                //dd($valueParametro1);
-                $datos = $empleados->get();
-
-                break;
-            case 2:
-                //dd($valueParametro);
-                $complementoTitulo= " POR SITUACION";
-                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                }else{
+                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
                     ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
                     ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
                     ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
                     ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                    ->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
                     ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
                     ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-                    ->where('nomina.situacion', $valueParametro)
+                    ->where('datos_militares.codigo_categoria', $valueParametro)
                     ->select(
                     'empleados.id',
                     'empleados.codigo_empleado',
@@ -1816,8 +1810,6 @@ class PersonalController extends Controller
                     'empleados.nombre2',
                     'empleados.apellido1',
                     'empleados.apellido2',
-                    'movimientos.tipo_movimiento',
-                    'movimientos.observaciones',
                     DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
                     'grados_militares.siglas as siglas',
                     'grados_militares.descripcion as grado_militar',
@@ -1833,8 +1825,134 @@ class PersonalController extends Controller
                     'categorias_militares.descripcion as categoria_militar',
 
                 );
+                }
+               
+                //dd($valueParametro1);
+                $datos = $empleados->get();
+
+                break;
+            case 2:
+                //dd($valueParametro);
+                $complementoTitulo= " POR SITUACION";
+                if($valueParametro1 !="00022") {
+                   
+
+                   // dd($valueParametro);
+                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                    ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                    ->where('nomina.situacion', $valueParametro)
+                    ->where('movimientos.situacion', $valueParametro)
+                    ->where('nomina.codigo_ubicacion', $valueParametro1)
+                    ->select(
+                    'empleados.id',
+                    'empleados.codigo_empleado',
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                   'movimientos.tipo_movimiento',
+                   'movimientos.observaciones',
+                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                    'grados_militares.siglas as siglas',
+                    'grados_militares.descripcion as grado_militar',
+                    'ubicaciones.descripcion as ubicacion',
+                    'datos_militares.fecha_graduacion',
+                    DB::raw("CASE nomina.situacion
+                            WHEN 'A' THEN 'ACTIVO'
+                            WHEN 'E' THEN 'EGRESADO'
+                            WHEN 'S' THEN 'SUSPENDIDO'
+                            ELSE ''
+                            END as situacion"),
+                    'datos_militares.codigo_categoria',
+                    'categorias_militares.descripcion as categoria_militar',
+
+                );
+                }else{
+                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                        ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                        ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                        ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
+                        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                        ->where('nomina.situacion', $valueParametro)
+                        ->where('movimientos.situacion', $valueParametro)
+                        ->select(
+                        'empleados.id',
+                        'empleados.codigo_empleado',
+                        'empleados.cedula',
+                        'empleados.nombre1',
+                        'empleados.nombre2',
+                        'empleados.apellido1',
+                        'empleados.apellido2',
+                        'movimientos.tipo_movimiento',
+                        'movimientos.observaciones',
+                        DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                        'grados_militares.siglas as siglas',
+                        'grados_militares.descripcion as grado_militar',
+                        'ubicaciones.descripcion as ubicacion',
+                        'datos_militares.fecha_graduacion',
+                        DB::raw("CASE nomina.situacion
+                                WHEN 'A' THEN 'ACTIVO'
+                                WHEN 'E' THEN 'EGRESADO'
+                                WHEN 'S' THEN 'SUSPENDIDO'
+                                ELSE ''
+                                END as situacion"),
+                        'datos_militares.codigo_categoria',
+                        'categorias_militares.descripcion as categoria_militar',
+    
+                    );
+                   
+                }
                 $datos = $empleados->get();
                 break;
+                case 3:
+                    $complementoTitulo= " POR AÑO DE GRADUACION";
+                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
+                        ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+                        ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+                        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
+                        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
+                        //->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
+                        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                        ->where('datos_militares.codigo_categoria', $valueParametro)
+                        ->where('datos_militares.fecha_graduacion', $valueParametro1)
+                        ->select(
+                        'empleados.id',
+                        'empleados.codigo_empleado',
+                        'empleados.cedula',
+                        'empleados.nombre1',
+                        'empleados.nombre2',
+                        'empleados.apellido1',
+                        'empleados.apellido2',
+                       // 'movimientos.tipo_movimiento',
+                        //'movimientos.observaciones',
+                        DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                        'grados_militares.siglas as siglas',
+                        'grados_militares.descripcion as grado_militar',
+                        'ubicaciones.descripcion as ubicacion',
+                        'datos_militares.fecha_graduacion',
+                        DB::raw("CASE nomina.situacion
+                                WHEN 'A' THEN 'ACTIVO'
+                                WHEN 'E' THEN 'EGRESADO'
+                                WHEN 'S' THEN 'SUSPENDIDO'
+                                ELSE ''
+                                END as situacion"),
+                        'datos_militares.codigo_categoria',
+                        'categorias_militares.descripcion as categoria_militar',
+    
+                    );
+                    $datos = $empleados->get();
+                    break;
         }
 
         $titulo = 'REPORTE DE PERSONAL MILITAR '. $complementoTitulo;

@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         $militares_activos = Empleado::with(['nomina'])
                 ->whereHas('nomina', function ($query) {
-                    $query->where('situacion', 'A');
+                    $query->whereIn('situacion', ['A','S']);
                     $query->whereIn('tipo_emp',['MIL','MEX','TRP']);
                 }
             )
@@ -148,7 +148,7 @@ class HomeController extends Controller
 
         return view('home',
             compact(
-                'militares_activos', 'evaluaciones', 'pafs', 'ultimo_year',
+                'militares_activos', 'evaluaciones', 'pafs', 'ultimo_year','lastYear','lastYear2',
                 'sanciones', 'sanciones_aprobadas', 'sanciones_denegadas',
                 'sanciones_pendientes', 'sanciones_registradas_year',
                 'sanciones_aprobadas_year', 'sanciones_denegadas_year',
