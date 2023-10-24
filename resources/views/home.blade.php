@@ -2,35 +2,35 @@
 {{-- ////@extends('layouts/contentNavbarLayout') --}}
 
 <style>
-    /* Ajustar el tamaño del gráfico */
-    .chart-small {
-        width: 100%;
-        height: 25px;
-    }
+  /* Ajustar el tamaño del gráfico */
+  .chart-small {
+    width: 100%;
+    height: 25px;
+  }
 </style>
 <style>
-    /* Ajustar el tamaño del gráfico */
-    .chart-small {
-        width: 100%;
-        height: 25px;
-    }
+  /* Ajustar el tamaño del gráfico */
+  .chart-small {
+    width: 100%;
+    height: 25px;
+  }
 
-    /* Estilos para la etiqueta del gráfico */
-    .chart-label {
-        margin-top: 10px;
-    }
+  /* Estilos para la etiqueta del gráfico */
+  .chart-label {
+    margin-top: 10px;
+  }
 
-    .dark-gradient {
-        background-image: linear-gradient(to bottom right, #122fb1c0, #1ae7ee, #2a159e94);
-    }
+  .dark-gradient {
+    background-image: linear-gradient(to bottom right, #122fb1c0, #1ae7ee, #2a159e94);
+  }
 
-    .dark-gradient1 {
-        background-image: linear-gradient(to bottom right, #0c3557, #3ec8fa73);
-    }
+  .dark-gradient1 {
+    background-image: linear-gradient(to bottom right, #0c3557, #3ec8fa73);
+  }
 
-    .black-text {
-        color: black;
-    }
+  .black-text {
+    color: black;
+  }
 </style>
 
 @section('content')
@@ -38,124 +38,131 @@
 <script src="{{ asset('js/chart.js') }}"></script>
 @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador|consulta|jefe_de_personal|personal_militar|personal_militar_noprof|personal_civil|bienestar_social|junta_permanente')
 <div class="container-fluid card z-index-3 custom-card dark-gradient">
-    <div class="row my-4">
-        <div class="col-sm-4 mb-xl-0 mb-4">
-            <div class="card shadow-lg">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="numbers">
-                                <div class="d-flex align-items-center">
-                                    <h5 class="font-weight-bolder mb-0 mr-3 black-text">
-                                        
-                                    </h5>
-                                    <div id="chart-12" class="apexcharts"></div>
-                                </div>
-                                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Evaluaciones
-                                    realizadas los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 mb-xl-0 mb-4">
-            <div class="card overflow-hidden shadow-lg">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="numbers">
-                                <div class="d-flex align-items-center">
-                                    <h5 class="font-weight-bolder mb-0 mr-3 black-text"></h5>
-                                    <div id="deporte" class="apexcharts apexcharts-responsive"></div>
-                                </div>
-                                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Pruebas físicas
-                                    realizadas los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 mb-xl-4 mb-4">
-            <div class="card overflow-hidden shadow-lg">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="numbers">
-                                <div class="d-flex align-items-center">
-                                    <div id="chart-13" class="apexcharts"></div>
-                                </div>
-                                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Procedimientos
-                                    Devueltos los ultimos 3 años ({{ $lastYear2 }}-{{ $lastYear}}-{{ $ultimo_year }})</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-5 mb-xl-4 mb-5">
-            <div class="card shadow-lg">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <div id="chart1" class="apexcharts chart-small"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-5 col-sm-5 mb-xl-0 mb-6">
-            <div class="card-responsive">
-                <div class="card shadow-lg" style="max-width: 100%;">
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <div id="chart-year"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-sm-4 mb-xl-0 mb-2">
-            <div class="card-responsive">
-                <div class="card shadow-lg" style="max-width: 100%;">
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <div id="chart24"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="row my-4">
+    <div class="col-sm-4 mb-xl-0 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-9">
+              <div class="numbers">
+                <div class="d-flex align-items-center">
 
-    @endhasanyrole
-    @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador|consulta')
-
-    <div class="row">
-        {{-- <div class="col-lg-6">
-            <div class="card z-index-3 custom-card shadow-lg">
-                <div class="card-header pb-2">
-                    <h6 class="black-text">Vuelos Registrados</h6>
+                  <div id="chart-12" class="apexcharts apexcharts-responsive"></div>
                 </div>
-                <div class="card-body p-3">
-                    <div class="chart">
-                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                    </div>
-                </div>
+                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text text-center">({{$lastYear2 }}---{{
+                  $lastYear }}---{{$ultimo_year}})</p>
+                <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Evaluaciones
+                  realizadas los ultimos 3 años </p>
+              </div>
             </div>
-        </div>--}}
-        <div class="col-xl-12 col-sm-4 mb-xl-0 mb-2" id="custom-card">
-            <div class="card z-index-3 custom-card shadow-lg">
-                <div class="card-header pb-2">
-                    <h6 class="black-text">Vuelos Programados</h6>
-                </div>
-                <div class="card-body p-4">
-                    <div id="chart"></div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="col-sm-4 mb-xl-0 mb-4">
+      <div class="card shadow-lg">
+        {{--<div class="card overflow-hidden shadow-lg">--}}
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <div class="d-flex align-items-center">
+                    <div id="deporte" class="apexcharts apexcharts-responsive "></div>
+                  </div>
+                  <p class="text-xs mb-0 text-capitalize font-weight-bold black-text text-center">({{$lastYear2 }}---{{
+                    $lastYear }}---{{$ultimo_year}})</p>
+                  <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Evaluaciones
+                    Fisica realizadas los ultimos 3 años </p>
+                </div>
+              </div>
+            </div>
+          </div>
+       {{-- </div>--}}
+      </div>
+    </div>
+    <div class="col-sm-4 mb-xl-4 mb-4">
+      <div class="card shadow-lg">
+      {{--  <div class="card overflow-hidden shadow-lg">--}}
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-9">
+                <div class="numbers">
+                  <div class="d-flex align-items-center">
+                    <div id="chart-13" class="apexcharts apexcharts-responsive"></div>
+                  </div>
+                  <p class="text-xs mb-0 text-capitalize font-weight-bold black-text text-center">({{$lastYear2 }}---{{
+                    $lastYear }}---{{$ultimo_year}})</p>
+                  <p class="text-xs mb-0 text-capitalize font-weight-bold black-text">Procedimientos
+                    Devueltos los ultimos 3 años</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     {{-- </div>--}}
+    </div>
+    <div class="col-xl-3 col-md-5 mb-xl-4 mb-5">
+      <div class="card shadow-lg">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-12 text-center">
+              <div id="chart1" class="apexcharts chart-small"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5 col-sm-5 mb-xl-0 mb-6">
+      <div class="card-responsive">
+        <div class="card shadow-lg" style="max-width: 100%;">
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="chart-year"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-sm-4 mb-xl-0 mb-2">
+      <div class="card-responsive">
+        <div class="card shadow-lg" style="max-width: 100%;">
+          <div class="card-body">
+            <div class="chart-container">
+              <div id="chart24"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @endhasanyrole
+  @hasanyrole('aviacion_dao|aviacion_grupo_aereo|administrador|consulta')
+
+  <div class="row">
+    {{-- <div class="col-lg-6">
+      <div class="card z-index-3 custom-card shadow-lg">
+        <div class="card-header pb-2">
+          <h6 class="black-text">Vuelos Registrados</h6>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>--}}
+    <div class="col-xl-12 col-sm-4 mb-xl-0 mb-2" id="custom-card">
+      <div class="card z-index-3 custom-card shadow-lg">
+        <div class="card-header pb-2">
+          <h6 class="black-text">Vuelos Programados</h6>
+        </div>
+        <div class="card-body p-4">
+          <div id="chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -167,7 +174,7 @@
 
 
 <script>
-    //sin usar
+  //sin usar
         window.onload = function() {
             var ctx2 = document.getElementById("chart-line").getContext("2d");
 
@@ -283,7 +290,7 @@
         }
 </script>
 <script>
-    var data1 = {!! json_encode($data1) !!};
+  var data1 = {!! json_encode($data1) !!};
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -310,7 +317,7 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/themes/dark-unica.js"></script>
 <script>
-    Highcharts.chart('container', {
+  Highcharts.chart('container', {
             chart: {
                 type: 'column'
             },
@@ -338,7 +345,7 @@
         });
 </script>
 <script>
-    var dias = @json($vuelosPorDia);
+  var dias = @json($vuelosPorDia);
 
     var datosProgramados = [];
     var datosCompletados = [];
@@ -375,7 +382,7 @@
     chart.render();
 </script>
 <script>
-    // Simulación de carga
+  // Simulación de carga
     function simulateLoading() {
       const radioGraphs = document.getElementsByClassName("radio-graph");
       Array.from(radioGraphs).forEach((graph) => {
@@ -459,47 +466,63 @@ chart.render();
 
 
 <script>
-    ///////evaluaciones//////////
+  ///////evaluaciones//////////
     var evaluaciones = <?php echo $evaluaciones; ?>;
-    var evaluacionesANT = <?php echo $evaluacionesANT; ?>;
-    var evaluacionesANTe = <?php echo $evaluacionesANTe; ?>;
-  var options1 = {
-    series: [{ 
-      data: [evaluacionesANTe,evaluacionesANT,evaluaciones]
-    }],
-    chart: {
-      type: 'line',
-      width: 200,
-      height: 35,
-      sparkline: {
-        enabled: true
-      }
-    },
-    tooltip: {
-      fixed: {
-        enabled: false
-      },
-      x: {
-        show: false
-      },
-      y: {
-        title: {
-          formatter: function (seriesName) {
-            return ''
-          }
+var evaluacionesANT = <?php echo $evaluacionesANT; ?>;
+var evaluacionesANTe = <?php echo $evaluacionesANTe; ?>;
+
+var lastYear2 = "2020";
+var lastYear = "2021";
+var ultimoYear = "2022";
+
+var options1 = {
+  series: [{ 
+    data: [evaluacionesANTe, evaluacionesANT, evaluaciones]
+  }],
+  chart: {
+    type: 'bar',
+    height: 35,
+    width: 200,
+    sparkline: {
+      enabled: true
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      distributed: true, // Para distribuir las barras en la vista
+    }
+  },
+  dataLabels: {
+    enabled: true,
+    position: 'bottom', // Para mostrar las etiquetas debajo de las barras
+  },
+  xaxis: {
+    categories: [lastYear2, lastYear, ultimoYear],
+  },
+  yaxis: {
+    show: false, // Para ocultar el eje Y
+  },
+  tooltip: {
+    enabled: true, // Para desactivar el tooltip
+  },  
+  responsive: [
+    {
+      breakpoint: 480, // Puedes ajustar este valor
+      options: {
+        chart: {
+          height: 150 // Tamaño personalizado para dispositivos con un ancho de pantalla menor o igual a 480px
         }
-      },
-      marker: {
-        show: false
       }
     }
-  };
+  ]
+};
 
-  var chart12 = new ApexCharts(document.querySelector("#chart-12"), options1);
-  chart12.render();
+var chart12 = new ApexCharts(document.querySelector("#chart-12"), options1);
+chart12.render();
 </script>
 <script>
-    var pafs = <?php echo $pafs; ?>;
+  var pafs = <?php echo $pafs; ?>;
     var pafs1 = <?php echo $pafs1; ?>;
     var pafs2 = <?php echo $pafs2; ?>;
   var options2 = {
@@ -507,39 +530,49 @@ chart.render();
       data: [pafs2,pafs1,pafs]
     }],
     chart: {
-      type: 'line',
-      width: 200,
-      height: 35,
-      sparkline: {
-        enabled: true
-      }
-    },
-    tooltip: {
-      fixed: {
-        enabled: false
-      },
-      x: {
-        show: false
-      },
-      y: {
-        title: {
-          formatter: function (seriesName) {
-            return ''
-          }
+    type: 'bar',
+    height: 35,
+    width: 200,
+    sparkline: {
+      enabled: true
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      distributed: true, // Para distribuir las barras en la vista
+    }
+  },
+  dataLabels: {
+    enabled: true,
+    position: 'bottom', // Para mostrar las etiquetas debajo de las barras
+  },
+  xaxis: {
+    categories: [lastYear2, lastYear, ultimoYear],
+  },
+  yaxis: {
+    show: false, // Para ocultar el eje Y
+  },
+  tooltip: {
+    enabled: true, // Para desactivar el tooltip
+  },  
+  responsive: [
+    {
+      breakpoint: 480, // Puedes ajustar este valor
+      options: {
+        chart: {
+          height: 150 // Tamaño personalizado para dispositivos con un ancho de pantalla menor o igual a 480px
         }
-      },
-      marker: {
-        show: false
       }
     }
-  };
-
+  ]
+};
   var deporte = new ApexCharts(document.querySelector("#deporte"), options2);
   deporte.render();
 </script>
 
 <script>
-    var sanciones = <?php echo $sanciones; ?>;
+  var sanciones = <?php echo $sanciones; ?>;
 var sanciones_aprobadas = <?php echo $sanciones_aprobadas; ?>;
 var sanciones_denegadas = <?php echo $sanciones_denegadas ; ?>;
 var sanciones_pendientes = <?php echo $sanciones_pendientes; ?>;
@@ -591,7 +624,7 @@ var chartYear = new ApexCharts(document.querySelector("#chart-year"), options);
 chartYear.render();
 </script>
 <script>
-    var procedimientos_devueltos1 = <?php echo $procedimientos_devueltos1; ?>;
+  var procedimientos_devueltos1 = <?php echo $procedimientos_devueltos1; ?>;
     var procedimientos_devueltos2 = <?php echo $procedimientos_devueltos2; ?>;
     var procedimientos_devueltos = <?php echo $procedimientos_devueltos; ?>;
   var options1 = {
@@ -599,38 +632,49 @@ chartYear.render();
       data: [procedimientos_devueltos2,procedimientos_devueltos1,procedimientos_devueltos]
     }],
     chart: {
-      type: 'line',
-      width: 200,
-      height: 35,
-      sparkline: {
-        enabled: true
-      }
-    },
-    tooltip: {
-      fixed: {
-        enabled: false
-      },
-      x: {
-        show: false
-      },
-      y: {
-        title: {
-          formatter: function (seriesName) {
-            return ''
-          }
+    type: 'bar',
+    height: 35,
+    width: 200,
+    sparkline: {
+      enabled: true
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      distributed: true, // Para distribuir las barras en la vista
+    }
+  },
+  dataLabels: {
+    enabled: true,
+    position: 'bottom', // Para mostrar las etiquetas debajo de las barras
+  },
+  xaxis: {
+    categories: [lastYear2, lastYear, ultimoYear],
+  },
+  yaxis: {
+    show: false, // Para ocultar el eje Y
+  },
+  tooltip: {
+    enabled: true, // Para desactivar el tooltip
+  },  
+  responsive: [
+    {
+      breakpoint: 480, // Puedes ajustar este valor
+      options: {
+        chart: {
+          height: 150 // Tamaño personalizado para dispositivos con un ancho de pantalla menor o igual a 480px
         }
-      },
-      marker: {
-        show: false
       }
     }
-  };
+  ]
+};
 
   var chart13 = new ApexCharts(document.querySelector("#chart-13"), options1);
   chart13.render();
 </script>
 <script>
-    var aeronaved = <?php echo number_format($aeronave->first()->disponible, 0, '.', ''); ?>;
+  var aeronaved = <?php echo number_format($aeronave->first()->disponible, 0, '.', ''); ?>;
 var aeronaveidc = <?php echo number_format($aeronave->first()->disponible_combate, 0, '.', ''); ?>;
 var aeronavein = <?php echo number_format($aeronave->first()->indisponible, 0, '.', ''); ?>;
 var aeronaveis = <?php echo number_format($aeronave->first()->siniestrada, 0, '.', ''); ?>;
