@@ -1205,6 +1205,41 @@ class PersonalController extends Controller
     }
 
     //PERSONAL CIVIL FUNCTIONS
+    public function viewPersonalCivilnoactivo($codigo_empleado)
+    {
+        $user_auth=auth()->user();
+
+        $tipos_emp = TiposEmpleado::all();
+        $nacionalidades = Config::get('constants.nacionalidad');
+        $generos = Config::get('constants.sexo');
+        $edos_civil = Config::get('constants.edo_civil');
+        $estados = Estados::all();
+        $ubicaciones = Ubicaciones::all();
+        $ubicaciones_det = UbicacionDetallada::all();
+        $niveles = Nivel::all();
+        $cargos = Cargos::all();
+        $cursos = Cursos::all();
+        $universidades = Universidades::all();
+        $profesiones = Profesion::all();
+        $ciudades = Ciudades::all();
+        $datos = Nomina::join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
+        ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','empleados.codigo_empleado')
+      ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+        ->where('nomina.codigo_empleado',$codigo_empleado)
+        ->select('nomina.*','estudios_realizados.*','empleados.*')
+        ->first();
+        $getEmpleadoCode = Empleado::With('nomina')->select('codigo_empleado')->find($codigo_empleado);
+        $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
+        return view('sireh.personal.civil.viewNO',
+            compact(
+                'datos','ciudades',
+                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
+                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
+                'cargos', 'nacionalidades', 'universidades', 'profesiones',
+                'cursosRealizados', 'cursos'
+            )
+        );
+    }
     public function viewPersonalCivil($id)
     {
         $user_auth=auth()->user();
@@ -1224,7 +1259,7 @@ class PersonalController extends Controller
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        $getEmpleadoCode = Empleado::select('codigo_empleado')->find($id);
+        $getEmpleadoCode = Empleado::With('nomina')->select('codigo_empleado')->find($id);
         $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
         return view('sireh.personal.civil.view',
             compact(
@@ -1399,14 +1434,13 @@ class PersonalController extends Controller
 
     }
     public function personalCivilNoActive(){
-        $noActive = Empleado::where('empleados.situacion','<>','A')
-            ->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-            ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-            //->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-            ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-            ->where('nomina.tipo_emp','<>','MIL')
-            ->where('nomina.tipo_emp','<>','TRP')
-            ->where('nomina.tipo_emp','<>','ALI')
+        $noActive = Nomina::where('nomina.situacion','=','E')
+            ->join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+            ->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
+            ->leftjoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
+            ->whereIn('nomina.tipo_emp',['EMP','CON','OBR','DOC','MED','DTC','CEX'])
+        
             ->get();
             //dd($noActive);
         return view('sireh.personal.civil.view_civil_no_activo',
