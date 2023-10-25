@@ -1225,6 +1225,7 @@ class PersonalController extends Controller
         $datos = Nomina::join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
         ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','empleados.codigo_empleado')
       ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
+      ->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
         ->where('nomina.codigo_empleado',$codigo_empleado)
         ->select('nomina.*','estudios_realizados.*','empleados.*')
         ->first();
@@ -1436,10 +1437,13 @@ class PersonalController extends Controller
     public function personalCivilNoActive(){
         $noActive = Nomina::where('nomina.situacion','=','E')
             ->join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
+            ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
             ->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
             ->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
             ->leftjoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
             ->whereIn('nomina.tipo_emp',['EMP','CON','OBR','DOC','MED','DTC','CEX'])
+          //  ->where('movimientos.situacion','=','E')
+            ->whereIn('movimientos.tipo_movimiento',['PRIVADO DE LIBERTAD','RENUNCIA','DESPIDO','EGRE'])
         
             ->get();
             //dd($noActive);

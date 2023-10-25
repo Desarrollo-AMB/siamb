@@ -118,7 +118,7 @@
                     @if($datos->edo_civil == 'SO')
                     <th>Estado civil</th>
                     <td colspan="4" class="fixed">Soltero</td>
-                    @elseif($conditions->edo_civil == 'CA')
+                    @elseif($datos->edo_civil == 'CA')
                     <th>Estado civil</th>
                     <td colspan="4" class="fixed">Casado</td>
                         
