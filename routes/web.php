@@ -317,6 +317,7 @@ Auth::routes();
 
     Route::get('/sireh/personal-civil/view/{id}',   [PersonalController::class, 'viewPersonalCivil'])->name('sireh.personal-civil.view');
 
+    Route::get('/sireh/personal-civil/viewNO/{codigo_empleado}',   [PersonalController::class, 'viewPersonalCivilnoactivo'])->name('sireh.personal-civil.view.noactivo');
 
     Route::get('/sireh/personal-civil/noActive',      [PersonalController::class, 'personalCivilNoActive'])->name('sireh.personal-civil.noActive');
     Route::get('/sireh/personal-civil/edit/{id}',     [PersonalController::class, 'editPersonalCivil'])->name('sireh.personal-civil.edit');

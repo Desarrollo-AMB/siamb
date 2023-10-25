@@ -36,14 +36,14 @@
                                 <tbody>
                                     @foreach ($noActive as $data)
                                         <tr>
-                                            <th  class="font-weight-normal">{{$data->cedula}}</th>
+                                            <th  class="font-weight-normal">{{$data->cedula}} -{{$data->codigo_empleado}}</th>
                                             <th  class="font-weight-normal">{{$data->nombre1}} {{$data->apellido1}}</th>
                                             <th  class="font-weight-normal">{{$data->tipo_emp}}</th>
                                             <th  class="font-weight-normal">{{$data->nombre_cargo}}</th>
                                             {{-- <th  class="font-weight-normal">{{$data->situacion}}</th> --}}
                                             <th>
                                                 <input class="codigo_empleado_activar" name="codigo_empleado_activar" id="codigo_empleado_activar" type="hidden" value="">
-                                                <a href="{{ route('sireh.personal-civil.view', $data->id) }}" class="mx-3" data-bs-toggle="tooltip"
+                                                <a href="{{ route('sireh.personal-civil.view.noactivo', $data->codigo_empleado) }}" class="mx-3" data-bs-toggle="tooltip"
                                                     data-bs-original-title="Ver" title="Ver">
                                                     <i class="fas fa-eye text-info" aria-hidden="true"></i>
                                                 </a>
