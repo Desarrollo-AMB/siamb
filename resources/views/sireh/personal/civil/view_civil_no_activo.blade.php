@@ -36,7 +36,7 @@
                                 <tbody>
                                     @foreach ($noActive as $data)
                                         <tr>
-                                            <th  class="font-weight-normal">{{$data->cedula}} -{{$data->codigo_empleado}}</th>
+                                            <th  class="font-weight-normal">{{$data->cedula}}</th>
                                             <th  class="font-weight-normal">{{$data->nombre1}} {{$data->apellido1}}</th>
                                             <th  class="font-weight-normal">{{$data->tipo_emp}}</th>
                                             <th  class="font-weight-normal">{{$data->nombre_cargo}}</th>
