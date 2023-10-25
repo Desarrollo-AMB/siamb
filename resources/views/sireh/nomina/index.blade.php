@@ -51,11 +51,11 @@
                                                     
                                                     <tr>
                                                         <th> <h6>Salario Minimo Nacional </h6></th>
-                                                        <td><h6>{{--{{ $conceptos[2]}} --}} Bs.</h6></td>
+                                                        <td><h6>{{ $conceptos[2]}} Bs.</h6></td>
                                                     </tr>
                                                     <tr>
                                                         <th><h6>Cesta Ticket</h6></th>
-                                                        <td><h6>{{--{{ $conceptos[1]}} --}} Bs.</h6> </td>
+                                                        <td><h6>{{$conceptos[1]}} Bs.</h6> </td>
                                                     </tr>              
                                                 </tbody>
                                             </table>
@@ -100,16 +100,9 @@
                                                     <h6>Prima Fronteriza tipo "C"</h6>
                                                 </th>
                                                 <td>
-                                                    <h6>{{--{{ $conceptos[54]}}--}} %</h6>
+                                                    <h6>{{ $conceptos[54]}} %</h6>
                                                 </td>
-                                            </tr> <tr>
-                                                <th>
-                                                    <h6>PRIMA PROF PRE-GRADO </h6>
-                                                </th>
-                                                <td>
-                                                    <h6>{{--{{ $conceptos[545]}} --}}%</h6>
-                                                </td>
-                                            </tr>
+                                            </tr> 
                                          </tbody>
                                     </table>
 
