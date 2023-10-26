@@ -292,7 +292,7 @@ public function asignacionNuevaPrima(Request $request)
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->where('empleados.cedula', $cedula)
         ->where('asignaciones.tipo_concepto', 'A')
-        ->with('conceptoNomina')
+        
         ->get();
 
     // Verificar si existe una asignación existente
