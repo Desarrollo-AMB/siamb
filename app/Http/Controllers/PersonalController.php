@@ -863,9 +863,9 @@ class PersonalController extends Controller
     public function personalMilitarSuspendido(Request $request){
         $empleados = Empleado::where('empleados.situacion','S');
         $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->leftjoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
+        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
+        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
         $empleados->select(
             'empleados.id',
