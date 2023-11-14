@@ -26,6 +26,7 @@ use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
 use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
+use App\Http\Controllers\Drescontroller;
 use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Http\Controllers\Nomina\NominaCivilController;
@@ -510,6 +511,12 @@ Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarEx
 
 ///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
 Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
+
+///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
+Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
+Route::get('/dress/armamento', [Drescontroller::class, 'armamento'])->name('dres.armamento');
+
+
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
