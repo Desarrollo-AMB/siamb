@@ -514,7 +514,7 @@ Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->
 
 ///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
 Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
-Route::get('/dress/armamento', [Drescontroller::class, 'armamento'])->name('dres.armamento');
+Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
 
 
 Route::get('no_authorize', function () {

@@ -58,7 +58,7 @@
                                                
                                                 <hr class="horizontal dark my-0">
                                                 <div class="card-body px-2 pt-2 pb-2">
-                                                   {{-- {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', ]]) !!}--}}
+                                                    {!! Form::open(array('route' => 'dres.armamento','method'=>'POST', 'id'=>'reporte')) !!}
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
@@ -93,7 +93,11 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Unida Involucrada:</strong>
-                                                                <select name="unidad" class="form-control"  placeholder="Unida Involucrada"></select>
+                                                                <select name="unidad" class="form-control"  placeholder="Unida Involucrada">
+                                                                   @foreach ($ubicaciones as $ubicacion)
+                                                                       <option value="{{ $ubicacion['descripcion'] }}">{{ $ubicacion['descripcion'] }}</option>
+                                                                   @endforeach 
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -129,7 +133,7 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Lugar de Ocurrencia:</strong>
-                                                               <textarea name="event" id="" class="form-control" cols="30" rows="10" placeholder="Lugar de Ocurrencia"></textarea>
+                                                               <textarea name="lugarO" id="" class="form-control" cols="30" rows="10" placeholder="Lugar de Ocurrencia"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
