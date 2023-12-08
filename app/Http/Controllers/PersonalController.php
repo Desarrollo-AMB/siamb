@@ -243,17 +243,25 @@ class PersonalController extends Controller
         );
         try {
             //$codigo_empleado = Empleado::max('codigo_empleado')+1;
-            if ($request->file("foto")){
+            $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
+
+            $path_foto_actual = $empleado->foto;
+    
+            if ($request->hasFile("foto")) { // Si se envía una nueva foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->cedula . '.' . $ext;
-                $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
-                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
+            
+                $path_foto_nueva = 'fotos/empleados/' . $file_name;
+            
+                // Verificar si la foto previa existe antes de eliminarla
+                if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
+                    unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
                 }
-                //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
-                $path_foto = null;
+            
+                Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
+            } else {
+                // Si no se envía una nueva foto, mantener la ruta existente
+                $path_foto_nueva = $path_foto_actual;
             }
 
             $empleado->cedula = $request->cedula;
@@ -277,8 +285,8 @@ class PersonalController extends Controller
             $empleado->persona_contacto = !empty($request->persona_contacto) ? $request->persona_contacto : null;
             $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
             $empleado->estado = !empty($request->estado) ? $request->estado : null;
-            if ($path_foto) {
-                $empleado->foto = $path_foto ;
+            if ($path_foto_nueva) {
+                $empleado->foto = $path_foto_nueva ;
             }
             $empleado->correo = $request->correo;
             $empleado->save();
@@ -630,19 +638,26 @@ class PersonalController extends Controller
             ]
         );
         try {
-            if ($request->file("foto")){   // Si se envia una foto
+            $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
+
+            $path_foto_actual = $empleado->foto;
+    
+            if ($request->hasFile("foto")) { // Si se envía una nueva foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$request->cedula . '.' . $ext; // Nombre del archivo
-
-                $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
-                    unlink($path_foto); // Eliminamos la imagen previa si existe.
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
+            
+                $path_foto_nueva = 'fotos/empleados/' . $file_name;
+            
+                // Verificar si la foto previa existe antes de eliminarla
+                if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
+                    unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
                 }
-                Image::make($request->file('foto'))->save( public_path($path_foto)); // Guardamos la imagen en la ruta especificada
-            }else{
-                $path_foto = null;
+            
+                Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
+            } else {
+                // Si no se envía una nueva foto, mantener la ruta existente
+                $path_foto_nueva = $path_foto_actual;
             }
-
             $empleado = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
                 "nacionalidad" => $request->nacionalidad,
@@ -673,7 +688,7 @@ class PersonalController extends Controller
                 "talla_falda" => !empty($request->talla_falda) ? $request->talla_falda : null,
                 "persona_contacto" => !empty($request->persona_contacto) ? $request->persona_contacto : null,
                 "telefono_e" => !empty($request->telefono_e) ? $request->telefono_e : null,
-                "foto" => $path_foto,
+                "foto" => $path_foto_nueva,
             ]);
 
             $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
