@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ModelEventos;
+use App\Models\ModelJres;
 use App\Models\ModelReporteDres;
 use App\Models\Ubicaciones;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 
 class Drescontroller extends Controller
@@ -13,9 +15,20 @@ class Drescontroller extends Controller
 
         $ubicaciones =Ubicaciones::all();
        $eventos = ModelEventos::all();
-        return view('dress.create',compact('ubicaciones','eventos')); 
+       $jres = ModelJres::all();
+       $tipo_evento = config::get('constants.tipo_evento');
+        return view('dress.create',compact('ubicaciones','eventos','tipo_evento','jres')); 
     }
-
+    public function getTiposEvento(Request $request)
+    {
+        // Obtén la clase de evento desde la solicitud
+        $claseEvento = $request->input('clase');
+   
+        // Realiza la lógica para obtener los tipos de evento asociados a la clase (ajusta según tu estructura de datos)
+        $tiposEvento = ModelEventos::where('clase', $claseEvento)->get(); // Reemplaza con tu lógica para obtener los tipos de evento
+    
+        return response()->json($tiposEvento);
+    }
 
     public function reporte (Request $request) {
         $this->validate(
@@ -59,27 +72,27 @@ class Drescontroller extends Controller
        try{
 
        $data = new ModelReporteDres();
-        $data->tn_reporte = $request->n_reporte;
+        $data->n_reporte = $request->n_reporte;
         $data->JRES = $request->JRES;
-        $data->fechaR = $request->fechaR;
-        $data->grupo_fecho_hora = $request->grupo_fecho_hora;
-        $data->p_envia = $request->p_envia;
-        $data->unidad = $request->unidad;
-        $data->cmdtU = $request->cmdtU;
-        $data->clase = $request->clase;
-        $data->tipo = $request->tipo;
-        $data->event = $request->event;
+        $data->fecha_reporte = $request->fechaR;
+        $data->grupo_fecha = $request->grupo_fecho_hora;
+        $data->persona_envia = $request->p_envia;
+        $data->unidad_involucrada = $request->unidad;
+        $data->cmdt_unidad = $request->cmdtU;
+        $data->clase_envento = $request->clase;
+        $data->tipo_evento = $request->tipo;
+        $data->evento = $request->event;
         $data->descripcion = $request->descripcion;
-        $data->lugarO = $request->lugarO;
-        $data->fechaO = $request->fechaO;
+        $data->lugar_ocurrencia = $request->lugarO;
+        $data->fecha_ocurrencia = $request->fechaO;
         $data->situacion = $request->situacion;
-        $data->documentos = $request->documentos;
+        $data->documento = $request->documentos;
         $data->save();
 
-        return redirect()->route('sireh.personal-militar.view', [$request->id])->with('success', 'Se han actualizado los Datos del Profesional');
+        return redirect()->route('dres.view')->with('success', 'Se ha cargado  la información exitosamente');
     } catch (Exception $e) {
         Log::error("************************* ERROR ************************* \n" . $e);
         return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
     }
 }
-}
+}   

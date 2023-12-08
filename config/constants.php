@@ -139,5 +139,9 @@ return [
         '3' => 'ARMADA',
         '4' => 'GUANDIA NACIONAL BOLIVARIANA',
         '5'=>'OTROS'
+    ],
+    'tipo_evento' =>[
+        '1' => 'ACTIVIDAD RES',
+        '2' => 'VIOLACION RES',
     ]
 ];

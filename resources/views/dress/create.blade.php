@@ -1,6 +1,11 @@
 @extends('layouts.user_type.auth')
 @section('title', 'Usuarios')
 @section('content')
+@if ($message = Session::get('success'))
+<div class="alert alert-success mx-4" role="alert">
+    <span class="text-white">{{ $message }}</span>
+</div>
+@endif
 @if (count($errors) > 0)
 <div class="alert alert-danger mx-4" role="alert">
     <ul>
@@ -69,7 +74,12 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>JRES:</strong>
-                                                                <select name="JRES" id=""  aria-placeholder='JRES' class="form-control"></select>
+                                                                <select name="JRES" id=""  aria-placeholder='JRES' class="select2 form-control">
+                                                                    <option value="">Seleccione ... </option>
+                                                                    @foreach ($jres as $item)
+                                                                        <option value="{{ $item->unidad }}">{{ $item->unidad }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -87,13 +97,13 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Persona que Envia:</strong>
-                                                                {!! Form::password('p_envia', array('placeholder' => 'Persona que Envia','class' => 'form-control')) !!}
+                                                                {!! Form::text('p_envia',null, array('placeholder' => 'Persona que Envia','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Unida Involucrada:</strong>
-                                                                <select name="unidad" class="form-control"  placeholder="Unida Involucrada">
+                                                                <select name="unidad" class="select2 form-control"  placeholder="Unida Involucrada">
                                                                    @foreach ($ubicaciones as $ubicacion)
                                                                        <option value="{{ $ubicacion['descripcion'] }}">{{ $ubicacion['descripcion'] }}</option>
                                                                    @endforeach 
@@ -109,31 +119,38 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Clase de Evento:</strong>
-                                                               <select name="clase" class="form-control" id="" placeholder="Clase de Evento"></select>
+                                                               <select name="clase" class="select2 form-control" id="claseEvento" placeholder="Clase de Evento">
+                                                                <option value="">Seleccione ...</option>
+                                                                @foreach ($tipo_evento as $tipo)
+                                                                <option value="{{ $tipo }}">{{ $tipo }}</option>
+                                                                @endforeach
+                                                               </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Tipo de Evento:</strong>
-                                                               <select name="tipo" class="form-control" id="" placeholder="Tipo de Evento"></select>
+                                                                <select name="tipo" class=" select2 form-control" id="tipoEvento" placeholder="Tipo de Evento" disabled>
+                                                                    <!-- opciones cargadas dinámicamente por JavaScript -->
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Evento:</strong>
-                                                               <textarea name="event" id="" class="form-control" cols="30" rows="10" placeholder="Eventos"></textarea>
+                                                               <textarea name="event" id="event" class="form-control" cols="30" rows="10" placeholder="Eventos"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Descripcion:</strong>
-                                                               <textarea name="descripcion" id="" class="form-control" cols="30" rows="10" placeholder="Descripción"></textarea>
+                                                               <textarea name="descripcion" id="descripcion" class="form-control" cols="30" rows="10" placeholder="Descripción"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Lugar de Ocurrencia:</strong>
-                                                               <textarea name="lugarO" id="" class="form-control" cols="30" rows="10" placeholder="Lugar de Ocurrencia"></textarea>
+                                                               <textarea name="lugarO" id="lugarO" class="form-control" cols="30" rows="10" placeholder="Lugar de Ocurrencia"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -375,6 +392,12 @@
 @section('scripts')
 @parent
 <script>
+     $(function() {
+        $('.select2').select2({
+        dropdownAutoWidth: true, // Permite que el menú desplegable se ajuste automáticamente al ancho del contenedor
+        width: 'auto', // Establece el ancho automático para que se ajuste al contenido
+    });
+        });
 $(document).ready(function() {
     // Maneja el clic en la pestaña "Armamento"
     $('#custom-tabs-empleados2-tab').click(function(e) {
@@ -388,6 +411,35 @@ $(document).ready(function() {
             .fail(function(jqXHR, textStatus, errorThrown) {
                 console.error("Error en la solicitud Ajax: " + errorThrown);
             });
+    });
+});
+$(document).ready(function() {
+    // Manejar el cambio en el primer select
+    $('#claseEvento').change(function() {
+        // Obtener la clase seleccionada
+        var claseSeleccionada = $(this).val();
+
+        // Limpiar las opciones actuales en el segundo select
+        $('#tipoEvento').empty().prop('disabled', true);
+
+        // Realizar la solicitud Ajax para obtener los tipos de evento asociados a la clase
+        $.ajax({
+            url: '{{ route('dres.ruta.evento') }}',  // Reemplaza con la ruta correcta en tu servidor
+            type: 'GET',
+            data: { clase: claseSeleccionada },
+            success: function(data) {
+                // Agregar las nuevas opciones al segundo select
+                data.forEach(function (evento) {
+                    $('#tipoEvento').append('<option value="' + evento.evento + '">' + evento.evento + '</option>');
+                });
+
+                // Habilitar el segundo select si hay opciones disponibles
+                $('#tipoEvento').prop('disabled', data.length === 0);
+            },
+            error: function() {
+                console.error('Error al obtener los tipos de evento.');
+            }
+        });
     });
 });
  /*   $(function () {

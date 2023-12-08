@@ -514,6 +514,7 @@ Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->
 
 ///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
 Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
+Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
 Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
 
 
