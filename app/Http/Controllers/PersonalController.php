@@ -694,6 +694,10 @@ class PersonalController extends Controller
             $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
                 "tipo_emp" => $request->tipo_emp,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
                 "grado_militar" => !empty($request->grado_militar) ? $request->grado_militar : null,
             ]);
 
