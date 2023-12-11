@@ -256,15 +256,15 @@ margin: 0 auto;
                     </tr>
                     <tr>
                         <th>Comisíon Exterior</th>
-                        <td>{{ $datas->total7 }}</td>
+                        <td>{{ $datas->total9 }}</td>
                     </tr>
                     <tr>
                         <th>Curso País</th>
-                        <td>{{ $datas->total8 }}</td>
+                        <td>{{ $datas->total7 }}</td>
                     </tr>
                     <tr>
                         <th>Curso Exterior</th>
-                        <td>{{ $datas->total9 }}</td>
+                        <td>{{ $datas->total8 }}</td>
                     </tr>
                     <tr>
                         <th>Ausente sin Causa Justificada</th>
