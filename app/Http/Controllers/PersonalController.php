@@ -93,12 +93,13 @@ class PersonalController extends Controller
         $cargos = Cargos::all();
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
+        $categorias = CategoriasMilitares::all();
 
         return view('sireh.personal.ingreso',
             compact(
                 'user_auth', 'tipos_emp', 'generos', 'edos_civil',
                 'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'cargos', 'nacionalidades', 'universidades', 'profesiones','categorias'
             )
         );
     }
@@ -120,7 +121,7 @@ class PersonalController extends Controller
             ]
         );
         try {
-            $codigo_empleado = Empleado::max('codigo_empleado')+1;
+            $codigo_empleado = Nomina::max('codigo_empleado')+1;
             if ($request->file("foto")){
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_'. $request->cedula . '.' . $ext;
@@ -163,6 +164,10 @@ class PersonalController extends Controller
 
             $nomina = new Nomina;
             $nomina->codigo_empleado = $empleado->codigo_empleado;
+            $nomina->nombre1 = $request->nombre1;
+            $nomina->nombre2 = $request->nombre2;
+            $nomina->apellido1 = $request->apellido1;
+            $nomina->apellido2 = $request->apellido2;
             $nomina->situacion = 'I';
             $nomina->cedula = $empleado->cedula;
             $nomina->tipo_emp = $request->tipo_emp;
@@ -179,6 +184,7 @@ class PersonalController extends Controller
                 $datos_militares = new DatosMilitares;
                 $datos_militares->codigo_empleado = $empleado->codigo_empleado;
                 $datos_militares->contingente = $request->contingente;
+                $datos_militares->fecha_graduacion = $request->fecha_graduacion;
                 $datos_militares->save();
             }
             if( !empty($request->universidad) || !empty($request->profesion)){
@@ -187,6 +193,7 @@ class PersonalController extends Controller
                 $estudio_realizado->nivel = $request->nivel;
                 $estudio_realizado->profesion = $request->profesion;
                 $estudio_realizado->universidad = $request->universidad;
+                $estudio_realizado->fecha_registro = $request->fecha_ingreso;
                 $estudio_realizado->save();
             }
             return redirect()->route('sireh.ingreso-personal.index')->with('success', 'Se ha ingresado al Personal');

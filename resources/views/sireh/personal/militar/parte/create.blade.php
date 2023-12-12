@@ -38,7 +38,7 @@
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
-                            <form id="form-registros">
+                            <form id="form-registros" >
 
                                 @csrf
 
@@ -227,7 +227,7 @@ $(document).ready(function() {
 function store(nominas, cargandoDiv) {
     $.ajax({
         url: "{{ route('sireh.personal.militar.parte') }}",
-        method: 'post',
+        method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
             nominas: nominas,
