@@ -185,6 +185,7 @@ class PersonalController extends Controller
                 $datos_militares->codigo_empleado = $empleado->codigo_empleado;
                 $datos_militares->contingente = $request->contingente;
                 $datos_militares->fecha_graduacion = $request->fecha_graduacion;
+                $datos_militares->codigo_categoria = $request->categoria;
                 $datos_militares->save();
             }
             if( !empty($request->universidad) || !empty($request->profesion)){

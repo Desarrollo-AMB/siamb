@@ -358,7 +358,7 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 nivel_instruccion">
                                                     <div class="form-group">
                                                         <h6>Categoria: <small></small></h6>
-                                                        <select class="select2 form-control registrar" name="profesion" id="profesion" >
+                                                        <select class="select2 form-control" name="categoria" id="categoria" >
                                                             <option value="">Seleccione ...</option>
                                                             @foreach ($categorias as $row)
                                                                 <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
