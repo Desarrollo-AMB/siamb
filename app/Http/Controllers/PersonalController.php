@@ -396,7 +396,7 @@ class PersonalController extends Controller
 
     //Obtiene el personal militar, exclusivo por api para el Datatable
     public function personalMilitar(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A');
+        $empleados = Empleado::whereIn('empleados.situacion',['A','S','E']);
         $empleados->leftJoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
         $empleados->leftJoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
         $empleados->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
@@ -410,6 +410,7 @@ class PersonalController extends Controller
             'empleados.nombre2',
             'empleados.apellido1',
             'empleados.apellido2',
+            'empleados.situacion as situacion',
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         );
