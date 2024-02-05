@@ -1420,6 +1420,7 @@ class PersonalController extends Controller
             "nombre2" => $request->nombre2,
             "apellido1" => $request->apellido1,
             "apellido2" => $request->apellido2,
+            "cod_rac" => $request->cod_rac,
             "codigo_ubicacion" => $request->codigo_ubicacion,
             "cod_ubicacion_detallada" => $request->cod_ubicacion_detallada,
             "tipo_emp" => $request->tipo_emp,
