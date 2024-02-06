@@ -58,6 +58,7 @@
                                                 <th>Grado</th>
                                                 <th>Nombre </th>
                                                 <th>Apellido</th>
+                                                <th>Cedula</th>
                                                 <th>Ubicacion</th>
                                                 <th>Situacion</th>
                                                 <th>Observacion</th>
@@ -82,6 +83,7 @@
                                                     </td>
                                                     <td>{{ $nomina->nombre1 }}</td>
                                                     <td>{{ $nomina->apellido1 }}</td>
+                                                    <td>{{$nomina->cedula}}</td>
                                                     <td>{{ $nomina->descripcion }}</td>
                                                     <td>
                                                         <select name="sitaucion" id=""

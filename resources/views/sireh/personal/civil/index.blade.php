@@ -235,6 +235,7 @@
                                     <option value="PRIVADO DE LIBERTAD">PRIVADO DE LIBERTAD</option>
                                     <option value="RENUNCIA">RENUNCIA</option>
                                     <option value="DESPIDO">DESPIDO</option>
+                                    <option value="DESPIDO">FALLCIDO</option>
                                 </select>
                             </div>
                         </div>

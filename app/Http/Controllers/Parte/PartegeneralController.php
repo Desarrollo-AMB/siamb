@@ -254,6 +254,7 @@ class PartegeneralController extends Controller
                 'nomina.grado_militar',
                 'nomina.nombre1',
                 'nomina.apellido1',
+                'nomina.cedula',
                 'ubicaciones.descripcion',
                 'grados_militares.siglas',
                 'datos_militares.codigo_categoria',
