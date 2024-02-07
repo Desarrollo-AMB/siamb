@@ -471,6 +471,7 @@ class PersonalController extends Controller
             'empleados.nombre2',
             'empleados.apellido1',
             'empleados.apellido2',
+            'nomina.cod_rac as codigo_rac' ,
             'tipos_empleados.descripcion as tipo_empleado',
             'cargos.nombre_cargo as cargo',
             'ubicaciones.descripcion as ubicacion',

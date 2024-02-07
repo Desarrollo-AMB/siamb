@@ -131,6 +131,7 @@
                                             <th>Cedula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
+                                            <th>Codigo_Rac</th>
                                             <th>Tipo de Empleado</th>
                                             <th>Cargo</th>
                                             <th>Ubicacion</th>
@@ -235,7 +236,7 @@
                                     <option value="PRIVADO DE LIBERTAD">PRIVADO DE LIBERTAD</option>
                                     <option value="RENUNCIA">RENUNCIA</option>
                                     <option value="DESPIDO">DESPIDO</option>
-                                    <option value="DESPIDO">FALLCIDO</option>
+                                    <option value="DESPIDO">FALLECIDO</option>
                                 </select>
                             </div>
                         </div>
@@ -395,6 +396,7 @@
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
+                {data: 'codigo_rac', name: 'nomina.cod_rac', searchable: false},
                 {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
                 {data: 'cargo', name: 'cargos.nombre_cargo'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
