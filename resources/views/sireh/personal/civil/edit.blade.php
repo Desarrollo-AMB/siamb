@@ -87,8 +87,8 @@
                                             <div class="form-group">
                                                 <h6>Codigo Empleado:</h6>
                                                 <input id="codigo_empleado" type="text" class="form-control @error('codigo_empleado') is-invalid @enderror" name="codigo_empleado" disabled 
-                                                    value="{{ $datos->nomina->codigo_empleado }}"
-                                                >
+                                                    value="{{ $datos->nomina->codigo_empleado }}">
+                                                <input type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
                                             </div>    
                                     </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
