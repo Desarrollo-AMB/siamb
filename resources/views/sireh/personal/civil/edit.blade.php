@@ -29,6 +29,9 @@
                         </ul>
                     </div>
                     @endif
+                   
+                    <form method="POST" action="{{ route('sireh.personal-civil.update1') }}">
+                    {{csrf_field()}}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="avatar-wrapper">
@@ -36,11 +39,10 @@
                                 <div class="upload-button">
                                     <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                                 </div>
+                                <input class="file-upload" type="file" accept="image/*" name="foto" id="foto" />
                             </div>
                         </div>
                     </div>
-                    <form method="POST" action="{{ route('sireh.personal-civil.update') }}">
-                    {{csrf_field()}}
                     <div class="row">  
                         <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
                             <div class="form-group">
@@ -403,5 +405,22 @@
         $('.egreso').select2();
 
     })
+    var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+   
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button").on('click', function() {
+            $(".file-upload").click();
+        });
 </script>
 @endsection

@@ -56,7 +56,8 @@ class PersonalController extends Controller
     public function indexPersonalMilitar()
     {
         $funcionEmpleado = FuncionTripulante::get();
-        return view('sireh.personal.militar.index',
+        return view(
+            'sireh.personal.militar.index',
             compact(
                 'funcionEmpleado'
             )
@@ -66,7 +67,8 @@ class PersonalController extends Controller
     public function indexPersonalCivil()
     {
         $cursos = Cursos::all();
-        return view('sireh.personal.civil.index',
+        return view(
+            'sireh.personal.civil.index',
             compact(
                 'cursos'
             )
@@ -80,7 +82,7 @@ class PersonalController extends Controller
 
     public function ingresoPersonal()
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -95,18 +97,31 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $categorias = CategoriasMilitares::all();
 
-        return view('sireh.personal.ingreso',
+        return view(
+            'sireh.personal.ingreso',
             compact(
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones','categorias'
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'categorias'
             )
         );
     }
 
-    public function registraPersonal(Request $request){
+    public function registraPersonal(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'tipo_emp' => 'required',
                 'cedula' => 'required|unique:empleados,cedula',
@@ -121,17 +136,17 @@ class PersonalController extends Controller
             ]
         );
         try {
-            $codigo_empleado = Nomina::max('codigo_empleado')+1;
-            if ($request->file("foto")){
+            $codigo_empleado = Nomina::max('codigo_empleado') + 1;
+            if ($request->file("foto")) {
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'. $request->cedula . '.' . $ext;
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext;
 
                 $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
+                if (file_exists($path_foto)) {
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
+                Image::make($request->file('foto'))->save(public_path($path_foto));
+            } else {
                 $path_foto = null;
             }
 
@@ -180,7 +195,7 @@ class PersonalController extends Controller
             $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
             $nomina->save();
 
-            if($request->contingente){
+            if ($request->contingente) {
                 $datos_militares = new DatosMilitares;
                 $datos_militares->codigo_empleado = $empleado->codigo_empleado;
                 $datos_militares->contingente = $request->contingente;
@@ -188,7 +203,7 @@ class PersonalController extends Controller
                 $datos_militares->codigo_categoria = $request->categoria;
                 $datos_militares->save();
             }
-            if( !empty($request->universidad) || !empty($request->profesion)){
+            if (!empty($request->universidad) || !empty($request->profesion)) {
                 $estudio_realizado = new EstudiosRealizados;
                 $estudio_realizado->codigo_empleado = $empleado->codigo_empleado;
                 $estudio_realizado->nivel = $request->nivel;
@@ -206,7 +221,7 @@ class PersonalController extends Controller
 
     public function editIngresoPersonal($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -221,24 +236,38 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
+        $datos = Empleado::with(['nomina', 'datos_militares', 'estudios_realizados'])->find($id);
 
-        return view('sireh.personal.edit-ingreso',
+        return view(
+            'sireh.personal.edit-ingreso',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones'
             )
         );
     }
 
-    public function updatePersonal(Empleado $empleado,Request $request){
+    public function updatePersonal(Empleado $empleado, Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'tipo_emp' => 'required',
-                'cedula' => 'required|unique:empleados,cedula,'.$empleado->id,
+                'cedula' => 'required|unique:empleados,cedula,' . $empleado->id,
                 'nombre1' => 'required',
                 'apellido1' => 'required',
                 'ubicacion' => 'required',
@@ -254,18 +283,18 @@ class PersonalController extends Controller
             $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
 
             $path_foto_actual = $empleado->foto;
-    
+
             if ($request->hasFile("foto")) { // Si se envía una nueva foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
-            
+
                 $path_foto_nueva = 'fotos/empleados/' . $file_name;
-            
+
                 // Verificar si la foto previa existe antes de eliminarla
                 if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
                     unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
                 }
-            
+
                 Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
             } else {
                 // Si no se envía una nueva foto, mantener la ruta existente
@@ -294,12 +323,12 @@ class PersonalController extends Controller
             $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
             $empleado->estado = !empty($request->estado) ? $request->estado : null;
             if ($path_foto_nueva) {
-                $empleado->foto = $path_foto_nueva ;
+                $empleado->foto = $path_foto_nueva;
             }
             $empleado->correo = $request->correo;
             $empleado->save();
 
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
             $nomina->cedula = $empleado->cedula;
             $nomina->tipo_emp = $request->tipo_emp;
             $nomina->codigo_ubicacion = $request->ubicacion;
@@ -310,12 +339,12 @@ class PersonalController extends Controller
             $nomina->cod_ubicacion_detallada = $request->ubicacion_det;
             $nomina->save();
 
-            if($request->contingente){
-                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            if ($request->contingente) {
+                $datos_militares = DatosMilitares::where('codigo_empleado', $empleado->codigo_empleado)->first();
                 $datos_militares->contingente = $request->contingente;
                 $datos_militares->save();
             }
-            if( !empty($request->universidad) || !empty($request->profesion)){
+            if (!empty($request->universidad) || !empty($request->profesion)) {
                 EstudiosRealizados::updateOrCreate(
                     ['codigo_empleado' => $empleado->codigo_empleado],
                     [
@@ -341,24 +370,25 @@ class PersonalController extends Controller
     public function destroy(Empleado $empleado)
     {
         $empleado = Empleado::find($empleado->id);
-        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
         $nomina->delete();
-        $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $datos_militares = DatosMilitares::where('codigo_empleado', $empleado->codigo_empleado)->first();
         $datos_militares->delete();
-        $estudios_realizados = EstudiosRealizados::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $estudios_realizados = EstudiosRealizados::where('codigo_empleado', $empleado->codigo_empleado)->first();
         $estudios_realizados->delete();
         $empleado->delete();
 
         return redirect()->route('sireh.ingreso-personal.index')
-            ->with('success','Eliminado satisfactoriamente');
+            ->with('success', 'Eliminado satisfactoriamente');
     }
 
-    public function activarIngreso(Empleado $empleado){
-        try{
-            $empleado->situacion='A';
+    public function activarIngreso(Empleado $empleado)
+    {
+        try {
+            $empleado->situacion = 'A';
             $empleado->save();
-            $nomina=Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
-            $nomina->situacion='A';
+            $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
+            $nomina->situacion = 'A';
             $nomina->save();
             return response()->json(['success' => true]);
         } catch (Exception $e) {
@@ -368,13 +398,14 @@ class PersonalController extends Controller
     }
 
     //Obtiene los empleados registrados aun sin activar el Ingreso, exclusivo por api para el Datatable
-    public function empleadosInactivos(Request $request){
-        $empleados = Empleado::where('empleados.situacion','I');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
-        $empleados->leftJoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
+    public function empleadosInactivos(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'I');
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo');
+        $empleados->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -388,20 +419,21 @@ class PersonalController extends Controller
             'cargos.nombre_cargo as cargo',
             'grados_militares.descripcion as grado_militar',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     //Obtiene el personal militar, exclusivo por api para el Datatable
-    public function personalMilitar(Request $request){
-        $empleados = Empleado::whereIn('empleados.situacion',['A','S','E']);
-        $empleados->leftJoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftJoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->leftJoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+    public function personalMilitar(Request $request)
+    {
+        $empleados = Empleado::whereIn('empleados.situacion', ['A', 'S', 'E']);
+        $empleados->leftJoin('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->leftJoin('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->leftJoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -414,21 +446,22 @@ class PersonalController extends Controller
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal.militar._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     //Obtiene el personal Civil, exclusivo por api para el Datatable
-    public function personalCivil(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A');
+    public function personalCivil(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'A');
         //$empleados = Empleado::where('empleados.situacion', '<>','');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
-        $empleados->whereNotIn('nomina.tipo_emp',['MIL','TRP','ALI','MEF']);
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo');
+        $empleados->whereNotIn('nomina.tipo_emp', ['MIL', 'TRP', 'ALI', 'MEF']);
         //$empleados->where('nomina.tipo_emp','<>','MIL')->where('nomina.tipo_emp','<>','TRP')->where('nomina.tipo_emp','<>','ALI')->where('nomina.tipo_emp','<>','MEF');
         $empleados->select(
             'empleados.id',
@@ -442,20 +475,21 @@ class PersonalController extends Controller
             'cargos.nombre_cargo as cargo',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal.civil._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     //Obtiene el personal militar no profesional, exclusivo por api para el Datatable
-    public function personalMilitarNoProf(Request $request){
-        $empleados = Empleado::where('empleados.situacion','A');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['ALI','MEF']);
+    public function personalMilitarNoProf(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'A');
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp', ['ALI', 'MEF']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -467,20 +501,21 @@ class PersonalController extends Controller
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal.militar_noprof._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     //Obtiene los empleados sin asociar Usuario, exclusivo por api para el Datatable
-    public function empleadosSinUser(Request $request){
-        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion','A');
+    public function empleadosSinUser(Request $request)
+    {
+        $empleados = Empleado::whereNull('user_id')->where('empleados.situacion', 'A');
         //$empleados = Empleado::where('empleados.situacion','A');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo');
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo');
         $empleados->select(
             'empleados.codigo_empleado',
             'empleados.cedula',
@@ -492,16 +527,17 @@ class PersonalController extends Controller
             'cargos.nombre_cargo as cargo',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'users._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
     }
 
     //Obtiene los empleados que no son del componente Aviacion sin asociar Usuario, exclusivo por api para el Datatable
-    public function notEmpleadosSinUser(Request $request){
+    public function notEmpleadosSinUser(Request $request)
+    {
         $empleados = EmpleadosOtroComponente::whereNull('user_id');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','empleados_otro_componente.codigo_ubicacion');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'empleados_otro_componente.codigo_ubicacion');
         $empleados->select(
             'empleados_otro_componente.id',
             'empleados_otro_componente.cedula',
@@ -511,7 +547,7 @@ class PersonalController extends Controller
             'empleados_otro_componente.apellido2',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'users._actions2')
             ->rawColumns(['actions']);
         return $datatable->make(true);
@@ -519,7 +555,7 @@ class PersonalController extends Controller
 
     public function viewPersonalMilitarNoProf($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -534,20 +570,32 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        return view('sireh.personal.militar_noprof.view',
+        $datos = Empleado::with(['nomina', 'datos_militares', 'estudios_realizados'])->find($id);
+        return view(
+            'sireh.personal.militar_noprof.view',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones'
             )
         );
     }
 
     public function viewPersonalMilitar($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -567,21 +615,37 @@ class PersonalController extends Controller
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
         $especialidades_militares = EspecialidadesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares'])->find($id);
-        return view('sireh.personal.militar.view',
+        $datos = Empleado::with(['nomina', 'datos_militares'])->find($id);
+        return view(
+            'sireh.personal.militar.view',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'categorias_militares','situaciones','promociones_militares','especialidades_militares','lateralidades'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'categorias_militares',
+                'situaciones',
+                'promociones_militares',
+                'especialidades_militares',
+                'lateralidades'
             )
         );
     }
 
     public function editPersonalMilitar($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -600,21 +664,38 @@ class PersonalController extends Controller
         $grados_militares = GradosMilitares::all();
         $categorias_militares = CategoriasMilitares::all();
         $promociones_militares = PromocionesMilitares::all();
-        $datos = Empleado::with(['nomina','datos_militares','estudios_realizados'])->find($id);
-        return view('sireh.personal.militar.edit',
+        $datos = Empleado::with(['nomina', 'datos_militares', 'estudios_realizados'])->find($id);
+        return view(
+            'sireh.personal.militar.edit',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones', 'categorias_militares', 'situaciones',
-                'promociones_militares','lateralidades'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'categorias_militares',
+                'situaciones',
+                'promociones_militares',
+                'lateralidades'
             )
         );
     }
 
-    public function updatePersonalMilitar(Request $request){
+    public function updatePersonalMilitar(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'cedula' => 'required',
                 'nacionalidad' => 'required',
@@ -650,24 +731,24 @@ class PersonalController extends Controller
             $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
 
             $path_foto_actual = $empleado->foto;
-    
+
             if ($request->hasFile("foto")) { // Si se envía una nueva foto
                 $ext = $request->file('foto')->getClientOriginalExtension();
                 $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
-            
+
                 $path_foto_nueva = 'fotos/empleados/' . $file_name;
-            
+
                 // Verificar si la foto previa existe antes de eliminarla
                 if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
                     unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
                 }
-            
+
                 Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
             } else {
                 // Si no se envía una nueva foto, mantener la ruta existente
                 $path_foto_nueva = $path_foto_actual;
             }
-            $empleado = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
+            $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
                 "nacionalidad" => $request->nacionalidad,
                 "nombre1" => $request->nombre1,
@@ -700,7 +781,7 @@ class PersonalController extends Controller
                 "foto" => $path_foto_nueva,
             ]);
 
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
                 "cedula" => $request->cedula,
                 "tipo_emp" => $request->tipo_emp,
                 "nombre1" => $request->nombre1,
@@ -710,7 +791,7 @@ class PersonalController extends Controller
                 "grado_militar" => !empty($request->grado_militar) ? $request->grado_militar : null,
             ]);
 
-            $datos_militares = DatosMilitares::where('codigo_empleado',$request->codigo_empleado)->update([
+            $datos_militares = DatosMilitares::where('codigo_empleado', $request->codigo_empleado)->update([
                 "codigo_categoria" => $request->categoria,
                 "codigo_promocion" => !empty($request->promocion) ? $request->promocion : null,
             ]);
@@ -740,7 +821,7 @@ class PersonalController extends Controller
 
     public function cargosPersonalMilitar($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
@@ -748,18 +829,27 @@ class PersonalController extends Controller
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
         $movimientos = Movimientos::all();
-        $datos = Empleado::with(['nomina','movimientos'])->find($id);
-        return view('sireh.personal.militar.cargo',
+        $datos = Empleado::with(['nomina', 'movimientos'])->find($id);
+        return view(
+            'sireh.personal.militar.cargo',
             compact(
-                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
-                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
+                'datos',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'ubicaciones',
+                'ubicaciones_det',
+                'cargos',
+                'movimientos'
             )
         );
     }
 
-    public function updateCargosPersonalMilitar(Request $request){
+    public function updateCargosPersonalMilitar(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'cargo' => 'required',
                 'fecha_inic_cargo' => 'required',
@@ -772,13 +862,13 @@ class PersonalController extends Controller
             ]
         );
         try {
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
                 "codigo_cargo" => !empty($request->cargo) ? $request->cargo : 0,
                 "fecha_inic_cargo" => !empty($request->fecha_inic_cargo) ? $request->fecha_inic_cargo : 0,
                 "nro_resolucion_cargo" => !empty($request->nro_resolucion_cargo) ? $request->nro_resolucion_cargo : 0,
             ]);
 
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
 
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
@@ -810,7 +900,7 @@ class PersonalController extends Controller
 
     public function ubicacionesPersonalMilitar($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
@@ -818,18 +908,27 @@ class PersonalController extends Controller
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
         $movimientos = Movimientos::all();
-        $datos = Empleado::with(['nomina','movimientos'])->find($id);
-        return view('sireh.personal.militar.ubicacion',
+        $datos = Empleado::with(['nomina', 'movimientos'])->find($id);
+        return view(
+            'sireh.personal.militar.ubicacion',
             compact(
-                'datos', 'grados_militares', 'user_auth', 'tipos_emp',
-                'ubicaciones', 'ubicaciones_det', 'cargos', 'movimientos'
+                'datos',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'ubicaciones',
+                'ubicaciones_det',
+                'cargos',
+                'movimientos'
             )
         );
     }
 
-    public function updateUbicacionesPersonalMilitar(Request $request){
+    public function updateUbicacionesPersonalMilitar(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'ubicacion' => 'required',
                 'ubicacion_detallada' => 'required',
@@ -844,14 +943,14 @@ class PersonalController extends Controller
             ]
         );
         try {
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
                 "codigo_ubicacion" => !empty($request->ubicacion) ? $request->ubicacion : 0,
                 "cod_ubicacion_detallada" => !empty($request->ubicacion_detallada) ? $request->ubicacion_detallada : 0,
                 "fecha_inic_ubicacion" => !empty($request->fecha_inic_ubicacion) ? $request->fecha_inic_ubicacion : 0,
                 "nro_resolucion_ubicacion" => !empty($request->nro_resolucion_ubicacion) ? $request->nro_resolucion_ubicacion : 0,
             ]);
 
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
 
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
@@ -888,13 +987,14 @@ class PersonalController extends Controller
     }
 
     //Obtiene el personal militar suspendido, exclusivo por api para el Datatable
-    public function personalMilitarSuspendido(Request $request){
-        $empleados = Empleado::where('empleados.situacion','S');
-        $empleados->join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+    public function personalMilitarSuspendido(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'S');
+        $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -906,7 +1006,7 @@ class PersonalController extends Controller
             'grados_militares.descripcion as grado_militar',
             'ubicaciones.descripcion as ubicacion',
         );
-        $datatable= Datatables::of($empleados)
+        $datatable = Datatables::of($empleados)
             ->addColumn('actions', 'sireh.personal.militar.suspendidos._actions')
             ->rawColumns(['actions']);
         return $datatable->make(true);
@@ -914,8 +1014,8 @@ class PersonalController extends Controller
 
     public function suspenderPersonalMilitar(Request $request)
     {
-        $empleado = Empleado::where('id',$request->id)->first();
-        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $empleado = Empleado::where('id', $request->id)->first();
+        $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
 
         $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
             'situacion' => 'S'
@@ -953,15 +1053,16 @@ class PersonalController extends Controller
     }
 
     //Obtiene el personal militar egresado, exclusivo por api para el Datatable
-    public function personalMilitarBaja(Request $request){
-        $empleados = Empleado::where('empleados.situacion','E');
-        $empleados->leftjoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->leftjoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->leftjoin('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftjoin('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
-        $empleados->whereIn('nomina.tipo_emp',['MIL','MEX','TRP']);
+    public function personalMilitarBaja(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'E');
+        $empleados->leftjoin('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->leftjoin('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->leftjoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->leftjoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados->leftjoin('egresos', 'egresos.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->leftjoin('tipo_de_baja', 'tipo_de_baja.codigo_egreso', '=', 'egresos.causa_egreso');
+        $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -976,23 +1077,27 @@ class PersonalController extends Controller
             'egresos.fecha_salida as fecha_salida',
             'egresos.nro_resuelto as nro_resuelto',
         );
-        $datatable= Datatables::of($empleados);
+        $datatable = Datatables::of($empleados);
         return $datatable->make(true);
     }
 
     public function bajaPersonalMilitar($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $situaciones = Config::get('constants.situacion');
         $ubicaciones = Ubicaciones::all();
         $grados_militares = GradosMilitares::all();
         $tipo_de_baja = TipoDeBaja::all();
-        $datos = Empleado::with(['nomina','datos_militares'])->find($id);
-        return view('sireh.personal.militar.baja',
+        $datos = Empleado::with(['nomina', 'datos_militares'])->find($id);
+        return view(
+            'sireh.personal.militar.baja',
             compact(
-                'datos','grados_militares','situaciones',
-                'user_auth','ubicaciones',
+                'datos',
+                'grados_militares',
+                'situaciones',
+                'user_auth',
+                'ubicaciones',
                 'tipo_de_baja'
             )
         );
@@ -1000,7 +1105,8 @@ class PersonalController extends Controller
 
     public function darBajaPersonalMilitar(Request $request)
     {
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'causa_egreso' => 'required',
                 'fecha_ingreso' => 'required',
@@ -1017,15 +1123,15 @@ class PersonalController extends Controller
             ]
         );
         try {
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->update([
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
                 "situacion" => 'E',
             ]);
 
-            $empleados = Empleado::where('codigo_empleado',$request->codigo_empleado)->update([
+            $empleados = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
                 "situacion" => 'E',
             ]);
 
-            $user_auth=auth()->user();
+            $user_auth = auth()->user();
 
             $egresos = new Egresos;
             $egresos->codigo_empleado = $request->codigo_empleado;
@@ -1037,7 +1143,7 @@ class PersonalController extends Controller
             $egresos->usuario = $user_auth->name;
             $egresos->save();
 
-            $nomina = Nomina::where('codigo_empleado',$request->codigo_empleado)->first();
+            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
 
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
@@ -1060,8 +1166,8 @@ class PersonalController extends Controller
 
     public function activarPersonalMilitar(Request $request)
     {
-        $empleado = Empleado::where('id',$request->id)->first();
-        $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+        $empleado = Empleado::where('id', $request->id)->first();
+        $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
 
         $updateSituacion = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->update([
             'situacion' => 'A'
@@ -1093,22 +1199,26 @@ class PersonalController extends Controller
         );
     }
 
-    public function escogerEscalafon() {
-        $user_auth=auth()->user();
+    public function escogerEscalafon()
+    {
+        $user_auth = auth()->user();
 
-        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])
-        ->orderBy('codigo_grado','asc')
-        ->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp', ['MIL', 'TRP'])
+            ->orderBy('codigo_grado', 'asc')
+            ->get();
 
-        return view('sireh.personal.militar.escalafon',
+        return view(
+            'sireh.personal.militar.escalafon',
             compact(
                 'grados_militares'
             )
         );
     }
 
-    public function imprimirEscalafon(Request $request) {
-        $this->validate($request,
+    public function imprimirEscalafon(Request $request)
+    {
+        $this->validate(
+            $request,
             [
                 'grado_militar' => 'required',
             ],
@@ -1118,81 +1228,80 @@ class PersonalController extends Controller
         );
         $grado_militar = $request->grado_militar;
         if ($grado_militar == 'TODOS') {
-            $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-            ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-            ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-            ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
-            ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
-            ->where('nomina.situacion','A')
-            ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-            ->select(
-                'empleados.cedula',
-                'empleados.nombre1',
-                'empleados.nombre2',
-                'empleados.apellido1',
-                'empleados.apellido2',
-                'empleados.fecha_nacim',
-                'empleados.sexo',
-                'categorias_militares.codigo_categoria as categoria',
-                'grados_militares.codigo_grado as grado_militar',
-                'datos_militares.orden_merito as orden_merito',
-                'datos_militares.total_orden_merito as total_merito',
-                'datos_militares.fecha_graduacion as graduacion',
-                'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
-                'datos_militares.fecha_retiro as retiro',
-                'em1.descripcion as especialidad1',
-                'em2.descripcion as especialidad2',
-                'ubicaciones.descripcion as ubicacion',
-                'cargos.nombre_cargo as cargo',
-            )
-            //->limit(100)
-            ->orderBy('nomina.grado_militar','asc')
-            ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
-            ->orderBy('datos_militares.fecha_graduacion','asc')
-            ->orderBy('datos_militares.orden_merito','asc')
-            ->get();
+            $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                ->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+                ->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                ->leftjoin('especialidades_militares as em1', 'em1.codigo_especialidad', '=', 'datos_militares.codigo_especialidad1')
+                ->leftjoin('especialidades_militares as em2', 'em2.codigo_especialidad', '=', 'datos_militares.codigo_especialidad2')
+                ->where('nomina.situacion', 'A')
+                ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                ->select(
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                    'empleados.fecha_nacim',
+                    'empleados.sexo',
+                    'categorias_militares.codigo_categoria as categoria',
+                    'grados_militares.codigo_grado as grado_militar',
+                    'datos_militares.orden_merito as orden_merito',
+                    'datos_militares.total_orden_merito as total_merito',
+                    'datos_militares.fecha_graduacion as graduacion',
+                    'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
+                    'datos_militares.fecha_retiro as retiro',
+                    'em1.descripcion as especialidad1',
+                    'em2.descripcion as especialidad2',
+                    'ubicaciones.descripcion as ubicacion',
+                    'cargos.nombre_cargo as cargo',
+                )
+                //->limit(100)
+                ->orderBy('nomina.grado_militar', 'asc')
+                ->orderBy('datos_militares.fecha_ultimo_ascenso', 'asc')
+                ->orderBy('datos_militares.fecha_graduacion', 'asc')
+                ->orderBy('datos_militares.orden_merito', 'asc')
+                ->get();
             //dd($empleados);
-        }
-        else {
-            $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-            ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-            ->leftJoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-            ->leftJoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-            ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-            ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-            ->leftjoin('especialidades_militares as em1','em1.codigo_especialidad','=','datos_militares.codigo_especialidad1')
-            ->leftjoin('especialidades_militares as em2','em2.codigo_especialidad','=','datos_militares.codigo_especialidad2')
-            ->where('empleados.situacion','A')
-            ->where('nomina.grado_militar',$grado_militar)
-            ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-            ->select(
-                'empleados.cedula',
-                'empleados.nombre1',
-                'empleados.nombre2',
-                'empleados.apellido1',
-                'empleados.apellido2',
-                'empleados.fecha_nacim',
-                'empleados.sexo',
-                'categorias_militares.descripcion as categoria',
-                'grados_militares.descripcion as grado_militar',
-                'datos_militares.orden_merito as orden_merito',
-                'datos_militares.total_orden_merito as total_merito',
-                'datos_militares.fecha_graduacion as graduacion',
-                'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
-                'datos_militares.fecha_retiro as retiro',
-                'em1.descripcion as especialidad1',
-                'em2.descripcion as especialidad2',
-                'ubicaciones.descripcion as ubicacion',
-                'cargos.nombre_cargo as cargo',
-            )
-            ->limit(50)
-            ->orderBy('datos_militares.fecha_ultimo_ascenso','asc')
-            ->orderBy('datos_militares.fecha_graduacion','asc')
-            ->orderBy('datos_militares.orden_merito','asc')
-            ->get();
+        } else {
+            $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                ->leftJoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+                ->leftJoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                ->leftjoin('especialidades_militares as em1', 'em1.codigo_especialidad', '=', 'datos_militares.codigo_especialidad1')
+                ->leftjoin('especialidades_militares as em2', 'em2.codigo_especialidad', '=', 'datos_militares.codigo_especialidad2')
+                ->where('empleados.situacion', 'A')
+                ->where('nomina.grado_militar', $grado_militar)
+                ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                ->select(
+                    'empleados.cedula',
+                    'empleados.nombre1',
+                    'empleados.nombre2',
+                    'empleados.apellido1',
+                    'empleados.apellido2',
+                    'empleados.fecha_nacim',
+                    'empleados.sexo',
+                    'categorias_militares.descripcion as categoria',
+                    'grados_militares.descripcion as grado_militar',
+                    'datos_militares.orden_merito as orden_merito',
+                    'datos_militares.total_orden_merito as total_merito',
+                    'datos_militares.fecha_graduacion as graduacion',
+                    'datos_militares.fecha_ultimo_ascenso as ultimo_ascenso',
+                    'datos_militares.fecha_retiro as retiro',
+                    'em1.descripcion as especialidad1',
+                    'em2.descripcion as especialidad2',
+                    'ubicaciones.descripcion as ubicacion',
+                    'cargos.nombre_cargo as cargo',
+                )
+                ->limit(50)
+                ->orderBy('datos_militares.fecha_ultimo_ascenso', 'asc')
+                ->orderBy('datos_militares.fecha_graduacion', 'asc')
+                ->orderBy('datos_militares.orden_merito', 'asc')
+                ->get();
         }
 
         foreach ($empleados as $row) {
@@ -1226,7 +1335,7 @@ class PersonalController extends Controller
 
         $agrupados = $escalafon->groupBy(['grado_militar', 'categoria']);
 
-        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados','escalafon'))->setPaper('a4', 'landscape');
+        $pdf = \PDF::loadview('sireh.personal.militar.imprimirescalafon', compact('agrupados', 'escalafon'))->setPaper('a4', 'landscape');
 
         return $pdf->stream('escalafon.pdf');
         //return view('sireh.personal.militar.imprimirescalafon', compact('grados_mil','categorias_mil','escalafon'));
@@ -1235,7 +1344,7 @@ class PersonalController extends Controller
     //PERSONAL CIVIL FUNCTIONS
     public function viewPersonalCivilnoactivo($codigo_empleado)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -1250,28 +1359,40 @@ class PersonalController extends Controller
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
-        $datos = Nomina::join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
-        ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','empleados.codigo_empleado')
-      ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-      ->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->select('nomina.*','estudios_realizados.*','empleados.*')
-        ->first();
+        $datos = Nomina::join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->join('estudios_realizados', 'estudios_realizados.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+            ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->select('nomina.*', 'estudios_realizados.*', 'empleados.*')
+            ->first();
         $getEmpleadoCode = Empleado::With('nomina')->select('codigo_empleado')->find($codigo_empleado);
-        $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
-        return view('sireh.personal.civil.viewNO',
+        $cursosRealizados = CursosRealizados::where('codigo_empleado', $getEmpleadoCode['codigo_empleado'])->get();
+        return view(
+            'sireh.personal.civil.viewNO',
             compact(
-                'datos','ciudades',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'cursosRealizados', 'cursos'
+                'datos',
+                'ciudades',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'cursosRealizados',
+                'cursos'
             )
         );
     }
     public function viewPersonalCivil($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -1287,16 +1408,29 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $datos = Empleado::with(['nomina', 'estudios_realizados'])->find($id);
         $getEmpleadoCode = Empleado::With('nomina')->select('codigo_empleado')->find($id);
-        $cursosRealizados = CursosRealizados::where('codigo_empleado',$getEmpleadoCode['codigo_empleado'])->get();
-        return view('sireh.personal.civil.view',
+        $cursosRealizados = CursosRealizados::where('codigo_empleado', $getEmpleadoCode['codigo_empleado'])->get();
+        return view(
+            'sireh.personal.civil.view',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones',
-                'cursosRealizados', 'cursos'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones',
+                'cursosRealizados',
+                'cursos'
             )
         );
     }
@@ -1384,7 +1518,7 @@ class PersonalController extends Controller
 
     public function editPersonalCivil($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -1399,19 +1533,31 @@ class PersonalController extends Controller
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
-        return view('sireh.personal.civil.edit',
+        $datos = Empleado::with(['nomina', 'estudios_realizados'])->find($id);
+        return view(
+            'sireh.personal.civil.edit',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones'
             )
         );
     }
     public function updatePersonalCivil(Request $request)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $updateNomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
             "tipo_emp" => $request->tipo_emp,
@@ -1425,6 +1571,27 @@ class PersonalController extends Controller
             "cod_ubicacion_detallada" => $request->cod_ubicacion_detallada,
             "tipo_emp" => $request->tipo_emp,
         ]);
+
+         $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
+
+            $path_foto_actual =  $updateEmpleado->foto;
+
+            if ($request->hasFile("foto")) { // Si se envía una nueva foto
+                $ext = $request->file('foto')->getClientOriginalExtension();
+                $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
+
+                $path_foto_nueva = 'fotos/empleados/' . $file_name;
+
+                // Verificar si la foto previa existe antes de eliminarla
+                if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
+                    unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
+                }
+
+                Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
+            } else {
+                // Si no se envía una nueva foto, mantener la ruta existente
+                $path_foto_nueva = $path_foto_actual;
+            }
         $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
             "nacionalidad" => $request->nacionalidad,
             "fecha_nacim" => $request->fecha_nacim,
@@ -1458,25 +1625,27 @@ class PersonalController extends Controller
             "nombre2" => $request->nombre2,
             "apellido1" => $request->apellido1,
             "apellido2" => $request->apellido2,
+            "foto" => $path_foto_nueva,
         ]);
 
-        return redirect()->route('sireh.personal-civil.index')->with('success', 'Se ha actualizado el Personal');
-
+        return redirect()->route('sireh.personal-militar.view')->with('success', 'Se ha actualizado el Personal');
     }
-    public function personalCivilNoActive(){
-        $noActive = Nomina::where('nomina.situacion','=','E')
-            ->join('empleados','nomina.codigo_empleado','=','empleados.codigo_empleado')
-            ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
-            ->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-            ->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-            ->leftjoin('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-            ->whereIn('nomina.tipo_emp',['EMP','CON','OBR','DOC','MED','DTC','CEX'])
-          //  ->where('movimientos.situacion','=','E')
-            ->whereIn('movimientos.tipo_movimiento',['PRIVADO DE LIBERTAD','RENUNCIA','DESPIDO','EGRE'])
-        
+    public function personalCivilNoActive()
+    {
+        $noActive = Nomina::where('nomina.situacion', '=', 'E')
+            ->join('empleados', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+            ->leftjoin('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->leftjoin('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+            ->leftjoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->leftjoin('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+            ->whereIn('nomina.tipo_emp', ['EMP', 'CON', 'OBR', 'DOC', 'MED', 'DTC', 'CEX'])
+            //  ->where('movimientos.situacion','=','E')
+            ->whereIn('movimientos.tipo_movimiento', ['PRIVADO DE LIBERTAD', 'RENUNCIA', 'DESPIDO', 'EGRE'])
+
             ->get();
-            //dd($noActive);
-        return view('sireh.personal.civil.view_civil_no_activo',
+        //dd($noActive);
+        return view(
+            'sireh.personal.civil.view_civil_no_activo',
             compact(
                 'noActive'
             )
@@ -1505,20 +1674,26 @@ class PersonalController extends Controller
 
     public function evaluarPersonalCivil($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $ubicaciones = Ubicaciones::all();
         $ubicaciones_det = UbicacionDetallada::all();
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::all();
-        $datos = Empleado::with(['nomina','estudios_realizados'])->find($id);
+        $datos = Empleado::with(['nomina', 'estudios_realizados'])->find($id);
         $evaluaciones = IntelectualesCivil::where('codigo_empleado', $datos->codigo_empleado)->get();
-        return view('sireh.personal.civil.view_evaluar',
+        return view(
+            'sireh.personal.civil.view_evaluar',
             compact(
-                'datos','grados_militares',
-                'user_auth', 'tipos_emp', 'ubicaciones', 'ubicaciones_det',
-                'cargos', 'evaluaciones'
+                'datos',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'ubicaciones',
+                'ubicaciones_det',
+                'cargos',
+                'evaluaciones'
             )
         );
     }
@@ -1548,7 +1723,8 @@ class PersonalController extends Controller
     public function EditEvaluarPersonalCivil(Request $request)
     {
         $edit = IntelectualesCivil::where('id', $request->id)->get();
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data',
                 'data' => $edit,
@@ -1559,7 +1735,8 @@ class PersonalController extends Controller
     {
         $updateIntec = IntelectualesCivil::where('id', $request->id)->update($request->except('id'));
 
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data',
                 'updateIntec' => $updateIntec
@@ -1570,7 +1747,7 @@ class PersonalController extends Controller
 
     public function editPersonalMilitarNoProf($id)
     {
-        $user_auth=auth()->user();
+        $user_auth = auth()->user();
 
         $tipos_emp = TiposEmpleado::all();
         $nacionalidades = Config::get('constants.nacionalidad');
@@ -1584,21 +1761,35 @@ class PersonalController extends Controller
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
-        $datos = Empleado::with(['nomina','nomina.cargo','estudios_realizados','nomina.datos_militares'])->find($id);
-        $grados_militares = GradosMilitares::where('tipo_emp',$datos->nomina->tipo_emp)->get();
-        return view('sireh.personal.militar_noprof.edit',
+        $datos = Empleado::with(['nomina', 'nomina.cargo', 'estudios_realizados', 'nomina.datos_militares'])->find($id);
+        $grados_militares = GradosMilitares::where('tipo_emp', $datos->nomina->tipo_emp)->get();
+        return view(
+            'sireh.personal.militar_noprof.edit',
             compact(
-                'datos','ciudades','grados_militares',
-                'user_auth', 'tipos_emp', 'generos', 'edos_civil',
-                'estados', 'ubicaciones', 'ubicaciones_det', 'niveles',
-                'cargos', 'nacionalidades', 'universidades', 'profesiones'
+                'datos',
+                'ciudades',
+                'grados_militares',
+                'user_auth',
+                'tipos_emp',
+                'generos',
+                'edos_civil',
+                'estados',
+                'ubicaciones',
+                'ubicaciones_det',
+                'niveles',
+                'cargos',
+                'nacionalidades',
+                'universidades',
+                'profesiones'
             )
         );
     }
 
-    public function updatePersonalMilitarNoProf(Empleado $empleado,Request $request){
+    public function updatePersonalMilitarNoProf(Empleado $empleado, Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'cedula' => 'required',
                 'nombre1' => 'required',
@@ -1611,17 +1802,17 @@ class PersonalController extends Controller
             ]
         );
         try {
-            if ($request->file("foto")){
+            if ($request->file("foto")) {
                 $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_'.$empleado->codigo_empleado . '.' . $ext;
+                $file_name = 'empleado_' . $empleado->codigo_empleado . '.' . $ext;
 
                 $path_foto = 'fotos/empleados/' . $file_name;
-                if(file_exists($path_foto)){
+                if (file_exists($path_foto)) {
                     unlink($path_foto); // Eliminamos la imagen previa si existe.
                 }
                 //$path = $request->file("foto")->store($path);
-                Image::make($request->file('foto'))->save( public_path($path_foto));
-            }else{
+                Image::make($request->file('foto'))->save(public_path($path_foto));
+            } else {
                 $path_foto = null;
             }
 
@@ -1647,12 +1838,12 @@ class PersonalController extends Controller
             $empleado->telefono_e = !empty($request->telefono_e) ? $request->telefono_e : null;
             $empleado->estado = !empty($request->estado) ? $request->estado : null;
             if ($path_foto) {
-                $empleado->foto = $path_foto ;
+                $empleado->foto = $path_foto;
             }
             $empleado->correo = $request->correo;
             $empleado->save();
 
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
             $nomina->cedula = $empleado->cedula;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
@@ -1662,12 +1853,12 @@ class PersonalController extends Controller
             $nomina->cod_ubicacion_detallada = !empty($request->ubicacion_det) ? $request->ubicacion_det : null;
             $nomina->save();
 
-            if($request->contingente){
-                $datos_militares = DatosMilitares::where('codigo_empleado',$empleado->codigo_empleado)->first();
+            if ($request->contingente) {
+                $datos_militares = DatosMilitares::where('codigo_empleado', $empleado->codigo_empleado)->first();
                 $datos_militares->contingente = $request->contingente;
                 $datos_militares->save();
             }
-            if( !empty($request->universidad) || !empty($request->profesion)){
+            if (!empty($request->universidad) || !empty($request->profesion)) {
                 EstudiosRealizados::updateOrCreate(
                     ['codigo_empleado' => $empleado->codigo_empleado],
                     [
@@ -1684,9 +1875,11 @@ class PersonalController extends Controller
         }
     }
 
-    public function egresarMilitarNoProf(Request $request){
+    public function egresarMilitarNoProf(Request $request)
+    {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'fecha_egreso' => 'required',
 
@@ -1699,14 +1892,14 @@ class PersonalController extends Controller
         );
         try {
             $empleado = Empleado::find($request->id_empleado);
-            $nomina = Nomina::where('codigo_empleado',$empleado->codigo_empleado)->first();
-            $empleado->situacion='E';
-            $nomina->situacion='E';
-            $nomina->fecha_egreso=$request->fecha_egreso;
-            $nomina->observaciones=$request->observaciones;
+            $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
+            $empleado->situacion = 'E';
+            $nomina->situacion = 'E';
+            $nomina->fecha_egreso = $request->fecha_egreso;
+            $nomina->observaciones = $request->observaciones;
             $empleado->update();
             $nomina->update();
-            return response()->json(['success' => true,'msg'=>'Egreso Realizado con exito']);
+            return response()->json(['success' => true, 'msg' => 'Egreso Realizado con exito']);
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -1719,7 +1912,7 @@ class PersonalController extends Controller
         $data = Nomina::where('codigo_empleado', $request->id)->get();
         $funcionEmpleado = FuncionTripulante::get();
         $haveFuncion = EmpleadoFuncion::where('codigo_empleado', $request->id)
-            ->join('funcion_tripulante','funcion_tripulante.id','=','empleado_funcion.id_funcion')
+            ->join('funcion_tripulante', 'funcion_tripulante.id', '=', 'empleado_funcion.id_funcion')
             ->select(
                 'empleado_funcion.id',
                 'empleado_funcion.id_funcion',
@@ -1728,7 +1921,8 @@ class PersonalController extends Controller
             ->get();
         $idsFuncion = $haveFuncion->pluck('id_funcion')->toArray();
         //dd($idsFuncion);
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data',
                 'data' => $data,
@@ -1741,7 +1935,7 @@ class PersonalController extends Controller
     public function storeFuncionPersonalMilitar(Request $request)
     {
 
-        $empleado= Empleado::where('codigo_empleado', $request->codigo_empleado)->first();
+        $empleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->first();
 
         $empleado->empleadoFuncion()->sync($request->funcion_id);
 
@@ -1764,7 +1958,8 @@ class PersonalController extends Controller
     {
         EmpleadoFuncion::find($request->id)->delete();
 
-        return response()->json([
+        return response()->json(
+            [
                 'success' => true,
                 'message' => 'Data Eliminada'
             ]
@@ -1773,13 +1968,14 @@ class PersonalController extends Controller
 
     public function reportesPersonalMilitarView()
     {
-        $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])->orderBy('codigo_grado','asc')->get();
-        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp',['MIL','TRP']) ->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp', ['MIL', 'TRP'])->orderBy('codigo_grado', 'asc')->get();
+        $categorias_militares = CategoriasMilitares::whereIn('tipo_emp', ['MIL', 'TRP'])->get();
         $ubicaciones = Ubicaciones::all();
 
         return view('sireh.personal.militar.reportes', compact(
             'grados_militares',
-            'categorias_militares','ubicaciones'
+            'categorias_militares',
+            'ubicaciones'
         ));
     }
 
@@ -1790,7 +1986,8 @@ class PersonalController extends Controller
     public function reportesPersonalMilitar(Request $request)
     {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'reporte' => 'required',
                 'parametros' => 'required|array|min:1',
@@ -1814,186 +2011,185 @@ class PersonalController extends Controller
 
         );
 
-        $reporte=$request->reporte;
-        $nameParametro =array_key_first($request->parametros);
+        $reporte = $request->reporte;
+        $nameParametro = array_key_first($request->parametros);
         $valueParametro = $request->parametros[$nameParametro];
 
-        if($request->parametros1!="") {
-            $nameParametro1 =array_key_first($request->parametros1);
+        if ($request->parametros1 != "") {
+            $nameParametro1 = array_key_first($request->parametros1);
             $valueParametro1 = $request->parametros1[$nameParametro1];
         }
 
-        $complementoTitulo='';
+        $complementoTitulo = '';
         switch ($reporte) {
             case 1:
-                $complementoTitulo= "DE BAJA POR CATEGORIA Y GRADO";
-                if($valueParametro1 !="00022"){
-                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-                    ->where('datos_militares.codigo_categoria', $valueParametro)
-                    ->where('nomina.grado_militar', $valueParametro1)
-                    ->select(
-                    'empleados.id',
-                    'empleados.codigo_empleado',
-                    'empleados.cedula',
-                    'empleados.nombre1',
-                    'empleados.nombre2',
-                    'empleados.apellido1',
-                    'empleados.apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'grados_militares.siglas as siglas',
-                    'grados_militares.descripcion as grado_militar',
-                    'ubicaciones.descripcion as ubicacion',
-                    'datos_militares.fecha_graduacion',
-                    DB::raw("CASE nomina.situacion
+                $complementoTitulo = "DE BAJA POR CATEGORIA Y GRADO";
+                if ($valueParametro1 != "00022") {
+                    $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                        ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                        ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                        ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->where('datos_militares.codigo_categoria', $valueParametro)
+                        ->where('nomina.grado_militar', $valueParametro1)
+                        ->select(
+                            'empleados.id',
+                            'empleados.codigo_empleado',
+                            'empleados.cedula',
+                            'empleados.nombre1',
+                            'empleados.nombre2',
+                            'empleados.apellido1',
+                            'empleados.apellido2',
+                            DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                            'grados_militares.siglas as siglas',
+                            'grados_militares.descripcion as grado_militar',
+                            'ubicaciones.descripcion as ubicacion',
+                            'datos_militares.fecha_graduacion',
+                            DB::raw("CASE nomina.situacion
                             WHEN 'A' THEN 'ACTIVO'
                             WHEN 'E' THEN 'EGRESADO'
                             WHEN 'S' THEN 'SUSPENDIDO'
                             ELSE ''
                             END as situacion"),
-                    'datos_militares.codigo_categoria',
-                    'categorias_militares.descripcion as categoria_militar',
+                            'datos_militares.codigo_categoria',
+                            'categorias_militares.descripcion as categoria_militar',
 
-                );
-                }else{
-                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-                    ->where('datos_militares.codigo_categoria', $valueParametro)
-                    ->select(
-                    'empleados.id',
-                    'empleados.codigo_empleado',
-                    'empleados.cedula',
-                    'empleados.nombre1',
-                    'empleados.nombre2',
-                    'empleados.apellido1',
-                    'empleados.apellido2',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'grados_militares.siglas as siglas',
-                    'grados_militares.descripcion as grado_militar',
-                    'ubicaciones.descripcion as ubicacion',
-                    'datos_militares.fecha_graduacion',
-                    DB::raw("CASE nomina.situacion
+                        );
+                } else {
+                    $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                        ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                        ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                        ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->where('datos_militares.codigo_categoria', $valueParametro)
+                        ->select(
+                            'empleados.id',
+                            'empleados.codigo_empleado',
+                            'empleados.cedula',
+                            'empleados.nombre1',
+                            'empleados.nombre2',
+                            'empleados.apellido1',
+                            'empleados.apellido2',
+                            DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                            'grados_militares.siglas as siglas',
+                            'grados_militares.descripcion as grado_militar',
+                            'ubicaciones.descripcion as ubicacion',
+                            'datos_militares.fecha_graduacion',
+                            DB::raw("CASE nomina.situacion
                             WHEN 'A' THEN 'ACTIVO'
                             WHEN 'E' THEN 'EGRESADO'
                             WHEN 'S' THEN 'SUSPENDIDO'
                             ELSE ''
                             END as situacion"),
-                    'datos_militares.codigo_categoria',
-                    'categorias_militares.descripcion as categoria_militar',
+                            'datos_militares.codigo_categoria',
+                            'categorias_militares.descripcion as categoria_militar',
 
-                );
+                        );
                 }
-               
+
                 //dd($valueParametro1);
                 $datos = $empleados->get();
 
                 break;
             case 2:
                 //dd($valueParametro);
-                $complementoTitulo= " POR SITUACION";
-                if($valueParametro1 !="00022") {
-                   
+                $complementoTitulo = " POR SITUACION";
+                if ($valueParametro1 != "00022") {
 
-                   // dd($valueParametro);
-                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                    ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
-                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                    ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-                    ->where('nomina.situacion', $valueParametro)
-                    ->where('movimientos.situacion', $valueParametro)
-                    ->where('nomina.codigo_ubicacion', $valueParametro1)
-                    ->select(
-                    'empleados.id',
-                    'empleados.codigo_empleado',
-                    'empleados.cedula',
-                    'empleados.nombre1',
-                    'empleados.nombre2',
-                    'empleados.apellido1',
-                    'empleados.apellido2',
-                   'movimientos.tipo_movimiento',
-                   'movimientos.observaciones',
-                    DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                    'grados_militares.siglas as siglas',
-                    'grados_militares.descripcion as grado_militar',
-                    'ubicaciones.descripcion as ubicacion',
-                    'datos_militares.fecha_graduacion',
-                    DB::raw("CASE nomina.situacion
+
+                    // dd($valueParametro);
+                    $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                        ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                        ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                        ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->leftjoin('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                        ->where('nomina.situacion', $valueParametro)
+                        ->where('movimientos.situacion', $valueParametro)
+                        ->where('nomina.codigo_ubicacion', $valueParametro1)
+                        ->select(
+                            'empleados.id',
+                            'empleados.codigo_empleado',
+                            'empleados.cedula',
+                            'empleados.nombre1',
+                            'empleados.nombre2',
+                            'empleados.apellido1',
+                            'empleados.apellido2',
+                            'movimientos.tipo_movimiento',
+                            'movimientos.observaciones',
+                            DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                            'grados_militares.siglas as siglas',
+                            'grados_militares.descripcion as grado_militar',
+                            'ubicaciones.descripcion as ubicacion',
+                            'datos_militares.fecha_graduacion',
+                            DB::raw("CASE nomina.situacion
                             WHEN 'A' THEN 'ACTIVO'
                             WHEN 'E' THEN 'EGRESADO'
                             WHEN 'S' THEN 'SUSPENDIDO'
                             ELSE ''
                             END as situacion"),
-                    'datos_militares.codigo_categoria',
-                    'categorias_militares.descripcion as categoria_militar',
+                            'datos_militares.codigo_categoria',
+                            'categorias_militares.descripcion as categoria_militar',
 
-                );
-                }else{
-                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                        ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                        ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                        ->leftjoin('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
-                        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
+                        );
+                } else {
+                    $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                        ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                        ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                        ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                        ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->leftjoin('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                        ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where('nomina.situacion', $valueParametro)
                         ->where('movimientos.situacion', $valueParametro)
                         ->select(
-                        'empleados.id',
-                        'empleados.codigo_empleado',
-                        'empleados.cedula',
-                        'empleados.nombre1',
-                        'empleados.nombre2',
-                        'empleados.apellido1',
-                        'empleados.apellido2',
-                        'movimientos.tipo_movimiento',
-                        'movimientos.observaciones',
-                        DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
-                        'grados_militares.siglas as siglas',
-                        'grados_militares.descripcion as grado_militar',
-                        'ubicaciones.descripcion as ubicacion',
-                        'datos_militares.fecha_graduacion',
-                        DB::raw("CASE nomina.situacion
+                            'empleados.id',
+                            'empleados.codigo_empleado',
+                            'empleados.cedula',
+                            'empleados.nombre1',
+                            'empleados.nombre2',
+                            'empleados.apellido1',
+                            'empleados.apellido2',
+                            'movimientos.tipo_movimiento',
+                            'movimientos.observaciones',
+                            DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
+                            'grados_militares.siglas as siglas',
+                            'grados_militares.descripcion as grado_militar',
+                            'ubicaciones.descripcion as ubicacion',
+                            'datos_militares.fecha_graduacion',
+                            DB::raw("CASE nomina.situacion
                                 WHEN 'A' THEN 'ACTIVO'
                                 WHEN 'E' THEN 'EGRESADO'
                                 WHEN 'S' THEN 'SUSPENDIDO'
                                 ELSE ''
                                 END as situacion"),
-                        'datos_militares.codigo_categoria',
-                        'categorias_militares.descripcion as categoria_militar',
-    
-                    );
-                   
+                            'datos_militares.codigo_categoria',
+                            'categorias_militares.descripcion as categoria_militar',
+
+                        );
                 }
                 $datos = $empleados->get();
                 break;
-                case 3:
-                    $complementoTitulo= " POR AÑO DE GRADUACION";
-                    $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                        ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                        ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                        ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                        //->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
-                        ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                        ->whereIn('nomina.tipo_emp',['MIL','MEX','TRP'])
-                        ->where('datos_militares.codigo_categoria', $valueParametro)
-                        ->where('datos_militares.fecha_graduacion', $valueParametro1)
-                        ->select(
+            case 3:
+                $complementoTitulo = " POR AÑO DE GRADUACION";
+                $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                    ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                    ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                    ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                    ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                    //->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
+                    ->where('datos_militares.codigo_categoria', $valueParametro)
+                    ->where('datos_militares.fecha_graduacion', $valueParametro1)
+                    ->select(
                         'empleados.id',
                         'empleados.codigo_empleado',
                         'empleados.cedula',
@@ -2001,7 +2197,7 @@ class PersonalController extends Controller
                         'empleados.nombre2',
                         'empleados.apellido1',
                         'empleados.apellido2',
-                       // 'movimientos.tipo_movimiento',
+                        // 'movimientos.tipo_movimiento',
                         //'movimientos.observaciones',
                         DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
                         'grados_militares.siglas as siglas',
@@ -2016,24 +2212,23 @@ class PersonalController extends Controller
                                 END as situacion"),
                         'datos_militares.codigo_categoria',
                         'categorias_militares.descripcion as categoria_militar',
-    
+
                     );
-                    $datos = $empleados->get();
-                    break;
+                $datos = $empleados->get();
+                break;
         }
 
-        $titulo = 'REPORTE DE PERSONAL MILITAR '. $complementoTitulo;
+        $titulo = 'REPORTE DE PERSONAL MILITAR ' . $complementoTitulo;
 
         $nombre_archivo = sprintf('ReportePersonalMilitar %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
         $data = compact('titulo', 'datos');
 
         return Excel::download(new PersonalMilitarExport($data), $nombre_archivo);
-
     }
 
     public function reportesPersonalMilitarNoProfView()
     {
-        $grados_militares = GradosMilitares::whereIn('tipo_emp',['ALI'])->orderBy('codigo_grado','asc')->orderBy('codigo_grado','asc')->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp', ['ALI'])->orderBy('codigo_grado', 'asc')->orderBy('codigo_grado', 'asc')->get();
         $ubicaciones = Ubicaciones::all();
         return view('sireh.personal.militar_noprof.reportes', compact(
             'grados_militares',
@@ -2042,14 +2237,15 @@ class PersonalController extends Controller
     }
 
 
-     /**
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function reportePersonalMilitarNoProfJerarquiaUbicacion(Request $request)
     {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
                 'reporte' => 'required',
                 'tipo_emp' => 'required',
@@ -2062,28 +2258,27 @@ class PersonalController extends Controller
 
         );
 
-        $reporte=$request->reporte;
+        $reporte = $request->reporte;
         $codigo_ubicacion = $request->ubicacion;
-        $grado_militar=$request->grado_militar;
+        $grado_militar = $request->grado_militar;
         $ubicacion_descripcion = '';
 
         switch ($reporte) {
             case 1:
-                $complementoTitulo= "POR JERARQUIA Y UBICACIÓN";
-                $empleados = Empleado::join('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado')
-                    ->join('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp')
-                    ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-                    ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-                    ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-                    ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-                    ->whereIn('nomina.tipo_emp',['ALI','MEF']);
-                if($grado_militar!=='0'){
+                $complementoTitulo = "POR JERARQUIA Y UBICACIÓN";
+                $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
+                    ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
+                    ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+                    ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+                    ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+                    ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+                    ->whereIn('nomina.tipo_emp', ['ALI', 'MEF']);
+                if ($grado_militar !== '0') {
                     $empleados->where('nomina.grado_militar', $grado_militar);
                 }
-                if($codigo_ubicacion!=='0'){
+                if ($codigo_ubicacion !== '0') {
                     $empleados->where('nomina.codigo_ubicacion', $codigo_ubicacion);
-                    $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion',$codigo_ubicacion)->first()->value('descripcion');
-
+                    $ubicacion_descripcion = Ubicaciones::where('codigo_ubicacion', $codigo_ubicacion)->first()->value('descripcion');
                 }
                 $empleados->select(
                     'empleados.id',
@@ -2101,25 +2296,25 @@ class PersonalController extends Controller
                 //dd($complementoTitulo);
                 $datos = $empleados->get();
 
-            break;
+                break;
         }
-        if(count($datos)>0){
-            \Session::flash('success','Reporte Ejecutado con exito !');
+        if (count($datos) > 0) {
+            \Session::flash('success', 'Reporte Ejecutado con exito !');
             $titulo = 'LISTADO POR UBICACION DE MILITARES EN FORMACION Y/O LA TROPA ALISTADA';
 
             $nombre_archivo = sprintf('ReportePersonalMilitarNoProf %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
-            $data = compact('titulo', 'datos','codigo_ubicacion','ubicacion_descripcion');
+            $data = compact('titulo', 'datos', 'codigo_ubicacion', 'ubicacion_descripcion');
             return Excel::download(new PersonalMilitarEnFormacionExport($data), $nombre_archivo);
-        }else {
+        } else {
             return redirect()->back()->with('error', 'No hay Datos para generar el informe');
         }
-
     }
 
     public function reportePersonalMilitarubi(Request $request)
     {
 
-        $this->validate($request,
+        $this->validate(
+            $request,
             [
 
                 'ubicacion' => 'required',
@@ -2129,18 +2324,24 @@ class PersonalController extends Controller
             ]
 
         );
- $ubicaciones = $request->ubicacion;
-  $titulo = ' LISTA DE PERSONAL POR UNIDAD ';
-        $datos = Nomina::leftjoin('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
-        ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-        ->whereIn('nomina.situacion',['A','S'])
-        ->whereIn('nomina.tipo_emp',['MIL','TRP'])
-        ->where('nomina.codigo_ubicacion','=',$ubicaciones)
-        ->select('empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2',
-         'empleados.apellido1 as apellido1', 'empleados.apellido2 as apellidos2',
-        'grados_militares.siglas as siglas','ubicaciones.descripcion as ubicacion')
-        ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+        $ubicaciones = $request->ubicacion;
+        $titulo = ' LISTA DE PERSONAL POR UNIDAD ';
+        $datos = Nomina::leftjoin('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+            ->where('nomina.codigo_ubicacion', '=', $ubicaciones)
+            ->select(
+                'empleados.cedula as cedula',
+                'empleados.nombre1 as nombre1',
+                'empleados.nombre2 as nombre2',
+                'empleados.apellido1 as apellido1',
+                'empleados.apellido2 as apellidos2',
+                'grados_militares.siglas as siglas',
+                'ubicaciones.descripcion as ubicacion'
+            )
+            ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
         WHEN nomina.grado_militar = '015' THEN 2
         WHEN nomina.grado_militar = '020' THEN 3
         WHEN nomina.grado_militar = '030' THEN 4
@@ -2157,139 +2358,157 @@ class PersonalController extends Controller
         WHEN nomina.grado_militar = '450' THEN 15
         WHEN nomina.grado_militar = '460' THEN 16
         WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
-        ->get();
+            ->get();
 
 
         $nombre_archivo = sprintf('lista de personal %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
-          $data1 = compact('titulo', 'datos');
-            return Excel::download(new PerosnalubicacionesExport($data1), $nombre_archivo);
-             //return view('excel.personal_militar_ubicaciones', $data = compact('titulo', 'datos'));
+        $data1 = compact('titulo', 'datos');
+        return Excel::download(new PerosnalubicacionesExport($data1), $nombre_archivo);
+        //return view('excel.personal_militar_ubicaciones', $data = compact('titulo', 'datos'));
 
 
 
-}
+    }
 
     public function ficha(Request $request)
     {
 
 
-        $this->validate($request,
-        [
+        $this->validate(
+            $request,
+            [
 
-            'cedula' => 'required',
-        ],
-        [
-            'cedula' => 'El Parametro Tipo Empleado es Requerido',
-        ]
+                'cedula' => 'required',
+            ],
+            [
+                'cedula' => 'El Parametro Tipo Empleado es Requerido',
+            ]
 
-    );
-$cedula = $request->cedula;
- $user_auth=auth()->user();
+        );
+        $cedula = $request->cedula;
+        $user_auth = auth()->user();
 
         $codigo_empleado1 = Nomina::select('codigo_empleado')
-        ->where('cedula',$cedula)
-        ->first();
+            ->where('cedula', $cedula)
+            ->first();
 
         $codigo_empleado = $codigo_empleado1->codigo_empleado;
-      $niveles = Nivel::all();
-      $datos = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
-      ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-      ->join('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion')
-      ->join('intelectuales','intelectuales.cedula','=','empleados.cedula')
-      ->join('paf','paf.cedula','=','nomina.cedula')
-      ->join('estudios_realizados','estudios_realizados.codigo_empleado','=','nomina.codigo_empleado')
-      ->join('datos_militares','datos_militares.codigo_empleado','=','nomina.codigo_empleado')
-      ->leftjoin('promociones_militares','promociones_militares.codigo_promocion','=','datos_militares.codigo_promocion')
-      ->leftjoin('especialidades_militares','especialidades_militares.codigo_especialidad','=','datos_militares.codigo_especialidad1')
-      ->join('cargos','cargos.codigo_cargo','=','nomina.codigo_cargo')
-      ->join('categorias_militares','categorias_militares.codigo_categoria','=','datos_militares.codigo_categoria')
-      ->select('nomina.codigo_ubicacion','empleados.foto as foto','empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1', 'empleados.apellido2 as apellido2','grados_militares.siglas as siglas',
-      'ubicaciones.descripcion as ubicacion','estudios_realizados.nivel as nivel','promociones_militares.ano_promocion as promocion','empleados.telefono_cel as telefono','intelectuales.notatotal','categorias_militares.descripcion as categoria',
-      'especialidades_militares.descripcion as especialidad','cargos.nombre_cargo as cargo','datos_militares.fecha_graduacion','paf.total')
-        ->where('nomina.codigo_empleado',$codigo_empleado)->first();
+        $niveles = Nivel::all();
+        $datos = Nomina::join('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->join('intelectuales', 'intelectuales.cedula', '=', 'empleados.cedula')
+            ->join('paf', 'paf.cedula', '=', 'nomina.cedula')
+            ->join('estudios_realizados', 'estudios_realizados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->leftjoin('promociones_militares', 'promociones_militares.codigo_promocion', '=', 'datos_militares.codigo_promocion')
+            ->leftjoin('especialidades_militares', 'especialidades_militares.codigo_especialidad', '=', 'datos_militares.codigo_especialidad1')
+            ->join('cargos', 'cargos.codigo_cargo', '=', 'nomina.codigo_cargo')
+            ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
+            ->select(
+                'nomina.codigo_ubicacion',
+                'empleados.foto as foto',
+                'empleados.cedula as cedula',
+                'empleados.nombre1 as nombre1',
+                'empleados.nombre2 as nombre2',
+                'empleados.apellido1 as apellido1',
+                'empleados.apellido2 as apellido2',
+                'grados_militares.siglas as siglas',
+                'ubicaciones.descripcion as ubicacion',
+                'estudios_realizados.nivel as nivel',
+                'promociones_militares.ano_promocion as promocion',
+                'empleados.telefono_cel as telefono',
+                'intelectuales.notatotal',
+                'categorias_militares.descripcion as categoria',
+                'especialidades_militares.descripcion as especialidad',
+                'cargos.nombre_cargo as cargo',
+                'datos_militares.fecha_graduacion',
+                'paf.total'
+            )
+            ->where('nomina.codigo_empleado', $codigo_empleado)->first();
 
- $ubicacion=$datos->codigo_ubicacion;
+        $ubicacion = $datos->codigo_ubicacion;
 
 
-        $cmdt = Nomina::join('empleados','empleados.codigo_empleado','=','nomina.codigo_empleado')
-        ->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar')
-        ->where('nomina.codigo_ubicacion','=',$ubicacion)
-        ->whereIn('nomina.codigo_cargo',['222341','1000014','1000015'])
-        ->select('empleados.cedula as cedula','empleados.nombre1 as nombre1','empleados.nombre2 as nombre2','empleados.apellido1 as apellido1','empleados.telefono_cel')
-        ->first();
+        $cmdt = Nomina::join('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->where('nomina.codigo_ubicacion', '=', $ubicacion)
+            ->whereIn('nomina.codigo_cargo', ['222341', '1000014', '1000015'])
+            ->select('empleados.cedula as cedula', 'empleados.nombre1 as nombre1', 'empleados.nombre2 as nombre2', 'empleados.apellido1 as apellido1', 'empleados.telefono_cel')
+            ->first();
 
-        $año_engrd=$datos->fecha_graduacion;
+        $año_engrd = $datos->fecha_graduacion;
         $años = Carbon::parse($año_engrd)->age;
 
         $tte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotte')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '090')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensotte')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '090')
+            ->first();
         if ($tte == null || $tte->añoascensotte == null) {
             $añoascensotte = "0";
         } else {
             $añoascensotte = Carbon::parse($tte->añoascensotte)->format('My');
         }
         $ptte = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensoptte')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '080')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensoptte')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '080')
+            ->first();
         if ($ptte == null || $ptte->añoascensoptte == null) {
             $añoascensoptte = "0";
         } else {
-        $añoascensoptte = Carbon::parse($ptte->añoascensoptte)->format('My');
+            $añoascensoptte = Carbon::parse($ptte->añoascensoptte)->format('My');
         }
         $cap = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocap')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '070')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensocap')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '070')
+            ->first();
         if ($cap == null || $cap->añoascensocap == null) {
             $añoascensocap = "0";
         } else {
-        $añoascensocap = Carbon::parse($cap->añoascensocap)->format('My');
+            $añoascensocap = Carbon::parse($cap->añoascensocap)->format('My');
         }
         $may = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensomay')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '060')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensomay')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '060')
+            ->first();
         if ($may == null || $may->añoascensomay == null) {
             $añoascensomay = "0";
-        }else{
-        $añoascensomay = Carbon::parse($may->añoascensomay)->format('My');
+        } else {
+            $añoascensomay = Carbon::parse($may->añoascensomay)->format('My');
         }
         $tcnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensotcnel')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '050')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensotcnel')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '050')
+            ->first();
         if ($tcnel == null || $tcnel->añoascensotcnel == null) {
             $añoascensotcnel = "0";
-        }else{
-        $añoascensotcnel = Carbon::parse($tcnel->añoascensotcnel)->format('My');
+        } else {
+            $añoascensotcnel = Carbon::parse($tcnel->añoascensotcnel)->format('My');
         }
         $cnel = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensocnel')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '040')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensocnel')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '040')
+            ->first();
         if ($cnel == null || $cnel->añoascensocnel == null) {
             $añoascensocnel = "0";
-        }else{
-        $añoascensocnel = Carbon::parse($cnel->añoascensocnel)->format('My');
+        } else {
+            $añoascensocnel = Carbon::parse($cnel->añoascensocnel)->format('My');
         }
         $gb = Nomina::join('historico_ascensos', 'historico_ascensos.codigo_empleado', '=', 'nomina.codigo_empleado')
-        ->select('historico_ascensos.orden_merito_ascenso','historico_ascensos.total_orden_merito_ascenso','historico_ascensos.fecha_ascenso as añoascensogb')
-        ->where('nomina.codigo_empleado',$codigo_empleado)
-        ->where('historico_ascensos.codigo_grado', '=', '030')
-        ->first();
+            ->select('historico_ascensos.orden_merito_ascenso', 'historico_ascensos.total_orden_merito_ascenso', 'historico_ascensos.fecha_ascenso as añoascensogb')
+            ->where('nomina.codigo_empleado', $codigo_empleado)
+            ->where('historico_ascensos.codigo_grado', '=', '030')
+            ->first();
         if ($gb == null || $gb->añoascensogb == null) {
             $añoascensogb = "0";
-        }else{
-        $añoascensogb = Carbon::parse($gb->añoascensogb)->format('My');
+        } else {
+            $añoascensogb = Carbon::parse($gb->añoascensogb)->format('My');
         }
 
 
@@ -2297,45 +2516,55 @@ $cedula = $request->cedula;
             ->join('cursos', 'cursos.codigo_curso', '=', 'cursos_realizados.codigo_curso')
             ->join('paises', 'paises.codigo_pais', '=', 'cursos_realizados.pais_curso')
             ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'cursos_realizados.unidad')
-            ->select('cursos.descripcion_curso as curso', 'paises.descripcion as pais','cursos_realizados.orden_merito_curso as ordenI',
-            'cursos_realizados.total_orden_merito_curso as ordenT','ubicaciones.descripcion as unidad','cursos_realizados.fecha_registro as fecha')
-            ->where('nomina.codigo_empleado',$codigo_empleado)
+            ->select(
+                'cursos.descripcion_curso as curso',
+                'paises.descripcion as pais',
+                'cursos_realizados.orden_merito_curso as ordenI',
+                'cursos_realizados.total_orden_merito_curso as ordenT',
+                'ubicaciones.descripcion as unidad',
+                'cursos_realizados.fecha_registro as fecha'
+            )
+            ->where('nomina.codigo_empleado', $codigo_empleado)
             ->orderBy('cursos_realizados.fecha_registro', 'desc')
             ->limit(3)
             ->get();
 
-            // Obtener los tres registros más recientes
-            $curso1 = isset($cursos[0]) ? $cursos[0] : null;
-            $curso2 = isset($cursos[1]) ? $cursos[1] : null;
-            $curso3 = isset($cursos[2]) ? $cursos[2] : null;
+        // Obtener los tres registros más recientes
+        $curso1 = isset($cursos[0]) ? $cursos[0] : null;
+        $curso2 = isset($cursos[1]) ? $cursos[1] : null;
+        $curso3 = isset($cursos[2]) ? $cursos[2] : null;
 
 
-            $cargos = Movimientos:://join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
-          join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
+        $cargos = Movimientos:: //join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+            join('cargos', 'cargos.codigo_cargo', '=', 'movimientos.codigo_cargo')
             ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'movimientos.codigo_ubicacion')
-            ->select('cargos.nombre_cargo as cargo', 'ubicaciones.descripcion as unidad',
-             'movimientos.fecha_movimiento as fecha', 'ubicaciones.codigo_ubicacion as codigo',
-             'movimientos.fecha_cargo as fecha')
-            ->where('movimientos.codigo_empleado',$codigo_empleado)
-           ->whereIn('movimientos.tipo_movimiento', ['Actualizacion de la Ubicacion','CCAR', 'Actualizacion del Cargo'])
-           ->orderBy('movimientos.fecha_movimiento', 'desc')
-        ->orderBy('movimientos.id', 'desc') // Ordenar también por ID
+            ->select(
+                'cargos.nombre_cargo as cargo',
+                'ubicaciones.descripcion as unidad',
+                'movimientos.fecha_movimiento as fecha',
+                'ubicaciones.codigo_ubicacion as codigo',
+                'movimientos.fecha_cargo as fecha'
+            )
+            ->where('movimientos.codigo_empleado', $codigo_empleado)
+            ->whereIn('movimientos.tipo_movimiento', ['Actualizacion de la Ubicacion', 'CCAR', 'Actualizacion del Cargo'])
+            ->orderBy('movimientos.fecha_movimiento', 'desc')
+            ->orderBy('movimientos.id', 'desc') // Ordenar también por ID
             ->limit(3)
             ->distinct()
             ->get();
 
-// Obtener los tres registros más recientes
-$cargo1 = isset($cargos[0]) ? $cargos[0] : null;
-$cargo2 = isset($cargos[1]) ? $cargos[1] : null;
-$cargo3 = isset($cargos[2]) ? $cargos[2] : null;
-$titulo= 'ficha';
+        // Obtener los tres registros más recientes
+        $cargo1 = isset($cargos[0]) ? $cargos[0] : null;
+        $cargo2 = isset($cargos[1]) ? $cargos[1] : null;
+        $cargo3 = isset($cargos[2]) ? $cargos[2] : null;
+        $titulo = 'ficha';
 
-    $pdf = \PDF::loadView('juntap.reportes.ficha1', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
-    ->setPaper('letter', 'landscape');
-    return $pdf->stream('ficha.pdf', array('Attachment' => 0));
+        $pdf = \PDF::loadView('juntap.reportes.ficha1', compact('datos', 'años', 'niveles', 'tte', 'ptte', 'cap', 'may', 'tcnel', 'cnel', 'gb', 'añoascensoptte', 'añoascensocap', 'añoascensomay', 'añoascensotcnel', 'añoascensocnel', 'añoascensogb', 'curso1', 'curso2', 'curso3', 'cargo1', 'cargo2', 'cargo3', 'cmdt'))
+            ->setPaper('letter', 'landscape');
+        return $pdf->stream('ficha.pdf', array('Attachment' => 0));
 
 
-    /* return view('juntap.reportes.ficha1',
+        /* return view('juntap.reportes.ficha1',
             compact(
                 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
                 'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
@@ -2345,33 +2574,30 @@ $titulo= 'ficha';
 
 
 
-       /* $nombre_archivo = sprintf('lista de personal %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        /* $nombre_archivo = sprintf('lista de personal %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
           $data = compact('titulo', 'datos','años','niveles','tte','ptte','cap','may','tcnel','cnel','gb',
           'añoascensoptte','añoascensocap','añoascensomay','añoascensotcnel',
           'añoascensocnel','añoascensogb','curso1','curso2','curso3','cargo1','cargo2','cargo3','cmdt');
             return Excel::download(new  FichaExport($data), $nombre_archivo);*/
-
-
-
-
     }
     public function fichaBucar()
     {
         return view('juntap.reportes.fichabuscar');
     }
 
-     //Obtiene el personal militar egresado, exclusivo por api para el Datatable
+    //Obtiene el personal militar egresado, exclusivo por api para el Datatable
 
 
-    public function personalNoMilitarEgresado(Request $request){
-        $empleados = Empleado::where('empleados.situacion','E');
-        $empleados->leftjoin('nomina','nomina.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftjoin('tipos_empleados','tipos_empleados.tipo_emp','=','nomina.tipo_emp');
-        $empleados->leftjoin('ubicaciones','ubicaciones.codigo_ubicacion','=','nomina.codigo_ubicacion');
-        $empleados->leftjoin('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
-        $empleados->leftjoin('egresos','egresos.codigo_empleado','=','empleados.codigo_empleado');
-        $empleados->leftjoin('tipo_de_baja','tipo_de_baja.codigo_egreso','=','egresos.causa_egreso');
-        $empleados->whereIn('nomina.tipo_emp',['MEF','ALI']);
+    public function personalNoMilitarEgresado(Request $request)
+    {
+        $empleados = Empleado::where('empleados.situacion', 'E');
+        $empleados->leftjoin('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->leftjoin('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
+        $empleados->leftjoin('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion');
+        $empleados->leftjoin('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar');
+        $empleados->leftjoin('egresos', 'egresos.codigo_empleado', '=', 'empleados.codigo_empleado');
+        $empleados->leftjoin('tipo_de_baja', 'tipo_de_baja.codigo_egreso', '=', 'egresos.causa_egreso');
+        $empleados->whereIn('nomina.tipo_emp', ['MEF', 'ALI']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -2386,13 +2612,13 @@ $titulo= 'ficha';
             'egresos.fecha_salida as fecha_salida',
             'egresos.nro_resuelto as nro_resuelto',
         );
-        $datatable= Datatables::of($empleados);
+        $datatable = Datatables::of($empleados);
         return $datatable->make(true);
     }
 
     public function egresado()
     {
-        $grados_militares = GradosMilitares::whereIn('tipo_emp',['ALI'])->orderBy('codigo_grado','asc')->orderBy('codigo_grado','asc')->get();
+        $grados_militares = GradosMilitares::whereIn('tipo_emp', ['ALI'])->orderBy('codigo_grado', 'asc')->orderBy('codigo_grado', 'asc')->get();
         $ubicaciones = Ubicaciones::all();
         return view('sireh.personal.militar_noprof.egresado.index', compact(
             'grados_militares',
