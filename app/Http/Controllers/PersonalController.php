@@ -1612,6 +1612,7 @@ class PersonalController extends Controller
             "talla_pant" => $request->talla_pant,
             "talla_camisa" => $request->talla_camisa,
             "talla_chaqueta" => $request->talla_chaqueta,
+            "talla_falda" => $request->talla_falda,
             "numero_calzado" => $request->numero_calzado,
             "ojos" => $request->ojos,
             "cabellos" => $request->cabellos,
