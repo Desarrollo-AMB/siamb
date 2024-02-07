@@ -1628,7 +1628,7 @@ class PersonalController extends Controller
             "foto" => $path_foto_nueva,
         ]);
 
-        return redirect()->route('sireh.personal-militar.view')->with('success', 'Se ha actualizado el Personal');
+        return redirect()->route('sireh.personal-militar.view',[$request->id])->with('success', 'Se ha actualizado el Personal');
     }
     public function personalCivilNoActive()
     {
