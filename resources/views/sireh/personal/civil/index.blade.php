@@ -133,6 +133,7 @@
                                             <th>Apellido</th>
                                             <th>Codigo_Rac</th>
                                             <th>Tipo de Empleado</th>
+                                            <th>Situacion</th>
                                             <th>Cargo</th>
                                             <th>Ubicacion</th>
                                             <th>Acciones</th>
@@ -398,6 +399,7 @@
                 {data: 'apellido1'},
                 {data: 'codigo_rac', name: 'nomina.cod_rac', searchable: false},
                 {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
+                {data: 'situacion'},
                 {data: 'cargo', name: 'cargos.nombre_cargo'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},

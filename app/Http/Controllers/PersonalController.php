@@ -455,7 +455,7 @@ class PersonalController extends Controller
     //Obtiene el personal Civil, exclusivo por api para el Datatable
     public function personalCivil(Request $request)
     {
-        $empleados = Empleado::where('empleados.situacion', 'A');
+        $empleados = Empleado::whereIn('empleados.situacion',['A','S']);
         //$empleados = Empleado::where('empleados.situacion', '<>','');
         $empleados->join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp');
@@ -471,6 +471,7 @@ class PersonalController extends Controller
             'empleados.nombre2',
             'empleados.apellido1',
             'empleados.apellido2',
+            'empleados.situacion',
             'nomina.cod_rac as codigo_rac' ,
             'tipos_empleados.descripcion as tipo_empleado',
             'cargos.nombre_cargo as cargo',
