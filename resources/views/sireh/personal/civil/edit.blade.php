@@ -30,7 +30,7 @@
                     </div>
                     @endif
                    
-                    <form method="POST" action="{{ route('sireh.personal-civil.update1') }}">
+                    <form method="POST" action="{{ route('sireh.personal-civil.update1') }}"  enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -43,6 +43,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">  
                         <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
                             <div class="form-group">
@@ -394,6 +395,7 @@
 
 @section('scripts')
 <script>
+        
     $(document).ready(function () {  
         // $('.nivel_instruccion').hide();
         // $('.obrero').hide();
@@ -405,6 +407,7 @@
         $('.egreso').select2();
 
     })
+    //Para la foto
     var readURL = function(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

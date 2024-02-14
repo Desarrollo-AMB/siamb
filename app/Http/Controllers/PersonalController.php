@@ -1561,78 +1561,86 @@ class PersonalController extends Controller
     {
         $user_auth = auth()->user();
 
-        $updateNomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
-            "tipo_emp" => $request->tipo_emp,
-            "cedula" => $request->cedula,
-            "nombre1" => $request->nombre1,
-            "nombre2" => $request->nombre2,
-            "apellido1" => $request->apellido1,
-            "apellido2" => $request->apellido2,
-            "cod_rac" => $request->cod_rac,
-            "codigo_ubicacion" => $request->codigo_ubicacion,
-            "cod_ubicacion_detallada" => $request->cod_ubicacion_detallada,
-            "tipo_emp" => $request->tipo_emp,
-        ]);
+        $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
+        $path_foto_actual =  $updateEmpleado->foto;
+           
 
-         $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->firstOrFail();
+        if ($request->hasFile("foto")) { // Si se envía una nueva foto
+            $ext = $request->file('foto')->getClientOriginalExtension();
+            $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
 
-            $path_foto_actual =  $updateEmpleado->foto;
+            $path_foto_nueva = 'fotos/empleados/' . $file_name;
 
-            if ($request->hasFile("foto")) { // Si se envía una nueva foto
-                $ext = $request->file('foto')->getClientOriginalExtension();
-                $file_name = 'empleado_' . $request->cedula . '.' . $ext; // Nombre del archivo
-
-                $path_foto_nueva = 'fotos/empleados/' . $file_name;
-
-                // Verificar si la foto previa existe antes de eliminarla
-                if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
-                    unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
-                }
-
-                Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
-            } else {
-                // Si no se envía una nueva foto, mantener la ruta existente
-                $path_foto_nueva = $path_foto_actual;
+            // Verificar si la foto previa existe antes de eliminarla
+            if ($path_foto_actual && file_exists(public_path($path_foto_actual))) {
+                unlink(public_path($path_foto_actual)); // Eliminamos la imagen previa
             }
-        $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
-            "nacionalidad" => $request->nacionalidad,
-            "fecha_nacim" => $request->fecha_nacim,
-            "sexo" => $request->genero,
-            "telefono_e" => $request->telefono_e,
-            "edo_civil" => $request->edo_civil,
-            "telefono_cel" => $request->telefono_cel,
-            "telefono" => $request->telefono,
-            "telefono_ofi" => $request->telefono_ofi,
-            "correo" => $request->correo,
-            "estado" => $request->estado,
-            "ciudad" => $request->ciudad,
-            "direccion" => $request->direccion,
-            "peso" => $request->peso,
-            "estatura" => $request->estatura,
-            "zur_der_amb" => $request->zur_der_amb,
-            "grupo_sanguineo" => $request->grupo_sanguineo,
-            "talla_pant" => $request->talla_pant,
-            "talla_camisa" => $request->talla_camisa,
-            "talla_chaqueta" => $request->talla_chaqueta,
-            "talla_falda" => $request->talla_falda,
-            "numero_calzado" => $request->numero_calzado,
-            "ojos" => $request->ojos,
-            "cabellos" => $request->cabellos,
-            "color" => $request->color,
-            //"universidad" => $request->universidad,
-            "profesion" => $request->profesion,
-            // "fecha_graduacion" => $request->fecha_graduacion,
-            "persona_contacto" => $request->persona_contacto,
-            "cedula" => $request->cedula,
-            "nombre1" => $request->nombre1,
-            "nombre2" => $request->nombre2,
-            "apellido1" => $request->apellido1,
-            "apellido2" => $request->apellido2,
-            "foto" => $path_foto_nueva,
-        ]);
 
+            Image::make($request->file('foto'))->save(public_path($path_foto_nueva)); // Guardamos la nueva imagen
+        } else {
+            // Si no se envía una nueva foto, mantener la ruta existente
+            $path_foto_nueva = $path_foto_actual;
+        }
+      
+        
+ 
+        
+         
+            $updateEmpleado = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+                "nacionalidad" => $request->nacionalidad,
+                "fecha_nacim" => $request->fecha_nacim,
+                "sexo" => $request->genero,
+                "telefono_e" => $request->telefono_e,
+                "edo_civil" => $request->edo_civil,
+                "telefono_cel" => $request->telefono_cel,
+                "telefono" => $request->telefono,
+                "telefono_ofi" => $request->telefono_ofi,
+                "correo" => $request->correo,
+                "estado" => $request->estado,
+                "ciudad" => $request->ciudad,
+                "direccion" => $request->direccion,
+                "peso" => $request->peso,
+                "estatura" => $request->estatura,
+                "zur_der_amb" => $request->zur_der_amb,
+                "grupo_sanguineo" => $request->grupo_sanguineo,
+                "talla_pant" => $request->talla_pant,
+                "talla_camisa" => $request->talla_camisa,
+                "talla_chaqueta" => $request->talla_chaqueta,
+                "talla_falda" => $request->talla_falda,
+                "numero_calzado" => $request->numero_calzado,
+                "ojos" => $request->ojos,
+                "cabellos" => $request->cabellos,
+                "color" => $request->color,
+                //"universidad" => $request->universidad,
+                "profesion" => $request->profesion,
+                // "fecha_graduacion" => $request->fecha_graduacion,
+                "persona_contacto" => $request->persona_contacto,
+                "cedula" => $request->cedula,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
+                "foto" => $path_foto_nueva,
+            ]);
+
+            $updateNomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+                "tipo_emp" => $request->tipo_emp,
+                "cedula" => $request->cedula,
+                "nombre1" => $request->nombre1,
+                "nombre2" => $request->nombre2,
+                "apellido1" => $request->apellido1,
+                "apellido2" => $request->apellido2,
+                "cod_rac" => $request->cod_rac,
+                "codigo_ubicacion" => $request->codigo_ubicacion,
+                "cod_ubicacion_detallada" => $request->cod_ubicacion_detallada,
+                "tipo_emp" => $request->tipo_emp,
+            ]);
+        
+     
         return redirect()->route('sireh.personal-civil.view', [$request->id])->with('success', 'Se ha actualizado el Personal');
-    }
+    } 
+
+
     public function personalCivilNoActive()
     {
         $noActive = Nomina::where('nomina.situacion', '=', 'E')
