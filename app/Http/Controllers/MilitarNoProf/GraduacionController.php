@@ -439,7 +439,7 @@ class GraduacionController extends Controller
         $empleados->join('grados_militares','grados_militares.codigo_grado','=','nomina.grado_militar');
         $empleados->whereIn('nomina.tipo_emp',['MEF']);
         $empleados->whereIn('nomina.codigo_ubicacion',['0378','0338']);
-        $empleados->whereIn('nomina.grado_militar',['330','314']);
+        $empleados->whereIn('nomina.grado_militar',['321','314']);
         $empleados->select(
             'empleados.cedula',
             'empleados.id',
