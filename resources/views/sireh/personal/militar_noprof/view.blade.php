@@ -79,6 +79,14 @@
                                                     value="{{ $datos->cedula }}"
                                                 >
                                             </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Codigo Empleado:</h6>
+                                                <input id="codigo_empleado" type="text" class="form-control @error('cedula') is-invalid @enderror" name="codigo_empleado" disabled 
+                                                    value="{{ $datos->codigo_empleado }}"
+                                                >
+                                            </div>
                                         </div>     
                                     </div>
                                     <div class="row">
