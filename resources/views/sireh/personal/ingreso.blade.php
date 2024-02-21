@@ -355,7 +355,7 @@
                                                 </div>
                                             </div>
                                            
-                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 nivel_instruccion">
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
                                                     <div class="form-group">
                                                         <h6>Categoria: <small></small></h6>
                                                         <select class="select2 form-control" name="categoria" id="categoria" >
