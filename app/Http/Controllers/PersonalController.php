@@ -2272,6 +2272,7 @@ class PersonalController extends Controller
         $reporte = $request->reporte;
         $codigo_ubicacion = $request->ubicacion;
         $grado_militar = $request->grado_militar;
+        $tipo_emp = $request->tipo_emp;
         $ubicacion_descripcion = '';
 
         switch ($reporte) {
@@ -2283,7 +2284,7 @@ class PersonalController extends Controller
                     ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                     ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
                     ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
-                    ->whereIn('nomina.tipo_emp', ['ALI', 'MEF']);
+                    ->where('nomina.tipo_emp', $tipo_emp);
                 if ($grado_militar !== '0') {
                     $empleados->where('nomina.grado_militar', $grado_militar);
                 }
@@ -2308,6 +2309,7 @@ class PersonalController extends Controller
                 $datos = $empleados->get();
 
                 break;
+              
         }
         if (count($datos) > 0) {
             \Session::flash('success', 'Reporte Ejecutado con exito !');
