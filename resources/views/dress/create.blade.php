@@ -67,8 +67,8 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>N° Reporte:</strong> 
-                                                                {!! Form::text('n_reporte', null, array('placeholder' => 'N° Reporte','class' => 'form-control')) !!}
+                                                                <label for="id1">N° Reporte:</label>
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id1', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -199,8 +199,8 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>N° Reporte:</strong> 
-                                                                {!! Form::text('N_reporte', null, array('placeholder' => 'N° Reporte','class' => 'form-control')) !!}
+                                                                <label for="id2">N° Reporte:</label>
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id2', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -280,8 +280,8 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>N° Reporte:</strong> 
-                                                                {!! Form::text('n_reporte', null, array('placeholder' => 'N° Reporte','class' => 'form-control')) !!}
+                                                                <label for="id3">N° Reporte:</label>
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id3', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -344,8 +344,8 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>N° Reporte:</strong>
-                                                                {!! Form::text('N_reporte', null, array('placeholder' => 'Numero de Reporte','class' => 'form-control')) !!}
+                                                                <label for="id4">N° Reporte:</label>
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id4', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -619,4 +619,19 @@ $(document).ready(function() {
         });
     });*/
 </script>
+<script>
+    // Función para actualizar los campos ID en los demás formularios
+    function actualizarIDs(idActual) {
+      // Obtener el valor ingresado
+      var valorID = document.getElementById(idActual).value;
+  
+      // Actualizar los campos ID en los demás formularios
+      var formularios = ['id1', 'id2', 'id3','id4'];
+      formularios.forEach(function(formulario) {
+        if (formulario !== idActual) {
+          document.getElementById(formulario).value = valorID;
+        }
+      });
+    }
+  </script>
 @endsection
