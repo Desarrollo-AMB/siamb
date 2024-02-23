@@ -308,7 +308,7 @@
                                     <h5 class="card-title">Estudios Y Ubicación</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">    
+                                  {{--  <div class="row">    
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
                                             <div class="form-group">
                                                 <h6>Universidad:</h6>
@@ -327,7 +327,7 @@
                                                     value="{{ $datos->fecha_graduacion }}">
                                             </div>
                                         </div> 
-                                    </div>
+                                    </div>--}}
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
                                             <div class="form-group">
