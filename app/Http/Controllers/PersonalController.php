@@ -2285,7 +2285,7 @@ class PersonalController extends Controller
                     ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
                     ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                     ->where('nomina.tipo_emp', $tipo_emp)
-                    ->where('nomina.situacion','E');
+                    ->where('nomina.situacion','A');
                 if ($grado_militar !== '0') {
                     $empleados->where('nomina.grado_militar', $grado_militar);
                 }
