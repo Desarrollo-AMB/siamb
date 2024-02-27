@@ -571,6 +571,7 @@ class PersonalController extends Controller
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
+        $categorias_militares = CategoriasMilitares::all();
         $grados_militares = GradosMilitares::all();
         $datos = Empleado::with(['nomina', 'datos_militares', 'estudios_realizados'])->find($id);
         return view(
@@ -590,7 +591,8 @@ class PersonalController extends Controller
                 'cargos',
                 'nacionalidades',
                 'universidades',
-                'profesiones'
+                'profesiones',
+                'categorias_militares'
             )
         );
     }
@@ -1769,6 +1771,7 @@ class PersonalController extends Controller
         $ubicaciones_det = UbicacionDetallada::all();
         $niveles = Nivel::all();
         $cargos = Cargos::all();
+        $categorias_militares = CategoriasMilitares::all();
         $universidades = Universidades::all();
         $profesiones = Profesion::all();
         $ciudades = Ciudades::all();
@@ -1791,7 +1794,8 @@ class PersonalController extends Controller
                 'cargos',
                 'nacionalidades',
                 'universidades',
-                'profesiones'
+                'profesiones',
+                'categorias_militares'
             )
         );
     }
@@ -1867,6 +1871,7 @@ class PersonalController extends Controller
             if ($request->contingente) {
                 $datos_militares = DatosMilitares::where('codigo_empleado', $empleado->codigo_empleado)->first();
                 $datos_militares->contingente = $request->contingente;
+                $datos_militares->codigo_categoria =$request->categoria;
                 $datos_militares->save();
             }
             if (!empty($request->universidad) || !empty($request->profesion)) {

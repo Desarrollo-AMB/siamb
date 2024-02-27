@@ -376,6 +376,20 @@
                                                 {!! Form::text('contingente', $datos->nomina->datos_militares ? $datos->nomina->datos_militares->contingente : null, array('id'=>'contingente', 'placeholder' => '','class' => 'form-control')) !!}
                                             </div>
                                         </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <h6>Categoria:</h6>
+                                            @if($datos->datos_militares && $datos->datos_militares->codigo_categoria != "" && $datos->datos_militares->codigo_categoria != 1)
+                                                @foreach ($categorias_militares as $row)
+                                                    @if($datos->datos_militares->codigo_categoria == $row->codigo_categoria)
+                                                        {!! Form::text('categoria', $row->descripcion, array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                {!! Form::text('categoria', '', array('placeholder' => 'No Posee Categoria','class' => 'form-control')) !!}
+                                            @endif
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
