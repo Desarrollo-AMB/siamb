@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Nomina;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\asignaciones;
+use App\Models\primas_deducciones;
 use App\Models\Concptosnomina1;
 use App\Models\Empleado;
 use App\Models\Salarios;
@@ -176,7 +177,7 @@ public function deletePrimaAsignada(Request $request, $id)
         ->where ('cedula', $cedula)
         ->first();
 
-    $asignaciones = Asignaciones::
+    $asignaciones = asignaciones::
     select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
     ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
@@ -233,7 +234,7 @@ public function actualesPrimas(Request $request)
             // Redirigimos al usuario a la página anterior
             return redirect()->back();
         }
-        $asignaciones = Asignaciones::
+        $asignaciones = asignaciones::
         select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
@@ -287,7 +288,7 @@ public function asignacionNuevaPrima(Request $request)
         ->first();
 
     // Obtener asignaciones existentes del empleado
-    $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+    $asignaciones = asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->where('empleados.cedula', $cedula)
@@ -296,7 +297,7 @@ public function asignacionNuevaPrima(Request $request)
         ->get();
 
     // Verificar si existe una asignación existente
-    $asignacionExistente = Asignaciones::withTrashed()
+    $asignacionExistente = asignaciones::withTrashed()
         ->where('codigo_empleado', $codigo_empleado)
         ->where('id_concepto', $codigo_concepto)
         ->first();
@@ -312,7 +313,7 @@ public function asignacionNuevaPrima(Request $request)
 
         }
     } else {
-        $asignacion = new Asignaciones();
+        $asignacion = new asignaciones();
         $asignacion->codigo_empleado = $codigo_empleado;
         $asignacion->id_concepto = $codigo_concepto;
         $asignacion->tipo_concepto = $tipo;
@@ -321,7 +322,7 @@ public function asignacionNuevaPrima(Request $request)
     }
 
     // Obtener nuevamente las asignaciones después de los cambios
-    $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
+    $asignaciones = asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1', 'primas_deducciones.descripcion as nombre')
         ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
@@ -416,12 +417,13 @@ public function deleteDeduccionesAsignadas(Request $request, $id)
         ->where ('cedula', $cedula)
         ->first();
 
-    $asignaciones = Asignaciones::
+    $asignaciones = asignaciones::
     select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
     ->join('primas_deducciones', 'primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
     ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
     ->join('conceptos_nomina','conceptos_nomina.codigo_concepto','=','asignaciones.id_concepto')
     ->where('empleados.cedula', $cedula)
+    ->where('primas_deducciones.tipo_empleado','EMP')
     ->where('asignaciones.tipo_concepto', 'D')
     ->get();
 
@@ -466,7 +468,7 @@ public function actualesdeducciones(Request $request)
             // Redirigimos al usuario a la página anterior
             return redirect()->back();
         }
-        $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
+        $asignaciones = asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->where('empleados.cedula', $cedula)
@@ -506,7 +508,7 @@ public function actualesdeducciones(Request $request)
     $codigo_empleado = $request->input('codigo_empleado');
     $tipo = $request->input('tipo');
 
-    $asignacionExistente = Asignaciones::withTrashed()
+    $asignacionExistente = asignaciones::withTrashed()
         ->where('codigo_empleado', $codigo_empleado)
         ->where('id_concepto', $codigo_concepto)
         ->first();
@@ -519,7 +521,7 @@ public function actualesdeducciones(Request $request)
             session()->flash('error', 'La prima ya se encuentra asignada al profesional');
         }
     } else {
-        $asignacion = new Asignaciones();
+        $asignacion = new asignaciones();
         $asignacion->codigo_empleado = $codigo_empleado;
         $asignacion->id_concepto = $codigo_concepto;
         $asignacion->tipo_concepto = $tipo;
@@ -545,7 +547,7 @@ public function actualesdeducciones(Request $request)
         ->where('cedula', $cedula)
         ->first();
 
-    $asignaciones = Asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
+    $asignaciones = asignaciones::select('asignaciones.*', 'empleados.codigo_empleado', 'empleados.nombre1', 'empleados.apellido1','primas_deducciones.descripcion as nombre')
         ->join('empleados', 'asignaciones.codigo_empleado', '=', 'empleados.codigo_empleado')
         ->leftjoin('primas_deducciones','primas_deducciones.codigo_concepto', '=', 'asignaciones.id_concepto')
         ->where('empleados.cedula', $cedula)
@@ -629,7 +631,7 @@ $sheet->setCellValue('T1', 'FRONTERA TIPO C (0055)');
 $sheet->setCellValue('U1', 'PRIMA PROFECIONALIZACION');
 $sheet->setCellValue('V1', '% PROFECIONALIZACIÓN');
 $sheet->setCellValue('W1', 'ASIGNACION ALIM. ACAD. HUGO CHAVEZ(0088)');
-$sheet->setCellValue('X1', 'TOTAL ASIGNACIONES');
+$sheet->setCellValue('X1', 'TOTAL asignaciones');
 $sheet->setCellValue('Y1', 'TOTAL PRIMAS COMUNES');
 $sheet->setCellValue('Z1', 'BONO FIN DE AÑO');
 $sheet->setCellValue('AA1', 'SUELDO INTEGRAL');
@@ -680,7 +682,7 @@ $border->getAllBorders()->getColor()->setRGB(Color::COLOR_BLACK); // Color de l�
 
 
     // Obtener los registros de la nómina
-$nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_militares.fecha_ultimo_ascenso', 'datos_militares.fecha_graduacion', 'grados_militares.siglas')
+$nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_militares.fecha_ultimo_ascenso', 'datos_militares.fecha_graduacion', 'grados_militares.siglas','nomina.codigo_empleado')
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
 ->whereIn('nomina.situacion', ['S', 'A'])
 //->whereIn('nomina.grado_militar', ['020'])
@@ -713,7 +715,7 @@ $item->antiguedad = $antiguedad;
 
 $fechaAscenso = Carbon::parse($item->fecha_ultimo_ascenso);
 $antiguedadGrado = $fechaAscenso->diffInYears(Carbon::now());
-$item->antiguedadGrado = $antiguedadGrado;
+$item->antiguedadGrado = $antiguedadGrado + '1';
 
 // Agregar la prima por hijos y la cantidad de hijos
 //se trae el monto de la tabla primas_deducciones
@@ -766,20 +768,20 @@ $montoPrimaAntiguedad = $sueldoGrado * ($porcentajeConcepto / 100);
 $item->monto_prima_antiguedad = $montoPrimaAntiguedad;
 
 // Calcular la prima de riesgo tipo A
-$primaRiesgoTipoA = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '4016')
+$primaRiesgoTipoA = asignaciones::where('codigo_empleado', $item->codigo_empleado)
+    ->where('id_concepto', '106')
     ->pluck('porcentaje')
     ->first();
 
-    if ($primaRiesgoTipoA) {
+    if ($primaRiesgoTipoA='106') {
         $montoPrimaRiesgoTipoA = $sueldoGrado * ($primaRiesgoTipoA / 100);
         $item->prima_riesgo_tipo_a = $montoPrimaRiesgoTipoA;
     } else {
-        $item->prima_riesgo_tipo_a = '0';
+        $item->prima_riesgo_tipo_a = '100';
     }
 
 // Calcular la prima de riesgo tipo B
-$primaRiesgoTipoB = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaRiesgoTipoB = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '4017')
     ->pluck('porcentaje')
     ->first();
@@ -792,7 +794,7 @@ $primaRiesgoTipoB = Asignaciones::where('codigo_empleado', $item->codigo_emplead
     }
 
 // Calcular la prima de riesgo tipo C
-$primaRiesgoTipoC = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaRiesgoTipoC = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '4018')
     ->pluck('porcentaje')
     ->first();
@@ -805,7 +807,7 @@ $primaRiesgoTipoC = Asignaciones::where('codigo_empleado', $item->codigo_emplead
     }
 
 // Calcular la prima de frontera tipo A
-$primaFronteraTipoA = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaFronteraTipoA = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '53')
     ->pluck('porcentaje')
     ->first();
@@ -818,7 +820,7 @@ $primaFronteraTipoA = Asignaciones::where('codigo_empleado', $item->codigo_emple
     }
 
 // Calcular la prima de frontera tipo B
-$primaFronteraTipoB = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaFronteraTipoB = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '55')
     ->pluck('porcentaje')
     ->first();
@@ -831,7 +833,7 @@ $primaFronteraTipoB = Asignaciones::where('codigo_empleado', $item->codigo_emple
     }
 
 // Calcular la prima de frontera tipo C
-$primaFronteraTipoC = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaFronteraTipoC = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '54')
     ->pluck('porcentaje')
     ->first();
@@ -848,7 +850,7 @@ $primaFronteraTipoC = Asignaciones::where('codigo_empleado', $item->codigo_emple
 $conceptosPrimaProf = ['3026', '3027', '3028', '3029', '3030'];
 
 // Calcular la prima de profesionalización
-$primaDeProfesionalizacion = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaDeProfesionalizacion = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->whereIn('id_concepto', $conceptosPrimaProf)
     ->pluck('porcentaje')
     ->sum();
@@ -861,7 +863,7 @@ if ($primaDeProfesionalizacion > 0) {
 }
 
 // Calcular la asignacion alimenticia academia Hugo Chavez
-$primaAlimentacionHugoChavez = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$primaAlimentacionHugoChavez = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '88')
     ->pluck('porcentaje')
     ->sum();
@@ -961,23 +963,25 @@ $item->bono_vacacional = $bonoVacacional;
                             // CALCULO 6.5 IPSFA
 
 // Obtener el porcentaje de la deducción 6.5 IPSFA
-$porcentajeDeduccion6IPSFA = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '9400')
+$porcentajeDeduccion6IPSFA = Concptosnomina1::where('tipo', 'D' )
+    ->where('codigo_concepto', '9400')
     ->pluck('porcentaje')
     ->sum();
 
-if ($porcentajeDeduccion6IPSFA > 0) {
+if ($porcentajeDeduccion6IPSFA ) {
     $deduccion6IPSFA = $sueldoGrado * ($porcentajeDeduccion6IPSFA / 100);
     $item->deduccion6IPSFA = $deduccion6IPSFA;
 } else {
-    $item->deduccion6IPSFA = '0';
+    $deduccion6IPSFA = $sueldoGrado * ($porcentajeDeduccion6IPSFA / 100);
+    $item->deduccion6IPSFA = $deduccion6IPSFA;
+    // $item->deduccion6IPSFA = '0';
 }
 
                             // CALCULO PENSIONES
 
 // Obtener el porcentaje de la deducción PENSIONES
-$porcentajepensiones = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '9404')
+$porcentajepensiones = Concptosnomina1::where('tipo', 'D' )
+    ->where('codigo_concepto', '9404')
     ->pluck('porcentaje')
     ->sum();
 
@@ -985,14 +989,16 @@ if ($porcentajepensiones > 0) {
     $pensiones = $sueldoGrado * ($porcentajepensiones / 100);
     $item->pensiones = $pensiones;
 } else {
-    $item->pensiones = '0';
+    $pensiones = $sueldoGrado * ($porcentajepensiones / 100);
+    $item->pensiones = $pensiones;
+    //$item->pensiones = '0';
 }
 
 
                  // CALCULO DEDUCCION ALIM. ACADEMIA. HUGO CHAVEZ
 
 // Obtener el porcentaje de la deducción alim hugo chavez
-$porcentaje_alimentacion_hugochavez = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$porcentaje_alimentacion_hugochavez = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '5141')
     ->pluck('porcentaje')
     ->sum();
@@ -1008,8 +1014,8 @@ if ($porcentajepensiones > 0) {
                             // CALCULO DEDUCCIÓN CIRCULO MILITAR
 
 // Obtener el porcentaje de la deducción CIRCULO MILITAR
-$porcentaje_circulo_militar = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '9998')
+$porcentaje_circulo_militar = Concptosnomina1::where('tipo', 'D' )
+    ->where('codigo_concepto', '9998')
     ->pluck('porcentaje')
     ->sum();
 
@@ -1018,15 +1024,17 @@ if ($porcentajepensiones > 0) {
     $circulomilitar = $sueldoGrado * ($porcentaje_circulo_militar / 100);
     $item->circulomilitar = $circulomilitar;
 } else {
-    $item->circulomilitar = '0';
+    $circulomilitar = $sueldoGrado * ($porcentaje_circulo_militar / 100);
+    $item->circulomilitar = $circulomilitar;
+   // $item->circulomilitar = '0';
 }
 
 
                             // CALCULO DEDUCCIÓN CAJA DE AHORRO
 
 // Obtener el porcentaje de la deducción CAJA DE AHORRO
-$porcentaje_caja_ahorro = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '5565')
+$porcentaje_caja_ahorro = Concptosnomina1::where('tipo', 'D' )
+    ->where('codigo_concepto', '5565')
     ->pluck('porcentaje')
     ->sum();
 
@@ -1035,14 +1043,16 @@ if ($porcentajepensiones > 0) {
     $caja_ahorro = $sueldoGrado * ($porcentaje_caja_ahorro / 100);
     $item->caja_ahorro = $caja_ahorro;
 } else {
-    $item->caja_ahorro = '0';
+    $caja_ahorro = $sueldoGrado * ($porcentaje_caja_ahorro / 100);
+    $item->caja_ahorro = $caja_ahorro;
+    //$item->caja_ahorro = '0';
 }
 
 
                             // CALCULO DEDUCCIÓN PENSION DE ALIMENTACION
 
 // Obtener el porcentaje de la deducción PENSION DE ALIMENTACION
-$porcentaje_pension_alimentacion = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$porcentaje_pension_alimentacion = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '5087')
     ->pluck('porcentaje')
     ->sum();
@@ -1058,23 +1068,25 @@ if ($porcentajepensiones > 0) {
                         // CALCULO DEDUCCIÓN L.P.H
 
 // Obtener el porcentaje de la deducción L.P.H
-$porcentaje_LPH = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
-    ->where('id_concepto', '5003')
+$porcentaje_LPH = Concptosnomina1::where('tipo_empleado', 'EMP' )
+    ->where('codigo_concepto', '5003')
     ->pluck('porcentaje')
     ->sum();
 
-if ($porcentajepensiones > 0) {
+if ($porcentajepensiones ) {
     // Calcular el monto de la deducción L.P.H
     $porcentaje_LPH = $sueldoGrado * ($porcentaje_LPH / 100);
     $item->l_p_h = $porcentaje_LPH;
 } else {
-    $item->l_p_h = '0';
+    $porcentaje_LPH = $sueldoGrado * ($porcentaje_LPH / 100);
+    $item->l_p_h = $porcentaje_LPH;
+    //$item->l_p_h = '0';
 }
 
                         // CALCULO DESCUENTO DE ARMAMENTO
 
 // Obtener el porcentaje de la deducción armamento
-$armamento = Asignaciones::where('codigo_empleado', $item->codigo_empleado)
+$armamento = asignaciones::where('codigo_empleado', $item->codigo_empleado)
     ->where('id_concepto', '0000')
     ->pluck('porcentaje')
     ->sum();
