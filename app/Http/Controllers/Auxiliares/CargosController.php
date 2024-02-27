@@ -52,21 +52,24 @@ class CargosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {  
+
+    
         $this->validate($request, [
             'codigo_cargo' => 'required|unique:cargos,codigo_cargo',
             'nombre_cargo' => 'required',
             'tipo_cargo' => 'required'
         ]);
 
-        $input = [
-            'codigo_cargo' => $request->codigo_cargo, 
-            'nombre_cargo' => $request->nombre_cargo, 
-            'tipo_cargo' => $request->tipo_cargo, 
-            'situacion' => $request->situacion, 
-        ];
-       
-        $cargo = Cargos::create($input);
+    
+
+        $cargos = new Cargos();
+        $cargos->codigo_cargo = $request->codigo_cargo;
+        $cargos->nombre_cargo =  $request->nombre_cargo;
+        $cargos->tipo_cargo = $request->tipo_cargo;
+        $cargos->situacion = $request->situacion;
+        $cargos->save();
+    
 
         return redirect()->route('auxiliares.cargos.index')
             ->with('success', 'Cargo creado satisfactoriamente');

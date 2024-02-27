@@ -38,7 +38,7 @@
                 <div class="card-body px-2 pt-2 pb-2">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
-                            <form id="form-registros">
+                            <form id="form-registros" >
 
                                 @csrf
 
@@ -58,6 +58,7 @@
                                                 <th>Grado</th>
                                                 <th>Nombre </th>
                                                 <th>Apellido</th>
+                                                <th>Cedula</th>
                                                 <th>Ubicacion</th>
                                                 <th>Situacion</th>
                                                 <th>Observacion</th>
@@ -82,6 +83,7 @@
                                                     </td>
                                                     <td>{{ $nomina->nombre1 }}</td>
                                                     <td>{{ $nomina->apellido1 }}</td>
+                                                    <td>{{$nomina->cedula}}</td>
                                                     <td>{{ $nomina->descripcion }}</td>
                                                     <td>
                                                         <select name="sitaucion" id=""
@@ -227,7 +229,7 @@ $(document).ready(function() {
 function store(nominas, cargandoDiv) {
     $.ajax({
         url: "{{ route('sireh.personal.militar.parte') }}",
-        method: 'post',
+        method: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
             nominas: nominas,

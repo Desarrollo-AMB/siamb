@@ -37,7 +37,7 @@
                                 <div>
                                     <hr class="horizontal dark my-0">
                                     <div class="card" style="width: 30rem;">
-                                        <img src="{{ asset('imagenes/images.JPG') }}" alt="mi foto">
+                                        <img src="{{ asset('imagenes/gastos.JPEG') }}" alt="mi foto">
                                         <div class="card-body">
                                             <table class="table table-sm table-bordered table-hover w-100 nowrap">
                                                 <thead>
@@ -51,11 +51,11 @@
                                                     
                                                     <tr>
                                                         <th> <h6>Salario Minimo Nacional </h6></th>
-                                                        <td><h6>{{ $conceptos[2]}} Bs.</h6></td>
+                                                        <td><h6>{{ $conceptos[1]}} Bs.</h6></td>
                                                     </tr>
                                                     <tr>
                                                         <th><h6>Cesta Ticket</h6></th>
-                                                        <td><h6>{{$conceptos[1]}} Bs.</h6> </td>
+                                                        <td><h6>{{$conceptos[2]}} Bs.</h6> </td>
                                                     </tr>              
                                                 </tbody>
                                             </table>
