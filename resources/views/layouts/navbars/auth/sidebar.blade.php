@@ -11,7 +11,7 @@
     <hr class="horizontal dark mt-0">
     <div style="height: 100%;" class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            @role('cmd_general|administrador|consulta|jefe_de_personal|personal_militar|personal_civil|aviacion_dao|aviacion_grupo_aereo|personal_militar_noprof|bienestar_social|junta_permanente')
+            @role('cmd_general|administrador|consulta|jefe_de_personal|personal_militar|personal_civil|aviacion_dao|aviacion_grupo_aereo|personal_militar_noprof|bienestar_social|junta_permanente|nomina|personal_noprofesional_nomina|personal_militar_nomina|personal_civil_nomina')
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('dashboard') }}">
                     <div
