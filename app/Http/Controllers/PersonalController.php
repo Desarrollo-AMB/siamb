@@ -2245,7 +2245,9 @@ class PersonalController extends Controller
     public function reportesPersonalMilitarNoProfView()
     {
         $grados_militares = GradosMilitares::whereIn('tipo_emp', ['ALI'])->orderBy('codigo_grado', 'asc')->orderBy('codigo_grado', 'asc')->get();
-        $ubicaciones = Ubicaciones::all();
+        $ubicaciones = Ubicaciones::WhereIn('codigo_ubicacion',['0086','0089','0090','0091','0092','0294','0296','0378','0365','0366','0367','0368','0369','0370','0371','0372','0373','0134','0431','0432','514651','0135','0512','0557','0044'])
+        ->select('*')
+        ->get();
         return view('sireh.personal.militar_noprof.reportes', compact(
             'grados_militares',
             'ubicaciones',
@@ -2642,6 +2644,77 @@ class PersonalController extends Controller
         return view('sireh.personal.militar_noprof.egresado.index', compact(
             'grados_militares',
             'ubicaciones',
+        ));
+    }
+
+    public function reportePersonalnoMilitar(Request $request)
+    {
+
+        $this->validate(
+            $request,
+            [
+
+                'ubicacion' => 'required',
+            ],
+            [
+                'ubicacion' => 'El Parametro Tipo Empleado es Requerido',
+            ]
+
+        );
+        $ubicaciones = $request->ubicacion;
+        $titulo = ' LISTA DE PERSONAL POR UNIDAD ';
+        $datos = Nomina::leftjoin('empleados', 'empleados.codigo_empleado', '=', 'nomina.codigo_empleado')
+            ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
+            ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
+            ->whereIn('nomina.situacion', ['A', 'S'])
+            ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
+            ->where('nomina.codigo_ubicacion', '=', $ubicaciones)
+            ->select(
+                'empleados.cedula as cedula',
+                'empleados.nombre1 as nombre1',
+                'empleados.nombre2 as nombre2',
+                'empleados.apellido1 as apellido1',
+                'empleados.apellido2 as apellidos2',
+                'grados_militares.siglas as siglas',
+                'ubicaciones.descripcion as ubicacion'
+            )
+            ->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+        WHEN nomina.grado_militar = '015' THEN 2
+        WHEN nomina.grado_militar = '020' THEN 3
+        WHEN nomina.grado_militar = '030' THEN 4
+        WHEN nomina.grado_militar = '040' THEN 5
+        WHEN nomina.grado_militar = '050' THEN 6
+        WHEN nomina.grado_militar = '060' THEN 7
+        WHEN nomina.grado_militar = '070' THEN 8
+        WHEN nomina.grado_militar = '080' THEN 9
+        WHEN nomina.grado_militar = '090' THEN 10
+        WHEN nomina.grado_militar = '410' THEN 11
+        WHEN nomina.grado_militar = '420' THEN 12
+        WHEN nomina.grado_militar = '430' THEN 13
+        WHEN nomina.grado_militar = '440' THEN 14
+        WHEN nomina.grado_militar = '450' THEN 15
+        WHEN nomina.grado_militar = '460' THEN 16
+        WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar")
+            ->get();
+
+
+        $nombre_archivo = sprintf('lista de personal %s .xlsx', Carbon::now()->format('Y-m-d h_i_s_a'));
+        $data1 = compact('titulo', 'datos');
+        return Excel::download(new PerosnalubicacionesExport($data1), $nombre_archivo);
+        //return view('excel.personal_militar_ubicaciones', $data = compact('titulo', 'datos'));
+
+
+
+    }
+
+    public function reportesPersonalnoMilitar()
+    {
+        $ubicaciones = Ubicaciones::all();
+
+        return view('sireh.personal.militar.reportes', compact(
+            'grados_militares',
+            'categorias_militares',
+            'ubicaciones'
         ));
     }
 }
