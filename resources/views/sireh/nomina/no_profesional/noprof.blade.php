@@ -120,7 +120,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                {{-- <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-body p-3">
                             <a href="{{ route('sireh.nomina.noprof.deducciones')}}">
@@ -142,7 +142,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             {{-- saltos de linea para dar mas espacio --}}
                 <div>
                     <br><br><br>

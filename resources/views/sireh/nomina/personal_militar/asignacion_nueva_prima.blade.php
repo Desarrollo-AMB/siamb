@@ -17,7 +17,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">ASIGNAR NUEVA PRIMA</h5>
+                        <h5 class="mb-0">ASIGNAR NUE5VA PRIMA</h5>
                     </div>
                     <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.asignacionprima') }}">Volver</a>
 
@@ -28,7 +28,10 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
                                 <strong>Primas Disponibles:</strong>
-                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
+                                
+                                {!! Form::select('porcentaje', $conceptos_nomina['porcentaje']) !!}
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion','porcentaje', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->pluck('descripcion','porcentaje', 'codigo_concepto'), null, ['class' => ' form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
                                 {!! Form::hidden('cedula', $dataemp['cedula']) !!}
                                 {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}

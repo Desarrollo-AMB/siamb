@@ -114,7 +114,7 @@ class NominaController extends Controller
 
 //Nueva prima
     public function nueva(Request $request)
-    {
+    { 
         $prima = new Concptosnomina1();
         $prima->codigo_concepto = $request->codigo;
         $prima->descripcion = strtoupper($request->nombre);
@@ -219,7 +219,7 @@ public function asignacionPrima()
 
 //asignacion del profesional
 public function actualesPrimas(Request $request)
-    {
+    { 
         $cedula = $request->cedula;
         $empleado = Empleado::
         select('codigo_empleado','nombre1', 'apellido1')
@@ -249,6 +249,7 @@ public function actualesPrimas(Request $request)
         $conceptos_nomina = Concptosnomina1::
         select('codigo_concepto', 'descripcion', 'tipo')
         ->where('tipo', 'A')
+        ->whereIn('codigo_concepto',['53','54','55','4016','4017','4000'])
         ->get();
 
         $codigo_empleado=$empleado->codigo_empleado;
@@ -268,20 +269,19 @@ public function actualesPrimas(Request $request)
  //asignacion de nueva prima
 //Nueva prima
 public function asignacionNuevaPrima(Request $request)
-{
-    // Obtener los datos del formulario
+ {   // Obtener los datos del formulario
     $codigo_concepto = $request->input('codigo_concepto');
     $cedula = $request->input('cedula');
     $empleado_nombre = $request->input('nombre');
     $empleado_apellido = $request->input('apellido');
     $codigo_empleado = $request->input('codigo_empleado');
+    $porcentaje = $request->input('porcentaje');
     $tipo = $request->input('tipo');
 
     // Obtener conceptos de nómina
-    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo')
+    $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo','porcentaje')
         ->where('tipo', 'A')
         ->get();
-
     // Obtener datos del empleado
     $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
         ->where('cedula', $cedula)
@@ -317,6 +317,7 @@ public function asignacionNuevaPrima(Request $request)
         $asignacion->codigo_empleado = $codigo_empleado;
         $asignacion->id_concepto = $codigo_concepto;
         $asignacion->tipo_concepto = $tipo;
+        $asignacion->porcentaje = $porcentaje;
         $asignacion->save();
         session()->flash('success', 'La prima ha sido asignada con éxito');
     }
@@ -637,7 +638,7 @@ $sheet->setCellValue('Z1', 'BONO FIN DE AÑO');
 $sheet->setCellValue('AA1', 'SUELDO INTEGRAL');
 $sheet->setCellValue('AB1', '6,5% IPSFA');
 $sheet->setCellValue('AC1', '5% PENSIONES(9404)');
-$sheet->setCellValue('AD1', 'DEDUCCION ALIM. HUGO CHAVEZ (5141)');
+//$sheet->setCellValue('AD1', 'DEDUCCION ALIM. HUGO CHAVEZ (5141)');
 $sheet->setCellValue('AE1', 'CIRCULO MILITAR (9998)');
 $sheet->setCellValue('AF1', 'CAJA DE AHORRO 10% (5565)');
 $sheet->setCellValue('AG1', 'PENSION ALIMENTACIÓN (5087)');
@@ -1159,10 +1160,10 @@ $item->deposito_en_banco = $totalDepositoEnBanco;
     $sheet->setCellValue('AA' . $row, $item->sueldo_base);
     $sheet->setCellValue('AB' . $row, $item->deduccion6IPSFA);
     $sheet->setCellValue('AC' . $row, $item->pensiones);
-    $sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
+   // $sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
     $sheet->setCellValue('AE' . $row, $item->circulomilitar);
     $sheet->setCellValue('AF' . $row, $item->caja_ahorro);
-    $sheet->setCellValue('AG' . $row, $item->pension_alimentacion);
+    //$sheet->setCellValue('AG' . $row, $item->pension_alimentacion);
     $sheet->setCellValue('AH' . $row, $item->l_p_h);
     $sheet->setCellValue('AI' . $row, $item->total_deducciones);
     $sheet->setCellValue('AJ' . $row, $item->deposito_en_banco);
