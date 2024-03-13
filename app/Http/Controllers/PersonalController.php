@@ -2245,7 +2245,7 @@ class PersonalController extends Controller
     public function reportesPersonalMilitarNoProfView()
     {
         $grados_militares = GradosMilitares::whereIn('tipo_emp', ['ALI'])->orderBy('codigo_grado', 'asc')->orderBy('codigo_grado', 'asc')->get();
-        $ubicaciones = Ubicaciones::WhereIn('codigo_ubicacion',['0086','0089','0090','0091','0092','0294','0296','0378','0365','0366','0367','0368','0369','0370','0371','0372','0373','0134','0431','0432','514651','0135','0512','0557','0044'])
+        $ubicaciones = Ubicaciones::WhereIn('codigo_ubicacion',['0086','0089','0090','0091','0092','0294','0296','0378','0365','0366','0367','0368','0369','0370','0371','0372','0373','0134','0431','0432','514651','0135','0512','0557','0044','0087'])
         ->select('*')
         ->get();
         return view('sireh.personal.militar_noprof.reportes', compact(
