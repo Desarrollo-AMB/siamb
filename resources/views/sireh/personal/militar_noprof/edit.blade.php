@@ -48,7 +48,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                 <div class="form-group">
                                     <h6>Tipo Empleado:</h6>
-                                    <select class="select2 form-control" name="tipo_emp" id="tipo_emp" disabled>
+                                    <select class="select2 form-control" name="tipo_emp" id="tipo_emp" >
                                         <option value="">Seleccione ...</option>
                                         @foreach ($tipos_emp as $row)
                                             <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp? 'selected': '' }}>{{ $row->descripcion }} ({{ $row->tipo_emp}})</option>

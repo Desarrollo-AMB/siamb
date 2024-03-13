@@ -1860,6 +1860,7 @@ class PersonalController extends Controller
 
             $nomina = Nomina::where('codigo_empleado', $empleado->codigo_empleado)->first();
             $nomina->cedula = $empleado->cedula;
+            $nomina->tipo_emp = $request->tipo_emp;
             $nomina->codigo_ubicacion = $request->ubicacion;
             $nomina->fecha_ingreso = $request->fecha_ingreso;
             $nomina->codigo_cargo = !empty($request->cargo) ? $request->cargo : 0;
