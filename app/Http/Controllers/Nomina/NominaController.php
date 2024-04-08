@@ -89,6 +89,7 @@ class NominaController extends Controller
         $data = Concptosnomina1::
             select('*',)
             ->where ('tipo', 'A')
+            ->where ('tipo_empleado', 'MIL')
             ->get();
       //dd($data);
         return view('sireh.nomina.personal_militar.primas',compact('data'));
