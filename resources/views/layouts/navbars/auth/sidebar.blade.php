@@ -190,7 +190,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Tablas Auxiliares</span>
                 </a>
-            </li></li>
+            </li>
                 <li class="nav-item">
                     <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup6"
                         class="collapsed nav-link " aria-controls="collapseExample">
