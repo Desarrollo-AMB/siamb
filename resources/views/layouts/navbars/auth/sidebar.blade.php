@@ -187,6 +187,7 @@
                         <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10">
                             <title>Tablas Auxiliares</title>
                         </i>
+                        
                     </div>
                 </li>
                 <li class="nav-item">
@@ -197,11 +198,9 @@
                             <i style="color:#3a416f" class="far fa-id-card">
                                 <title>DRESS</title>
                             </i>
-
                         </div>
                         <span class="nav-link-text ms-1">DRESS</span>
                     </a>
-
                     <div class="panel-collapse collapse {{ Request::is('extra_componet/*') ? 'show' : '' }}"
                         id="collapseListGroup6">
                         <ul style="margin-left:40px;" class="list-group">
