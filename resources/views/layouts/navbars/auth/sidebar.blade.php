@@ -188,36 +188,38 @@
                             <title>Tablas Auxiliares</title>
                         </i>
                     </div>
-                    <span class="nav-link-text ms-1">Tablas Auxiliares</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup5"
-                    class="collapsed nav-link " aria-controls="collapseExample">
-                    <div
-                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i style="color:#3a416f" class="far fa-id-card">
-                            <title>Personal Extra Componente</title>
-                        </i>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup6"
+                        class="collapsed nav-link " aria-controls="collapseExample">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="color:#3a416f" class="far fa-id-card">
+                                <title>DRESS</title>
+                            </i>
 
+                        </div>
+                        <span class="nav-link-text ms-1">DRESS</span>
+                    </a>
+
+                    <div class="panel-collapse collapse {{ Request::is('extra_componet/*') ? 'show' : '' }}"
+                        id="collapseListGroup6">
+                        <ul style="margin-left:40px;" class="list-group">
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('resporte/ingreso') ? 'active' : '' }} "
+                                    href="{{ route('dres.view') }}">Igresar Reporte</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dres/reporte/index') ? 'active' : '' }} "
+                                    href="{{ route('dres.report.index') }}">Reporte</a>
+                            </li>
+                        </ul>
                     </div>
-                    <span class="nav-link-text ms-1">Personal Extra Componente</span>
-                </a>
-
-                <div class="panel-collapse collapse {{ Request::is('extra_componet/*') ? 'show' : '' }}"
-                    id="collapseListGroup5">
-                    <ul style="margin-left:40px;" class="list-group">
-                        <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                            <a class="{{ Request::is('extra_componet/ingreso') ? 'active' : '' }} "
-                                href="{{ route('extra.ingreso_personal') }}">Igresar personal</a>
-                        </li>
-                        <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                            <a class="{{ Request::is('extra_componet/index') ? 'active' : '' }} "
-                                href="{{ route('extra.index') }}">Personal</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                </li>
             @endrole
 
             @role('nomina|personal_noprofesional_nomina|personal_militar_nomina|personal_civil_nomina')
