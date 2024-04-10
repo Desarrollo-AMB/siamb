@@ -237,6 +237,7 @@
                                                 </div>
                                             </div> 
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -353,6 +354,19 @@
                                                     {!! Form::text('contingente', null, array('id'=>'contingente', 'placeholder' => '','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
+                                           
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                    <div class="form-group">
+                                                        <h6>Categoria: <small></small></h6>
+                                                        <select class="select2 form-control" name="categoria" id="categoria" >
+                                                            <option value="">Seleccione ...</option>
+                                                            @foreach ($categorias as $row)
+                                                                <option value="{{$row->codigo_categoria}}" >{{ $row->descripcion }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div> 
+                                           
                                         </div>
                                     </div>
                                 </div>

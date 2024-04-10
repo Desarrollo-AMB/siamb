@@ -103,7 +103,7 @@ return [
         '3' =>  'MARITIMA INSULAR',
         '4' =>  'LOS LLANOS',
         '5' =>  'LOS ANDES',
-        '6' =>  'GUYANA',
+        '6' =>  'GUAYANA',
         '7' =>  'CENTRAL',
         '8' =>  'CAPITAL',
     ],

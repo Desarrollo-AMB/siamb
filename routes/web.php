@@ -339,6 +339,7 @@ Auth::routes();
     Route::get('/sireh/personal-civil/jubilados/fecha-jubilados', [JubiladosController::class, 'jubiladosFecha'])->name('sireh.personal-civil.jubilados.fecha-jubilados');
     Route::post('/sireh/personal-civil/jubilados/reporte-excel-jubilado', [JubiladosController::class, 'jubiladosReportExcel'])->name('sireh.personal-civil-jubilados.reporte.excel');
     Route::get('/sireh/personal-civil/jubilados/por-jubilar', [JubiladosController::class, 'porJubilarReportExcel'])->name('sireh.personal-civil-jubilados.por.jubilar');
+    Route::get('/sireh/personal-NO-militar/reportes', [PersonalController::class, 'reportesPersonalnoMilitar'])->name('sireh.personal-NO-militar.reportes');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
 

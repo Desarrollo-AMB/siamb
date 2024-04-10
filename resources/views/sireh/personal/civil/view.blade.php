@@ -80,8 +80,23 @@
                                                     value="{{ $datos->cedula }}"
                                                 >
                                             </div>
-                                        </div>     
+                                        </div> 
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Codigo Empleado:</h6>
+                                                <input id="codigo_empleado" type="text" class="form-control @error('codigo_empleado') is-invalid @enderror" name="codigo_empleado" disabled 
+                                                    value="{{ $datos->nomina->codigo_empleado }}"
+                                                >
+                                            </div>    
                                     </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <h6>Codigo Rac:</h6>
+                                            <input id="cod_rac" type="text" class="form-control @error('cod_rac') is-invalid @enderror" name="cod_rac" disabled 
+                                                value="{{ $datos->nomina->cod_rac }}"
+                                            >
+                                        </div>    
+                                </div>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">

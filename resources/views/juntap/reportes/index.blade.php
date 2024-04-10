@@ -269,7 +269,7 @@
                                             </div>
                                         </li>
 
-                                        <li class="list-group-item">
+                                        {{--<li class="list-group-item">
                                             <div class="row">
                                                 <div class="col-lg-4 col-sm-6">
                                                     <div class="form-check">
@@ -299,7 +299,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </li>
+                                        </li>--}}
                                     </ul>
                                 </div>
                             </div>

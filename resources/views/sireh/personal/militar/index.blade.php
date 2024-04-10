@@ -41,6 +41,7 @@
                                             <th>Apellido1</th>
                                             <th>Apellido2</th>
                                             <th>Grado Militar</th>
+                                            <th>Situacion</th>
                                             <th>Ubicación</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -165,7 +166,6 @@
 <script>
     $(function () {
         $('.select2').select2();
-
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -179,6 +179,17 @@
                 {data: 'apellido1'},
                 {data: 'apellido2'},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
+                {data: 'situacion',
+                   
+                /*render: function ( data, type, row ) {
+                        if(row.situacion !== null && row.situacion !== ''){
+                            var respuesta=buscarsituacion(row.situacion);
+                        return respuesta;
+                        }
+                        return 'NO POSEE';
+
+                     }*/
+                 },
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
@@ -422,5 +433,13 @@
             });
         })
     });
+    /*function buscarsituacion(buscar){
+        var valor = $.map(situacionn, function( value, key) {
+            if (key==buscar){
+                return value;
+            }
+        });
+        return  valor[0];
+    }*/
 </script>
 @endsection
