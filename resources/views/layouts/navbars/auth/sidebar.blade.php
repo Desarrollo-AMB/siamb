@@ -187,9 +187,10 @@
                         <i style="color:#3a416f" class="ni ni-paper-diploma text-lg opacity-10">
                             <title>Tablas Auxiliares</title>
                         </i>
-                        
                     </div>
-                </li>
+                    <span class="nav-link-text ms-1">Tablas Auxiliares</span>
+                </a>
+            </li></li>
                 <li class="nav-item">
                     <a aria-expanded="false" data-bs-toggle="collapse" href="#collapseListGroup6"
                         class="collapsed nav-link " aria-controls="collapseExample">
