@@ -56,28 +56,32 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-tabContent">
-                                <div class="tab-pane fade active show" id="custom-tabs-form" role="tabpanel" aria-labelledby="custom-tabs-form-tab">
+                                <div class="tab-pane fade active show" id="custom-tabs-form" role="tabpanel"
+                                    aria-labelledby="custom-tabs-form-tab">
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="card mb-4 mx-4">
-                                               
+
                                                 <hr class="horizontal dark my-0">
                                                 <div class="card-body px-2 pt-2 pb-2">
-                                                    {!! Form::open(array('route' => 'dres.armamento','method'=>'POST', 'id'=>'reporte')) !!}
+                                                    {!! Form::open(array('route' => 'dres.armamento','method'=>'POST',
+                                                    'id'=>'reporte')) !!}
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <label for="id1">N° Reporte:</label>
-                                                                {!! Form::text('n_reporte', null, ['id' => 'id1', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id1', 'placeholder' => 'N° Reporte', 'class' => 'form-control', 'oninput' => 'actualizarInputs("id1", this.value)']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>JRES:</strong>
-                                                                <select name="JRES" id=""  aria-placeholder='JRES' class="select2 form-control">
+                                                                <select name="JRES" id="" aria-placeholder='JRES'
+                                                                    class="select2 form-control">
                                                                     <option value="">Seleccione ... </option>
                                                                     @foreach ($jres as $item)
-                                                                        <option value="{{ $item->unidad }}">{{ $item->unidad }}</option>
+                                                                    <option value="{{ $item->unidad }}">{{ $item->unidad
+                                                                        }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -85,52 +89,62 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Fecha de Reporte:</strong>
-                                                                {!! Form::date('fechaR', null, array('placeholder' => 'Fecha de Reporte','class' => 'form-control')) !!}
+                                                                {!! Form::date('fechaR', null, array('placeholder' =>
+                                                                'Fecha de Reporte','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Grupo fecho hora:</strong>
-                                                                {!! Form::text('grupo_fecho_hora', null, array('placeholder' => 'Grupo fecho hora','class' => 'form-control')) !!}
+                                                                {!! Form::text('grupo_fecho_hora', null,
+                                                                array('placeholder' => 'Grupo fecho hora','class' =>
+                                                                'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Persona que Envia:</strong>
-                                                                {!! Form::text('p_envia',null, array('placeholder' => 'Persona que Envia','class' => 'form-control')) !!}
+                                                                {!! Form::text('p_envia',null, array('placeholder' =>
+                                                                'Persona que Envia','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Unida Involucrada:</strong>
-                                                                <select name="unidad" class="select2 form-control"  placeholder="Unida Involucrada">
-                                                                   @foreach ($ubicaciones as $ubicacion)
-                                                                       <option value="{{ $ubicacion['descripcion'] }}">{{ $ubicacion['descripcion'] }}</option>
-                                                                   @endforeach 
+                                                                <select name="unidad" class="select2 form-control"
+                                                                    placeholder="Unida Involucrada">
+                                                                    @foreach ($ubicaciones as $ubicacion)
+                                                                    <option value="{{ $ubicacion['descripcion'] }}">{{
+                                                                        $ubicacion['descripcion'] }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Cmdt Unidad:</strong>
-                                                                {!! Form::text('cmdtU', null,array('placeholder' => 'Comandante de Unidad','class' => 'form-control')) !!}
+                                                                {!! Form::text('cmdtU', null,array('placeholder' =>
+                                                                'Comandante de Unidad','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Clase de Evento:</strong>
-                                                               <select name="clase" class="select2 form-control" id="claseEvento" placeholder="Clase de Evento">
-                                                                <option value="">Seleccione ...</option>
-                                                                @foreach ($tipo_evento as $tipo)
-                                                                <option value="{{ $tipo }}">{{ $tipo }}</option>
-                                                                @endforeach
-                                                               </select>
+                                                                <select name="clase" class="select2 form-control"
+                                                                    id="claseEvento" placeholder="Clase de Evento">
+                                                                    <option value="">Seleccione ...</option>
+                                                                    @foreach ($tipo_evento as $tipo)
+                                                                    <option value="{{ $tipo }}">{{ $tipo }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Tipo de Evento:</strong>
-                                                                <select name="tipo" class=" select2 form-control" id="tipoEvento" placeholder="Tipo de Evento" disabled>
+                                                                <select name="tipo" class=" select2 form-control"
+                                                                    id="tipoEvento" placeholder="Tipo de Evento"
+                                                                    disabled>
                                                                     <!-- opciones cargadas dinámicamente por JavaScript -->
                                                                 </select>
                                                             </div>
@@ -138,41 +152,52 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Evento:</strong>
-                                                               <textarea name="event" id="event" class="form-control" cols="30" rows="10" placeholder="Eventos"></textarea>
+                                                                <textarea name="event" id="event" class="form-control"
+                                                                    cols="30" rows="10"
+                                                                    placeholder="Eventos"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Descripcion:</strong>
-                                                               <textarea name="descripcion" id="descripcion" class="form-control" cols="30" rows="10" placeholder="Descripción"></textarea>
+                                                                <textarea name="descripcion" id="descripcion"
+                                                                    class="form-control" cols="30" rows="10"
+                                                                    placeholder="Descripción"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong> Lugar de Ocurrencia:</strong>
-                                                               <textarea name="lugarO" id="lugarO" class="form-control" cols="30" rows="10" placeholder="Lugar de Ocurrencia"></textarea>
+                                                                <textarea name="lugarO" id="lugarO" class="form-control"
+                                                                    cols="30" rows="10"
+                                                                    placeholder="Lugar de Ocurrencia"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Fecha de Ocurrencia:</strong>
-                                                                {!! Form::date('fechaO', null, array('placeholder' => 'Fecha de Ocurrencia','class' => 'form-control')) !!}
+                                                                {!! Form::date('fechaO', null, array('placeholder' =>
+                                                                'Fecha de Ocurrencia','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Situacion:</strong>
-                                                                {!! Form::text('situacion', null, array('placeholder' => 'Situacion','class' => 'form-control')) !!}
+                                                                {!! Form::text('situacion', null, array('placeholder' =>
+                                                                'Situacion','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Documentos Afectados:</strong>
-                                                                {!! Form::text('documentos', null, array('placeholder' => 'Documentos Afectados','class' => 'form-control')) !!}
+                                                                {!! Form::text('documentos', null, array('placeholder'
+                                                                => 'Documentos Afectados','class' => 'form-control'))
+                                                                !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Guardar</button>
                                                         </div>
                                                     </div>
                                                     {!! Form::close() !!}
@@ -181,7 +206,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade " id="custom-tabs-empleados" role="tabpanel" aria-labelledby="custom-tabs-empleados-tab">
+                                <div class="tab-pane fade " id="custom-tabs-empleados" role="tabpanel"
+                                    aria-labelledby="custom-tabs-empleados-tab">
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="card mb-4 mx-4">
@@ -190,70 +216,110 @@
                                                         <div>
                                                             <h5 class="mb-0">Personal </h5>
                                                         </div>
-                                                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('users.index') }}">Volver</a>
+                                                        <a class="btn btn-secondary btn-sm mb-0"
+                                                            href="{{ route('users.index') }}">Volver</a>
                                                     </div>
                                                 </div>
                                                 <hr class="horizontal dark my-0">
                                                 <div class="card-body px-2 pt-2 pb-2">
-                                                   {{-- {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', ]]) !!}--}}
+                                                    {!! Form::open(array('route' => 'dres.personal','method'=>'POST',
+                                                    'id'=>'reporte')) !!}
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <label for="id2">N° Reporte:</label>
-                                                                {!! Form::text('n_reporte', null, ['id' => 'id2', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id2', 'placeholder' => 'N° Reporte', 'class' => 'form-control', 'onclick' => 'actualizarInputDesdeOtro("id1", "id2")']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Especialidad:</strong>
-                                                                <select name="especialidad" id="" class="form-control" placeholder="Especialidad"></select>
+                                                                <select name="especialidad" id=""
+                                                                    class="form-control select2 "
+                                                                    placeholder="Especialidad">
+                                                                    @foreach ($especialidades as $especialidad)
+                                                                    <option value="{{$especialidad->descripcion}}">
+                                                                        {{$especialidad->descripcion}}
+                                                                        @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Sexo:</strong>
-                                                                <select name="sexo" id="" class="form-control" placelholder="Sexo"></select>
+                                                                <select name="sexo" id="" class="form-control"
+                                                                    placelholder="Sexo"> @foreach ($sexo as $item)
+                                                                    <option value="{{ $item }}">{{ $item
+                                                                        }}</option>
+                                                                    @endforeach</select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Grado:</strong>
-                                                               <select name="grado" id="" class="form-control"></select>
+                                                                <select name="grado" id=""
+                                                                    class="form-control select2">@foreach ($grados_militares as $grado)
+                                                                    <option value="{{$grado->descripcion}}">
+                                                                        {{$grado->descripcion}}
+                                                                        @endforeach</select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>Nombres:</strong>
-                                                                {!! Form::password('text', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
+                                                                <strong>Categoria:</strong>
+                                                                <select name="categoria" id=""
+                                                                    class="form-control select2">@foreach ($categorias as $categoria)
+                                                                    <option value="{{$categoria->descripcion}}">
+                                                                        {{$categoria->descripcion}}
+                                                                        @endforeach</select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>Apellidos:</strong>
-                                                                {!! Form::password('text', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
+                                                                <strong>Primer Nombre:</strong>
+                                                                {!! Form::text('nombre1',null, array('placeholder' =>
+                                                                'Primer Nombre','class' => 'form-control')) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <strong>Segundo Nombre:</strong>
+                                                                {!! Form::text('nombre2',null, array('placeholder' =>
+                                                                'Segundo Nombre','class' => 'form-control')) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <strong>Primer Apellido:</strong>
+                                                                {!! Form::text('apellido1',null, array('placeholder' =>
+                                                                'Primer Apellido','class' => 'form-control')) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <strong>Segundo Apellido:</strong>
+                                                                {!! Form::text('apellido2',null, array('placeholder' =>
+                                                                'Segundo Apellido','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Cedula:</strong>
-                                                                {!! Form::password('text', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Nombres:</strong>
-                                                                {!! Form::password('text', array('placeholder' => 'Confirmar Password','class' => 'form-control')) !!}
+                                                                {!! Form::text('cedula',null, array('placeholder' =>
+                                                                'Cedula','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Relacion:</strong>
-                                                               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                <textarea name="relacion" class="form-control"
+                                                                    id="exampleFormControlTextarea1"
+                                                                    rows="3" placeholder="Relacion"></textarea>
                                                             </div>
                                                         </div>
-                                                       
                                                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Guardar</button>
                                                         </div>
                                                     </div>
                                                     {!! Form::close() !!}
@@ -262,7 +328,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade " id="custom-tabs-empleados2" role="tabpanel" aria-labelledby="custom-tabs-empleados2-tab">
+                                <div class="tab-pane fade " id="custom-tabs-empleados2" role="tabpanel"
+                                    aria-labelledby="custom-tabs-empleados2-tab">
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="card mb-4 mx-4">
@@ -271,53 +338,61 @@
                                                         <div>
                                                             <h5 class="mb-0">Armamento</h5>
                                                         </div>
-                                                      
+
                                                     </div>
                                                 </div>
                                                 <hr class="horizontal dark my-0">
                                                 <div class="card-body px-2 pt-2 pb-2">
-                                                   {{-- {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', ]]) !!}--}}
+                                                    {!! Form::open(array('route' => 'dres.equipo','method'=>'POST',
+                                                    'id'=>'reporte')) !!}
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <label for="id3">N° Reporte:</label>
-                                                                {!! Form::text('n_reporte', null, ['id' => 'id3', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id3', 'placeholder' => 'N° Reporte', 'class' => 'form-control', 'onclick' => 'actualizarInputDesdeOtro("id1", "id3")']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Marca:</strong>
-                                                                {!! Form::text('marca', null, array('placeholder' => 'Marca','class' => 'form-control')) !!}
+                                                                {!! Form::text('marca', null, array('placeholder' =>
+                                                                'Marca','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Modelo:</strong>
-                                                                {!! Form::text('modelo', null, array('placeholder' => 'Modelo','class' => 'form-control')) !!}
+                                                                {!! Form::text('modelo', null, array('placeholder' =>
+                                                                'Modelo','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Serial:</strong>
-                                                                {!! Form::text('serial', null, array('placeholder' => 'Serial','class' => 'form-control')) !!}
+                                                                {!! Form::text('serial', null, array('placeholder' =>
+                                                                'Serial','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Unidad de Asignacion:</strong>
-                                                                {!! Form::text('unidad_a', null,array('placeholder' => 'nidad de Asignacion','class' => 'form-control')) !!}
+                                                                {!! Form::text('unidad_a', null,array('placeholder' =>
+                                                                'Unidad de Asignacion','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Relacion:</strong>
-                                                               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                <textarea class="form-control"
+                                                                   name="relacion" id="exampleFormControlTextarea1"
+                                                                    rows="3" placeholder="Relacion"></textarea>
                                                             </div>
                                                         </div>
-                                                       
+
                                                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Guardar</button>
                                                         </div>
                                                     </div>
                                                     {!! Form::close() !!}
@@ -326,7 +401,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade " id="custom-tabs-empleados3" role="tabpanel" aria-labelledby="custom-tabs-empleados3-tab">
+                                <div class="tab-pane fade " id="custom-tabs-empleados3" role="tabpanel"
+                                    aria-labelledby="custom-tabs-empleados3-tab">
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="card mb-4 mx-4">
@@ -335,40 +411,45 @@
                                                         <div>
                                                             <h5 class="mb-0">Equipo</h5>
                                                         </div>
-                                                        <a class="btn btn-secondary btn-sm mb-0" href="{{ route('users.index') }}">Volver</a>
+                                                        <a class="btn btn-secondary btn-sm mb-0"
+                                                            href="{{ route('users.index') }}">Volver</a>
                                                     </div>
                                                 </div>
                                                 <hr class="horizontal dark my-0">
                                                 <div class="card-body px-2 pt-2 pb-2">
-                                                   {{-- {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', ]]) !!}--}}
+                                                    {!! Form::open(array('route' => 'dres.material','method'=>'POST',
+                                                    'id'=>'equipo')) !!}
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <label for="id4">N° Reporte:</label>
-                                                                {!! Form::text('n_reporte', null, ['id' => 'id4', 'placeholder' => 'N° Reporte', 'class' => 'form-control']) !!}
+                                                                {!! Form::text('n_reporte', null, ['id' => 'id4', 'placeholder' => 'N° Reporte', 'class' => 'form-control', 'onclick' => 'actualizarInputDesdeOtro("id1", "id4")']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Tipo:</strong>
-                                                                {!! Form::text('tipo', null, array('placeholder' => 'Tipo','class' => 'form-control')) !!}
+                                                                {!! Form::text('tipo', null, array('placeholder' =>
+                                                                'Tipo','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Modelo:</strong>
-                                                                {!! Form::text('modelo', null, array('placeholder' => 'Modelo','class' => 'form-control')) !!}
+                                                                {!! Form::text('modelo', null, array('placeholder' =>
+                                                                'Modelo','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Siglas o Serial:</strong>
-                                                                {!! Form::text('serial',null, array('placeholder' => 'Siglas','class' => 'form-control')) !!}
+                                                                {!! Form::text('serial',null, array('placeholder' =>
+                                                                'Siglas','class' => 'form-control')) !!}
                                                             </div>
                                                         </div>
-                                                        
                                                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Guardar</button>
                                                         </div>
                                                     </div>
                                                     {!! Form::close() !!}
@@ -392,28 +473,14 @@
 @section('scripts')
 @parent
 <script>
-     $(function() {
-        $('.select2').select2({
+$(function() {
+    $('.select2').select2({
         dropdownAutoWidth: true, // Permite que el menú desplegable se ajuste automáticamente al ancho del contenedor
         width: 'auto', // Establece el ancho automático para que se ajuste al contenido
     });
-        });
-$(document).ready(function() {
-    // Maneja el clic en la pestaña "Armamento"
-    $('#custom-tabs-empleados2-tab').click(function(e) {
-        e.preventDefault(); // Evita el comportamiento predeterminado del enlace
 
-        // Realiza una solicitud Ajax para cargar el contenido de la URL especificada
-        $.get("/resources/views/dress/armamento.blade.php")
-            .done(function(data) {
-                $('#contenido-dinamico').html(data);
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                console.error("Error en la solicitud Ajax: " + errorThrown);
-            });
-    });
-});
-$(document).ready(function() {
+   
+
     // Manejar el cambio en el primer select
     $('#claseEvento').change(function() {
         // Obtener la clase seleccionada
@@ -441,197 +508,14 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Función para actualizar IDs
+    function actualizarInputDesdeOtro(inputOrigenId, inputDestinoId) {
+    var valorOrigen = document.getElementById(inputOrigenId).value;
+    document.getElementById(inputDestinoId).value = valorOrigen;
+}
 });
- /*   $(function () {
-        $('#roles').select2({
-                allowClear: true,
-                minimumResultsForSearch: -1,
-                width: 300
-            });
-        var table = $('#table').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            pageLength: 25,
-            ajax: "{{ route('api.personal.empleados.notuser') }}",
-            columns: [
-                {data: 'actions', name: 'action', orderable: false, searchable: false},
-                {data: 'cedula',},
-                {data: 'nombre1'},
-                {data: 'apellido1'},
-                {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
-                {data: 'cargo', name: 'cargos.nombre_cargo'},
-                {data: 'ubicacion', name: 'ubicaciones.descripcion'},
-            ],
-            search: {
-                return: true,
-            },
-            "language": {
-                "sProcessing":    "Procesando...",
-                "sLengthMenu":    "Mostrar _MENU_ registros",
-                "sZeroRecords":   "No se encontraron resultados",
-                "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":   "",
-                "sSearch":        "Buscar:",
-                "sUrl":           "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":    "Último",
-                    "sNext":    "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
 
-        $('#table').on('click', '.confirm-asociar', function (event) {
-            event.preventDefault();
-            var codigo_empleado= $(this).data('id');
-            var cedula= $(this).data('cedula');
-            var name= $(this).data('name');
-            var cargo= $(this).data('cargo');
-            var ubicacion= $(this).data('ubicacion');
-            Swal.fire({
-                title: 'Empleado Seleccionado!',
-                text: "Esta seguro de asociarlo al usuario?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#codigo_empleado').val(codigo_empleado);
-                    $('#componente_aviacion').val(1);
-                    $('#div_seleccion').removeClass("d-none");
-                    $('#seleccion_cedula').text(cedula);
-                    $('#seleccion_nombre').text(name);
-                    $('#seleccion_cargo').text(cargo);
-                    $('#seleccion_ubicacion').text(ubicacion);
-                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
-                }
-            });
 
-            return false;
-
-        });
-
-        var table2 = $('#table2').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            pageLength: 25,
-            ajax: "{{ route('api.personal.not-empleados.notuser') }}",
-            columns: [
-                {data: 'actions', name: 'action', orderable: false, searchable: false},
-                {data: 'cedula',},
-                {data: 'nombre1'},
-                {data: 'apellido1'},
-                {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
-            ],
-            search: {
-                return: true,
-            },
-            "language": {
-                "sProcessing":    "Procesando...",
-                "sLengthMenu":    "Mostrar _MENU_ registros",
-                "sZeroRecords":   "No se encontraron resultados",
-                "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":   "",
-                "sSearch":        "Buscar:",
-                "sUrl":           "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":    "Último",
-                    "sNext":    "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        $('#table2').on('click', '.confirm-asociar2', function (event) {
-            event.preventDefault();
-            var codigo_empleado= $(this).data('id');
-            var cedula= $(this).data('cedula');
-            var name= $(this).data('name');
-            var ubicacion= $(this).data('ubicacion');
-            Swal.fire({
-                title: 'Empleado Otro componente Seleccionado!',
-                text: "Esta seguro de asociarlo al usuario?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#codigo_empleado').val(codigo_empleado);
-                    $('#componente_aviacion').val(0);
-                    $('#div_seleccion').removeClass("d-none");
-                    $('#seleccion_cedula').text(cedula);
-                    $('#seleccion_nombre').text(name);
-                    $('#seleccion_ubicacion').text(ubicacion);
-                    $('.nav-tabs a[href="#custom-tabs-form"]').tab('show')
-                }
-            });
-
-            return false;
-
-        });
-
-        $('#btn-submit').on('click', function (event) {
-            event.preventDefault();
-            if ($('#codigo_empleado').val().length != 0){
-                $('#crear_usuario').submit();
-            }else{
-                Swal.fire({
-                    title: 'No tiene Asociado el empleado!',
-                    text: "Estas Seguro de Crear el Usuario?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#crear_usuario').submit();
-                    }
-                });
-            }
-
-        });
-    });*/
 </script>
-<script>
-    // Función para actualizar los campos ID en los demás formularios
-    function actualizarIDs(idActual) {
-      // Obtener el valor ingresado
-      var valorID = document.getElementById(idActual).value;
-  
-      // Actualizar los campos ID en los demás formularios
-      var formularios = ['id1', 'id2', 'id3','id4'];
-      formularios.forEach(function(formulario) {
-        if (formulario !== idActual) {
-          document.getElementById(formulario).value = valorID;
-        }
-      });
-    }
-  </script>
 @endsection

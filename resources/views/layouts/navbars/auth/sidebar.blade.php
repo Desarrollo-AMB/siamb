@@ -233,8 +233,12 @@
                                     href="{{ route('dres.view') }}">Igresar Reporte</a>
                             </li>
                             <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
-                                <a class="{{ Request::is('extra_componet/index') ? 'active' : '' }} "
-                                    href="{{ route('extra.index') }}">Personal</a>
+                                <a class="{{ Request::is('sireh/personal-militar/index') ? 'active' : '' }} "
+                                    href="{{ route('sireh.personal-militar.index') }}">Personal Militar</a>
+                            </li>
+                            <li style="font-size: 14px; border:0; color:#3a416f" class="list-group-item">
+                                <a class="{{ Request::is('dres/reporte/index') ? 'active' : '' }} "
+                                    href="{{ route('dres.report.index') }}">Reporte</a>
                             </li>
                         </ul>
                     </div>

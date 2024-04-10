@@ -516,7 +516,11 @@ Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->
 Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
 Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
 Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
-
+Route::post('/dress/personal', [Drescontroller::class, 'personal'])->name('dres.personal');
+Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dres.equipo');
+Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
+Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
+Route::get('/dress/Reporte/index/y', [Drescontroller::class, 'excel'])->name('dres.report.index');
 
 Route::get('no_authorize', function () {
     return view('no_authorize');
