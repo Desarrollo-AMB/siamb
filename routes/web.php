@@ -26,6 +26,7 @@ use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
 use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
+use App\Http\Controllers\Drescontroller;
 use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Http\Controllers\Nomina\NominaCivilController;
@@ -511,6 +512,17 @@ Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarEx
 
 ///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
 Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
+
+///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
+Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
+Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
+Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
+Route::post('/dress/personal', [Drescontroller::class, 'personal'])->name('dres.personal');
+Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dres.equipo');
+Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
+Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
+Route::get('/dress/Reporte/index/y', [Drescontroller::class, 'excel'])->name('dres.report.index');
+
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
