@@ -115,7 +115,7 @@ class NominaController extends Controller
 
 //Nueva prima
     public function nueva(Request $request)
-    { 
+    {
         $prima = new Concptosnomina1();
         $prima->codigo_concepto = $request->codigo;
         $prima->descripcion = strtoupper($request->nombre);
@@ -220,7 +220,7 @@ public function asignacionPrima()
 
 //asignacion del profesional
 public function actualesPrimas(Request $request)
-    { 
+    {
         $cedula = $request->cedula;
         $empleado = Empleado::
         select('codigo_empleado','nombre1', 'apellido1')
@@ -270,19 +270,20 @@ public function actualesPrimas(Request $request)
  //asignacion de nueva prima
 //Nueva prima
 public function asignacionNuevaPrima(Request $request)
- {   // Obtener los datos del formulario
+{// Obtener los datos del formulario
     $codigo_concepto = $request->input('codigo_concepto');
     $cedula = $request->input('cedula');
     $empleado_nombre = $request->input('nombre');
     $empleado_apellido = $request->input('apellido');
     $codigo_empleado = $request->input('codigo_empleado');
-    $porcentaje = $request->input('porcentaje');
+     $porcentaje = $request->input('porcentaje');
     $tipo = $request->input('tipo');
 
     // Obtener conceptos de nómina
     $conceptos_nomina = Concptosnomina1::select('codigo_concepto', 'descripcion', 'tipo','porcentaje')
         ->where('tipo', 'A')
         ->get();
+
     // Obtener datos del empleado
     $empleado = Empleado::select('codigo_empleado', 'nombre1', 'apellido1')
         ->where('cedula', $cedula)
@@ -686,7 +687,7 @@ $border->getAllBorders()->getColor()->setRGB(Color::COLOR_BLACK); // Color de l�
     // Obtener los registros de la nómina
 $nomina = Nomina::select('nomina.*', 'datos_militares.codigo_categoria', 'datos_militares.fecha_ultimo_ascenso', 'datos_militares.fecha_graduacion', 'grados_militares.siglas','nomina.codigo_empleado')
 ->whereIn('nomina.tipo_emp', ['MIL', 'TRP'])
-->whereIn('nomina.situacion', ['S', 'A'])
+->whereIn('nomina.situacion', ['A'])
 //->whereIn('nomina.grado_militar', ['020'])
 //->take(8)
 ->join('datos_militares', 'nomina.codigo_empleado', '=', 'datos_militares.codigo_empleado')
@@ -734,11 +735,12 @@ $item->prima_por_hijos = $primaPorHijos;
 $antiguedadAjustada = min($antiguedadGrado, 5);
 
 // Obtener el salario correspondiente al grado militar y la antigüedad
-$salario = Salarios::where('codigo_grado', $item->grado_militar)
+$salario_total= Salarios::where('codigo_grado', $item->grado_militar)
     ->where('antiguedad', $antiguedadAjustada)
     ->pluck('porcentaje')
     ->first();
-$item->salario = $salario;
+    $salario = $salario_total + '1';
+    $item->salario = $salario;
 
 // Verificar si la antigüedad es mayor a 30 y ajustarla a 30
 $antiguedad = min($antiguedad, 30);
@@ -1033,21 +1035,30 @@ if ($porcentajepensiones > 0) {
 
 
                             // CALCULO DEDUCCIÓN CAJA DE AHORRO
+                            
+                // Obtener el porcentaje de la deducción CAJA DE AHORRO
 
-// Obtener el porcentaje de la deducción CAJA DE AHORRO
+    $quitar = asignaciones::where('codigo_empleado', $item->codigo_empleado)
+    ->where('id_concepto', '5565')
+   ->pluck('porcentaje')
+   ->first();
+
+
+
+if (  $quitar== '') {
+   
 $porcentaje_caja_ahorro = Concptosnomina1::where('tipo', 'D' )
     ->where('codigo_concepto', '5565')
     ->pluck('porcentaje')
-    ->sum();
-
-if ($porcentajepensiones > 0) {
-    // Calcular el monto de la deducción CAJA DE AHORRO
-    $caja_ahorro = $sueldoGrado * ($porcentaje_caja_ahorro / 100);
-    $item->caja_ahorro = $caja_ahorro;
+    ->first();
+    
+    if ($porcentaje_caja_ahorro) {
+        $caja_ahorro = $sueldoGrado * ($porcentaje_caja_ahorro / 100);
+        $item->caja_ahorro = $caja_ahorro;
+        //$item->caja_ahorro = '0';
+    } 
 } else {
-    $caja_ahorro = $sueldoGrado * ($porcentaje_caja_ahorro / 100);
-    $item->caja_ahorro = $caja_ahorro;
-    //$item->caja_ahorro = '0';
+    $item->caja_ahorro = '0';
 }
 
 
@@ -1161,10 +1172,10 @@ $item->deposito_en_banco = $totalDepositoEnBanco;
     $sheet->setCellValue('AA' . $row, $item->sueldo_base);
     $sheet->setCellValue('AB' . $row, $item->deduccion6IPSFA);
     $sheet->setCellValue('AC' . $row, $item->pensiones);
-   // $sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
+    $sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
     $sheet->setCellValue('AE' . $row, $item->circulomilitar);
     $sheet->setCellValue('AF' . $row, $item->caja_ahorro);
-    //$sheet->setCellValue('AG' . $row, $item->pension_alimentacion);
+    $sheet->setCellValue('AG' . $row, $item->pension_alimentacion);
     $sheet->setCellValue('AH' . $row, $item->l_p_h);
     $sheet->setCellValue('AI' . $row, $item->total_deducciones);
     $sheet->setCellValue('AJ' . $row, $item->deposito_en_banco);

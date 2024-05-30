@@ -118,7 +118,7 @@ Auth::routes();
     //DEDUCCIONES PERSONAL MILITAR
     Route::post('/sireh/nomina/update-deducciones/{id}', [NominaController::class, 'updateDeducciones'])->name('sireh.nomina.deducciones.updateDeducciones1');
     //Route::delete('/sireh/nomina/{registro}/delete-deducciones', [NominaController::class, 'deletededucciones'])->name('sireh.nomina.deducciones.deletededucciones');
-    Route::delete('/sireh/nomina/delete-deduccionesAsignadas/{id}', [NominaController::class, 'deleteDeduccionesAsignadas'])->name('sireh.nomina.deducciones.deletededuccionesAsignadas');
+    Route::post('/sireh/nomina/delete-deduccionesAsignadas/{id}', [NominaController::class, 'deleteDeduccionesAsignadas'])->name('sireh.nomina.deducciones.deletededuccionesAsignadas');
     Route::get('/sireh/nomina/edit-deducciones/{id}', [NominaController::class, 'editdeducciones'])->name('sireh.nomina.deducciones.editdeducciones');
     Route::get('/sireh/nomina/deducciones', [NominaController::class, 'deducciones'])->name('sireh.nomina.deducciones');
     Route::get('/sireh/nomina/nueva-deduccion', [NominaController::class, 'nuevaDeduccion'])->name('sireh.nomina.deducciones.nueva-deduccion');
