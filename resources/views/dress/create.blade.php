@@ -122,6 +122,13 @@
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
+                                                                <strong>Ubicacion GPS:</strong>
+                                                                {!! Form::text('gps', null,array('placeholder' =>
+                                                                'Ubicacion GPS','class' => 'form-control')) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
                                                                 <strong>Cmdt Unidad:</strong>
                                                                 {!! Form::text('cmdtU', null,array('placeholder' =>
                                                                 'Comandante de Unidad','class' => 'form-control')) !!}
@@ -277,36 +284,36 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Primer Nombre:</strong>
-                                                                {!! Form::text('nombre1',null, array('placeholder' =>
-                                                                'Primer Nombre','class' => 'form-control')) !!}
+                                                                {!! Form::text('nombre2',null,['id'=> 'nombre1','placeholder' =>
+                                                                'Segundo Nombre','class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Segundo Nombre:</strong>
-                                                                {!! Form::text('nombre2',null, array('placeholder' =>
-                                                                'Segundo Nombre','class' => 'form-control')) !!}
+                                                                {!! Form::text('nombre2',null,['id'=> 'nombre2','placeholder' =>
+                                                                'Segundo Nombre','class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Primer Apellido:</strong>
-                                                                {!! Form::text('apellido1',null, array('placeholder' =>
-                                                                'Primer Apellido','class' => 'form-control')) !!}
+                                                                {!! Form::text('apellido1',null, ['id'=>'apellido1','placeholder' =>
+                                                                'Primer Apellido','class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Segundo Apellido:</strong>
-                                                                {!! Form::text('apellido2',null, array('placeholder' =>
-                                                                'Segundo Apellido','class' => 'form-control')) !!}
+                                                                {!! Form::text('apellido2',null, ['id'=>'apellido2','placeholder' =>
+                                                                'Segundo Apellido','class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
                                                                 <strong>Cedula:</strong>
-                                                                {!! Form::text('cedula',null, array('placeholder' =>
-                                                                'Cedula','class' => 'form-control')) !!}
+                                                                {!! Form::text('cedula',null, ['id'=>'cedula','placeholder' =>
+                                                                'Cedula','class' => 'form-control']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -514,7 +521,28 @@ $(function() {
     var valorOrigen = document.getElementById(inputOrigenId).value;
     document.getElementById(inputDestinoId).value = valorOrigen;
 }
+});$(document).ready(function() {
+    $('#cedula').on('input', function() {
+        var cedula = $(this).val();
+        // Realizar una solicitud AJAX al servidor
+        $.ajax({
+            url: "{{route('dres.datos')}}", // Ruta en la que escuchará el servidor
+            type: 'GET',
+            data: { cedula: cedula },
+            success: function(response) {
+                // Actualizar los campos del formulario con los datos recibidos
+                $('#nombre1').val(response.nombre1);
+                $('#nombre2').val(response.nombre2);
+                $('#apellido1').val(response.apellido1);
+                $('#apellido2').val(response.apellido2);
+            },
+            error: function() {
+                console.error('Error al buscar los datos.');
+            }
+        });
+    });
 });
+
 
 
 </script>

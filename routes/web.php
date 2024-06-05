@@ -522,6 +522,7 @@ Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dr
 Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
 Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
 Route::get('/dress/Reporte/index/y', [Drescontroller::class, 'excel'])->name('dres.report.index');
+Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
 
 Route::get('no_authorize', function () {
     return view('no_authorize');

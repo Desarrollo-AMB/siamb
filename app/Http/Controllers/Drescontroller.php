@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\reportedress;
 use App\Models\CategoriasMilitares;
+use App\Models\Empleado;
 use App\Models\EspecialidadesMilitares;
 use App\Models\GradosMilitares;
 use App\Models\ModelArmamento;
@@ -302,4 +303,30 @@ class Drescontroller extends Controller
         $ubicaciones= Ubicaciones::all();
         return view('dress.reporte.reportes',compact('ubicaciones'));
     }
+
+    public function datos(Request $request)
+    {
+        // Obtener la cédula proporcionada en la solicitud AJAX
+        $cedula = $request->input('cedula');
+
+        // Buscar el empleado en la base de datos por la cédula
+        $empleado = Empleado::where('cedula', $cedula)->first();
+
+        // Verificar si se encontró el empleado
+        if ($empleado) {
+            // Devolver los datos del empleado en formato JSON
+            return response()->json([
+                'nombre1' => $empleado->nombre1,
+                'nombre2' => $empleado->nombre2,
+                'apellido1' => $empleado->apellido1,
+                'apellido2' => $empleado->apellido2,
+                // Agrega más campos si es necesario
+            ]);
+        } else {
+            // Si no se encuentra el empleado, devolver un error o un objeto vacío, según prefieras
+            return response()->json(['error' => 'Empleado no encontrado'], 404);
+            // O simplemente devolver un objeto vacío:
+            // return response()->json([]);
+        }
+}
 }
