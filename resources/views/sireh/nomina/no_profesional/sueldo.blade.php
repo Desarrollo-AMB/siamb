@@ -22,32 +22,153 @@
                     </div>
                 </div>
                 <hr class="horizontal dark my-4"> 
+                <div class="card-body px-2 pt-2 pb-2">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                           
+                            <div class="form-group">
+                                <strong>SOLDADO RASO:</strong>
+                                {!! Form::text('122', null, array('placeholder' => $salarios->where('codigo_grado', '540')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CABO SEGUNDO:</strong>
+                                {!! Form::text('113', null, array('placeholder' => $salarios->where('codigo_grado', '520')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                          
+                            
+                        </div>
+                     {{-- SEGUNDA COLUMNA--}}
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <div class="form-group">
+                                <strong>SOLDADO DISTINGUIDO:</strong>
+                                {!! Form::text('111', null, array('placeholder' => $salarios->where('codigo_grado', '530')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CABO PRIMERO:</strong>
+                                {!! Form::text('115', null, array('placeholder' => $salarios->where('codigo_grado', '510')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                        
+                         </div>
+                
+                    </div>
+            
+        </div>
             </div>
-            <div class="card-body px-2 pt-2 pb-2">
-                {!! Form::open(array('route' => 'sireh.nomina.noProf.editSueldosNoProf','method'=>'POST')) !!}
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        @php
-                            $salariosCount = count($salarios);
-                            $halfSalariosCount = ceil($salariosCount / 2);
-                        @endphp
-                        @foreach ($salarios->take($halfSalariosCount) as $salario)
-                            <div class="form-group">
-                                <label for="porcentaje_{{ $salario->id }}">{{ $salario->descripcion }}</label>
-                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
-                            </div>
-                        @endforeach
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Editar porcentaje de sueldo por grado</h5>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                        @foreach ($salarios->slice($halfSalariosCount) as $salario)
-                            <div class="form-group">
-                                <label for="porcentaje_{{ $salario->id }}"> {{ $salario->descripcion }}</label>
-                                <input type="text" name="porcentaje_{{ $salario->id }}" value="{{ $salario->porcentaje }}" class="form-control">
-                            </div>
-                        @endforeach
-                    </div>
+                    
                 </div>
-            </div>
+                <hr class="horizontal dark my-4">
+                <div class="card-body px-2 pt-2 pb-2">
+                    {!! Form::open(array('route' => 'sireh.nomina.editSueldosMil','method'=>'POST')) !!}
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <strong>ALFEREZ MAYOR DE 6TO AÑO</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ AUXILIAR DE 6TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ DE 6TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 6TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ MAYOR DE 4TO AÑO:</strong>
+                                {!! Form::text('123', null, array('placeholder' => $salarios->where('codigo_grado', '200')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ AUXILIAR DE 4TO AÑO:</strong>
+                                {!! Form::text('136', null, array('placeholder' => $salarios->where('codigo_grado', '201')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ DE 4TO AÑO :</strong>
+                                {!! Form::text('137', null, array('placeholder' => $salarios->where('codigo_grado', '202')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 4TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>DISTINGUIDO DE 2DO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 2DO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ASPIRANTES A OFICIAL:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+
+                        
+                            
+                        </div>
+                     {{-- SEGUNDA COLUMNA--}}
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <strong>ALFEREZ MAYOR DE 5TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>     <div class="form-group">
+                                <strong>ALFEREZ AUXILIAR DE 5TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>ALFEREZ 5TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 5TO AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>BRIGADIER MAYOR:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>PRIMER BRIGADIER:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div> <div class="form-group">
+                                <strong>SEGUNDO BRIGADIER:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>BRIGADIER:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 3CER AÑO :</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>DISTINGUIDO DE 1MER AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+                            <div class="form-group">
+                                <strong>CADETE DE 1MER AÑO:</strong>
+                                {!! Form::text('125', null, array('placeholder' => $salarios->where('codigo_grado', '215')->first()->porcentaje, 'class' => 'form-control')) !!}
+                            </div>
+
+                        
+                         </div>
+                     
+                        
+                
+                    </div>
+            
+                
+        </div>
             <div class="row">
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary w-30">Actualizar</button>
