@@ -45,7 +45,7 @@
                                 {!! Form::text('descripcion', $ubicacion_detallada->descripcion, [
                                     'placeholder' => 'Nombre',
                                     'class' => 'form-control',
-                                    'id' => 'descripcion',
+                                    'id' => 'descripcion','onkeyup'=>'javascript:this.value=this.value.toUpperCase();'
                                 ]) !!}
                             </div>
                         </div>

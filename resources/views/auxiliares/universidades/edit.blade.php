@@ -34,7 +34,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-8">
                         <div class="form-group">
                             <strong>Nombre de la Universidad:</strong>
-                            {!! Form::text('nombre', $universidades->nombre, array('placeholder' => 'Nombre','class' => 'form-control', 'id'=>'nombre')) !!}
+                            {!! Form::text('nombre', $universidades->nombre, array('placeholder' => 'Nombre','class' => 'form-control', 'id'=>'nombre','onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                         </div>
                     </div>
 
