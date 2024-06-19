@@ -1137,7 +1137,7 @@ class PersonalController extends Controller
 
             $user_auth = auth()->user();
 
-            dd($user_auth);
+      
 
             $egresos = new Egresos;
             $egresos->codigo_empleado = $request->codigo_empleado;
