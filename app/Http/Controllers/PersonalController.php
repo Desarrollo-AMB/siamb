@@ -1137,6 +1137,8 @@ class PersonalController extends Controller
 
             $user_auth = auth()->user();
 
+            dd($user_auth);
+
             $egresos = new Egresos;
             $egresos->codigo_empleado = $request->codigo_empleado;
             $egresos->causa_egreso = $request->causa_egreso;
@@ -1144,7 +1146,7 @@ class PersonalController extends Controller
             $egresos->nro_resuelto = $request->nro_resuelto;
             $egresos->fecha_resuelto = $request->fecha_resuelto;
             $egresos->fecha_registro = date('Y-m-d');
-            $egresos->usuario = $user_auth->name;
+            $egresos->usuario = $user_auth->username;
             $egresos->save();
 
             $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
