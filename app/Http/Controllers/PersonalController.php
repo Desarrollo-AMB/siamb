@@ -1126,19 +1126,26 @@ class PersonalController extends Controller
                 'fecha_resuelto.required' => 'La fecha de resolución es requerida'
             ]
         );
+    
         try {
-            $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
+            // Verificar si el empleado ya tiene un registro de egreso
+            $egresoExistente = Egresos::where('codigo_empleado', $request->codigo_empleado)->first();
+            if ($egresoExistente) {
+                return redirect()->back()->with('error', 'El empleado ya ha sido egresado.');
+            }
+    
+            // Actualizar registros en la tabla Nomina y Empleado
+            Nomina::where('codigo_empleado', $request->codigo_empleado)->update([
                 "situacion" => 'E',
             ]);
-
-            $empleados = Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
+    
+            Empleado::where('codigo_empleado', $request->codigo_empleado)->update([
                 "situacion" => 'E',
             ]);
-
+    
             $user_auth = auth()->user();
-
-      
-
+    
+            // Crear un nuevo registro en la tabla Egresos
             $egresos = new Egresos;
             $egresos->codigo_empleado = $request->codigo_empleado;
             $egresos->causa_egreso = $request->causa_egreso;
@@ -1148,9 +1155,10 @@ class PersonalController extends Controller
             $egresos->fecha_registro = date('Y-m-d');
             $egresos->usuario = $user_auth->username;
             $egresos->save();
-
+    
             $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
-
+    
+            // Crear un nuevo registro en la tabla Movimientos
             $movimiento = new Movimientos;
             $movimiento->codigo_empleado = $request->codigo_empleado;
             $movimiento->fecha_movimiento = date('Y-m-d');
@@ -1162,13 +1170,14 @@ class PersonalController extends Controller
             $movimiento->codigo_cargo = $nomina->codigo_cargo;
             $movimiento->ubicacion_detallada = $nomina->cod_ubicacion_detallada;
             $movimiento->save();
-
+    
             return redirect()->route('sireh.personal-militar.bajas', [$request->id])->with('success', 'Se ha Egresado al Profesional');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
         }
     }
+    
 
     public function activarPersonalMilitar(Request $request)
     {
