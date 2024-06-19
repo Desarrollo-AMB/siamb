@@ -1267,8 +1267,9 @@ class PersonalController extends Controller
                 //->limit(100)
                 ->orderBy('nomina.grado_militar', 'asc')
                 ->orderBy('datos_militares.fecha_ultimo_ascenso', 'asc')
-                ->orderBy('datos_militares.fecha_graduacion', 'asc')
                 ->orderBy('datos_militares.orden_merito', 'asc')
+                ->orderBy('datos_militares.fecha_graduacion', 'asc')
+               
                 ->get();
             //dd($empleados);
         } else {
@@ -1305,8 +1306,9 @@ class PersonalController extends Controller
                 )
                 ->limit(50)
                 ->orderBy('datos_militares.fecha_ultimo_ascenso', 'asc')
-                ->orderBy('datos_militares.fecha_graduacion', 'asc')
                 ->orderBy('datos_militares.orden_merito', 'asc')
+                ->orderBy('datos_militares.fecha_graduacion', 'asc')
+                
                 ->get();
         }
 
