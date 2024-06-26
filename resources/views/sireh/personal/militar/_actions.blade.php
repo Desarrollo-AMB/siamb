@@ -51,6 +51,11 @@ data-bs-original-title="Editar" title="Editar"
     data-bs-original-title="Condecoraciones" title="Sanciones"
 >
     <i class="fas fa-folder-open text-success" aria-hidden="true"></i>
+</a><a href="{{ route('sireh.personal-militar.fallece', $id) }}" class="mx-3"  data-bs-toggle="tooltip"
+data-bs-original-title="Fallecido" title="Fallecido"
+>
+<i class="fas fa-book-dead  text-danger"></i>
+
 </a>
     @can('modificar')
     <a href="#" class="mx-3 funcion_empleado" data-bs-toggle="tooltip"

@@ -523,7 +523,9 @@ Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.mat
 Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
 Route::get('/dress/Reporte/index/y', [Drescontroller::class, 'excel'])->name('dres.report.index');
 Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
-
+///////////////////////////// FALLECIDOS////////////////////////////////////////////////////////////
+Route::get('/sireh/personal-militar/fallecidos/index', [PersonalController::class, 'listPersonalMilitarfallecido'])->name('sireh.personal-militar.fallecido');
+Route::get('/sireh/personal-militar/fallece/{id}', [PersonalController::class, 'fallecePersonalMilitar'])->name('sireh.personal-militar.fallece');
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
