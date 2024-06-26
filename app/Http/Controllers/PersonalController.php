@@ -2137,11 +2137,11 @@ class PersonalController extends Controller
                         ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
                         ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                         ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
-                      ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                    //  ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where('nomina.situacion', $valueParametro)
-                        ->where('movimientos.situacion', $valueParametro)
+                        //->where('movimientos.situacion', $valueParametro)
                         ->where('nomina.codigo_ubicacion', $valueParametro1)
                         ->select(
                             'empleados.id',
@@ -2174,11 +2174,11 @@ class PersonalController extends Controller
                         ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
                         ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                         ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
-                        ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                     //   ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where('nomina.situacion', $valueParametro)
-                        ->where('movimientos.situacion', $valueParametro)
+                     //   ->where('movimientos.situacion', $valueParametro)
                         ->select(
                             'empleados.id',
                             'empleados.codigo_empleado',
