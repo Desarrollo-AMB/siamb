@@ -2137,7 +2137,7 @@ class PersonalController extends Controller
                         ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
                         ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                         ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
-                      //  ->leftjoin('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                      ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where('nomina.situacion', $valueParametro)
@@ -2174,7 +2174,7 @@ class PersonalController extends Controller
                         ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
                         ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                         ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
-                        //->leftjoin('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
+                        ->join('movimientos', 'movimientos.codigo_empleado', '=', 'nomina.codigo_empleado')
                         ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                         ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                         ->where('nomina.situacion', $valueParametro)
@@ -2187,7 +2187,7 @@ class PersonalController extends Controller
                             'empleados.nombre2',
                             'empleados.apellido1',
                             'empleados.apellido2',
-                           // 'movimientos.tipo_movimiento',
+                          //  'movimientos.tipo_movimiento',
                           ///  'movimientos.observaciones',
                             DB::raw("CASE empleados.sexo WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINA' END as genero"),
                             'grados_militares.siglas as siglas',
@@ -2214,7 +2214,7 @@ class PersonalController extends Controller
                     ->join('ubicaciones', 'ubicaciones.codigo_ubicacion', '=', 'nomina.codigo_ubicacion')
                     ->join('grados_militares', 'grados_militares.codigo_grado', '=', 'nomina.grado_militar')
                     ->join('datos_militares', 'datos_militares.codigo_empleado', '=', 'nomina.codigo_empleado')
-                    //->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
+                    ->join('movimientos','movimientos.codigo_empleado','=','nomina.codigo_empleado')
                     ->join('categorias_militares', 'categorias_militares.codigo_categoria', '=', 'datos_militares.codigo_categoria')
                     ->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP'])
                     ->where('datos_militares.codigo_categoria', $valueParametro)
