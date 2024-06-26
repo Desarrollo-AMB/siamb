@@ -2086,7 +2086,23 @@ class PersonalController extends Controller
                             'datos_militares.codigo_categoria',
                             'categorias_militares.descripcion as categoria_militar',
 
-                        );
+                        )->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                        WHEN nomina.grado_militar = '015' THEN 2
+                        WHEN nomina.grado_militar = '020' THEN 3
+                        WHEN nomina.grado_militar = '030' THEN 4
+                        WHEN nomina.grado_militar = '040' THEN 5
+                        WHEN nomina.grado_militar = '050' THEN 6
+                        WHEN nomina.grado_militar = '060' THEN 7
+                        WHEN nomina.grado_militar = '070' THEN 8
+                        WHEN nomina.grado_militar = '080' THEN 9
+                        WHEN nomina.grado_militar = '090' THEN 10
+                        WHEN nomina.grado_militar = '410' THEN 11
+                        WHEN nomina.grado_militar = '420' THEN 12
+                        WHEN nomina.grado_militar = '430' THEN 13
+                        WHEN nomina.grado_militar = '440' THEN 14
+                        WHEN nomina.grado_militar = '450' THEN 15
+                        WHEN nomina.grado_militar = '460' THEN 16
+                        WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar");
                 } else {
                     $empleados = Empleado::join('nomina', 'nomina.codigo_empleado', '=', 'empleados.codigo_empleado')
                         ->join('tipos_empleados', 'tipos_empleados.tipo_emp', '=', 'nomina.tipo_emp')
@@ -2118,7 +2134,23 @@ class PersonalController extends Controller
                             'datos_militares.codigo_categoria',
                             'categorias_militares.descripcion as categoria_militar',
 
-                        );
+                        )->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                        WHEN nomina.grado_militar = '015' THEN 2
+                        WHEN nomina.grado_militar = '020' THEN 3
+                        WHEN nomina.grado_militar = '030' THEN 4
+                        WHEN nomina.grado_militar = '040' THEN 5
+                        WHEN nomina.grado_militar = '050' THEN 6
+                        WHEN nomina.grado_militar = '060' THEN 7
+                        WHEN nomina.grado_militar = '070' THEN 8
+                        WHEN nomina.grado_militar = '080' THEN 9
+                        WHEN nomina.grado_militar = '090' THEN 10
+                        WHEN nomina.grado_militar = '410' THEN 11
+                        WHEN nomina.grado_militar = '420' THEN 12
+                        WHEN nomina.grado_militar = '430' THEN 13
+                        WHEN nomina.grado_militar = '440' THEN 14
+                        WHEN nomina.grado_militar = '450' THEN 15
+                        WHEN nomina.grado_militar = '460' THEN 16
+                        WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar");
                 }
 
                 //dd($valueParametro1);
@@ -2275,7 +2307,23 @@ class PersonalController extends Controller
                         'datos_militares.codigo_categoria',
                         'categorias_militares.descripcion as categoria_militar',
 
-                    );
+                    )->orderByRaw("CASE WHEN nomina.grado_militar = '010' THEN 1
+                    WHEN nomina.grado_militar = '015' THEN 2
+                    WHEN nomina.grado_militar = '020' THEN 3
+                    WHEN nomina.grado_militar = '030' THEN 4
+                    WHEN nomina.grado_militar = '040' THEN 5
+                    WHEN nomina.grado_militar = '050' THEN 6
+                    WHEN nomina.grado_militar = '060' THEN 7
+                    WHEN nomina.grado_militar = '070' THEN 8
+                    WHEN nomina.grado_militar = '080' THEN 9
+                    WHEN nomina.grado_militar = '090' THEN 10
+                    WHEN nomina.grado_militar = '410' THEN 11
+                    WHEN nomina.grado_militar = '420' THEN 12
+                    WHEN nomina.grado_militar = '430' THEN 13
+                    WHEN nomina.grado_militar = '440' THEN 14
+                    WHEN nomina.grado_militar = '450' THEN 15
+                    WHEN nomina.grado_militar = '460' THEN 16
+                    WHEN nomina.grado_militar = '470' THEN 17 END, nomina.grado_militar");
                 $datos = $empleados->get();
                 break;
         }
