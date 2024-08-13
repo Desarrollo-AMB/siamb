@@ -526,6 +526,7 @@ Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos')
 ///////////////////////////// FALLECIDOS////////////////////////////////////////////////////////////
 Route::get('/sireh/personal-militar/fallecidos/index', [PersonalController::class, 'listPersonalMilitarfallecido'])->name('sireh.personal-militar.fallecido');
 Route::get('/sireh/personal-militar/fallece/{id}', [PersonalController::class, 'fallecePersonalMilitar'])->name('sireh.personal-militar.fallece');
+Route::post('/sireh/personal-militar/darbaja', [PersonalController::class, 'darfacellecidoPersonalMilitar'])->name('sireh.personal-militar.dar.fallecido');
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');

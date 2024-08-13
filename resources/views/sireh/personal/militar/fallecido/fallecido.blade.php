@@ -186,15 +186,22 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Numero de Resuelto:</h6>
-                                                    {!! Form::text('nro_resuelto', '', array('placeholder' => 'Ingrese Numero de Resuelto','class' => 'form-control','id' => 'nro_resuelto')) !!}
+                                                    <h6>Fecha de Resuelto:</h6>
+                                                    {!! Form::date('fecha_resuelto', '', array('placeholder' => 'Ingrese Fecha de Resuelto','class' => 'form-control','id' => 'fecha_resuelto')) !!}
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Fecha de Resuelto:</h6>
+                                                    <h6>Numero de Resuelto Defunsion :</h6>
+                                                    {!! Form::text('resuleto_fallecido', '', array('placeholder' => 'Ingrese Numero de Resuelto','class' => 'form-control','id' => 'nro_resuelto')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <h6>Fecha de Resuelto Defunsion:</h6>
                                                     {!! Form::date('fecha_resuelto', '', array('placeholder' => 'Ingrese Fecha de Resuelto','class' => 'form-control','id' => 'fecha_resuelto')) !!}
                                                 </div>
                                             </div>
