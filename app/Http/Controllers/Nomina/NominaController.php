@@ -641,16 +641,18 @@ $sheet->setCellValue('AA1', 'SUELDO INTEGRAL');
 $sheet->setCellValue('AB1', '6,5% IPSFA');
 $sheet->setCellValue('AC1', '5% PENSIONES(9404)');
 //$sheet->setCellValue('AD1', 'DEDUCCION ALIM. HUGO CHAVEZ (5141)');
-$sheet->setCellValue('AE1', 'CIRCULO MILITAR (9998)');
-$sheet->setCellValue('AF1', 'CAJA DE AHORRO 10% (5565)');
-$sheet->setCellValue('AG1', 'PENSION ALIMENTACIÓN (5087)');
-$sheet->setCellValue('AH1', 'L.P.H(5003)');
-$sheet->setCellValue('AI1', 'TOTAL DE DEDUCCIONES');
-$sheet->setCellValue('AJ1', 'DEPOSITO EN BANCO');
+$sheet->setCellValue('AD1', 'CIRCULO MILITAR (9998)');
+$sheet->setCellValue('AE1', 'CAJA DE AHORRO 10% (5565)');
+$sheet->setCellValue('AF1', 'PENSION ALIMENTACIÓN (5087)');
+$sheet->setCellValue('AG1', 'L.P.H(5003)');
+$sheet->setCellValue('AH1', 'TOTAL DE DEDUCCIONES');
+$sheet->setCellValue('AI1', 'DEPOSITO EN BANCO');
+$sheet->setCellValue('AJ1', 'BONO FIN DE AÑO');
+$sheet->setCellValue('AK1', 'VACASIONES');
 
 
 // Establecer el estilo para la primera fila
-$style = $sheet->getStyle('A1:AJ1');
+$style = $sheet->getStyle('A1:AK1');
 $style->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 $style->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 $style->getAlignment()->setWrapText(true);
@@ -1131,6 +1133,22 @@ if ($totalDeducciones == 0) {
 $item->total_deducciones = $totalDeducciones;
 
 
+
+ // CALCULAR TOTAL DE BONO fin de año
+
+ $item->aguinaldo = (($montoTotal ?? 0) / 30) * 120;
+
+
+  // CALCULAR TOTAL DE BONO de VACACIONAL
+
+  $item->vacaciones = (($montoTotal ?? 0) / 30) * 50;
+
+                            
+                                                         
+                             
+
+
+
                             // CALCULAR TOTAL DE DEPOSITO EN BANCO
 
 $totalDepositoEnBanco = ($montoTotal ?? 0) - ($montoTotalDeducciones ?? 0);
@@ -1172,14 +1190,15 @@ $item->deposito_en_banco = $totalDepositoEnBanco;
     $sheet->setCellValue('AA' . $row, $item->sueldo_base);
     $sheet->setCellValue('AB' . $row, $item->deduccion6IPSFA);
     $sheet->setCellValue('AC' . $row, $item->pensiones);
-    $sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
-    $sheet->setCellValue('AE' . $row, $item->circulomilitar);
-    $sheet->setCellValue('AF' . $row, $item->caja_ahorro);
-    $sheet->setCellValue('AG' . $row, $item->pension_alimentacion);
-    $sheet->setCellValue('AH' . $row, $item->l_p_h);
-    $sheet->setCellValue('AI' . $row, $item->total_deducciones);
-    $sheet->setCellValue('AJ' . $row, $item->deposito_en_banco);
-
+    //$sheet->setCellValue('AD' . $row, $item->alimentacion_hugochavez);
+    $sheet->setCellValue('AD' . $row, $item->circulomilitar);
+    $sheet->setCellValue('AE' . $row, $item->caja_ahorro);
+    $sheet->setCellValue('AF' . $row, $item->pension_alimentacion);
+    $sheet->setCellValue('AG' . $row, $item->l_p_h);
+    $sheet->setCellValue('AH' . $row, $item->total_deducciones);
+    $sheet->setCellValue('AI' . $row, $item->deposito_en_banco);  
+    $sheet->setCellValue('AJ' . $row, $item->aguinaldo);
+    $sheet->setCellValue('Ak' . $row, $item->vacaciones);
 
     $row++; // Incrementar el número de fila para el próximo registro
 
