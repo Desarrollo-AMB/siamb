@@ -2,18 +2,22 @@
     <div style="margin-bottom:0; padding-bottom:0;" class="card">
         <h6 aria-expanded="true" data-toggle="collapse" href="#collapseStepOne"
             style="background: #0188aacf;color: white;padding:8px" class="card-header">
-            <a class="btn-sm btn-light btn-sm mb-0" href="{{ route('dao.ver_programacion') }}">
-                <i class="ti-arrow-left" aria-hidden="true"><title>Volver</title></i> &nbsp; Volver
-            </a>&nbsp;&nbsp;
-            Nuevo Vuelo del día:
-            <input readonly="true" class="fecha" id="fecha_cabecera" type="date" style="background-color: transparent; border: none !important; color: white;" value="">
+            <div class="d-flex justify-content-between align-items-end">
+                <div>
+                    <a class="btn-sm btn-light btn-sm mb-0" href="{{ route('dao.ver_programacion') }}">
+                        <i class="ti-arrow-left" aria-hidden="true"><title>Volver</title></i> &nbsp; Volver
+                    </a>&nbsp;&nbsp;
+                    Nuevo Vuelo del día:
+                    <input readonly="true" class="fecha" id="fecha_cabecera" type="date" style="background-color: transparent; border: none !important; color: white;" value="">
+                </div>
+            </div>
         </h6>
         <div class="card-body panel-collapse collapse show" id="collapseStepOne" style="padding: 15px 10px 0;">
-            <div class="row">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
                 <h6>DATOS AERONAVE</h6>
             </div>
-            <div class="row">
-                <div class="col-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+                <div class="col-sm-4 mb-2 mb-sm-0">
                     <div class="form-group ov-ota-om-header">
                         <!-- <h6>OV / OTA / OM <small></small></h6> -->
                         <div class="form-check form-check-inline">

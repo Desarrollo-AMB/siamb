@@ -47,9 +47,10 @@
                                                         <input class="form-check-input" type="radio" name="reporte"
                                                             id="flexRadioDefault1" checked="checked" value="1">
                                                         <label class="form-check-label" for="flexRadioDefault1">
-                                                            Reporte de parte por unidad
+                                                            Reporte de Parte por Unidad
                                                         </label>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="col-lg-8 col-sm-6">
                                                     <div id="Parametros1" class="parametros ">
@@ -90,47 +91,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="reporte"
-                                                            id="flexRadioDefault2" value="2">
-                                                        <label class="form-check-label" for="flexRadioDefault2">
-                                                            Reporte de Carga Familiar
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-sm-6">
-                                                    <div id="Parametros2" class="parametros" style="display: none;">
-                                                        <form action="" method="POST" class="row">
-                                                            @csrf
-                                                            <div class="col-md-8">
-                                                                <div class="row">
-                                                                    <h6 class="col-sm-3 col-form-label">Filtro:</h6>
-                                                                    <div class="col-sm-9">
-                                                                        <select name="parametros[filtro]" id="filtro"
-                                                                            class="select2 form-control"
-                                                                            disabled="disabled">
-                                                                            <option value="">SELECCIONE...</option>
-                                                                            <option value="1">0 a 12 años</option>
-                                                                            <option value="2">0 a 26 años</option>
-                                                                            <option value="3">Madres AMB</option>
-                                                                            <option value="3">Padres AMB</option>
-                                                                            <option value="3">Matriz Completa</option>
-                                                                            <option value="3">Por Fecha</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4">
 
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
                                         <li class="list-group-item">
                                             <div class="row">
                                                 <div class="col-lg-4 col-sm-6">
@@ -138,7 +99,7 @@
                                                         <input class="form-check-input" type="radio" name="reporte"
                                                             id="flexRadioDefault2" value="3">
                                                         <label class="form-check-label" for="flexRadioDefault2">
-                                                            Reporte de Bajas
+                                                            Otro
                                                         </label>
                                                     </div>
                                                 </div>
@@ -154,12 +115,7 @@
                                                                             id="filtro_bajas" class="select2 form-control"
                                                                             disabled="disabled">
                                                                             <option value="">SELECCIONE...</option>
-                                                                            <option value="1">ESPECIALIDAD</option>
-                                                                            <option value="2">GRADO</option>
-                                                                            <option value="3">CATEGORIA</option>
-                                                                            <option value="4">SEXO</option>
-                                                                            <option value="5">FECHA EGRESO</option>
-                                                                            <option value="6">TIPO EGRESO</option>
+
                                                                         </select>
                                                                     </div>
                                                                 </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ConceptosNomina extends Model
 {
@@ -12,5 +13,7 @@ class ConceptosNomina extends Model
     protected $fillable = [
         '*',
     ];
-    public $timestamps = false;
+   
+    //protected $dates = ['deleted_at'];
+    //public $timestamps = false;
 }

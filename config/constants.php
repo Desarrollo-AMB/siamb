@@ -51,7 +51,24 @@ return [
         '13' =>  'Vivienda al Cuido',
         '14' =>  'Ocupación Irregular',
     ],
-
+    'vinvulo_grupo_aereo' => [
+        'G-4' =>  'GAP4',
+        'G-5' =>  'GAT5',
+        'G-6' =>  'GAT6',
+        'G-7' =>  'GRUEVI7',
+        'G-8' =>  'GAIVIRE8',
+        'G-9' =>  'GAT9',
+        'G-10' =>  'GAOE10',
+        'G-11' =>  'GAC11',
+        'G-12' =>  'GAC12',
+        'G-13' =>  'GAC13',
+        'G-14' =>  'GEA14',
+        'G-15' =>  'GAOE15',
+        'G-16' =>  'GAC16',
+        'G-17' =>  'GAOE17',
+        'G-18' =>  'GEA18',
+        'G-19' =>  'GEA19',
+    ],
     'guard_names' =>[
         'web' =>  'SIAMB',
         'seid' =>  'SEID',
@@ -74,7 +91,7 @@ return [
         'PRIVADA' =>  'PRIVADA',
         'NA' =>  'NO DEFINIDA'
     ],
-    
+
     'adscrita_aviacion' =>[
         'S' =>  'SI',
         'N' =>  'NO'
@@ -86,17 +103,17 @@ return [
         '3' =>  'MARITIMA INSULAR',
         '4' =>  'LOS LLANOS',
         '5' =>  'LOS ANDES',
-        '6' =>  'GUYANA',
+        '6' =>  'GUAYANA',
         '7' =>  'CENTRAL',
         '8' =>  'CAPITAL',
     ],
-    
+
     'tipo_unidad' =>[
         'F' =>  'FORANEA',
         'A' =>  'ADMINISTRATIVA',
         'O' =>  'OPERATIVA'
     ],
-    
+
     'situacion' =>[
         'A' => 'ACTIVO',
         'E' => 'EGRESADO',
@@ -116,5 +133,15 @@ return [
         'Z' => 'ZURDO(A)',
         'D' => 'DERECHO(A)',
         'A' => 'AMBIDIESTRO(A)',
+    ],
+    'componentes' => [
+        '2' => 'EJERCITO',
+        '3' => 'ARMADA',
+        '4' => 'GUANDIA NACIONAL BOLIVARIANA',
+        '5'=>'OTROS'
+    ],
+    'tipo_evento' =>[
+        '1' => 'ACTIVIDAD RES',
+        '2' => 'VIOLACION RES',
     ]
 ];

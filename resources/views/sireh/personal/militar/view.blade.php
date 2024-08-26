@@ -100,6 +100,7 @@
                                                 >
                                             </div>
                                         </div>
+                                        
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Primer Nombre:</h6>
@@ -325,6 +326,14 @@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
+                                                <h6>Codigo Empleado:</h6>
+                                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="codigo_empleado" disabled 
+                                                    value="{{ $datos->codigo_empleado }}"
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
                                                 <h6>Grado Militar:</h6>
                                                 @if($datos->nomina->grado_militar != "")
                                                     @foreach ($grados_militares as $row)
@@ -351,6 +360,9 @@
                                                 @endif
                                             </div>
                                         </div>
+                                       
+                                    </div>
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Situación:</h6>
@@ -365,8 +377,6 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Graduación:</h6>
@@ -393,14 +403,15 @@
                                                 {!! Form::text('fecha_ultimo_ascenso', $datos->datos_militares ? $fecha_ultimo_ascenso : null, array('placeholder' => 'No Posee Fecha de Ultimo Ascenso','class' => 'form-control')) !!}
                                             </div>
                                         </div>
+                                       
+                                    </div>
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Fecha de Retiro:</h6>
                                                 {!! Form::text('fecha_retiro', $datos->datos_militares ? $fecha_retiro : null, array('placeholder' => 'No Posee Fecha de Retiro','class' => 'form-control')) !!}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <h6>Especialidad Primaria:</h6>

@@ -15,8 +15,10 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
+        "apexcharts": "^3.40.0",
         "bootstrap-select": "^1.13.18",
         "jquery": "^3.6.1",
+        "moment": "^2.29.4",
         "select2": "^4.1.0-rc.0"
     }
 }

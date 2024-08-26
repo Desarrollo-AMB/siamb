@@ -7,6 +7,9 @@
             </a>&nbsp;&nbsp;
             Nuevo Vuelo del día:
             <input readonly="true" class="fecha" id="fecha_cabecera" type="date" style="background-color: transparent; border: none !important; color: white;" value="">
+            @if($esAlerta == 1)
+                <label class="badge bg-warning status-programacion-ceo" style="color:black;">AERONAVE ALERTA</label>
+            @endif
         </h6>
         <div class="card-body panel-collapse collapse show" id="collapseStepOne" style="padding: 15px 10px 0;">
             <div class="row">

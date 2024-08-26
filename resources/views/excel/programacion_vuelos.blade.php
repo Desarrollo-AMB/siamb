@@ -82,8 +82,8 @@
     </tr>
     <tr>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">GRUPO</td>
-        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">SISTEMA/MATRICULA</td>
-        {{-- <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MATRICULAS ALTERNAS</td> --}}
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;"rowspan="2">SISTEMA/MATRICULA</td>
+        <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;"rowspan="2">MATRICULAS ALTERNAS</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">A LA ORDEN DE</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" rowspan="2">MISIÓN/RUTA</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;" colspan="2">HORA</td>
@@ -99,29 +99,46 @@
     @foreach($vuelo as $row)
         @php
             $codigo = $row->codigo;
-            $codigo = preg_replace('/[^0-9]/', '', $codigo);
+            $nombre_codigo_mision = preg_replace('/[^0-9]/', '', $codigo);/*CODIGO DE MISION PARA OBTENER LA DESCRIPCION DE LA MISION*/
 
-            /*switch ($codigo) {
-                case 'value':
-                    # code...
-                    break;
+            if ($row->codigo === 'ALERTA') {
+                $ruta = $row->base_estacion;
+                $codigo = $row->codigo;
+            } else if ($row->codigo === 'ENCENDIDO Y CHEQUEO EN TIERRA') {
+                $ruta = $row->base_estacion;
+                $codigo = $row->codigo;
+            } 
+            else {
+                $codigo = $row->codigo;
+                if ($row->ruta_desde === 'EVENTUAL' && $row->ruta_hasta === 'EVENTUAL') {
+                    $ruta = "EVENTUAL";
+                } else if ($row->ruta_desde === 'LOCAL' && $row->ruta_hasta === 'LOCAL') {
+                    $ruta = 'LOCAL';
+                } 
+                else {
+                    $ruta = $row->ruta_desde.'-'.$row->ruta_hasta;
+                }
+            }
 
-                default:
-                    # code...
-                    break;
-            }*/
         @endphp
-        <tr>
-            <td>asdasdasd{{ $row->unidad }}</td>
-            <td>{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
-            {{-- <td>{{ $row->matriculas_alternas }}</td>--}}
-            <td>{{ $row->ordenada_por }}</td>
-            <td>{{ $row->codigo.', '.$row->ruta_desde.'-'.$row->ruta_hasta }}</td>
-            <td>{{ $row->encend }}</td>
-            <td>{{ $row->apag }}</td>
-            <td>{{ 'militar' }}</td>
-            <td>{{ 'civil' }}</td>
-            <td>{{ 'carga libras' }}</td>
-        </tr>
+        @if ($row->completado === 'sinProg')
+            <tr>
+                <td style="text-align: center;">{{ $row->unidad }}</td>
+                <td class="text-center" colspan="9" style="text-align: center;">{{ 'NO POSEE VUELOS PROGRAMADOS' }}</td>
+            </tr>
+        @else
+            <tr>
+                <td style="text-align: center;">{{ $row->unidad }}</td>
+                <td style="text-align: center;">{{ $row->aeronave_modelo.' / '.$row->matricula }}</td>
+                <td style="text-align: center;">{{ $row->matriculas_alternas }}</td>
+                <td style="text-align: center;">{{ $row->ordenada_por }}</td>
+                <td style="text-align: center;">{{ $codigo.' / '.$ruta }}</td>
+                <td style="text-align: center;">{{ $row->encend }}</td>
+                <td style="text-align: center;">{{ $row->apag }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+                <td style="text-align: center;">{{ '-' }}</td>
+            </tr>
+        @endif
     @endforeach
 </table>

@@ -72,7 +72,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Civil por Jubilar</h5>
+                        <h5 class="mb-0">Personal no Militar por Jubilar</h5>
                     </div>
                 </div>
             </div>

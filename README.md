@@ -22,7 +22,7 @@ SIAMB V.1.0
 * La tabla empleados:
 ```
 SELECT codigo_empleado, cedula, nombre1, nombre2, apellido1, apellido2, situacion, 
-    CASE WHEN fecha_nacim ='0000-00-00' THEN NULL ELSE fecha_nacim END AS fecha_nacim,
+    CASE WHEN fecha_nacim ='0000-00-00' THEN NULL ELSE fecha_nacim ENDA S fecha_nacim,
 	sexo, edo_civil, telefono, nivel_instruccion, estudia, profesion, nacionalidad,
 	direccion, ciudad, estado, cod_postal, peso, talla_pant, talla_chaqueta, talla_camisa, 
     talla_falda, numero_calzado, zur_der_amb, act_culturales, cta_ahorro_hab, otro_telefono,

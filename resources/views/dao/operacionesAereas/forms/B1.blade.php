@@ -77,6 +77,73 @@
         </div>
         <br>
     </div>
+
+    <div class="row pb-2">
+        <div class="row">
+            <h6 style="font-size:13px; margin: 0;">COD - HV</h6>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">COD1</small>
+                    <input  readonly="true" name="cod1_trip" type="text" class="form-control cod1_trip codigo_tripulacion blackInReadOnly">    
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">HV1</small>
+                    <input  readonly="true" name="registro_hv1" type="text" class="form-control registro_hv1 blackInReadOnly">    
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">COD2</small>
+                    <input  readonly="true" name="cod2_trip" type="text" class="form-control cod2_trip codigo_tripulacion blackInReadOnly">    
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">HV2</small>
+                    <input  readonly="true" name="registro_hv2" type="text" class="form-control registro_hv2 blackInReadOnly">    
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">COD3</small>
+                    <input  readonly="true" name="cod3_trip" type="text" class="form-control cod3_trip codigo_tripulacion blackInReadOnly">    
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">HV3</small>
+                    <input  readonly="true" name="registro_hv3" type="text" class="form-control registro_hv3 blackInReadOnly">    
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">COD4</small>
+                    <input  readonly="true" name="cod4_trip" type="text" class="form-control cod4_trip codigo_tripulacion blackInReadOnly">    
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div style="margin-bottom: 0;" class="form-group">
+                    <small style="font-weight: bold;">HV4</small>
+                    <input  readonly="true" name="registro_hv4" type="text" class="form-control registro_hv4 blackInReadOnly">    
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
     <div class="row pb-1">
         <div class="col-sm-6">
             <h6 style="font-size:13px; margin: 0;">DESPEGUE</h6>

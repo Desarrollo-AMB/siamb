@@ -20,4 +20,8 @@ class Ubicaciones extends Model
     {
         return $this->belongsTo(Nomina::class, 'codigo_ubicacion', 'codigo_ubicacion');
     }
+    public function partesGenerales()
+    {
+        return $this->hasMany(parte_general::class, 'codigo_ubicacion');
+    }
 }

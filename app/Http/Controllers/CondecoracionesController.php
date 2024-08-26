@@ -32,11 +32,11 @@ class CondecoracionesController extends Controller
         $ubicaciones = Ubicaciones::all();
         $cargos = Cargos::all();
         $grados_militares = GradosMilitares::whereIn('tipo_emp',['MIL','TRP'])->get();
-      
-        $condecoraciones = Condecoracion::whereIn('tipo_emp',[$datos->nomina->tipo_emp,''])->get();
+
+        $condecoraciones = Condecoracion::all();
         $niveles = Nivel::all();
         $categorias_militares = CategoriasMilitares::where('tipo_emp',$datos->nomina->tipo_emp)->get();
-        return view('sireh.condecoraciones.view', 
+        return view('sireh.condecoraciones.view',
             compact(
                 'datos','familiares','tipos_emp','edos_civil','ubicaciones','cargos','grados_militares',
                 'condecoraciones', 'niveles','categorias_militares'
@@ -44,12 +44,12 @@ class CondecoracionesController extends Controller
         );
     }
 
-    //Obtiene las condecoraciones del empleados, exclusivo por api para el Datatable 
+    //Obtiene las condecoraciones del empleados, exclusivo por api para el Datatable
     public function dataCondecoraciones(Request $request){
-        $condecoraciones = MilitaresCondecorados::join('condecoraciones_militares','militares_condecorados.codigo_condecoracion','=','condecoraciones_militares.codigo_condecoracion')
+        $condecoraciones = MilitaresCondecorados::leftjoin('condecoraciones_militares','militares_condecorados.codigo_condecoracion','=','condecoraciones_militares.codigo_condecoracion')
             ->join('grados_militares','grados_militares.codigo_grado','=','militares_condecorados.codigo_grado')
-            ->where('codigo_empleado',$request->codigo_empleado); 
-       
+            ->where('codigo_empleado',$request->codigo_empleado);
+
         $condecoraciones->select(
             'militares_condecorados.id',
             'condecoraciones_militares.descripcion as condecoracion',
@@ -70,7 +70,7 @@ class CondecoracionesController extends Controller
     }
 
     public function store(Request $request){
-        
+
         if ($request->id){
             try {
                 $condecoracion = MilitaresCondecorados::find($request->id);

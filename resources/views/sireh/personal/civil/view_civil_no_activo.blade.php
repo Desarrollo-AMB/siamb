@@ -30,7 +30,9 @@
                                         <th>Tipo de Empleado</th>
                                         <th>Cargo</th>
                                         {{-- <th>Situacion</th> --}}
+                                        <th>Codigo RAC</th>
                                         <th>Acciones</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,6 +43,7 @@
                                             <th  class="font-weight-normal">{{$data->tipo_emp}}</th>
                                             <th  class="font-weight-normal">{{$data->nombre_cargo}}</th>
                                             {{-- <th  class="font-weight-normal">{{$data->situacion}}</th> --}}
+                                            <th  class="font-weight-normal">{{$data->cod_rac}}</th>
                                             <th>
                                                 <input class="codigo_empleado_activar" name="codigo_empleado_activar" id="codigo_empleado_activar" type="hidden" value="">
                                                 <a href="{{ route('sireh.personal-civil.view', $data->id) }}" class="mx-3" data-bs-toggle="tooltip"

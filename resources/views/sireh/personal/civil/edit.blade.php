@@ -13,7 +13,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Civil</h5>
+                            <h5 class="mb-0">Personal no Militar</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
                     </div>
@@ -29,6 +29,9 @@
                         </ul>
                     </div>
                     @endif
+                   
+                    <form method="POST" action="{{ route('sireh.personal-civil.update1') }}"  enctype="multipart/form-data">
+                    {{csrf_field()}}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="avatar-wrapper">
@@ -36,11 +39,11 @@
                                 <div class="upload-button">
                                     <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                                 </div>
+                                <input class="file-upload" type="file" accept="image/*" name="foto" id="foto" />
                             </div>
                         </div>
                     </div>
-                    <form method="POST" action="{{ route('sireh.personal-civil.update') }}">
-                    {{csrf_field()}}
+
                     <div class="row">  
                         <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5">
                             <div class="form-group">
@@ -80,7 +83,23 @@
                                                 <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula"  
                                                     value="{{ $datos->cedula }}">
                                             </div>
-                                        </div>     
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Codigo Empleado:</h6>
+                                                <input id="codigo_empleado" type="text" class="form-control @error('codigo_empleado') is-invalid @enderror" name="codigo_empleado" disabled 
+                                                    value="{{ $datos->nomina->codigo_empleado }}">
+                                                <input type="hidden" class="form-control" name="id" value="{{ $datos->id }}">
+                                            </div>    
+                                    </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Codigo Rac:</h6>
+                                                <input id="cod_rac" type="text" class="form-control @error('cod_rac') is-invalid @enderror" name="cod_rac" 
+                                                    value="{{ $datos->nomina->cod_rac }}"
+                                                >
+                                            </div>    
+                                    </div>     
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
@@ -289,7 +308,7 @@
                                     <h5 class="card-title">Estudios Y Ubicación</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">    
+                                  {{--  <div class="row">    
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
                                             <div class="form-group">
                                                 <h6>Universidad:</h6>
@@ -308,7 +327,7 @@
                                                     value="{{ $datos->fecha_graduacion }}">
                                             </div>
                                         </div> 
-                                    </div>
+                                    </div>--}}
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 nivel_instruccion" >
                                             <div class="form-group">
@@ -376,6 +395,7 @@
 
 @section('scripts')
 <script>
+        
     $(document).ready(function () {  
         // $('.nivel_instruccion').hide();
         // $('.obrero').hide();
@@ -387,5 +407,23 @@
         $('.egreso').select2();
 
     })
+    //Para la foto
+    var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+   
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button").on('click', function() {
+            $(".file-upload").click();
+        });
 </script>
 @endsection

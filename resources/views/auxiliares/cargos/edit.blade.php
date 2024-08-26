@@ -34,7 +34,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-8">
                         <div class="form-group">
                             <strong>Nombre del Cargo:</strong>
-                            {!! Form::text('nombre_cargo', $cargo->nombre_cargo, array('placeholder' => 'Nombre','class' => 'form-control', 'id'=>'nombre_cargo')) !!}
+                            {!! Form::text('nombre_cargo', $cargo->nombre_cargo, array('placeholder' => 'Nombre','class' => 'form-control', 'id'=>'nombre_cargo','onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                         </div>
                     </div>
 

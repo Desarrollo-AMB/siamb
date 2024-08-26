@@ -63,7 +63,7 @@
                                                                     <select name="tipo_emp" id="tipo_emp" class="select2 form-control">
                                                                         <option value="">SELECCIONE...</option>
                                                                         <option value="ALI">ALISTADO</option>
-                                                                        <option value="MEF">MILITAR EN FORMACION</option>
+                                                                        <option value="MEF">CADETES</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

@@ -35,11 +35,14 @@
                                 <table id="table" class="table table-striped table-bordered nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            <th>Cedula</th>
-                                            <th>Nombre </th>
-                                            <th>Apellido</th>
+                                            <th>Cédula</th>
+                                            <th>Nombre1</th>
+                                            <th>Nombre2</th>
+                                            <th>Apellido1</th>
+                                            <th>Apellido2</th>
                                             <th>Grado Militar</th>
-                                            <th>Ubicacion</th>
+                                            <th>Situacion</th>
+                                            <th>Ubicación</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -79,7 +82,6 @@
                                 <label for="recipient-name" class="col-form-label">Motivo de Suspención</label>
                                 <select class="form-control motivo" id="motivo" name="motivo" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="DESERTOR">DESERTOR</option>
                                     <option value="PRESUNTO DESERTOR">PRESUNTO DESERTOR</option>
                                     <option value="RETARDADO SIN CAUSA JUSTIFICADA">RETARDADO SIN CAUSA JUSTIFICADA</option>
                                 </select>
@@ -164,7 +166,6 @@
 <script>
     $(function () {
         $('.select2').select2();
-
         var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -174,8 +175,21 @@
             columns: [
                 {data: 'cedula',},
                 {data: 'nombre1'},
+                {data: 'nombre2'},
                 {data: 'apellido1'},
+                {data: 'apellido2'},
                 {data: 'grado_militar', name: 'grados_militares.descripcion'},
+                {data: 'situacion',
+                   
+                /*render: function ( data, type, row ) {
+                        if(row.situacion !== null && row.situacion !== ''){
+                            var respuesta=buscarsituacion(row.situacion);
+                        return respuesta;
+                        }
+                        return 'NO POSEE';
+
+                     }*/
+                 },
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
             ],
@@ -419,5 +433,13 @@
             });
         })
     });
+    /*function buscarsituacion(buscar){
+        var valor = $.map(situacionn, function( value, key) {
+            if (key==buscar){
+                return value;
+            }
+        });
+        return  valor[0];
+    }*/
 </script>
 @endsection

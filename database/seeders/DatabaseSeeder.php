@@ -117,5 +117,13 @@ class DatabaseSeeder extends Seeder
         $path = 'database/sql/condecoraciones_militares.sql';
         DB::unprepared(file_get_contents($path));
         $this->command->info('SQL Insert tabla "condecoraciones" ejecutado!');
+
+        $path = 'database/sql/municipios.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "municipios" ejecutado!');
+
+        $path = 'database/sql/parroquias.sql';
+        DB::unprepared(file_get_contents($path));
+        $this->command->info('SQL Insert tabla "parroquias" ejecutado!');
     }
 }

@@ -56,26 +56,61 @@
                 <h6 style="font-size:13px; margin: 0;">RUTA</h6>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">DESDE</small>
                         <select name="ruta_desde" class="form-control ruta_desde load_ruta_desde">
                             <option value=""></option>
-                            @foreach($bases as $data)
-                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
-                            @endforeach
+                            <option value="LOCAL">LOCAL</option>
+                                @foreach($aeropuertos as $data)
+                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                @endforeach
+                                    <option value="">_______PARROQUIA__________</option>
+                                @foreach ($parroquias as $data)
+                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
+                                    </option>
+                                @endforeach
+                                    <option value="">_______BASE__________</option>
+                                @foreach ($bases as $data)
+                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                    ({{ $data->siglas }})</option>
+                                @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <small style="font-weight: bold; color:#67748e;">HASTA</small>
                         <select name="ruta_hasta" class="form-control ruta_hasta load_ruta_hasta">
                             <option value=""></option>
-                            @foreach($bases as $data)
-                                <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option>
-                            @endforeach
+                            <option value="LOCAL">LOCAL</option>
+                                @foreach($aeropuertos as $data)
+                                    {{-- <option value="{{$data->siglas}}">{{$data->descripcion}} - {{$data->siglas}}</option> --}}
+                                    <option title="{{$data->nombre}}" value="{{$data->codigo_icao}}">{{$data->codigo_icao}}</option>
+                                @endforeach
+                                    <option value="">_______PARROQUIA__________</option>
+                                @foreach ($parroquias as $data)
+                                    <option value="{{ mb_strtoupper($data->parroquia) }}">{{ mb_strtoupper($data->parroquia) }}
+                                    </option>
+                                @endforeach
+                                    <option value="">_______BASE__________</option>
+                                @foreach ($bases as $data)
+                                    <option value="{{ $data->descripcion }}">{{ $data->descripcion }} -
+                                    ({{ $data->siglas }})</option>
+                                @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <small style="font-weight: bold; color:#67748e;">FECHA</small>
+                        <div class="col-sm-12">
+                            <input id="fecha_mision" type="date"
+                                class="form-control @error('fecha') is-invalid @enderror"
+                                name="fecha_mision" value="">
+                            <br>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,6 +171,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="row align-items-end">
+            <div class="col-sm-11 col-xs-11 col-lg-11 div_cods">
+            </div>
+            <div class="col-sm-1 col-xs-1 col-lg-1 pull-right div-btn-plus">
+                <button id="btnAgregarCod" type="button" class="btn bg-gradient-info shadow border-radius-md btnAgregarCod" style="float: right; margin-bottom:30px; display: none;">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+
         <div class="row pb-1">
             <div class="col-sm-6">
                 <h6 style="font-size:13px; margin: 0;">ATERRIZAJES</h6>
@@ -211,8 +258,11 @@
             <hr>
         </div>
         <div style="padding-top:5px" class="row">
-            <div  class="pull-right">
-                <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Pierna</button>
+            <div id="botonera" class="pull-right">
+                @if ($fam0001data->alerta == 1)
+                    <button style="float: right; background: green;color: white;" type="button" class="btn btn-success enviar_a1_mision add_edit_input">Agregar Misión Aeronave Alerta</button>
+                    <button style="float: right; background: yellow;color: black;" type="button" class="btn btn-warning concluir_alerta">Concluir Alerta</button>
+                @endif
                 <button hidden="true" style="float: right; background: rgb(189, 0, 0);color: white;" type="button" class="btn btn-danger edit_input update_A1_clean">X</button>
                 <button hidden="true" style="float: right; background: rgb(122, 151, 231);color: rgb(0, 0, 0);" type="button" class="btn btn-success edit_input actualizar_a1_mision">ACTUALIZAR</button>
             </div>
@@ -229,12 +279,15 @@
                         <tr>
                             <th class="text-uppercase font-weight-bolder"><h6>N°</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>ORDENADO</h6></th>
-                            <th class="text-uppercase font-weight-bolder"><h6>EN APOYO</h6></th>
+                            <th class="text-uppercase font-weight-bolder"><h6>TIPO MISIÓN</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>DESDE</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>HASTA</h6></th>
                             <th class="text-uppercase font-weight-bolder"><h6>ACCIONES</h6></th>
                         </tr>
                     </thead>
+                    <tbody id="A1_data_check">
+
+                    </tbody>
                     <tbody id="A1_data">
 
                     </tbody>

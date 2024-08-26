@@ -1,5 +1,5 @@
 @extends('layouts.user_type.auth')
-@section('title', 'Personal Civil')
+@section('title', 'Personal no Militar')
 @section('content')
 
     @if ($message = Session::get('success'))
@@ -13,7 +13,7 @@
                 <div class="card-header pb-0 mb-2">
                     <div class="d-flex flex-row justify-content-between">
                         <div>
-                            <h5 class="mb-0">Personal Civil</h5>
+                            <h5 class="mb-0">Personal no Militar</h5>
                         </div>
                         <a class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
                     </div>
@@ -80,8 +80,23 @@
                                                     value="{{ $datos->cedula }}"
                                                 >
                                             </div>
-                                        </div>     
+                                        </div> 
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                <h6>Codigo Empleado:</h6>
+                                                <input id="codigo_empleado" type="text" class="form-control @error('codigo_empleado') is-invalid @enderror" name="codigo_empleado" disabled 
+                                                    value="{{ $datos->nomina->codigo_empleado }}"
+                                                >
+                                            </div>    
                                     </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <h6>Codigo Rac:</h6>
+                                            <input id="cod_rac" type="text" class="form-control @error('cod_rac') is-invalid @enderror" name="cod_rac" disabled 
+                                                value="{{ $datos->nomina->cod_rac }}"
+                                            >
+                                        </div>    
+                                </div>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                             <div class="form-group">

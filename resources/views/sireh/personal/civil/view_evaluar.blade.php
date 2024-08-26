@@ -12,7 +12,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Civil Evaluaciones</h5>
+                        <h5 class="mb-0">Personal no Militar Evaluaciones</h5>
                     </div>
                     <a class="btn btn-secondary btn-sm mb-0" href="javascript: history.go(-1)">Volver</a>
                 </div>
@@ -30,27 +30,31 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Nombres:</h6>
-                                            <input name="nombre1" value="{{$datos->nombre1}} {{$datos->nombre2}}" class = "form-control" disabled>
+                                            <input name="nombre1" value="{{$datos->nombre1}} {{$datos->nombre2}}"
+                                                class="form-control" disabled>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Apellidos:</h6>
-                                            <input name="apellido" value="{{$datos->apellido1}} {{$datos->apellido2}}" class = "form-control" disabled>
-                                       </div>
+                                            <input name="apellido" value="{{$datos->apellido1}} {{$datos->apellido2}}"
+                                                class="form-control" disabled>
+                                        </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Cédula:</h6>
-                                            <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled 
-                                                value="{{ $datos->cedula }}">
+                                            <input id="cedula" type="text"
+                                                class="form-control @error('cedula') is-invalid @enderror" name="cedula"
+                                                disabled value="{{ $datos->cedula }}">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>fecha ingreso:</h6>
-                                            <input id="cedula" type="date" class="form-control @error('cedula') is-invalid @enderror" name="cedula" disabled 
-                                                value="{{ $datos->nomina->fecha_ingreso }}">
+                                            <input id="cedula" type="date"
+                                                class="form-control @error('cedula') is-invalid @enderror" name="cedula"
+                                                disabled value="{{ $datos->nomina->fecha_ingreso }}">
                                         </div>
                                     </div>
                                 </div>
@@ -58,21 +62,25 @@
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                         <div class="form-group">
                                             <h6>Tipo de Empleado:</h6>
-                                                @foreach ($tipos_emp as $row)
-                                                    @if ($datos->nomina->tipo_emp == $row->tipo_emp)
-                                                        <input type="text" class="form-control @error('cedula') is-invalid @enderror" disabled  value="{{ $row->descripcion }}">
-                                                        <input type="hidden" id="tipo_emp"  value="{{ $datos->nomina->tipo_emp }}">
-                                                    @endif
-                                                @endforeach
+                                            @foreach ($tipos_emp as $row)
+                                            @if ($datos->nomina->tipo_emp == $row->tipo_emp)
+                                            <input type="text"
+                                                class="form-control @error('cedula') is-invalid @enderror" disabled
+                                                value="{{ $row->descripcion }}">
+                                            <input type="hidden" id="tipo_emp" value="{{ $datos->nomina->tipo_emp }}">
+                                            @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
                                         <div class="form-group">
                                             <h6>Unidad:</h6>
                                             @foreach ($ubicaciones as $row)
-                                                @if ($datos->nomina->codigo_ubicacion == $row->codigo_ubicacion)
-                                                    <input type="text" class="form-control @error('cedula') is-invalid @enderror" disabled  value="{{ $row->descripcion }}">
-                                                @endif
+                                            @if ($datos->nomina->codigo_ubicacion == $row->codigo_ubicacion)
+                                            <input type="text"
+                                                class="form-control @error('cedula') is-invalid @enderror" disabled
+                                                value="{{ $row->descripcion }}">
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -80,9 +88,11 @@
                                         <div class="form-group">
                                             <h6>Cargo:</h6>
                                             @foreach ($cargos as $row)
-                                                @if ($datos->nomina->codigo_cargo == $row->codigo_cargo)
-                                                    <input type="text" class="form-control @error('cedula') is-invalid @enderror" disabled  value="{{ $row->nombre_cargo }}">
-                                                @endif
+                                            @if ($datos->nomina->codigo_cargo == $row->codigo_cargo)
+                                            <input type="text"
+                                                class="form-control @error('cedula') is-invalid @enderror" disabled
+                                                value="{{ $row->nombre_cargo }}">
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -97,14 +107,15 @@
                                     <h5 class="mb-0">Lista de Evaluaciones</h5>
                                 </div>
                                 @role('administrador')
-                                    <button type="button" class="btn btn-success evaluar">
-                                        Agregar Evaluación
-                                    </button>
+                                <button type="button" class="btn btn-success evaluar">
+                                    Agregar Evaluación
+                                </button>
                                 @endrole
                             </div>
                         </div>
                         <div class="card-body">
-                            <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap" data-order='[[2, "asc"]]'>
+                            <table id="table" class="table table-sm table-bordered table-hover w-100 nowrap"
+                                data-order='[[2, "asc"]]'>
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -119,12 +130,14 @@
                                     @foreach($evaluaciones as $data)
                                     <tr>
                                         <th class="font-weight-normal">{{$data->fecha_evaluacion}}</th>
-                                        <th class="font-weight-normal">CI-{{$data->cedula_evaluador}} - {{$data->nombre_evaluador}}</th>
+                                        <th class="font-weight-normal">CI-{{$data->cedula_evaluador}} -
+                                            {{$data->nombre_evaluador}}</th>
                                         <th class="font-weight-normal">{{$data->nota}}</th>
                                         <th class="font-weight-normal">{{$data->rango_actuacion}}</th>
                                         <th class="font-weight-normal">{{$data->obervaciones}}</th>
                                         <th class="font-weight-normal">
-                                            <button value="{{$data->id}}" class="btn btn-info mx-3 editar">Editar</button>
+                                            <button value="{{$data->id}}"
+                                                class="btn btn-info mx-3 editar">Editar</button>
                                         </th>
                                     </tr>
                                     @endforeach
@@ -134,7 +147,8 @@
                     </div>
                     @role('administrador')
                     {{-- Modal Registrar Evaluacion --}}
-                    <div class="modal fade" id="evaluar" tabindex="-1" role="dialog" aria-labelledby="EvaluarTitle" aria-hidden="true">
+                    <div class="modal fade" id="evaluar" tabindex="-1" role="dialog" aria-labelledby="EvaluarTitle"
+                        aria-hidden="true">
                         <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -145,62 +159,78 @@
                                 </div>
                                 <form>
                                     <div class="modal-body">
-                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id" type="hidden" value="{{$datos->id}}">
-                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado" type="hidden" value="{{$datos->codigo_empleado}}">
+                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id"
+                                            type="hidden" value="{{$datos->id}}">
+                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado"
+                                            type="hidden" value="{{$datos->codigo_empleado}}">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Fecha de Evaluacion:</label>
-                                                    <input  type="date" class="form-control fecha_evaluacion" value="" id="fecha_evaluacion">
+                                                    <label for="recipient-name" class="col-form-label">Fecha de
+                                                        Evaluacion:</label>
+                                                    <input type="date" class="form-control fecha_evaluacion" value=""
+                                                        id="fecha_evaluacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Cedula del Evaluador:</label>
-                                                    <input  type="number" class="form-control cedula_evaluador" value="" id="cedula_evaluador">
+                                                    <label for="recipient-name" class="col-form-label">Cedula del
+                                                        Evaluador:</label>
+                                                    <input type="number" class="form-control cedula_evaluador" value=""
+                                                        id="cedula_evaluador">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Nombres y Apellidos del Evaluador:</label>
-                                                    <input  type="text" class="form-control nombre_evaluador" value="" id="nombre_evaluador">
+                                                    <label for="recipient-name" class="col-form-label">Nombres y
+                                                        Apellidos del Evaluador:</label>
+                                                    <input type="text" class="form-control nombre_evaluador" value=""
+                                                        id="nombre_evaluador">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nota:</label>
-                                                    <input  type="number" class="form-control nota" value="" id="nota">
+                                                    <input type="number" class="form-control nota" value="" id="nota">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Rango de Actuacion:</label>
-                                                    <input  type="text" class="form-control rango_actuacion" value="" id="rango_actuacion" readonly>
+                                                    <label for="recipient-name" class="col-form-label">Rango de
+                                                        Actuacion:</label>
+                                                    <input type="text" class="form-control rango_actuacion" value=""
+                                                        id="rango_actuacion" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Observaciones:</label>
-                                                    <input  type="text" class="form-control observaciones" value="" id="observaciones">
+                                                    <label for="recipient-name"
+                                                        class="col-form-label">Observaciones:</label>
+                                                    <input type="text" class="form-control observaciones" value=""
+                                                        id="observaciones">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a class="btn bg-gradient-danger" data-bs-dismiss="modal" disabled="false">Atras</a>
-                                        <a class="btn bg-gradient-success enviar_evaluacion" disabled="false">Confirmar</a>
-                                        <a class="btn bg-gradient-success update_evaluacion" disabled="false">Actualizar</a>
+                                        <a class="btn bg-gradient-danger" data-bs-dismiss="modal"
+                                            disabled="false">Atras</a>
+                                        <a class="btn bg-gradient-success enviar_evaluacion"
+                                            disabled="false">Confirmar</a>
+                                        <a class="btn bg-gradient-success update_evaluacion"
+                                            disabled="false">Actualizar</a>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     {{-- Modal editar Evaluacion --}}
-                    <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="EvaluarTitle" aria-hidden="true">
+                    <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="EvaluarTitle"
+                        aria-hidden="true">
                         <div style="max-width: 620px;" class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -211,54 +241,69 @@
                                 </div>
                                 <form>
                                     <div class="modal-body">
-                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id" type="hidden" value="">
-                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado" type="hidden" value="">
+                                        <input class="intelectual_id" name="intelectual_id" id="intelectual_id"
+                                            type="hidden" value="">
+                                        <input class="codigo_empleado" name="codigo_empleado" id="codigo_empleado"
+                                            type="hidden" value="">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">fecha de evaluacion:</label>
-                                                    <input  type="date" class="form-control fecha_evaluacion_load" value="" id="fecha_evaluacion">
+                                                    <label for="recipient-name" class="col-form-label">fecha de
+                                                        evaluacion:</label>
+                                                    <input type="date" class="form-control fecha_evaluacion_load"
+                                                        value="" id="fecha_evaluacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Cedula del Evaluador:</label>
-                                                    <input  type="number" class="form-control cedula_evaluador_load" value="" id="cedula_evaluador">
+                                                    <label for="recipient-name" class="col-form-label">Cedula del
+                                                        Evaluador:</label>
+                                                    <input type="number" class="form-control cedula_evaluador_load"
+                                                        value="" id="cedula_evaluador">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Nombres y Apellidos del Evaluador:</label>
-                                                    <input  type="text" class="form-control nombre_evaluador_load" value="" id="nombre_evaluador">
+                                                    <label for="recipient-name" class="col-form-label">Nombres y
+                                                        Apellidos del Evaluador:</label>
+                                                    <input type="text" class="form-control nombre_evaluador_load"
+                                                        value="" id="nombre_evaluador">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label">Nota:</label>
-                                                    <input  type="number" class="form-control nota_load" value="" id="nota">
+                                                    <input type="number" class="form-control nota_load" value=""
+                                                        id="nota">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Rango de Actuacion:</label>
-                                                    <input  type="text" class="form-control rango_actuacion_load" value="" id="rango_actuacion">
+                                                    <label for="recipient-name" class="col-form-label">Rango de
+                                                        Actuacion:</label>
+                                                    <input type="text" class="form-control rango_actuacion_load"
+                                                        value="" id="rango_actuacion">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Observaciones:</label>
-                                                    <input  type="text" class="form-control obervaciones_load" value="" id="observaciones">
+                                                    <label for="recipient-name"
+                                                        class="col-form-label">Observaciones:</label>
+                                                    <input type="text" class="form-control obervaciones_load" value=""
+                                                        id="observaciones">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a class="btn bg-gradient-danger" data-bs-dismiss="modal" disabled="false">Atras</a>
-                                        <a class="btn bg-gradient-success update_evaluacion" disabled="false">Actualizar</a>
+                                        <a class="btn bg-gradient-danger" data-bs-dismiss="modal"
+                                            disabled="false">Atras</a>
+                                        <a class="btn bg-gradient-success update_evaluacion"
+                                            disabled="false">Actualizar</a>
                                     </div>
                                 </form>
                             </div>

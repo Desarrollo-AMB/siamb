@@ -13,12 +13,25 @@
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 mx-4">
+            <div class="card-header pb-0 mb-2">
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0">{{$fechaActual}}</span></h5>
+                    </div>
+                </div>
+            </div>
+            <hr class="horizontal dark my-0">
+            @include('dao.aeronaves._barra_auxiliar')
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card mb-4 mx-4">
             <hr class="horizontal dark my-0">
             <hr class="horizontal dark my-0">
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Parte de Aeronaves: <span id="fecha_cabecera" class="mb-0"></span></h5>
+
                     </div>
                 </div>
             </div>
@@ -29,31 +42,36 @@
                                 <table id="aeronaves" class="table align-items-center mb-0 table-sm w-100 nowrap" data-order='[[2, "asc"]]'>
                                     <thead>
                                         <tr>
-                                            @role('aviacion_dao|administrador')
+                                            @role('aviacion_dao|administrador|cmd_general')
                                             <th>UNIDAD</th>
                                             @endrole
                                             <th>AERONAVE</th>
                                             <th>MATRICULA</th>
                                             <th>SERIAL</th>
-                                            <th>ACCIONES</th>
+                                            <th>ESTATUS</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($aeronaves as $data)
                                             <tr>
-                                                @role('aviacion_dao|administrador')
+                                                @role('aviacion_dao|administrador|cmd_general')
                                                 <th  class="font-weight-normal">{{$data->codigo_unidad}}</th>
                                                 @endrole
                                                 <th  class="font-weight-normal">{{$data->aeronave}}</th>
                                                 <th class="font-weight-normal">{{$data->matricula}}</th>
                                                 <th class="font-weight-normal">{{$data->serial}}</th>
                                                 <th class="font-weight-normal">
-                                                    @role('aviacion_grupo_aereo|administrador|aviacion_dao')
-                                                    <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Ver">
-                                                        <i class="fas fa-edit text-secondary" aria-hidden="true"></i>
-                                                    </a>
-                                                    @endrole
+                                                    @if($data->estatus == 'DISPONIBLE')
+                                                        <label class="badge bg-gradient-success">DISPONIBLE</label>
+                                                    @elseif($data->estatus == 'DISPONIBLE PARA EL COMBATE')
+                                                        <label class="badge bg-gradient-success">DISPONIBLE PARA EL COMBATE</label>
+                                                    @elseif($data->estatus == 'INDISPONIBLE')
+                                                        <label class="badge bg-gradient-warning">NO DISPONIBLE</label>
+                                                    @elseif($data->estatus == 'SINIESTRADA')
+                                                        <label class="badge bg-gradient-danger">SINIESTRADA</label>
+                                                    @endif
                                                 </th>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -72,15 +90,10 @@
 @parent
 <script>
 
-    $(document).ready(function() {
-        var fechaActual = new Date().toISOString().slice(0, 10);
-        var fecha_inv = fechaActual.split('-').reverse().join('-');
-        $('#fecha_cabecera').text(fecha_inv);
-    });
-
     $(function () {
         $('#aeronaves').DataTable({
             processing: true,
+            ordering: false,
             responsive: true,
             "language": {
                 "sProcessing":    "Procesando...",
@@ -101,10 +114,7 @@
                     "sNext":    "Siguiente",
                     "sPrevious": "Anterior"
                 },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
+
             }
         });
 

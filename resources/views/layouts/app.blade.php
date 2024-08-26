@@ -15,11 +15,8 @@
 
     <!-- Styles CSS -->
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
     <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
-
-
     <link href="{{ asset('vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/fixedHeader.dataTables.min.css') }}" rel="stylesheet">

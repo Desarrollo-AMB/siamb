@@ -155,22 +155,22 @@ use Carbon\Carbon;
                             <th>{{$pilot->COD}}</th>
                             <th>{{$pilot->funcion}}</th>
                             <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->hv}}</th>
-                            <th>{{$pilot->aterriz}}</th>
-                            <th>{{$pilot->aterriz}}</th>
-                            <th>{{$pilot->aterriz}}</th>
+                            <th>{{$pilot->vfr_dia}}</th>
+                            <th>{{$pilot->ifr_dia}}</th>
+                            <th>{{$pilot->vfr_noche}}</th>
+                            <th>{{$pilot->ifr_noche}}</th>
+                            <th>{{$pilot->aterrizaje}}</th>
+                            <th>0</th>
+                            <th>0</th>
                             @php
                             $total_tiempo = $total_tiempo + $pilot->hv;
-                            $total_vfr_dia = $total_vfr_dia + $pilot->hv;
-                            $total_ifr_dia = $total_ifr_dia + $pilot->hv;
-                            $total_vfr_noche = $total_vfr_noche + $pilot->hv;
-                            $total_ifr_noche = $total_ifr_noche + $pilot->hv;
-                            $total_aterriz = $total_aterriz + $pilot->aterriz;
-                            $total_simul = $total_simul + $pilot->aterriz;
-                            $total_combate = $total_combate + $pilot->aterriz;
+                            $total_vfr_dia = $total_vfr_dia + $pilot->vfr_dia;
+                            $total_ifr_dia = $total_ifr_dia + $pilot->ifr_dia;
+                            $total_vfr_noche = $total_vfr_noche + $pilot->vfr_noche;
+                            $total_ifr_noche = $total_ifr_noche + $pilot->ifr_noche;
+                            $total_aterriz = $total_aterriz + $pilot->aterrizaje;
+                            $total_simul = $total_simul;
+                            $total_combate = $total_combate;
                             @endphp
                         </tr>
                     @endforeach
@@ -201,12 +201,12 @@ use Carbon\Carbon;
                     @endphp
                     @foreach ($anteriores as $row)
                         @php
-                            $tiempo_anterior = $tiempo_anterior + $row->hv;
-                            $vfr_dia_anterior = $vfr_dia_anterior + $row->hv;
-                            $ifr_dia_anterior = $ifr_dia_anterior + $row->hv;
-                            $vfr_noche_anterior = $vfr_noche_anterior + $row->hv;
-                            $ifr_noche_anterior = $ifr_noche_anterior + $row->hv;
-                            $aterriz_anterior = $aterriz_anterior + $row->aterriz;
+                            $tiempo_anterior = $tiempo_anterior + $row->total_hv;
+                            $vfr_dia_anterior = $vfr_dia_anterior + $row->vfr_dia;
+                            $ifr_dia_anterior = $ifr_dia_anterior + $row->ifr_dia;
+                            $vfr_noche_anterior = $vfr_noche_anterior + $row->vfr_noche;
+                            $ifr_noche_anterior = $ifr_noche_anterior + $row->ifr_noche;
+                            $aterriz_anterior = $aterriz_anterior + $row->aterrizaje;
                             $simul_anterior = $simul_anterior + $row->aterriz;
                             $combate_anterior = $combate_anterior + $row->aterriz;
                         @endphp

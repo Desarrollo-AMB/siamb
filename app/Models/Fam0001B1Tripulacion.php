@@ -21,15 +21,28 @@ class Fam0001B1Tripulacion extends Model
         'codigo_funcion',
         'tipo_despegue',
         'operaciones_en_vuelo',
-        'aterrizaje', 
+        'aterrizaje',
         'COD',
         'hv',
+        'cod1',
+        'hv1',
+        'cod2',
+        'hv2',
+        'cod3',
+        'hv3',
+        'cod4',
+        'hv4',
         'completado',
         'user_id'
     ];
 
     public function funcionTrip() {
         return $this->belongsTo(FuncionTripulante::class, 'funcion');
+    }
+
+    public function tripulacion()
+    {
+        return $this->belongsTo(Fam0001A1Mision::class, 'fam0001_a1_mision_id');
     }
 
 }

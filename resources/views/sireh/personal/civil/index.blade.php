@@ -21,13 +21,13 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">Personal Civil</h5>
+                        <h5 class="mb-0">Personal no Militar</h5>
                     </div>
                 </div>
             </div>
             <hr class="horizontal dark my-0">
             <div class="row justify-content-end">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="{{ route('sireh.personal-civil.noActive')}}">
@@ -36,7 +36,7 @@
                                     <div class="numbers">
                                     <p class="text-sm mb-0 text-capitalize font-weight-bold"></p>
                                     <p class="font-weight-bolder mb-0">
-                                        Civil No Activo
+                                        Personal  No Activo
                                     </p>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="{{route('sireh.personal-civil.evaluaciones.index')}}">
@@ -73,7 +73,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                         <div class="card-body p-3">
                             <a href="{{ route('sireh.personal-civil-jubilables.index')}}">
@@ -95,8 +95,25 @@
                             </a>
                         </div>
                     </div>
+                </div>  
+               {{-- <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+                    <div class="card mb-0">
+                        <div class="card-body text-center p-2">
+                            <a href="{{ route('sireh.personal-NO-militar.reportes') }}">
+                                <div class="icon icon-shape bg-gradient-primary shadow text-capitalize border-radius-md">
+                                    <i class="fa fa-file-excel-o text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                                <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                                    <small class="font-weight-bolder mb-0">
+                                    Reportes
+                                        <span class="text-success text-capitalize font-weight-bolder"></span>
+                                    </small>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                {{--<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="#">
@@ -131,7 +148,9 @@
                                             <th>Cedula</th>
                                             <th>Nombre </th>
                                             <th>Apellido</th>
+                                            <th>Codigo_Rac</th>
                                             <th>Tipo de Empleado</th>
+                                            <th>Situacion</th>
                                             <th>Cargo</th>
                                             <th>Ubicacion</th>
                                             <th>Acciones</th>
@@ -235,6 +254,7 @@
                                     <option value="PRIVADO DE LIBERTAD">PRIVADO DE LIBERTAD</option>
                                     <option value="RENUNCIA">RENUNCIA</option>
                                     <option value="DESPIDO">DESPIDO</option>
+                                    <option value="DESPIDO">FALLECIDO</option>
                                 </select>
                             </div>
                         </div>
@@ -394,7 +414,9 @@
                 {data: 'cedula',},
                 {data: 'nombre1'},
                 {data: 'apellido1'},
+                {data: 'codigo_rac', name: 'nomina.cod_rac', searchable: false},
                 {data: 'tipo_empleado', name: 'tipos_empleados.descripcion', searchable: false},
+                {data: 'situacion'},
                 {data: 'cargo', name: 'cargos.nombre_cargo'},
                 {data: 'ubicacion', name: 'ubicaciones.descripcion', searchable: false},
                 {data: 'actions', name: 'action', orderable: false, searchable: false},
