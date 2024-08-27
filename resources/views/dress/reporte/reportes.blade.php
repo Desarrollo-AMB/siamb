@@ -58,9 +58,17 @@
                                                     <div class="col-lg-12 col-sm-12">
                                                         <div class="col-md-6 col-sm-12">
                                                             <div class="row">
-                                                                <h6 class="col-sm-4 col-form-label">Fecha de Reporte:</h6>
+                                                                <h6 class="col-sm-4 col-form-label">Fecha de desde:</h6>
                                                                 <div class="col-sm-8">
-                                                               <input type="date" class="form-control" id="fechareporte" name="fechareporte">
+                                                               <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <div class="row">
+                                                                <h6 class="col-sm-4 col-form-label">Fecha de hasta:</h6>
+                                                                <div class="col-sm-8">
+                                                               <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
                                                                 </div>
                                                             </div>
                                                         </div>
