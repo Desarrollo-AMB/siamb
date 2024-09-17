@@ -26,6 +26,7 @@ use App\Http\Controllers\Civil\JubiladosController;
 use App\Http\Controllers\Civil\EvaluacionesCivilController;
 use App\Http\Controllers\Parte\PartegeneralController;
 use App\Http\Controllers\ReportesBSController;
+use App\Http\Controllers\Drescontroller;
 use App\Http\Controllers\Nomina\NominaController;
 use App\Http\Controllers\Nomina\NominaNoProfController;
 use App\Http\Controllers\Nomina\NominaCivilController;
@@ -338,6 +339,7 @@ Auth::routes();
     Route::get('/sireh/personal-civil/jubilados/fecha-jubilados', [JubiladosController::class, 'jubiladosFecha'])->name('sireh.personal-civil.jubilados.fecha-jubilados');
     Route::post('/sireh/personal-civil/jubilados/reporte-excel-jubilado', [JubiladosController::class, 'jubiladosReportExcel'])->name('sireh.personal-civil-jubilados.reporte.excel');
     Route::get('/sireh/personal-civil/jubilados/por-jubilar', [JubiladosController::class, 'porJubilarReportExcel'])->name('sireh.personal-civil-jubilados.por.jubilar');
+    Route::get('/sireh/personal-NO-militar/reportes', [PersonalController::class, 'reportesPersonalnoMilitar'])->name('sireh.personal-NO-militar.reportes');
 
     Route::get('/sireh/personal-militar-noprof/reingresos', [ReingresosController::class, 'index'])->name('sireh.personal-militar-noprof.reingresos');
 
@@ -510,6 +512,21 @@ Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarEx
 
 ///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
 Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
+
+///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
+Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
+Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
+Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
+Route::post('/dress/personal', [Drescontroller::class, 'personal'])->name('dres.personal');
+Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dres.equipo');
+Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
+Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
+Route::get('/dress/Reporte/index', [Drescontroller::class, 'excel'])->name('dres.report.index');
+Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
+///////////////////////////// FALLECIDOS////////////////////////////////////////////////////////////
+Route::get('/sireh/personal-militar/fallecidos/index', [PersonalController::class, 'listPersonalMilitarfallecido'])->name('sireh.personal-militar.fallecido');
+Route::get('/sireh/personal-militar/fallece/{id}', [PersonalController::class, 'fallecePersonalMilitar'])->name('sireh.personal-militar.fallece');
+Route::post('/sireh/personal-militar/fallecido', [PersonalController::class, 'darfacellecidoPersonalMilitar'])->name('sireh.personal-militar.dar.fallecido');
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');

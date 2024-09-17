@@ -361,8 +361,7 @@
                 $("#div3").hide();
                 $("#div4").hide();
                 $("#div5").hide();
-                $("#div6").hide();
-
+                $("#div6").hide(); 
                 $("#ejecutar1").click(function() {
                     var valor = $("#especialidad").val();
 
@@ -372,7 +371,6 @@
                     }
                 });
                 break;
-
                 case '2':
                 $("#div1").hide();
                 $("#div2").show();
@@ -380,7 +378,6 @@
                 $("#div4").hide();
                 $("#div5").hide();
                 $("#div6").hide();
-
                 $("#ejecutar1").click(function() {
                     var valor = $("#grado").val();
 
@@ -390,7 +387,6 @@
                     }
                 });
                 break;
-
                 case '3':
                 $("#div1").hide();
                 $("#div2").hide();
@@ -398,7 +394,6 @@
                 $("#div4").hide();
                 $("#div5").hide();
                 $("#div6").hide();
-
                 $("#ejecutar1").click(function() {
                     var valor = $("#categoria").val();
 
@@ -408,7 +403,6 @@
                     }
                 });
                 break;
-
                 case '4':
                 $("#div1").hide();
                 $("#div2").hide();
@@ -426,7 +420,6 @@
                     }
                 });
                 break;
-
                 case '5':
                 $("#div1").hide();
                 $("#div2").hide();
@@ -444,7 +437,6 @@
                     }
                 });
                 break;
-
                 case '6':
                 $("#div1").hide();
                 $("#div2").hide();

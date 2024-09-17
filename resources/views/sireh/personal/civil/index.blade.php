@@ -27,7 +27,7 @@
             </div>
             <hr class="horizontal dark my-0">
             <div class="row justify-content-end">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="{{ route('sireh.personal-civil.noActive')}}">
@@ -50,7 +50,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="{{route('sireh.personal-civil.evaluaciones.index')}}">
@@ -73,7 +73,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
                     <div class="card">
                         <div class="card-body p-3">
                             <a href="{{ route('sireh.personal-civil-jubilables.index')}}">
@@ -95,8 +95,25 @@
                             </a>
                         </div>
                     </div>
+                </div>  
+               {{-- <div class="col-xl-2 col-md-2 col-sm-2 mb-xl-0 mb-2">
+                    <div class="card mb-0">
+                        <div class="card-body text-center p-2">
+                            <a href="{{ route('sireh.personal-NO-militar.reportes') }}">
+                                <div class="icon icon-shape bg-gradient-primary shadow text-capitalize border-radius-md">
+                                    <i class="fa fa-file-excel-o text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                                <p style="line-height: 0.5; margin-top:8px; margin-bottom: 0.3rem;">
+                                    <small class="font-weight-bolder mb-0">
+                                    Reportes
+                                        <span class="text-success text-capitalize font-weight-bolder"></span>
+                                    </small>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                {{--<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                     <div class="card-body p-3">
                         <a href="#">

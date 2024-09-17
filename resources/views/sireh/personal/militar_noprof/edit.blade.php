@@ -48,7 +48,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                 <div class="form-group">
                                     <h6>Tipo Empleado:</h6>
-                                    <select class="select2 form-control" name="tipo_emp" id="tipo_emp" disabled>
+                                    <select class="select2 form-control" name="tipo_emp" id="tipo_emp" >
                                         <option value="">Seleccione ...</option>
                                         @foreach ($tipos_emp as $row)
                                             <option value="{{$row->tipo_emp}}" {{$datos->nomina->tipo_emp == $row->tipo_emp? 'selected': '' }}>{{ $row->descripcion }} ({{ $row->tipo_emp}})</option>
@@ -500,33 +500,47 @@
         var tipo_emp = $('#tipo_emp').val();
         var nivel_instruccion = $('#nivel').find(':selected').attr('data-nivel');
         //var dato_grado = $('#dato_grado_militar').val();
-        if (tipo_emp == 'MEF' || tipo_emp == 'ALI' || tipo_emp == 'MIL' || tipo_emp == 'TRP'){
-            $('#div-militar').removeClass('d-none');
-            $('#div-militar #grado_militar').attr('required');
-            $( "#grado_militar" ).prop( "disabled", false );
-            /*$.get('/api/grados-militares/' + tipo_emp,function(data) {
-                $('#grado_militar').empty();
-                $.each(data, function(fetch, grado, dato_grado){          
-                    $('#grado_militar').append('<option value="'+ grado.codigo_grado +'">'+ grado.descripcion +'</option>');
-                });
-            });*/
-            contingente(tipo_emp, $('#fecha_ingreso').val());
-            $('.cargo').hide();
-        }else{
-            $('.cargo').show();
-            $('#div-militar').addClass('d-none');
-            $('#div-militar #grado_militar').removeAttr('required');
-            if (tipo_emp == 'OBR'){
-
-                $('.obrero #grado_obr').attr('required');
-                $('.obrero #clasificacion').attr('required');
-                $('.obrero').show();
-            }else{
-                $('.obrero').hide();
-                $('.obrero #grado_obr').removeAttr('required');
-                $('.obrero #clasificacion').removeAttr('required');
-            }
-        }
+        if (tipo_emp == 'MEF' || tipo_emp == 'ALI') {
+    $('#div-militar').removeClass('d-none');
+    $('#div-militar #grado_militar').attr('required');
+    $("#grado_militar").prop("disabled", false);
+    contingente(tipo_emp, $('#fecha_ingreso').val());
+    $('.cargo').hide();
+    
+    // Aquí cargas los grados tanto para "MEF" como para "ALI"
+    $.get('/api/grados-militares/MEF', function(dataMEF) {
+        $('#grado_militar').empty();
+        $.each(dataMEF, function(index, gradoMEF) {
+            $('#grado_militar').append('<option value="' + gradoMEF.codigo_grado + '">' + gradoMEF.descripcion + '</option>');
+        });
+    });
+    
+    $.get('/api/grados-militares/ALI', function(dataALI) {
+        // Aquí agregas los grados de ALI sin borrar los de MEF
+        $.each(dataALI, function(index, gradoALI) {
+            $('#grado_militar').append('<option value="' + gradoALI.codigo_grado + '">' + gradoALI.descripcion + '</option>');
+        });
+    });
+} else if (tipo_emp == 'MIL' || tipo_emp == 'TRP') {
+    $('#div-militar').removeClass('d-none');
+    $('#div-militar #grado_militar').attr('required');
+    $("#grado_militar").prop("disabled", false);
+    contingente(tipo_emp, $('#fecha_ingreso').val());
+    $('.cargo').hide();
+} else {
+    $('.cargo').show();
+    $('#div-militar').addClass('d-none');
+    $('#div-militar #grado_militar').removeAttr('required');
+    if (tipo_emp == 'OBR') {
+        $('.obrero #grado_obr').attr('required');
+        $('.obrero #clasificacion').attr('required');
+        $('.obrero').show();
+    } else {
+        $('.obrero').hide();
+        $('.obrero #grado_obr').removeAttr('required');
+        $('.obrero #clasificacion').removeAttr('required');
+    }
+}
         if(tipo_emp!=''){
             $( "input" ).prop( "disabled", false );
             $( "select.registrar" ).prop( "disabled", false);

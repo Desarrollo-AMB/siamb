@@ -37,7 +37,7 @@
                                 <div>
                                     <hr class="horizontal dark my-0">
                                     <div class="card" style="width: 30rem;">
-                                        <img src="{{ asset('imagenes/gastos.JPEG') }}" alt="mi foto">
+                                        <img src="{{ asset('imagenes/gastos.jpeg') }}" alt="mi foto">
                                         <div class="card-body">
                                             <table class="table table-sm table-bordered table-hover w-100 nowrap">
                                                 <thead>
