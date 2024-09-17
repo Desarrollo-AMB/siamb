@@ -238,90 +238,104 @@
                                                                 {!! Form::text('n_reporte', null, ['id' => 'id2', 'placeholder' => 'N° Reporte', 'class' => 'form-control', 'onclick' => 'actualizarInputDesdeOtro("id1", "id2")']) !!}
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Especialidad:</strong>
-                                                                <select name="especialidad" id=""
-                                                                    class="form-control select2 "
-                                                                    placeholder="Especialidad">
-                                                                    @foreach ($especialidades as $especialidad)
-                                                                    <option value="{{$especialidad->descripcion}}">
-                                                                        {{$especialidad->descripcion}}
-                                                                        @endforeach
-                                                                </select>
+                                                        <div id="formularios-container">
+                                                            <!-- Contenedor principal donde se agregarán los formularios -->
+                                                            <div class="formulario">
+                                                                <!-- Primer formulario (original) -->
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Cédula:</strong>
+                                                                        {!! Form::text('cedula[]', null,
+                                                                        ['class'=>'cedula form-control',
+                                                                        'placeholder'=>'Cédula']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Especialidad:</strong>
+                                                                        {!! Form::text('especialidad[]', null,
+                                                                        ['placeholder' => 'Categoría', 'class' =>
+                                                                        'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Sexo:</strong>
+                                                                        {!! Form::text('sexo[]', null,
+                                                                        ['placeholder' => 'Categoría', 'class' =>
+                                                                        'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Grado:</strong>
+                                                                        {!! Form::text('grado[]', null,
+                                                                        ['placeholder' => 'Categoría', 'class' =>
+                                                                        'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Categoría:</strong>
+                                                                        {!! Form::text('categoria[]', null,
+                                                                        ['placeholder' => 'Categoría', 'class' =>
+                                                                        'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Primer Nombre:</strong>
+                                                                        {!! Form::text('nombre1[]', null,
+                                                                        ['placeholder' => 'Primer Nombre', 'class'
+                                                                        => 'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Segundo Nombre:</strong>
+                                                                        {!! Form::text('nombre2[]', null,
+                                                                        ['placeholder' => 'Segundo Nombre', 'class'
+                                                                        => 'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Primer Apellido:</strong>
+                                                                        {!! Form::text('apellido1[]', null,
+                                                                        ['placeholder' => 'Primer Apellido', 'class'
+                                                                        => 'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Segundo Apellido:</strong>
+                                                                        {!! Form::text('apellido2[]', null,
+                                                                        ['placeholder' => 'Segundo Apellido',
+                                                                        'class' => 'form-control']) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <strong>Relación:</strong>
+                                                                        <textarea name="relacion[]"
+                                                                            class="form-control"
+                                                                            placeholder="Relación"
+                                                                            rows="3"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                                    <div class="form-group">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger remove-form">Eliminar</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                                             <div class="form-group">
-                                                                <strong>Sexo:</strong>
-                                                                <select name="sexo" id="" class="form-control"
-                                                                    placelholder="Sexo"> @foreach ($sexo as $item)
-                                                                    <option value="{{ $item }}">{{ $item
-                                                                        }}</option>
-                                                                    @endforeach</select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Grado:</strong>
-                                                                <select name="grado" id=""
-                                                                    class="form-control select2">@foreach ($grados_militares as $grado)
-                                                                    <option value="{{$grado->descripcion}}">
-                                                                        {{$grado->descripcion}}
-                                                                        @endforeach</select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Categoria:</strong>
-                                                                <select name="categoria" id=""
-                                                                    class="form-control select2">@foreach ($categorias as $categoria)
-                                                                    <option value="{{$categoria->descripcion}}">
-                                                                        {{$categoria->descripcion}}
-                                                                        @endforeach</select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Primer Nombre:</strong>
-                                                                {!! Form::text('nombre2',null,['id'=> 'nombre1','placeholder' =>
-                                                                'Segundo Nombre','class' => 'form-control']) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Segundo Nombre:</strong>
-                                                                {!! Form::text('nombre2',null,['id'=> 'nombre2','placeholder' =>
-                                                                'Segundo Nombre','class' => 'form-control']) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Primer Apellido:</strong>
-                                                                {!! Form::text('apellido1',null, ['id'=>'apellido1','placeholder' =>
-                                                                'Primer Apellido','class' => 'form-control']) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Segundo Apellido:</strong>
-                                                                {!! Form::text('apellido2',null, ['id'=>'apellido2','placeholder' =>
-                                                                'Segundo Apellido','class' => 'form-control']) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Cedula:</strong>
-                                                                {!! Form::text('cedula',null, ['id'=>'cedula','placeholder' =>
-                                                                'Cedula','class' => 'form-control']) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                                            <div class="form-group">
-                                                                <strong>Relacion:</strong>
-                                                                <textarea name="relacion" class="form-control"
-                                                                    id="exampleFormControlTextarea1"
-                                                                    rows="3" placeholder="Relacion"></textarea>
+                                                                <button type="button" class="btn btn-primary"
+                                                                    id="add-form">Agregar Formulario</button>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -481,14 +495,11 @@
 @parent
 <script>
 $(function() {
-    $('.select2').select2({
-        dropdownAutoWidth: true, // Permite que el menú desplegable se ajuste automáticamente al ancho del contenedor
-        width: 'auto', // Establece el ancho automático para que se ajuste al contenido
-    });
+    $(document).ready(function() {
+    // Inicializa select2 para los selects existentes al cargar la página
+    inicializarSelect2();
 
-   
-
-    // Manejar el cambio en el primer select
+    // Manejar el cambio en el primer select para cargar opciones en el segundo select
     $('#claseEvento').change(function() {
         // Obtener la clase seleccionada
         var claseSeleccionada = $(this).val();
@@ -515,32 +526,71 @@ $(function() {
             }
         });
     });
+});
 
-    // Función para actualizar IDs
-    function actualizarInputDesdeOtro(inputOrigenId, inputDestinoId) {
-    var valorOrigen = document.getElementById(inputOrigenId).value;
-    document.getElementById(inputDestinoId).value = valorOrigen;
-}
-});$(document).ready(function() {
-    $('#cedula').on('input', function() {
-        var cedula = $(this).val();
-        // Realizar una solicitud AJAX al servidor
-        $.ajax({
-            url: "{{route('dres.datos')}}", // Ruta en la que escuchará el servidor
-            type: 'GET',
-            data: { cedula: cedula },
-            success: function(response) {
-                // Actualizar los campos del formulario con los datos recibidos
-                $('#nombre1').val(response.nombre1);
-                $('#nombre2').val(response.nombre2);
-                $('#apellido1').val(response.apellido1);
-                $('#apellido2').val(response.apellido2);
-            },
-            error: function() {
-                console.error('Error al buscar los datos.');
-            }
-        });
+// Función para inicializar select2
+function inicializarSelect2() {
+    $('.select2').select2({
+        dropdownAutoWidth: true,
+        width: 'auto',
     });
+}
+
+// Función para clonar el formulario y reinicializar select2
+document.getElementById('add-form').addEventListener('click', function() {
+    // Clona el formulario original
+    var originalForm = document.querySelector('.formulario');
+    var clone = originalForm.cloneNode(true);
+
+    // Limpia los valores de los campos en el clon
+    clone.querySelectorAll('input, select, textarea').forEach(function(input) {
+        input.value = '';
+    });
+
+    // Agrega el formulario clonado al contenedor
+    document.getElementById('formularios-container').appendChild(clone);
+
+    // Reinicializa Select2 solo en los selects del formulario clonado
+    $(clone).find('.select2').select2({
+        dropdownAutoWidth: true,
+        width: 'auto',
+    });
+});
+
+// Evento para manejar el cambio en los selects existentes y clonados
+$('#formularios-container').on('change', '.select2', function() {
+    // Aquí va el código para manejar el cambio si es necesario
+});
+
+// Autocompletar con AJAX
+document.getElementById('formularios-container').addEventListener('input', function(event) {
+    if (event.target.classList.contains('cedula')) {
+        var cedula = event.target.value;
+        var formulario = event.target.closest('.formulario');
+
+        fetch('{{ route('dres.datos') }}?cedula=' + encodeURIComponent(cedula))
+            .then(response => response.json())
+            .then(data => {
+                formulario.querySelector('input[name="nombre1[]"]').value = data.nombre1;
+                formulario.querySelector('input[name="nombre2[]"]').value = data.nombre2;
+                formulario.querySelector('input[name="apellido1[]"]').value = data.apellido1;
+                formulario.querySelector('input[name="apellido2[]"]').value = data.apellido2;
+                formulario.querySelector('input[name="categoria[]"]').value = data.categoria;
+                formulario.querySelector('input[name="grado[]"]').value = data.grado;
+                formulario.querySelector('input[name="sexo[]"]').value = data.sexo;
+                formulario.querySelector('input[name="especialidad[]"]').value = data.especialidad;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+});
+
+// Función para eliminar un formulario
+document.getElementById('formularios-container').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-form')) {
+        var formToRemove = event.target.closest('.formulario');
+        formToRemove.remove();
+    }
+});
 });
 
 

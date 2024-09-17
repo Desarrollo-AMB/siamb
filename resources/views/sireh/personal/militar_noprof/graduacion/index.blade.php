@@ -872,7 +872,7 @@
                     }
                 },
                 {data: null, render: function ( data, type, row ) {
-                    return `MIL`;
+                    return `TRP`;
                     }
                 },
                 {data: null, render: function ( data, type, row ) {

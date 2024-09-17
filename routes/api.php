@@ -135,3 +135,4 @@ Route::get('juntap/personalmilitar', [controllerjuntap::class, 'personalMilitara
 
  /////////////////////////////////////////////////Sanciones///////////////////////////////////////////////////////
  Route::get('sireh/Sanciones/data', [SancionesController::class, 'dataSanciones'])->name('api.sireh.sanciones.data');
+ Route::get('sireh/personalmilitar/fallecido', [PersonalController::class, 'personalMilitarfallecido'])->name('api.sireh.personal.militar.fallecido');

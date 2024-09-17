@@ -7,6 +7,11 @@
         <span class="text-white">{{ $message }}</span>
     </div>
     @endif
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger mx-4" role="alert">
+        <span class="text-white">{{ $message }}</span>
+    </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 mx-4">
