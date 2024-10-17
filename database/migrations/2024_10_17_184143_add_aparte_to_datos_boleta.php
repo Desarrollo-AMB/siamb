@@ -8,13 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *2024
      * @return void
      */
     public function up()
     {
         Schema::table('datos_boleta', function (Blueprint $table) {
-            $table->integer('aparte2',10)->nullable();
+            $table->integer('aparte2',)->nullable();
         });
     }
 
