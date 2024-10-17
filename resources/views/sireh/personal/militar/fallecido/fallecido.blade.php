@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form class="row g-3 requires-validation" name="militar" id="militar" method="post" action="{{route('sireh.personal-militar.dar.baja')}}" enctype="multipart/form-data" >
+                    <form class="row g-3 requires-validation" name="militar" id="militar" method="post" action="{{route('sireh.personal-militar.dar.fallecido')}}" enctype="multipart/form-data" >
                         @csrf
                         <!-- FOTO DE PERFIL -->
                         <div class="row">
@@ -139,7 +139,7 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
-                                                    <h6>Tipo de Egreso:</h6>
+                                                    <h6>causa de fallecimiento:</h6>
                                                     <select class="select2 form-control" name="causa_egreso" id="causa_egreso">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($tipo_de_baja as $row)
@@ -148,12 +148,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                                <div class="form-group">
-                                                    <h6>causa de fallecimiento:</h6>
-                                                    {!! Form::text('causa', '', array('placeholder' => 'Ingrese causa de fallecidos','class' => 'form-control',)) !!}
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Fecha de Ingreso:</h6>
@@ -202,7 +197,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <h6>Fecha de Resuelto Defunsion:</h6>
-                                                    {!! Form::date('fecha_resuelto', '', array('placeholder' => 'Ingrese Fecha de Resuelto','class' => 'form-control','id' => 'fecha_resuelto')) !!}
+                                                    {!! Form::date('fecha_resuelto_d', '', array('placeholder' => 'Ingrese Fecha de Resuelto','class' => 'form-control','id' => 'fecha_resuelto')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
