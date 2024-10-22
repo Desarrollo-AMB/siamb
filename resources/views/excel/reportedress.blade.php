@@ -40,6 +40,9 @@
             JRES</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
             FECHA DE REPORTE</td>
+            <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
+                GRUPO FECHA HORA
+            </td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
             PERSONA QUE ENVIA</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
@@ -63,7 +66,7 @@
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
             SITUACION</td>
         <td style="background-color: #3468AF; color: #FFFFFF; font-weight: bold; text-align: center; font-size: 15pt;">
-            IMAGENER
+            IMAGEN
         </td>
 
     </tr>
@@ -76,7 +79,7 @@
         <td> {{ $row->persona_envia }}</td>
         <td> {{ $row->unidad_involucrada }}</td>
         <td>{{ $row->cmdt_unidad }}</td>
-        <td>{{ $row->clase_evento }}</td>
+        <td>{{ $row->clase_envento }}</td>
         <td>{{ $row->tipo_evento }}</td>
         <td>{{ $row->evento }}</td>
         <td>{{ $row->descripcion }}</td>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\reportedress;
 use App\Models\CategoriasMilitares;
+use App\Models\DatosMilitares;
 use App\Models\Empleado;
 use App\Models\EspecialidadesMilitares;
 use App\Models\GradosMilitares;
@@ -13,6 +14,7 @@ use App\Models\ModelEventos;
 use App\Models\ModelJres;
 use App\Models\ModelPersonalDres;
 use App\Models\ModelReporteDres;
+use App\Models\Nomina;
 use App\Models\Ubicaciones;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -95,6 +97,7 @@ class Drescontroller extends Controller
             $data->grupo_fecha = $request->grupo_fecho_hora;
             $data->persona_envia = $request->p_envia;
             $data->unidad_involucrada = $request->unidad;
+            $data->gps= $request->gps;
             $data->cmdt_unidad = $request->cmdtU;
             $data->clase_envento = $request->clase;
             $data->tipo_evento = $request->tipo;
@@ -114,56 +117,42 @@ class Drescontroller extends Controller
     }
     public function personal(Request $request)
     {
-        $this->validate(
-            $request,
-            [
-                'n_reporte' => 'required',
-                'especialidad' => 'required',
-                'sexo' => 'required',
-                'grado' => 'required',
-                'categoria' => 'required',
-                'nombre1' => 'required',
-                'nombre2' => 'required',
-                'apellido1' => 'required',
-                'apellido2' => 'required',
-                'cedula' => 'required',
-                'relacion' => 'required',
-            ],
-            [
-                'n_reporte' => 'el numero de reporte es requerido',
-                'especialidad' => 'La Especialidad es requerida requerido',
-                'sexo' => 'fecha de reporte es requerido',
-                'grado' => 'Grado es requerida',
-                'categoria' => 'Categoria es requerida',
-                'nombre1' => 'nombres es requerido',
-                'nombre2' => 'nombres es requerido',
-                'apellido1' => 'Apelidos es requerida',
-                'apellido1' => 'Apelidos es requerida',
-                'cedula' => 'La cedula es requerida',
-                'relacion' => 'La relacion es requerida',
-            ]
-        );
-
+        $this->validate($request, [
+            'n_reporte' => 'required',
+            'especialidad.*' => 'required',
+            'sexo.*' => 'required',
+            'grado.*' => 'required',
+            'categoria.*' => 'required',
+            'nombre1.*' => 'required',
+            'nombre2.*' => 'required',
+            'apellido1.*' => 'required',
+            'apellido2.*' => 'required',
+            'cedula.*' => 'required',
+            'relacion.*' => 'required',
+        ]);
+    
         try {
-
-            $data = new ModelPersonalDres();
-            $data->n_reporte = $request->n_reporte;
-            $data->especialidad = $request->especialidad;
-            $data->sexo = $request->sexo;
-            $data->grado = $request->grado;
-            $data->categoria = $request->categoria;
-            $data->nombre2 = $request->nombre1;
-            $data->nombre1 = $request->nombre2;
-            $data->apellido1 = $request->apellido1;
-            $data->apellido2 = $request->apellido2;
-            $data->cedula = $request->cedula;
-            $data->relacion = $request->relacion;
-            $data->save();
-
-            return redirect()->route('dres.view')->with('success', 'Se ha cargado  la información exitosamente');
+            // Recorrer cada conjunto de datos y guardar un nuevo registro
+            foreach ($request->cedula as $index => $cedula) {
+                $data = new ModelPersonalDres();
+                $data->n_reporte = $request->n_reporte;
+                $data->especialidad = $request->especialidad[$index];
+                $data->sexo = $request->sexo[$index];
+                $data->grado = $request->grado[$index];
+                $data->categoria = $request->categoria[$index];
+                $data->nombre1 = $request->nombre1[$index];
+                $data->nombre2 = $request->nombre2[$index];
+                $data->apellido1 = $request->apellido1[$index];
+                $data->apellido2 = $request->apellido2[$index];
+                $data->cedula = $cedula;
+                $data->relacion = $request->relacion[$index];
+                $data->save();
+            }
+    
+            return redirect()->route('dres.view')->with('success', 'Se ha cargado el Personal exitosamente');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
-            return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
     public function armamento(Request $request)
@@ -199,7 +188,7 @@ class Drescontroller extends Controller
             $data->situacion = $request->relacion ;
             $data->save();
 
-            return redirect()->route('dres.view')->with('success', 'Se ha cargado  la información exitosamente');
+            return redirect()->route('dres.view')->with('success', 'Se ha cargado  el Armamento exitosamente');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -233,7 +222,7 @@ class Drescontroller extends Controller
             $data->siglas = $request->serial;
             $data->save();
 
-            return redirect()->route('dres.view')->with('success', 'Se ha cargado  la información exitosamente');
+            return redirect()->route('dres.view')->with('success', 'Se ha cargado el equipo  exitosamente');
         } catch (Exception $e) {
             Log::error("************************* ERROR ************************* \n" . $e);
             return response()->json(['error' => $e->getMessage()], 500, ['X-Header-One' => 'Header Value']);
@@ -241,24 +230,22 @@ class Drescontroller extends Controller
     }
     public function reporteDress(Request $request)
     {
-
-        $this->validate($request,
-            [
-                'fechareporte' => 'required',
-            ],
-            [
-                'fechareporte' => 'La fecha es requerida',
-            ]
-
-        );
+        $this->validate($request, [
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        ], [
+            'fecha_inicio.required' => 'La fecha de inicio es requerida',
+            'fecha_fin.required' => 'La fecha de fin es requerida',
+            'fecha_fin.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio',
+        ]);
 
      
 
         //switch ($reporte) {
         //    case 1:
-                $complementoTitulo= "REPORTE";
-                $datos= ModelReporteDres::select('*')
-                ->where('fecha_reporte',$request->fechareporte)
+            $complementoTitulo = "REPORTE";
+            $datos = ModelReporteDres::select('*')
+                ->whereBetween('fecha_reporte', [$request->fecha_inicio, $request->fecha_fin])
                 ->get();
           /*      if($grado_militar!=='0'){
                     $empleados->where('nomina.grado_militar', $grado_militar);
@@ -307,26 +294,52 @@ class Drescontroller extends Controller
     public function datos(Request $request)
     {
         // Obtener la cédula proporcionada en la solicitud AJAX
-        $cedula = $request->input('cedula');
+$cedula = $request->input('cedula');
 
-        // Buscar el empleado en la base de datos por la cédula
-        $empleado = Empleado::where('cedula', $cedula)->first();
+// Buscar el empleado en la base de datos por la cédula
+$empleado = Nomina::where('cedula', $cedula)->first();
 
-        // Verificar si se encontró el empleado
-        if ($empleado) {
+if ($empleado) {
+    // Buscar los datos militares del empleado
+    $datos = DatosMilitares::where('codigo_empleado', $empleado->codigo_empleado)->first();
+
+    if ($datos) {
+        // Buscar la categoría militar relacionada
+        $categoria = CategoriasMilitares::where('codigo_categoria', $datos->codigo_categoria)->first();
+        $especialidad = EspecialidadesMilitares::where('codigo_especialidad', $datos->codigo_especialidad1)->first();
+        $grado = GradosMilitares::where('codigo_grado', $empleado->grado_militar)->first();
+        $sexo = Empleado::where('codigo_empleado', $empleado->codigo_empleado)->first();
+
+        if ($categoria) {
+            // Verificar si la especialidad está vacía
+            $especialidadDescripcion = $especialidad ? $especialidad->descripcion : 'NO POSEE ESEPCIALIDAD REGISTADA';
+
+            // Convertir el valor del sexo
+            $sexoDescripcion = ($sexo->sexo === 'M') ? 'MASCULINO' : 'FEMENINO';
+
             // Devolver los datos del empleado en formato JSON
             return response()->json([
                 'nombre1' => $empleado->nombre1,
                 'nombre2' => $empleado->nombre2,
                 'apellido1' => $empleado->apellido1,
                 'apellido2' => $empleado->apellido2,
+                'categoria' => $categoria->descripcion,
+                'especialidad' => $especialidadDescripcion,
+                'grado' => $grado->descripcion,
+                'sexo' => $sexoDescripcion,
                 // Agrega más campos si es necesario
             ]);
         } else {
-            // Si no se encuentra el empleado, devolver un error o un objeto vacío, según prefieras
-            return response()->json(['error' => 'Empleado no encontrado'], 404);
-            // O simplemente devolver un objeto vacío:
-            // return response()->json([]);
+            // Si no se encuentra la categoría, devolver un error
+            return response()->json(['error' => 'Categoría no encontrada'], 404);
         }
+    } else {
+        // Si no se encuentran los datos militares, devolver un error
+        return response()->json(['error' => 'Datos militares no encontrados'], 404);
+    }
+} else {
+    // Si no se encuentra el empleado, devolver un error
+    return response()->json(['error' => 'Empleado no encontrado'], 404);
+}
 }
 }

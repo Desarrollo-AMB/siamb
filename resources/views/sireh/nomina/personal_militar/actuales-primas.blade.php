@@ -23,13 +23,19 @@
                     <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.asignacionprima') }}">Volver</a>
 
                 </div>
-                <div class="card-body px-2 pt-2 pb-2" >
-                    {!! Form::open(array('route' => 'sireh.nomina.primas.asignacionNuevaPrima','method'=>'POST', 'id' => 'asignar-prima-form')) !!}
+                <div class="card-body px-2 pt-2 pb-2">
+                    {!! Form::open(array('route' => 'sireh.nomina.primas.asignacionNuevaPrima', 'method' => 'POST', 'id' => 'asignar-prima-form')) !!}
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 ">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Primas Disponibles:</strong>
-                                {!! Form::select('codigo_concepto', $conceptos_nomina->whereIn('codigo_concepto', ['4017', '4018', '4016', '54', '55', '53'])->pluck('descripcion', 'codigo_concepto'), null, ['class' => 'form-control', 'placeholder' => 'Seleccione la prima a asignar']) !!}
+                                <select name="codigo_concepto" class="form-control" id="codigo_concepto_select">
+                                    @foreach($conceptos_nomina as $concepto)
+                                        <option value="{{ $concepto->codigo_concepto }}" data-porcentaje="{{ $concepto->porcentaje }}">
+                                            {{ $concepto->descripcion }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 {!! Form::hidden('cedula', $dataemp['cedula']) !!}
                                 {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
@@ -37,9 +43,12 @@
                                 {!! Form::hidden('tipo', 'A') !!}
                                 {!! Form::hidden('asignaciones', $asignaciones) !!}
                                 {!! Form::hidden('conceptos_nomina', $conceptos_nomina) !!}
+                                {!! Form::hidden('porcentaje', null, ['id' => 'porcentaje_hidden']) !!}
                             </div>
                         </div>
                     </div>
+                
+                </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             <button type="submit" class="btn btn-primary">Asignar</button>
@@ -108,6 +117,11 @@
 
 @section('scripts')
 <script>
+        // Agregar un evento change al select para actualizar el campo oculto 'porcentaje'
+        document.getElementById('codigo_concepto_select').addEventListener('change', function() {
+        var porcentaje = this.options[this.selectedIndex].getAttribute('data-porcentaje');
+        document.getElementById('porcentaje_hidden').value = porcentaje;
+    });
     setTimeout(function() {
         var successMessage = document.getElementById("success-message");
         if (successMessage) {

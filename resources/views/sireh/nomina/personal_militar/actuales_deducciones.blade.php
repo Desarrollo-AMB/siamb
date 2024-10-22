@@ -18,7 +18,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div>
-                        <h5 class="mb-0">ASIGNAR NUEVA DEDUCCIÓN</h5>
+                        <h5 class="mb-0">ELIMINAR DEDUCCIÓN</h5>
                     </div>
                     <a class="btn btn-secondary btn-sm mb-0" href="{{ route('sireh.nomina.deducciones.nueva-deduccion') }}">Volver</a>
 
@@ -29,7 +29,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 ">
                             <div class="form-group">
                                 <strong>Deducciones Disponibles:</strong>
-                                {!! Form::select('codigo_concepto', $conceptos_nomina->whereIn('codigo_concepto', ['9400','9404','5141','9998','5565','5087','5003'])->pluck('descripcion', 'codigo_concepto'), null, ['class' => 'form-control', 'placeholder' => 'Seleccione la deducción a asignar']) !!}
+                                {!! Form::select('codigo_concepto', $conceptos_nomina->whereIn('codigo_concepto', ['9400','9404','5141','9998','5565','5087','5003'])->pluck('descripcion', 'codigo_concepto'), null, ['class' => 'form-control', 'placeholder' => 'Seleccione la deducción a eliminar']) !!}
                                 {!! Form::hidden('cedula', $dataemp['cedula']) !!}
                                 {!! Form::hidden('nombre', $dataemp['empleado_nombre']) !!}
                                 {!! Form::hidden('apellido', $dataemp['empleado_apellido']) !!}
@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Asignar</button>
+                            <button type="submit" class="btn btn-primary">ELIMINAR</button>
                         </div>
                     </div>
                     {!! Form::close() !!}
@@ -58,7 +58,7 @@
             <div class="card-header pb-0 mb-2">
                 <div class="d-flex flex-row justify-content-between">
                     <div class="card-header bg-white">
-                        <h5 class="mb-0">DEDUCCIONES ASIGNADAS A {{$dataemp['empleado_nombre']}} {{$dataemp['empleado_apellido']}}</h5>
+                        <h5 class="mb-0">DEDUCCIONES ELIMINADAS DE {{$dataemp['empleado_nombre']}} {{$dataemp['empleado_apellido']}}</h5>
                     </div>
                     <!-- boton para crear una nueva prima -->
 

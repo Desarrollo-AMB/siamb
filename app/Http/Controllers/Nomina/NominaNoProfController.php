@@ -531,7 +531,7 @@ public function editdeduccionesNoProf (Concptosnomina1 $id){
     public function sueldosNoProf()
 {
     $salarios = Salarios::select('*')
-                ->where('tipo_emp', 'MEF')
+                ->whereIN('tipo_emp',[ 'MEF', 'ALI'])
                 ->orderBy('antiguedad', 'asc')
                 ->get();
 
