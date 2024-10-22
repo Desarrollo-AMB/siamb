@@ -2744,6 +2744,7 @@ class PersonalController extends Controller
         $empleados->leftjoin('egresos', 'egresos.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->leftjoin('tipo_de_baja', 'tipo_de_baja.codigo_egreso', '=', 'egresos.causa_egreso');
         $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
+        $empleados->whereIn('egresos.causa_egreso', ['19','20','21','22','23','24','28']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -2757,6 +2758,8 @@ class PersonalController extends Controller
             'tipo_de_baja.descripcion as motivo',
             'egresos.fecha_salida as fecha_salida',
             'egresos.nro_resuelto as nro_resuelto',
+            'egresos.resuelto_fallecido as nro_resuelto_f',
+            'egresos.fecha_reuelto_dfs as fecha_d'
         );
         $datatable = Datatables::of($empleados);
         return $datatable->make(true);
@@ -2772,7 +2775,9 @@ class PersonalController extends Controller
         $situaciones = Config::get('constants.situacion');
         $ubicaciones = Ubicaciones::all();
         $grados_militares = GradosMilitares::all();
-        $tipo_de_baja = TipoDeBaja::all();
+        $tipo_de_baja = TipoDeBaja::select('*')
+        ->whereIn('codigo_egreso',['19','20','21','22','23','24','28'])
+        ->get();
         $datos = Empleado::with(['nomina', 'datos_militares'])->find($id);
         return view(
             'sireh.personal.militar.fallecido.fallecido',

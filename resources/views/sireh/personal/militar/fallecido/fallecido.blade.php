@@ -143,7 +143,7 @@
                                                     <select class="select2 form-control" name="causa_egreso" id="causa_egreso">
                                                         <option value="">SELECCIONE...</option>
                                                         @foreach ($tipo_de_baja as $row)
-                                                            <option value="{{$row->codigo_egreso}}">{{ $row->descripcion }} </option>
+                                                            <option value="{{$row->codigo_egreso}}">{{ $row->descripcion }}--({{ $row->codigo_egreso }}) </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

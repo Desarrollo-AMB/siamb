@@ -44,6 +44,8 @@
                                             <th>Motivo</th>
                                             <th>Fecha de Egreso</th>
                                             <th>Numero de Resuelto</th>
+                                            <th>Fecha de Resuelto Defunsion</th>
+                                            <th>Numero de Resuelto Defunsion</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -76,6 +78,8 @@
                 {data: 'motivo', name: 'tipo_de_baja.codigo_egreso', searchable: false},
                 {data: 'fecha_salida', name: 'egresos.fecha_salida', searchable: false},
                 {data: 'nro_resuelto', name: 'egresos.nro_resuelto', searchable: false},
+                {data: 'nro_resuelto_f', name: 'egresos.resuelto_fallecido ', searchable: false},
+                {data: 'fecha_d', name: 'egresos.fecha_reuelto_dfs', searchable: false},
             ],
             search: {
                 return: true,
