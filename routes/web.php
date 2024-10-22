@@ -370,6 +370,55 @@ Auth::routes();
     Route::post('/sireh/personal-militar/fallecido', [PersonalController::class, 'darfallecePersonalMilitar'])->name('sireh.personal-militar.dar.fallecido');
 
 
+    Route::post('/bienestar-social/reporte/devolucion5', [ReportesBSController::class, 'reporteDevolucion5'])->name('bienestar-social.reporte.devolucion5');
+    Route::post('/bienestar-social/reporte/cargafamiliar', [ReportesBSController::class, 'reporteCargaFamiliar'])->name('bienestar-social.reporte.cargafamiliar');
+    Route::post('/bienestar-social/reporte/bajas', [ReportesBSController::class, 'reporteBajas'])->name('bienestar-social.reporte.bajas');
+    Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [PersonalController::class, 'reportePersonalMilitarNoProfJerarquiaUbicacion'])->name('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion');
+    
+    Route::get('/dao/Aeronaves/parte_aeronave',[ParteAeronaveController::class, 'indexparte'])->name('dao.aeronaves.parte_aeronave.ver');
+    Route::get('/dao/Aeronaves/create',[ParteAeronaveController::class, 'crear'])->name('dao.aeronaves.parte_aeronave.registrar');
+    Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'store'])->name('dao.aeronaves.parte_aeronave.guadar');
+    Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaingdao'])->name('parte.auditoriaing');
+    Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoriadao'])->name('parte.auditoria');
+    Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExceldao'])->name('dao.reporteAeronaveExcel');
+    Route::get('/dao/Aeronave/ripor',[ParteAeronaveController::class, 'AeronaveExcel'])->name('dao.AeronaveExcel');
+    
+    /////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
+    Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
+    Route::post('/extra_component/ingres', [empleadoExtraComponeteController::class, 'registraPerson'])->name('extra.registrar');
+    Route::get('/extra/index', [empleadoExtraComponeteController::class, 'index'])->name('extra.index');
+    Route::get('/extra/view/{id}', [empleadoExtraComponeteController::class, 'viewPersonal'])->name('personal.view');
+    Route::get('/extra/edit/{id}', [empleadoExtraComponeteController::class, 'editPersonal'])->name('personl.edit');
+    Route::post('/extra/updatedatos', [empleadoExtraComponeteController::class, 'updatePersonal'])->name('personal.update.datos');
+    Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'EgresarPersonal'])->name('egresar.personal');
+    Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'storeFuncionPersonal'])->name('personal.storeFuncion');
+    Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
+    Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
+    
+    ////ficha///
+    Route::post('/perosnal/ficha',      [PersonalController::class, 'ficha'])->name('ficha.view');
+    Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBucar'])->name('ficha.bucar.view'); 
+    
+    
+    //////////////////////////////////RUTAS PARA IMPORTAR DATOS DE SIAMB//////////////////////////////////////////
+    Route::get('/extra/importar', [nominaexcelcontroller::class, 'index'])->name('extra.importar');
+    Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarExcel'])->name('carga.ArchivoExcel');
+    
+    ///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
+    Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
+    
+    ///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
+    Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
+    Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
+    Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
+    Route::post('/dress/personal', [Drescontroller::class, 'personal'])->name('dres.personal');
+    Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dres.equipo');
+    Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
+    Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
+    Route::get('/dress/Reporte/index', [Drescontroller::class, 'excel'])->name('dres.report.index');
+    Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
+    
+
 });
 
 
@@ -480,55 +529,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
-
-
-Route::post('/bienestar-social/reporte/devolucion5', [ReportesBSController::class, 'reporteDevolucion5'])->name('bienestar-social.reporte.devolucion5');
-Route::post('/bienestar-social/reporte/cargafamiliar', [ReportesBSController::class, 'reporteCargaFamiliar'])->name('bienestar-social.reporte.cargafamiliar');
-Route::post('/bienestar-social/reporte/bajas', [ReportesBSController::class, 'reporteBajas'])->name('bienestar-social.reporte.bajas');
-Route::post('/sireh/personal-militar-noprof/reporte-jerarquia-ubicacion', [PersonalController::class, 'reportePersonalMilitarNoProfJerarquiaUbicacion'])->name('sireh.personal-militar-noprof.reporte.jeraquia-ubicacion');
-
-Route::get('/dao/Aeronaves/parte_aeronave',[ParteAeronaveController::class, 'indexparte'])->name('dao.aeronaves.parte_aeronave.ver');
-Route::get('/dao/Aeronaves/create',[ParteAeronaveController::class, 'crear'])->name('dao.aeronaves.parte_aeronave.registrar');
-Route::post('/dao/Aeronaves/create/store',[ParteAeronaveController::class, 'store'])->name('dao.aeronaves.parte_aeronave.guadar');
-Route::get('/dao/Aeronaves/auditoria', [ParteAeronaveController::class, 'auditoriaingdao'])->name('parte.auditoriaing');
-Route::post('/dao/Aeronaves/auditoriaingreso',[ParteAeronaveController::class, 'auditoriadao'])->name('parte.auditoria');
-Route::get('/dao/Aeronave/reporte',[ParteAeronaveController::class, 'parteAeronaveExceldao'])->name('dao.reporteAeronaveExcel');
-Route::get('/dao/Aeronave/ripor',[ParteAeronaveController::class, 'AeronaveExcel'])->name('dao.AeronaveExcel');
-
-/////////////////////////////RUTAS PARA EXTRA COMPONETE DE SIAMB//////////////////////////////////////////
-Route::get('/La paz será mi puerto,mi gloria,mi recompensa,mi esperanza, mi dicha y cuanto es precioso en el mundo', [empleadoExtraComponeteController::class, 'ingresoPersonal'])->name('extra.ingreso_personal');
-Route::post('/extra_component/ingres', [empleadoExtraComponeteController::class, 'registraPerson'])->name('extra.registrar');
-Route::get('/extra/index', [empleadoExtraComponeteController::class, 'index'])->name('extra.index');
-Route::get('/extra/view/{id}', [empleadoExtraComponeteController::class, 'viewPersonal'])->name('personal.view');
-Route::get('/extra/edit/{id}', [empleadoExtraComponeteController::class, 'editPersonal'])->name('personl.edit');
-Route::post('/extra/updatedatos', [empleadoExtraComponeteController::class, 'updatePersonal'])->name('personal.update.datos');
-Route::post('/extra/egresar', [empleadoExtraComponeteController::class, 'EgresarPersonal'])->name('egresar.personal');
-Route::post('/extra/storeFuncion', [empleadoExtraComponeteController::class, 'storeFuncionPersonal'])->name('personal.storeFuncion');
-Route::post('/extra/showData',     [empleadoExtraComponeteController::class, 'showDataPersonal'])->name('personal.showData');
-Route::post('/extra/deleteFuncion',[empleadoExtraComponeteController::class, 'deteleFuncionPersonal'])->name('personal.deleteFuncion');
-
-////ficha///
-Route::post('/perosnal/ficha',      [PersonalController::class, 'ficha'])->name('ficha.view');
-Route::get('/perosnal/ficha/buscar',      [PersonalController::class, 'fichaBucar'])->name('ficha.bucar.view'); 
-
-
-//////////////////////////////////RUTAS PARA IMPORTAR DATOS DE SIAMB//////////////////////////////////////////
-Route::get('/extra/importar', [nominaexcelcontroller::class, 'index'])->name('extra.importar');
-Route::post('/extra/importar/cargar', [nominaexcelcontroller::class, 'importarExcel'])->name('carga.ArchivoExcel');
-
-///////////////////////////////////////////SANCIONES////////////////////////////////////////////////////////////////
-Route::get('/sireh/Sanciones/{id}', [SancionesController::class, 'indexView'])->name('sireh.sanciones.view');
-
-///////////////////////////////////77/////DRESS////////////////////////////////////////////////////////////////
-Route::get('/DRES', [Drescontroller::class, 'index'])->name('dres.view');
-Route::get('/DRES/evento', [Drescontroller::class, 'getTiposEvento'])->name('dres.ruta.evento');
-Route::post('/dress/armamento', [Drescontroller::class, 'reporte'])->name('dres.armamento');
-Route::post('/dress/personal', [Drescontroller::class, 'personal'])->name('dres.personal');
-Route::post('/dress/armamaneto', [Drescontroller::class, 'armamento'])->name('dres.equipo');
-Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.material');
-Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
-Route::get('/dress/Reporte/index', [Drescontroller::class, 'excel'])->name('dres.report.index');
-Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
 
 Route::get('no_authorize', function () {
     return view('no_authorize');
