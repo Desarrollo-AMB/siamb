@@ -364,6 +364,12 @@ Auth::routes();
 
     Route::get('/sireh/personal-militar-noprof/reportes', [PersonalController::class, 'reportesPersonalMilitarNoProfView'])->name('sireh.personal-militar-noprof.reportes');
     Route::get('/sireh/personal-militar-noprof/egresado', [PersonalController::class, 'egresado'])->name('sireh.personal-militar-noprof.egresado');
+    ///////////////////////////// FALLECIDOS////////////////////////////////////////////////////////////
+    Route::get('/sireh/personal-militar/fallecidos/index', [PersonalController::class, 'listPersonalMilitarfallecido'])->name('sireh.personal-militar.fallecido');
+    Route::get('/sireh/personal-militar/fallece/{id}', [PersonalController::class, 'fallecePersonalMilitar'])->name('sireh.personal-militar.fallece');
+    Route::post('/sireh/personal-militar/fallecido', [PersonalController::class, 'darfallecePersonalMilitar'])->name('sireh.personal-militar.dar.fallecido');
+
+
 });
 
 
@@ -523,10 +529,7 @@ Route::post('/dress/equipo', [Drescontroller::class, 'equipos'])->name('dres.mat
 Route::post('/dress/Reporte', [Drescontroller::class, 'reporteDress'])->name('dres.reporte');
 Route::get('/dress/Reporte/index', [Drescontroller::class, 'excel'])->name('dres.report.index');
 Route::get('/dress/datos', [Drescontroller::class, 'datos'])->name('dres.datos');
-///////////////////////////// FALLECIDOS////////////////////////////////////////////////////////////
-Route::get('/sireh/personal-militar/fallecidos/index', [PersonalController::class, 'listPersonalMilitarfallecido'])->name('sireh.personal-militar.fallecido');
-Route::get('/sireh/personal-militar/fallece/{id}', [PersonalController::class, 'fallecePersonalMilitar'])->name('sireh.personal-militar.fallece');
-Route::post('/sireh/personal-militar/fallecido', [PersonalController::class, 'darfallecePersonalMilitar'])->name('sireh.personal-militar.dar.fallecido');
+
 Route::get('no_authorize', function () {
     return view('no_authorize');
 })->name('no_authorize');
