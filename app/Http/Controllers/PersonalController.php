@@ -2792,6 +2792,7 @@ class PersonalController extends Controller
         $empleados->leftjoin('egresos', 'egresos.codigo_empleado', '=', 'empleados.codigo_empleado');
         $empleados->leftjoin('tipo_de_baja', 'tipo_de_baja.codigo_egreso', '=', 'egresos.causa_egreso');
         $empleados->whereIn('nomina.tipo_emp', ['MIL', 'MEX', 'TRP']);
+        $empleados->whereIn('egresos.causa_egreso', ['19','20','21','22','23','24','28']);
         $empleados->select(
             'empleados.id',
             'empleados.codigo_empleado',
@@ -2805,6 +2806,8 @@ class PersonalController extends Controller
             'tipo_de_baja.descripcion as motivo',
             'egresos.fecha_salida as fecha_salida',
             'egresos.nro_resuelto as nro_resuelto',
+            'egresos.resuelto_fallecido as nro_resuelto_f',
+            'egresos.fecha_reuelto_dfs as fecha_d'
         );
         $datatable = Datatables::of($empleados);
         return $datatable->make(true);
@@ -2820,7 +2823,9 @@ class PersonalController extends Controller
         $situaciones = Config::get('constants.situacion');
         $ubicaciones = Ubicaciones::all();
         $grados_militares = GradosMilitares::all();
-        $tipo_de_baja = TipoDeBaja::all();
+        $tipo_de_baja = TipoDeBaja::select('*')
+        ->whereIn('codigo_egreso',['19','20','21','22','23','24','28'])
+        ->get();
         $datos = Empleado::with(['nomina', 'datos_militares'])->find($id);
         return view(
             'sireh.personal.militar.fallecido.fallecido',
@@ -2837,6 +2842,9 @@ class PersonalController extends Controller
 
     public function darfallecePersonalMilitar(Request $request)
     {
+
+
+        
         $this->validate(
             $request,
             [
@@ -2845,13 +2853,20 @@ class PersonalController extends Controller
                 'fecha_salida' => 'required',
                 'nro_resuelto' => 'required',
                 'fecha_resuelto' => 'required',
+                'resuleto_fallecido' => 'required',
+                'fecha_resuelto_d' => 'required',
+                'deceso' => 'required',
+                
             ],
             [
                 'causa_egreso.required' => 'El tipo de egreso es requerido',
                 'fecha_ingreso.required' => 'La fecha de ingreso es requerida',
                 'fecha_salida.required' => 'La fecha de egreso es requerida',
                 'nro_resuelto.required' => 'El numero de resolución es requerido',
-                'fecha_resuelto.required' => 'La fecha de resolución es requerida'
+                'fecha_resuelto.required' => 'La fecha de resolución es requerida',
+                'resuleto_fallecido' => 'El numero de resuelto de fallecimiento  es requerida',
+                'fecha_resuelto_d' => 'La fecha de resolución de defunsion es requerida',
+                'deceso' => 'Se required el deceso pos morten ',
             ]
         );
     
@@ -2882,6 +2897,10 @@ class PersonalController extends Controller
             $egresos->fecha_resuelto = $request->fecha_resuelto;
             $egresos->fecha_registro = date('Y-m-d');
             $egresos->usuario = $user_auth->username;
+            $egresos->fecha_fallecido = $request->fecha_salida;
+            $egresos->resuelto_fallecido =  $request->resuleto_fallecido;
+            $egresos->deseso = $request->deceso;
+            $egresos->fecha_reuelto_dfs = $request->fecha_resuelto_d;
             $egresos->save();
     
             $nomina = Nomina::where('codigo_empleado', $request->codigo_empleado)->first();
